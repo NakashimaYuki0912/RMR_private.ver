@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="11">
+      <LocalizedName>Gut-Harvesting</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="12">
+      <LocalizedName>Rat's Guide to Survival</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="13">
+      <LocalizedName>Dirty Blow</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="14">
+      <LocalizedName>Bite Off</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="15">
+      <LocalizedName>Backstreets Dash</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="16">
+      <LocalizedName>Skitter Away</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="100001">
+      <LocalizedName>Dodge and Strike</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="100002">
+      <LocalizedName>Thrust</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="100003">
+      <LocalizedName>Wallop</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="100004">
+      <LocalizedName>Preemptive Strike</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="100005">
+      <LocalizedName>Quickness</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101001">
+      <LocalizedName>Gut-Harvesting</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101002">
+      <LocalizedName>Rat's Guide to Survival</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101003">
+      <LocalizedName>Dirty Blow</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101004">
+      <LocalizedName>Bite Off</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101005">
+      <LocalizedName>Backstreets Dash</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101006">
+      <LocalizedName>Skitter Away</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102001">
+      <LocalizedName>Commandeering</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102002">
+      <LocalizedName>You're Too Slow</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102003">
+      <LocalizedName>Struggle</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102004">
+      <LocalizedName>Time For a Little Test</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102005">
+      <LocalizedName>Feelin' Good</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102006">
+      <LocalizedName>Preparation</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103001">
+      <LocalizedName>B-blow It Up!</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103002">
+      <LocalizedName>Y-you Only Live Once!</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103003">
+      <LocalizedName>C-charge Up!</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103004">
+      <LocalizedName>E-endure</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103005">
+      <LocalizedName>D-dried Up</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103006">
+      <LocalizedName>C-chop It Off!</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104001">
+      <LocalizedName>Overpower</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104002">
+      <LocalizedName>Goin' First</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104003">
+      <LocalizedName>Fend This Off If You Can</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104004">
+      <LocalizedName>Rampage</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104005">
+      <LocalizedName>Track</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104006">
+      <LocalizedName>Mutilate</LocalizedName>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

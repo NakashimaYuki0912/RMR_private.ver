@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryChX_1Title">Set Up Camp</text>
+             <text id="MysteryChX_1Frame0Dia0">You've been travelling for a while now. Best if you give yourself a break and prepare for the events to come.</text>
+             <text id="MysteryChX_1Frame0Choice0Desc">Take a break (Rest Room)</text>
+
+             <text id="MysteryChX_2Title">Local Market</text>
+             <text id="MysteryChX_2Frame0Dia0">Seems that a nearby local market is having an event! You decide to go in and, if anything, just check the products.</text>
+             <text id="MysteryChX_2Frame0Choice0Desc">Browse items (Go to Shop)</text>
+             
+<text id="MysteryChX_3Title">[mirror]The Sparkling Girl[/color]</text>
+             <text id="MysteryChX_3Frame0Dia0">You hear a strange noise in a nearby alleyway, naturally turning away from it, though as you turn to leave a figure appears -- a short girl dressed in Zwei uniform and armored skirt, carrying a rusted sword and shield on her back -- the most striking part of her figure is her skull, which is mostly missing as if chewed off by a large beast. 
+			 
+In its place is a constant stream of [mirror]familiar sparkling powder[/color], as well as in her weapons. She greets you with a bow, speaking with an otherworldly voice.
+			 
+"[mirror]Shard[/color]... Greetings, I am [mirror]Cassiopeia[/color]... the [mirror]It[/color] has sent me to give you... a boon. So... what do... you want...?"</text>
+             <text id="MysteryChX_3Frame0Choice0Desc">Boon of Might ([green]Gain {0} of the current Chapter's Combat Pages[/color])</text>
+             <text id="MysteryChX_3Frame0Choice1Desc">Boon of Endurance ([green]Gain {0} of the current Chapter's Key Pages[/color])</text>
+             <text id="MysteryChX_3Frame0Choice2Desc">Boon of Wealth ([green]+{0}[/color] [yellow]Ahn[/color])</text>
+             <text id="MysteryChX_3Frame0Choice3Desc">Boon of Fortitude ([green]All Librarians recover 25% HP[/color])</text>
+             <text id="MysteryChX_3Frame1Dia0">[mirror]Cassiopeia[/color] touches your chest, materializing the desired boon in you. She displays a shy frown, meekly skittering away as your interaction ends. You can catch a glimpse of a smile as she stare towards you.</text>
+             <text id="MysteryChX_3Frame1Choice0Desc">Walk away</text>
+
+             <text id="MysteryChX_4Title">Vending Machine</text>
+             <text id="MysteryChX_4Frame0Dia0">A rundown vending machine, the glass so cloudy you cannot see its insides. Despite the battered state the machine still seems to work, though the product you'll receive is unknown.</text>
+             <text id="MysteryChX_4Frame0Choice0Desc">Put money in a vending machine ([red]Pay 10[/color] [yellow]Ahn[/color], [green]gain a random Consumable Item[/color])</text>
+             <text id="MysteryChX_4Frame0Choice1Desc">Ignore</text>
+</localize>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<CharactersNameRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<Name ID="28570001">Bundle Merchant</Name>
+
+  	<Name ID="28580001">Atelier Logic's Merchant</Name>
+	<Name ID="28581001">Union Workshop's Merchant</Name>
+	<Name ID="28582001">Stigma Workshop's Merchant</Name>
+	<Name ID="28583001">Mook Workshop's Merchant</Name>
+
+
+</CharactersNameRoot>

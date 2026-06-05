@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RewardPassivesRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+ <ChapterList Chapter="GradeAll" Type="Shop" ID="90000">
+    <RewardList ID="90001" PassiveType="EachOther" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood1" ArtWork="ShopPassive1"/>
+    <RewardList ID="90002" PassiveType="EachOther" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood2" ArtWork="ShopPassive2"/>
+    <RewardList ID="90003" PassiveType="EachOther" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood3" ArtWork="ShopPassive3"/>
+    <RewardList ID="90004" PassiveType="EachOther" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood4" ArtWork="ShopPassive4"/>
+    <RewardList ID="90005" PassiveType="EachOther" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood5" ArtWork="ShopPassive5"/>
+    <!-- <RewardList ID="90006" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood6" ArtWork="ShopPassive6"/> -->
+    <RewardList ID="90007" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood7" ArtWork="ShopPassive7"/>
+    <RewardList ID="90008" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood8" ArtWork="ShopPassive8"/>
+    <RewardList ID="90009" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood9" ArtWork="ShopPassive9"/>
+    <!-- <RewardList ID="90010" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood10" ArtWork="ShopPassive10"/>-->
+    <RewardList ID="90011" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood11" ArtWork="ShopPassive11"/> 
+    <RewardList ID="90012" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood12" ArtWork="ShopPassive12"/>
+    <RewardList ID="90013" PassiveType="Custom" ShopType="Once" TargetType="All" Script="ShopGood13" ArtWork="ShopPassive13"/>
+    <RewardList ID="90014" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood14" ArtWork="ShopPassive14"/>
+    <RewardList ID="90015" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood15" ArtWork="ShopPassive15"/>
+    <RewardList ID="90016" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood16" ArtWork="ShopPassive16"/>
+    <RewardList ID="90017" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood17" ArtWork="ShopPassive17"/>
+    <RewardList ID="90018" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood18" ArtWork="ShopPassive18"/>
+    <RewardList ID="90020" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood20" ArtWork="ShopPassive20"/>
+    <RewardList ID="90022" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood22" ArtWork="ShopPassive22"/>
+    <RewardList ID="90023" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood23" ArtWork="ShopPassive23"/>
+    <RewardList ID="90024" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood24" ArtWork="ShopPassive24"/>
+    <RewardList ID="90025" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood25" ArtWork="ShopPassive25"/>
+    <RewardList ID="90026" PassiveType="EachOther" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood26" ArtWork="ShopPassive26"/>
+    <RewardList ID="90027" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood27" ArtWork="ShopPassive27"/>
+    <RewardList ID="90028" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood28" ArtWork="ShopPassive28"/>
+    <RewardList ID="90029" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood29" ArtWork="ShopPassive29"/>
+    <RewardList ID="90030" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood30" ArtWork="ShopPassive30"/>
+    <RewardList ID="90031" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood31" ArtWork="ShopPassive31"/>
+    <RewardList ID="90032" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood32" ArtWork="ShopPassive32"/>
+    <RewardList ID="90033" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood33" ArtWork="ShopPassive33"/>
+    <RewardList ID="90034" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood34" ArtWork="ShopPassive34"/>
+    <RewardList ID="90035" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood35" ArtWork="ShopPassive35"/>
+    <RewardList ID="90036" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood36" ArtWork="ShopPassive36"/>
+    <RewardList ID="90037" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood37" ArtWork="ShopPassive37"/>
+    <RewardList ID="90038" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood38" ArtWork="ShopPassive38"/>
+    <RewardList ID="90039" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood39" ArtWork="ShopPassive39"/>
+    <RewardList ID="90040" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood40" ArtWork="ShopPassive40"/>
+    <RewardList ID="90041" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood41" ArtWork="ShopPassive41"/>
+    <RewardList ID="90042" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood42" ArtWork="ShopPassive42"/>
+    <RewardList ID="90043" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood43" ArtWork="ShopPassive43"/>
+    <RewardList ID="90044" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood44" ArtWork="ShopPassive44"/>
+    <!-- <RewardList ID="90045" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Script="ShopGood45" ArtWork="ShopPassive45"/> -->
+    <RewardList ID="90046" PassiveType="Custom" ShopType="Once" TargetType="SelectOne" Script="ShopGood46" ArtWork="ShopPassive46"/>
+	
+	<!-- RMR ITEMS START HERE -->
+	<RewardList ID="90047" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Rare" Script="RMR_BigBrothersChains" ArtWork="RMR_BigBrothersChains"/>
+	<RewardList ID="90048" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Uncommon" Script="RMR_Crowbar" ArtWork="RMR_Crowbar"/>
+	<RewardList ID="90049" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Uncommon" Script="RMR_HarvestScythe" ArtWork="RMR_HarvestScythe"/>
+	<RewardList ID="90050" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Uncommon" Script="RMR_Remote" ArtWork="RMR_Remote"/>
+	<RewardList ID="90051" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Rare" Script="RMR_BleedingSpleen" ArtWork="RMR_BleedingSpleen"/>
+	<RewardList ID="90052" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Uncommon" Script="RMR_CorrodedChains" ArtWork="RMR_CorrodedChains"/>
+	<RewardList ID="90053" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Uncommon" Script="RMR_WelltunedWeapons" ArtWork="RMR_WelltunedWeapons"/>
+	<RewardList ID="90054" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Unique" Script="RMR_GamblerEye" ArtWork="RMR_GamblerEye"/>
+	<RewardList ID="90055" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Uncommon" Script="RMR_OrdinaryClothes" ArtWork="RMR_OrdinaryClothes"/>
+	<RewardList ID="90056" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Rare" Script="RMR_StasisBlaze" ArtWork="RMR_StasisBlaze"/>
+	<RewardList ID="90057" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Rare" Script="RMR_StasisSpark" ArtWork="RMR_StasisSpark"/>
+	<RewardList ID="90058" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Rare" Script="RMR_StasisLight" ArtWork="RMR_StasisLight"/>
+	<RewardList ID="90059" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Rare" Script="RMR_Duplicator" ArtWork="RMR_Duplicator"/>
+	<RewardList ID="90060" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Uncommon" Script="RMR_ZweiSwordstyle" ArtWork="RMR_ZweiSwordstyle"/>
+	<RewardList ID="90061" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Uncommon" Script="RMR_ZweiBlock" ArtWork="RMR_ZweiBlock"/>
+	<RewardList ID="90062" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Rare" Script="RMR_RuinedDummy" ArtWork="RMR_RuinedDummy"/>
+	<RewardList ID="90063" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Unique" Script="RMR_FlickerSwitch" ArtWork="RMR_FlickerSwitch"/>
+	<RewardList ID="90064" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Rare" Script="RMR_TCorpRestore" ArtWork="RMR_TCorpRestore"/>
+	<RewardList ID="90065" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Unique" Script="RMR_Timepiece" ArtWork="RMR_Timepiece"/>
+	<RewardList ID="90066" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Unique" Script="RMR_Jokercard" ArtWork="RMR_Jokercard"/>
+	<RewardList ID="90067" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Uncommon" Script="RMR_MoonstoneGyro" ArtWork="RMR_MoonstoneGyro"/>
+	<RewardList ID="90068" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Unique" Script="RMR_AvalonStimpack" ArtWork="RMR_AvalonStimpack"/>
+	<RewardList ID="90069" PassiveType="Custom" ShopType="Eternal" TargetType="SelectOne" Rarity="Unique" Script="RMR_Polyhedra" ArtWork="RMRPickUp_Polyhedra"/>
+	<RewardList ID="90070" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Common" Script="RMR_MourningVeil" ArtWork="RMR_MourningVeil"/>
+	<RewardList ID="90071" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Common" Script="RMR_TrainingWheels" ArtWork="RMR_TrainingWheels"/>
+	<RewardList ID="90072" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Common" Script="RMR_BudgetToolkit" ArtWork="RMR_BudgetToolkit"/>
+	<RewardList ID="90073" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Common" Script="RMR_Satchel" ArtWork="RMR_Satchel"/>
+	<RewardList ID="90074" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Common" Script="RMR_SentinelBracers" ArtWork="RMR_SentinelBracers"/>
+	<RewardList ID="90075" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Common" Script="RMR_ConceptConverter" ArtWork="RMR_ConceptConverter"/>
+	<RewardList ID="90076" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Common" Script="RMR_ColorMixer" ArtWork="RMR_ColorMixer"/>
+	<RewardList ID="90077" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Rare" Script="RMR_WhiteCotton" ArtWork="RMR_WhiteCotton"/>
+	<RewardList ID="90078" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Rare" Script="RMR_ExposeWeakness" ArtWork="RMR_ExposeWeakness"/>
+	<RewardList ID="90079" PassiveType="Custom" ShopType="Eternal" TargetType="All" Rarity="Common" Script="RMR_FindingWeakness" ArtWork="RMR_FindingWeakness"/>
+	
+  </ChapterList> 
+
+ <ChapterList Chapter="GradeAll" Type="Shop" ID="190025">
+    <RewardList ID="900251" PassiveType="Custom" TargetType="SelectOne" Script="ShopGood25Effect1" ArtWork="ShopPassive25_1"/>
+    <RewardList ID="900252" PassiveType="Custom" TargetType="SelectOne" Script="ShopGood25Effect2" ArtWork="ShopPassive25_2"/>
+	
+  </ChapterList> 
+
+ <ChapterList Chapter="GradeAll" Type="Shop" ID="190040">
+    <RewardList ID="900401" PassiveType="Custom" TargetType="SelectOne" Script="ShopGood40Effect" ArtWork="ShopPassive40"/>
+  </ChapterList> 
+
+</RewardPassivesRoot>

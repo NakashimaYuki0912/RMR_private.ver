@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<RogueMysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Mystery ID="110003">
+    <Frame ID="0">
+      <Dialog>You feel a shiver down your spine. When you turn around, you are met with a silent group of people dressed in white and gold, a clear indication they are from the Index. The man in front, unfazed by the severed head in his grip, draws a slow breath before speaking in a calm, concise tone.
+
+"It is by the will of the Prescript that our paths have crossed. It is to the Prescript's knowledge that you have been given a fraudulent Prescript by this... thing." He waves the head around in slight disgust. "I implore you to return it at once."´</Dialog>
+      <Choice ID="0">
+        <Desc>Return the Prescript.</Desc>
+      </Choice>
+      <Choice ID="1">
+        <Desc>Raise your middle finger at the man.</Desc>
+      </Choice>
+      <Choice ID="2">
+        <Desc>Make a break for it. [red](All Librarians lose 20% HP.)</Desc>
+      </Choice>
+    </Frame>
+
+
+    <Frame ID="1">
+      <Dialog>You hand over the Prescripts you've acquired from the conman, letting the man take it off your hands. He studies the paper for a moment before nodding.
+
+"Your candidness is appreciated. Things have gone according to the will of the Prescripts. In return, I will show you the Prescript we have been given."
+
+The man takes out a similar piece of paper from his pocket and hands it over to you. Your eyes scroll over the scribbles written in ink.
+
+[i]'To Copley's squad, when you encounter a group of more than three people coming from an opposite direction, ask them to hand over their Prescripts. Then, regardless of their answer, dispose of them.'[/i]
+
+"I am John Singleton Copley." The man answers your unspoken question calmly as the Proselytes behind him draw their blades. "Farewell."</Dialog>
+      <Choice ID="0">
+        <Desc>No choice but to engage!</Desc>
+      </Choice>
+    </Frame>
+
+    <Frame ID="2">
+      <Dialog>The Proselytes remain silent, unfazed by your brazen act. The man with the long coat sighs, almost as if disappointed at your foolishness, and draws the polearm behind his back.
+
+"There is nothing wrong with at least being a little polite. The Prescript doesn't say anything about making your deaths quick and painless." The man laments as the Index charges at you.</Dialog>
+      <Choice ID="0">
+        <Desc>Engage!</Desc>
+      </Choice>
+    </Frame>
+
+    <Frame ID="3">
+      <Dialog>On an unspoken signal, you immediately turn around and flee. With the Index hot on your heels, you eventually manage to lose them, though not unscathed. You notice that the piece of paper that you've been carrying is no longer there.</Dialog>
+      <Choice ID="0">
+        <Desc>At least you're alive.</Desc>
+      </Choice>
+    </Frame>
+
+    <Title>The Index</Title>
+  </Mystery>
+</RogueMysteryXmlRoot>

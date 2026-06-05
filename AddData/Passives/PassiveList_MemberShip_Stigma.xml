@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PassiveXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <Passive ID="28582001">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopStigma</Script> 
+    <Name>스티그마 공방 상인(아마도)</Name>
+    <Desc>뭔가 사지 그래요?</Desc>
+  </Passive>
+
+  <Passive ID="8582001">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>7</Cost>
+    <Script>ShopPassiveStigma1</Script>
+    <Name>고화자전</Name>
+    <Desc>[전역]피해 계산 시 사라지는 화상 스택이 1/3에서 1/4로 감소</Desc>
+  </Passive>
+
+  <Passive ID="8582002">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>2</Cost>
+    <Script>ShopPassiveStigma2</Script>
+    <Name>기매화</Name>
+    <Desc>전투 책장으로 적에게 화상을 부여하면 4막 후에 부여한 수치만큼 다시 화상을 부여함</Desc>
+  </Passive>
+
+  <Passive ID="8582003">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>5</Cost>
+    <Script>ShopPassiveStigma3</Script>
+    <Name>수화불통</Name>
+    <Desc>자신에게 화상이 있는 동안 다른 상태이상에 면역</Desc>
+  </Passive>
+
+  <Passive ID="8582004">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>6</Cost>
+    <Script>ShopPassiveStigma4</Script>
+    <Name>배웅불</Name>
+    <Desc>[전역] 사망 시 지니고 있던 화상 수치의 절반을 모든 아군에게 부여</Desc>
+  </Passive>
+
+  <Passive ID="8582005">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>4</Cost>
+    <Script>ShopPassiveStigma5</Script>
+    <Name>재</Name>
+    <Desc>화상이 사라질때 이번 전투에서 얻었던 최대 화상수치만큼 체력을 회복함</Desc>
+  </Passive>
+
+  <Passive ID="8582006">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>5</Cost>
+    <Script>ShopPassiveStigma6</Script>
+    <Name>급어성화</Name>
+    <Desc>화상 상태의 적에게 공격 적중 시 즉시 화상 피해를 입힘</Desc>
+  </Passive>
+
+  <Passive ID="8582007">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>2</Cost>
+    <Script>ShopPassiveStigma7</Script>
+    <Name>스티그마</Name>
+    <Desc>전투책장 사용 시 해당 전투책장의 원래 비용만큼 적에게 화상을 부여(비용이 0인 책장이라면 대신 1 부여)</Desc>
+  </Passive>
+
+  <Passive ID="8582008">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>3</Cost>
+    <Script>ShopPassiveStigma8</Script>
+    <Name>발화</Name>
+    <Desc>무대 시작 시 '발화' 전투책장을 손으로 가져옴. 해당 책장 사용 시 지정한 대상에게 화상 5 부여</Desc>
+  </Passive>
+
+  <Passive ID="8582009">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>4</Cost>
+    <Script>ShopPassiveStigma9</Script>
+    <Name>화로</Name>
+    <Desc>자신에게 화상이 있다면 일방공격 대상이 당할때 자신에게 있는 화상 수치만큼 적에게 화상 부여</Desc>
+  </Passive>
+
+</PassiveXmlRoot>

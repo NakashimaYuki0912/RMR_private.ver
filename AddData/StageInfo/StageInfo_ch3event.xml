@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+  
+
+
+
+<!--이벤트3_1 : 난투극-->
+
+  <Stage id="130001">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28472001</Unit>
+    </Wave>
+  </Stage>
+
+
+<!--이벤트3_1_1 : 난투극-->
+  <Stage id="1300011">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>130001</Formation>
+      <Unit>28482001</Unit>
+      <Unit>28482001</Unit>
+      <Unit>28482001</Unit>
+      <Unit>28482001</Unit>
+      <Unit>28482001</Unit>
+      <Unit>28482002</Unit>
+      <Unit>28482002</Unit>
+      <Unit>28482002</Unit>
+      <Unit>28482002</Unit>
+      <Unit>28482002</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트3_3 : 강화 시술-->
+
+  <Stage id="130003">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28472003</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트3_3 : 꿈의 세탁소-->
+
+  <Stage id="130004">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28472004</Unit>
+    </Wave>
+  </Stage>
+
+
+</StageXmlRoot>
+

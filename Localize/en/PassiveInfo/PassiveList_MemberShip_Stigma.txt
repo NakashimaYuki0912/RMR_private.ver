@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="28582001">
+		<Name>Stigma Workshop's Merchant</Name>
+		<Desc>Why don't you buy something?</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582001">
+    <Name>Talented Person Suffers Harm because of its Talent</Name>
+    <Desc>[Global] Burn stacks that disappear when calculating damage reduced to 1/4 from 1/3.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582002">
+    <Name>Bringing up the Past for Nothing</Name>
+    <Desc>When inflicting Burn using Combat Pages, inflict the same amount of Burn 4 Scenes after.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582003">
+    <Name>Mutual Hatred</Name>
+    <Desc>Immune to other status ailments while the character has Burn.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582004">
+    <Name>Parting Flame</Name>
+    <Desc>[Global] If a character with Burn is defeated, all of their allies are inflicted with Burn equal to half of the amount of burn that character had. (Min. 1)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582005">
+    <Name>Ash</Name>
+    <Desc>When Burn on this character expires, recover HP equal to the highest stack of Burn on this character in this battle.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582006">
+    <Name>Fast and Urgent Like a Star</Name>
+    <Desc>On a successful hit, trigger target's Burn once if the target has Burn.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582007">
+    <Name>Stigma</Name>
+    <Desc>When using a Combat Page, inflict Burn equal to the page's Cost. (Min. 1)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582008">
+    <Name>Ignition</Name>
+    <Desc>At the start of the Act, add a copy of 'Ignition' to hand. 'Ignition' inflicts 5 Burn to the target when played.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582009">
+    <Name>Brazier</Name>
+    <Desc>If this character has Burn, inflict Burn to the attacker equal to the amount of Burn on this character when targeted by a one-sided attack.</Desc>
+	</PassiveDesc>
+
+
+</PassiveDescRoot>
+  
+

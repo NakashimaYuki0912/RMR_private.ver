@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<RogueMysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Mystery ID="10003">
+    <Frame ID="0">
+      <Dialog>You encounter a gathering of people in the Backstreets. The center of attention is a young man dressed in white and black, clearly the uniform of the Index Syndicate. The man smiles as he sees you approach, the crowd parting as he holds out a small piece of paper stamped with a red symbol.
+
+"Hello there! We are running a special service today! For the low, low price of taking this Prescript, we will offer you 20 [yellow]Ahn[/color]! Good deal, no?"</Dialog>
+      <Choice ID="0">
+        <Desc>Accept the Prescript. ([green]Gain 20 [yellow]Ahn[/color])</Desc>
+      </Choice>
+      <Choice ID="1">
+        <Desc>Politely refuse.</Desc>
+      </Choice>
+    </Frame>
+
+
+    <Frame ID="1">
+      <Dialog>You take hold of the small piece of paper and the bag of [yellow]Ahn[/color]. Before you could respond and say thanks, the man has already disappeared. You open the small piece of paper, and it reads, 'Focus intently on the next person you meet'. You note that it's kind of vague.</Dialog>
+      <Choice ID="0">
+        <Desc>Proceed.</Desc>
+      </Choice>
+    </Frame>
+
+    <Frame ID="2">
+      <Dialog>"Oh well. Who wants to do it instead?" The man seems unfazed by your refusal, and turns around. Immediately, the Backstreets dwellers crowd over him again.</Dialog>
+      <Choice ID="0">
+        <Desc>Proceed.</Desc>
+      </Choice>
+    </Frame>
+
+    <Title>The Index...?</Title>
+  </Mystery>
+</RogueMysteryXmlRoot>

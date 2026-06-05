@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScenarioRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Chapter ID="1">
+    <Title>第1章节-传闻-“双手摸索着口袋，走到路上。”</Title>
+  </Chapter>
+  <Group>
+    <GroupName>序章</GroupName>
+    <Episode>
+      <EpisodeName>情节1</EpisodeName>
+      <Place>
+        <PlaceName>地点：图书馆内部</PlaceName>
+      </Place>
+    </Episode>
+  </Group>
+</ScenarioRoot>

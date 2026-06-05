@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<LogueEffectXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <LogueEffectInfo Id="RMRPickUp_Polyhedra">
+    <Name>The Polyhedra</Name> 
+    <Desc>Selected Librarian permanently gains +1 Max HP, Max SP, Speed, Max Light Capacity, mininum dice value, maximum dice value, damage and stagger damage.</Desc> 
+    <FlavorText>&lt;color=#585858&gt;“I have the POLYHEDRA in me... And feel the wrath of the darkness!!”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[No entry for now.]</CatalogDesc>
+  </LogueEffectInfo> 
+
+
+<!-- 
+  <LogueEffectInfo Id="GlobalEffect_">
+    <Name>Dshka</Name> 
+    <Desc>Dshka</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“Dshka”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[No entry for now.]</CatalogDesc>
+  </LogueEffectInfo> 
+  
+  
+  <LogueEffectInfo Id="GlobalEffect_">
+    <Name>Dshka</Name> 
+    <Desc>Dshka</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“Dshka”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[No entry for now.]</CatalogDesc>
+  </LogueEffectInfo> 
+  -->
+</LogueEffectXmlRoot>

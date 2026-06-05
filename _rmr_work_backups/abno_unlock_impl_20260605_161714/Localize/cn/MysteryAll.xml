@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryChX_1Title">扎营</text>
+             <text id="MysteryChX_1Frame0Dia0">你已经旅行一段时间了。最好让自己休息一下，为即将到来的事件做好准备。</text>
+             <text id="MysteryChX_1Frame0Choice0Desc">休息一下 (休息室)</text>
+
+             <text id="MysteryChX_2Title">地方集市</text>
+             <text id="MysteryChX_2Frame0Dia0">附近的一个地方集市似乎正在举办活动！你决定进去看看，如果可以的话瞅一眼商品。</text>
+             <text id="MysteryChX_2Frame0Choice0Desc">浏览商品 (前往商店)</text>
+             
+<text id="MysteryChX_3Title">[mirror]闪光少女[/color]</text>
+             <text id="MysteryChX_3Frame0Dia0">你在附近的小巷里听到一种奇怪的声音，你自然地转身离开，但当你转身离开时，一个身材矮小的女孩出现了——一个穿着Zwei制服和铠甲裙子的女孩，背上背着一把生锈的剑和盾牌——她身上最引人注目的部分是她的头部，它大部分都不见了，就像被一头巨型野兽咬掉了一样。 
+  
+取而代之的是源源不断的熟悉的闪闪发光的粉末[/color], 以及她的武器。她向你鞠躬致意，用一种仿佛来自异世界的声音说话。
+			 
+"[mirror]碎-碎片[/color]...你-你好，我-我是[mirror]卡西欧佩亚[/color]...[mirror]它-它[/color]派我来给予你们...一些恩惠。所以...你们想要...什么...?"</text>
+             <text id="MysteryChX_3Frame0Choice0Desc">力量恩赐 ([green]获得{0}张当前章节的战斗书页[/color])</text>
+             <text id="MysteryChX_3Frame0Choice1Desc">忍耐恩赐 ([green]获得{0}张当前章节的核心书页[/color])</text>
+             <text id="MysteryChX_3Frame0Choice2Desc">财富恩赐 ([green]+{0}[/color] [yellow]眼[/color])</text>
+             <text id="MysteryChX_3Frame0Choice3Desc">坚毅恩赐 ([green]所有司书恢复25%的体力[/color])</text>
+             <text id="MysteryChX_3Frame1Dia0">[mirror]卡西欧佩亚[/color]触碰着你的胸膛，实现你想要的恩惠。她害羞地皱着眉头，在你们的互动结束时温顺地跑开了。当她盯着你看时，你可以瞥见她的笑容。</text>
+             <text id="MysteryChX_3Frame1Choice0Desc">离开</text>
+
+             <text id="MysteryChX_4Title">自动售货机</text>
+             <text id="MysteryChX_4Frame0Dia0">一台破旧的自动售货机，玻璃太浑浊使你看不清楚它的内部。尽管机器状态不佳，但它似乎仍然可以工作，不过您将收到什么产品可就难说喽。</text>
+             <text id="MysteryChX_4Frame0Choice0Desc">塞钱进去 ([red]消费10[/color] [yellow]眼[/color]，[green]获得随机消耗品[/color])</text>
+             <text id="MysteryChX_4Frame0Choice1Desc">无视</text>
+</localize>

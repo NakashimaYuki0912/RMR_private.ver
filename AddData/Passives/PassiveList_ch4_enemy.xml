@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PassiveXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <Passive ID="230016">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>230016Log</Script>
+    <Name>일렁임</Name>
+    <Desc>매 막 마다 손과 덱에 있는 모든 책장을 소멸시키고 사용할 책장을 손에 추가, 모든 책장의 비용이 0이 됨</Desc>
+  </Passive>
+
+  <Passive ID="230028">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>230028Log</Script>
+    <Name>일렁임</Name>
+    <Desc>매 막 마다 손과 덱에 있는 모든 책장을 소멸시키고 사용할 책장을 손에 추가, 모든 책장의 비용이 0이 됨</Desc>
+  </Passive>
+
+
+
+</PassiveXmlRoot>

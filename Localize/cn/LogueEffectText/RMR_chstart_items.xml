@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<LogueEffectXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <LogueEffectInfo Id="RMR_IronHeart">
+    <Name>心之钢</Name> 
+    <Desc>开启舞台时使指定司书恢复6点体力。</Desc> <!-- The Patron Librarian recovers 6 HP and gains 1 Max HP at the start of each Combat Encounter. (Normal, Elite, Boss) -->
+    <FlavorText>&lt;color=#CA0812&gt;"虽然质地坚硬，但仍然很贴心。这是最后一批了。"&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>    器官总是不满足：吸收新的思想、营养或欲望，然后在不再需要时丢弃。这样的行为有一个持续的循环，尽管大多数是出于必要，但一个人不会这样做——相反，它会记住一切。不管多小。
+
+  这就是心的本质，是感情和自尊心的发源地——心脏永远不会忘记它所感受到的东西，也不会放弃那些对它造成伤害的感情——它会记住。不是因为它可以，而是因为它必须这么做。不管多么悲惨，有些事必须永远铭记，这样一个人才不会迷失方向。
+
+  一个这样的人，为了更宏伟、更甜美的梦想的承诺，放弃了所有的感情——这种行为的创伤是如此之深，以至于她选择忘记——忘记她皮肤上的阳光，忘记饱餐一顿后的疲劳和快乐。就像以前一样，即使她的头脑选择忘记，她的心却没有。
+
+  因为心灵……心灵可以忘记，但心脏永远不会。</CatalogDesc>
+  </LogueEffectInfo> 
+
+  <LogueEffectInfo Id="RMR_HunterCloak">
+    <Name>猎人斗篷</Name> 
+    <Desc>开启舞台时使指定司书额外抽取2张书页。每一幕开始时将1张“毒刃”置入指定司书手中。</Desc>
+    <FlavorText>&lt;color=#08CA12&gt;"破烂不堪，还散布着无数的毒刃。"&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>  一种由粗糙而坚韧的布料制成的斗篷，其森林绿的颜色已基本褪色。有传言说，很久以前它曾经被一个色彩收尾人穿过，但你问的人似乎都不知道到底是谁。
+
+  斗篷内部的口袋里放着几把小飞镖。不管你取出了多少，每次你窥视它的时候都会有一个新的飞镖。</CatalogDesc>
+  </LogueEffectInfo> 
+
+  <LogueEffectInfo Id="RMR_StrangeOrb">
+    <Name>奇怪球体</Name>
+    <Desc>开启舞台时召唤1个球体。球体拥有30点体力，无法陷入混乱，其存活时每一幕从以下效果中随机执行1种效果：
+- 对所有敌方角色施加1层“麻痹”
+- 使2名随机友方角色抽取1张书页
+- 使所有友方角色获得1层“伤害强化”</Desc> 
+    <FlavorText>&lt;color=#08CAA9&gt;"尽管它可能不稳定，但它似乎无条件地站在你身边。"&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>  没有多少人记得大战之前的日子——一件如此可怕、如此广泛的事情，一件如此可怕、如此被遗忘的事情——只剩下“旧世界”的余烬，在它的废墟上游荡，为了一个长期失去的目的。一个这样的例子就是汞合金——一种只能被描述为异常的结合。
+
+  在旧世界被粉碎成许多深不可测的碎片之后，他们仍然在那里：先是分裂，但在结束一切理性的光之后不久就结合在了一起。他们疑惑着，徘徊着，发现自己置身于熟悉而陌生的旧家、学校和道路的废墟中。大火还是烧到了最后，从此以后，生活只会是一片废墟。
+
+  许多年以后，火几乎熄灭了——远处形成了一个新的冷光灯塔——他们想，也许他们的余烬可以到达承诺的寒冷的内墙，但他们被留在了外面——在他们如此熟悉的废墟中自生自灭。最终，在如此巨大的压力和多年的单一思想下，他们集中精力，像火一样不朽。
+
+  从一个声音变成两个，两个变成许多。思想和话语流口水，融合成单一的、超负荷的行动——他们能看，但看不见。能触摸，但没有感觉。能争论，但不会说话。这就是和他们一样明亮的余烬的判决——注定要与旧世界的不情愿的火焰结合在一起，被迫被剥夺了自我。
+
+  然而，通过某种神秘的方式，他们发现自己在这里——像以前一样熟悉而陌生。虽然永远改变了，但他们的心没有变：也许他们可以在这个地方找到答案，或者最后化作一阵风消失在新世界。</CatalogDesc>
+  </LogueEffectInfo> 
+
+  <LogueEffectInfo Id="RMR_ViciousGlasses">
+    <Name>狂暴目镜</Name>
+    <Desc>每一幕开始时使所有友方角色获得10层“暴击”。</Desc> 
+    <FlavorText>&lt;color=#CA08A9&gt;"你会听到各种声音在远处呼喊，要求移除这些所谓的‘随机暴击’。"&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
+  </LogueEffectInfo>  
+  
+  <LogueEffectInfo Id="RMR_LightGuidance">
+    <Name>指引之光</Name>
+    <Desc>每一幕使所有司书1种随机属性的骰子威力+1。(斩击/突刺/打击/防御型骰子)</Desc> 
+    <FlavorText>&lt;color=#FEFCDD&gt;"偶尔它会使你“打得更好”，无论那究竟是什么意思……"&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
+  </LogueEffectInfo> 
+	
+  <LogueEffectInfo Id="RMR_RoadlessCamelot">
+    <Name>Roadless Camelot</Name>
+    <Desc>At the start of each Scene, a random librarian gains 'Roadless Camelot' for the Scene.
+(Roadless Camelot - Each time this character uses a Combat Page, all other allies temporarily upgrade a random Combat Page in their hand for the rest of the Act.)</Desc> 
+    <FlavorText>&lt;color=#03EAF2&gt;"The crystallization of an utopia without any entrance. Like the reflection of a moon on water, its beauty is matched only by its fragility."&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>Almost everyone has an ideal they chase after. An utopia, where their dreams are realized and their wishes are fulfilled. From simple wants such as warm food and shelter, to grand ambitions looking up at the top of the chain. It is simply a constant value of hope against the ruthless cycle of gears that make up the machine called the City.
+
+Yet, sometimes that side may truly be unreachable. Without any clear roads that lead towards that dream, all that is left... is nothing more than a mirage of what could have been, and what could never be.
+
+After all, that is what a dream is.</CatalogDesc>
+  </LogueEffectInfo> 
+	
+  <LogueEffectInfo Id="RMR_StrangeOrbGrade2">
+    <Name>不稳定的球体</Name>
+    <Desc>开启舞台时召唤1个球体。球体拥有20点体力，无法陷入混乱与被选中，初始抗性为“脆弱”，球体随章节进度会变的更强。
+- 每一幕球体将获得1张“过去的哀嚎”战斗书页
+- 每一幕使所有友方角色获得3层“护盾”
+- 每隔一幕使所有友方角色恢复3点混乱抗性</Desc> 
+    <FlavorText>&lt;color=#08CAA9&gt;"尽管它可能不稳定，但它似乎无条件地站在你身边。"&lt;/color&gt;</FlavorText> 
+    <CatalogDesc></CatalogDesc>
+  </LogueEffectInfo>
+  
+  <LogueEffectInfo Id="RMR_StrangeOrbGrade3">
+    <Name>不稳定的球体</Name>
+    <Desc>开启舞台时召唤1个球体。球体拥有20点体力，无法陷入混乱与被选中，初始抗性为“一般”，球体随章节进度会变的更强。
+- 每一幕球体将获得1张“过去的哀嚎”战斗书页
+- 每一幕使所有友方角色获得3层“护盾”
+- 每隔一幕使所有友方角色恢复3点混乱抗性
+- 第三幕中使所有司书恢复1点光芒</Desc> 
+    <FlavorText>&lt;color=#08CAA9&gt;"尽管它可能不稳定，但它似乎无条件地站在你身边。"&lt;/color&gt;</FlavorText> 
+    <CatalogDesc></CatalogDesc>
+  </LogueEffectInfo> 
+  
+  <LogueEffectInfo Id="RMR_StrangeOrbGrade4">
+    <Name>不稳定的球体</Name>
+    <Desc>开启舞台时召唤1个球体。球体拥有20点体力，无法陷入混乱与被选中，初始抗性为“耐性”，球体随章节进度会变的更强。
+- 每一幕球体将获得1张“过去的哀嚎”战斗书页
+- 每一幕使所有友方角色获得3层“护盾”/1层“伤害强化”与“流血守护”/3层“烧伤守护”
+- 每隔一幕使所有友方角色恢复3点混乱抗性
+- 第三幕中使所有司书恢复1点光芒</Desc> 
+    <FlavorText>&lt;color=#08CAA9&gt;"尽管它可能不稳定，但它似乎无条件地站在你身边。"&lt;/color&gt;</FlavorText> 
+    <CatalogDesc></CatalogDesc>
+  </LogueEffectInfo> 
+  
+  <LogueEffectInfo Id="RMR_StrangeOrbGrade5">
+    <Name>不稳定的球体</Name>
+    <Desc>开启舞台时召唤1个球体。球体拥有20点体力，无法陷入混乱与被选中，初始抗性为“耐性”，球体随章节进度会变的更强。
+- 每一幕球体将获得1张“过去的哀嚎”战斗书页
+- 每一幕使所有友方角色获得3层“护盾”/1层“伤害强化”与“流血守护”/3层“烧伤守护”
+- 每隔一幕使所有友方角色恢复3点混乱抗性
+- 第三幕中使所有司书恢复1点光芒
+- 第四幕中使所有司书抽取1张书页且自此幕开始每一幕使1名随机其他友方角色抽取1张书页</Desc> 
+    <FlavorText>&lt;color=#08CAA9&gt;"尽管它可能不稳定，但它似乎无条件地站在你身边。"&lt;/color&gt;</FlavorText> 
+    <CatalogDesc></CatalogDesc>
+  </LogueEffectInfo> 
+  
+  <LogueEffectInfo Id="RMR_StrangeOrbGrade6">
+    <Name>奇怪球体</Name>
+    <Desc>开启舞台时召唤1个球体。球体拥有20点体力，无法陷入混乱与被选中，初始抗性为“耐性”，球体已变的稳定。
+- 每一幕球体将获得1张“过去的哀嚎”战斗书页
+- 每一幕使所有友方角色获得3层“护盾”/1层“伤害强化”与“流血守护”/3层“烧伤守护” 
+- 每一幕使1名其他友方角色手中随机1张费用高于0的书页的费用-1(使用后复原)
+- 每隔一幕使所有友方角色恢复3点混乱抗性
+- 第三幕中使所有司书恢复1点光芒
+- 第四幕中使所有司书抽取1张书页且自此幕开始每一幕使1名随机其他友方角色抽取1张书页</Desc> 
+    <FlavorText>&lt;color=#08CAA9&gt;"尽管它可能不稳定，但它似乎无条件地站在你身边。"&lt;/color&gt;</FlavorText> 
+    <CatalogDesc></CatalogDesc>
+  </LogueEffectInfo> 
+  
+</LogueEffectXmlRoot>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+  <Stage id="855">
+   <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+    <Unit>855</Unit>
+    </Wave> 
+  </Stage>
+
+
+</StageXmlRoot>

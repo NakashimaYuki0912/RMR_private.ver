@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Mystery ID="20001" Title="MysteryCh3_1Title">
+    <script>Mystery_Ch3_1</script>
+    <Frame ID="0" FrameType="DEFAULT">
+      <Dialog>MysteryCh3_1Frame0Dia0</Dialog>
+      <ArtWork>Mystery_Ch3_1Frame0</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryCh3_1Frame0Choice0Desc</Desc>
+        <Next>-1</Next>
+      </Choice>
+    </Frame>
+  </Mystery>
+
+  <Mystery ID="20003" Title="MysteryCh3_3Title">
+    <script>Mystery_Ch3_3</script>
+    <Frame ID="0" FrameType="DEFAULT">
+      <Dialog>MysteryCh3_3Frame0Dia0</Dialog>
+      <ArtWork>Mystery_Ch3_3Frame0</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryCh3_3Frame0Choice0Desc</Desc>
+        <Next>-1</Next>
+      </Choice>
+      <Choice ID="1">
+        <Desc>MysteryCh3_3Frame0Choice1Desc</Desc>
+        <Next>-1</Next>
+      </Choice>
+    </Frame>
+  </Mystery>
+
+  <Mystery ID="20004" Title="MysteryCh3_4Title">
+    <script>Mystery_Ch3_4</script>
+    <Frame ID="0" FrameType="DEFAULT">
+      <Dialog>MysteryCh3_4Frame0Dia0</Dialog>
+      <ArtWork>Mystery_Ch3_4Frame0</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryCh3_4Frame0Choice0Desc</Desc>
+        <Next>1</Next>
+      </Choice>
+      <Choice ID="1">
+        <Desc>MysteryCh3_4Frame0Choice1Desc</Desc>
+        <Next>2</Next>
+      </Choice>
+    </Frame>
+    <Frame ID="1" FrameType="DEFAULT">
+      <Dialog>MysteryCh3_4Frame1Dia0</Dialog>
+      <ArtWork>Mystery_Ch3_4Frame0</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryCh3_4Frame1Choice0Desc</Desc>
+        <Next>-1</Next>
+      </Choice>
+    </Frame>
+    <Frame ID="2" FrameType="DEFAULT">
+      <Dialog>MysteryCh3_4Frame2Dia0</Dialog>
+      <ArtWork>Mystery_Ch3_4Frame0</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryCh3_4Frame2Choice0Desc</Desc>
+        <Next>-1</Next>
+      </Choice>
+    </Frame>
+  </Mystery>
+
+</MysteryXmlRoot>

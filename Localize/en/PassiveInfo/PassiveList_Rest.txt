@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="800001">
+    <Name>Rest</Name>
+    <Desc>Recovers 40% of the selected Librarian's Max. HP</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="800002">
+    <Name>Upgrade</Name>
+    <Desc>Select and upgrade a Combat Page</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="800003">
+    <Name>Moisture Proof Treatment</Name>
+    <Desc>Increases the selected Librarian's every damage resistances by 1 for this Chapter.(Up to "Ineffective")</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="800004">
+    <Name>Scavenge</Name>
+    <Desc>Gain 15 Ahn</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="800005">
+    <Name>Long Rest</Name>
+    <Desc>Recovers 100% of the selected Librarian's HP</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="800006">
+    <Name>Page Conversion</Name>
+    <Desc>Select 1 Combat Page and convert it to another Page from the previous Chapter. 
+The higher the grade of the converted page, the more/better quality rewards it gives.
+Counts as a free action.
+Remaining : {0}</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

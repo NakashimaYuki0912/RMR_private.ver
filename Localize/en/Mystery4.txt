@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryCh4_1Title">A Ruined Workshop</text>
+             <text id="MysteryCh4_1Frame0Dia0">You find yourself in front of a ruined workshop, a monument to the predatory nature of the City's economy, a reminder to never dream too far. Despite the conditions of the building you can still see some valuable equipment inside -- the question being if you should sell or use it...</text>
+			 
+             <text id="MysteryCh4_1Frame0Choice0Desc">Keep the equipment ([green]+3[/color] [rare]Limited[/color] [green]Urban Plague Pages[/color])</text>
+			 
+             <text id="MysteryCh4_1Frame0Choice1Desc">Sell it to a local syndicate ([green]+25[/color] [yellow]Ahn[/color])</text>
+<!--
+	     <text id="MysteryCh4_1Frame0Choice2Desc">Repair the equipment and keep it ([red]-1 Mend Weapon[/color], [green]+2[/color] [unique]Unique[/color] [green]Urban Plague Pages[/color])</text>
+			 
+	     <text id="MysteryCh4_1Frame0Choice3Desc">Repair the equipment and sell it ([red]-1 Mend Weapon[/color], [green]+50[/color] [yellow]Ahn[/color])</text>
+-->
+             <text id="MysteryCh4_1Frame1Dia0">You manage to put some of the broken equipment to use, selling it to a local syndicate for a higher price than usual.</text>
+			 
+             <text id="MysteryCh4_1Frame1Choice0Desc">Walk away</text>
+
+             <text id="MysteryCh4_2Title">Package Interception</text>
+             <text id="MysteryCh4_2Frame0Dia0">You've received word from a local informant that an important package of the Kurokumo Clan was being delivered through outside their territory, in an especially unsafe route. While the information itself won't do any good you're quite certain you're the only one to receive it yet, so you could:
+			 
+Raid the escort head on. It would be risky considering the heavy security. 
+
+Give up and let them be. Maybe the package isn't worth your life.</text>
+
+             <text id="MysteryCh4_2Frame0Choice0Desc">Raid the escort ([green]+30~50[/color] [yellow]Ahn[/color]. Starts a difficult fight.)</text>
+             <text id="MysteryCh4_2Frame0Choice1Desc">Leave them be</text>
+			 
+             <text id="MysteryCh4_2Frame1Dia0">You set up an ambush near a particularly closed off street, jumping from the shadows as they pass. You quickly realize you're fighting with a high ranking Kurokumo member...</text>
+             <text id="MysteryCh4_2Frame1Choice0Desc">Fight!</text>
+			 
+<!--
+<text id="MysteryCh4_2Frame1Dia0">You've killed the escort and secured the package, which turned out to be a few gold-plated hairpins. At least they'll fetch a good price in the market.</text>
+<text id="MysteryCh4_2Frame1Choice0Desc">Sell the hairpins and walk away ([green]+{0}[/color] [yellow]Ahn[/color].</text>
+-->
+
+             <text id="MysteryCh4_2Frame2Dia0">You decided not to meddle with Kurokumo afairs -- who knows what would happen.</text>
+             <text id="MysteryCh4_2Frame2Choice0Desc">Walk away</text>
+
+             <text id="MysteryCh4_3Title">Ambush</text>
+             <text id="MysteryCh4_3Frame0Dia0">As you were walking through the maze of alleyways that made up the backstreets, everything went quiet, with the streets opening up into highways -- and being your only way forward -- after a moment of walking you see shadows closing in on the windows, one seemingly aiming at you, then firing its rifle, nearly missing your head.
+			 
+You take cover in a nearby alleyway, unfortunately a dead end, forcing you to face your attackers or somehow escape.</text>
+
+             <text id="MysteryCh4_3Frame0Choice0Desc">Close the distance and engage ([red]-10% HP[/color], Combat)</text>
+			 
+             <text id="MysteryCh4_3Frame0Choice1Desc">Use a Smoke Bomb and escape ([red]Consume Smoke Bomb[/color], avoid combat)</text>
+
+<!--
+             <text id="MysteryCh4_4Title">Stealth Operation</text>
+             <text id="MysteryCh4_4Frame0Dia0">Most of the time, work in the city ends with power.
+But not everyone works that way. Spying, trespassing, stealing... There are plenty of things to do in secret.
+Such a quest came to you, who only fought recklessly. Can you really do it?
+
+Control the character with the arrow keys to avoid obstacles and reach the goal to succeed!</text>
+             <text id="MysteryCh4_4Frame0Choice0Desc">Stealth operation begins!</text>
+
+ <text id="MysteryCh4_4Frame1Dia0">You have successfully infiltrated and achieved the desired target!</text>
+             <text id="MysteryCh4_4Frame1Choice0Desc">End(Get 30 [yellow]Ahn[/color])</text>
+
+ <text id="MysteryCh4_4Frame2Dia0">The enemies found out...
+Fortunately, you escaped safely, but the quest failed.</text>
+             <text id="MysteryCh4_4Frame2Choice0Desc">End</text>
+
+magma told me this event sucks
+-->
+
+</localize>

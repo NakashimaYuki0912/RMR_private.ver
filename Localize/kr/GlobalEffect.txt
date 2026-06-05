@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="Shop7_Name">초심</text>
+             <text id="Shop7_Desc">이전 챕터의 전투책장을 사용할 때 모든 주사위 위력 + 1. 상점에서 이전 챕터의 전투책장이 출현</text>
+             <text id="Shop18_Name">적금 상품</text>
+             <text id="Shop18_Desc">사용 시 {0} 안을 얻음. 일반 전투 입장 시 마다 3씩 증가</text>
+             <text id="ShopGood25_1Name">인형사</text>
+             <text id="ShopGood25_1Desc">이 사서가 사용하는 책장을 꼭두각시가 대상에게 일방공격으로 재사용</text>
+             <text id="ShopGood25_2Name">꼭두각시</text>
+             <text id="ShopGood25_2Desc">이번막에 행동 불가. 인형사가 사용하는 책장을 대상에게 일방공격으로 재사용</text>
+             <text id="ShopGood40_1Name">과학상자</text>
+             <text id="ShopGood40_1Desc">'{0}' 전투책장을 손으로 가져옴. 사용 전까지 해당 책장의 비용이 0이 됨</text>
+
+             <text id="Event3Effect_Name">엔케팔린</text>
+             <text id="Event3Effect_Desc">뜬소문,도시괴담 챕터동안 사서들의 감정단계가 1로 시작</text>
+
+             <text id="MeatPieQuest_Name">고기파이 퀘스트</text>
+             <text id="MeatPieQuest_Desc">전투책장 보상 넘기기로 고기 획득. 5개를 모으면 퀘스트 완료
+
+현재 모은 고기 수 : {0}</text>
+
+             <text id="Ch5Event1Effect_Name">영감</text>
+             <text id="Ch5Event1Effect_Desc">이번 챕터동안 막 시작시 모든 사서들이 다음 효과들을 나누어 얻음
+-힘 3
+-인내 3
+-보호 3
+-취약 3
+-행동 불가</text>
+             <text id="Ch6Event1Effect1_Name">얽매임</text>
+             <text id="Ch6Event1Effect1_Desc">전투책장 보상이 등장하지 않음</text>
+             <text id="Ch6Event1Effect2_Name">미래</text>
+             <text id="Ch6Event1Effect2_Desc">전투책장을 획득할때 강화됨</text>
+             <text id="Ch6Event2Effect_Name">판돈</text>
+             <text id="Ch6Event2Effect_Desc">선택한 사서를 처치함</text>
+
+             <text id="ShopThiefPenalty_Name">도둑놈한텐 안팔아!</text>
+             <text id="ShopThiefPenalty_Desc">현재 상점에서 더이상 거래 불가</text>
+
+
+
+             <text id="Shop3_1_Name">업무 처리</text>
+             <text id="Shop3_1_Desc">무작위 이벤트 종료 후 도시전설급 책장 보상 1회 획득</text>
+
+             <text id="Shop3_2_Name">약속의 소중함</text>
+             <text id="Shop3_2_Desc">일반 전투 종료 후 도시전설급 책장 보상 1회 획득</text>
+
+             <text id="GlobalEffect_MemberShipLogic_Name">로직</text>
+             <text id="GlobalEffect_MemberShipLogic_Desc">모든 사서가 원거리 책장 사용가능</text>
+</localize>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CardDropTableXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+ 
+
+  <DropTable ID="-854501">
+    <Card>601001</Card>
+    <Card>601002</Card>
+    <Card>601003</Card>
+    <Card>601004</Card>
+    <Card>601005</Card>
+    <Card>601006</Card>
+    <Card>601007</Card>
+    <Card>601010</Card>
+    <Card>601011</Card>
+    <Card>601012</Card>
+    <Card>601013</Card>
+
+    
+    <Card>602001</Card>
+    <Card>602002</Card>
+    <Card>602003</Card>
+    <Card>602004</Card>
+	<Card>602006</Card>
+    <Card>602007</Card>
+    <Card>602008</Card>
+    <Card>602011</Card>
+    <Card>602012</Card>
+
+   
+	
+    <Card>603002</Card>
+    <Card>603003</Card>
+    <Card>603005</Card>
+    <Card>603006</Card>
+    <Card>603007</Card>
+    
+
+    <Card>604001</Card>
+    <Card>604002</Card>
+    <Card>604003</Card>
+    <Card>604004</Card>
+    <Card>604005</Card>
+
+
+
+
+    
+    <Card>605004</Card>
+    <Card>605005</Card>
+    <Card>605006</Card>
+    <Card>605007</Card>
+    <Card>605008</Card>
+
+    
+    <Card>606003</Card>
+    <Card>606004</Card>
+    <Card>606005</Card>
+    <Card>606006</Card>
+    <Card>606007</Card>
+
+    
+    <Card>608007</Card>
+    <Card>608008</Card>
+    <Card>608010</Card>
+    <Card>608011</Card>
+    <Card>608012</Card>
+    <Card>608013</Card>
+    <Card>608014</Card>
+    <Card>608015</Card>
+    <Card>608016</Card>
+    
+
+    
+    <Card>611004</Card>
+    <Card>611005</Card>
+    <Card>611006</Card>
+    <Card>611007</Card>
+
+    <Card>612001</Card>
+    <Card>612002</Card>
+    <Card>612003</Card>
+    <Card>612004</Card>
+    <Card>612005</Card>
+    
+
+    <Card>613001</Card>
+    <Card>613002</Card>
+    <Card>613003</Card>
+    <Card>613004</Card>
+    <Card>613005</Card>
+    
+
+    <Card>614001</Card>
+    <Card>614002</Card>
+    <Card>614003</Card>
+    <Card>614005</Card>
+
+
+
+    <Card>615001</Card>
+    <Card>615002</Card>
+    <Card>615003</Card>
+    <Card>615004</Card>
+    <Card>615005</Card>
+
+  </DropTable>
+
+</CardDropTableXmlRoot>

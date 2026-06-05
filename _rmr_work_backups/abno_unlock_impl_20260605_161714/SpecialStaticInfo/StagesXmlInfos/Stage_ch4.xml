@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StagesXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <ChapterList Chapter="Grade4">
+    <StageList ID="40001" StageType="Normal" /> 
+    <StageList ID="40002" StageType="Normal" /> 
+    <StageList ID="40003" StageType="Normal" /> 
+    <StageList ID="40004" StageType="Normal" /> 
+    <StageList ID="40005" StageType="Normal" /> 
+    <StageList ID="40006" StageType="Normal" /> 
+    <StageList ID="40007" StageType="Normal" /> 
+    <StageList ID="40008" StageType="Normal" /> 
+    <StageList ID="40009" StageType="Normal" /> 
+    <StageList ID="40010" StageType="Normal" /> 
+    <StageList ID="40011" StageType="Normal" /> 
+    <StageList ID="40012" StageType="Normal" /> 
+    <StageList ID="40013" StageType="Boss" /> 
+    <StageList ID="40014" StageType="Boss" /> 
+
+    <StageList ID="140001" StageType="Mystery" />  
+    <StageList ID="140002" StageType="Mystery" />  
+    <StageList ID="140003" StageType="Mystery" />  
+	<StageList ID="120003" StageType="Mystery" />
+	<StageList ID="400041" StageType="Mystery" />
+
+    <StageList ID="111001" StageType="Shop" /> 
+    <StageList ID="111001" StageType="Shop" /> 
+	
+  </ChapterList>
+
+  <ChapterList Chapter="Grade4">
+    <StageList ID="1400021" StageType="Custom" Script="Ch4Mystery2Add" />
+  </ChapterList>
+
+
+
+
+</StagesXmlRoot>

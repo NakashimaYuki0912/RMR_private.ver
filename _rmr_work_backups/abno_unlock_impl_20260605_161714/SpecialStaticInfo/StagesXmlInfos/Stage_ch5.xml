@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StagesXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <ChapterList Chapter="Grade5">
+    <StageList ID="50001" StageType="Normal" /> 
+    <StageList ID="50002" StageType="Normal" /> 
+    <StageList ID="50003" StageType="Normal" /> 
+    <StageList ID="50004" StageType="Normal" /> 
+    <StageList ID="50005" StageType="Normal" /> 
+    <StageList ID="50006" StageType="Normal" /> 
+    <StageList ID="50007" StageType="Normal" /> 
+    <StageList ID="50008" StageType="Normal" /> 
+    <StageList ID="50009" StageType="Normal" /> 
+    <StageList ID="50010" StageType="Normal" /> 
+    <StageList ID="50011" StageType="Normal" /> 
+    <StageList ID="50012" StageType="Normal" /> 
+    <StageList ID="50013" StageType="Normal" /> 
+    <StageList ID="50014" StageType="Normal" /> 
+    <StageList ID="50015" StageType="Normal" /> 
+    <StageList ID="50016" StageType="Normal" /> 
+    <StageList ID="50017" StageType="Normal" /> 
+    <StageList ID="50018" StageType="Boss" /> 
+    <StageList ID="50019" StageType="Boss" /> 
+
+    <StageList ID="150001" StageType="Mystery" />  
+    <StageList ID="150002" StageType="Mystery" /> 
+
+    <StageList ID="111001" StageType="Shop" /> 
+    <StageList ID="111001" StageType="Shop" /> 
+    <StageList ID="111001" StageType="Shop" /> 
+  </ChapterList>
+
+  <ChapterList Chapter="GradeAll" >
+    <StageList ID="150003" StageType="Custom" Script="RMR_CopleyConsequences" /> <!-- Copley event, only added if player took a prescript -->
+	<!-- <StageList ID="2500031" StageType="Custom" /> Copley fight, normal -->
+	<!-- <StageList ID="2500032" StageType="Custom" /> Copley fight, enraged -->
+    <StageList ID="250002" StageType="Custom" Script="Ch5_2EventResult" /> <!-- Thumb Event, only added if player took Thumb box -->
+	<!-- <StageList ID="2500021" StageType="Custom" /> Thumb fight proper -->
+	<!-- ANY ENCOUNTER THAT IS NOT ADDED TO STAGE LIST AND IS INSTEAD SENT TO BY SETNEXTSTAGE OR SETNEXTSTAGECUSTOM DOES NOT NEED TO BE HERE -->
+  </ChapterList>
+
+</StagesXmlRoot>

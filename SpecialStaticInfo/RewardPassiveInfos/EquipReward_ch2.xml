@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RewardPassivesRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+  
+
+<ChapterList Chapter="Grade2" Type="CommonReward" ID="2000">
+    <RewardList ID="210001" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="210001"/>
+    <RewardList ID="210002" PassiveType="Nolimit" Rarity="Rare" TargetType="All" RewardType="EquipPage" ArtWork="210002"/>
+    <RewardList ID="210003" PassiveType="Nolimit" Rarity="Rare" TargetType="All" RewardType="EquipPage" ArtWork="210003"/>
+    <RewardList ID="210006" PassiveType="Nolimit" Rarity="Rare" TargetType="All" RewardType="EquipPage" ArtWork="210006"/>
+    <RewardList ID="211003" PassiveType="Nolimit" Rarity="Common" TargetType="All" RewardType="EquipPage" ArtWork="211003"/>
+    <RewardList ID="211004" PassiveType="Nolimit" Rarity="Common" TargetType="All" RewardType="EquipPage" ArtWork="211004"/>
+    <RewardList ID="211005" PassiveType="Nolimit" Rarity="Common" TargetType="All" RewardType="EquipPage" ArtWork="211005"/>
+    <RewardList ID="211006" PassiveType="Nolimit" Rarity="Common" TargetType="All" RewardType="EquipPage" ArtWork="211006"/>
+    <RewardList ID="211007" PassiveType="Nolimit" Rarity="Common" TargetType="All" RewardType="EquipPage" ArtWork="211007"/>
+    <RewardList ID="211008" PassiveType="Nolimit" Rarity="Common" TargetType="All" RewardType="EquipPage" ArtWork="211008"/>
+  </ChapterList>
+
+</RewardPassivesRoot>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	 <text id="BattleEnd_CardReward">选择战斗书页奖励</text>
+	 <text id="BattleEnd_PassiveReward">选择被动能力奖励</text>
+	 <text id="BattleEnd_NextStage">请选择下一场接待</text>
+	 <text id="ui_LogueLikeFloor">图书馆</text>
+	 <text id="ui_selectskip">跳过奖励</text>
+	 <text id="ui_stageremain">剩余接待: </text>
+	 <text id="ui_ShopLeave">离开商店</text>
+	 <text id="ui_ShopHide">隐藏</text>
+	 <text id="ui_ShopShow">返回</text>
+	 <text id="ui_EmotionPositionChange">改变位置</text>
+	 <text id="ui_Money">眼</text>
+
+	 <text id="ui_RestLeave">离开休息室</text>
+	 <text id="ui_RestHide">隐藏</text>
+	 <text id="ui_RestShow">返回</text>
+
+
+  <text id="Equip_Slash">斩击伤害抗性</text>
+  <text id="Equip_Penetrate">突刺伤害抗性</text>
+  <text id="Equip_Hit">打击伤害抗性</text>
+  <text id="Equip_Light">初始光芒</text>
+  <text id="Equip_SpeedArea">速度范围</text>
+  <text id="Equip_Passive">被动能力</text>
+
+  <text id="Stage_Normal">普通战斗</text>
+  <text id="Stage_Elite">精英战斗</text>
+  <text id="Stage_Boss">Boss战斗</text>
+  <text id="Stage_Mystery">随机事件</text>
+  <text id="Stage_Shop">商店</text>
+  <text id="Stage_Rest">休息室</text>
+
+  <text id="Stage_Normal_Desc">接待一位普通来宾</text>
+  <text id="Stage_Elite_Desc">接待一位强力来宾。战斗后获得1个被动能力。</text>
+  <text id="Stage_Boss_Desc">接待一位超强的来宾。接待后继续下一章。</text>
+  <text id="Stage_Mystery_Desc">有什么事情发生了......</text>
+  <text id="Stage_Shop_Desc">用你的积蓄购买有用的物品。</text>
+  <text id="Stage_Rest_Desc">可以让你恢复精力的休息空间。您可以恢复司书的生命值或升级战斗书页。</text>
+
+  <text id="Mystery_RequireCondition">[已锁定] </text>
+
+  <text id="LogueLike_PlayerName">玩家</text>
+
+  <text id="Shop_EquipPrevious">[被动能力 (费用: {0})] </text>
+
+  <text id="CardChoicePopUp_ChooseDesc">选择战斗书页</text>
+  <text id="CardChoicePopUp_RemoveDesc">选择要移除的战斗书页</text>
+  <text id="CardChoicePopUp_TransformDesc">选择要更改的战斗书页</text>
+  <text id="CardChoicePopUp_RewardDesc">选择要获得的战斗书页</text>
+  <text id="CardChoicePopUp_UpgradeDesc">选择要升级的战斗书页</text>
+
+  <text id="CardCheckPopUp_InvenDesc">拥有的战斗书页</text>
+  <text id="CardCheckPopUp_RewardDesc">获取战斗书页</text>
+  <text id="CardCheckPopUp_Close">返回</text>
+  <text id="CardCheckPopUp_UpgradeOk">确认</text>
+  <text id="CardCheckPopUp_UpgradeNo">取消</text>
+  <text id="CardCheckPopUp_CannotUpgrade">暂无可升级的战斗书页。</text>
+
+  <text id="ui_Inventory">商品</text>
+  <text id="ui_CreatureTab">异想体</text>
+  <text id="ui_CraftTab">技能</text>
+  <text id="ui_CraftCost">费用</text>
+
+  <text id="ui_ExceptionWithLog">已检测到与RogueLike模组冲突的模组。</text>
+  
+  <text id="ui_RMR_ItemCatalog">商品目录</text>
+  <text id="ui_RMR_ItemObtainCount">您已获得该物品{0}次。</text>
+  <text id="ui_RMR_ItemNotObtained_Name">???</text>
+  <text id="ui_RMR_ItemNotObtained_Desc">您尚未找到该物品。</text>
+  <text id="ui_RMR_ItemNotObtained_Credenza">暂无可用信息。</text>
+  <text id="ui_RMR_ItemNoEntry_Credenza">[当前无法进入]</text>
+
+  <text id="ui_RMR_StartNewRun">新路线</text>
+  <text id="ui_RMR_StartNewRunDesc">开始新的Roguelike路线。这将会覆盖您正在游玩的路线。</text>
+  <text id="ui_RMR_ContinueRun">继续旅程</text>
+  <text id="ui_RMR_ContinueRunDesc">继续游玩之前的Roguelike路线。</text>
+  <text id="ui_RMR_ConfirmStartNewRun">您确定要开始新的路线吗？保存的存档将被覆盖。</text>
+
+
+</localize>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+	<PassiveDesc ID="8571001">
+		<Name>收割内脏</Name>
+		<Desc>击杀拥有“流血”的目标时获得1眼并获得1张传闻级战斗书页奖励</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8571003">
+		<Name>联合工坊</Name>
+		<Desc>每一幕开始时获得1层“幸运”
+使用战斗书页时失去1点体力</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8571004">
+    <Name>黄色闪光</Name>
+    <Desc>闪避骰子的“幸运”+2</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

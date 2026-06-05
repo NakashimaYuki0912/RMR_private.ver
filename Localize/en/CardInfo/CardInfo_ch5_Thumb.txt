@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="602001">
+      <LocalizedName>Reload</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602002">
+      <LocalizedName>Bayonet Combat</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602003">
+      <LocalizedName>Suppressing</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602004">
+      <LocalizedName>Shock Round</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602005">
+      <LocalizedName>기습 사격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602006">
+      <LocalizedName>Focus Fire</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602007">
+      <LocalizedName>Ferrous Guard</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602008">
+      <LocalizedName>Steel Knuckles</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602009">
+      <LocalizedName>Summary Judgment</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602010">
+      <LocalizedName>Discipline</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602011">
+      <LocalizedName>Le Regole</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602012">
+      <LocalizedName>Class and Respect</LocalizedName>
+    </BattleCardDesc>
+  </cardDescList>
+</BattleCardDescRoot>

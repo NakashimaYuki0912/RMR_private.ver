@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Mystery ID="100001" Title="MysteryChX_1Title">
+    <script>Mystery_ChX_1</script>
+    <Frame ID="0" FrameType="DEFAULT">
+      <Dialog>MysteryChX_1Frame0Dia0</Dialog>
+      <ArtWork>Mystery_ChX_1Frame0</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryChX_1Frame0Choice0Desc</Desc>
+        <Next>-1</Next>
+      </Choice>
+    </Frame>
+  </Mystery>
+
+  <Mystery ID="100002" Title="MysteryChX_2Title">
+    <script>Mystery_ChX_2</script>
+    <Frame ID="0" FrameType="DEFAULT">
+      <Dialog>MysteryChX_2Frame0Dia0</Dialog>
+      <ArtWork>Mystery_ChX_2Frame0</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryChX_2Frame0Choice0Desc</Desc>
+        <Next>-1</Next>
+      </Choice>
+    </Frame>
+  </Mystery>
+
+  <Mystery ID="100003" Title="MysteryChX_3Title">
+    <script>Mystery_ChX_3</script>
+    <Frame ID="0" FrameType="DEFAULT">
+      <Dialog>MysteryChX_3Frame0Dia0</Dialog>
+      <ArtWork>Mystery_ChX_3Frame0</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryChX_3Frame0Choice0Desc</Desc>
+        <Next>1</Next>
+      </Choice>
+      <Choice ID="1">
+        <Desc>MysteryChX_3Frame0Choice1Desc</Desc>
+        <Next>1</Next>
+      </Choice>
+      <Choice ID="2">
+        <Desc>MysteryChX_3Frame0Choice2Desc</Desc>
+        <Next>1</Next>
+      </Choice>
+      <Choice ID="3">
+        <Desc>MysteryChX_3Frame0Choice3Desc</Desc>
+        <Next>1</Next>
+      </Choice>
+    </Frame>
+    <Frame ID="1" FrameType="DEFAULT">
+      <Dialog>MysteryChX_3Frame1Dia0</Dialog>
+      <ArtWork>Mystery_ChX_3Frame0</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryChX_3Frame1Choice0Desc</Desc>
+        <Next>-1</Next>
+      </Choice>
+    </Frame>
+  </Mystery>
+
+  <Mystery ID="100004" Title="MysteryChX_4Title">
+    <script>Mystery_ChX_4</script>
+    <Frame ID="0" FrameType="DEFAULT">
+      <Dialog>MysteryChX_4Frame0Dia0</Dialog>
+      <ArtWork>Mystery_ChX_4Frame0</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryChX_4Frame0Choice0Desc</Desc>
+        <Next>0</Next>
+      </Choice>
+      <Choice ID="1">
+        <Desc>MysteryChX_4Frame0Choice1Desc</Desc>
+        <Next>-1</Next>
+      </Choice>
+    </Frame>
+  </Mystery>
+
+</MysteryXmlRoot>

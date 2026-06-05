@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryChX_1Title">휴식시간</text>
+             <text id="MysteryChX_1Frame0Dia0">휴식시간입니다.
+잠시 서고로 가서 쉬도록 하지요.</text>
+             <text id="MysteryChX_1Frame0Choice0Desc">서고로 이동</text>
+
+             <text id="MysteryChX_2Title">매점</text>
+             <text id="MysteryChX_2Frame0Dia0">도서관 내에 있는 매점입니다.
+손님들에게 받은 돈을 유용하게 쓸 수 있겠네요.</text>
+             <text id="MysteryChX_2Frame0Choice0Desc">상점으로 이동</text>
+
+             <text id="MysteryChX_3Title">필요한 것</text>
+             <text id="MysteryChX_3Frame0Dia0">당신의 앞길에는 고난이 가득합니다.
+이 고난들을 극복하기 위해서 필요한 것은 무엇인가요?</text>
+             <text id="MysteryChX_3Frame0Choice0Desc">강력한 무기(현재 챕터의 전투책장 보상 {0}회)</text>
+             <text id="MysteryChX_3Frame0Choice1Desc">튼튼한 갑옷(현재 챕터의 핵심책장 보상 {0}회)</text>
+             <text id="MysteryChX_3Frame0Choice2Desc">재력({0}안 획득)</text>
+             <text id="MysteryChX_3Frame0Choice3Desc">건강(모든 사서의 체력 25% 회복)</text>
+             <text id="MysteryChX_3Frame1Dia0">무엇이 필요할지는 아무도 모릅니다.
+미래란 늘 그런식이니까요.</text>
+             <text id="MysteryChX_3Frame1Choice0Desc">종료</text>
+
+             <text id="MysteryChX_4Title">자판기</text>
+             <text id="MysteryChX_4Frame0Dia0">돈을 넣으면 유용한 물건이 나오는 자판기입니다.
+무엇이 나올지는...아마 운에 달린 듯 하군요.
+여유가 있다면 사용해보는 것도 괜찮을 듯 합니다.</text>
+             <text id="MysteryChX_4Frame0Choice0Desc">돈을 넣는다.(10안 소모. 무작위 소모품을 획득)</text>
+             <text id="MysteryChX_4Frame0Choice1Desc">지나간다.</text>
+
+             <text id="MysteryChX_5Title">빛의 파편</text>
+             <text id="MysteryChX_5Frame0Dia0">아주 작고 희미한 빛입니다.
+하나의 형체를 이루기는 무리지만, 아마 다른 걸 돋보이게 하는데 쓸 수 있을겁니다.</text>
+             <text id="MysteryChX_5Frame0Choice0Desc">전투책장 1장을 선택해서 강화</text>
+             <text id="MysteryChX_5Frame0Choice1Desc">지나간다</text>
+</localize>

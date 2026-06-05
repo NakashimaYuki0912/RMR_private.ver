@@ -1,0 +1,17 @@
+MAGMA:
+xcopy /Y /E /Q "$(TargetDir)\*.xml" "C:\Users\Usuário\Desktop\Projects\LoR Modding\Mod Projects\! RogueLike Mod REBORN\Assemblies\dlls"
+xcopy /Y /E /Q "$(TargetDir)\*.dll" "C:\Users\Usuário\Desktop\Projects\LoR Modding\Mod Projects\! RogueLike Mod REBORN\Assemblies\dlls"
+xcopy /Y /E /Q "$(SolutionDir)\AddData\*.*" "C:\Users\Usuário\Desktop\Projects\LoR Modding\Mod Projects\! RogueLike Mod REBORN\Assemblies\dlls\AddData" 
+xcopy /Y /E /Q "$(SolutionDir)\Localize\*.*" "C:\Users\Usuário\Desktop\Projects\LoR Modding\Mod Projects\! RogueLike Mod REBORN\Assemblies\dlls\Localize" 
+xcopy /Y /E /Q "$(SolutionDir)\SpecialStaticInfo\*.*" "C:\Users\Usuário\Desktop\Projects\LoR Modding\Mod Projects\! RogueLike Mod REBORN\Assemblies\dlls\SpecialStaticInfo" 
+xcopy /Y /E /Q "$(SolutionDir)\StoryInfo\*.*" "C:\Users\Usuário\Desktop\Projects\LoR Modding\Mod Projects\! RogueLike Mod REBORN\Assemblies\dlls\StoryInfo"
+rmdir "C:\Program Files (x86)\Steam\steamapps\common\Library Of Ruina\LibraryOfRuina_Data\Mods\! RogueLike Mod REBORN" /Q /S
+mkdir "C:\Program Files (x86)\Steam\steamapps\common\Library Of Ruina\LibraryOfRuina_Data\Mods\! RogueLike Mod REBORN"
+xcopy /Y /E /Q "C:\Users\Usuário\Desktop\Projects\LoR Modding\Mod Projects\! RogueLike Mod REBORN" "C:\Program Files (x86)\Steam\steamapps\common\Library Of Ruina\LibraryOfRuina_Data\Mods\! RogueLike Mod REBORN"
+
+DISTOPIA:
+copy /Y "$(TargetDir)$(TargetFileName)" "C:\Steam\steamapps\workshop\content\1256670\3100054061\Assemblies\dlls"
+xcopy /Y /E /Q "$(SolutionDir)AddData\*.*" "C:\Steam\steamapps\workshop\content\1256670\3100054061\Assemblies\dlls\AddData" 
+xcopy /Y /E /Q "$(SolutionDir)Localize\*.*" "C:\Steam\steamapps\workshop\content\1256670\3100054061\Assemblies\dlls\Localize" 
+xcopy /Y /E /Q "$(SolutionDir)SpecialStaticInfo\*.*" "C:\Steam\steamapps\workshop\content\1256670\3100054061\Assemblies\dlls\SpecialStaticInfo" 
+xcopy /Y /E /Q "$(SolutionDir)StoryInfo\*.*" "C:\Steam\steamapps\workshop\content\1256670\3100054061\Assemblies\dlls\StoryInfo"

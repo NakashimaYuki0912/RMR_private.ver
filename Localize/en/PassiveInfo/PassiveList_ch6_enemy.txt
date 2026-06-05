@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<PassiveDesc ID="150015">
+		<Name>Shimmering</Name>
+		<Desc>At the start of each Scene, exhaust all pages in hand and deck; add new pages to hand. Their Cost becomes 0.</Desc>
+	</PassiveDesc>
+  	<PassiveDesc ID="150016">
+		<Name>Shimmering</Name>
+		<Desc>At the start of each Scene, exhaust all pages in hand and deck; add new pages to hand. Their Cost becomes 0.</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="150017">
+		<Name>Shimmering</Name>
+		<Desc>At the start of each Scene, exhaust all pages in hand and deck; add new pages to hand. Their Cost becomes 0.</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="250005">
+    <Name>Ammo Supply</Name>
+    <Desc>After every three successful attacks with Melee Combat Pages, add a random Ammunition to hand.</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="250009">
+    <Name>Additional Supply</Name>
+    <Desc>After every three Ammunition exhausts, add a random ammunition to hand at the end of the Scene.</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="254003">
+    <Name>Life Insurance</Name>
+    <Desc>Untransferable. At the end of the Scene, if the character has 30% or less HP, add a copy of 'Life Insurance' to hand.(Once per Act)</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="250022">
+    <Name>Kali</Name>
+    <Desc>Restore 1 additional Light and draw 1 more page each Scene.
+When HP drops to 350, fully recover Stagger Resist and manifest E.G.O; HP cannot drop below 350 before this occurs.
+After losing 'E.G.O Manifested' status, regain it in 3 Scenes.</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="250422">
+    <Name>Red Mist</Name>
+    <Desc>All dice gain +2 Power.
+Can use 'Great Split: Horizontal'.
+Each Scene, resistances against a random type become 'Normal' while the rest are set to 'Endured'.
+For every enemy defeated, gain a stack of 'Red Mist', which boosts the Power of all dice.
+If the character fails to deal 40+ damage with attacks within a Scene, take Stagger damage equal to 40% of the Max. Stagger Resist.
+Lose 'E.G.O Manifested' status upon becomming Staggered.</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="250227">
+    <Name>Shimmering</Name>
+    <Desc>At the start of each Scene, exhaust all pages in hand and deck; add new pages in hand. Fully restore Light each Scene.</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="250327">
+    <Name>Dimension-Walker</Name>
+    <Desc>When HP drops to 350, forecefully end the Act and restart it. HP cannot drop below 350 before this occurs.</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="150038">
+    <Name>Shimmering</Name>
+    <Desc>At the start of each Scene, exhaust all pages in hand and deck; add new pages to hand. Their Cost becomes 0.</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="150039">
+    <Name>Shimmering</Name>
+    <Desc>At the start of each Scene, exhaust all pages in hand and deck; add new pages to hand. Their Cost becomes 0.</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="150139">
+   <Name>Manus</Name>
+    <Desc>Cannot be Staggered; cannot be defeated by depleting HP. Cannot act if HP is at 30 or lower at the start of the Scene. Destroyed when 얀샋ㄷ요무 is no longer present.</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="150051">
+    <Name>Shimmering</Name>
+    <Desc>At the start of each Scene, exhaust all pages in hand and deck; add new pages to hand. Their Cost becomes 0.</Desc>
+	</PassiveDesc>
+</PassiveDescRoot>
+  
+

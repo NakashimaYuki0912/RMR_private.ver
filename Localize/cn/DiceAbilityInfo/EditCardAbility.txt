@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardAbilityDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BattleCardAbility ID="lowelonlyLogEdit">
+    <Desc>[使用时]移除本书页所有骰子并向手中置入1张仅限下一幕使用的范围杀伤书页</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="AddBullet1AndDrawLogEdit">
+    <Desc>[使用时]随机将1张[子弹书页]置入手中并抽取1张书页</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="AddBullet2LogEdit">
+    <Desc>[使用时]随机将2张[子弹书页]置入手中</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="indexRelease1LogEdit">
+    <Desc>[使用时]将1张[剑刃解放-Ⅱ]置入手中</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="indexRelease2LogEdit">
+    <Desc>[使用时]将1张[剑刃解放-Ⅲ]置入手中</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="nicolaiCard2LogEdit">
+    <Desc>本书页仅限[充能]层数达到20层后方可使用
+若击杀目标则将1张同名书页置入手中并使其费用-1</Desc>
+    <Desc>若目标体力不高于50%则伤害x2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="selfstunwithabilLogEdit">
+    <Desc>[装备时]将1张2费[一点突破]置入手中
+这一幕中使自身陷入[眩晕]并无法行动
+下一幕中使自身获得3层[强壮]</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="fireIlsumLogEdit">
+    <Desc>[使用时]若手中存在[火光瞬闪]则丢弃1张[火光瞬闪]并抽取1张书页
+将丢弃书页中的骰子置入本书页末尾</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="costdownLogEdit">
+    <Desc>手中每有1张其他[连续切割]便使本书页费用-1</Desc>
+  </BattleCardAbility>
+</BattleCardAbilityDescRoot>
+

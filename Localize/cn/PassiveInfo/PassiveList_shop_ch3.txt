@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+	<PassiveDesc ID="8573001">
+  <Name>搬运工作</Name>
+    <Desc>[全局]随机事件结束后获得1张都市传说级战斗书页奖励</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8573002">
+    <Name>约定的重要性</Name>
+    <Desc>[全局]普通战斗结束后获得1张都市传说级战斗书页奖励</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8573003">
+    <Name>臼齿</Name>
+    <Desc>每舞台使自身获得第一张因战斗书页效果丢弃的书页的副本</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<RogueMysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <Mystery ID="400041">
+	<Frame ID="0">
+		<Dialog>You run into a Liu Section 1 camp that blocks your path, seemingly set up not too long ago, their leader a low ranking member of the association. As you're distracted assessing the threat the camp could pose, their leader approaches, signaling his men to stand down.
+			
+"We're the folk from Liu Section 1's local branch! You're [mirror]Shard[/color], correct? We've heard of you." The man brushes his slick brown hair and adjusts his gloves. "We believe that our techniques can come in handy for someone like you so we've been given the green light to teach them... at a price, of course. What do you say?"  
+			
+The man seems confident as he examines your figure. You can spot two brightly colored manuals on a metal table not far into the camp, so if you don't have the money...</Dialog>
+		<Choice ID="0">
+			<Desc>Learn the Iron Mountain Technique ([red]Pay 20[/color] [yellow]Ahn[/color]. [red]Gain[/color] [uncommon]Iron Mountain Manual[/color])</Desc>
+		</Choice>
+					
+		<Choice ID="1">
+			<Desc>Learn the Dragon Fist Technique ([red]Pay 30[/color] [yellow]Ahn[/color]. [green]Gain[/color] [uncommon]Dragon Fist Manual[/color])</Desc>
+		</Choice>
+		
+		 <Choice ID="2">
+			<Desc>[i][red]Take it[/color][/i] ([red]Starts a difficult fight[/color], [green]Gain both items[/color])</Desc>
+		</Choice>
+		
+		  <Choice ID="3">
+			<Desc>Refuse the offer</Desc>
+		</Choice>
+	</Frame>
+		
+	<Frame ID="1">
+		<Dialog>"Iron Mountain, huh? Great! Its a low level technique, so you should learn it quickly." The man guides you inside. "This technique teaches us to be as steadfast as a mountain while redirecting harm to our foes..." 
+		
+	You spend a few hours grasping the technique's core concepts and learning more about the Liu. The man hands you some equipment and some words of advice before sending you on your way.</Dialog>
+		<Choice ID="0">
+			<Desc>Walk away, steadfast as a mountain</Desc>
+		</Choice>
+	</Frame>
+		
+	<Frame ID="2">
+		<Dialog>"Dragon Fist, huh? Great! Its a low level technique, so you should learn it quickly." The man guides you inside. "This technique teaches us to be precise and ravenous like the mythical beasts of old..." 
+		
+	You spend a few hours grasping the technique's core concepts and learning more about the Liu. The man hands you some equipment and some words of advice before sending you on your way.</Dialog>
+		<Choice ID="0">
+			<Desc>Walk away, like a dragon</Desc>
+		</Choice>
+	</Frame>
+		
+	<Frame ID="3">
+		<Dialog>You quickly strike the man before he can react, though your attack is diminished by his technique. He lifts his chin up, fire on his eyes, death on his smile. "So thats how you wanna play, huh? Alright..."
+		
+	"Stay sharp people!" The leader is quickly surrounded, spearheading an attack...</Dialog>
+		<Choice ID="0">
+			<Desc>Show them hell!</Desc>
+		</Choice>
+	</Frame>
+		
+	<Frame ID="4">
+		<Dialog>The man frowns as you refuse his offer, though quickly regains his confident smile. "Well, your loss. Take care, [mirror]Shard[/color], you never know..."
+		
+	He sees you scorted across the camp.</Dialog>
+		<Choice ID="0">
+			<Desc>Walk away</Desc>
+		</Choice>
+	</Frame>
+	<Title>Liu Training Camp</Title>
+  </Mystery>
+</RogueMysteryXmlRoot>

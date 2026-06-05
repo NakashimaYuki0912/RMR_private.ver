@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <bookDescList>
+    <BookDesc BookID="100003">
+      <BookName>Pete's Page</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="100001">
+      <BookName>Lenny's Page</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="100002">
+      <BookName>Mang-chi's Page</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="100004">
+      <BookName>Finn's Page</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="100005">
+      <BookName>Eri's Page</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="100006">
+      <BookName>Yun's Page</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="101001">
+      <BookName>A Yun's Office Fixer, Page 1</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="101002">
+      <BookName>A Yun's Office Fixer, Page 2</BookName>
+    </BookDesc>
+    <BookDesc BookID="101003">
+      <BookName>A Yun's Office Fixer, Page 3</BookName>
+    </BookDesc>
+    <BookDesc BookID="101004">
+      <BookName>A Yun's Office Fixer, Page 3</BookName>
+    </BookDesc>
+    <BookDesc BookID="100008">
+      <BookName>Consta's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="100007">
+      <BookName>Mo's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="100009">
+      <BookName>Arnold's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="100011">
+      <BookName>Taein's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="100012">
+      <BookName>Naoki's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="100010">
+      <BookName>McCullin's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="110002">
+      <BookName>Pierre's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="110001">
+      <BookName>Jack's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="110003">
+      <BookName>Mars' Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="110006">
+      <BookName>Lulu's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="111005">
+      <BookName>Lulu's Friend, Page 1</BookName>
+    </BookDesc>
+    <BookDesc BookID="111006">
+      <BookName>Lulu's Friend, Page 2</BookName>
+    </BookDesc>
+    <BookDesc BookID="111007">
+      <BookName>Lulu's Friend, Page 3</BookName>
+    </BookDesc>
+    <BookDesc BookID="111008">
+      <BookName>Lulu's Friend, Page 4</BookName>
+    </BookDesc>
+    <BookDesc BookID="111001">
+      <BookName>A Hook Office Fixer, Page 1</BookName>
+    </BookDesc>
+    <BookDesc BookID="111002">
+      <BookName>A Hook Office Fixer, Page 2</BookName>
+    </BookDesc>
+    <BookDesc BookID="111003">
+      <BookName>A Backstreets Butcher, Page 1</BookName>
+    </BookDesc>
+    <BookDesc BookID="111004">
+      <BookName>A Backstreets Butcher, Page 2</BookName>
+    </BookDesc>
+    <BookDesc BookID="121001">
+      <BookName>A Zwei Fixer's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="121002">
+      <BookName>A Zwei Fixer's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="121003">
+      <BookName>A Zwei Fixer's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="121005">
+      <BookName>A Zwei Fixer's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="120001">
+      <BookName>San's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="120002">
+      <BookName>Julia's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="120004">
+      <BookName>Walter's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="120003">
+      <BookName>Isadora's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="120006">
+      <BookName>Olga's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="120005">
+      <BookName>Mika's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="120007">
+      <BookName>Rain's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="120008">
+      <BookName>Gyeong-mi's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="120010">
+      <BookName>Zulu's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="120009">
+      <BookName>Dino's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="121005">
+      <BookName>A Stray Dog's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="121006">
+      <BookName>A Stray Dog's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="121007">
+      <BookName>A Grade 8 Fixer, Page 1</BookName>
+    </BookDesc>
+    <BookDesc BookID="121008">
+      <BookName>A Grade 8 Fixer, Page 2</BookName>
+    </BookDesc>
+    <BookDesc BookID="121009">
+      <BookName>A Grade 8 Fixer, Page 2</BookName>
+    </BookDesc>
+    <BookDesc BookID="121010">
+      <BookName>A Grade 8 Fixer, Page 3</BookName>
+    </BookDesc>
+    <BookDesc BookID="121011">
+      <BookName>A Grade 7 Fixer, Page 1</BookName>
+    </BookDesc>
+    <BookDesc BookID="121012">
+      <BookName>A Grade 7 Fixer, Page 2</BookName>
+    </BookDesc>
+    <BookDesc BookID="121013">
+      <BookName>An Axe Gang Member, Page 1</BookName>
+    </BookDesc>
+    <BookDesc BookID="121014">
+      <BookName>An Axe Gang Member, Page 2</BookName>
+    </BookDesc>
+
+    
+
+    <BookDesc BookID="130001">
+      <BookName>The Carnival's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="130002">
+      <BookName>The Carnival's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="130003">
+      <BookName>The Carnival's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="130004">
+      <BookName>Liwei's Page</BookName>
+
+    </BookDesc>
+    <BookDesc BookID="130005">
+      <BookName>Stephan's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="130006">
+      <BookName>Tamaki's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="130007">
+      <BookName>Salvador's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="130008">
+      <BookName>Yuna's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="130009">
+      <BookName>Philip's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="130010">
+      <BookName>Alloc's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="130011">
+      <BookName>Dalloc's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="130012">
+      <BookName>Bono's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="130013">
+      <BookName>Love Townsperson's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="130014">
+      <BookName>Love Townsperson's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="130015">
+      <BookName>Love Townsperson's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="130016">
+      <BookName>Tomerry's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="130017">
+      <BookName>Tomerry's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="130018">
+      <BookName>Sayo's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="130019">
+      <BookName>Yang's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="130020">
+      <BookName>Gin's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="131001">
+      <BookName>A Kurokumo Henchman's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="132001">
+      <BookName>Jikan's Page</BookName>
+    </BookDesc>
+
+
+    <BookDesc BookID="132002">
+      <BookName>A Rusted Chainlink's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="133001">
+      <BookName>A Workshop Affiliated Fixer's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="130021">
+      <BookName>Meow's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="130022">
+      <BookName>MuMu's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="130023">
+      <BookName>Oink's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="130024">
+      <BookName>Oscar's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="130025">
+      <BookName>Pameli's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="130026">
+      <BookName>Pamela's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="130027">
+      <BookName>Philip's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="130028">
+      <BookName>Philip's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="140001">
+      <BookName>Yujin's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="140002">
+      <BookName>Valentin's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="140003">
+      <BookName>Tenma's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="141001">
+      <BookName>A Shi Fixer's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="140004">
+      <BookName>A Puppet, Page 1</BookName>
+    </BookDesc>
+    <BookDesc BookID="140005">
+      <BookName>A Puppet, Page 2</BookName>
+    </BookDesc>
+    <BookDesc BookID="140006">
+      <BookName>A Puppet's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="140007">
+      <BookName>A Puppet's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="140008">
+      <BookName>Emma's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="140009">
+      <BookName>Emma's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="140010">
+      <BookName>Noah's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="140011">
+      <BookName>Lion's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="140012">
+      <BookName>Monkey's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="140013">
+      <BookName>Elephant's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="140014">
+      <BookName>Emma's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="140015">
+      <BookName>Anton's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="140016">
+      <BookName>Valerie's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="140017">
+      <BookName>Lyla's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="141002">
+      <BookName>A Sweeper's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="140018">
+      <BookName>An Index Proselyte's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="140019">
+      <BookName>Rose's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="140020">
+      <BookName>Lesti's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="140021">
+      <BookName>Sen's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="140022">
+      <BookName>A WARP Cleanup Agent's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="140023">
+      <BookName>Wang's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="140024">
+      <BookName>Jin's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="140025">
+      <BookName>Mi's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="140026">
+      <BookName>A Smiling Face's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="142001">
+      <BookName>The Crying Children's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="142002">
+      <BookName>The Crying Children's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="142003">
+      <BookName>The Crying Children's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="142004">
+      <BookName>The Crying Children's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="142005">
+      <BookName>The Crying Children's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="142006">
+      <BookName>The Crying Children's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="142007">
+      <BookName>The Crying Children's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="142008">
+      <BookName>The Crying Children's Page</BookName>
+    </BookDesc>
+
+
+    <BookDesc BookID="142101">
+      <BookName>Crying Children's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="142201">
+      <BookName>Crying Children's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="143001">
+      <BookName>Dante's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="143002">
+      <BookName>A Seven Association Fixer's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="143003">
+      <BookName>Bamboo-Hatted Kim's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="143004">
+      <BookName>A Blade Lineage Cutthroat's Page</BookName>
+    </BookDesc>
+
+
+    <BookDesc BookID="143005">
+      <BookName>Dong-hwan the Grade 1 Fixer's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="150001">
+      <BookName>A Liu Section 2 Fixer's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="150002">
+      <BookName>Lowell's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150003">
+      <BookName>Cecil's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150004">
+      <BookName>Mei's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="150005">
+      <BookName>A Thumb Soldato's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150006">
+      <BookName>Kalo's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150007">
+      <BookName>Denis' Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150008">
+      <BookName>Katriel's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150009">
+      <BookName>Boris' Page</BookName>
+
+    </BookDesc>
+    <BookDesc BookID="150010">
+      <BookName>Nemo's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150011">
+      <BookName>Martina's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150012">
+      <BookName>Bada's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="150013">
+      <BookName>Argalia's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150014">
+      <BookName>A Church of Gears Worshipper's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="150015">
+      <BookName>Esther's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150016">
+      <BookName>Hubert's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150017">
+      <BookName>Gloria's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="150018">
+      <BookName>Chun's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150019">
+      <BookName>A Liu Section 1 Fixer's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150020">
+      <BookName>Xiao's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150021">
+      <BookName>Miris' Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150022">
+      <BookName>The Red Mist's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="150103">
+      <BookName>A Reindeer Team Soldier's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150102">
+      <BookName>A Rhino Team Soldier's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150101">
+      <BookName>A Rabbit Team Soldier's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150026">
+      <BookName>Rudolph's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150030">
+      <BookName>Rudolph's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150034">
+      <BookName>Rudolph's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150025">
+      <BookName>Maxim's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150029">
+      <BookName>Maxim's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150033">
+      <BookName>Maxim's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150024">
+      <BookName>Myo's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150028">
+      <BookName>Myo's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150032">
+      <BookName>Myo's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150023">
+      <BookName>Nikolai's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150031">
+      <BookName>Nikolai's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="150035">
+      <BookName>The Purple Tear's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="150037">
+      <BookName>Miris' Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="150036">
+      <BookName>Xiao's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="150038">
+      <BookName>Xiao's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="150051">
+      <BookName>얀샋ㄷ요무's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="160001">
+      <BookName>A Hana Fixer's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="160101">
+      <BookName>A Hana Fixer's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="160002">
+      <BookName>Mirinae's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="160003">
+      <BookName>Harold's Page</BookName>
+    </BookDesc>
+
+
+    <BookDesc BookID="160004">
+      <BookName>Olivier's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="170001">
+      <BookName>The Black Silence's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="170101">
+      <BookName>Roland's Page</BookName>
+    </BookDesc>
+    <BookDesc BookID="170201">
+      <BookName>Roland's Page</BookName>
+    </BookDesc>
+
+
+
+
+    <!-- 일반 초대장 -->
+
+    <BookDesc BookID="152001">
+      <BookName>Allen's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="152002">
+      <BookName>A Night Awl's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="134001">
+      <BookName>Hanafuda's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="134002">
+      <BookName>A Jeong's Office Fixer's Page</BookName>
+    </BookDesc>
+
+
+    <BookDesc BookID="153001">
+      <BookName>An Udjat's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="154001">
+      <BookName>Irina's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="154002">
+      <BookName>A Mirae Insurer's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="155001">
+      <BookName>Yae's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="155002">
+      <BookName>A Leaflet Workshop Fixer's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="156001">
+      <BookName>Bayard's Page</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="156002">
+      <BookName>A Bayard Office Fixer's Page</BookName>
+    </BookDesc>
+
+
+  </bookDescList>
+</BookDescRoot>

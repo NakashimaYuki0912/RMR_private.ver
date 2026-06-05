@@ -1,0 +1,703 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{72251E7D-07EA-48F0-BEAE-2261F35B4BBD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RogueLike_Mod_Reborn</RootNamespace>
+    <AssemblyName>RogueLike Mod Reborn</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <DocumentationFile>bin\Release\RogueLike Mod Reborn.xml</DocumentationFile>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>dependencies\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="10EnumExtender">
+      <HintPath>dependencies\10EnumExtender.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>dependencies\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="BattleCardEnhancedView">
+      <HintPath>dependencies\BattleCardEnhancedView.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CustomMapUtility">
+      <HintPath>dependencies\CustomMapUtility.dll</HintPath>
+      <Private>False</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ErrorLogCleaner">
+      <HintPath>dependencies\ErrorLogCleaner.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="KeywordUtil">
+      <HintPath>dependencies\KeywordUtil.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>dependencies\Mono.Cecil.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>dependencies\Mono.Cecil.Mdb.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>dependencies\Mono.Cecil.Pdb.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>dependencies\Mono.Cecil.Rocks.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MonoMod.RuntimeDetour">
+      <HintPath>dependencies\MonoMod.RuntimeDetour.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MonoMod.Utils">
+      <HintPath>dependencies\MonoMod.Utils.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NAudio">
+      <HintPath>dependencies\NAudio.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Spine3.4.02, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dependencies\Spine3.4.02.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Unity.Mathematics">
+      <HintPath>dependencies\Unity.Mathematics.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>dependencies\Unity.TextMeshPro.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>dependencies\UnityEngine.AnimationModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>dependencies\UnityEngine.AssetBundleModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>dependencies\UnityEngine.AudioModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>dependencies\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>dependencies\UnityEngine.ImageConversionModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dependencies\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dependencies\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>dependencies\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>dependencies\UnityEngine.UIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+      <HintPath>dependencies\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule">
+      <HintPath>dependencies\UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestWWWModule">
+      <HintPath>dependencies\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="abcdcode_LOGLIKE_MOD\AnimUpdater.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\AtkResistType.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\BehaviourAction_MachineDawnCard.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\CameraRender.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\CardDropValueList.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\CardDropValueXmlInfo.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\CardDropValueXmlRoot.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ChapterGrade.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\CircusDawn1Buf.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\CircusDawn1_1Buf.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\CircusDawn2Buf.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\CraftEffect.cs" />
+    <Compile Include="abcdcode_Refactored\AbnormalityPickUpModels.cs" />
+    <Compile Include="abcdcode_Refactored\CraftEffectModels.cs" />
+    <Compile Include="abcdcode_Refactored\Upgrades.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\CreaturePickUpModel.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DebugEffect_Damage.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_binding2pwLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_bleedingXsmokeLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_breakChargeRemakeLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_burn1pwLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_burn5atkLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_burn8atkLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_burnAllLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_carnivalLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_cryingChildPenaltyLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_damage4pwLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_damage7atkLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_debufsSmokeLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_deerDiceLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_downgradeNext2pwLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_energy2atkAndHpLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_estherDiceLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_gloriaDiceLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_hubertDiceLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_lifeInsuranceAreaAtkLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_liuBurnDiceLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_MachineDawnCard1_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_MachineDawnCard2_3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_paralysis10bleeding5atkLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_powerDownNext3pwTargetLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_powerUp2targetHp50Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_powerUp2targetParalysisLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_powerUpDice6highlanderLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_powerUpNext4plLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_purpleAreaDice1Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_purpleAreaDice2Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_purpleAreaDice3Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_quickness2atkLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_recoverHp5atkLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_rudolphDiceLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_ruru2Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_Seven_FlecheLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_smoke9atkLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_Sword_getbonecuttingcardplLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_usett_eyeLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_yanAreaDiceLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_yanOnly1DiceLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardPriority_MachineDawnCard2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_AddBullet1AndDrawLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_AddBullet1AndDrawLogEdit.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_AddBullet2Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_AddBullet2LogEdit.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_ally3protection1thisRoundLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_ally3strength1thisRoundLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_allyBufLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_awlofnight1Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_badaCardRemakeLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_bleedingSlash2thisRoundLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_cardPowerDown2targetHighlander.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_Ch2EventMeatDesc.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_Ch2EventMeatReal.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_chargeEnergyLog.cs" />
+    <Compile Include="abcdcode_Refactored\DiceCardSelfAbility_choiceTest_0.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_CircusDawnCard1_0.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_deerCardLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_discardAllEnergy1Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_dmgUp3AllLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_DontMoveDrawLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_drawCardWarpLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_enemy3weak1thisRoundLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_energy2Smoke3Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_energyAndChargeLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_energySmokeLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_estherCardLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_gainPositive2Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_handCountpowerUpLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_indexRelease1Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_indexRelease1LogEdit.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_indexRelease2Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_indexRelease2LogEdit.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_jax_0.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_lowelonlyLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_lowelonlyLogEdit.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_MachineDawnCard2_0.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_nicolaiCard2Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_nicolaiCard2LogEdit.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_otherAlly3strength1thisRoundLo.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_plutoCardLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_powerUp1speed5exhaustLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_powerup2byselfsmoke8Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_powerUp2fullCardLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_powerUp2speed5Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_powerUp3speed5exhaustLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_protection2friendLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_quick2discardLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_quickall2discardLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_recoverHp2Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_sakuraLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_selfstunwithabilLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_selfstunwithabilLogEdit.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_Seven_EngagementLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_Seven_EnGardeLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_shyaoSelfBurnLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_smokePowerUpLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_smokeSelf5drawLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_smokeSelf5Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_Stigma8_0.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_Stigma8_0Up.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_sweeperOnlyLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_thumbBullet1Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_thumbBullet2Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_thumbBullet3Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_tomerry1Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_tomerry2Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_warpCharge7Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_warpCharge9Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_warpSkillLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardSelfAbility_yanInstantEnergyLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\DropType.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\EnemyTeamStageManager_TheCryingLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\EnemyUnitTargetSetter_MachineDawn.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\EquipChangeOrder.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ExtensionUtils.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\FrameDummy.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\FrameType.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\GlobalLogueEffectBase.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\GlobalLogueEffectManager.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\GlobalLogueInventoryPanel.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\HideFromItemCatalog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogAssetBundleManager.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogCardUpgradeManager.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogCraftPanel.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogCreatureTabPanel.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogAtlasPanel.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogDiceCardSelfAbility.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogLikeMod.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogSoundEffectManager.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogStatAdder.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogStoryPathInfo.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogStoryPathList.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogStoryPathRoot.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogueBookModels.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogueEffectXmlInfo.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogueEffectXmlList.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogueEffectXmlRoot.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LoguePlayDataSaver.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogueSaveManager.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogueStageInfo.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MaxDonwMinUpBuf.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MaxUpMinDownBuf.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MemberShipShop.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MenualGlobalEffect.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ModdingUtils.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MoneyObserver.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryAnimatorDefault.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryAnimOrderData.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryBase.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryChoiceInfo.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryFrameInfo.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryManager.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_CardCheck.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_CardChoice.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_CardReward.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_ChStart.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_MemberShip.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch1_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch1_2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch1_3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch1_4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch1_5.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch1_6.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch2_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch2_1_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch2_2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch3_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch3_3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch3_4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch4_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch4_2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch4_3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch5_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch5_2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch5_2_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch6_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_Ch6_2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_ChX_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_ChX_2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_ChX_3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_ChX_4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_OrdealBase.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_OrdealBugDawn.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_OrdealCircusDawn.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_OrdealMachineDawn.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_OrdealOutterGodDawn.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_Rest.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_ShopItemReward.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryModel_UpgradeCheckPopup.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryXmlInfo.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryXmlList.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\MysteryXmlRoot.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\NextStageSetType.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\OnceEffect.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\OrdealTextManager.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_150015Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_150016Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_150017Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_150038Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_150039Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_150051Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_150139Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_230016Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_230028Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_240008Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_240028Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_240508Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_250005Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_250009Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_250022Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_250227Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_250327Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_250422Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_254003Log.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Chapter2Boss.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Chapter2Rat.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Chapter3Boss.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ChStart.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_LogLike_Boss1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_MachineOrdeal1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_MachineOrdeal2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_MemberShip.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_MoneyCheck.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery1_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery1_2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery1_3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery1_4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery1_4_Sweeper.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery1_5.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery1_6.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery2_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery2_1_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery2_2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery3_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery3_1_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery3_1_2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery3_3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery3_4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery4_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery4_2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery4_2_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery4_3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery4_3_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery4_4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery5_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery5_2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery5_2_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery6_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery6_2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_MysteryX_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_MysteryX_2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_MysteryX_3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_MysteryX_4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_RestPlace.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_Shop1_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopLogic.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopMook.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassive1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassive19.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassive1_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassive1_3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassive1_4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassive2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassive26.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassive2_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassive2_2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassive3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassive3_3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassive4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassive45.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassive5.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassive7.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveLogic1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveLogic10.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveLogic11.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveLogic2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveLogic3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveLogic6.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveLogic7.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveLogic8.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveLogic9.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveMook1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveMook2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveMook3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveMook4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveMook5.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveMook6.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveMook8.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveMook9.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveStigma2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveStigma3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveStigma5.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveStigma6.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveStigma7.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveStigma8.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveStigma9.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveUnion1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveUnion10.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveUnion2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveUnion3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveUnion4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveUnion5.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveUnion6.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassiveUnion9.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopStigma.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveAbility_ShopUnion.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PassiveRewardListType.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModelBase.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_BossReward1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_BossReward2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_BossReward3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_BossReward4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_BossReward5.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_BossReward5_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_BossReward6.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_BossReward7.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_BossReward8.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Ch2BossLulu.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Ch2BossMars.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Ch4Mystery2Add.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Ch5_2EventResult.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Ch6_2EventPlayerDie.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Common1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Common2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Common3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Elite1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Elite2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_EquipDefault.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_MeatPieQuestComplete.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_MemberShip.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_MysteryReward3_3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_MysteryReward3_4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_RestGood1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_RestGood2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_RestGood3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_RestGood4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_RestGood5.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_RestGood6.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood10.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood11.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood12.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood13.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood14.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood15.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood16.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood17.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood18.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood19_Lagacy.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood1_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood1_3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood1_4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood20.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood22.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood23.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood24.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood25.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood25Effect1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood25Effect2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood26.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood27.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood28.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood29.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood2_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood2_2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood30.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood31.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood32.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood33.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood34.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood35.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood36.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood37.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood38.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood39.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood3_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood3_2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood3_3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood40.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood40Effect.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood41.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood42.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood43.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood44.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood45.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood46.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood5.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood6.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood6_Lagacy.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood7.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood8.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood9.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodLogic1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodLogic10.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodLogic11.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodLogic2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodLogic3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodLogic4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodLogic5.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodLogic6.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodLogic7.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodLogic8.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodLogic9.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodMook1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodMook10.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodMook2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodMook3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodMook4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodMook5.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodMook6.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodMook7.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodMook8.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodMook9.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodStigma1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodStigma2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodStigma3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodStigma4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodStigma5.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodStigma6.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodStigma7.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodStigma8.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodStigma9.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodUnion1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodUnion10.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodUnion2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodUnion3.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodUnion4.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodUnion5.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodUnion6.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodUnion7.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodUnion8.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodUnion9.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Way1_1.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PuppetBuf.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PuppeteerBuf.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\RestGood.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\RestPickUp.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\RewardInfo.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\RewardingModel.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\RewardingUI.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\RewardPassiveInfo.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\RewardPassivesInfo.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\RewardPassivesList.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\RewardPassivesRoot.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\RewardPassiveType.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\RewardType.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\SecretInItemCatalog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ShopBase.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ShopGoods.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ShopGoods_Card.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ShopGoods_Passive.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ShopManager.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ShopModel_Default.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ShopModel_Logic.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ShopModel_Mook.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ShopModel_Stigma.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ShopModel_Union.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ShopPickUpModel.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ShopRewardType.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ShopRewardType2.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\SpineStandingData.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\StageRewardInfo.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\StageRewardingType.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\StagesXmlInfo.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\StagesXmlList.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\StagesXmlRoot.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\StageType.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\TheIndexCardUtilLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ThumbBulletClassLog.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\TutorialManager.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\UILogCustomSelectable.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\UnionWeaponPassiveAbilityBase.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\UpgradeBase.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\UpgradeMetadata.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\WAV.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD_Extension\CardDropTableXmlInfo.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD_Extension\CardDropTableXmlRoot.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD_Extension\TextDataModel.cs" />
+    <Compile Include="RMR_Passives.cs" />
+    <Compile Include="CommonModApi\HookAttribute.cs" />
+    <Compile Include="CommonModApi\HookGenerationError.cs" />
+    <Compile Include="CommonModApi\HookGenerationResults.cs" />
+    <Compile Include="CommonModApi\HookHelper.cs" />
+    <Compile Include="CommonModApi\ReflectionHelper.cs" />
+    <Compile Include="CommonModApi\Tuple.cs" />
+    <Compile Include="CommonModApi\Tuple`2.cs" />
+    <Compile Include="abcdcode_Refactored\LogLikePatches.cs" />
+    <Compile Include="RMR_CardEffects.cs" />
+    <Compile Include="RMR_ActionScripts.cs" />
+    <Compile Include="RMR_BattleBufs.cs" />
+    <Compile Include="RMR_DiceCardPriorities.cs" />
+    <Compile Include="RMR_GlobalEffects.cs" />
+    <Compile Include="RMR_MapManagers.cs" />
+    <Compile Include="RMR_Upgrades.cs" />
+    <Compile Include="RMR_Shops.cs" />
+    <Compile Include="RMR_PickUps.cs" />
+    <Compile Include="RMR_DiceEffects.cs" />
+    <Compile Include="RMR_AbnormalityUnlocks.cs" />
+    <Compile Include="RMR_MysteryEvents.cs" />
+    <Compile Include="RMR_Core.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SnapshotCamera.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".editorconfig" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

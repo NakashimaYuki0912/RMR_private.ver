@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    
+			 <text id="MysteryCh1_1Title">A Strange Tome</text>
+             <text id="MysteryCh1_1Frame0Dia0">You enter a rundown antique shop looking for loot. As you explore you find a very fancy book on top of a rotten wooden table, its pages oozing out [mirror]sparkling dust[/color]. A little plaque on the side of the table reads: "Writeth a humble dreameth, taketh t on a crochet"</text>
+             <text id="MysteryCh1_1Frame0Choice0Desc">Write a silly dream ([green]Gain two Combat Pages of this chapter[/color])</text>
+             <text id="MysteryCh1_1Frame0Choice1Desc">Write a serious dream ([green]Gain a Combat Page of next chapter[/color])</text>
+
+             <text id="MysteryCh1_1Frame1Dia0">You wrote about a silly dream you have, the book closing soon after. After heading towards the exit you see that some weapons lay by the entrance.</text>
+             <text id="MysteryCh1_1Frame1Choice0Desc">Walk away</text>
+
+             <text id="MysteryCh1_1Frame2Dia0">You wrote about a serious dream you had, the book closing soon after. After heading towards the exit you see that a weapon lays by the entrance.</text>
+             <text id="MysteryCh1_1Frame2Choice0Desc">Walk away</text>
+
+<!--
+            <text id="MysteryCh1_2Title">Augmenter (OLD LOCALIZE)</text>
+             <text id="MysteryCh1_2Frame0Dia0">A man with an eyepatch and a devilish grin strides up to you. (OLD LOCALIZE)
+"Hey there, stranger. Interested in advancing science? I can make you stronger than any training or blessing. You're gonna need it if you're one of those heroes with a death wish."
+"Whad'ya say?"</text>
+             <text id="MysteryCh1_2Frame0Choice0Desc">Test J.A.X (Get J.A.X Combat Page.)</text>
+             <text id="MysteryCh1_2Frame0Choice1Desc">Become test Subject(Change one librarian's every Combat Page into this chapter's random Combat Page.)</text>
+             <text id="MysteryCh1_2Frame0Choice2Desc">Ingest Mutagens(Give one librarian a special Passive.)</text>
+
+             <text id="MysteryCh1_2Frame1Dia0">"Excellent."
+The man hands over a dangerous looking syringe filled with a glowing liquid before skulking off into a shadowy alleyway.</text>
+             <text id="MysteryCh1_2Frame1Choice0Desc">End</text>
+
+             <text id="MysteryCh1_2Frame2Dia0">"Superb."
+The man injects you with three unknown substances and pulls out a notepad. As you begin to feel light-headed, he starts to frantically write down notes.
+Losing track of time completely, by the time you regain your senses, the shady character has disappeared.</text>
+             <text id="MysteryCh1_2Frame2Choice0Desc">End</text>
+
+             <text id="MysteryCh1_2Frame3Dia0">"Marvelous."
+You quaff the mysterious substance. Immediately, you are invigorated and feel your muscle fibers twitch.</text>
+             <text id="MysteryCh1_2Frame3Choice0Desc">End</text>
+
+-->
+             <text id="MysteryCh1_3Title">Yun's Recollection</text>
+             <text id="MysteryCh1_3Frame0Dia0">&lt;i&gt;You find yourself in a commercial district, facing a cheap backstreets booth, receiving a call from an unknown number.
+
+"Hey, [mirror]Shard[/color]!" 
+
+Yun's voice rings through the phone. Confusion rises as you're unsure of why he'd ever call you, considering how the last exchange went.
+
+"I got a new lead on something big... Though I'm a bit short on cash. Can you lend me some?" His monotone speech fills you with anemoia.
+
+There is a growing uncomfortable silence between the two of you, eventually broken by Yun.
+
+"No, seriously, I have a good feeling about this. Might be the last contract I have to do for a while..."
+
+There is a hint of desperation in his voice that breaks the cold and serious persona for a moment.&lt;/i&gt;
+</text>
+             <text id="MysteryCh1_3Frame0Choice0Desc">Wire him money -- he needs it more than you ([red]Pay 5[/color] [yellow]Ahn[/color])</text>
+             <text id="MysteryCh1_3Frame0Choice1Desc">Hang up the phone -- you've had enough of his antics.</text>
+
+             <text id="MysteryCh1_3Frame1Dia0">The phone suddenly goes silent as the payment is sent, your attempts to communicate with Yun go unanswered. Heavy, loud and rushed footsteps are heard as you decide to leave. Someone grabs your arm...</text>
+             <text id="MysteryCh1_3Frame1Choice0Desc">Fight!</text>
+
+             <text id="MysteryCh1_3Frame2Dia0">You hung up the phone and walked away. A group of disappointed fixers passes through, paying you no mind.</text>
+             <text id="MysteryCh1_3Frame2Choice0Desc">Your life goes on.</text>
+
+
+             <text id="MysteryCh1_4Title">Finding a Lost Cat</text>
+             <text id="MysteryCh1_4Frame0Dia0">A senile woman dressed in a pink homemade sweater asks you to find her cat Kibbles.
+It's a simple request, but who knows where Kibbles went. You have a gnawing feeling that it is paramount you find him before the evening comes.</text>
+             <text id="MysteryCh1_4Frame0Choice0Desc">Accept and look for Kibbles</text>
+             <text id="MysteryCh1_4Frame0Choice1Desc">Refuse politely</text>
+
+             <text id="MysteryCh1_4Frame1Dia0">You refused the request, much to the woman's distress. She wanders off into the streets, looking for Kibbles, never to be seen again...</text>
+             <text id="MysteryCh1_4Frame1Choice0Desc">Walk away</text>
+
+             <text id="MysteryCh1_4Frame2Dia0">You give up on the request and pay a fine enforced by a local syndicate.</text>
+             <text id="MysteryCh1_4Frame2Choice0Desc">Walk away ([red]Pay 5[/color] [yellow]Ahn[/color])</text>
+
+             <text id="MysteryCh1_4Frame3Dia0">Current Time - 15:00
+You're searching for Kibbles around the neighborhood, the sun high on the sky and burning your neck. There's plenty of time.</text>
+             <text id="MysteryCh1_4Frame3Choice0Desc">Search (10% Chance of Success)</text>
+             <text id="MysteryCh1_4Frame3Choice1Desc">Cancel the request and pay a fine.</text>
+
+             <text id="MysteryCh1_4Frame4Dia0">Current Time - 17:00
+You're now searching in the local commercial distrct. The evening sun cools, though it's still hot.</text>
+             <text id="MysteryCh1_4Frame4Choice0Desc">Search (15% Chance of Success)</text>
+             <text id="MysteryCh1_4Frame4Choice1Desc">Cancel the request and pay a fine.</text>
+
+             <text id="MysteryCh1_4Frame5Dia0">Current Time - 19:00
+You're searching for Kibbles, this time on the poorer side of the neighborhood. Anxiety creeps up on you as the sun goes down.</text>
+             <text id="MysteryCh1_4Frame5Choice0Desc">Search (20% Chance of Success)</text>
+             <text id="MysteryCh1_4Frame5Choice1Desc">Cancel the request and pay a fine.</text>
+
+             <text id="MysteryCh1_4Frame6Dia0">Current Time - 21:00
+Kibbles remains elusive, forcing you to search on gutters and nearby sewege canals. The sun has fully set, the night growing cold and quiet.</text>
+             <text id="MysteryCh1_4Frame6Choice0Desc">Search (25% Chance of Success)</text>
+             <text id="MysteryCh1_4Frame6Choice1Desc">Cancel the request and pay a fine.</text>
+
+             <text id="MysteryCh1_4Frame7Dia0">Current Time - 23:00
+The streets are eerily quiet, a thin veil of salmon-colored mist creeping in. You have little time to find Kibbles now, though you hear what sounds like meowing in the distance.</text>
+             <text id="MysteryCh1_4Frame7Choice0Desc">Search (30% Chance of Success)</text>
+             <text id="MysteryCh1_4Frame7Choice1Desc">Cancel the request and pay a fine.</text>
+
+             <text id="MysteryCh1_4Frame8Dia0">Current Time - ??:??
+Kibbles is nowhere to be seen and instead you've been lead to a dead end. Sewege gates and lids open in unison behind you followed by distorted, nearly inhuman gargled cries. A shadowy figure with glowing red eyes and weapons rush towards you. There is no way out.</text>
+             <text id="MysteryCh1_4Frame8Choice0Desc">Prepare for a terrible encounter.</text>
+
+
+             <text id="MysteryCh1_4Frame9Dia0">You've found Kibbles! He purrs softly as you hand him to the senile woman, now carrying a smile while walking back home.</text>
+             <text id="MysteryCh1_4Frame9Choice0Desc">A local syndicate member pays you handsomely, praising you for the good work. (+15 [yellow]Ahn[/color])</text>
+
+
+             <text id="MysteryCh1_5Title">A Half-Finished Corpse</text>
+             <text id="MysteryCh1_5Frame0Dia0">A corpse of a middle-aged man in a fine suit lays still in front of you, his intestines exposed. Judging from the scattered low quality surgical tools and footprints you can tell some Rats have been here, though for some reason they abandoned their harvest mid-way. You could search the man's pockets or, if you have the skills, finish the harvest.</text>
+
+             <text id="MysteryCh1_5Frame0Choice0Desc">Search the man's pockets ([green]Gain 1~10[/color] [yellow]Ahn[/color])</text>
+             <text id="MysteryCh1_5Frame0Choice1Desc">Finish the harvest yourself (Consume x1 [red]Gut-Harvesting[/color] Combat Page, [green]gain 5~20[/color] [yellow]Ahn[/color])</text>
+
+             <text id="MysteryCh1_5Frame1Dia0">You rummage through the bloodstained pockets, finding some grease covered change.</text>
+             <text id="MysteryCh1_5Frame1Choice0Desc">Walk away (+{0} [yellow]Ahn[/color])</text>
+
+             <text id="MysteryCh1_5Frame2Dia0">After an hour of gruesome work you collect what seem like valuable intestines and sell them to a local syndicate.</text>
+             <text id="MysteryCh1_5Frame2Choice0Desc">Walk away ([red]Lose x1 Gut-Harvesting[/color] Combat Page. +{0} [yellow]Ahn[/color])</text>
+
+             <text id="MysteryCh1_6Title">Office Raid</text>
+	<text id="MysteryCh1_6Frame0Dia0">You're down on your luck but seen an opportunity make a quick buck: Raiding a local office that's been weakened after finishing a tough request, its members looking hurt and desperate.</text>
+             <text id="MysteryCh1_6Frame0Choice0Desc">Raid them!</text>
+             <text id="MysteryCh1_6Frame0Choice1Desc">Walk away -- it's not worth your honor</text>
+
+</localize>

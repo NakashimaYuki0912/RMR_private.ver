@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+             <text id="RestGood6_Desc">选择并移除1张战斗书页。从被移除的战斗书页的上一章节中获得1张战斗书页奖励。
+根据您移除的战斗书页的等级，您将获得更高等级的战斗书页奖励。当你移除传闻章节的战斗书页时，你将获得传闻章节最低等级的战斗书页奖励。
+无论其他操作如何，都可以使用
+剩余 : {0}</text>
+</localize>

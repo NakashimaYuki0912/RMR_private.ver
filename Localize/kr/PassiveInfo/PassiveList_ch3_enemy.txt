@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<PassiveDesc ID="30001">
+		<Name>광폭화</Name>
+		<Desc>감정 단계가 2 이상일때 막 시작 시 책장을 1장 추가로 뽑고 속도 주사위 + 1</Desc>
+	</PassiveDesc>
+  
+</PassiveDescRoot>
+  
+
