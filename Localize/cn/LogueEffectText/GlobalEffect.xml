@@ -210,219 +210,198 @@ This item is removed upon using the page. -->
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_WelltunedWeapons">
-    <Name>Well-tuned Weapons</Name> 
-    <Desc>[Global] All current non-upgraded Hardcover pages become upgraded. Every 9th Hardcover page a librarian uses, they restore 2 Light and gain 1 Max Light Capacity till end of the Act.</Desc> 
-    <FlavorText>&lt;color=#4091CF&gt;“Perfection in simplicity.”&lt;/color&gt; - Laku</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>精调武器</Name> 
+    <Desc>[全局] 当前所有未强化的精装书页变为已强化。每当司书使用第9张精装书页时，恢复2点光芒，并在本幕结束前获得1点最大光芒上限。</Desc> 
+    <FlavorText>简洁中的完美。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_GamblerEye">
-    <Name>Gambler's Eye Augment</Name> 
-    <Desc>[Global] Every 7th Objet d'art page a librarian uses, they activate all effects of this item at once.
-When a librarian uses an Objet d'art page, they have a 7% chance to activate any number of the following effects:
--Gain 2 Luck this Scene
--Gain 5 Critical Strike this Scene
--Gain 2 Haste next Scene
--Gain 10 Stagger Shield this Scene
--Restore 1 Light
--Draw 1 page</Desc> 
-    <FlavorText>&lt;color=#F7DA5D&gt;“Money brings in tools, and tools bring superiority.”&lt;/color&gt; - Viiru</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>赌徒之眼义体</Name> 
+    <Desc>[全局] 每当司书使用第7张艺术级书页时，一次性发动该物品的全部效果。司书使用艺术级书页时，有7%的概率发动以下任意数量的效果：本幕获得2层幸运；本幕获得5层暴击；下一幕获得2层迅捷；本幕获得10点混乱护盾；恢复1点光芒；抽取1张书页。</Desc> 
+    <FlavorText>金钱带来工具，工具带来优势。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_OrdinaryClothes">
-    <Name>Not-So Ordinary Clothes</Name> 
-    <Desc>[Global] All librarians while Staggered have their resistances set to 'Weak' instead of 'Fatal'.</Desc> 
-    <FlavorText>&lt;color=#44269C&gt;“Produced by a peculiar tailor whose name has been forgotten in the many trades of such wares.”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>并不普通的衣物</Name> 
+    <Desc>[全局] 所有司书陷入混乱时，抗性变为脆弱而非致命。</Desc> 
+    <FlavorText>出自一位古怪裁缝之手，制作者的名字早已湮没在无数交易之中。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_StasisBlaze">
-    <Name>In-Statis Blaze</Name> 
-    <Desc>Upon pick up, choose a Combat Page and remove it from inventory. 
-Boost the min/max value of all dice on the page by +2/1.
-At the start of each Act, add this Combat Page to the hand of each Librarian.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“h”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>凝滞之焰</Name> 
+    <Desc>获得时，选择1张战斗书页并将其从库存中移除。该书页上所有骰子的最小/最大值分别+2/+1。每一幕开始时，将该战斗书页加入所有司书手中。</Desc> 
+    <FlavorText>热量被封存在静止的瞬间。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_StasisSpark">
-    <Name>In-Statis Spark</Name> 
-    <Desc>Upon pick up, choose a Combat Page and remove it from inventory.
-Whenever a Librarian uses the Combat Page, they gain 3 Protection and Stagger Protection for the Scene.
-At the start of each Act, add this Combat Page to the hand of each Librarian.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“h”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>凝滞之火花</Name> 
+    <Desc>获得时，选择1张战斗书页并将其从库存中移除。每当司书使用该战斗书页时，本幕获得3层守护与混乱守护。每一幕开始时，将该战斗书页加入所有司书手中。</Desc> 
+    <FlavorText>火花停在半空，等待下一次被点燃。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_StasisLight">
-    <Name>In-Statis Light</Name> 
-    <Desc>Upon pick up, choose a Combat Page and remove it from inventory.
-Lower the Cost of the page by 1 and whenever a Librarian uses the Combat Page, they restore 1 Light and draw 1 page.
-At the start of each Act, add this Combat Page to the hand of each Librarian.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“h”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>凝滞之光</Name> 
+    <Desc>获得时，选择1张战斗书页并将其从库存中移除。该书页费用-1；每当司书使用该战斗书页时，恢复1点光芒并抽取1张书页。每一幕开始时，将该战斗书页加入所有司书手中。</Desc> 
+    <FlavorText>一束不会熄灭，也不会前进的光。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_Duplicator">
-    <Name>Duplicator</Name> 
-    <Desc>When 2+ Librarians use the same Combat Page during the same Scene, add a copy of that Combat Page to their hands.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“h”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>复制器</Name> 
+    <Desc>同一幕中，当2名及以上司书使用相同战斗书页时，将该战斗书页的复制加入他们手中。</Desc> 
+    <FlavorText>重复有时也是一种答案。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_ZweiSwordstyle">
-    <Name>Zwei Swordstyle</Name> 
-    <Desc>Upon winning a clash with Slash dice, gain 1 Endurance next Scene.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“h”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>茨威剑术</Name> 
+    <Desc>以斩击骰子拼点胜利时，下一幕获得1层忍耐。</Desc> 
+    <FlavorText>以稳固的步伐压住刀锋。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_ZweiBlock">
-    <Name>Zwei 'Art of Blocking' Manual</Name> 
-    <Desc>Upon winning a clash against Offensive dice with a Block die, gain 1 Strength this Scene.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“h”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>茨威格挡艺术手册</Name> 
+    <Desc>以格挡骰子对攻击骰子拼点胜利时，本幕获得1层强壮。</Desc> 
+    <FlavorText>先挡住，才有反击的机会。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_RuinedDummy">
-    <Name>Ruined Dummy</Name> 
-    <Desc>Restore 1 Light when using a Combat Page without an ability.
-Dice without abilities gain +1 Power.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“Stick to the basics.”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>破损训练假人</Name> 
+    <Desc>使用没有能力的战斗书页时，恢复1点光芒。没有能力的骰子威力+1。</Desc> 
+    <FlavorText>回到基础。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_FlickerSwitch">
-    <Name>Flicker-switch</Name> 
-    <Desc>When a Librarian exhausts a Combat Page, reduce the Cost of a random page in their hand by 2 until used.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“h”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>闪烁开关</Name> 
+    <Desc>司书消耗一张战斗书页时，随机使其手中1张书页费用-2，直到使用为止。</Desc> 
+    <FlavorText>开关轻轻一跳，费用也随之错位。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_TCorpRestore">
-    <Name>T-Corp Restoration Protocol</Name> 
-    <Desc>The first time a Librarian accumulates 15+ damage taken during a single Act, they gain 10 Restoration. (Once per Act)
-(Restoration - In 3 Scenes, purge this and this character recovers X HP. Increase stack by half of the damage received while this character has this status.)</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“h”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>T公司复原协议</Name> 
+    <Desc>每一幕中，司书首次累计受到15点及以上伤害时，获得10层复原。（每幕1次）复原：3幕后移除此状态，并使该角色恢复X点体力。持有此状态期间受到伤害时，层数增加所受伤害的一半。</Desc> 
+    <FlavorText>时间会替你缝合一部分伤口。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_Timepiece">
-    <Name>Timepiece</Name> 
-    <Desc>At the end of the 7th Scene, all Librarians fully restore Light and draw 3 pages. Librarians who are not Emotion Level 5+ gain an Emotion Level.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“Tick-tock...”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>怀表</Name> 
+    <Desc>第7幕结束时，所有司书完全恢复光芒并抽取3张书页。情感等级不足5级的司书情感等级提升1级。</Desc> 
+    <FlavorText>滴答，滴答……</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_Jokercard">
-    <Name>Joker Card</Name> 
-    <Desc>At the start of the Act, add a Single-use On-Play Combat Page to the hand of all Librarians that allows them to discard their entire hand and draw 4 pages.</Desc> 
-    <FlavorText>&lt;color=#F7DA5D&gt;“Know when to fold 'em”&lt;/color&gt; - Viiru</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>小丑牌</Name> 
+    <Desc>每一幕开始时，向所有司书手中加入1张使用时发动、仅限一次的战斗书页。使用后弃置全部手牌并抽取4张书页。</Desc> 
+    <FlavorText>要知道什么时候该收手。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_MoonstoneGyro">
-    <Name>Moonstone Gyroscope</Name> 
-    <Desc>Whenever a Librarian discards a Combat Page, they recover Stagger Resist equal to (2 + Cost of the discarded page).</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“It feels as if your sense of orientation is gone yet you remain standing.”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>月长石陀螺仪</Name> 
+    <Desc>每当司书弃置一张战斗书页时，恢复等同于（2+被弃置书页费用）的混乱抗性。</Desc> 
+    <FlavorText>仿佛方向感已经消失，却仍能站稳。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_Duffelbag">
-    <Name>Duffel Bag</Name> 
-    <Desc>Upon pick up, gain 150 Ahn.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“Whoever left this orange bag must've been in a hurry...”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>粗帆布包</Name> 
+    <Desc>获得时，获得150眼。</Desc> 
+    <FlavorText>留下这个橙色包的人一定很匆忙……</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_AvalonStimpack">
-    <Name>Avalon Stimpack</Name> 
-    <Desc>Whenever a Librarian is inflicted with a status ailment, they gain 1 Resilience that Scene. (Up to 3 times per Scene)
-At the start of each Scene, all Librarians remove stacks of a random status ailment up to Resilience amount and lose that amount of Resilience.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“h”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>阿瓦隆兴奋剂</Name> 
+    <Desc>每当司书被施加异常状态时，本幕获得1层韧性。（每幕至多3次）每一幕开始时，所有司书随机移除至多等同于韧性层数的一种异常状态层数，并失去等量韧性。</Desc> 
+    <FlavorText>短暂的清醒，伴随着过量的刺激。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_MourningVeil">
-    <Name>Mourning Veil</Name> 
-    <Desc>When a Librarian dies, another Librarian recovers HP/Stagger Resist equal to 30% of the dead Librarian's Max HP/Stagger Resist.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“h”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>哀悼面纱</Name> 
+    <Desc>司书死亡时，另一名司书恢复等同于死亡司书最大体力/最大混乱抗性30%的体力/混乱抗性。</Desc> 
+    <FlavorText>离去者的余温仍会覆盖在谁的肩上。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_TrainingWheels">
-    <Name>Training Wheels</Name> 
-    <Desc>Each Scene, increase the Speed value of all Speed dice of Librarians with a value equal to the slowest Speed die of the Librarians by +3.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“h”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>辅助轮</Name> 
+    <Desc>每一幕，使所有司书中速度值等于全体司书最低速度值的速度骰子速度+3。</Desc> 
+    <FlavorText>慢一点也没关系，只要还能跟上。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_BudgetToolkit">
-    <Name>Budget 'DIY-Workshopper' Toolkit</Name> 
-    <Desc>At the start of the Act, all Librarians temporarily upgrade 1 random Combat Page in their deck.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“Especially popular with the crafty youngin'.”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>预算型DIY工坊人工具箱</Name> 
+    <Desc>每一幕开始时，所有司书暂时强化其牌组中的1张随机战斗书页。</Desc> 
+    <FlavorText>在手巧的年轻人中尤其受欢迎。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_Satchel">
-    <Name>Leather Satchel</Name> 
-    <Desc>At the start of the Act, all Librarians draw 1 page and gain +1 Max Hand Size Slot.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“Extra pockets are always welcome in this business.”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>皮革挎包</Name> 
+    <Desc>每一幕开始时，所有司书抽取1张书页，并获得+1手牌上限。</Desc> 
+    <FlavorText>干这行，多几个口袋总是好事。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_SentinelBracers">
-    <Name>Sentinel Bracers</Name> 
-    <Desc>At the start of combat, all Librarians playing Combat Pages without any Offensive dice or not using any pages, gain 8 Shield and Stagger Shield for that Scene.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“How the hell did these become popular as a brand image?”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>哨卫护腕</Name> 
+    <Desc>战斗开始时，本幕中使用不含攻击骰子的战斗书页，或未使用任何书页的所有司书，获得8点护盾与混乱护盾。</Desc> 
+    <FlavorText>这东西到底是怎么变成流行标志的？</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_ConceptConverter">
-    <Name>Concept Converter</Name> 
-    <Desc>When skipping Book rewards, gain 5 Ahn for every Book skipped.
-When skipping choosing a card, gain 2 Ahn.</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“Who in their right mind would sellout like this?”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>概念转换器</Name> 
+    <Desc>跳过书籍奖励时，每跳过1本书获得5眼。跳过战斗书页选择时，获得2眼。</Desc> 
+    <FlavorText>脑子正常的人谁会这样卖掉自己？</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_ColorMixer">
-    <Name>Color Mixer</Name> 
-    <Desc>At the start of the Act, each Librarian draws 1 page and reduces the Cost of the highest rarity page in hand by 1 until used if their deck contains one of each Rarity. (Paperback, Hardcover, Limited and Objet d'art)</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“Variety's the spice of life!”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>调色盘</Name> 
+    <Desc>每一幕开始时，若司书牌组中包含平装、精装、限定、艺术四种稀有度的书页各至少1张，则抽取1张书页，并使手中最高稀有度书页费用-1，直到使用为止。</Desc> 
+    <FlavorText>多样才是生活的调味料！</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_WhiteCotton">
-    <Name>White Cotton Flower</Name> 
-    <Desc>At the start of each Scene, all Librarians gain 1 Bleed Protection.
-While activated, when a character would get Staggered, they instead recover from Stagger and are inflicted with Bleed equal to (Max Stagger Resist / 6) this Scene. (Rounded Up)</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“h”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>白棉花</Name> 
+    <Desc>每一幕开始时，所有司书获得1层流血守护。效果激活期间，角色即将陷入混乱时，改为从混乱中恢复，并在本幕被施加等同于（最大混乱抗性/6，向上取整）的流血。</Desc> 
+    <FlavorText>洁白的花絮落下时，伤口也随之绽开。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_ExposeWeakness">
-    <Name>Taking Point: Expose Weakness</Name> 
-    <Desc>At the start of every Scene, the Librarian with the highest HP gains 'En Garde' status.
-(En Garde - Upon winning 3 clashes against the same target, inflict 1 Fragile and Stagger Fragile to them next Scene)</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“h”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>攻坚指示：暴露弱点</Name> 
+    <Desc>每一幕开始时，体力最高的司书获得准备交锋状态。准备交锋：对同一目标拼点胜利3次后，下一幕对其施加1层易损与混乱易损。</Desc> 
+    <FlavorText>盯住破绽，然后让所有人都看见。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_FindingWeakness">
-    <Name>Construction and You: Finding Weaknesses</Name> 
-    <Desc>All Librarians deal 2 bonus damage/Stagger damage upon winning a clash against an opponent with Strength/Endurance</Desc> 
-    <FlavorText>&lt;color=#CACACA&gt;“h”&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>[No entry for now.]</CatalogDesc>
+    <Name>施工与你：寻找弱点</Name> 
+    <Desc>所有司书与拥有强壮或忍耐的敌方拼点胜利时，额外造成2点伤害与混乱伤害。</Desc> 
+    <FlavorText>结构一旦松动，剩下的只是施工问题。</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo> 
   
   <LogueEffectInfo Id="RMR_Prescript">
     <Name>指令</Name> 
-    <Desc>每一幕开始时指定1名司书
-该司书连续对1名目标使用战斗书页时造成的伤害与混乱伤害+10%(至多30%)
-若对其他目标使用战斗书页则该次行动中使其造成的伤害与混乱伤害-50%</Desc> 
-    <FlavorText>&lt;color=#4FACFF&gt;“一张看起来很小巧的小纸条。上面写着‘专注于你面前的人。‘”&lt;/color&gt;</FlavorText> 
+    <Desc>每一幕开始时指定1名司书。该司书连续对1名目标使用战斗书页时，造成的伤害与混乱伤害+10%（至多30%）。若对其他目标使用战斗书页，则该次行动中造成的伤害与混乱伤害-50%。</Desc> 
+    <FlavorText>一张看起来很小巧的小纸条。上面写着：专注于你面前的人。</FlavorText> 
     <CatalogDesc>[暂无]</CatalogDesc>
   </LogueEffectInfo>  
   

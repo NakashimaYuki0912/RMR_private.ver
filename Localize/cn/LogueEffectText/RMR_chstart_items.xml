@@ -56,15 +56,10 @@
   </LogueEffectInfo> 
 	
   <LogueEffectInfo Id="RMR_RoadlessCamelot">
-    <Name>Roadless Camelot</Name>
-    <Desc>At the start of each Scene, a random librarian gains 'Roadless Camelot' for the Scene.
-(Roadless Camelot - Each time this character uses a Combat Page, all other allies temporarily upgrade a random Combat Page in their hand for the rest of the Act.)</Desc> 
-    <FlavorText>&lt;color=#03EAF2&gt;"The crystallization of an utopia without any entrance. Like the reflection of a moon on water, its beauty is matched only by its fragility."&lt;/color&gt;</FlavorText> 
-    <CatalogDesc>Almost everyone has an ideal they chase after. An utopia, where their dreams are realized and their wishes are fulfilled. From simple wants such as warm food and shelter, to grand ambitions looking up at the top of the chain. It is simply a constant value of hope against the ruthless cycle of gears that make up the machine called the City.
-
-Yet, sometimes that side may truly be unreachable. Without any clear roads that lead towards that dream, all that is left... is nothing more than a mirage of what could have been, and what could never be.
-
-After all, that is what a dream is.</CatalogDesc>
+    <Name>无路卡美洛</Name>
+    <Desc>每一幕开始时，随机1名司书在本幕获得“无路卡美洛”。（无路卡美洛：每当该角色使用战斗书页时，使所有其他友方手中1张随机战斗书页暂时强化，持续至本幕结束。）</Desc> 
+    <FlavorText>没有入口的理想乡所凝结出的结晶。犹如水中月影，其美丽只与脆弱相称。</FlavorText> 
+    <CatalogDesc>几乎每个人都有追逐的理想。那是梦想成真、愿望被满足的理想乡，从温暖的食物和栖身之处，到仰望城市顶端的宏大野心，都不过是在齿轮无情转动之中仍不肯熄灭的一点希望。可有时，那个彼岸真的无法抵达。没有任何道路通向那个梦，留下的便只是一片海市蜃楼：它或许曾经可能存在，也注定永远不会成为现实。毕竟，梦就是这样的东西。</CatalogDesc>
   </LogueEffectInfo> 
 	
   <LogueEffectInfo Id="RMR_StrangeOrbGrade2">

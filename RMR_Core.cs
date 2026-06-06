@@ -1616,7 +1616,8 @@ namespace RogueLike_Mod_Reborn
             }
             var gamemode = gamemodeList.Find(x => stageRecipe == x.StageStart);
             if (gamemode == null) return false;
-            else if (!File.Exists(Path.Combine(LogueSaveManager.Saveroot, gamemode.SaveDataString)))
+            RMRAbnormalityUnlockManager.ResetArchiveProgress();
+            if (!File.Exists(Path.Combine(LogueSaveManager.Saveroot, gamemode.SaveDataString)))
             {
                 SaveData data = new SaveData(SaveDataType.Dictionary);
                 using (FileStream fileStream = File.Create(Path.Combine(LogueSaveManager.Saveroot, gamemode.SaveDataString)))
@@ -1646,7 +1647,8 @@ namespace RogueLike_Mod_Reborn
                 this.InitializeGamemode(gamemode);
                 return true;
             }
-            else if (!File.Exists(Path.Combine(LogueSaveManager.Saveroot, gamemode.SaveDataString)))
+            RMRAbnormalityUnlockManager.ResetArchiveProgress();
+            if (!File.Exists(Path.Combine(LogueSaveManager.Saveroot, gamemode.SaveDataString)))
             {
                 SaveData data = new SaveData(SaveDataType.Dictionary);
                 using (FileStream fileStream = File.Create(Path.Combine(LogueSaveManager.Saveroot, gamemode.SaveDataString)))

@@ -50,6 +50,7 @@ namespace abcdcode_LOGLIKE_MOD
     public class LogAtlasPanel : Singleton<LogAtlasPanel>
     {
         public const string LockedTitle = "?";
+        private const string AtlasUpgradeToggleLabel = "\u663e\u793a\u5347\u7ea7\u7248";
 
         private static readonly AtlasSection[] Sections =
         {
@@ -74,8 +75,12 @@ namespace abcdcode_LOGLIKE_MOD
         private readonly List<LogAtlasTile> tiles = new List<LogAtlasTile>();
         private readonly List<TextMeshProUGUI> sectionLabels = new List<TextMeshProUGUI>();
         private readonly List<TextMeshProUGUI> categoryLabels = new List<TextMeshProUGUI>();
+        private GameObject upgradeToggleRoot;
+        private Image upgradeToggleFrame;
+        private TextMeshProUGUI upgradeToggleLabel;
         private AtlasSection currentSection = AtlasSection.Rumor;
         private AtlasCategory currentCategory = AtlasCategory.RoleBook;
+        private bool showUpgradedBattleCards;
 
         public static GameObject GetLogUIObj(int index)
         {
@@ -105,6 +110,7 @@ namespace abcdcode_LOGLIKE_MOD
 
             root = GetLogUIObj(2);
             CreateTabs();
+            CreateBattleCardUpgradeToggle();
             for (int row = 0; row < 6; row++)
             {
                 for (int col = 0; col < 8; col++)
@@ -158,6 +164,23 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        private void CreateBattleCardUpgradeToggle()
+        {
+            Image image = ModdingUtils.CreateImage(root.transform, "ShopGoodRewardFrame", Vector2.one, new Vector2(-470f, -390f), new Vector2(240f, 42f));
+            upgradeToggleRoot = image.gameObject;
+            upgradeToggleFrame = image;
+            Button button = image.gameObject.AddComponent<Button>();
+            button.targetGraphic = image;
+            button.onClick = new Button.ButtonClickedEvent();
+            button.onClick.AddListener((UnityAction)(() =>
+            {
+                showUpgradedBattleCards = !showUpgradedBattleCards;
+                UpdateTiles();
+            }));
+            upgradeToggleLabel = ModdingUtils.CreateText_TMP(image.transform, Vector2.zero, 20, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, LogLikeMod.DefFontColor, LogLikeMod.DefFont_TMP);
+            SetBattleCardUpgradeToggleVisible(false);
+        }
+
         private void SelectSection(AtlasSection section)
         {
             currentSection = section;
@@ -176,10 +199,12 @@ namespace abcdcode_LOGLIKE_MOD
                 sectionLabels[i].color = Sections[i] == currentSection ? UIColorManager.Manager.GetUIColor(UIColor.Highlighted) : LogLikeMod.DefFontColor;
             for (int i = 0; i < categoryLabels.Count; i++)
                 categoryLabels[i].color = Categories[i] == currentCategory ? UIColorManager.Manager.GetUIColor(UIColor.Highlighted) : LogLikeMod.DefFontColor;
+            SetBattleCardUpgradeToggleVisible(currentCategory == AtlasCategory.BattleCard);
 
-            List<AtlasEntry> entries = BuildEntries()
+            List<AtlasEntry> entries = BuildEntries(showUpgradedBattleCards)
                 .Where(x => x.Section == currentSection && x.Category == currentCategory)
-                .OrderBy(x => x.Category == AtlasCategory.EgoPage ? (int)x.Floor : 0)
+                .OrderByDescending(x => x.Unlocked)
+                .ThenBy(x => x.Category == AtlasCategory.EgoPage ? (int)x.Floor : 0)
                 .ThenBy(x => x.Title)
                 .ToList();
 
@@ -187,11 +212,11 @@ namespace abcdcode_LOGLIKE_MOD
                 tiles[i].Init(i < entries.Count ? entries[i] : null);
         }
 
-        public static List<AtlasEntry> BuildEntries()
+        public static List<AtlasEntry> BuildEntries(bool showUpgradedBattleCards = false)
         {
             List<AtlasEntry> entries = new List<AtlasEntry>();
             entries.AddRange(BuildRoleBookEntries());
-            entries.AddRange(BuildBattleCardEntries());
+            entries.AddRange(BuildBattleCardEntries(showUpgradedBattleCards));
             entries.AddRange(BuildAbnormalityEntries());
             entries.AddRange(BuildEgoEntries());
             return entries;
@@ -219,19 +244,25 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
-        private static IEnumerable<AtlasEntry> BuildBattleCardEntries()
+        private static IEnumerable<AtlasEntry> BuildBattleCardEntries(bool showUpgraded)
         {
-            foreach (object obj in ExtractObjects(ItemXmlDataList.instance, typeof(DiceCardXmlInfo)).Take(420))
+            List<DiceCardXmlInfo> sourceCards = ExtractObjects(ItemXmlDataList.instance, typeof(DiceCardXmlInfo))
+                .OfType<DiceCardXmlInfo>()
+                .Take(420)
+                .ToList();
+            foreach (DiceCardXmlInfo info in sourceCards)
             {
-                DiceCardXmlInfo info = obj as DiceCardXmlInfo;
                 LorId id = GetLorId(info, "id");
                 if (id == LorId.None)
                     continue;
+                if (info.CheckUpgradeCard())
+                    continue;
+                DiceCardXmlInfo displayInfo = GetDisplayCardInfo(info, showUpgraded);
                 yield return new AtlasEntry
                 {
                     Id = id,
-                    Title = GetDisplayName(info, id),
-                    Description = id.ToString(),
+                    Title = GetDisplayName(displayInfo, id),
+                    Description = BuildBattleCardDescription(displayInfo, id, showUpgraded),
                     Artwork = null,
                     Unlocked = IsBattleCardUnlocked(id),
                     Category = AtlasCategory.BattleCard,
@@ -241,8 +272,76 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        private void SetBattleCardUpgradeToggleVisible(bool visible)
+        {
+            if (upgradeToggleRoot == null)
+                return;
+            upgradeToggleRoot.SetActive(visible);
+            if (upgradeToggleFrame != null)
+                upgradeToggleFrame.color = showUpgradedBattleCards ? UIColorManager.Manager.GetUIColor(UIColor.Highlighted) : UIColorManager.Manager.GetUIColor(UIColor.Default);
+            if (upgradeToggleLabel != null)
+                upgradeToggleLabel.text = (showUpgradedBattleCards ? "[x] " : "[ ] ") + AtlasUpgradeToggleLabel;
+        }
+
+        private static DiceCardXmlInfo GetDisplayCardInfo(DiceCardXmlInfo info, bool showUpgraded)
+        {
+            if (!showUpgraded)
+                return info;
+            try
+            {
+                DiceCardXmlInfo upgraded = Singleton<LogCardUpgradeManager>.Instance.GetUpgradeCard(info.id);
+                return upgraded ?? info;
+            }
+            catch
+            {
+                return info;
+            }
+        }
+
+        private static string BuildBattleCardDescription(DiceCardXmlInfo displayInfo, LorId id, bool showUpgraded)
+        {
+            if (displayInfo == null)
+                return id.ToString();
+            List<string> lines = new List<string>();
+            if (showUpgraded)
+                lines.Add("\u5347\u7ea7\u9884\u89c8");
+            lines.Add("ID: " + id.ToString());
+            if (displayInfo.id != id)
+                lines.Add("\u5c55\u793aID: " + displayInfo.id.ToString());
+            if (displayInfo.Spec != null)
+                lines.Add("\u8d39\u7528: " + displayInfo.Spec.Cost.ToString());
+            lines.Add("\u7ae0\u8282: " + displayInfo.Chapter.ToString());
+            if (!string.IsNullOrEmpty(displayInfo.Script))
+                lines.Add("\u6548\u679c: " + displayInfo.Script);
+            if (displayInfo.DiceBehaviourList != null && displayInfo.DiceBehaviourList.Count > 0)
+            {
+                lines.Add("\u9ab0\u5b50:");
+                for (int i = 0; i < displayInfo.DiceBehaviourList.Count; i++)
+                {
+                    DiceBehaviour dice = displayInfo.DiceBehaviourList[i];
+                    string script = string.IsNullOrEmpty(dice.Script) ? string.Empty : " / " + dice.Script;
+                    lines.Add((i + 1).ToString() + ". " + GetDiceDetailText(dice.Detail) + " " + dice.Min.ToString() + "-" + dice.Dice.ToString() + script);
+                }
+            }
+            return string.Join("\n", lines.ToArray());
+        }
+
+        private static string GetDiceDetailText(BehaviourDetail detail)
+        {
+            switch (detail)
+            {
+                case BehaviourDetail.Slash: return "\u65a9\u51fb";
+                case BehaviourDetail.Penetrate: return "\u7a81\u523a";
+                case BehaviourDetail.Hit: return "\u6253\u51fb";
+                case BehaviourDetail.Guard: return "\u9632\u5fa1";
+                case BehaviourDetail.Evasion: return "\u95ea\u907f";
+                default: return detail.ToString();
+            }
+        }
+
         private static IEnumerable<AtlasEntry> BuildAbnormalityEntries()
         {
+            HashSet<string> seenAbnormalities = new HashSet<string>();
             foreach (RewardPassivesInfo list in Singleton<RewardPassivesList>.Instance.infos.Where(x => x.rewardtype == PassiveRewardListType.Custom))
             {
                 if (list.RewardPassiveList == null)
@@ -250,6 +349,9 @@ namespace abcdcode_LOGLIKE_MOD
                 foreach (RewardPassiveInfo info in list.RewardPassiveList.Where(x => x.rewardtype == RewardType.Creature && !RMRAbnormalityUnlockManager.IsNoAbnormalityFallback(x.id)))
                 {
                     EmotionCardXmlInfo card = LogLikeMod.GetRegisteredPickUpXml(info);
+                    string key = GetAbnormalityAtlasKey(card, info);
+                    if (!seenAbnormalities.Add(key))
+                        continue;
                     AbnormalityCard desc = GetAbnormalityCardDesc(card, info);
                     yield return new AtlasEntry
                     {
@@ -330,12 +432,21 @@ namespace abcdcode_LOGLIKE_MOD
 
         private static bool IsRoleBookUnlocked(LorId id)
         {
-            return LogueBookModels.booklist != null && LogueBookModels.booklist.Exists(x => x.BookId == id || x.ClassInfo.id == id);
+            return LogueBookModels.IsAtlasRoleBookUnlocked(id)
+                || LogueBookModels.booklist != null && LogueBookModels.booklist.Exists(x => x.BookId == id || x.ClassInfo.id == id);
         }
 
         private static bool IsBattleCardUnlocked(LorId id)
         {
-            return LogueBookModels.GetCardList(false, true).Exists(x => x.GetID() == id);
+            return LogueBookModels.IsAtlasBattleCardUnlocked(id)
+                || LogueBookModels.GetCardList(false, true).Exists(x => x.GetID() == id);
+        }
+
+        private static string GetAbnormalityAtlasKey(EmotionCardXmlInfo card, RewardPassiveInfo info)
+        {
+            if (card != null && card.Script != null && card.Script.Count > 0 && !string.IsNullOrEmpty(card.Script[0]))
+                return card.Script[0];
+            return info.id.packageId + ":" + info.id.id.ToString();
         }
 
         private static bool IsAbnormalityUnlocked(RewardPassiveInfo info)

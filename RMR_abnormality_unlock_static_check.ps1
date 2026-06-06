@@ -20,13 +20,12 @@ foreach ($file in $requiredFiles) {
 $unlock = Get-Content (Join-Path $root "RMR_AbnormalityUnlocks.cs") -Raw
 foreach ($pattern in @(
   "class RMRAbnormalityUnlockManager",
-  "NormalDropChance",
-  "EliteDropChance",
   "AbnormalityBattleRewardCount",
   "MysteryRewardCount",
   "GetUnlockedEmotionCardsForBattle",
   "EnqueueRewardSelections",
   "RecordPermanentClear",
+  "ResetArchiveProgress",
   "GetNoAbnormalityFallback"
 )) {
   if ($unlock -notmatch [regex]::Escape($pattern)) {
@@ -64,6 +63,15 @@ foreach ($pattern in @(
 )) {
   if ($logue -notmatch [regex]::Escape($pattern)) {
     throw "LogueBookModels missing $pattern"
+  }
+}
+
+$core = Get-Content (Join-Path $root "RMR_Core.cs") -Raw
+foreach ($pattern in @(
+  "RMRAbnormalityUnlockManager.ResetArchiveProgress"
+)) {
+  if ($core -notmatch [regex]::Escape($pattern)) {
+    throw "Core missing $pattern"
   }
 }
 

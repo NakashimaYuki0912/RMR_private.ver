@@ -101,6 +101,16 @@ namespace abcdcode_LOGLIKE_MOD
             __instance.SetBUttonState((UIBattleSettingEditTap)2);
         }
 
+        public static void SetBattleSettingCardPanelVisible(bool visible)
+        {
+            UIBattleSettingPanel panel = UI.UIController.Instance.GetUIPanel(UIPanelType.BattleSetting) as UIBattleSettingPanel;
+            if (panel == null || panel.EditPanel == null)
+                return;
+            UISettingCardInvenPanel battleCardPanel = LogLikeMod.GetFieldValue<UISettingCardInvenPanel>(panel.EditPanel, "_battleCardPanel");
+            if (battleCardPanel != null)
+                battleCardPanel.SetActivePanel(visible);
+        }
+
         public static void InitUIBattleSettingWaveSlot(
           UIBattleSettingWaveSlot slot,
           UIBattleSettingWaveList list)
@@ -858,6 +868,16 @@ namespace abcdcode_LOGLIKE_MOD
             var stage = Singleton<StagesXmlList>.Instance.GetStageInfo(new LorId(LogLikeMod.GetPickUpXmlWorkShopId_Stage(card), card.id));
             if (RewardingModel.rewardFlag == RewardingModel.RewardFlag.NextStageChoose && stage != null)
             {
+                if (stage.type == StageType.Creature)
+                {
+                    StageClassInfo abnormalityStage = RMRAbnormalityBattleRouter.PickStageForChapter(LogLikeMod.curchaptergrade);
+                    if (abnormalityStage != null)
+                    {
+                        LogLikeMod.SetNextStage(abnormalityStage.id, StageType.Creature);
+                        LogueBookModels.RemoveStageInlist(stage.Id, LogLikeMod.curchaptergrade);
+                        return;
+                    }
+                }
                 LogLikeMod.SetNextStage(stage.Id, stage.type);
             } else if (RewardingModel.rewardFlag == RewardingModel.RewardFlag.NextStageChoose && stage == null)
             {
@@ -955,13 +975,15 @@ namespace abcdcode_LOGLIKE_MOD
                     LogLikeMod.CreatureBtn = UnityEngine.Object.Instantiate<Button>(fieldValue, fieldValue.transform.parent);
                     LogLikeMod.CreatureBtn.transform.localPosition = fieldValue.transform.localPosition + new Vector3(400f, 0.0f);
                     Button.ButtonClickedEvent buttonClickedEvent = new Button.ButtonClickedEvent();
-                    buttonClickedEvent.AddListener((UnityAction)(() => LogLikeRoutines.OnClickCreatureTab(self)));
+                    buttonClickedEvent.AddListener((UnityAction)(() => LogLikeRoutines.OnClickAtlasTab(self)));
                     LogLikeMod.CreatureBtn.onClick = buttonClickedEvent;
                     UITextDataLoader component = LogLikeMod.CreatureBtn.transform.GetChild(1).gameObject.GetComponent<UITextDataLoader>();
-                    component.key = "ui_CreatureTab";
+                    component.key = "ui_AtlasTab";
                     component.SetText();
                     LogLikeMod.CreatureBtnFrame = LogLikeMod.CreatureBtn.transform.GetChild(0).gameObject.GetComponent<Image>();
                     LogLikeMod.CreatureBtnFrame.enabled = false;
+                    LogLikeMod.AtlasBtn = LogLikeMod.CreatureBtn;
+                    LogLikeMod.AtlasBtnFrame = LogLikeMod.CreatureBtnFrame;
                 }
                 if (LogLikeMod.CraftBtn == null)
                 {
@@ -977,19 +999,10 @@ namespace abcdcode_LOGLIKE_MOD
                     LogLikeMod.CraftBtnFrame = LogLikeMod.CraftBtn.transform.GetChild(0).gameObject.GetComponent<Image>();
                     LogLikeMod.CraftBtnFrame.enabled = false;
                 }
-                if (LogLikeMod.AtlasBtn == null)
+                if (LogLikeMod.AtlasBtn == null && LogLikeMod.CreatureBtn != null)
                 {
-                    Button fieldValue = LogLikeMod.GetFieldValue<Button>(self, "button_BattleCard");
-                    LogLikeMod.AtlasBtn = UnityEngine.Object.Instantiate<Button>(fieldValue, fieldValue.transform.parent);
-                    LogLikeMod.AtlasBtn.transform.localPosition = fieldValue.transform.localPosition + new Vector3(800f, 0.0f);
-                    Button.ButtonClickedEvent buttonClickedEvent = new Button.ButtonClickedEvent();
-                    buttonClickedEvent.AddListener((UnityAction)(() => LogLikeRoutines.OnClickAtlasTab(self)));
-                    LogLikeMod.AtlasBtn.onClick = buttonClickedEvent;
-                    UITextDataLoader component = LogLikeMod.AtlasBtn.transform.GetChild(1).gameObject.GetComponent<UITextDataLoader>();
-                    component.key = "ui_AtlasTab";
-                    component.SetText();
-                    LogLikeMod.AtlasBtnFrame = LogLikeMod.AtlasBtn.transform.GetChild(0).gameObject.GetComponent<Image>();
-                    LogLikeMod.AtlasBtnFrame.enabled = false;
+                    LogLikeMod.AtlasBtn = LogLikeMod.CreatureBtn;
+                    LogLikeMod.AtlasBtnFrame = LogLikeMod.CreatureBtnFrame;
                 }
                 LogLikeMod.InvenBtn.gameObject.SetActive(true);
                 LogLikeMod.CreatureBtn.gameObject.SetActive(true);
@@ -1849,6 +1862,30 @@ namespace abcdcode_LOGLIKE_MOD
         public static bool UIBattleSettingPanel_OnClickBackButton()
         {
             return !LogLikeMod.CheckStage() || !UIPassiveSuccessionPopup.Instance.isActiveAndEnabled;
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(UIPassiveSuccessionPopup), nameof(UIPassiveSuccessionPopup.Open))]
+        public static void UIPassiveSuccessionPopup_Open()
+        {
+            if (!LogLikeMod.CheckStage())
+                return;
+            LogLikeRoutines.SetBattleSettingCardPanelVisible(false);
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(UIPassiveSuccessionPopup), nameof(UIPassiveSuccessionPopup.Close))]
+        public static void UIPassiveSuccessionPopup_Close()
+        {
+            if (!LogLikeMod.CheckStage())
+                return;
+            LogLikeRoutines.SetBattleSettingCardPanelVisible(true);
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(UIPassiveSuccessionPopup), nameof(UIPassiveSuccessionPopup.CloseDefault))]
+        public static void UIPassiveSuccessionPopup_CloseDefault()
+        {
+            if (!LogLikeMod.CheckStage())
+                return;
+            LogLikeRoutines.SetBattleSettingCardPanelVisible(true);
         }
 
         /*

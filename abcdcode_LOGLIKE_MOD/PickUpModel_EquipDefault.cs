@@ -55,6 +55,7 @@ namespace abcdcode_LOGLIKE_MOD
             bookModel.instanceId = LogueBookModels.nextinstanceid++;
             bookModel.TryGainUniquePassive();
             LogueBookModels.booklist.Add(bookModel);
+            LogueBookModels.RecordAtlasRoleBook(this.id);
         }
 
         public override void OnPickUp(BattleUnitModel model)

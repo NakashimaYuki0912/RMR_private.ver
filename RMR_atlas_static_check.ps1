@@ -48,10 +48,18 @@ foreach ($pattern in @(
     "UIBattleSettingEditTap)5",
     "AtlasBtn",
     "AtlasBtnFrame",
-    "Singleton<LogAtlasPanel>.Instance"
+    "Singleton<LogAtlasPanel>.Instance",
+    "UIPassiveSuccessionPopup.Open",
+    "UIPassiveSuccessionPopup.Close",
+    "SetBattleSettingCardPanelVisible"
 )) {
     Require-Contains $patches $pattern "atlas UI wiring"
 }
+Require-Contains $patches "LogLikeMod.AtlasBtn = LogLikeMod.CreatureBtn" "atlas replaces creature tab button"
+Require-Contains $patches 'component.key = "ui_AtlasTab"' "atlas tab text on reused button"
+Require-NotContains $patches "LogLikeMod.AtlasBtn.transform.localPosition" "separate atlas tab button"
+Require-NotContains $patches "LogLikeRoutines.OnClickCreatureTab(self)" "visible creature tab click binding"
+Require-NotContains $patches 'component.key = "ui_CreatureTab"' "visible creature tab text"
 
 $atlas = Read-Text "abcdcode_LOGLIKE_MOD\LogAtlasPanel.cs"
 foreach ($pattern in @(

@@ -142,6 +142,26 @@ namespace RogueLike_Mod_Reborn
         public override string KeywordId => "RMR_RoadlessCamelot";
 
         public override string KeywordIconId => "RMR_RoadlessCamelot";
+
+        public override string GetEffectName()
+        {
+            if (IsChineseLanguage())
+                return "无路卡美洛";
+            return base.GetEffectName();
+        }
+
+        public override string GetEffectDesc()
+        {
+            if (IsChineseLanguage())
+                return "每一幕开始时，随机1名司书在本幕获得“无路卡美洛”。（无路卡美洛：每当该角色使用战斗书页时，使所有其他友方手中1张随机战斗书页暂时强化，持续至本幕结束。）\n\n没有入口的理想乡所凝结出的结晶。犹如水中月影，其美丽只与脆弱相称。";
+            return base.GetEffectDesc();
+        }
+
+        private static bool IsChineseLanguage()
+        {
+            string language = TextDataModel.CurrentLanguage;
+            return language == "cn" || language == "trcn";
+        }
     }
 
     public class RMREffect_StrangeOrb : GlobalLogueEffectBase

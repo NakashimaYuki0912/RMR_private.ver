@@ -38,6 +38,8 @@ namespace abcdcode_LOGLIKE_MOD
         public static List<LorId> shopPick;
         public static List<UnitBattleDataModel> playerBattleModel;
         public static int nextinstanceid;
+        public static HashSet<LorId> AtlasUnlockedRoleBooks;
+        public static HashSet<LorId> AtlasUnlockedBattleCards;
 
         public static BookModel LoadFromSaveData_BookModel(SaveData data)
         {
@@ -65,6 +67,60 @@ namespace abcdcode_LOGLIKE_MOD
             data.AddData("instanceid", model.instanceId);
             data.AddData("equippedbookid", model.originData.equipedPassiveBookInstanceId);
             return data;
+        }
+
+        private static void EnsureAtlasUnlocks()
+        {
+            if (LogueBookModels.AtlasUnlockedRoleBooks == null)
+                LogueBookModels.AtlasUnlockedRoleBooks = new HashSet<LorId>();
+            if (LogueBookModels.AtlasUnlockedBattleCards == null)
+                LogueBookModels.AtlasUnlockedBattleCards = new HashSet<LorId>();
+        }
+
+        public static void RecordAtlasRoleBook(LorId id)
+        {
+            if (id == LorId.None)
+                return;
+            LogueBookModels.EnsureAtlasUnlocks();
+            LogueBookModels.AtlasUnlockedRoleBooks.Add(id);
+        }
+
+        public static void RecordAtlasBattleCard(LorId id)
+        {
+            if (id == LorId.None)
+                return;
+            LogueBookModels.EnsureAtlasUnlocks();
+            LogueBookModels.AtlasUnlockedBattleCards.Add(id);
+        }
+
+        public static bool IsAtlasRoleBookUnlocked(LorId id)
+        {
+            LogueBookModels.EnsureAtlasUnlocks();
+            return LogueBookModels.AtlasUnlockedRoleBooks.Contains(id);
+        }
+
+        public static bool IsAtlasBattleCardUnlocked(LorId id)
+        {
+            LogueBookModels.EnsureAtlasUnlocks();
+            return LogueBookModels.AtlasUnlockedBattleCards.Contains(id);
+        }
+
+        private static SaveData SaveAtlasUnlocks(HashSet<LorId> ids)
+        {
+            SaveData data = new SaveData();
+            if (ids == null)
+                return data;
+            foreach (LorId id in ids)
+                data.AddToList(id.LogGetSaveData());
+            return data;
+        }
+
+        private static void LoadAtlasUnlocks(SaveData data, HashSet<LorId> target)
+        {
+            if (data == null || target == null)
+                return;
+            foreach (SaveData savedId in data)
+                target.Add(ExtensionUtils.LogLoadFromSaveData(savedId));
         }
 
         public static void LoadFromSaveData_UnitBattleDataModel(SaveData data, UnitBattleDataModel model)
@@ -319,6 +375,7 @@ namespace abcdcode_LOGLIKE_MOD
                         bookModel.instanceId = LogueBookModels.nextinstanceid++;
                         bookModel.TryGainUniquePassive();
                         LogueBookModels.booklist.Add(bookModel);
+                        LogueBookModels.RecordAtlasRoleBook(bookModel.ClassInfo.id);
                     }
                 }
             }
@@ -329,6 +386,8 @@ namespace abcdcode_LOGLIKE_MOD
             }
             data1.AddData("booklist", data14);
             data1.AddData("RMRAbnormalityUnlocks", RMRAbnormalityUnlockManager.SaveRouteUnlocks());
+            data1.AddData("atlasRoleBookUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedRoleBooks));
+            data1.AddData("atlasBattleCardUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedBattleCards));
             data1.AddData("SubPlayerNum", new SaveData(LogueBookModels.playerModel.Count - 1));
             data1.AddData("nextinstanceid", LogueBookModels.nextinstanceid);
             return data1;
@@ -403,6 +462,8 @@ namespace abcdcode_LOGLIKE_MOD
             }
             data1.AddData("booklist", data15);
             data1.AddData("RMRAbnormalityUnlocks", RMRAbnormalityUnlockManager.SaveRouteUnlocks());
+            data1.AddData("atlasRoleBookUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedRoleBooks));
+            data1.AddData("atlasBattleCardUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedBattleCards));
             data1.AddData("SubPlayerNum", new SaveData(LogueBookModels.playerModel.Count - 1));
             data1.AddData("nextinstanceid", LogueBookModels.nextinstanceid);
             "".Log("LogueInven Save End : " + DateTime.Now.ToString());
@@ -499,7 +560,13 @@ namespace abcdcode_LOGLIKE_MOD
             foreach (SaveData saveData in save.GetData("cardlist"))
                 LogueBookModels.AddCard(ExtensionUtils.LogLoadFromSaveData(saveData.GetData("id")), saveData.GetData("num").GetIntSelf(), false);
             foreach (SaveData data3 in save.GetData("booklist"))
-                LogueBookModels.booklist.Add(LogueBookModels.LoadFromSaveData_BookModel(data3));
+            {
+                BookModel model = LogueBookModels.LoadFromSaveData_BookModel(data3);
+                LogueBookModels.booklist.Add(model);
+                LogueBookModels.RecordAtlasRoleBook(model.ClassInfo.id);
+            }
+            LogueBookModels.LoadAtlasUnlocks(save.GetData("atlasRoleBookUnlocks"), LogueBookModels.AtlasUnlockedRoleBooks);
+            LogueBookModels.LoadAtlasUnlocks(save.GetData("atlasBattleCardUnlocks"), LogueBookModels.AtlasUnlockedBattleCards);
             RMRAbnormalityUnlockManager.LoadRouteUnlocks(save.GetData("RMRAbnormalityUnlocks"));
             LogueBookModels.nextinstanceid = save.GetInt("nextinstanceid");
         }
@@ -686,6 +753,7 @@ namespace abcdcode_LOGLIKE_MOD
             bookModel.instanceId = LogueBookModels.nextinstanceid++;
             bookModel.TryGainUniquePassive();
             LogueBookModels.booklist.Add(bookModel);
+            LogueBookModels.RecordAtlasRoleBook(id);
         }
 
         public static void AddUpgradeCard(LorId cardid, bool callInvenChangeEvent = true) =>
@@ -697,6 +765,10 @@ namespace abcdcode_LOGLIKE_MOD
                 cardId = Singleton<GlobalLogueEffectManager>.Instance.InvenAddCardChange(cardId);
             if (num < 0)
                 return;
+            DiceCardXmlInfo cardItem = ItemXmlDataList.instance.GetCardItem(cardId);
+            if (cardItem == null || cardItem.optionList.Contains(CardOption.NoInventory) || cardItem.optionList.Contains(CardOption.Basic))
+                return;
+            LogueBookModels.RecordAtlasBattleCard(cardId);
             DiceCardItemModel diceCardItemModel = LogueBookModels.cardlist.Find(x => x.GetID() == cardId);
             if (diceCardItemModel != null)
             {
@@ -704,9 +776,6 @@ namespace abcdcode_LOGLIKE_MOD
             }
             else
             {
-                DiceCardXmlInfo cardItem = ItemXmlDataList.instance.GetCardItem(cardId);
-                if (cardItem == null || cardItem.optionList.Contains(CardOption.NoInventory) || cardItem.optionList.Contains(CardOption.Basic))
-                    return;
                 LogueBookModels.cardlist.Add(new DiceCardItemModel(cardItem)
                 {
                     num = num
@@ -868,6 +937,8 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.AddingRemainStageList();
             LogueBookModels.cardlist = new List<DiceCardItemModel>();
             LogueBookModels.booklist = new List<BookModel>();
+            LogueBookModels.AtlasUnlockedRoleBooks = new HashSet<LorId>();
+            LogueBookModels.AtlasUnlockedBattleCards = new HashSet<LorId>();
             LogueBookModels.playerModel = new List<UnitDataModel>();
             UnitDataModel player = new UnitDataModel(new LorId(LogLikeMod.ModId, -854));
             player.bookItem.instanceId = LogueBookModels.nextinstanceid++;
@@ -1203,6 +1274,7 @@ namespace abcdcode_LOGLIKE_MOD
             int numMystery = stageLimits.Mystery;
             int numElite = stageLimits.Elite;
             int numRest = stageLimits.Rest;
+            int numCreature = stageLimits.Creature;
             if (guaranteeChapterEvent)
             {
                 List<LogueStageInfo> mstage = StagesXmlList.Instance.GetChapterData(stageLimits.Chapter, true);
@@ -1238,6 +1310,11 @@ namespace abcdcode_LOGLIKE_MOD
                     stage.Add(logueStageInfo);
                     --numElite;
                 }
+                else if (logueStageInfo.type == StageType.Creature && numCreature > 0)
+                {
+                    stage.Add(logueStageInfo);
+                    --numCreature;
+                }
             }
             LogueStageInfo stageInfo = Singleton<StagesXmlList>.Instance.GetStageInfo(new LorId(LogLikeMod.ModId, 855));
             for (int index = 0; index < numRest; ++index)
@@ -1256,6 +1333,7 @@ namespace abcdcode_LOGLIKE_MOD
                 Shop = 0,
                 Boss = 0,
                 Rest = 0,
+                Creature = 0,
                 Chapter = ChapterGrade.DummyGrade
             };
             switch (chapter)
@@ -1263,72 +1341,78 @@ namespace abcdcode_LOGLIKE_MOD
                 case ChapterGrade.Grade1:
                     stageLimits = new StageLimits
                     {
-                        Normal = 3,
+                        Normal = 6,
                         Elite = 0,
-                        Mystery = 3,
-                        Shop = 1,
+                        Mystery = 6,
+                        Shop = 2,
                         Boss = 1,
                         Rest = 1,
+                        Creature = 1,
                         Chapter = chapter
                     };
                     break;
                 case ChapterGrade.Grade2:
                     stageLimits = new StageLimits
                     {
-                        Normal = 3,
+                        Normal = 5,
                         Elite = 0,
-                        Mystery = 2,
-                        Shop = 1,
+                        Mystery = 5,
+                        Shop = 2,
                         Boss = 1,
-                        Rest = 1,
+                        Rest = 3,
+                        Creature = 1,
                         Chapter = chapter
                     };
                     break;
                 case ChapterGrade.Grade3:
                     stageLimits = new StageLimits
                     {
-                        Normal = 4,
+                        Normal = 6,
                         Elite = 0,
-                        Mystery = 2,
-                        Shop = 1,
+                        Mystery = 5,
+                        Shop = 2,
                         Boss = 1,
-                        Rest = 1,
+                        Rest = 2,
+                        Creature = 1,
                         Chapter = chapter
                     };
                     break;
                 case ChapterGrade.Grade4:
                     stageLimits = new StageLimits
                     {
-                        Normal = 4,
+                        Normal = 10,
                         Elite = 0,
                         Mystery = 2,
                         Shop = 2,
                         Boss = 1,
-                        Rest = 2,
+                        Rest = 1,
+                        Creature = 1,
                         Chapter = chapter
                     };
                     break;
                 case ChapterGrade.Grade5:
                     stageLimits = new StageLimits
                     {
-                        Normal = 5,
+                        Normal = 11,
                         Elite = 0,
                         Mystery = 2,
                         Shop = 2,
                         Boss = 1,
-                        Rest = 2,
+                        Rest = 0,
+                        Creature = 1,
                         Chapter = chapter
                     };
                     break;
                 case ChapterGrade.Grade6:
                     stageLimits = new StageLimits
                     {
-                        Normal = 5,
+                        Normal = 11,
                         Elite = 0,
                         Mystery = 2,
                         Shop = 2,
                         Boss = 1,
-                        Rest = 2,
+                        Rest = 0,
+                        Creature = 1,
                         Chapter = chapter
                     };
                     break;
@@ -1560,6 +1644,7 @@ namespace abcdcode_LOGLIKE_MOD
             public int Shop;
             public int Boss;
             public int Rest;
+            public int Creature;
             public ChapterGrade Chapter;
         }
     }

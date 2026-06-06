@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using abcdcode_LOGLIKE_MOD;
 using GameSave;
 using LOR_XML;
@@ -49,6 +50,13 @@ namespace RogueLike_Mod_Reborn
             LoadPermanentProgress();
             foreach (RewardPassiveInfo info in GetPermanentStartingPages())
                 UnlockPage(info.id);
+        }
+
+        public static void ResetArchiveProgress()
+        {
+            RouteUnlockedPages.Clear();
+            PermanentlyUnlockedTiers.Clear();
+            RemoveLegacyProgressFile();
         }
 
         public static SaveData SaveRouteUnlocks()
@@ -276,6 +284,19 @@ namespace RogueLike_Mod_Reborn
             for (int tier = 1; tier <= 3; tier++)
                 data.AddData("Tier" + tier, PermanentlyUnlockedTiers.Contains(tier) ? 1 : 0);
             Singleton<LogueSaveManager>.Instance.SaveData(data, ProgressSaveName);
+        }
+
+        private static void RemoveLegacyProgressFile()
+        {
+            try
+            {
+                string path = Path.Combine(LogueSaveManager.Saveroot, ProgressSaveName);
+                if (File.Exists(path))
+                    File.Delete(path);
+            }
+            catch
+            {
+            }
         }
     }
 
