@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="400011">
+		<Name>突袭</Name>
+		<Desc>免疫单方面攻击
+若自身所有的骰子均被消耗则强制停止拼点
+第3幕后战斗结束</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="400021">
+		<Name>血仇</Name>
+		<Desc>所有骰子威力+1</Desc>
+	</PassiveDesc>
+  
+</PassiveDescRoot>
+  
+

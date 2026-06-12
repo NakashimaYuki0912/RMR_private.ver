@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RewardPassivesRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+ <ChapterList Chapter="GradeAll" Type="Custom" ID="800000">
+    <RewardList ID="800001" PassiveType="Nolimit" TargetType="SelectOne" Script="RestGood1" ArtWork="RestGood1"/>
+    <RewardList ID="800002" PassiveType="Nolimit" TargetType="SelectOne" Script="RestGood2" ArtWork="RestGood2"/>
+    <RewardList ID="800006" PassiveType="Nolimit" TargetType="SelectOne" Script="RestGood6" ArtWork="RestGood6"/>
+  </ChapterList> 
+
+ <ChapterList Chapter="GradeAll" Type="Custom" ID="800003">
+    <RewardList ID="800003" PassiveType="Nolimit" TargetType="SelectOne" Script="RestGood3" ArtWork="RestGood3"/>
+  </ChapterList> 
+
+ <ChapterList Chapter="GradeAll" Type="Custom" ID="800004">
+    <RewardList ID="800004" PassiveType="Nolimit" TargetType="SelectOne" Script="RestGood4" ArtWork="RestGood4"/>
+  </ChapterList> 
+
+ <ChapterList Chapter="GradeAll" Type="Custom" ID="800005">
+    <RewardList ID="800005" PassiveType="Nolimit" TargetType="SelectOne" Script="RestGood5" ArtWork="RestGood1"/>
+  </ChapterList> 
+
+</RewardPassivesRoot>

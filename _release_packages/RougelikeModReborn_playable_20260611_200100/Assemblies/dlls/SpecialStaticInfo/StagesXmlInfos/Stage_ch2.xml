@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StagesXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <ChapterList Chapter="Grade2">
+    <StageList ID="20001" StageType="Normal" /> 
+    <StageList ID="20002" StageType="Normal" /> 
+    <StageList ID="20003" StageType="Normal" /> 
+    <StageList ID="20004" StageType="Normal" /> 
+    <StageList ID="20005" StageType="Boss" /> 
+    <StageList ID="20006" StageType="Boss" /> 
+    <StageList ID="20007" StageType="Normal" /> 
+    <StageList ID="991102" StageType="Creature" /> 
+    <StageList ID="120001" StageType="Mystery" />
+    <StageList ID="120002" StageType="Mystery" />
+    <StageList ID="120003" StageType="Mystery" />
+    <StageList ID="991001" StageType="Mystery" />
+    <StageList ID="991002" StageType="Mystery" />
+    <StageList ID="991003" StageType="Mystery" />
+    <StageList ID="112001" StageType="Shop" /> 
+    <StageList ID="112001" StageType="Shop" /> 
+  </ChapterList>
+
+  <ChapterList Chapter="Grade2" >
+    <StageList ID="220006" StageType="Custom" Script="Ch2BossLulu" />
+    <StageList ID="220005" StageType="Custom" Script="Ch2BossMars" />
+  </ChapterList>
+
+  <ChapterList Chapter="GradeAll" >
+    <StageList ID="220001" StageType="Custom" Script="MeatPieQuestComplete" />
+  </ChapterList>
+
+
+
+</StagesXmlRoot>

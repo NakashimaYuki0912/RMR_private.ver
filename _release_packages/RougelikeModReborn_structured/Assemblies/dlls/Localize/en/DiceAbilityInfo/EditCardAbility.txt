@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardAbilityDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BattleCardAbility ID="lowelonlyLogEdit">
+    <Desc>[On Use] Remove all dice from this page. Add a Mass Attack page to hand that can only be used next Scene.</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="AddBullet1AndDrawLogEdit">
+    <Desc>[On Use] Add a random Ammunition to hand; draw 1 page</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="AddBullet2LogEdit">
+    <Desc>[On Use] Add 2 random Ammunition to hand</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="indexRelease1LogEdit">
+    <Desc>[On Use] Add 'Unlock-Ⅱ' to hand</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="indexRelease2LogEdit">
+    <Desc>[On Use] Add 'Unlock-Ⅲ' to hand</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="nicolaiCard2LogEdit">
+    <Desc>Only usable at 20+ Charge. Upon defeating an enemy with this page, add a copy of 'Disposal' to hand and lower its Cost by 1.</Desc>
+    <Desc>If target's HP is at 50% lower, deal twice as much damage.</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="selfstunwithabilLogEdit">
+    <Desc>[On Play]
+Become Immobilized this Scene.
+Gain 3 Strength next Scene.
+Add a copy of 'Pinpoint Breakthrough' to hand</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="fireIlsumLogEdit">
+    <Desc>[On Use] If 'Burning Flash' is in hand, discard it and draw a page, then add the Offensive dice on the discarded page to this</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="costdownLogEdit">
+    <Desc>This page's Cost is lowered by the number of other 'Rapid Gashes' in hand</Desc>
+  </BattleCardAbility>
+
+</BattleCardAbilityDescRoot>
+

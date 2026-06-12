@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScenarioRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Chapter ID="4">
+    <Title>챕터4–도시질병–‘나한테는 병이 없다고 한다.’</Title>
+  </Chapter>
+  <Group>
+    <GroupName>프롤로그</GroupName>
+    <Episode>
+      <EpisodeName>에피소드1</EpisodeName>
+      <Place>
+        <PlaceName>장소: 도서관 내부</PlaceName>
+      </Place>
+    </Episode>
+  </Group>
+</ScenarioRoot>

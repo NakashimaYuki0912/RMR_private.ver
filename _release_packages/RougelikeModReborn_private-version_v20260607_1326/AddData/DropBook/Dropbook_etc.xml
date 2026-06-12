@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BookUseXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+<BookUse ID="-853">
+    <Name>로그라이크 모드</Name>
+    <TextId>LogueLikeBook_Ch0_1_Modded</TextId>
+    <BookIcon></BookIcon>
+    <Chapter>6</Chapter>
+  </BookUse>
+
+<BookUse ID="-854">
+    <Name>로그라이크 모드</Name>
+    <TextId>LogueLikeBook_Ch0_1</TextId>
+    <BookIcon></BookIcon>
+    <Chapter>6</Chapter>
+  </BookUse>
+
+<BookUse ID="-855">
+    <Name>로그라이크 모드</Name>
+    <TextId>LogueLikeBook_Ch0_2</TextId>
+    <BookIcon></BookIcon>
+    <Chapter>6</Chapter>
+  </BookUse>
+
+<BookUse ID="-2854">
+    <Name>로그라이크 모드 - 도시괴담 디버그</Name>
+    <BookIcon></BookIcon>
+    <Chapter>6</Chapter>
+  </BookUse>
+<BookUse ID="-3854">
+    <Name>로그라이크 모드 - 도시전설 디버그</Name>
+    <BookIcon></BookIcon>
+    <Chapter>6</Chapter>
+  </BookUse>
+<BookUse ID="-4854">
+    <Name>로그라이크 모드 - 도시질병 디버그</Name>
+    <BookIcon></BookIcon>
+    <Chapter>6</Chapter>
+  </BookUse>
+<BookUse ID="-5854">
+    <Name>로그라이크 모드 - 도시악몽 디버그</Name>
+    <BookIcon></BookIcon>
+    <Chapter>6</Chapter>
+  </BookUse>
+<BookUse ID="-6854">
+    <Name>RMR Debug Chapter 6</Name>
+    <TextId>LogueLikeBook_Ch6_Debug</TextId>
+    <BookIcon></BookIcon>
+    <Chapter>6</Chapter>
+  </BookUse>
+<BookUse ID="-7854">
+    <Name>로그라이크 모드 - 도시악몽 디버그</Name>
+    <BookIcon></BookIcon>
+    <Chapter>6</Chapter>
+  </BookUse>
+
+
+</BookUseXmlRoot>

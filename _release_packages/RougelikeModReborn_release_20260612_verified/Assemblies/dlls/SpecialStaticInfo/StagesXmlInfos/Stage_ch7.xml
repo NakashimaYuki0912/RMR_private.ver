@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StagesXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <ChapterList Chapter="Grade7">
+    <StageList ID="70001" StageType="Normal" />
+    <StageList ID="70002" StageType="Normal" />
+    <StageList ID="70003" StageType="Normal" />
+    <StageList ID="70004" StageType="Normal" />
+    <StageList ID="70005" StageType="Normal" />
+    <StageList ID="70006" StageType="Normal" />
+    <StageList ID="70007" StageType="Boss" />
+    <StageList ID="70008" StageType="Boss" />
+    <StageList ID="991107" StageType="Creature" />
+
+    <StageList ID="991001" StageType="Mystery" />
+    <StageList ID="991002" StageType="Mystery" />
+
+    <StageList ID="111001" StageType="Shop" />
+    <StageList ID="111001" StageType="Shop" />
+  </ChapterList>
+
+</StagesXmlRoot>

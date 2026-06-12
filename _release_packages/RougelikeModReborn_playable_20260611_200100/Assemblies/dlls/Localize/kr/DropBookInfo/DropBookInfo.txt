@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="LogueLikeBook_Ch1_1">뜬소문의 책 - 보급</text>
+             <text id="LogueLikeBook_Ch1_2">뜬소문의 책 - 고급</text>
+             <text id="LogueLikeBook_Ch1_3">뜬소문의 책 - 한정</text>
+             <text id="LogueLikeBook_Ch1_4">뜬소문의 책 - 예술</text>
+
+             <text id="LogueLikeBook_Ch2_1">도시괴담의 책 - 보급</text>
+             <text id="LogueLikeBook_Ch2_2">도시괴담의 책 - 고급</text>
+             <text id="LogueLikeBook_Ch2_3">도시괴담의 책 - 한정</text>
+             <text id="LogueLikeBook_Ch2_4">도시괴담의 책 - 예술</text>
+
+             <text id="LogueLikeBook_Ch3_1">도시전설의 책 - 보급</text>
+             <text id="LogueLikeBook_Ch3_2">도시전설의 책 - 고급</text>
+             <text id="LogueLikeBook_Ch3_3">도시전설의 책 - 한정</text>
+             <text id="LogueLikeBook_Ch3_4">도시전설의 책 - 예술</text>
+
+             <text id="LogueLikeBook_Ch4_1">도시질병의 책 - 보급</text>
+             <text id="LogueLikeBook_Ch4_2">도시질병의 책 - 고급</text>
+             <text id="LogueLikeBook_Ch4_3">도시질병의 책 - 한정</text>
+             <text id="LogueLikeBook_Ch4_4">도시질병의 책 - 예술</text>
+
+             <text id="LogueLikeBook_Ch5_1">도시악몽의 책 - 보급</text>
+             <text id="LogueLikeBook_Ch5_2">도시악몽의 책 - 고급</text>
+             <text id="LogueLikeBook_Ch5_3">도시악몽의 책 - 한정</text>
+             <text id="LogueLikeBook_Ch5_4">도시악몽의 책 - 예술</text>
+
+             <text id="LogueLikeBook_Ch6_1">도시의 별의 책 - 보급</text>
+             <text id="LogueLikeBook_Ch6_2">도시의 별의 책 - 고급</text>
+             <text id="LogueLikeBook_Ch6_3">도시의 별의 책 - 한정</text>
+             <text id="LogueLikeBook_Ch6_4">도시의 별의 책 - 예술</text>
+
+             <text id="LogueLikeBook_Ch0_1">로그라이크 모드</text>
+             <text id="LogueLikeBook_Ch0_2">로그라이크 모드 - 저장된 플레이</text>
+</localize>

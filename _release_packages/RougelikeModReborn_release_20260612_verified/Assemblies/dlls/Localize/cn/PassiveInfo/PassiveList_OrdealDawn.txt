@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<PassiveDesc ID="-30001">
+		<Name>否定</Name>
+		<Desc>拼点失败时有50%概率对目标施加1层“易损”</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="-30002">
+		<Name>解放</Name>
+		<Desc>击杀目标时对所有其他敌方角色追加4~8点混乱伤害并施加1层“易损”</Desc>
+	</PassiveDesc>
+  
+</PassiveDescRoot>
+  
+

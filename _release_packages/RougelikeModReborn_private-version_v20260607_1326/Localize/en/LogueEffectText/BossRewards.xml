@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<LogueEffectXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+ 
+  <LogueEffectInfo Id="GlobalEffect_Bookbinder">
+    <Name>Bookbinder</Name> 
+    <Desc>All Librarians have +2 max. Passive Attribution cap.</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“Download more passives!”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>bookhunter or smth idk dude</CatalogDesc>
+  </LogueEffectInfo> 
+  
+   <LogueEffectInfo Id="GlobalEffect_Bookbinder_Effect">
+    <Name>Bookbinder</Name> 
+    <Desc>+{0} max. Passive Attribution cap.</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“Download more passives!”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[No entry for now.]</CatalogDesc>
+  </LogueEffectInfo> 
+  
+   <LogueEffectInfo Id="GlobalEffect_Retrospection">
+    <Name>Reminiscence</Name> 
+    <Desc>Gain {0} Objet D'Art Key Pages and {1} Combat Pages of the current chapter.</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“I 'member...”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[No entry for now.]</CatalogDesc>
+  </LogueEffectInfo> 
+  
+   <LogueEffectInfo Id="GlobalEffect_LuckyTael">
+    <Name>Lucky Tael</Name> 
+    <Desc>Gain {0} Ahn. Add 1 Shop to next chapter's reception pool.</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“Said to use winds and clouds to attract merchants.”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[No entry for now.]</CatalogDesc>
+  </LogueEffectInfo> 
+  
+   <LogueEffectInfo Id="GlobalEffect_CupOfGreed">
+    <Name>Cup of Greed</Name> 
+    <Desc>Select a Combat Page from your current Bookshelf and add it to another Librarian's hand. Can be used once per Act.</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“A must have for hoarders and spendthrifts alike.”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[No entry for now.]</CatalogDesc>
+  </LogueEffectInfo> 
+  
+   <LogueEffectInfo Id="GlobalEffect_CupOfGreed_Effect">
+    <Name>Cup of Greed</Name> 
+    <Desc>Select a Combat Page from your current Bookshelf and add it to another Librarian's hand. Can be used once per Act.</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“A must have for hoarders and spendthrifts alike.”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[No entry for now.]</CatalogDesc>
+  </LogueEffectInfo> 
+  
+   <LogueEffectInfo Id="GlobalEffect_TwoLeafClover">
+    <Name>Two-Leaf Clover</Name> 
+    <Desc>Replaces Three-Leaf Clover. +1 max. Passive Attribution cap. At the start of each Scene, every Librarian gains 1 Luck.</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“You're unsure if its damaged or extra rare.”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[No entry for now.]</CatalogDesc>
+  </LogueEffectInfo> 
+ 
+   <LogueEffectInfo Id="GlobalEffect_BlastFurnace">
+    <Name>Blast Furnace</Name> 
+    <Desc>Crafting is now 25% cheaper.</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“You're unsure of how such bulky equipment helps you in this situation, but it does.”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[No entry for now.]</CatalogDesc>
+  </LogueEffectInfo> 
+  
+    <LogueEffectInfo Id="GlobalEffect_SkaeniteRitual">
+    <Name>Skaenite Ritual</Name> 
+    <Desc>Selected Librarian gains +100% Max. HP and Stagger Resist, +1 Max. Light Capacity and +1 Speed Die. You do not gain an additional Librarian this chapter.</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“This hatred, this bile, this anger - these shall be the tools for thy rebellion.”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[No entry for now.]</CatalogDesc>
+  </LogueEffectInfo> 
+ 
+  
+    <!-- 
+  <LogueEffectInfo Id="GlobalEffect_">
+    <Name>Dshka</Name> 
+    <Desc>Dshka</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“Dshka”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[No entry for now.]</CatalogDesc>
+  </LogueEffectInfo> 
+  -->
+</LogueEffectXmlRoot>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RewardPassivesRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+
+<ChapterList Chapter="Grade3" Type="Custom" ID="13000">
+    <RewardList ID="1130003" PassiveType="Nolimit" Rarity="Uncommon" Script="MysteryReward3_3" ArtWork="Mystery_Ch3_3Reward"/>
+    <RewardList ID="1130004" PassiveType="Nolimit" Rarity="Uncommon" Script="MysteryReward3_4" ArtWork="Mystery_Ch3_4Reward"/>
+  </ChapterList>
+
+</RewardPassivesRoot>

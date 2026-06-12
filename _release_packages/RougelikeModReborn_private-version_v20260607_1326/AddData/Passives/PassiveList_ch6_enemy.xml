@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PassiveXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <Passive ID="150015">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>150015Log</Script>
+    <Name>일렁임</Name>
+    <Desc>매 막 마다 손과 덱에 있는 모든 책장을 소멸시키고 사용할 책장을 손에 추가.
+모든 책장의 비용이 0이 됨.</Desc>
+  </Passive>
+
+  <Passive ID="150016">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>150016Log</Script>
+    <Name>일렁임</Name>
+    <Desc>매 막 마다 손과 덱에 있는 모든 책장을 소멸시키고 사용할 책장을 손에 추가.
+모든 책장의 비용이 0이 됨.</Desc>
+  </Passive>
+
+  <Passive ID="150017">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>150017Log</Script>
+    <Name>일렁임</Name>
+    <Desc>매 막 마다 손과 덱에 있는 모든 책장을 소멸시키고 사용할 책장을 손에 추가.
+모든 책장의 비용이 0이 됨.</Desc>
+  </Passive>
+
+  <Passive ID="250005">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>9</Cost>
+    <Script>250005Log</Script>
+    <Name>탄환 보급</Name>
+    <Desc>근거리 전투 책장의 공격 주사위로 공격을 3번 적중시킬 때 마다 손에 무작위 탄환을 추가</Desc>
+  </Passive>
+
+  <Passive ID="250009">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>2</Cost>
+    <Script>250009Log</Script>
+    <Name>추가 보급</Name>
+    <Desc>탄환이 3장 소멸할 때 마다 막 종료 시 손에 무작위 탄환을 추가</Desc>
+  </Passive>
+
+  <Passive ID="254003">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>false</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>6</Cost>
+    <Script>254003Log</Script>
+    <Name>생명 보험</Name>
+    <Desc>계승불가, 막 종료시 전체 체력의 30% 이하가 남았을 때 손에 '생명 보험' 책장 추가(무대 당 한 번)</Desc>
+  </Passive>
+
+  <Passive ID="250022">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>3</Cost>
+    <Script>250022Log</Script>
+    <Name>칼리</Name>
+    <Desc>매 막 마다 빛을 1 추가로 회복하고 책장을 1장 더 뽑는다.
+
+체력이 350 이하가 되면 흐트러짐을 회복하고 E.G.O를 발현한다. 그 전에는 체력이 350 아래로 내려가지 않는다.(접대 당 한 번)
+'E.G.O 발현' 상태가 해제 되면 3 막 후에 다시 E.G.O를 발현한다.</Desc>
+  </Passive>
+
+<Passive ID="250422">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>3</Cost>
+    <Script>250422Log</Script>
+    <Name>붉은안개</Name>
+    <Desc>모든 주사위의 위력 2 증가.
+'대절단-가로' 사용 가능.
+매 막 마다 한 속성의 내성이 '보통'이 되고 나머지 속성이 '견딤'이 된다.
+적을 처치할 때 마다 모든 주사위의 위력이 증가하는 '붉은안개' 수치 1을 얻는다.
+한 막 동안 공격으로 40 이상의 피해를 입히지 못하면 최대 흐트러짐 저항의 40%만큼 흐트러짐 피해를 받는다.
+흐트러짐 상태가 되면 'E.G.O 발현' 상태가 해제된다.</Desc>
+  </Passive>
+
+<Passive ID="250227">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>250227Log</Script>
+    <Name>일렁임</Name>
+    <Desc>매 막 마다 손과 덱에 있는 모든 책장을 소멸시키고 사용할 책장을 손에 추가한다. 매 막 마다 빛을 모두 회복한다.</Desc>
+  </Passive>
+
+<Passive ID="250327">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>250327Log</Script>
+    <Name>차원을 걷는 자</Name>
+    <Desc>체력이 350 이하가 되면 강제로 무대를 종료하고 재시작한다. 그 전에는 체력이 350 아래로 내려가지 않는다.(접대 당 한 번)</Desc>
+  </Passive>
+
+<Passive ID="150038">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>150038Log</Script>
+    <Name>일렁임</Name>
+    <Desc>매 막 마다 손과 덱에 있는 모든 책장을 소멸시키고 사용할 책장을 손에 추가. 모든 책장의 비용이 0이 된다.</Desc>
+  </Passive>
+
+<Passive ID="150039">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>0</Cost>
+    <Script>150039Log</Script>
+    <Name>일렁임</Name>
+    <Desc>매 막 마다 손과 덱에 있는 모든 책장을 소멸시키고 사용할 책장을 손에 추가. 모든 책장의 비용이 0이 된다.</Desc>
+  </Passive>
+
+<Passive ID="150139">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>0</Cost>
+    <Script>150139Log</Script>
+    <Name>손</Name>
+    <Desc>흐트러짐 상태가 되지 않고 체력이 떨어져도 파괴되지 않는다. 막 시작시 체력이 30 이하면 행동할 수 없다. enlxmfflsdis가 없으면 파괴된다.</Desc>
+  </Passive>
+
+<Passive ID="150051">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>0</Cost>
+    <Script>150051Log</Script>
+    <Name>일렁임</Name>
+    <Desc>매 막 마다 손과 덱에 있는 모든 책장을 소멸시키고 사용할 책장을 손에 추가. 모든 책장의 비용이 0이 된다.</Desc>
+  </Passive>
+
+</PassiveXmlRoot>

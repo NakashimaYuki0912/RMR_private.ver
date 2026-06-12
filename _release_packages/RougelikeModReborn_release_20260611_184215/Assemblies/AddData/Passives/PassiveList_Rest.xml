@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PassiveXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+
+  <Passive ID="800001">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>Rest1</Script> 
+    <Name>복원</Name>
+    <Desc>사서 하나의 생명력을 40% 회복</Desc>
+  </Passive>
+
+  <Passive ID="800002">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>Rest2</Script> 
+    <Name>도포</Name>
+    <Desc>사서 하나의 생명력과 흐트러짐 저항 최대치 + 5%</Desc>
+  </Passive>
+
+  <Passive ID="800003">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>Rest3</Script> 
+    <Name>방습처리</Name>
+    <Desc>이번 챕터동안 사서 하나의 모든 피해 내성 1단계 증가(최대 내성)</Desc>
+  </Passive>
+
+  <Passive ID="800004">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>Rest4</Script> 
+    <Name>전환</Name>
+    <Desc>15안 획득</Desc>
+  </Passive>
+
+  <Passive ID="800005">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>Rest5</Script> 
+    <Name>완전 복원</Name>
+    <Desc>사서 하나의 생명력을 100% 회복</Desc>
+  </Passive>
+
+  <Passive ID="800006">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>Rest6</Script> 
+    <Name>책장 변환</Name>
+    <Desc>전투책장 1장을 선택해 제거. 제거한 전투책장의 이전단계 챕터의 전투책장 보상 1회 획득
+제거한 전투책장의 등급에 따라 더 높은 등급의 전투책장 보상 획득. 뜬소문 챕터의 전투책장 제거시 뜬소문 챕터의 가장 낮은 등급의 전투책장 보상 획득
+다른 행동과 관계없이 사용가능
+남은 횟수 : {0}회</Desc>
+  </Passive>
+
+
+</PassiveXmlRoot>

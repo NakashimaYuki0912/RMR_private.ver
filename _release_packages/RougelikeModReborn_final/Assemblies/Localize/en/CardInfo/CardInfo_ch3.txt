@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+
+    <BattleCardDesc ID="300001">
+      <LocalizedName>Diversion</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="300002">
+      <LocalizedName>Sharp Swipe</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="300003">
+      <LocalizedName>Back Attack</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="300004">
+      <LocalizedName>Standoff</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="300005">
+      <LocalizedName>Outburst</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301001">
+      <LocalizedName>Handling Work</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301002">
+      <LocalizedName>Silent Night</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301003">
+      <LocalizedName>Fence</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301004">
+      <LocalizedName>Your Shield</LocalizedName>
+      <Ability />>
+    </BattleCardDesc>
+    <BattleCardDesc ID="301005">
+      <LocalizedName>Combat Preparation</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301006">
+      <LocalizedName>Blade Whirl</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301007">
+      <LocalizedName>Guardian</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301008">
+      <LocalizedName>Supress</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301009">
+      <LocalizedName>Avert</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301010">
+      <LocalizedName>Retaliate</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301011">
+      <LocalizedName>Law and Order</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302001">
+      <LocalizedName>Fierce Onslaught</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302002">
+      <LocalizedName>Wait Up!</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302003">
+      <LocalizedName>Gamble</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302004">
+      <LocalizedName>Daring Decision</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302005">
+      <LocalizedName>Stay Calm</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302006">
+      <LocalizedName>The Art of Rapid Steps</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302007">
+      <LocalizedName>Slice</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303001">
+      <LocalizedName>Scratch That!</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303002">
+      <LocalizedName>Brawl</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303003">
+      <LocalizedName>I'll End You</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303004">
+      <LocalizedName>Startin' Out Lightly</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303005">
+      <LocalizedName>Shocking Blow</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303006">
+      <LocalizedName>Destructive Impact</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303007">
+      <LocalizedName>Cut In</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303008">
+      <LocalizedName>Crush</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303009">
+      <LocalizedName>Loosen Up</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <text id="Stage_MeatPieQuest">Food Delivery</text>
+  <text id="Stage_BossMars">Mars</text>
+  <text id="Stage_BossLulu">Lulu</text>
+
+
+  <text id="Stage_MeatPieQuest_Desc">Go deliver collected meat to Pierre.</text>
+  <text id="Stage_BossMars_Desc">Mars is back. Move on to the next Chapter after the Reception.</text>
+  <text id="Stage_BossLulu_Desc">Lulu is back. Move on to the next Chapter after the Reception.</text>
+</localize>

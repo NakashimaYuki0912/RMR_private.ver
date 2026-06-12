@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+<!-- 일반 : 시협회 5인 -->
+  <Stage id="50001">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>10</Formation>
+      <Unit>41001</Unit>
+      <Unit>41001</Unit>
+      <Unit>41001</Unit>
+      <Unit>41001</Unit>
+      <Unit>41001</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 시협회 유진 -->
+  <Stage id="50002">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>9</Formation>
+      <Unit>40001</Unit>
+      <Unit>40002</Unit>
+      <Unit>40003</Unit>
+      <Unit>41001</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 인형 -->
+  <Stage id="50003">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>14</Formation>
+      <Unit>40004</Unit>
+      <Unit>40004</Unit>
+      <Unit>40006</Unit>
+      <Unit>40007</Unit>
+      <Unit>40006</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 빠른 인형 -->
+  <Stage id="50004">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>9</Formation>
+      <Unit>40004</Unit>
+      <Unit>40004</Unit>
+      <Unit>40004</Unit>
+      <Unit>40004</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 무거운 인형 -->
+  <Stage id="50005">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>40005</Unit>
+      <Unit>40005</Unit>
+      <Unit>40005</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 8시의 서커스 -->
+  <Stage id="50006">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>14</Formation>
+      <Unit>40011</Unit>
+      <Unit>40012</Unit>
+      <Unit>40013</Unit>
+      <Unit>40011</Unit>
+      <Unit>40012</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 청소부 -->
+  <Stage id="50007">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>15</Formation>
+      <Unit>41002</Unit>
+      <Unit>41002</Unit>
+      <Unit>41002</Unit>
+      <Unit>41002</Unit>
+      <Unit>41002</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 청소부_네임드 -->
+  <Stage id="50008">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>14</Formation>
+      <Unit>40015</Unit>
+      <Unit>40016</Unit>
+      <Unit>41002</Unit>
+      <Unit>41002</Unit>
+      <Unit>40017</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 검지 수행자 -->
+  <Stage id="50009">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>14</Formation>
+      <Unit>40027</Unit>
+      <Unit>40018</Unit>
+      <Unit>40018</Unit>
+      <Unit>40018</Unit>
+      <Unit>40018</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 워프 정리 요원 -->
+  <Stage id="50010">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>14</Formation>
+      <Unit>40022</Unit>
+      <Unit>40022</Unit>
+      <Unit>40022</Unit>
+      <Unit>40022</Unit>
+      <Unit>40022</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 워프 정리 요원 네임드 -->
+  <Stage id="50011">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>14</Formation>
+      <Unit>40019</Unit>
+      <Unit>40020</Unit>
+      <Unit>40021</Unit>
+      <Unit>40022</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 웃는 얼굴들 -->
+  <Stage id="50012">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>14</Formation>
+      <Unit>40026</Unit>
+      <Unit>40026</Unit>
+      <Unit>40026</Unit>
+      <Unit>40026</Unit>
+      <Unit>40026</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 웃는 얼굴들 네임드 -->
+  <Stage id="50013">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>9</Formation>
+      <Unit>40023</Unit>
+      <Unit>40024</Unit>
+      <Unit>40025</Unit>
+      <Unit>40026</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 세븐협회 -->
+  <Stage id="50014">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>14</Formation>
+      <Unit>43002</Unit>
+      <Unit>43002</Unit>
+      <Unit>43002</Unit>
+      <Unit>43002</Unit>
+      <Unit>43002</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 세븐협회 네임드 -->
+  <Stage id="50015">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>9</Formation>
+      <Unit>43001</Unit>
+      <Unit>43002</Unit>
+      <Unit>43002</Unit>
+      <Unit>43002</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 검계 -->
+  <Stage id="50016">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>14</Formation>
+      <Unit>43004</Unit>
+      <Unit>43004</Unit>
+      <Unit>43004</Unit>
+      <Unit>43004</Unit>
+      <Unit>43004</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 검계 네임드 -->
+  <Stage id="50017">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>9</Formation>
+      <Unit>43003</Unit>
+      <Unit>43004</Unit>
+      <Unit>43004</Unit>
+      <Unit>43004</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 보스 : 우는 아이 -->
+  <Stage id="50018">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>23</Formation>
+      <FormationType>AscendingOrder</FormationType>
+      <ManagerScript>TheCryingLog</ManagerScript>
+      <Unit>42002</Unit>
+      <Unit>42003</Unit>
+      <Unit>42004</Unit>
+    </Wave>
+    <MapInfo>CryingChild</MapInfo>
+  </Stage>
+
+<!-- 보스 : 에마와 노아 -->
+  <Stage id="50019">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>15</Formation>
+      <FormationType>AscendingOrder</FormationType>
+      <Unit>40008</Unit>
+      <Unit>40011</Unit>
+      <Unit>40012</Unit>
+      <Unit>40013</Unit>
+    </Wave>
+    <MapInfo>Circus</MapInfo>
+  </Stage>
+
+</StageXmlRoot>

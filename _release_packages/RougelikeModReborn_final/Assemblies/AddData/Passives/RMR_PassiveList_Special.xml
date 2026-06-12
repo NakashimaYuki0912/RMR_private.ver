@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PassiveXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <Passive ID="-100">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>false</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>0</Cost>
+    <Script>RMR_StrangeOrbPassive</Script> 
+    <Name>Strange Orb</Name>
+    <Desc>-</Desc>
+  </Passive>
+
+</PassiveXmlRoot>

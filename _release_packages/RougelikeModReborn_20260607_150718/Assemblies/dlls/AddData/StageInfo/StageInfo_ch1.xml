@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+  <Stage id="-853"> <!-- Modded Version -->
+   <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>854</Unit>
+    </Wave> 
+	<MapInfo>SparklingMirrorMapManager</MapInfo>
+    <Name>Roguelike Reborn</Name>
+    <FloorNum>0</FloorNum>
+    <Invitation Combine="BookRecipe">
+    <Book>-853</Book> 
+      
+    </Invitation>
+  </Stage>
+
+  <Stage id="-854">
+   <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>854</Unit>
+
+    </Wave> 
+
+    <Name>Roguelike Classic</Name>
+    <FloorNum>0</FloorNum>
+    <Invitation Combine="BookRecipe">
+     <Book>-854</Book> 
+      
+    </Invitation>
+  </Stage>
+
+  <Stage id="-855">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+     <Unit>854</Unit>
+    </Wave>
+    <Name>Roguelike</Name>
+    <FloorNum>0</FloorNum>
+    <Invitation Combine="BookRecipe">
+     <Book>-855</Book> 
+      
+    </Invitation>
+  </Stage>
+
+  <Stage id="-2854">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+     <Unit>854</Unit>
+    </Wave>
+    <Name> </Name>
+    <FloorNum>0</FloorNum>
+    <Invitation Combine="BookRecipe">
+     <Book>-2854</Book> 
+      
+    </Invitation>
+  </Stage>
+  <Stage id="-3854">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+     <Unit>854</Unit>
+    </Wave>
+    <Name> </Name>
+    <FloorNum>0</FloorNum>
+    <Invitation Combine="BookRecipe">
+     <Book>-3854</Book> 
+      
+    </Invitation>
+  </Stage>
+  <Stage id="-4854">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+     <Unit>854</Unit>
+    </Wave>
+    <Name> </Name>
+    <FloorNum>0</FloorNum>
+    <Invitation Combine="BookRecipe">
+     <Book>-4854</Book> 
+      
+    </Invitation>
+  </Stage>
+  <Stage id="-5854">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+    <Unit>854</Unit>
+    <Unit>855</Unit>
+    </Wave>
+    <Name> </Name>
+    <FloorNum>0</FloorNum>
+    <Invitation Combine="BookRecipe">
+     <Book>-5854</Book> 
+      
+    </Invitation>
+  </Stage>
+  
+  <Stage id="-6854">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+    <Unit>854</Unit>
+    <Unit>855</Unit>
+    </Wave>
+    <Name>RMR Debug Chapter 6</Name>
+    <FloorNum>0</FloorNum>
+    <Invitation Combine="BookRecipe">
+     <Book>-6854</Book> 
+      
+    </Invitation>
+  </Stage>
+  
+  <Stage id="-7854">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+    <Unit>854</Unit>
+    <Unit>855</Unit>
+    </Wave>
+    <Name> </Name>
+    <FloorNum>0</FloorNum>
+    <Invitation Combine="BookRecipe">
+     <Book>-7854</Book> 
+      
+    </Invitation>
+  </Stage>
+
+
+<!--일반 : 윤 사무소-->
+
+  <Stage id="-11530001">
+
+   <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>1003</Unit>
+      <Unit>1004</Unit>
+    </Wave>
+
+
+  </Stage>
+
+
+
+<!--일반 : 핀-->
+
+  <Stage id="-11530002">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>4</Unit>
+    </Wave> 
+
+
+  </Stage>
+
+<!--보스1 : 윤과 에리-->
+
+  <Stage id="-11530003">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>5</Formation>
+      <Unit>6</Unit> <!-- 윤 -->
+      <Unit>5</Unit>
+    </Wave>
+
+  </Stage>
+
+<!--보스2 : 철의 형제.-->
+
+  <Stage id="-11530004">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>7</Unit>
+      <Unit>8</Unit>
+      <Unit>9</Unit>
+    </Wave>
+
+  </Stage>
+
+<!--일반 : 갈고리 사무소.-->
+
+  <Stage id="-11530005">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>5</Formation>
+      <Unit>11001</Unit>
+      <Unit>11001</Unit>
+    </Wave>
+
+  </Stage>
+
+<!--보스3 : 태인 나오키 맥컬린.-->
+
+  <Stage id="-11530006">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>11</Unit>
+      <Unit>10</Unit>
+      <Unit>12</Unit>
+    </Wave>
+
+  </Stage>
+
+<!-- 일반 : 태인 단독 -->
+  <Stage id="-11530007">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>11</Unit>
+    </Wave>
+
+  </Stage>
+
+<!-- 일반 : 모 단독 -->
+  <Stage id="-11530008">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>7</Unit>
+    </Wave>
+
+  </Stage>
+
+<!-- 일반 : 쥐 3마리 -->
+  <Stage id="-11530009">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>3</Unit>  <!--피트-->
+      <Unit>1</Unit>
+      <Unit>2</Unit>
+    </Wave>
+  </Stage>
+
+
+</StageXmlRoot>

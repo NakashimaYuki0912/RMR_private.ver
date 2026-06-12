@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<RogueMysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Mystery ID="-100">
+    <Frame ID="0">
+      <Dialog>你发现自己正面对着一面[mirror]闪闪发光的镜子[/color] - 它要求你在几件神秘文物中做出选择，以帮助你完成旅程。
+
+你会选择哪一件？</Dialog>
+      <Choice ID="0">
+        <Desc>选择[common]心之钢</Desc>
+      </Choice>
+      <Choice ID="1">
+        <Desc>选择[common]猎人斗篷</Desc>
+      </Choice>
+      <Choice ID="2">
+        <Desc>选择[common]不稳定的球体</Desc>
+      </Choice>
+      <Choice ID="3">
+        <Desc>选择[common]狂暴目镜</Desc>
+      </Choice>
+	  <Choice ID="4">
+        <Desc>选择[common]指引之光</Desc>
+      </Choice>
+	  <Choice ID="5">
+        <Desc>选择[common]无路卡美洛</Desc>
+      </Choice>
+    </Frame>
+    <Frame ID="1">
+      <Dialog>[mirror]闪光之镜[/color]轻轻振动着，召唤出了你选择的遗物。它轻轻地落在你手里，然后[mirror]镜子[/color]便逐渐隐匿与环境之中。</Dialog>
+      <Choice ID="0">
+        <Desc>离开</Desc>
+      </Choice>
+    </Frame>
+    <Title>[mirror]闪光之镜[/color]</Title>
+  </Mystery>
+</RogueMysteryXmlRoot>

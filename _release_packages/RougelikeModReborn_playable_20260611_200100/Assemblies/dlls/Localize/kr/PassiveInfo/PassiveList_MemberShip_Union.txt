@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="28581001">
+		<Name>유니온 공방 상인</Name>
+		<Desc>뭔가 사지 그래요?</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581001">
+    <Name>생체장비 - 게걸스런 낫</Name>
+    <Desc>(다른 생체장비와 중복 불가) 막 종료 시 체력을 5% 잃음(최대 12). 입힌 피해의 25%를 회복함</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581002">
+    <Name>생체장비 - 피빠는 손톱</Name>
+    <Desc>(다른 생체장비와 중복 불가) 막 종료 시 체력을 5% 잃음(최대 12). 공격 주사위 적중 시 출혈 2 부여. 출혈을 부여할때마다 부여한 출혈만큼 피해를 입힘</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581003">
+    <Name>생체장비 - 여섯번째 손가락</Name>
+    <Desc>(다른 생체장비와 중복 불가) 막 종료 시 체력을 5% 잃음(최대 12). 모든 주사위 최대값 + 3~5</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581004">
+    <Name>생체장비 - 너머를 보는 안구</Name>
+    <Desc>(다른 생체장비와 중복 불가) 막 종료 시 체력을 5% 잃음(최대 12). 행운을 2 얻음</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581005">
+    <Name>생체장비 - 억척스런 발톱</Name>
+    <Desc>(다른 생체장비와 중복 불가) 막 종료 시 체력을 5% 잃음(최대 12). 합 패배 시 현재 주사위를 재사용(주사위 당 1번)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581006">
+    <Name>생체장비 - 앙상한 날개</Name>
+    <Desc>(다른 생체장비와 중복 불가) 막 종료 시 체력을 5% 잃음(최대 12). 근접 책장으로 일방공격을 당할 시 합을 즉시 종료시킴(막당 최대 2회)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581007">
+    <Name>바이오 연료</Name>
+    <Desc>[전역] 캐릭터가 사망할때마다 모든 캐릭터의 체력 5% 회복(최대 6)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581008">
+    <Name>외골격</Name>
+    <Desc>사서 한명의 최대 체력 10, 흐트러짐 저항 5 증가</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581009">
+    <Name>강제 각성</Name>
+    <Desc>흐트러짐 상태가 되면 현재 체력의 25%를 잃고 흐트러짐 상태에서 벗어남</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581010">
+    <Name>감각적 전투</Name>
+    <Desc>이전 전투에서 사용했던 전투 책장 사용 시 최대값 + 1. 행운 1 적용</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

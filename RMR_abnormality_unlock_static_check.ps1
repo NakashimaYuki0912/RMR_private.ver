@@ -33,6 +33,30 @@ foreach ($pattern in @(
   }
 }
 
+foreach ($pattern in @(
+  '"ScorchedGirl", "HappyTeddyBear", "FairyCarnival", "QueenBee"',
+  '"ForsakenMurderer", "LittleHelper", "SingingMachine", "Butterfly"',
+  '"ShyLookToday", "RedShoes", "SpiderBud", "Laetitia"',
+  '"UniverseZogak", "ChildofGalaxy", "Porccubus", "Alriune"',
+  '"QueenOfHatred", "KnightOfDespair", "Greed", "Angry"',
+  '"Redhood", "BigBadWolf", "Mountain", "Nosferatu"',
+  '"ScareCrow", "LumberJack", "House", "Ozma"',
+  '"BloodBath", "HeartofAspiration", "Pinocchio", "TheSnowQueen"',
+  '"Bigbird", "SmallBird", "LongBird"',
+  '"Bloodytree", "Clock", "BlueStar"'
+)) {
+  if ($unlock -notmatch [regex]::Escape($pattern)) {
+    throw "Abnormality tier grouping missing or reordered: $pattern"
+  }
+}
+
+$simpleBlock = [regex]::Match($unlock, 'SimpleRoots\s*=\s*\{(?<body>.*?)\};', 'Singleline').Groups['body'].Value
+foreach ($forbidden in @("Redhood", "BigBadWolf", "Mountain", "Nosferatu", "BloodBath", "Pinocchio", "TheSnowQueen", "Bloodytree", "Clock", "BlueStar")) {
+  if ($simpleBlock -match [regex]::Escape($forbidden)) {
+    throw "Simple tier incorrectly contains later-floor abnormality root: $forbidden"
+  }
+}
+
 $patches = Get-Content (Join-Path $root "abcdcode_Refactored\LogLikePatches.cs") -Raw
 foreach ($pattern in @(
   "RMRAbnormalityUnlockManager.GetUnlockedEmotionCardsForBattle",

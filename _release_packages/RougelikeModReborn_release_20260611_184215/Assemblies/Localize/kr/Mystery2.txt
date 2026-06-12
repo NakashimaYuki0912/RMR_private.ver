@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryCh2_1Title">피에르의 고기파이</text>
+             <text id="MysteryCh2_1Frame0Dia0">&lt;i&gt;"너, 우리 가게 음식에 관심 있어?"
+"아주 기발한 레시피가 떠올랐는데...안타깝게도 재료가 부족해."
+"구해다 주면 특별히 맨 처음으로 신작 요리를 맛보게 해줄게."
+"아니면...널 재료로 쓰는 것도 나쁘지 않겠는데?"&lt;/i&gt;</text>
+             <text id="MysteryCh2_1Frame0Choice0Desc">수락한다(고기파이 퀘스트 시작)</text>
+             <text id="MysteryCh2_1Frame0Choice1Desc">거절한다(피에르와 도축업자들을 접대)</text>
+
+             <text id="MysteryCh2_1Frame1Dia0">&lt;i&gt;"좋아. 기다리고 있을게."&lt;/i&gt;</text>
+             <text id="MysteryCh2_1Frame1Dia1">
+이제부터 퀘스트 종료 전까지 전투책장 보상을 건너뛰면 '고기' 책장을 얻을 수 있습니다.
+고기 5개를 가져가면 피에르가 &lt;b&gt;훌륭한&lt;/b&gt; 요리를 대접해줄겁니다.</text>
+             <text id="MysteryCh2_1Frame1Choice0Desc">종료(고기파이 퀘스트 시작)</text>
+
+             <text id="MysteryCh2_1Frame2Dia0">피에르가 섬뜩하게 웃으며 칼을 빼들었습니다.</text>
+             <text id="MysteryCh2_1Frame2Choice0Desc">종료(피에르를 접대)</text>
+
+
+
+             <text id="MysteryCh2_1_1Title">재료 납품</text>
+             <text id="MysteryCh2_1_1Frame0Dia0">당신은 돌아다니며 얻은 '고기'를 피에르에게 넘겼습니다.
+답례로 피에르는 솜씨를 발휘해 놀라운 요리를 만들어 냈습니다.
+지금 먹고 갈 수도 있고, 보존해서 두고두고 먹을 수도 있을거 같습니다.</text>
+             <text id="MysteryCh2_1_1Frame0Choice0Desc">지금 먹는다(모든 사서의 체력 100% 회복)</text>
+             <text id="MysteryCh2_1_1Frame0Choice1Desc">포장해간다(고기 잼 전투책장을 3장 획득)</text>
+
+             <text id="MysteryCh2_2Title">마음가짐</text>
+ <text id="MysteryCh2_2Frame0Dia0">도서관에 왔던 가로등 사무소 해결사들이 서로 다투고 있습니다.
+서로 자기가 남을테니 나머지는 어서 도망치라는군요.
+우애 깊은 모습이 제법 보기 좋지만, 적을 눈앞에 두고 보일 태도는 아닌 듯 합니다.
+큰 빈틈이 생겼으니 우리가 결정을 좀 도와줄 수도 있겠네요.</text>
+             <text id="MysteryCh2_2Frame0Choice0Desc">마스를 공격한다.(마스의 책장 획득. 보스 챕터에서 루루가 등장)</text>
+             <text id="MysteryCh2_2Frame0Choice1Desc">루루를 공격한다.(루루의 책장 획득. 보스 챕터에서 마스가 등장)</text>
+
+ <text id="MysteryCh2_2Frame1Dia0">빈틈을 포착하고 달려든 사서가 손님 한명을 책으로 만듭니다.
+
+나머지는 도망치게 둡시다. 어차피 곧 다시 오겠지만요.</text>
+             <text id="MysteryCh2_2Frame1Choice0Desc">종료(마스의 책장 획득. 보스 챕터에서 루루가 등장)</text>
+
+ <text id="MysteryCh2_2Frame2Dia0">빈틈을 포착하고 달려든 사서가 손님 한명을 책으로 만듭니다.
+
+나머지는 도망치게 둡시다. 어차피 곧 다시 오겠지만요.</text>
+             <text id="MysteryCh2_2Frame2Choice0Desc">종료(루루의 책장 획득. 보스 챕터에서 마스가 등장)</text>
+
+</localize>

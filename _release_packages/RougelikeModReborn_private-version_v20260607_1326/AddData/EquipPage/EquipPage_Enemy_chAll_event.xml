@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+	<!-- All 이벤트 1 -->
+	<Book ID="28370001">
+		<Name>???</Name>
+		<EquipEffect>
+			<EmotionLevel>1</EmotionLevel>
+			<HP>100</HP>
+			<Break>100</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>1</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Normal</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Normal</PBResist>
+			<HBResist>Normal</HBResist>
+			<StartPlayPoint>0</StartPlayPoint>
+			<MaxPlayPoint>2</MaxPlayPoint>
+			<Passive Level="1">28370001</Passive>
+		</EquipEffect>
+		<BookIcon>None</BookIcon>
+		<CharacterSkin>Creature_SilentGirl_BlackHand</CharacterSkin>
+		<Rarity>Common</Rarity>
+    <RandomFace>false</RandomFace>
+	</Book>
+
+	<!-- All 이벤트 2 -->
+	<Book ID="28370002">
+		<Name>???</Name>
+		<EquipEffect>
+			<EmotionLevel>1</EmotionLevel>
+			<HP>100</HP>
+			<Break>100</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>1</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Normal</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Normal</PBResist>
+			<HBResist>Normal</HBResist>
+			<StartPlayPoint>0</StartPlayPoint>
+			<MaxPlayPoint>2</MaxPlayPoint>
+			<Passive Level="1">28370002</Passive>
+		</EquipEffect>
+		<BookIcon>None</BookIcon>
+		<CharacterSkin>TheSparklingMirror</CharacterSkin>
+		<Rarity>Special</Rarity>
+        <CharacterSkinType>Custom</CharacterSkinType>
+    <RandomFace>false</RandomFace>
+	</Book>
+
+	<Book ID="28370003">
+		<Name>???</Name>
+		<EquipEffect>
+			<EmotionLevel>1</EmotionLevel>
+			<HP>100</HP>
+			<Break>100</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>1</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Normal</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Normal</PBResist>
+			<HBResist>Normal</HBResist>
+			<StartPlayPoint>0</StartPlayPoint>
+			<MaxPlayPoint>2</MaxPlayPoint>
+			<Passive Level="1">28370003</Passive>
+		</EquipEffect>
+		<BookIcon>None</BookIcon>
+		<CharacterSkin>TheSparklingMirror</CharacterSkin>
+		<Rarity>Special</Rarity>
+        <CharacterSkinType>Custom</CharacterSkinType>
+    <RandomFace>false</RandomFace>
+	</Book>
+
+	<Book ID="28370004">
+		<Name>???</Name>
+		<EquipEffect>
+			<EmotionLevel>1</EmotionLevel>
+			<HP>100</HP>
+			<Break>100</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>1</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Normal</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Normal</PBResist>
+			<HBResist>Normal</HBResist>
+			<StartPlayPoint>0</StartPlayPoint>
+			<MaxPlayPoint>2</MaxPlayPoint>
+			<Passive Level="1">28370004</Passive>
+		</EquipEffect>
+		<BookIcon>None</BookIcon>
+		<CharacterSkin>TheSparklingMirror</CharacterSkin>
+		<Rarity>Special</Rarity>
+        <CharacterSkinType>Custom</CharacterSkinType>
+    <RandomFace>false</RandomFace>
+	</Book>
+
+</BookXmlRoot>

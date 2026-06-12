@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  
+<Mystery ID="-3000" Title="">
+    <script>OrdealMachineDawn</script>
+  </Mystery>
+<Mystery ID="-3001" Title="">
+    <script>OrdealOutterGodDawn</script>
+  </Mystery>
+<Mystery ID="-3002" Title="">
+    <script>OrdealCircusDawn</script>
+  </Mystery>
+<Mystery ID="-3003" Title="">
+    <script>OrdealBugDawn</script>
+  </Mystery>
+
+
+
+</MysteryXmlRoot>

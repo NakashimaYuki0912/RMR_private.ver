@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DeckXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+  <!-- 청소부 -->
+  <Deck ID="28480004">
+    <Card>514002</Card>
+    <Card>514003</Card>
+    <Card>514003</Card>
+    <Card>514005</Card>
+    <Card>514005</Card>
+    <Card>514006</Card>
+    <Card>514006</Card>
+  </Deck>
+
+  <!-- 9급 해결사 -->
+  <Deck ID="28480006">
+    <Card Pid="@origin">1</Card>
+    <Card Pid="@origin">1</Card>
+    <Card Pid="@origin">2</Card>
+    <Card Pid="@origin">1</Card>
+    <Card Pid="@origin">2</Card>
+    <Card Pid="@origin">3</Card>
+  </Deck>
+
+
+
+
+
+</DeckXmlRoot>

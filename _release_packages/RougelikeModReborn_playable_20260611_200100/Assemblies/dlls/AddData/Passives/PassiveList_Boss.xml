@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PassiveXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+
+  <Passive ID="100001">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>Boss1</Script> 
+    <Name>제본</Name>
+    <Desc>[전역] 지속능력 계승 비용 총량이 2 증가</Desc>
+  </Passive>
+
+  <Passive ID="100002">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>Boss2</Script> 
+    <Name>회상</Name>
+    <Desc>현재 챕터의 한정-예술 전투책장 보상을 X회, 한정-예술 핵심책장 보상을 Y회 획득</Desc>
+  </Passive>
+
+  <Passive ID="100003">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>Boss3</Script> 
+    <Name>부와 명예</Name>
+    <Desc>X안을 획득. 다음 챕터에 상점이 1회 추가로 등장</Desc>
+  </Passive>
+
+
+</PassiveXmlRoot>

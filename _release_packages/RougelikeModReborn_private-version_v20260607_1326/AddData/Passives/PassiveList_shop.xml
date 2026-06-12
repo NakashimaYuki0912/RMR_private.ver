@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PassiveXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+
+  <Passive ID="28570001">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>Shop1_1</Script> 
+    <Name>보따리 상인</Name>
+    <Desc>안녕하세요! 뭐 좀 사가세요!</Desc>
+  </Passive>
+
+  <Passive ID="8570000">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script></Script>
+    <Name>기본 상점 패시브</Name>
+    <Desc>---</Desc>
+  </Passive>
+
+  <Passive ID="8570001">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>2</Cost>
+    <Script>ShopPassive1</Script>
+    <Name>발단</Name>
+    <Desc>1막에 위력 + 1</Desc>
+  </Passive>
+
+  <Passive ID="8570002">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>3</Cost>
+    <Script>ShopPassive2</Script>
+    <Name>전개</Name>
+    <Desc>2막에 위력 + 2</Desc>
+  </Passive>
+
+  <Passive ID="8570003">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>4</Cost>
+    <Script>ShopPassive3</Script>
+    <Name>위기</Name>
+    <Desc>3막에 위력 + 3</Desc>
+  </Passive>
+
+  <Passive ID="8570004">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>5</Cost>
+    <Script>ShopPassive4</Script>
+    <Name>절정</Name>
+    <Desc>4막에 위력 + 4</Desc>
+  </Passive>
+
+  <Passive ID="8570005">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>6</Cost>
+    <Script>ShopPassive5</Script>
+    <Name>결말</Name>
+    <Desc>5막에 위력 + 5</Desc>
+  </Passive>
+
+  <Passive ID="8570006">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive6</Script>
+    <Name>축객령</Name>
+    <Desc>[소모성] 일반 전투에서 사용 시 무대를 즉시 종료함</Desc>
+  </Passive>
+
+  <Passive ID="8570007">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>5</Cost>
+    <Script>ShopPassive7</Script>
+    <Name>초심</Name>
+    <Desc>이전 챕터의 책장을 사용시 모든 주사위 위력 + 1. 이전 챕터 단계 차이당 위력이 추가로 1 증가</Desc>
+  </Passive>
+
+  <Passive ID="8570008">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive8</Script>
+    <Name>회복탄환</Name>
+    <Desc>[소모성] 사서 1명을 선택해 생명력의 50%를 회복시킴</Desc>
+  </Passive>
+
+  <Passive ID="8570009">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive9</Script>
+    <Name>전투 자극제 - 힘</Name>
+    <Desc>[소모성] 사서 1명을 선택해 이번 막에 힘을 1~2 부여</Desc>
+  </Passive>
+
+  <Passive ID="8570010">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive10</Script>
+    <Name>복권</Name>
+    <Desc>구매 시 0 ~ 1안을 얻음.(더미)</Desc>
+  </Passive>
+
+  <Passive ID="8570011">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive11</Script>
+    <Name>연막탄</Name>
+    <Desc>[소모성] 선택한 사서에게 지정된 주사위들을 다른 대상에게로 변경. 사서가 1명뿐일땐 사용 불가</Desc>
+  </Passive>
+
+  <Passive ID="8570012">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive12</Script>
+    <Name>조잡한 방패</Name>
+    <Desc>[소모성] 선택한 사서에게 반격 주사위(방어, 2-5) 1개를 추가함. 챕터 단계당 주사위 최소값과 최대값이 1씩 증가</Desc>
+  </Passive>
+
+  <Passive ID="8570013">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>3</Cost>
+    <Script>ShopPassive13</Script>
+    <Name>폭탄</Name>
+    <Desc>[소모성] 모든 적에게 피해 8. 챕터 당 피해량 3씩 증가</Desc>
+  </Passive>
+
+  <Passive ID="8570014">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>3</Cost>
+    <Script>ShopPassive14</Script>
+    <Name>새싹</Name>
+    <Desc>[소모성] 사망한 사서 하나를 선택해 생명력 절반으로 부활시킴. 사망한 사서가 없다면 사용불가</Desc>
+  </Passive>
+
+  <Passive ID="8570015">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive15</Script>
+    <Name>전투 자극제 - 신속</Name>
+    <Desc>[소모성] 사서 1명을 선택해 이번 막에 신속을 2~3 부여</Desc>
+  </Passive>
+
+  <Passive ID="8570016">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive16</Script>
+    <Name>전투 자극제 - 인내</Name>
+    <Desc>[소모성] 사서 1명을 선택해 이번 막에 인내를 1~2 부여</Desc>
+  </Passive>
+
+  <Passive ID="8570017">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive17</Script>
+    <Name>전투 자극제 - 면역</Name>
+    <Desc>[소모성] 사서 1명을 선택해 이번 막에 보호와 흐트러짐 보호를 1~2 부여</Desc>
+  </Passive>
+
+  <Passive ID="8570018">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>2</Cost>
+    <Script>ShopPassive18</Script>
+    <Name>적금 상품</Name>
+    <Desc>[소모성] 일반 전투 입장 시 마다 점수가 1씩 쌓임. 사용 시 점수 * 3 만큼 안을 얻음</Desc>
+  </Passive>
+
+ <Passive ID="8570019">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>2</Cost>
+    <Script>ShopPassive19</Script>
+    <Name>두레박</Name>
+    <Desc>[소모성] 사용 시 안을 1 소모함. 임의의 수치만큼 안을 소모하면 소모한 안의 150%만큼을 돌려받고 사라짐</Desc>
+  </Passive>
+
+ <Passive ID="8570020">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>4</Cost>
+    <Script>ShopPassive20</Script>
+    <Name>재활용</Name>
+    <Desc>[전역] 적이 사망할때 1안을 추가로 얻음</Desc>
+  </Passive>
+
+ <Passive ID="8570021">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>9</Cost>
+    <Script>ShopPassive21</Script>
+    <Name>막 - 앙코르</Name>
+    <Desc>모든 '막' 물품을 구매하면 출현. 1~5막에 위력 +1~5 효과를 반복함</Desc>
+  </Passive>
+
+ <Passive ID="8570022">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive22</Script>
+    <Name>압박 붕대</Name>
+    <Desc>[소모성] 아군 하나의 출혈을 제거</Desc>
+  </Passive>
+
+ <Passive ID="8570023">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>2</Cost>
+    <Script>ShopPassive23</Script>
+    <Name>세잎 클로버</Name>
+    <Desc>[전역] 막 시작 시 무작위 사서 하나에게 행운 1 부여</Desc>
+  </Passive>
+
+ <Passive ID="85700231">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive23_1</Script>
+    <Name>네잎 클로버</Name>
+    <Desc>[전역] 막 시작 시 모든 사서에게 행운 1 부여</Desc>
+  </Passive>
+
+ <Passive ID="8570024">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive24</Script>
+    <Name>숫돌</Name>
+    <Desc>[소모성] 이번막에 모든 사서에게 피해량 + 1 부여</Desc>
+  </Passive>
+
+ <Passive ID="8570025">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>7</Cost>
+    <Script>ShopPassive25</Script>
+    <Name>인형극</Name>
+    <Desc>[전역] 한 막에 한 번 사용 가능.
+사서 두명을 지정. 처음으로 지정한 사서가 사용하는 책장들을 두번째 사서가 복제하여 대상에게 일방공격으로 사용함.
+두번째로 지정한 사서는 이번 막에 행동불가</Desc>
+  </Passive>
+
+ <Passive ID="8570026">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>3</Cost>
+    <Script>ShopPassive26</Script>
+    <Name>응급 치료 키트</Name>
+    <Desc>피해를 받으면 생명력을 1 회복함(막 당 최대 5)</Desc>
+  </Passive>
+
+ <Passive ID="8570027">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>4</Cost>
+    <Script>ShopPassive27</Script>
+    <Name>트릭스터</Name>
+    <Desc>[전역] 한 무대에 한 번 사용 가능.
+이번 막에 모든 주사위 최소값이 1로 고정됨.</Desc>
+  </Passive>
+
+ <Passive ID="8570028">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>2</Cost>
+    <Script>ShopPassive28</Script>
+    <Name>책갈피</Name>
+    <Desc>[소모성] 이번 챕터 접대 목록에 서고를 1개 추가함. 보스 전투에선 사용 불가</Desc>
+  </Passive>
+
+ <Passive ID="8570029">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>2</Cost>
+    <Script>ShopPassive29</Script>
+    <Name>방습제</Name>
+    <Desc>[전역] 서고에서 '방습처리' 선택지 추가. 선택 시 사서 하나의 모든 피해내성을 해당 챕터동안 1단계 올려줌</Desc>
+  </Passive>
+
+ <Passive ID="8570030">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>4</Cost>
+    <Script>ShopPassive30</Script>
+    <Name>완전 복원</Name>
+    <Desc>[전역] 서고에서 '복원' 선택지로 회복하는 생명력이 40% 에서 100%로 증가</Desc>
+  </Passive>
+
+ <Passive ID="8570031">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive31</Script>
+    <Name>전환</Name>
+    <Desc>[전역] 서고에서 '전환' 선택지 추가. 선택 시 15안을 획득</Desc>
+  </Passive>
+
+ <Passive ID="8570032">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>2</Cost>
+    <Script>ShopPassive32</Script>
+    <Name>옷감</Name>
+    <Desc>핵심책장 보상을 1회 획득</Desc>
+  </Passive>
+
+ <Passive ID="8570033">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>4</Cost>
+    <Script>ShopPassive33</Script>
+    <Name>교본 - 회피</Name>
+    <Desc>[전역] 사용 시 이번 막에 모든 사서의 회피 주사위에 행운 1 적용.
+다른 교본 전역 효과와 중복 불가능</Desc>
+  </Passive>
+
+ <Passive ID="8570034">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>4</Cost>
+    <Script>ShopPassive34</Script>
+    <Name>교본 - 방어</Name>
+    <Desc>[전역] 사용 시 이번 막에 모든 사서의 방어 주사위에 행운 1 적용.
+다른 교본 전역 효과와 중복 불가능</Desc>
+  </Passive>
+
+ <Passive ID="8570035">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>4</Cost>
+    <Script>ShopPassive35</Script>
+    <Name>교본 - 참격</Name>
+    <Desc>[전역] 사용 시 이번 막에 모든 사서의 참격 주사위에 행운 1 적용.
+다른 교본 전역 효과와 중복 불가능</Desc>
+  </Passive>
+
+ <Passive ID="8570036">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>4</Cost>
+    <Script>ShopPassive36</Script>
+    <Name>교본 - 관통</Name>
+    <Desc>[전역] 사용 시 이번 막에 모든 사서의 관통 주사위에 행운 1 적용.
+다른 교본 전역 효과와 중복 불가능</Desc>
+  </Passive>
+
+ <Passive ID="8570037">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>4</Cost>
+    <Script>ShopPassive37</Script>
+    <Name>교본 - 타격</Name>
+    <Desc>[전역] 사용 시 이번 막에 모든 사서의 타격 주사위에 행운 1 적용.
+다른 교본 전역 효과와 중복 불가능</Desc>
+  </Passive>
+
+ <Passive ID="8570038">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive38</Script>
+    <Name>각성제</Name>
+    <Desc>[소모성] 사서 하나에게 '모든 주사위 최소값 -1, 최대값 +2'를 2막동안 부여</Desc>
+  </Passive>
+
+ <Passive ID="8570039">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive39</Script>
+    <Name>안정제</Name>
+    <Desc>[소모성] 사서 하나에게 '모든 주사위 최소값 +2, 최대값 -1'를 2막동안 부여</Desc>
+  </Passive>
+
+ <Passive ID="8570040">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>2</Cost>
+    <Script>ShopPassive40</Script>
+    <Name>과학상자</Name>
+    <Desc>[소모성] 현재 챕터의 전투책장 하나를 선택해 가져옴. 가져온 전투책장은 사용 전까지 비용이 0이 됨</Desc>
+  </Passive>
+
+ <Passive ID="8570041">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>3</Cost>
+    <Script>ShopPassive41</Script>
+    <Name>광자 포집기</Name>
+    <Desc>막 시작 시 무작위 사서 1명의 빛을 1 회복시킴(남은 빛 비율이 가장 적은 사서에게 우선 적용)</Desc>
+  </Passive>
+
+ <Passive ID="8570042">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive42</Script>
+    <Name>촛불</Name>
+    <Desc>[소모성] 사서 하나의 빛을 1 회복시킴</Desc>
+  </Passive>
+
+ <Passive ID="8570043">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>4</Cost>
+    <Script>ShopPassive43</Script>
+    <Name>주머니</Name>
+    <Desc>[전역] 지속능력 계승 비용 총량이 1 증가</Desc>
+  </Passive>
+
+ <Passive ID="8570044">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive44</Script>
+    <Name>낡은 동전</Name>
+    <Desc>[소모성] 이번 막에 사서 하나에게 행운을 1-2 부여</Desc>
+  </Passive>
+
+ <Passive ID="8570045">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>1</InnerType>
+    <Cost>2</Cost>
+    <Script>ShopPassive45</Script>
+    <Name>불안정한 속도</Name>
+    <Desc>막 시작 시 50% 확률로 속도 주사위 슬롯 + 1(중복 불가)</Desc>
+  </Passive>
+
+ <Passive ID="8570046">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive46</Script>
+    <Name>깜짝상자</Name>
+    <Desc>[소모성] 지정한 적이 장착한 무작위 책장 하나를 장착해제</Desc>
+  </Passive>
+
+ <Passive ID="8570047">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive47</Script>
+    <Name>북</Name>
+    <Desc>[전역] 막 시작 시 모든 캐릭터에게 힘을 1 부여</Desc>
+  </Passive>
+
+</PassiveXmlRoot>

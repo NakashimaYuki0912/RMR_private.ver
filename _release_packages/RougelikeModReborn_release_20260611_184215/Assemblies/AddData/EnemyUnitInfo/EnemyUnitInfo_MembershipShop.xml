@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EnemyUnitClassRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+  
+ <Enemy ID="28580001">
+    <!--로직 아틀리에 상인-->
+    <Name>보따리 상인</Name>
+    <NameID>28580001</NameID>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>200</MaxHeight>
+    <BookId>28580001</BookId>
+
+    <Exp>0</Exp>
+
+    <DropTable Level="0">
+    </DropTable>
+  </Enemy>
+
+ <Enemy ID="28581001">
+    <!-- 유니온 공방 상인-->
+    <Name>보따리 상인</Name>
+    <NameID>28581001</NameID>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>200</MaxHeight>
+    <BookId>28581001</BookId>
+
+    <Exp>0</Exp>
+
+    <DropTable Level="0">
+    </DropTable>
+  </Enemy>
+
+ <Enemy ID="28582001">
+    <!-- 스티그마 공방 상인-->
+    <Name>보따리 상인</Name>
+    <NameID>28582001</NameID>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>200</MaxHeight>
+    <BookId>28582001</BookId>
+
+    <Exp>0</Exp>
+
+    <DropTable Level="0">
+    </DropTable>
+  </Enemy>
+
+ <Enemy ID="28583001">
+    <!-- 묵 공방 상인-->
+    <Name>보따리 상인</Name>
+    <NameID>28583001</NameID>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>200</MaxHeight>
+    <BookId>28583001</BookId>
+
+    <Exp>0</Exp>
+
+    <DropTable Level="0">
+    </DropTable>
+  </Enemy>
+
+
+</EnemyUnitClassRoot>

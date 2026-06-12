@@ -1,0 +1,1654 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RogueLike Mod Reborn</name>
+    </assembly>
+    <members>
+        <member name="M:abcdcode_LOGLIKE_MOD.ExtensionUtils.MergeDropTables(CardDropTableXmlList,LorId,LorId)">
+            <summary>
+            Used for quickly adding combat pages to a drop pool.
+            </summary>
+            <param name="original">The original drop pool's ID. (ID OF THE CARD LIST, NOT DROP POOL ID!)</param>
+            <param name="newId">The drop pool to add.</param>
+        </member>
+        <member name="T:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase">
+            <summary>
+            Base class for inventory items.<br></br>
+            Do mind the class name is saved to disk- please use unique class names to avoid conflicts.
+            </summary>
+        </member>
+        <member name="P:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.KeywordId">
+            <value>
+            Override this with the ID provided within the effect's respective localization XML.
+            </value>
+        </member>
+        <member name="P:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.KeywordIconId">
+            <value>
+            Override this with the filename of the effect's icon. Defaults to <see cref="P:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.KeywordId"/> if not provided.
+            </value>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.GetSaveData">
+            <summary>
+            Used for storing persistent information to save file.<br></br>
+            It is recommended to start the method like so:
+            <code>SaveData data = base.GetSaveData();</code><br></br>
+            As base.GetSaveData contains the TypeName of the effect,<br></br>
+            which is necessary for loading the effect from a save file.
+            </summary>
+            <returns>The <see cref="T:GameSave.SaveData"/> to be stored in disk.</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.LoadFromSaveData(GameSave.SaveData)">
+            <summary>
+            Used for loading persistent information from save file.<br></br>
+            </summary>
+            <param name="save">The SaveData for this effect that is being loaded.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.AddedNew">
+            <summary>
+            Runs immediately when the effect is added to the player's inventory.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.CanDupliacte">
+            <summary>
+            Determines whether or not the item can stack.<br></br>
+            <b>Does not prevent multiple copies of an item from being given.</b>
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.Destroy">
+            <summary>
+            Removes the effect from the inventory.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnDestroy">
+            <summary>
+            Runs when the item is destroyed.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnAddSubPlayer(UnitDataModel)">
+            <summary>
+            Runs when a new assistant librarian is added.
+            </summary>
+            <param name="model">The assitant librarian in question.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.CraftCostMultiple(abcdcode_LOGLIKE_MOD.CraftEffect)">
+            <summary>
+            Assigns a multiplier for crafting cost.
+            </summary>
+            <param name="effect">The CraftEffect to multiply the cost of.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.InvenAddCardChange(LorId)">
+            <summary>
+            Runs whenever a combat page is added to the inventory.
+            </summary>
+            <param name="baseid">The ID of the combat page.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.RewardInStageInterrupt">
+            <summary>
+            Runs right before a mid-Act reward is about to be triggered.<br></br>
+            Can be used to alter rewards by modifying <see cref="F:abcdcode_LOGLIKE_MOD.LogLikeMod.rewards_InStage"/>.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.RewardClearStageInterrupt">
+            <summary>
+            Runs right before an end-of-Act reward is about to be triggered.<br></br>
+            Can be used to alter rewards by modifying <see cref="F:abcdcode_LOGLIKE_MOD.LogLikeMod.rewards"/>.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.ChangeShopCard(LOR_DiceSystem.DiceCardXmlInfo@)">
+            <summary>
+            Intercepts combat page generation in shops.
+            </summary>
+            <param name="card">The combat page that was generated.<br></br>Can be modified directly (ref keyword).</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.ChangeCardReward(System.Collections.Generic.List{LOR_DiceSystem.DiceCardXmlInfo}@)">
+            <summary>
+            Directly intercepts combat page rewards.
+            </summary>
+            <param name="cardlist">The list of combat page XML infos that are to be rewarded.<br></br>Can be modified directly (ref keyword).</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.ChangeSuccCostValue">
+            <summary>
+            Adds an increment to the passive attribution capacity to all librarians.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.ChangeDiceResult(BattleDiceBehavior,System.Int32@)">
+            <summary>
+            Changes the final roll of a die.<br></br>
+            Behaves same as vanilla.
+            <param name="behavior">The current die being rolled.</param>
+            <param name="diceResult">The final roll.<br></br>Can be modified directly (ref keyword).</param>
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.ChangeRestChoice(abcdcode_LOGLIKE_MOD.MysteryBase,System.Collections.Generic.List{abcdcode_LOGLIKE_MOD.RewardPassiveInfo}@)">
+            <summary>
+            Changes the list of action/RestPickUp choices when entering a resting room.
+            </summary>
+            <param name="currest">The current resting room MysteryBase object.</param>
+            <param name="choices">The list of RestPickUps that are to be given as choices.<br></br>Can be modified directly (ref keyword).</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnRoundStart(StageController)">
+            <summary>
+            Runs at the start of the round.<br></br>
+            Behaves same as vanilla.
+            </summary>
+            <param name="stage">The currently active StageController.<br></br>Moreso a shorthand to avoid calling StageController.Instance a bunch of times.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.DmgFactor(BattleUnitModel,System.Int32,DamageType,KeywordBuf)">
+            <summary>
+            Adds a multiplier to damage about to be dealt.<br></br>
+            Behaves same as vanilla.
+            </summary>
+            <param name="model">The BattleUnitModel that is about to take said damage.</param>
+            <param name="dmg">The raw amount of incoming damage with no other modifiers.</param>
+            <param name="type">The type of damage that is being given.</param>
+            <param name="keyword">The keyword of the buf that is dealing the damage, if any.</param>
+            <returns></returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnKillUnit(BattleUnitModel,BattleUnitModel)">
+            <summary>
+            Runs whenever an unit kills another unit.
+            </summary>
+            <param name="killer">Self-explanatory.</param>
+            <param name="target">Self-explanatory.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnDieUnit(BattleUnitModel)">
+            <summary>
+            Runs whenever an unit dies.
+            </summary>
+            <param name="unit">The unit that is going to die.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnStartBattle(BattlePlayingCardDataInUnitModel)">
+            <summary>
+            Runs at combat start for every combat page being used.<br></br>
+            More specifically, <see cref="F:StageController._allCardList"/>.<br></br>
+            Other than that, behaves same as vanilla.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.BeforeRollDice(BattleDiceBehavior)">
+            <summary>
+            Runs *before* a die is rolled.<br></br>
+            Behaves same as vanilla.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnUseCard(BattlePlayingCardDataInUnitModel)">
+            <summary>
+            Runs whenever any unit uses a combat page. (On Use)<br></br>
+            Behaves same as vanilla.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.ChangeShopCardList(abcdcode_LOGLIKE_MOD.ShopBase,abcdcode_LOGLIKE_MOD.CardDropValueXmlInfo@)">
+            <summary>
+            Directly alters the list of combat pages made available in a shop.
+            </summary>
+            <param name="shop">The currently open shop object.</param>
+            <param name="list">An object containing the drop table ID and drop rates for different rarities.<br></br>
+            Can be modified directly (ref keyword).</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnShopCardListCreate(abcdcode_LOGLIKE_MOD.ShopBase)">
+            <summary>
+            Runs after combat pages have been generated in a shop.
+            </summary>
+            <param name="shop">The currently open shop object.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnPickCardReward(System.Collections.Generic.List{LOR_DiceSystem.DiceCardXmlInfo},LOR_DiceSystem.DiceCardXmlInfo)">
+            <summary>
+            Runs when a combat page reward has been chosen by the player.
+            </summary>
+            <param name="cardlist">The list of combat pages that were available to choose.</param>
+            <param name="pick">The combat page that was picked by the player.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnSkipCardRewardChoose(System.Collections.Generic.List{LOR_DiceSystem.DiceCardXmlInfo})">
+            <summary>
+            Runs whenever the player skips a combat page reward.
+            </summary>
+            <param name="cardlist">The list of combat pages that were available to choose.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.CanShopPurchase(abcdcode_LOGLIKE_MOD.ShopBase,abcdcode_LOGLIKE_MOD.ShopGoods)">
+            <summary>
+            Determines if an item can be bought from a shop, regardless of price.<br></br>
+            Default to <see langword="true"/>.
+            </summary>
+            <param name="shop">The currently open shop object.</param>
+            <param name="goods">The item whose purchasability is going to be determined.</param>
+            <returns>Whether or not the item can be bought. (true for yes, false for no)</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnEnterShop(abcdcode_LOGLIKE_MOD.ShopBase)">
+            <summary>
+            Runs whenever the player enters a shop.
+            </summary>
+            <param name="shop">The currently open shop object.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnLeaveShop(abcdcode_LOGLIKE_MOD.ShopBase)">
+            <summary>
+            Runs whenever the playe leaves a shop.
+            </summary>
+            <param name="shop">The currently open shop object.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnEndBattle">
+            <summary>
+            Runs at the end of the Act. (not Scene/Turn!)<br></br>
+            Behaves same as vanilla.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnStartBattle">
+            <summary>
+            Runs at the start of the Act.<br></br>
+            WARNING! This runs BEFORE the initialization process for fights!<br></br>
+            If you mean to run something OnWaveStart, use <see cref="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnStartBattleAfter"/> instead.<br></br>
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnStartBattleAfter">
+            <summary>
+            Runs at the start of the Act.<br></br>
+            Behaves same as vanilla's OnStartBattle methods.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnCreateLibrarian(BattleUnitModel)">
+            <summary>
+            Runs whenever a librarian's <see cref="T:BattleUnitModel"/> is created for battle.<br></br>
+            More specifically, <see cref="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.StageController_CreateLibrarianUnit(System.Action{StageController,SephirahType},StageController,SephirahType)"/>.
+            </summary>
+            <param name="model">The unit that was just created.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnCreateLibrarians">
+            <summary>
+            Runs *after* all librarians' BattleUnitModels have been created for battle.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnClick">
+            <summary>
+            Runs when you click on the item. With your cursor.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.GetSprite">
+            <summary>
+            Used to get the item's sprite.<br></br>
+            If you wish to dynamically modify the sprite, it is recommended to instead do<br></br>
+            a conditional overide for <see cref="P:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.KeywordIconId"/>, and then<br></br>
+            run <see cref="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectManager.UpdateSprites"/> when you expect the sprite to change.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.GetEffectName">
+            <summary>
+            Used to get the item's name.<br></br>
+            Overriding is not recommended. Refer to <see cref="P:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.KeywordId"/> instead.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.GetEffectDesc">
+            <summary>
+            Used to get the item's description.<br></br>
+            Overriding is not recommended. Refer to <see cref="P:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.KeywordId"/> instead.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.GetCredenzaEntry">
+            <summary>
+            Used to get the item's credenza entry in the Item Catalog.<br></br>
+            Overriding is not recommended. Refer to <see cref="P:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.KeywordId"/> instead.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.GetStack">
+            <summary>
+            Returns the number to be shown on the item stack counter.<br></br>
+            Defaults to -1, meaning no stack number is shown.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.OnCrit(BattleUnitModel,BattleUnitModel)">
+            <summary>
+            [RMR] Runs whenever <see cref="T:RogueLike_Mod_Reborn.BattleUnitBuf_RMR_CritChance"/> crits successfully.
+            </summary>
+            <param name="critter">The unit that is dealing the critical strike.</param>
+            <param name="target">The unit that is receiving the critical strike.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase.AfterClearBossWave">
+            <summary>
+            [RMR] Runs immediately after <see cref="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.OnClearBossWave"/>.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectManager.GetEffect``1">
+            <summary>
+            Returns the first instance of a GlobalLogueEffectBase in inventory.<br></br>
+            If it does not exist, returns <see langword="null"/>.
+            </summary>
+        </member>
+        <member name="T:abcdcode_LOGLIKE_MOD.LogDiceCardSelfAbility">
+            <summary>
+            A special DiceCardSelfAbilityBase class for manipulating
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.LogLikeMod.LogUIObjs">
+            <summary>
+            A dictionary containing several cached UI objects for ready-initialization.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.LogLikeMod.PauseBool">
+            <summary>
+            Pauses the combat scene if set to true.<br></br>
+            Irrelevant if there is a currently running shop, mystery event or mystery interrupt.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.LogLikeMod.curChStageStep">
+            <summary>
+            Number of Acts the player has gone through this chapter.
+            </summary>
+        </member>
+        <member name="P:abcdcode_LOGLIKE_MOD.LogLikeMod.curChRemainCount">
+            <summary>
+            Number of total Acts still available to the player this chapter.
+            </summary>
+        </member>
+        <member name="P:abcdcode_LOGLIKE_MOD.LogLikeMod.curMysteryTitle">
+            <summary>
+            The currently running mystery's title- used by Discord Rich Presence.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.LogLikeMod.rewards">
+            <summary>
+            Determines the reward for any incoming CardChoice and CardList events/interrupts.<br></br>
+            Mainly used for end-of-stage combat page rewards.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.LogLikeMod.rewards_lastKill">
+            <summary>
+            Set to the last killed enemy's book drops. Cleared on stage start.<br></br>Useful for certain effects.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.LogLikeMod.rewards_passive">
+            <summary>
+            Determines end-of-act passive choices. Mainly used for key page rewards and boss rewards.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.LogLikeMod.rewards_InStage">
+            <summary>
+            Determines mid-battle rewards.<br></br>
+            Commonly used for passing information to <see cref="M:abcdcode_LOGLIKE_MOD.PickUpModelBase.OnPickUp(BattleUnitModel)"/>.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.LogLikeMod.rewardsMystery">
+            <summary>
+            Runs events at the end of the act. <b>These are given out *before* <see cref="F:abcdcode_LOGLIKE_MOD.LogLikeMod.rewards_passive"/>.</b><br></br>
+            Inserting an event LorId results in an event being called  Unused in vanilla Roguelike, but still works.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.LogLikeMod.nextlist">
+            <summary>
+            Determines the next set of stages/encounters for the playe to choose.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.LogLikeMod.curchaptergrade">
+            <summary>
+            The current chapter the player is in.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.LogLikeMod.curstagetype">
+            <summary>
+            The current type of stage the player is in.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.LogLikeMod.curstageid">
+            <summary>
+            The current *actual* reception the player is in within Roguelike.<br></br>
+            When checking IDs, use this instead of <see cref="M:StageController.GetStageModel"/>.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.LogLikeMod.EndBattle">
+            <summary>
+            Determines to whether or not the act is actually supposed to end at the end of the scene.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.LogLikeMod.AddPlayer">
+            <summary>
+            Determines to whether or not add a new player at the end of the act.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.LogLikeMod.RecoverPlayers">
+            <summary>
+            Determines to whether or not revive all players and heal them all at the end of the act.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.LogLikeMod.ModdedArtWorks">
+            <summary>
+            Contains modded artworks from mod folders [root]/Resource/CustomArtwork.<br></br>
+            You can obtain a sprite from it like so: 
+            <code>var sprite = LogLikeMod.ModdedArtworks[(packageId, fileName)];</code>
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeMod.SetNextStage(LorId,abcdcode_LOGLIKE_MOD.StageType,abcdcode_LOGLIKE_MOD.NextStageSetType)">
+            <summary>
+            Sets the next act's reception.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeMod.ResetUIs">
+            <summary>
+            Disables the money counter, ends mystery events, closes shops and disables the dropdown item inventory.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeMod.GetFieldValue``1(System.Object,System.String)">
+            <summary>
+            Shorthand for getting private fields.
+            </summary>
+            <typeparam name="T">The type of the field you wish you get.</typeparam>
+            <param name="obj">The object that has the field.</param>
+            <param name="name">The name of the field.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeMod.SetFieldValue(System.Object,System.String,System.Object)">
+            <summary>
+            Shorthand for setting private fields.
+            </summary>
+            <param name="obj">The object that has the field.</param>
+            <param name="name">The name of the field.</param>
+            <param name="value">The value to override the field with.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeMod.CheckExceptionModExist(System.Collections.Generic.List{System.String}@)">
+            <summary>
+            Checks for mod incompatibilities.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeMod.GetLogMods">
+            <summary>
+            Returns a list of mod metadata for all satellite mods.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeMod.CreateShopEquipPages">
+            <summary>
+            Method that creates all the passive key pages automatically
+            </summary>
+        </member>
+        <member name="T:abcdcode_LOGLIKE_MOD.LogLikeMod.BCEVLoglikeExtensions">
+            <summary>
+            This is quite literally just a bunch of code adapted from BattleCardEnhancedView<br></br> 
+            made to work with abcdcode's custom card UI class.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogueBookModels.HandleLimitPícking(System.Collections.Generic.List{abcdcode_LOGLIKE_MOD.LogueStageInfo},System.Collections.Generic.List{abcdcode_LOGLIKE_MOD.LogueStageInfo},abcdcode_LOGLIKE_MOD.LogueBookModels.StageLimits,System.Boolean)">
+            <summary>
+            Picks a number of encounters based on their types and the given <see cref="T:abcdcode_LOGLIKE_MOD.LogueBookModels.StageLimits"/>.
+            </summary>
+            <param name="stage">An empty list to be fed the new list of unique encounters.</param>
+            <param name="allstage">A list containing all the encounters to pick from.</param>
+            <param name="stageLimits">An object that limit how many of each type of encounter should appear in a chapter.</param>
+            <param name="guaranteeChapterEvent">As to whether or not guarantee at least one event from that chapter.</param>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.MysteryBase.curinfo">
+            <summary>
+            Utilized to determine metadata for picking abnormality pages.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.MysteryBase.animator">
+            <summary>
+            The animator object for MysteryBase fade-ins/outs.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.MysteryBase.FrameObj">
+            <summary>
+            A dictionary containing UI elements created for the event interface.<br></br>
+            When making custom UI elements, please add them to this list.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.MysteryBase.xmlinfo">
+            <summary>
+            The event's respective XML info.
+            </summary>
+        </member>
+        <member name="T:abcdcode_LOGLIKE_MOD.OnceEffect">
+            <summary>
+            Base class for <b>consumable</b> inventory items- comes with a few shorthands for quick stack handling and usage.<br></br>
+            Do mind the class name is saved to disk- please use unique class names to avoid conflicts.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.OnceEffect.AddedNew">
+            <summary>
+            Runs when the item is added.<br></br>
+            For consumables, this defaults to increasing the stack and updating the sprites.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.OnceEffect.CanDupliacte">
+            <summary>
+            Determines if the item can stack.<br></br>
+            For consumables, this defaults to true.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.OnceEffect.GetSaveData">
+            <summary>
+            Used for storing persistent information to save file.<br></br>
+            It is recommended to start the method like so:
+            <code>SaveData data = base.GetSaveData();</code><br></br>
+            As base.GetSaveData contains the TypeName of the effect,<br></br>
+            which is necessary for loading the effect from a save file.<br></br>
+            <b>Consumables also store their respective number of stacks to disk.</b>
+            </summary>
+            <returns>The <see cref="T:GameSave.SaveData"/> to be stored in disk.</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.OnceEffect.LoadFromSaveData(GameSave.SaveData)">
+            <summary>
+            Used for loading persistent information from save file.<br></br>
+            For consumables, the base version also loads the stack from save data.
+            </summary>
+            <param name="save">The SaveData for this effect that is being loaded.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.OnceEffect.Use">
+            <summary>
+            A small shorthand that automatically deducts 1 from the stack,<br></br>
+            destroys the item if it has 0 or less stacks, and updates the sprites on the item list.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.OnceEffect.GetStack">
+            <summary>
+            Returns the number to be shown on the item stack counter.<br></br>
+            Defaults to <see cref="F:abcdcode_LOGLIKE_MOD.OnceEffect.stack"/>.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.PickUpModelBase.#ctor">
+            <summary>
+            Do <b>NOT</b> forget to inherit this constructor on your derived <see cref="T:abcdcode_LOGLIKE_MOD.PickUpModelBase"/>.
+            <code>
+            // You can do it like this:
+            public class PickUpModel_MyCoolItem : PickUpModelBase
+            {
+                public PickUpModel_MyCoolItem() : base() // do not forget this : base() part
+                {
+                    this.id = new LorId(myModInitializer.packageId, 1984);
+                    this.rewardinfo = RewardPassivesList.Instance.GetPassiveInfo(new LorId(myModInitializer.packageId, 1984));
+                }
+            }</code>
+            </summary>
+        </member>
+        <member name="P:abcdcode_LOGLIKE_MOD.PickUpModelBase.KeywordId">
+            <value>
+            Override this with the ID provided within the effect's respective localization XML.
+            </value>
+        </member>
+        <member name="P:abcdcode_LOGLIKE_MOD.PickUpModelBase.KeywordIconId">
+            <value>
+            Override this with the filename of the effect's icon. Defaults to <see cref="P:abcdcode_LOGLIKE_MOD.PickUpModelBase.KeywordId"/> if not provided.
+            </value>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.PickUpModelBase.GetCredenzaEntry">
+            <summary>
+            Displays the credenza entry within the Item Catalog.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.PickUpModelBase.LoadFromSaveData(abcdcode_LOGLIKE_MOD.LogueStageInfo)">
+            <summary>
+            Manipulates the stage which this PickUp sends to upon being chosen.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.PickUpModelBase.GivePassive(LorId,BattleUnitModel)">
+            <summary>
+            Instantly creates a passive attribution keypage and gives it to an unit.
+            </summary>
+            <param name="id">The LorId of the passive ability.</param>
+            <param name="model">The unit to give the passive to.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.PickUpModelBase.RemovePassive(LorId,BattleUnitModel)">
+            <summary>
+            Instantly removes a passive attribution keypage from an unit.
+            </summary>
+            <param name="id">The LorId of the passive ability.</param>
+            <param name="model">The unit to remove the passive from.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.PickUpModelBase.GetPickupTarget">
+            <summary>
+            Determines the list of units to be given as a choice for the pickup.<br></br>
+            If null, then all allied units are valid targets. (returns null by default)
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.PickUpModelBase.IsCanPickUp(UnitDataModel)">
+            <summary>
+            Determines whether a given unit can be given the item.
+            </summary>
+            <param name="target"></param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.PickUpModelBase.OnPickUp">
+            <summary>
+            Executes upon being picked up or added via ShopPickUpModel.AddPassiveReward().
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.PickUpModelBase.OnPickUp(BattleUnitModel)">
+            <summary>
+            Executes upon being picked up or added via ShopPickUpModel.AddPassiveReward().<br></br>
+            Only executes for PassiveRewardType.SelectOne passives.
+            </summary>
+            <param name="model">The unit chosen by the player to give the reward to.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.ShopPickUpModel.#ctor">
+            <summary>
+            Do <b>NOT</b> forget to inherit this constructor on your derived <see cref="T:abcdcode_LOGLIKE_MOD.ShopPickUpModel"/>.
+            <code>
+            // You can do it like this:
+            public class PickUpModel_MyCoolItem : ShopPickUpModel
+            {
+                public PickUpModel_MyCoolItem() : base() // do not forget this : base() part
+                {
+                    this.id = new LorId(myModInitializer.packageId, 1984);
+                    this.rewardinfo = RewardPassivesList.Instance.GetPassiveInfo(new LorId(myModInitializer.packageId, 1984));
+                }
+            }</code>
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.ShopPickUpModel.AddEquipPage(LorId)">
+            <summary>
+            Adds a key page to the player's inventory.
+            </summary>
+            <param name="id">The LorId of the key page.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.ShopPickUpModel.AddPassiveReward(abcdcode_LOGLIKE_MOD.RewardInfo)">
+            <summary>
+            Adds a passive reward immediately.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.ShopPickUpModel.AddPassiveReward(LorId)">
+            <summary>
+            Adds a passive reward immediately by the reward's LorId.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.ShopPickUpModel.EditName(System.String@)">
+            <summary>
+            Edits the name of the item upon creating it in a shop.<br></br>
+            Can be edited directly (ref keyword).
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.ShopPickUpModel.EditDesc(System.String@)">
+            <summary>
+            Edits the description of the item upon creating it in a shop.<br></br>
+            Can be edited directly (ref keyword).
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.ShopPickUpModel.GetShopType">
+            <summary>
+            Whether the item is consumable or permanent.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.ShopPickUpModel.IsEquipReward">
+            <summary>
+            Whether the item is a key page reward or not.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.ShopPickUpModel.IsCanAddShop">
+            <summary>
+            Whether the item can show up in a shop or not.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.ShopPickUpModel.OnPickUpShop(abcdcode_LOGLIKE_MOD.ShopGoods)">
+            <summary>
+            Runs upon being bought in a shop.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.ShopPickUpModel.OnPickUp">
+            <summary>
+            Executes upon being picked up or added via ShopPickUpModel.AddPassiveReward().<br></br>
+            Is <b>NOT</b> ran upon being bought in a shop.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.StagesXmlList.GetChapterDataSpecific(abcdcode_LOGLIKE_MOD.ChapterGrade,LorId,System.Boolean)">
+            <summary>
+            Returns a list containing every single reception for a given chapter for a specific campaign.
+            </summary>
+            <param name="chapter">The chapter to filter by.</param>
+            <param name="id">The campaign ID of the campaign.</param>
+            <param name="ExceptAllGrade">Whether or not to exclude encounters that can show up in any chapter.</param>
+            <returns></returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.CryingChildMapManager_InitInvitationMap(System.Action{BattleSceneRoot,MapManager},BattleSceneRoot,MapManager)">
+            <summary>
+            Hook for hijacing Crrying Children's map manager.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.BookModel_ChangePassive(System.Action{BookModel,PassiveModel,PassiveModel},BookModel,PassiveModel,PassiveModel)">
+            <summary>
+            Hook for fixing an annoying passive attribution bug where the game fails to find a passive.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.UnitDataModel_GetDeckForBattle(System.Func{UnitDataModel,System.Int32,System.Collections.Generic.List{LOR_DiceSystem.DiceCardXmlInfo}},UnitDataModel,System.Int32)">
+            <summary>
+            Hook for changing empty/partially empty decks giving out default pages.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.AbnormalityCardDescXmlList_GetAbnormalityCard(System.Func{AbnormalityCardDescXmlList,System.String,LOR_XML.AbnormalityCard},AbnormalityCardDescXmlList,System.String)">
+            <summary>
+            Hook for relocalizing abnormality pages.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.UIGetAbnormalityPanel_PointerClickButton(System.Action{UI.UIGetAbnormalityPanel},UI.UIGetAbnormalityPanel)">
+            <summary>
+            Hook for closing the abno page UI.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.BattleSceneRoot_Update(System.Action{BattleSceneRoot},BattleSceneRoot)">
+            <summary>
+            Hook for pausing the battle scene whenever:<br></br>
+            - <see cref="F:abcdcode_LOGLIKE_MOD.LogLikeMod.PauseBool"/> is true<br></br>
+            - A mystery event is currently running<br></br>
+            - An event interrupt is currently running<br></br>
+            - A shop is currently running
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.BookXmlInfo_get_DeckId(System.Func{BookXmlInfo,LorId},BookXmlInfo)">
+            <summary>
+            Hook for giving newly-generated units their adequate default deck replacements.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.UIBattleSettingPanel_SetCurrentSephirahButton(System.Action{UI.UIBattleSettingPanel},UI.UIBattleSettingPanel)">
+            <summary>
+            Hook for disabling the sephirah buttons.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.BattleUnitEmotionDetail_CreateEmotionCoin(System.Func{BattleUnitEmotionDetail,EmotionCoinType,System.Int32,System.Int32},BattleUnitEmotionDetail,EmotionCoinType,System.Int32)">
+            <summary>
+            Hook for limiting emotion level gain depending on the chapter.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.StageController_EndBattlePhase(System.Action{StageController,System.Single},StageController,System.Single)">
+            <summary>
+            Hook for resetting the emotion level of all librarians and clearing out abno pages.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.StageController_StartBattle(System.Action{StageController},StageController)">
+            <summary>
+            Hook for initializing stage rewards and enabling money UI.
+            Also runs <see cref="M:abcdcode_LOGLIKE_MOD.GlobalLogueEffectManager.OnStartBattle"/> (and OnStartBattleAfter).
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.StageController_CreateLibrarianUnit(System.Action{StageController,SephirahType},StageController,SephirahType)">
+            <summary>
+            Hook for initializing librarian units in roguelike.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.StageController_RoundEndPhase_ChoiceEmotionCard(System.Func{StageController,System.Boolean},StageController)">
+            <summary>
+            Hook for prompting abno page choice screens.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.StageController_OnEnemyDropBookForAdded(System.Action{StageController,DropBookDataForAddedReward},StageController,DropBookDataForAddedReward)">
+            <summary>
+            Hook for transferring enemy book rewards into the reward pool at the end of the Act.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.StageController_EndBattle(System.Action{StageController},StageController)">
+            <summary>
+            Hook for handling Roguelike acts actually ending.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.LevelUpUI_OnSelectRoutine(System.Func{LevelUpUI,System.Collections.IEnumerator},LevelUpUI)">
+            <summary>
+            Hook for manipulating the UI for PickUpModel abno page popup screen.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.LevelUpUI_SetEmotionPerDataUI(System.Action{LevelUpUI,System.Single,System.Single},LevelUpUI,System.Single,System.Single)">
+            <summary>
+            Hook for manipulating the UI for PickUpModel abno page popup screen.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.LevelUpUI_InitBase(System.Action{LevelUpUI,System.Int32,System.Boolean},LevelUpUI,System.Int32,System.Boolean)">
+            <summary>
+            Hook for manipulating the UI for rewards. All of them.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.StageLibraryFloorModel_OnPickEgoCard(System.Action{StageLibraryFloorModel,EmotionEgoXmlInfo},StageLibraryFloorModel,EmotionEgoXmlInfo)">
+            <summary>
+            Hook for hijacking EGO page screen to give card rewards instead.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.StageLibraryFloorModel_OnPickPassiveCard(System.Action{StageLibraryFloorModel,EmotionCardXmlInfo,BattleUnitModel},StageLibraryFloorModel,EmotionCardXmlInfo,BattleUnitModel)">
+            <summary>
+            Hook for handling next stage choice and passive reward giving.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.UIBattleSettingEditPanel_Open(System.Action{UI.UIBattleSettingEditPanel,UI.UIBattleSettingEditTap},UI.UIBattleSettingEditPanel,UI.UIBattleSettingEditTap)">
+            <summary>
+            Hook for initializing inventory, abnormality and crafting screens.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.UIBattleSettingLibrarianInfoPanel_SetBattleCardSlotState(System.Action{UI.UIBattleSettingLibrarianInfoPanel},UI.UIBattleSettingLibrarianInfoPanel)">
+            <summary>
+            Hook for unlocking BattleSetting combat page customization even after an Act.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.UIBattleSettingLibrarianInfoPanel_SetEquipPageSlotState(System.Action{UI.UIBattleSettingLibrarianInfoPanel},UI.UIBattleSettingLibrarianInfoPanel)">
+            <summary>
+            Hook for unlocking BattleSetting key page customization even after an Act.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.BattleDiceCardUI_SetEgoCardForPopup(System.Action{BattleDiceCardUI,EmotionEgoXmlInfo},BattleDiceCardUI,EmotionEgoXmlInfo)">
+            <summary>
+            Hijacks and adjusts the ego card popup UI for miscellaneous purposes.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.BattleUnitCardsInHandUI_SetCardsObject(System.Action{BattleUnitCardsInHandUI,BattleUnitModel,System.Boolean},BattleUnitCardsInHandUI,BattleUnitModel,System.Boolean)">
+            <summary>
+            Sets card states for UI purposes.<br></br>
+            Not entirely sure if this is necessary. Won't bother touching it though. -CalmMagma
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.DeckModel_MoveCardToInventory(System.Func{DeckModel,LorId,System.Boolean},DeckModel,LorId)">
+            <summary>
+            Hook for de-equipping combat pages from the deck.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.DeckModel_AddCardFromInventory(System.Func{DeckModel,LorId,CardEquipState},DeckModel,LorId)">
+            <summary>
+            Hook for equipping combat pages from the inventory.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.UIInvenCardListScroll_SetData(System.Action{UI.UIInvenCardListScroll,System.Collections.Generic.List{DiceCardItemModel},UnitDataModel},UI.UIInvenCardListScroll,System.Collections.Generic.List{DiceCardItemModel},UnitDataModel)">
+            <summary>
+            Hook for overriding combat page list with the roguelike's.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.UnitDataModel_AddCardFromInventory(System.Func{UnitDataModel,LorId,CardEquipState},UnitDataModel,LorId)">
+            <summary>
+            Hook for equipping a combat page into an unit-<br></br>
+            SPECIFICALLY, defers control of AddCardFromInventory to BookModel.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.BookModel_AddCardFromInventory(System.Func{BookModel,LorId,CardEquipState},BookModel,LorId)">
+            <summary>
+            Hook for equipping a combat page into an unit.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.BookInventoryModel_GetBookList_equip(System.Func{BookInventoryModel,System.Collections.Generic.List{BookModel}},BookInventoryModel)">
+            <summary>
+            Hook for overriding keypage list with Roguelike's.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.UIInvenCardSlot_OnClickCardEquipInfoButton(System.Action{UI.UIInvenCardSlot},UI.UIInvenCardSlot)">
+            <summary>
+            Hook to disable the card equip info button.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.UIInvenCardScrollList_ApplyFilterAll(System.Action{UI.UIInvenCardListScroll},UI.UIInvenCardListScroll)">
+            <summary>
+            Hook to make exclusive combat pages show up properly in roguelike's card inventory
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.UIInvenCardSlot_SetSlotState(System.Action{UI.UIInvenCardSlot},UI.UIInvenCardSlot)">
+            <summary>
+            Hook to manipulate card slot states to refer to the roguelike inventory.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.UIInvitationRightMainPanel_ConfirmSendInvitation(System.Action{UI.UIInvitationRightMainPanel},UI.UIInvitationRightMainPanel)">
+            <summary>
+            Hook to initialize roguelike reception and gamemodes.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.UILibrarianCharacterListPanel_SetLibrarianCharacterListPanel_Battle(System.Action{UI.UILibrarianCharacterListPanel},UI.UILibrarianCharacterListPanel)">
+            <summary>
+            Hook to force the character list panel to render unitData based on <see cref="F:abcdcode_LOGLIKE_MOD.LogueBookModels.playerBattleModel"/>.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.UILibrarianCharacterListPanel_InitSephirahSelectionButtonsInBattle(System.Action{UI.UILibrarianCharacterListPanel,System.Collections.Generic.List{StageLibraryFloorModel}},UI.UILibrarianCharacterListPanel,System.Collections.Generic.List{StageLibraryFloorModel})">
+            <summary>
+            Hook to disable sephirot selection buttons.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.EmotionEgoXmlInfo_get_CardId(EmotionEgoXmlInfo,LorId@)">
+            <summary>
+            Prefix patch to hijack the abnormality page get card id method to support the reward dictionary.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.ItemXmlDataList_GetCardItem(ItemXmlDataList,LorId,System.Boolean)">
+            <summary>
+            Important prefix patch to correctly get upgraded cards from the inventory/card dictionary.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.TextDataModel_GetText(System.String,System.String@,System.Object[])">
+            <summary>
+            Ancient prefix which just made abcdcode's TextDataModel actually import stuff and override vanilla if necessary.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.UISpriteDataManager_GetStoryIcon(System.String,UI.UIIconManager.IconSet@)">
+            <summary>
+            Currently unused (?) patch to add support for modded story icons (strictly for Roguelike).
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.UIBattleSettingEditPanel_SetBUttonState(UI.UIBattleSettingEditPanel,UI.UIBattleSettingEditTap)">
+            <summary>
+            Patch to hijack the BattleSetting screen to add the inventory, abnormality and crafting tabs.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.UIBattleSettingPanel_OnClickBackButton">
+            <summary>
+            Prevents the reception from ending immediately upon clicking the back button. (I THINK)
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.UIPopupWindowManager_Update">
+            <summary>
+            Patch for hijacking UI popups to show in the BattleSetting screen. (unsure)
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.SpecialCardListModel_ReturnCardToHand(SpecialCardListModel,BattleUnitModel,BattleDiceCardModel)">
+            <summary>
+            Harmony patch to handle Mook9
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.BattlePersonalEgoCardDetail_ReturnCardToHand(BattlePersonalEgoCardDetail,BattleDiceCardModel)">
+            <summary>
+            Harmony patch to handle Mook9
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.BattleAllyCardDetail_ReturnCardToHand(BattleAllyCardDetail,BattleDiceCardModel)">
+            <summary>
+            Harmony patch to handle Mook9
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.BattlePlayingCardSlotDetail_OnApplyCard(BattlePlayingCardSlotDetail,BattleDiceCardModel,System.Boolean@)">
+            <summary>
+            Patch for handling Mook9
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.BattleUnitBufListDetail_CheckGift(BattleUnitBufListDetail,KeywordBuf,System.Int32,BattleUnitModel)">
+            <summary>
+            Postfix patch for Union2's effect
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.BattleUnitPassiveDetail_DmgFactor(BattleUnitPassiveDetail,System.Single@,System.Int32,DamageType,KeywordBuf)">
+            <summary>
+            Postfix patch to hook GlobalLogueEffectBase.DmgFactor
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.EmotionPassiveCardUI_SetSprites(EmotionPassiveCardUI)">
+            <summary>
+            Postfix patch to set abnormality combat page arts
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.UIBattleSettingLibrarianInfoPanel_SetData(UI.UIBattleSettingLibrarianInfoPanel,UnitDataModel)">
+            <summary>
+            Patch responsible for equipping Key Pages(??)
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.UICharacterSlot_SetToggleStateFalse(UI.UICharacterSlot)">
+            <summary>
+            A patch to be able to disable units when unchecked.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.LogLikePatches.UICharacterSlot_SetToggleStateTrue(UI.UICharacterSlot)">
+            <summary>
+            A patch to be able to enable units when checked.
+            </summary>
+        </member>
+        <member name="T:abcdcode_LOGLIKE_MOD.SnapshotCamera">
+            <summary>
+            Takes snapshot images of prefabs and GameObject instances, and provides methods to save them as PNG files.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.SnapshotCamera.cam">
+            <summary>
+            The Camera used internally by the SnapshotCamera.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.SnapshotCamera.layer">
+            <summary>
+            The layer on which the SnapshotCamera takes snapshots.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.SnapshotCamera.defaultPositionOffset">
+            <summary>
+            The default position offset applied to objects when none is specified.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.SnapshotCamera.defaultRotation">
+            <summary>
+            The default rotation applied to objects when none is specified.
+            </summary>
+        </member>
+        <member name="F:abcdcode_LOGLIKE_MOD.SnapshotCamera.defaultScale">
+            <summary>
+            The default scale applied to objects when none is specified.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.MakeSnapshotCamera(System.String,System.String)">
+            <summary>
+            Factory method which sets up and configures a new SnapshotCamera, then returns it.
+            </summary>
+            <param name="layer">The name of the layer on which to take snapshots.</param>
+            <param name="name">The name that will be given to the new GameObject the SnapshotCamera will be attached to.</param>
+            <returns>A new SnapshotCamera, ready for use.</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.MakeSnapshotCamera(System.Int32,System.String)">
+            <summary>
+            Factory method which sets up and configures a new SnapshotCamera, then returns it.
+            </summary>
+            <param name="layer">The layer number of the layer on which to take snapshots.</param>
+            <param name="name">The name that will be given to the new GameObject the SnapshotCamera will be attached to.</param>
+            <returns>A new SnapshotCamera, ready for use.</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.SanitizeFilename(System.String)">
+            <summary>
+            Sanitizes a filename string by replacing illegal characters with underscores.
+            </summary>
+            <param name="dirty">The unsanitized filename string.</param>
+            <returns>A sanitized filename string with illegal characters replaced with underscores.</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.SavePNG(System.Byte[],System.String,System.String)">
+            <summary>
+            Saves a byte array of PNG data as a PNG file.
+            </summary>
+            <param name="bytes">The PNG data to write to a file.</param>
+            <param name="filename">The name of the file. This will be the current timestamp if not specified.</param>
+            <param name="directory">The directory in which to save the file. This will be the game/Snapshots directory if not specified.</param>
+            <returns>A FileInfo pointing to the created PNG file</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.SavePNG(UnityEngine.Texture2D,System.String,System.String)">
+            <summary>
+            Saves a Texture2D as a PNG file.
+            </summary>
+            <param name="tex">The Texture2D to write to a file.</param>
+            <param name="filename">The name of the file. This will be the current timestamp if not specified.</param>
+            <param name="directory">The directory in which to save the file. This will be the game/Snapshots directory if not specified.</param>
+            <returns>A FileInfo pointing to the created PNG file</returns>
+        </member>
+        <member name="T:abcdcode_LOGLIKE_MOD.SnapshotCamera.GameObjectStateSnapshot">
+            <summary>
+            This stores the a state (layers, position, rotation, and scale) of a GameObject, and provides a method to restore it.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.GameObjectStateSnapshot.#ctor(UnityEngine.GameObject)">
+            <summary>
+            Store the current state (layers, position, rotation, and scale) of a GameObject
+            </summary>
+            <param name="gameObject">The GameObject whose state to store.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.GameObjectStateSnapshot.Restore">
+            <summary>
+            Restore the gameObject to the state stored in this GameObjectStateSnapshot.
+            </summary>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.SetLayersRecursively(UnityEngine.GameObject)">
+            <summary>
+            Set the layers of the GameObject and all its children to the SnapshotCamera's snapshot layer so the SnapshotCamera can see it.
+            </summary>
+            <param name="gameObject">The GameObject apply the layer modifications to.</param>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.PrepareObject(UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Vector3)">
+            <summary>
+            Prepares an instantiated GameObject for taking a snapshot by setting its layers and applying the specified position offset, rotation, and scale to it.
+            </summary>
+            <param name="gameObject">The instantiated GameObject to prepare.</param>
+            <param name="positionOffset">The position offset relative to the SnapshotCamera to apply to the gameObject.</param>
+            <param name="rotation">The rotation to apply to the gameObject.</param>
+            <param name="scale">The scale to apply to the gameObject.</param>
+            <returns>A GameObjectStateSnapshot containing the state of the gameObject prior to modifying its layers, position, rotation, and scale.</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.PreparePrefab(UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Vector3)">
+            <summary>
+            Prepares a prefab for taking a snapshot by creating an instance, setting its layers and applying the specified position offset, rotation, and scale to it.
+            </summary>
+            <param name="prefab">The prefab to prepare.</param>
+            <param name="positionOffset">The position offset relative to the SnapshotCamera to apply to the prefab.</param>
+            <param name="rotation">The rotation to apply to the prefab.</param>
+            <param name="scale">The scale to apply to the prefab.</param>
+            <returns>A prefab instance ready for taking a snapshot.</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.TakeObjectSnapshot(UnityEngine.GameObject,System.Int32,System.Int32)">
+            <summary>
+            Takes a snapshot of an instantiated GameObject and returns it as a Texture2D.
+            
+            Uses a completely transparent background and
+            applies the default position offset, rotation and scale to the gameObject while taking the snapshot, and restores them afterwards.
+            </summary>
+            <param name="gameObject">The instantiated GameObject to snapshot.</param>
+            <param name="width">The width of the snapshot image.</param>
+            <param name="height">The height of the snapshot image.</param>
+            <returns>A Texture2D containing the captured snapshot.</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.TakeObjectSnapshot(UnityEngine.GameObject,UnityEngine.Color,System.Int32,System.Int32)">
+            <summary>
+            Takes a snapshot of an instantiated GameObject and returns it as a Texture2D.
+            
+            Applies the default position offset, rotation and scale to the gameObject while taking the snapshot, and restores them afterwards.
+            </summary>
+            <param name="gameObject">The instantiated GameObject to snapshot.</param>
+            <param name="backgroundColor">The background color of the snapshot. Can be transparent.</param>
+            <param name="width">The width of the snapshot image.</param>
+            <param name="height">The height of the snapshot image.</param>
+            <returns>A Texture2D containing the captured snapshot.</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.TakeObjectSnapshot(UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Vector3,System.Int32,System.Int32)">
+            <summary>
+            Takes a snapshot of an instantiated GameObject and returns it as a Texture2D.
+            
+            Uses a completely transparent background.
+            </summary>
+            <param name="gameObject">The instantiated GameObject to snapshot.</param>
+            <param name="positionOffset">The position offset relative to the SnapshotCamera that will be applied to the gameObject while taking the snapshot. Its position will be restored after taking the snapshot.</param>
+            <param name="rotation">The rotation that will be applied to the gameObject while taking the snapshot. Its rotation will be restored after taking the snapshot.</param>
+            <param name="scale">The scale that will be applied to the gameObject while taking the snapshot. Its scale will be restored after taking the snapshot.</param>
+            <param name="width">The width of the snapshot image.</param>
+            <param name="height">The height of the snapshot image.</param>
+            <returns>A Texture2D containing the captured snapshot.</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.TakeObjectSnapshot(UnityEngine.GameObject,UnityEngine.Color,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Vector3,System.Int32,System.Int32)">
+            <summary>
+            Takes a snapshot of an instantiated GameObject and returns it as a Texture2D.
+            </summary>
+            <param name="gameObject">The instantiated GameObject to snapshot.</param>
+            <param name="backgroundColor">The background color of the snapshot. Can be transparent.</param>
+            <param name="positionOffset">The position offset relative to the SnapshotCamera that will be applied to the gameObject while taking the snapshot. Its position will be restored after taking the snapshot.</param>
+            <param name="rotation">The rotation that will be applied to the gameObject while taking the snapshot. Its rotation will be restored after taking the snapshot.</param>
+            <param name="scale">The scale that will be applied to the gameObject while taking the snapshot. Its scale will be restored after taking the snapshot.</param>
+            <param name="width">The width of the snapshot image.</param>
+            <param name="height">The height of the snapshot image.</param>
+            <returns>A Texture2D containing the captured snapshot.</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.TakePrefabSnapshot(UnityEngine.GameObject,System.Int32,System.Int32)">
+            <summary>
+            Takes a snapshot of a prefab and returns it as a Texture2D.
+            
+            Uses a completely transparent background and
+            applies the default position offset, rotation and scale to the prefab while taking the snapshot.
+            </summary>
+            <param name="prefab">The prefab to snapshot.</param>
+            <param name="width">The width of the snapshot image.</param>
+            <param name="height">The height of the snapshot image.</param>
+            <returns>A Texture2D containing the captured snapshot.</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.TakePrefabSnapshot(UnityEngine.GameObject,UnityEngine.Color,System.Int32,System.Int32)">
+            <summary>
+            Takes a snapshot of a prefab and returns it as a Texture2D.
+            
+            Applies the default position offset, rotation and scale to the prefab while taking the snapshot.
+            </summary>
+            <param name="prefab">The prefab to snapshot.</param>
+            <param name="backgroundColor">The background color of the snapshot. Can be transparent.</param>
+            <param name="width">The width of the snapshot image.</param>
+            <param name="height">The height of the snapshot image.</param>
+            <returns>A Texture2D containing the captured snapshot.</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.TakePrefabSnapshot(UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Vector3,System.Int32,System.Int32)">
+            <summary>
+            Takes a snapshot of a prefab and returns it as a Texture2D.
+            
+            Uses a completely transparent background.
+            </summary>
+            <param name="prefab">The prefab to snapshot.</param>
+            <param name="positionOffset">The position offset relative to the SnapshotCamera that will be applied to the prefab while taking the snapshot.</param>
+            <param name="rotation">The rotation that will be applied to the prefab while taking the snapshot.</param>
+            <param name="scale">The scale that will be applied to the prefab while taking the snapshot.</param>
+            <param name="width">The width of the snapshot image.</param>
+            <param name="height">The height of the snapshot image.</param>
+            <returns>A Texture2D containing the captured snapshot.</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.TakePrefabSnapshot(UnityEngine.GameObject,UnityEngine.Color,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Vector3,System.Int32,System.Int32)">
+            <summary>
+            Takes a snapshot of a prefab and returns it as a Texture2D.
+            </summary>
+            <param name="prefab">The prefab to snapshot.</param>
+            <param name="backgroundColor">The background color of the snapshot. Can be transparent.</param>
+            <param name="positionOffset">The position offset relative to the SnapshotCamera that will be applied to the prefab while taking the snapshot.</param>
+            <param name="rotation">The rotation that will be applied to the prefab while taking the snapshot.</param>
+            <param name="scale">The scale that will be applied to the prefab while taking the snapshot.</param>
+            <param name="width">The width of the snapshot image.</param>
+            <param name="height">The height of the snapshot image.</param>
+            <returns>A Texture2D containing the captured snapshot.</returns>
+        </member>
+        <member name="M:abcdcode_LOGLIKE_MOD.SnapshotCamera.TakeSnapshot(UnityEngine.Color,System.Int32,System.Int32)">
+            <summary>
+            Takes a snapshot of whatever is in front of the camera and within the camera's culling mask and returns it as a Texture2D.
+            </summary>
+            <param name="backgroundColor">The background color to apply to the camera before taking the snapshot.</param>
+            <param name="width">The width of the snapshot image.</param>
+            <param name="height">The height of the snapshot image.</param>
+            <returns>A Texture2D containing the captured snapshot.</returns>
+        </member>
+        <member name="T:RogueLike_Mod_Reborn.RMRPassiveBase">
+            <summary>
+            A PassiveAbilityBase with some additional overrides that interact with RMR mechanics.
+            </summary>
+        </member>
+        <member name="T:RogueLike_Mod_Reborn.RMRCardSelfAbilityBase">
+            <summary>
+            A DiceCardSelfAbilityBase with some additional overrides that interact with RMR mechanics.
+            </summary>
+        </member>
+        <member name="T:RogueLike_Mod_Reborn.RMRBufBase">
+            <summary>
+            A BattleUnitBuf with some additional overrides that interact with RMR mechanics.
+            </summary>
+        </member>
+        <member name="T:RogueLike_Mod_Reborn.RMREffect_HiddenUpgradeChanceEffect">
+            <summary>
+            Hidden effect that is added on gamemode initialization<br></br>
+            Basekit 20% chance to find upgraded cards
+            </summary>
+        </member>
+        <member name="T:RogueLike_Mod_Reborn.RMREffect_ExtendedFunctionalityEffect">
+            <summary>
+            Hidden effect that is added on base gamemode initialization to allow for effects like Zeal.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMREffect_ExtendedFunctionalityEffect.OnStartBattleAfter">
+            <summary>
+            Executes the "OnWaveStart" override for RMRCardSelfAbilityBase.
+            </summary>
+        </member>
+        <member name="F:RogueLike_Mod_Reborn.RMRCore.ClassIds">
+            <summary>
+            A dictionary which links Assembly.FullName's to packageIds.<br></br>
+            Should be filled with any assemblies passed up within Roguedlls.<br></br>
+            Allows for assigning packageId to classes via RMRCorre.ClassIds[this.GetType().Assembly.FullName].
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.PlaySound(UnityEngine.AudioClip,UnityEngine.Transform,System.Single,System.Boolean)">
+            <summary>
+            Plays a sound. Useful in conjunction with CustomMapUtility.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.isCrit(BattleUnitModel)">
+            <summary>
+            Checks if the current hit is a crit. Should be set to true in-between BeforeRollDice calls.<br></br>
+            Ideally should be called OnSucceedAttack.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.GiveEmotionCoin(BattleUnitEmotionDetail,EmotionCoinType,System.Int32)">
+            <summary>
+            UI convenient way of quickly giving an unit an Emotion Coin/Point.
+            </summary>
+            <param name="posType">Whether it's positive or negative.</param>
+            <param name="count">How many coins to give (default: 1).</param>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.ExplodeOnDeath(BattleUnitView)">
+            <summary>
+            Set <u><see cref="F:BattleUnitView.deadEvent"/></u> to this in order to make an unit explode on death.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.SelectOneRandom``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Returns a random element from a given list.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.SelectManyRandom``1(System.Collections.Generic.IList{``0},System.Int32)">
+            <summary>
+            Returns several random elements from a given list.
+            </summary>
+            <param name="count">The number of random elements to be returned</param>
+            <returns>A new list containing randomly selected elements from the original list. The same element may be picked multiple times.</returns>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.SortByCost(System.Collections.Generic.List{BattleDiceCardModel})">
+            <summary>
+            Sorts a list of <see cref="T:BattleDiceCardModel"/>s (Combat Pages) by their current cost, in crescent order.
+            </summary>
+            <param name="list">The list to be sorted.</param>
+            <returns></returns>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.Shuffle``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Shuffles a list.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.SortReturn``1(System.Collections.Generic.IList{``0},System.Comparison{``0})">
+            <summary>
+            Creates a new list from an existing one, sorts it, then returns it.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.CheckForKeyword(BattleDiceCardModel,System.String)">
+            <summary>
+            Checks to see if a card or one of its dice posses a given keyword.
+            </summary>
+            <param name="card">The card to be tested.</param>
+            <param name="keyword">The keyword to test the card for.</param>
+            <returns>Returns <see langword="true"/> if the <paramref name="card"/> or any of its dice have the given <paramref name="keyword"/>. Returns <see langword="false"/> otherwise.</returns>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.ReplaceColorShorthands(System.String)">
+            <summary>
+            Replaces color shorthands from the XMLs.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.CanIRedirectPls(BattlePlayingCardDataInUnitModel,BattleUnitModel)">
+            <summary>
+            Quick method to simply check if a card can redirect another.
+            </summary>
+            <param name="card">The card to redirect.</param>
+            <param name="owner">The owner of the card.</param>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.AddSpeedImmediately(BattleUnitModel,System.Int32,System.Int32)">
+            <summary>
+            Adds speed to a single Speed Die during the card selection phase.
+            </summary>
+            <param name="order">Which die to increase the speed of.</param>
+            <param name="speed">How much speed to increment.</param>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.AddSpeedBufImmediatelyAll(BattleUnitModel,System.Int32)">
+            <summary>
+            Adds speed to all Speed Die of an unit during the card selection phase.
+            </summary>
+            <param name="stack">How much speed to increment.</param>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.CreateBattleDiceBehavior(System.Int32,System.Int32,LOR_DiceSystem.BehaviourDetail,LOR_DiceSystem.BehaviourType,LOR_DiceSystem.MotionDetail,System.String,System.String,System.String,DiceStatBonus)">
+            <summary>
+            Methods for quickly making BattleDiceBehaviors.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.CreateBattleDiceBehavior(LOR_DiceSystem.DiceBehaviour,DiceStatBonus)">
+            <summary>
+            Methods for quickly converting a DiceBehaviour into a BattleDiceBehavior.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMRUtilityExtensions.BetterCopyAbilityAndStat(BattleDiceBehavior,BattleDiceBehavior,System.Boolean)">
+            <summary>
+            Essentially just a safer and more reliable CopyAbilityAndStat method from vanilla.
+            </summary>
+        </member>
+        <member name="T:RogueLike_Mod_Reborn.UnitModel">
+            <summary>
+            A simplified BattleUnitModel object for more easily cloning BattleUnitModels.
+            </summary>
+        </member>
+        <member name="T:RogueLike_Mod_Reborn.UnitUtil">
+            <summary>
+            Initially taken from CWR (with permission from undefined) before being improved upon 
+            <br></br>by fixing some UI bugs and other unrelated jank and by adding some shortcuts for
+            <br></br>storing BattleUnitModels easily.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.UnitUtil.Copy(BattleUnitModel)">
+            <summary>
+            Copies a <see cref="T:BattleUnitModel"/> into a simplified <see cref="T:RogueLike_Mod_Reborn.UnitModel"/> for cloning purposes.
+            <br></br>Useful for adding controllable units with <see cref="M:RogueLike_Mod_Reborn.UnitUtil.AddModdedUnitPlayerSide(StageController,RogueLike_Mod_Reborn.UnitModel,System.String,System.Boolean)"/>.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.UnitUtil.CopyModdedUnit(StageController,Faction,BattleUnitModel,System.Int32,System.Int32,XmlVector2)">
+            <summary>
+            Clones an existing BattleUnitModel and summons them.
+            </summary>
+            <returns>The cloned <see cref="T:BattleUnitModel"/>.</returns>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.UnitUtil.AddModdedUnit(StageController,Faction,LorId,System.Int32,System.Int32,XmlVector2)">
+            <summary>
+            Summons a new unit.
+            </summary>
+            <returns>The summoned <see cref="T:BattleUnitModel"/>.</returns>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.UnitUtil.AddModdedUnitPlayerSide(StageController,RogueLike_Mod_Reborn.UnitModel,System.String,System.Boolean)">
+            <summary>
+            Summons an unit that can be controlled by the player.
+            </summary>
+            <returns>The summoned <see cref="T:BattleUnitModel"/>.</returns>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.UnitUtil.RefreshCombatUI(System.Boolean)">
+            <summary>
+            Refreshes the UI after summoning <see cref="T:BattleUnitModel"/>s.
+            <br></br>(If you're summoning just one or several units at once, call this after you're done summoning units to update the UI.)
+            </summary>
+            <param name="forceReturn">Forces the units to return to their assigned position in the formation.</param>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.UnitUtil.LevelUpEmotion(BattleUnitModel,System.Int32)">
+            <summary>
+            Levels up an unit's emotion level.
+            </summary>
+            <param name="unit">Which unit should level up.</param>
+            <param name="value">How much they should level up.</param>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.UnitUtil.StoreBattleUnitModel(BattleUnitModel,System.String)">
+            <summary>
+            Stores a single unit in Battle Unit Storage.
+            </summary>
+            <param name="unit">The unit to be stored.</param>
+            <param name="packageId">The packageId of the mod.</param>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.UnitUtil.StoreBattleUnitModel(System.Collections.Generic.List{BattleUnitModel},System.String)">
+            <summary>
+            Stores multiple units in Battle Unit Storage.
+            </summary>
+            <param name="units">The units to be stored.</param>
+            <param name="packageId">The packageId of the mod.</param>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.UnitUtil.GetStoredUnitModels(System.String)">
+            <param name="packageId">The packageId of the mod.</param>
+            <returns>A list of <see cref="T:BattleUnitModel"/>s containing the stored units in Battle Unit Storage.</returns>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.UnitUtil.ClearBattleUnitStorage(System.String)">
+            <summary>
+            Clears out Battle Unit Storage.
+            </summary>
+            <param name="packageId">The packageId of the mod.</param>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.UnitUtil.GetUnitSpawnMethod(BattleUnitModel)">
+            <summary>
+            Returns the method through which an unit was summoned which can range between <see cref="F:RogueLike_Mod_Reborn.UnitUtil.UnitSpawnMethod.Default"/>, <see cref="F:RogueLike_Mod_Reborn.UnitUtil.UnitSpawnMethod.Summoned"/> or <see cref="F:RogueLike_Mod_Reborn.UnitUtil.UnitSpawnMethod.Cloned"/>.
+            </summary>
+            <param name="unit">The unit to check.</param>
+            <returns>A <see cref="T:RogueLike_Mod_Reborn.UnitUtil.UnitSpawnMethod"/> containing the spawn method of how the unit was spawned.<b><br></br>Only works with units summoned by <see cref="T:RogueLike_Mod_Reborn.UnitUtil"/>. Any other units will return <see cref="F:RogueLike_Mod_Reborn.UnitUtil.UnitSpawnMethod.Default"/>.</b></returns>
+        </member>
+        <member name="T:RogueLike_Mod_Reborn.ScrollAbilityUtil">
+            <summary>
+            This utility was made by StartUp for the Da'at Floor Mod in order to create On Scroll effects.<br></br>
+            It has been used with due permission from both StartUp himself and the current coordinator<br></br>
+            of the Da'at Floor Mod (at the time of writing, Dememenic).<br></br><br></br>
+            If you plan on taking this for yourself, please credit StartUp for ScrollAbilityUtil, and keep this summary tag here.
+            <br></br>Oh yeah, and as a bonus, you're gonna need to reference UnityEngine.InputLegacyModule besides the regular CoreModule
+            <br></br>in order for this to work.
+            </summary>
+        </member>
+        <member name="T:RogueLike_Mod_Reborn.ContentScope">
+            <summary>
+            Determines the origin of the content.
+            </summary>
+        </member>
+        <member name="F:RogueLike_Mod_Reborn.ContentScope.ALL">
+            <summary>
+            All content will be loaded.
+            </summary>
+        </member>
+        <member name="F:RogueLike_Mod_Reborn.ContentScope.ONLY_LOGLIKE">
+            <summary>
+            Only Loglike/RMR content will be loaded.
+            </summary>
+        </member>
+        <member name="F:RogueLike_Mod_Reborn.ContentScope.ONLY_MODDED">
+            <summary>
+            Only satellite mod content will be loaded.
+            </summary>
+        </member>
+        <member name="F:RogueLike_Mod_Reborn.ContentScope.ONLY_PACKAGEID">
+            <summary>
+            Only satellite mod content from a certain package id will be loaded.<br></br>
+            PackageId must be specified by overriding <see cref="P:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.GetContentScopePackageId"/>.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.FilterContent">
+            <summary>
+            Controls how to filter content when initializing the gamemode.
+            <br></br>Do not mess with this unless you know what you are doing.
+            </summary>
+        </member>
+        <member name="P:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.SaveDataString">
+            <summary>
+            This determines the name of the savefile containing gamemode-specific data.
+            </summary>
+        </member>
+        <member name="P:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.StageStart">
+            <summary>
+            The LorId of the reception used to start a new run in this gamemode.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.LoadFromSaveData(GameSave.SaveData)">
+            <summary>
+            Use this to <b>load</b> whatever persistent data from save data.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.GetSaveData">
+            <summary>
+            Use this to <b>save</b> whatever persistent data to the player's save data.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.BeforeInitializeGamemode">
+            <summary>
+            Runs when initializing a roguelike reception, BEFORE creating the player.<br></br>
+            Hooked up to <see cref="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.UIInvitationRightMainPanel_ConfirmSendInvitation(System.Action{UI.UIInvitationRightMainPanel},UI.UIInvitationRightMainPanel)"/>.<br></br>
+            Runs immediately <b>before</b> StageClassInfo.mapInfo.clear().
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.AfterInitializeGamemode">
+            <summary>
+            Runs when initializing a roguelike reception, AFTER creating the player.<br></br>
+            Hooked up to <see cref="M:abcdcode_LOGLIKE_MOD.LogLikeHooks.UIInvitationRightMainPanel_ConfirmSendInvitation(System.Action{UI.UIInvitationRightMainPanel},UI.UIInvitationRightMainPanel)"/>.<br></br>
+            Runs immediately <b>prior</b> to all return calls.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.OnWaveStartInitialEvent">
+            <summary>
+            Runs at the start of the Act of the first encounter.<br></br>
+            Feel free to insert your initial event call here via <see cref="M:abcdcode_LOGLIKE_MOD.MysteryManager.StartMystery(LorId)"/>.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.GetCurChapterCommonReward(abcdcode_LOGLIKE_MOD.ChapterGrade)">
+            <summary>
+            Determines the end-of-stage reward list for common fight encounters.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.GetCurChapterEliteReward(abcdcode_LOGLIKE_MOD.ChapterGrade)">
+            <summary>
+            Determines the end-of-stage reward list for elite fight encounters.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.GetCurChapterBossReward(abcdcode_LOGLIKE_MOD.ChapterGrade)">
+            <summary>
+            Determines the end-of-stage reward list for boss fight encounters.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.GetCurChapterCreature(abcdcode_LOGLIKE_MOD.ChapterGrade)">
+            <summary>
+            Determines some aspects of the abnormality selection screen, do not override unless you know what you're doing.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.InitializeChapterStageList(abcdcode_LOGLIKE_MOD.ChapterGrade)">
+            <summary>
+            Initializes the encounter/stage list for each chapter when the run starts.<br></br>
+            Defaults to <see cref="M:abcdcode_LOGLIKE_MOD.LogueBookModels.VanillaGamemodeReceptionList(abcdcode_LOGLIKE_MOD.ChapterGrade)"/>.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.GetMysteryScope">
+            <summary>
+            Determines from which mods RMR should take Mystery Events from.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.GetStagesScope">
+            <summary>
+            Determines from which mods RMR should take encounters from.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.GetRewardsScope">
+            <summary>
+            Determines from which mods RMR should take rewards from.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.OnClearBossWave">
+            <summary>
+            Runs whenever the player beats a boss.<br></br>
+            The base method does the following:<br></br>
+            - Increment current chapter;<br></br>
+            - Add a new librarian;<br></br>
+            - Revives and heals all librarians;<br></br>
+            - Resets the current stage counter;<br></br>
+            - Gives the current (already incremented) chapter's CraftEffect;<br></br>
+            - Displays the current (already incremented) chapter's splash screen.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.GetCommonEnemyDropBook(abcdcode_LOGLIKE_MOD.ChapterGrade,Rarity)">
+            <summary>
+            This does NOT automatically control book drops- it is to be used strictly as a shorthand for getting the right book drops.<br></br>
+             Defaults to returning RMR's books. You are expected to put the right book drops on the correct unit XMLs.
+            </summary>
+        </member>
+        <member name="P:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.GetContentScopePackageId">
+            <summary>
+            The packageId to be used if any <see cref="T:RogueLike_Mod_Reborn.ContentScope"/> methods are set to <see cref="F:RogueLike_Mod_Reborn.ContentScope.ONLY_PACKAGEID"/>.<br></br>
+            Defaults to <b>this type's</b> packageId. For further reference, see <see cref="F:RogueLike_Mod_Reborn.RMRCore.ClassIds"/>.
+            </summary>
+        </member>
+        <member name="P:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.ReplaceBaseDeck">
+            <summary>
+            Determines whether to override the base deck or not.<br></br>
+            (Evade, Charge and Cover, Focused Strikes, etc.)<br></br>
+            Defaults to <see langword="false"/>. The replacement deck is set by <see cref="P:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.BaseDeckReplacement"/>.
+            </summary>
+        </member>
+        <member name="P:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.BaseDeckReplacement">
+            <summary>
+            If <see cref="P:RogueLike_Mod_Reborn.RoguelikeGamemodeBase.ReplaceBaseDeck"/> is set to <see langword="true"/>, <br></br>
+            this points to the <see cref="T:LorId"/> of the deck you are replacing the base deck with. <br></br>
+            Defaults to RMR's upgraded deck (RMRCore.packageId, -10).
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.UIItemCatalogPanel.SetFixedTooltipOverlayBoxPosition(UI.UIMainOverlayManager,UnityEngine.Camera,UnityEngine.RectTransform)">
+            <summary>
+            Basically the vanilla version but with some extra checks to prevent off-screen placement/overflowing.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.UIItemCatalogPanel.SetMouseTooltipOverlayBoxPosition(UI.UIMainOverlayManager)">
+            <summary>
+            Same as SetFixedTooltipOverlayBoxPosition but for use in-battle.
+            </summary>
+        </member>
+        <member name="T:RogueLike_Mod_Reborn.SelfDestructBezierCurve">
+            <summary>
+            Used for the combat page adding VFX.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMR_Patches.OpenItemCatalogTab_Post(UI.UIStoryArchivesPanel)">
+            <summary>
+            Responsible for making the Item Catalog Credenza tab activate and deactivate other panels
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMR_Patches.InitItemCatalogTab_Post(UI.UIStoryArchivesPanel)">
+            <summary>
+            Patch that initializes the Item Catalog panel; runs after the credenza is done initializing
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMR_Patches.AddInvitationBooks(System.Collections.Generic.List{LorId})">
+            <summary>
+            Patch that adds books into the book list
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMR_Patches.BookModel_SetXmlInfo_Post(BookModel,BookXmlInfo,System.Collections.Generic.List{LOR_DiceSystem.DiceCardXmlInfo}@)">
+            <summary>
+            Simple patch that makes exclusive combat pages work within Roguelike and not shit pant
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMR_Patches.SdCharacterUtil_CreateSkin_Transpiler(System.Collections.Generic.IEnumerable{HarmonyLib.CodeInstruction},System.Reflection.Emit.ILGenerator)">
+            <summary>
+            Cyam's front sprite patch, for forcing front sprites to show above everything else<br></br>
+            Apparently less "forceful" than Hat's patch due to not messing with the layers<br></br>
+            // CalmMagma: Also, apparently all of this is just to change ONE FUCKING BOOLEAN FROM <see langword="false"/> TO <see langword="true"/>? What the fuck?
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMR_Patches.InitBattleUnitBuf_Trans(System.Collections.Generic.IEnumerable{HarmonyLib.CodeInstruction})">
+            <summary>
+            Patch that localizes modded BattleUnitBufs
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMR_Patches.BookModel_GetThumbSprite_Trans(System.Collections.Generic.IEnumerable{HarmonyLib.CodeInstruction})">
+            <summary>
+            Patch to add in keypage thumbnails automatically (if they exist)<br></br>
+            TO USE: Simply name the skin name and the skin folder the same thing.<br></br>
+            Then put a 256x512 image named "Thumb.png" inside the skin's respective ClothCustom folder. That's it.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMR_Patches.BookXmlInfo_GetThumbSprite_Trans(System.Collections.Generic.IEnumerable{HarmonyLib.CodeInstruction})">
+            <summary>
+            Second part of the keypage thumbnail patch.<br></br>
+            Refer to <see cref="M:RogueLike_Mod_Reborn.RMR_Patches.BookModel_GetThumbSprite_Trans(System.Collections.Generic.IEnumerable{HarmonyLib.CodeInstruction})"/> for the first patch.
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMR_Patches.IsHighlander_UpgradePatch(System.Collections.Generic.IEnumerable{HarmonyLib.CodeInstruction})">
+            <summary>
+            Makes singleton account for upgraded pages by checking their original IDs instead
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMR_Patches.BookModel_SortPassive_Finalizer(System.Exception)">
+            <summary>
+            Makes BookModel.SortPassive stop bitching
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMR_Patches.WorkshopSkinDataSetter_LateInit_Finalizer(System.Exception)">
+            <summary>
+            Cyam's front sprite patch- this is to prevent the game from shitting itself
+            </summary>
+        </member>
+        <member name="M:RogueLike_Mod_Reborn.RMR_Patches.UISelectableIconController_HideIcon(System.Exception)">
+            <summary>
+            Makes UI.UISelectableIconController.HideIcon stop bitching
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+  <!-- Impurity Normal: R Corp mixed forces -->
+  <Stage id="70001">
+    <Wave>
+      <Formation>21</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50103</Unit>
+      <Unit>50102</Unit>
+      <Unit>50101</Unit>
+      <Unit>50101</Unit>
+      <Unit>50101</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impurity Normal: Night Awl + Index -->
+  <Stage id="70002">
+    <Wave>
+      <Formation>41</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <AggroScript>theIndex</AggroScript>
+      <Unit>52001</Unit>
+      <Unit>52002</Unit>
+      <Unit>51001</Unit>
+      <Unit>51001</Unit>
+      <Unit>51001</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impurity Normal: Uzet Corps -->
+  <Stage id="70003">
+    <Wave>
+      <Formation>41</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>53001</Unit>
+      <Unit>53001</Unit>
+      <Unit>53001</Unit>
+      <Unit>53001</Unit>
+      <Unit>53001</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impurity Normal: Future Life -->
+  <Stage id="70004">
+    <Wave>
+      <Formation>41</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>54001</Unit>
+      <Unit>54002</Unit>
+      <Unit>54002</Unit>
+      <Unit>54002</Unit>
+      <Unit>54002</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impurity Normal: Leaflet Workshop -->
+  <Stage id="70005">
+    <Wave>
+      <Formation>41</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>55001</Unit>
+      <Unit>55002</Unit>
+      <Unit>55002</Unit>
+      <Unit>55002</Unit>
+      <Unit>55002</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impurity Normal: Bayard Office -->
+  <Stage id="70006">
+    <Wave>
+      <Formation>41</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>56001</Unit>
+      <Unit>56002</Unit>
+      <Unit>56002</Unit>
+      <Unit>56002</Unit>
+      <Unit>56002</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impurity Boss: The Red Mist -->
+  <Stage id="70007">
+    <Wave>
+      <Formation>1</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <AggroScript>theRedMist</AggroScript>
+      <Unit>50022</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impurity Boss: The Purple Tear -->
+  <Stage id="70008">
+    <Wave>
+      <Formation>1</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50035</Unit>
+    </Wave>
+  </Stage>
+
+</StageXmlRoot>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="-100">
+      <LocalizedName>毒刃</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="-101">
+      <LocalizedName>冷静</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="-102">
+      <LocalizedName>愤怒</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="-103">
+      <LocalizedName>遥控器</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="-104">
+      <LocalizedName>过去的哀嚎</LocalizedName>
+    </BattleCardDesc>
+  </cardDescList>
+</BattleCardDescRoot>

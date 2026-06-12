@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryChStartTitle">시작</text>
+             <text id="MysteryChStartFrame0Dia0">도서관장인 앤젤라가 당신에게 손님들의 접대를 맡겼습니다.
+쉽지 않을거라며 당신에게 접대에 도움이 될 것을 한가지 주겠다네요.</text>
+             <text id="MysteryChStartChoice0">아무것도 받지 않는다</text>
+             <text id="MysteryChStartChoice1">도시의 화폐(20안을 획득)</text>
+             <text id="MysteryChStartChoice2">도시의 기술(뜬소문,도시괴담급 전투책장 9장을 무작위로 획득)</text>
+             <text id="MysteryChStartChoice3">엔케팔린</text>
+             <text id="MysteryChStartChoice4">도시의 옷(핵심책장 보상 2회 획득)</text>
+             <text id="StartBoost3Name">엔케팔린</text>
+             <text id="StartBoost3Desc">[전역] 뜬소문,도시괴담 챕터동안 사서들의 감정단계가 1로 시작</text>
+
+             <text id="MysteryChStartFrame1Dia0">도서관의 문이 열리고 초대장을 받은 손님들이 하나씩 찾아옵니다.
+접대를 준비합시다.</text>
+             <text id="MysteryChStartFrame1End">접대 시작</text>
+
+</localize>

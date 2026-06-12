@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+	<PassiveDesc ID="8573001">
+  <Name>업무 처리</Name>
+    <Desc>[전역] 무작위 이벤트 종료 후 도시전설급 책장 보상 1회 획득</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8573002">
+    <Name>약속의 소중함</Name>
+    <Desc>[전역] 일반 전투 종료 후 도시전설급 책장 보상 1회 획득</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8573003">
+    <Name>어금니</Name>
+    <Desc>전투책장에 의해 버려지는 책장을 획득(무대당 1회)</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

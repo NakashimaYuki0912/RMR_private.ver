@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RewardPassivesRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+  <ChapterList Chapter="Grade1" Type="CommonReward" ID="1000">
+    <RewardList ID="18470001" PassiveType="Nolimit" Rarity="Common" TargetType="All" RewardType="EquipPage" ArtWork="18470001"/>
+    <RewardList ID="18470002" PassiveType="Nolimit" Rarity="Common" TargetType="All" RewardType="EquipPage" ArtWork="18470002"/>
+    <RewardList ID="18470003" PassiveType="Nolimit" Rarity="Common" TargetType="All" RewardType="EquipPage" ArtWork="18470003"/>
+    <RewardList ID="18470004" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="18470004"/>
+    <RewardList ID="18470005" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="18470005"/>
+    <RewardList ID="18470006" PassiveType="Nolimit" Rarity="Rare" TargetType="All" RewardType="EquipPage" ArtWork="18470006"/>
+    <RewardList ID="18470007" PassiveType="Nolimit" Rarity="Rare" TargetType="All" RewardType="EquipPage" ArtWork="18470007"/>
+    <RewardList ID="18470008" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="18470008"/>
+    <RewardList ID="18470009" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="18470009"/>
+    <RewardList ID="18470010" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="18470010"/>
+    <RewardList ID="18470011" PassiveType="Nolimit" Rarity="Rare" TargetType="All" RewardType="EquipPage" ArtWork="18470011"/>
+    <RewardList ID="18470012" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="18470012"/>
+    <RewardList ID="18470013" PassiveType="Nolimit" Rarity="Common" TargetType="All" RewardType="EquipPage" ArtWork="18470013"/>
+    <RewardList ID="18470014" PassiveType="Nolimit" Rarity="Common" TargetType="All" RewardType="EquipPage" ArtWork="18470014"/>
+    <RewardList ID="18470015" PassiveType="Nolimit" Rarity="Common" TargetType="All" RewardType="EquipPage" ArtWork="18470015"/>
+  </ChapterList>
+
+</RewardPassivesRoot>

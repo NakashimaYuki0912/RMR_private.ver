@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RewardPassivesRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+ <ChapterList Chapter="Grade2" Type="Shop" ID="20000">
+    <RewardList ID="20001" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGood2_1" ArtWork="ShopPassive2_1"/>
+    <RewardList ID="20002" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGood2_2" ArtWork="ShopPassive2_2"/>
+  </ChapterList> 
+
+</RewardPassivesRoot>

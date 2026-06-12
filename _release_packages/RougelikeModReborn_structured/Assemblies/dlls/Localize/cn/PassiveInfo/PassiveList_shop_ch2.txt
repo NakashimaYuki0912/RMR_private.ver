@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+	<PassiveDesc ID="8572001">
+    <Name>烹饪秘诀书</Name>
+    <Desc>击杀目标时所有友方角色恢复3点体力</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8572002">
+    <Name>街灯</Name>
+    <Desc>开启舞台时使1名随机其他友方角色获得“街灯”
+每一幕开始时若无其他友方角色拥有“街灯”则使1名随机其他友方角色获得“街灯”
+(街灯: 每一幕开始时获得2层“幸运”。拥有“街灯”被动的司书死亡时失效。)</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

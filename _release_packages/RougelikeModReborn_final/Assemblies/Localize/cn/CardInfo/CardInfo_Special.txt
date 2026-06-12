@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+
+
+    <BattleCardDesc ID="8580011">
+      <LocalizedName>全面防御</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="8582008">
+      <LocalizedName>点燃</LocalizedName>
+      <Ability>[装备时]对目标施加5层[烧伤]</Ability>
+    </BattleCardDesc>
+ 
+     <BattleCardDesc ID="90012">
+      <LocalizedName>粗制护盾</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="706108">
+      <LocalizedName>工作室逻辑</LocalizedName>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

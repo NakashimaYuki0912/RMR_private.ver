@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="-100">
+      <LocalizedName>Shiv</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="-101">
+      <LocalizedName>Calm</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="-102">
+      <LocalizedName>Wrath</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="-103">
+      <LocalizedName>The Remote</LocalizedName>
+    </BattleCardDesc>
+	<BattleCardDesc ID="-104">
+      <LocalizedName>Wails of the Past</LocalizedName>
+    </BattleCardDesc>
+  </cardDescList>
+</BattleCardDescRoot>

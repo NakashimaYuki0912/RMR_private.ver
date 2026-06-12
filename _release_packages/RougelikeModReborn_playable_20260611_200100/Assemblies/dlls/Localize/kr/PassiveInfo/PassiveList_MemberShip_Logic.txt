@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="28580001">
+		<Name>로직 아틀리에 상인</Name>
+		<Desc>뭔가 사지 그래요?</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580001">
+    <Name>재장전</Name>
+    <Desc>막 종료 시 손에 원거리 책장이 없다면 원거리 책장 2장을 뽑음</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580002">
+    <Name>엄폐</Name>
+    <Desc>원거리 책장으로 근접 책장과 합할때 내 책장의 공격 주사위를 모두 소모했다면 합을 강제로 종료함(막당 1회)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580003">
+    <Name>기선 제압</Name>
+    <Desc>첫 막에 속도 주사위 + 1</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580004">
+    <Name>화망</Name>
+    <Desc>[전역] 다른 캐릭터의 원거리 책장의 대상이 된 적에 대한 원거리 공격 주사위 위력 + 1</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580005">
+    <Name>특주품 - 로직 아틀리에</Name>
+    <Desc>'로직 아틀리에' 전투 책장을 3장 획득</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580006">
+    <Name>예비 탄창</Name>
+    <Desc>무대 시작 시 덱의 가장 첫번째 원거리 책장을 복사해 손으로 가져옴</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580007">
+    <Name>관통 사격</Name>
+    <Desc>원거리 책장으로 적 처치 시 책장에 남은 공격 주사위가 있다면 무작위 적에게 남은 주사위를 일방공격으로 재사용</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580008">
+    <Name>시시한 죽음</Name>
+    <Desc>원거리 책장으로 일방 공격 시 피해량 + 3</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580009">
+    <Name>탄도학</Name>
+    <Desc>원거리 공격 주사위에 행운 1 적용</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580010">
+    <Name>총기손질</Name>
+    <Desc>이전 막에 원거리 책장을 사용하지 않았다면 이번막에 원거리 주사위 위력 + 2</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580011">
+    <Name>사주경계</Name>
+    <Desc>원거리 책장을 사용하면 반격 주사위(관통,3~9)를 추가함.(막 당 1회)</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="-100">
+		<Name>奇怪球体</Name>
+		<Desc>自身抗性根据当前章节的不同而变化：从“传闻-致命”开始到“都市恶疾-耐性”提升完毕
+根据当前章节获得额外效果</Desc>
+	</PassiveDesc>
+  
+</PassiveDescRoot>
+  
+

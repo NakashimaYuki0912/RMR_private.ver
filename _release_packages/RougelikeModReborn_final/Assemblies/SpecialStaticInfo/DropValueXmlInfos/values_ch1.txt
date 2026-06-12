@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CardDropValueXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DropValue ID="1001">
+    <Desc>뜬소문 - 일반</Desc>
+    <TableId>-854001</TableId> <!-- Combat Page Drop Table (CardDropTable) ID -->
+    <CommonValue>70</CommonValue> <!-- 70% chance of dropping Paperback --> 
+    <UncommonValue>20</UncommonValue> <!-- 20% chance of dropping Hardcover -->
+    <RareValue>9</RareValue> <!-- 9% of dropping Limited -->
+    <UniqueValue>1</UniqueValue> <!-- 1% of dropping Objet d'Art  -->
+  </DropValue>
+
+  <DropValue ID="1002">
+    <TableId>-854001</TableId>
+    <Desc>뜬소문 - 고급</Desc>
+    <CommonValue>25</CommonValue>
+    <UncommonValue>50</UncommonValue>
+    <RareValue>18</RareValue>
+    <UniqueValue>7</UniqueValue>
+  </DropValue>
+
+  <DropValue ID="1003">
+   <Desc>뜬소문 - 한정</Desc>
+    <TableId>-854001</TableId>
+    <CommonValue>10</CommonValue>
+    <UncommonValue>15</UncommonValue>
+    <RareValue>60</RareValue>
+    <UniqueValue>15</UniqueValue>
+  </DropValue>
+
+  <DropValue ID="1004">
+   <Desc>뜬소문 - 한정, 예술 확정</Desc>
+    <TableId>-854001</TableId>
+    <CommonValue>0</CommonValue>
+    <UncommonValue>0</UncommonValue>
+    <RareValue>70</RareValue>
+    <UniqueValue>30</UniqueValue>
+  </DropValue>
+
+  <DropValue ID="11001">
+    <Desc>뜬소문 - 상점용</Desc>
+    <TableId>-854001</TableId>
+    <CommonValue>35</CommonValue>
+    <UncommonValue>35</UncommonValue>
+    <RareValue>20</RareValue>
+    <UniqueValue>10</UniqueValue>
+  </DropValue>
+
+</CardDropValueXmlRoot>

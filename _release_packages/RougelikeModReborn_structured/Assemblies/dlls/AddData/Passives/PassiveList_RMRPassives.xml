@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PassiveXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+  <Passive ID="1000000000">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>1</InnerType>
+    <Cost>3</Cost>
+    <Script>RMR_Posthaste</Script> 
+    <Name>Posthaste</Name>
+    <Desc>Gain an additional Speed die at Emotion Level 2. (Cannot Overlap)</Desc>
+  </Passive>
+  
+  <Passive ID="1000000001">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>1</InnerType>
+    <Cost>3</Cost>
+    <Script>RMR_LoneSpeed</Script> 
+    <Name>Lone Speed</Name>
+    <Desc>At the start of the Act, if all other allies do not have a Speed-type passives, Speed Dice Slot +1. (Cannot Overlap)</Desc>
+  </Passive>
+
+
+</PassiveXmlRoot>

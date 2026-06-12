@@ -1,0 +1,132 @@
+
+Machine_Dawn.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+L1
+  rotate: false
+  xy: 384, 60
+  size: 105, 112
+  orig: 105, 112
+  offset: 0, 0
+  index: -1
+L2
+  rotate: true
+  xy: 730, 198
+  size: 127, 90
+  orig: 127, 90
+  offset: 0, 0
+  index: -1
+L3
+  rotate: true
+  xy: 471, 327
+  size: 56, 318
+  orig: 56, 318
+  offset: 0, 0
+  index: -1
+R1
+  rotate: false
+  xy: 596, 107
+  size: 105, 113
+  orig: 105, 113
+  offset: 0, 0
+  index: -1
+R2
+  rotate: false
+  xy: 703, 106
+  size: 127, 90
+  orig: 127, 90
+  offset: 0, 0
+  index: -1
+R3
+  rotate: true
+  xy: 2, 18
+  size: 55, 176
+  orig: 55, 176
+  offset: 0, 0
+  index: -1
+arm
+  rotate: true
+  xy: 196, 84
+  size: 88, 186
+  orig: 88, 186
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 471, 199
+  size: 123, 126
+  orig: 123, 126
+  offset: 0, 0
+  index: -1
+chun 1
+  rotate: false
+  xy: 2, 75
+  size: 192, 435
+  orig: 192, 435
+  offset: 0, 0
+  index: -1
+chun 2
+  rotate: true
+  xy: 471, 385
+  size: 45, 410
+  orig: 45, 410
+  offset: 0, 0
+  index: -1
+chun 3
+  rotate: true
+  xy: 471, 432
+  size: 78, 392
+  orig: 78, 392
+  offset: 0, 0
+  index: -1
+head green
+  rotate: true
+  xy: 596, 222
+  size: 103, 132
+  orig: 103, 132
+  offset: 0, 0
+  index: -1
+head red
+  rotate: false
+  xy: 491, 65
+  size: 103, 132
+  orig: 103, 132
+  offset: 0, 0
+  index: -1
+midle
+  rotate: true
+  xy: 865, 458
+  size: 52, 111
+  orig: 52, 111
+  offset: 0, 0
+  index: -1
+t 1
+  rotate: false
+  xy: 196, 2
+  size: 72, 80
+  orig: 72, 80
+  offset: 0, 0
+  index: -1
+t 2
+  rotate: false
+  xy: 270, 18
+  size: 63, 64
+  orig: 63, 64
+  offset: 0, 0
+  index: -1
+t 3
+  rotate: true
+  xy: 883, 368
+  size: 88, 98
+  orig: 88, 98
+  offset: 0, 0
+  index: -1
+weapon
+  rotate: false
+  xy: 196, 174
+  size: 273, 336
+  orig: 273, 336
+  offset: 0, 0
+  index: -1

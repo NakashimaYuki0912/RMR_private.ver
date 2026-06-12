@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+	<Book ID="210001">
+		<Name>잭</Name>
+		<TextId>210001</TextId>
+		<EquipEffect>
+			<HP>48</HP>
+			<Break>24</Break>
+			<SpeedMin>2</SpeedMin>
+			<Speed>4</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Weak</PResist>
+			<HResist>Normal</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Vulnerable</PBResist>
+			<HBResist>Weak</HBResist>
+
+      <PassiveCost>8</PassiveCost>
+			<Passive Pid="@origin" Level="10">210001</Passive>
+		</EquipEffect>
+		<BookIcon>PierresMeatPies</BookIcon>
+		<Chapter>2</Chapter>
+    <Episode>10001</Episode>
+		<Rarity>Uncommon</Rarity>
+		<CharacterSkin>Jack</CharacterSkin>
+	</Book>
+	<Book ID="210002">
+		<Name>피에르</Name>
+		<TextId>210002</TextId>
+		<EquipEffect>
+			<HP>49</HP>
+			<Break>25</Break>
+			<SpeedMin>2</SpeedMin>
+			<Speed>4</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Vulnerable</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Weak</PBResist>
+			<HBResist>Normal</HBResist>
+
+      <PassiveCost>8</PassiveCost>
+			<Passive Pid="@origin" Level="10">210002</Passive>
+		</EquipEffect>
+		<BookIcon>PierresMeatPies</BookIcon>
+		<Chapter>2</Chapter>
+    <Episode>10001</Episode>
+		<Rarity>Rare</Rarity>
+		<CharacterSkin>Pierre</CharacterSkin>
+	</Book>
+	<Book ID="210003">
+		<Name>마스</Name>
+		<TextId>210003</TextId>
+		<EquipEffect>
+			<HP>52</HP>
+			<Break>25</Break>
+			<SpeedMin>2</SpeedMin>
+			<Speed>5</Speed>
+			<SResist>Endure</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Vulnerable</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Normal</PBResist>
+			<HBResist>Vulnerable</HBResist>
+			<Passive>1000000001</Passive>
+			<Passive Pid="@origin" Level="10">210003</Passive>
+		</EquipEffect>
+		<BookIcon>StreetlightOffice</BookIcon>
+		<Chapter>2</Chapter>
+		<Episode>10002</Episode>
+		<Rarity>Unique</Rarity>
+		<CharacterSkin>Mars</CharacterSkin>
+	</Book>
+	<Book ID="210006">
+		<Name>루루</Name>
+		<TextId>210006</TextId>
+		<EquipEffect>
+			<HP>50</HP>
+			<Break>25</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>5</Speed>
+			<SResist>Vulnerable</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Normal</HResist>
+			<SBResist>Vulnerable</SBResist>
+			<PBResist>Normal</PBResist>
+			<HBResist>Normal</HBResist>
+			<Passive Pid="@origin" Level="10">210006</Passive>
+		</EquipEffect>
+		<BookIcon>StreetlightOffice</BookIcon>
+		<Chapter>2</Chapter>
+    <Episode>10002</Episode>
+		<Rarity>Rare</Rarity>
+		<CharacterSkin>Ruru</CharacterSkin>
+	</Book>
+	<Book ID="211003">
+		<Name>뒷골목 도축업자1</Name>
+		<TextId>23</TextId>
+		<EquipEffect>
+			<HP>47</HP>
+			<Break>25</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>4</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Vulnerable</PResist>
+			<HResist>Weak</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Vulnerable</PBResist>
+			<HBResist>Weak</HBResist>
+
+      <PassiveCost>8</PassiveCost>
+			<Passive Pid="@origin" Level="10">211003</Passive>
+		</EquipEffect>
+		<BookIcon>PierresMeatPies</BookIcon>
+		<Chapter>2</Chapter>
+    <Episode>10001</Episode>
+		<Rarity>Common</Rarity>
+		<CharacterSkin>BackStreetChef1</CharacterSkin>
+	</Book>
+	<Book ID="211004">
+		<Name>뒷골목 도축업자2</Name>
+		<TextId>24</TextId>
+		<EquipEffect>
+			<HP>47</HP>
+			<Break>25</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>4</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Weak</PResist>
+			<HResist>Vulnerable</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Weak</PBResist>
+			<HBResist>Vulnerable</HBResist>
+
+      <PassiveCost>8</PassiveCost>
+			<Passive Pid="@origin" Level="10">211003</Passive>
+		</EquipEffect>
+		<BookIcon>PierresMeatPies</BookIcon>
+		<Chapter>2</Chapter>
+    <Episode>10001</Episode>
+		<Rarity>Common</Rarity>
+		<CharacterSkin>BackStreetChef2</CharacterSkin>
+	</Book>
+	<Book ID="211005">
+		<Name>루루의 친구1</Name>
+		<TextId>211005</TextId>
+		<EquipEffect>
+			<HP>47</HP>
+			<Break>25</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>4</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Weak</PResist>
+			<HResist>Vulnerable</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Weak</PBResist>
+			<HBResist>Vulnerable</HBResist>
+      
+    <PassiveCost>8</PassiveCost>
+			<Passive Pid="@origin" Level="10">211005</Passive>
+		</EquipEffect>
+		<BookIcon>StreetlightOffice</BookIcon>
+		<Chapter>2</Chapter>
+    <Episode>10003</Episode>
+		<Rarity>Common</Rarity>
+		<CharacterSkin>LuluFriend1</CharacterSkin>
+	</Book>
+	<Book ID="211006">
+		<Name>루루의 친구2</Name>
+		<TextId>211006</TextId>
+		<EquipEffect>
+			<HP>47</HP>
+			<Break>25</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>4</Speed>
+			<SResist>Weak</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Vulnerable</HResist>
+			<SBResist>Weak</SBResist>
+			<PBResist>Normal</PBResist>
+			<HBResist>Vulnerable</HBResist>
+			<PassiveCost>8</PassiveCost>
+			<Passive Pid="@origin" Level="10">211005</Passive>
+		</EquipEffect>
+		<BookIcon>StreetlightOffice</BookIcon>
+		<Chapter>2</Chapter>
+    <Episode>10003</Episode>
+		<Rarity>Common</Rarity>
+		<CharacterSkin>LuluFriend2</CharacterSkin>
+	</Book>
+	<Book ID="211007">
+		<Name>루루의 친구3</Name>
+		<TextId>211007</TextId>
+		<EquipEffect>
+			<HP>47</HP>
+			<Break>25</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>4</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Weak</PResist>
+			<HResist>Normal</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Weak</PBResist>
+			<HBResist>Vulnerable</HBResist>
+
+      <PassiveCost>8</PassiveCost>
+			<Passive Pid="@origin" Level="10">211007</Passive>
+		</EquipEffect>
+		<BookIcon>StreetlightOffice</BookIcon>
+		<Chapter>2</Chapter>
+    <Episode>10003</Episode>
+		<Rarity>Uncommon</Rarity>
+		<CharacterSkin>LuluFriend_Ver2_W1</CharacterSkin>
+	</Book>
+	<Book ID="211008">
+		<Name>루루의 친구4</Name>
+		<TextId>211008</TextId>
+		<EquipEffect>
+			<HP>47</HP>
+			<Break>25</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>4</Speed>
+			<SResist>Weak</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Normal</HResist>
+			<SBResist>Weak</SBResist>
+			<PBResist>Normal</PBResist>
+			<HBResist>Vulnerable</HBResist>
+
+			<PassiveCost>8</PassiveCost>
+			<Passive Pid="@origin" Level="10">211007</Passive>
+		</EquipEffect>
+		<BookIcon>StreetlightOffice</BookIcon>
+		<Chapter>2</Chapter>
+    <Episode>10003</Episode>
+		<Rarity>Uncommon</Rarity>
+		<CharacterSkin>LuluFriend_Ver2_W2</CharacterSkin>
+	</Book>
+
+</BookXmlRoot>

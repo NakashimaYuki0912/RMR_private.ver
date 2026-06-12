@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <text id="Stage_MeatPieQuest">送餐</text>
+  <text id="Stage_BossMars">马斯</text>
+  <text id="Stage_BossLulu">璐璐</text>
+
+
+  <text id="Stage_MeatPieQuest_Desc">去把收集的肉交给皮埃尔。</text>
+  <text id="Stage_BossMars_Desc">马斯回来了。接待完成后进入下一章。</text>
+  <text id="Stage_BossLulu_Desc">璐璐回来了。接待完成后进入下一章。</text>
+</localize>

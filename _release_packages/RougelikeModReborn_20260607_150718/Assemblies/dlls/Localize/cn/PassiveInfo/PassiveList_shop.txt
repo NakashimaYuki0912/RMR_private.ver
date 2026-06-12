@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="28570001">
+		<Name>热心店主</Name>
+		<Desc>你好！瞧一瞧看一看！</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570001">
+		<Name>行动 - 展销</Name>
+		<Desc>第一幕使所有骰子威力+1</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570002">
+		<Name>行动 - 并发</Name>
+		<Desc>第二幕使所有骰子威力+2</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570003">
+		<Name>行动 - 危机</Name>
+		<Desc>第三幕使所有骰子威力+3</Desc>
+	</PassiveDesc>
+  
+	<PassiveDesc ID="8570004">
+		<Name>行动 - 高潮</Name>
+		<Desc>第四幕使所有骰子威力+4</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570005">
+		<Name>行动 - 决心</Name>
+		<Desc>第五幕使所有骰子威力+5</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570006">
+    <Name>指挥禁止</Name>
+    <Desc>[消耗品]在普通战斗中使用可以立即结束当前舞台</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570007">
+		<Name>初心</Name>
+		<Desc>[全局]使用来自上一章节的战斗书页时使其所有骰子威力+1
+商店中将出现上一章节的战斗书页</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570010">
+		<Name>彩票</Name>
+		<Desc>获得等同于本物品价格10~300%的随机数量的眼</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570011">
+    <Name>烟雾弹</Name>
+    <Desc>[消耗品]强制使指向所选司书的攻击重定向至另一名司书
+仅有1名司书在场时无法使用</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570013">
+    <Name>炸弹</Name>
+    <Desc>[消耗品]对所有敌方角色造成8点伤害
+每通过1个章节使该伤害+3</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570014">
+    <Name>幼芽</Name>
+    <Desc>[消耗品]选择1名已死亡的司书使其以一半体力值复活
+无已死亡司书时无法使用</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570018">
+    <Name>储蓄产品</Name>
+    <Desc>[消耗品]每进入1场普通战斗获得1点
+使用时获得等同于点数3倍的眼</Desc>
+	</PassiveDesc>
+	<!-- Keep in just so the mod doesn't break -->
+	
+	<PassiveDesc ID="8570019">
+    <Name>桶</Name>
+    <Desc>[消耗品]使用时支付1眼
+累计消耗一定数量的眼后再次使用时将获得等同于消耗的眼150%的眼并移除桶</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570020">
+    <Name>回收利用</Name>
+    <Desc>[全局]1名敌方角色死亡时额外获得1眼</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570021">
+    <Name>行动 - 返场</Name>
+    <Desc>当您已购买所有“行动”系列物品后出现
+Repeats the effect of Power +1 to +5 in Scene 1-5.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570022">
+    <Name>止血带</Name>
+    <Desc>[消耗品]移除所选司书拥有的“流血”</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570023">
+    <Name>三叶草</Name>
+    <Desc>[全局]每一幕开始时使1名随机司书获得1层“幸运”</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570024">
+    <Name>磨刀石</Name>
+    <Desc>[消耗品]这一幕使所有司书获得1层“伤害强化”</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570025">
+    <Name>傀儡剧场</Name>
+    <Desc>[全局]每一幕可用1次
+选择2名司书
+第二名司书将复制第一名司书使用的战斗书页对其选择的目标进行单方面攻击
+第二名司书在这一幕内无法自主行动</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570026">
+    <Name>医疗箱</Name>
+    <Desc>受到伤害时恢复1点体力(每一幕限5点)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570028">
+    <Name>书签</Name>
+    <Desc>[消耗品]将1个书库添加入本章节的接待列表
+无法在Boss战斗中使用</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570029">
+    <Name>干燥剂</Name>
+    <Desc>[全局]在书库中添加“防潮处理”选项
+可使1名选择的司书在本章节内所有抗性提升1级</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570030">
+    <Name>完全恢复</Name>
+    <Desc>[全局]使书库中“恢复”选项恢复的体力从40%提升至100%</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570031">
+    <Name>兑换</Name>
+    <Desc>[全局]在书库中添加“兑换”选项
+选择该选项可以获得15眼</Desc>
+	</PassiveDesc>
+
+<PassiveDesc ID="8570032">
+    <Name>织物</Name>
+    <Desc>获得1张核心书页奖励</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570033">
+    <Name>教材 - 闪避</Name>
+    <Desc>[全局]激活后所有司书投掷闪避骰子时可额外触发1次“幸运”
+无法与其他“教材”效果叠加</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570034">
+    <Name>教材 - 招架</Name>
+    <Desc>[全局]激活后所有司书投掷招架骰子时可额外触发1次“幸运”
+无法与其他“教材”效果叠加</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570035">
+    <Name>教材 - 斩击</Name>
+    <Desc>[全局]激活后所有司书投掷斩击骰子时可额外触发1次“幸运”
+无法与其他“教材”效果叠加</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570036">
+    <Name>教材 - 突刺</Name>
+    <Desc>[全局]激活后所有司书投掷突刺骰子时可额外触发1次“幸运”
+无法与其他“教材”效果叠加</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570037">
+    <Name>教材 - 打击</Name>
+    <Desc>[全局]激活后所有司书投掷打击骰子时可额外触发1次“幸运”
+无法与其他“教材”效果叠加</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570038">
+    <Name>兴奋剂</Name>
+    <Desc>[消耗品]2幕内使1名司书所有骰子的最大值+2最小值-1</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570039">
+    <Name>镇静剂</Name>
+    <Desc>[消耗品]2幕内使1名司书所有骰子的最小值+2最大值-1</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570040">
+    <Name>科学工具包</Name>
+    <Desc>[消耗品]从当前章节的战斗书页中选择1张并置入手中
+置入的书页费用为0(使用后复原)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570041">
+    <Name>光子收集器</Name>
+    <Desc>[全局]每一幕开始时使1名随机司书额外恢复1点光芒(优先选择光芒未满的司书)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570042">
+    <Name>烛光</Name>
+    <Desc>[消耗品]所选司书恢复1点光芒</Desc>
+	</PassiveDesc>	
+
+	<PassiveDesc ID="8570043">
+    <Name>神奇口袋</Name>
+    <Desc>[全局]归属被动费用上限+1
+本物品可叠加</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570044">
+    <Name>古老硬币</Name>
+    <Desc>[消耗品]所选司书这一幕获得1~2层“幸运”</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570045">
+    <Name>不稳定的速度</Name>
+    <Desc>每一幕开始时有50%的概率额外获得1颗速度骰子
+(无法叠加)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8570046">
+    <Name>惊喜礼盒</Name>
+    <Desc>[消耗品]随机取消目标速度骰子中的1张战斗书页</Desc>
+	</PassiveDesc>
+</PassiveDescRoot>
+  
+

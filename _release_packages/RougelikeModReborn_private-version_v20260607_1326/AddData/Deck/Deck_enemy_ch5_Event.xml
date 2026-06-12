@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<DeckXmlRoot>
+  <!-- 엄지 조직원 -->
+  <Deck ID="28494002">
+    <Card>602001</Card>
+    <Card>602002</Card>
+    <Card>602003</Card>
+    <Card>602004</Card>
+    <!--<Card>602005</Card>-->
+    <Card>602006</Card>
+    <Card>602012</Card>
+    <Card>602012</Card>
+    <Card>602012</Card>
+  </Deck>
+  
+  <!-- index proselyte -->
+  <Deck ID="28494003">
+    <Card>605006</Card>
+    <Card>505004</Card>
+    <Card>605007</Card>
+    <Card>595001</Card>
+  </Deck>
+  
+  <!-- copley deck showcase, he has shimmering-->
+  <Deck ID="28494004">
+    <Card>605004</Card>
+    <Card>605005</Card>
+    <Card>605006</Card>
+    <Card>605007</Card>
+    <Card>605008</Card>
+    <Card>605022</Card>
+    <Card>595002</Card>
+    <Card>595003</Card>
+  </Deck>
+  
+  <Deck ID="28494005">
+    <Card>605006</Card>
+    <Card>505004</Card>
+    <Card>505003</Card>
+    <Card>505001</Card>
+    <Card>605007</Card>
+    <Card>595001</Card>
+	
+    <Card>505002</Card>
+    <Card>505005</Card>
+  </Deck>
+  
+  <Deck ID="28494006">
+    <Card>605004</Card>
+    <Card>605005</Card>
+    <Card>605006</Card>
+    <Card>605007</Card>
+    <Card>605008</Card>
+    <Card>605022</Card>
+	<Card>595002</Card>
+    <Card>595003</Card>
+  </Deck>
+</DeckXmlRoot>

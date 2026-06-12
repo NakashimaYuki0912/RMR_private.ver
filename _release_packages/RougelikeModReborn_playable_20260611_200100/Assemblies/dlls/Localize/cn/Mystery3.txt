@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryCh3_1Title">帮派战争</text>
+             <text id="MysteryCh3_1Frame0Dia0">两个帮派之间似乎正在发生一场可怕的战斗。尽管你有直觉，但你身后的路被挡住了，战斗似乎还远未结束。你只能勉强的从夹缝中前进......</text>
+             <text id="MysteryCh3_1Frame0Choice0Desc">一路猛冲并祈祷没事</text>
+
+             <text id="MysteryCh3_2Title">6-6，黑市商人</text>
+             <text id="MysteryCh3_2Frame0Dia0">"喂，那边的! [mirror]碎片[/color]!" 一个高亢的机器人女声从黑暗的小巷里向你呼喊，足以绕过你的直觉——你发现自己正走向一个高大的家伙，他有六只手臂，每只手臂都由不同颜色的金属制成。当你走近时，它的机械手指兴奋地抽搐着。
+			 
+"这条巷子[red]超-级-危-险[/color]，不是吗? 尤其是所有这些协会的家伙们都接到所见即开枪的命令的情况......" 那个人伸出右臂中部，那里流着深红色血液和奇怪的液体。他用尖尖的食指指着显示器。它展示了像Zwei和し协会这样的群体大规模处决人。
+
+"不过，告诉你吧，我可以让你们所有人[green]安-安-全-全[/color]！就像这样~" 她啪地一声折断了左下臂的手指。 "您所要做的就是购买这张하나协会认可的VIP通行证！现在，它可能有点......有点脆，但它会起作用的！只要你不想冲向那些大家伙。“她伸出双臂，展示了一张看起来像塑料卡的东西，上面有하나协会1科的官方印章。你可以在近距离分辨出它是假的，其他人也可以，但它[i]也许[/i]能让你过关。
+
+"所以？怎么说？"6-6满怀期待的问到。</text>
+             <text id="MysteryCh3_2Frame0Choice0Desc">买下通行证，也许有用 ([red]支付15[/color][yellow]眼[/color])</text>
+             <text id="MysteryCh3_2Frame0Choice1Desc">不买，你不想自找麻烦</text>
+
+             <text id="MysteryCh3_2Frame1Dia0">6-6兴奋地递给你贵宾卡，你给她的[yellow]眼[/color]很快就消失了。当她的右上臂把你赶走时，她慢慢地消失在黑暗中。
+  
+现在，您将在都市传说章节中避免任何与协会相关的战斗。</text>
+             <text id="MysteryCh3_2Frame1Choice0Desc">轻松离开</text>
+
+             <text id="MysteryCh3_2Frame2Dia0">6-6机械地发出失望的嘶嘶声，把你赶出小巷，消失在阴影中。</text>
+             <text id="MysteryCh3_2Frame2Choice0Desc">离开......嗷淦！([red]体力-1[/color])</text>
+
+             <text id="MysteryCh3_3Title">6-6，黑市医生</text> 
+             <text id="MysteryCh3_3Frame0Dia0">"喂，那边的! [mirror]碎片[/color]!" 一个高亢的机器人女声从黑暗的小巷里向你呼喊，足以绕过你的直觉——你发现自己正走向一个高大的家伙，他有六只手臂，每只手臂都由不同颜色的金属制成。当你走近时，它的机械手指兴奋地抽搐着。
+ "看起来[red]状-态-很-差[/color]对吗？那么，我有个解决办法......"
+
+"当然，在都市内可行的变得更强大的正常方式有很多，不过它们都缺乏一个关键组成部分：快速见效。如果你需要在一天内变得更快呢？一个小时内呢？所以很好，我恰好有解决办法！" 6-6朝一把破旧的手术椅做手势，椅子旁边的托盘里整齐地摆放着干净的工具。
+
+"只需一个小的实验性手术就能让你[green]变-的-超-屌[/color]! 那不是很酷吗？只收你20[yellow]眼[/color]我就可以帮你解决这个问题！怎么说，朋友？“6-6满怀期待地凝视着。</text>
+             <text id="MysteryCh3_3Frame0Choice0Desc">做手术 ([red]支付20[yellow]眼[/color].[/color] [green]选择的司书: 体力与混乱抗性上限+5~10[/color]，[red]速度范围-1~1[/color])</text>
+             <text id="MysteryCh3_3Frame0Choice1Desc">离开</text>
+             <text id="MysteryCh3_3RewardName">骨骼强化手术</text>
+             <text id="MysteryCh3_3RewardDesc">所选司书: 体力与混乱抗性上限+5~10，速度范围-1~1</text>
+
+
+<!--
+             <text id="MysteryCh3_4Title">洗衣日</text>
+             <text id="MysteryCh3_4Frame0Dia0">洗衣不仅是洗衣，也是洗涤你的灵魂，这就是你今天参观这个工坊的原因。</text>
+	
+             <text id="MysteryCh3_4Frame0Choice0Desc">[i][mirror]洗刷刷洗刷刷[/color][/i] </text>
+             <text id="MysteryCh3_4Frame0Choice1Desc">我很干净。</text>
+			 
+             <text id="MysteryCh3_4Frame1Dia0">看着你的衣服在洗衣机里翻滚就够了，但你决定把自己也扔进去——让工作人员很沮丧的是——不知怎么的，这居然真能行。然后，现在你感觉比以往任何时候都好。</text>
+             <text id="MysteryCh3_4Frame1Choice0Desc">作为新造的人~离开 (选择的司书将装备随机核心书页，恢复全部体力并移除所有归属被动)</text>
+	
+             <text id="MysteryCh3_4Frame2Dia0">你离开洗衣店，告诉自己你不需要这样的东西。当你经过的时候，人们互相交换眼神......</text>
+             <text id="MysteryCh3_4Frame2Choice0Desc">你真的不需要......对吗？</text>
+			 
+             <text id="MysteryCh3_4RewardName">干净的灵魂</text>
+             <text id="MysteryCh3_4RewardDesc">像湿漉漉的衣服一样干净! (选择的司书将装备随机核心书页，恢复全部体力并移除所有归属被动)</text>
+-->
+</localize>

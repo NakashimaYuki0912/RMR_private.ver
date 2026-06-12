@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	 <text id="BattleEnd_CardReward">Select Combat Page Reward</text>
+	 <text id="BattleEnd_PassiveReward">Select Passive Reward</text>
+	 <text id="BattleEnd_NextStage">Select Next Reception</text>
+	 <text id="ui_LogueLikeFloor">Library</text>
+	 <text id="ui_selectskip">Skip Reward</text>
+	 <text id="ui_stageremain">Remaining Receptions: </text>
+	 <text id="ui_ShopLeave">Leave Shop</text>
+	 <text id="ui_ShopHide">Hide</text>
+	 <text id="ui_ShopShow">Return</text>
+	 <text id="ui_EmotionPositionChange">Change Position</text>
+	 <text id="ui_Money">Ahn</text>
+
+	 <text id="ui_RestLeave">Leave Resting Room</text>
+	 <text id="ui_RestHide">Hide</text>
+	 <text id="ui_RestShow">Return</text>
+
+
+  <text id="Equip_Slash">Slash Damage Resistance</text>
+  <text id="Equip_Penetrate">Pierce Damage Resistance</text>
+  <text id="Equip_Hit">Blunt Damage Resistance</text>
+  <text id="Equip_Light">Starting Light</text>
+  <text id="Equip_SpeedArea">Speed Area</text>
+  <text id="Equip_Passive">Passive</text>
+
+  <text id="Stage_Normal">Normal Battle</text>
+  <text id="Stage_Elite">Elite Battle</text>
+  <text id="Stage_Boss">Boss Battle</text>
+  <text id="Stage_Mystery">Random Event</text>
+  <text id="Stage_Shop">Shop</text>
+  <text id="Stage_Rest">Resting Room</text>
+
+  <text id="Stage_Normal_Desc">Do reception of an ordinary Guest.</text>
+  <text id="Stage_Elite_Desc">Do reception of a stronger Guest. After reception, gain a passive ability.</text>
+  <text id="Stage_Boss_Desc">Do reception of a much stronger Guests. After reception, continue to next chapter.</text>
+  <text id="Stage_Mystery_Desc">Anything could happen...</text>
+  <text id="Stage_Shop_Desc">Purchase useful items using your savings.</text>
+  <text id="Stage_Rest_Desc">A resting space to recover your spirits. You can restore HP of Librarians or upgrade Combat Pages.</text>
+
+  <text id="Mystery_RequireCondition">[Locked] </text>
+
+  <text id="LogueLike_PlayerName">Player</text>
+
+  <text id="Shop_EquipPrevious">[Passive Ability (Cost: {0})] </text>
+
+  <text id="CardChoicePopUp_ChooseDesc">Select Combat Page</text>
+  <text id="CardChoicePopUp_RemoveDesc">Select Combat Page to remove</text>
+  <text id="CardChoicePopUp_TransformDesc">Select Combat Page to change</text>
+  <text id="CardChoicePopUp_RewardDesc">Select Combat Page to get</text>
+  <text id="CardChoicePopUp_UpgradeDesc">Select Combat Page to upgrade</text>
+
+  <text id="CardCheckPopUp_InvenDesc">Owned Combat Page</text>
+  <text id="CardCheckPopUp_RewardDesc">Acquired Combat Page</text>
+  <text id="CardCheckPopUp_Close">Return</text>
+  <text id="CardCheckPopUp_UpgradeOk">Confirm</text>
+  <text id="CardCheckPopUp_UpgradeNo">Cancel</text>
+  <text id="CardCheckPopUp_CannotUpgrade">You have no upgradeable Combat Pages.</text>
+
+  <text id="ui_Inventory">Item</text>
+  <text id="ui_CreatureTab">Abnormality</text>
+  <text id="ui_CraftTab">Craft</text>
+  <text id="ui_CraftCost">Cost</text>
+
+  <text id="ui_ExceptionWithLog">Mods that conflict with the RogueLike mod have been detected.</text>
+  
+  <text id="ui_RMR_ItemCatalog">Item Catalog</text>
+  <text id="ui_RMR_ItemObtainCount">You've obtained this item {0} time(s).</text>
+  <text id="ui_RMR_ItemNotObtained_Name">???</text>
+  <text id="ui_RMR_ItemNotObtained_Desc">You have yet to find this item.</text>
+  <text id="ui_RMR_ItemNotObtained_Credenza">No information available.</text>
+  <text id="ui_RMR_ItemNoEntry_Credenza">[No entry for now.]</text>
+
+  <text id="ui_RMR_StartNewRun">New Run</text>
+  <text id="ui_RMR_StartNewRunDesc">Start a new Roguelike run. If you have an on-going run, it will be overriden.</text>
+  <text id="ui_RMR_ContinueRun">Continue Run</text>
+  <text id="ui_RMR_ContinueRunDesc">Continue a previous Roguelike run.</text>
+  <text id="ui_RMR_ConfirmStartNewRun">Are you sure you wish to start a new run? The saved one will be overriden.</text>
+
+
+</localize>

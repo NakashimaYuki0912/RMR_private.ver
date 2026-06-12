@@ -81,7 +81,8 @@ namespace abcdcode_LOGLIKE_MOD
             foreach (var card in cardList2)
             {
                 keypageCount[card.id] *= card.Limit;
-                int obtainCount = LogueBookModels.cardlist.Count(x => x.GetID().GetOriginalId() == card.id.GetOriginalId());
+                // In unlock-based system, a card is either unlocked (treated as having many copies) or not.
+                int obtainCount = LogueBookModels.cardlist.Any(x => x.GetID().GetOriginalId() == card.id.GetOriginalId()) ? 999 : 0;
                 Debug.Log("CARD ID " + card.id.packageId + " --- " + card.id.id.ToString() + " LIMIT: " + keypageCount[card.id].ToString());
                 Debug.Log("CARD OBT COUNT: " + obtainCount.ToString());
                 if (obtainCount >= keypageCount[card.id]) {

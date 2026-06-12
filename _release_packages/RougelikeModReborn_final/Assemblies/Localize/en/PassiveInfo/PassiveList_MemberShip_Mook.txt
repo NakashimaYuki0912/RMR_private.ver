@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="28583001">
+		<Name>Mook Workshop's Merchant</Name>
+		<Desc>Why don't you buy something?</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583001">
+    <Name>Battojutsu</Name>
+    <Desc>The first Offensive die of each Combat Page gains +2 Power. All other dice lose 1 Power.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583002">
+    <Name>A Moment</Name>
+    <Desc>The first Offensive die of each Combat Page deals "Fatal" damage regardless of resistances. (Excluding 'Immune')</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583003">
+    <Name>Life and Death</Name>
+    <Desc>If the character's HP is at 50% or lower, deal +2 damage. If target's HP is at 50% or lower, deal +2 damage. </Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583004">
+    <Name>Matt</Name>
+    <Desc>Ignore Counter dice when attempting a one-sided attack.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583005">
+    <Name>Quick Sheath</Name>
+    <Desc>The first Offensive die of each Combat Page gains the following effect: "On kill, add a copy of this die to the counter queue".</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583006">
+    <Name>Cut Off</Name>
+    <Desc>On a successful hit, inflict 5 Bleed and 2 Paralysis next scene if more than 15 damage or more than 10% of the target's Max. HP was dealt.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583007">
+    <Name>Killing Aura</Name>
+    <Desc>[Global] Damage is doubled except offensive dice.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583008">
+    <Name>Afterimage</Name>
+	<Desc>If the first Offensive die of a Combat Page wins a clash, the die is reused as a one-sided attack against the target.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583009">
+    <Name>Apnea</Name>
+    <Desc>Pages can be played without sufficient Light by losing 3 Stagger Resist per point of insufficient Light.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583010">
+    <Name>Quenching</Name>
+    <Desc>[Global] All Librarians deal 1 bonus damage with attacks.</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

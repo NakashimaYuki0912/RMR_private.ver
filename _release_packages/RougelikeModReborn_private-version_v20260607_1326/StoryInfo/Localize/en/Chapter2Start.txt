@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScenarioRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Chapter ID="2">
+    <Title>Chapter 2-Urban Myth-‘They do not have the time to think about the terror at the end of the song, before the setting of the sun.’</Title>
+  </Chapter>
+  <Group>
+    <GroupName>Prologue</GroupName>
+    <Episode>
+      <EpisodeName>Episode 1</EpisodeName>
+      <Place>
+        <PlaceName>Location: Inside the Library</PlaceName>
+      </Place>
+    </Episode>
+  </Group>
+</ScenarioRoot>

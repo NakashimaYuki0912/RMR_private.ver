@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<text id="LogueLikeMod_LuckyBuf_Page_Name">幸运 X</text>
+	 <text id="LogueLikeMod_LuckyBuf_Page_Desc">投掷骰子时再次投掷X次且值为最大值。</text>
+	 <text id="LogueLikeMod_LuckyBuf_Name">幸运</text>
+	 <text id="LogueLikeMod_LuckyBuf_Desc">掷骰子时再次投掷{0}次且值为最大值。</text>
+
+	 <text id="LogueLikeMod_PuppeteerBuf_Name">傀儡师</text>
+	 <text id="LogueLikeMod_PuppeteerBuf_Desc">使用战斗书页时，“傀儡”将使用相同的战斗书页对目标进行单方面攻击。</text>
+	 
+	 <text id="LogueLikeMod_PuppetBuf_Name">傀儡</text>
+	 <text id="LogueLikeMod_PuppetBuf_Desc">这一幕使自身“眩晕”。 当“傀儡师”使用战斗书页时，“傀儡”将使用相同的战斗书页对目标进行单方面攻击。</text>
+
+	<text id="LogueLikeMod_MaxUpMinDownBuf_Name">兴奋剂</text>
+    <text id="LogueLikeMod_MaxUpMinDownBuf_Desc">所有骰子的最大值+2最小值-1。每一幕结束时失去1层。</text>
+    <text id="LogueLikeMod_MaxDownMinUpBuf_Name">镇静剂</text>
+    <text id="LogueLikeMod_MaxDownMinUpBuf_Desc">所有骰子的最小值+2最大值-1。每一幕结束时失去1层。</text>
+
+</localize>

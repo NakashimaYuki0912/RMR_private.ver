@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+  
+
+
+
+<!--이벤트6_1 : 가치-->
+
+  <Stage id="160001">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28475001</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트6_2 : 카지노-->
+
+  <Stage id="160002">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28475002</Unit>
+    </Wave>
+  </Stage>
+</StageXmlRoot>
+

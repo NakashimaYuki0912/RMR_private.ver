@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+	<PassiveDesc ID="8572001">
+    <Name>비전 요리법</Name>
+    <Desc>적을 처치하면 모든 아군의 생명력 3 회복</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8572002">
+    <Name>가로등</Name>
+    <Desc>무대 시작 시 무작위 아군 하나에게 가로등 효과를 부여함. 막 시작 시 대상이 사망한 상태면 다른 무작위 아군 하나에게 다시 부여함.
+(가로등 : 막 시작 시 행운 2를 얻음. '가로등' 지속능력을 가진 사서가 사망시 효과가 사라짐)</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

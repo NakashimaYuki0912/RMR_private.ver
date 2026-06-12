@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Mystery ID="30001" Title="MysteryCh4_1Title">
+    <script>Mystery_Ch4_1</script>
+    <Frame ID="0" FrameType="DEFAULT">
+      <Dialog>MysteryCh4_1Frame0Dia0</Dialog>
+      <ArtWork>Mystery_Ch4_1Frame0</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryCh4_1Frame0Choice0Desc</Desc>
+        <Next>-1</Next>
+      </Choice>
+      <Choice ID="1">
+        <Desc>MysteryCh4_1Frame0Choice1Desc</Desc>
+        <Next>1</Next>
+      </Choice>
+    </Frame>
+    <Frame ID="1" FrameType="DEFAULT">
+      <Dialog>MysteryCh4_1Frame1Dia0</Dialog>
+      <ArtWork>Mystery_Ch4_1Frame0</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryCh4_1Frame1Choice0Desc</Desc>
+        <Next>-1</Next>
+      </Choice>
+    </Frame>
+  </Mystery>
+
+ <Mystery ID="30002" Title="MysteryCh4_2Title">
+    <script>Mystery_Ch4_2</script>
+    <Frame ID="0" FrameType="DEFAULT">
+      <Dialog>MysteryCh4_2Frame0Dia0</Dialog>
+      <ArtWork>Mystery_Ch4_2Frame0</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryCh4_2Frame0Choice0Desc</Desc>
+        <Next>1</Next>
+      </Choice>
+      <Choice ID="1">
+        <Desc>MysteryCh4_2Frame0Choice1Desc</Desc>
+        <Next>2</Next>
+      </Choice>
+    </Frame>
+    <Frame ID="1" FrameType="DEFAULT">
+      <Dialog>MysteryCh4_2Frame1Dia0</Dialog>
+      <ArtWork>Mystery_Ch4_2Frame0</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryCh4_2Frame1Choice0Desc</Desc>
+        <Next>-1</Next>
+      </Choice>
+    </Frame>
+    <Frame ID="2" FrameType="DEFAULT">
+      <Dialog>MysteryCh4_2Frame2Dia0</Dialog>
+      <ArtWork>Mystery_Ch4_2Frame0</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryCh4_2Frame2Choice0Desc</Desc>
+        <Next>-1</Next>
+      </Choice>
+    </Frame>
+  </Mystery>
+
+ <Mystery ID="30003" Title="MysteryCh4_3Title">
+    <script>Mystery_Ch4_3</script>
+    <Frame ID="0" FrameType="DEFAULT">
+      <Dialog>MysteryCh4_3Frame0Dia0</Dialog>
+      <ArtWork>Mystery_Ch4_3Frame0</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryCh4_3Frame0Choice0Desc</Desc>
+        <Next>-1</Next>
+      </Choice>
+      <Choice ID="1">
+        <Desc>MysteryCh4_3Frame0Choice1Desc</Desc>
+        <Next>-1</Next>
+      </Choice>
+    </Frame>
+  </Mystery>
+  
+   <Mystery ID="400041">
+    <script>RMR_LiuTraining</script>
+    <Frame ID="0" FrameType="DEFAULT">
+      <ArtWork>RMR_LiuTraining</ArtWork>
+      <Choice ID="0">
+        <Next>1</Next>
+      </Choice>
+      <Choice ID="1">
+        <Next>2</Next>
+      </Choice>
+      <Choice ID="2">
+        <Next>3</Next>
+      </Choice>
+      <Choice ID="3">
+        <Next>4</Next>
+      </Choice>
+    </Frame>
+	
+	<Frame ID="1" FrameType="DEFAULT">
+	<ArtWork>RMR_LiuTraining</ArtWork>
+	<Choice ID="0">
+        <Next>-1</Next>
+      </Choice>
+	</Frame>
+	
+	<Frame ID="2" FrameType="DEFAULT">
+	<ArtWork>RMR_LiuTraining</ArtWork>
+	<Choice ID="0">
+        <Next>-1</Next>
+      </Choice>
+	</Frame>
+	
+	<Frame ID="3" FrameType="DEFAULT">
+	<ArtWork>RMR_LiuTraining</ArtWork>
+	<Choice ID="0">
+        <Next>-1</Next>
+      </Choice>
+	</Frame>
+	
+	<Frame ID="4" FrameType="DEFAULT">
+	<ArtWork>RMR_LiuTraining</ArtWork>
+	<Choice ID="0">
+        <Next>-1</Next>
+      </Choice>
+	</Frame>
+  </Mystery>
+
+</MysteryXmlRoot>

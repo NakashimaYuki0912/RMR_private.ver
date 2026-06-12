@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+
+    <BattleCardDesc ID="200001">
+      <LocalizedName>막치기</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="200002">
+      <LocalizedName>연속 방어</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="200003">
+      <LocalizedName>연속 타격</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="200004">
+      <LocalizedName>속공</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="200005">
+      <LocalizedName>강타</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201001">
+      <LocalizedName>싱싱하게</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201002">
+      <LocalizedName>재료 손질</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201003">
+      <LocalizedName>무엇이든 요리할 수 있지</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201004">
+      <LocalizedName>요리 준비</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201005">
+      <LocalizedName>재료 사냥</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201006">
+      <LocalizedName>잔혹함</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201007">
+      <LocalizedName>갈증</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202001">
+      <LocalizedName>쳐내기</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202002">
+      <LocalizedName>마음가짐</LocalizedName>
+      <Ability />
+      <Behaviour ID="0">[합 승리] 인내 1을 얻음</Behaviour>
+    </BattleCardDesc>
+    <BattleCardDesc ID="202003">
+      <LocalizedName>불태우기</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202004">
+      <LocalizedName>불빠따 맛 좀 봐</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202005">
+      <LocalizedName>업무처리</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202006">
+      <LocalizedName>고요한 밤</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202007">
+      <LocalizedName>연속공격</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202008">
+      <LocalizedName>재빠른 발걸음</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202009">
+      <LocalizedName>자료수집</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202010">
+      <LocalizedName>불태우기</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202011">
+      <LocalizedName>불빠따 맛 좀 봐</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202012">
+      <LocalizedName>마음가짐</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

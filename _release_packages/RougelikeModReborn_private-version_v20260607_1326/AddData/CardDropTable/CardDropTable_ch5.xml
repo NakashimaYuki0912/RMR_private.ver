@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CardDropTableXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+ 
+
+  <DropTable ID="-854401">
+    
+    <Card>501002</Card>
+    <Card>501003</Card>
+    <Card>501004</Card>
+    <Card>501005</Card>
+    <Card>501006</Card>
+    <Card>501007</Card>
+    <Card>502001</Card>
+    <Card>502002</Card>
+    <Card>502003</Card>
+    <Card>502004</Card>
+    <Card>502005</Card>
+    <Card>502006</Card>
+    <Card>502007</Card>
+    <Card>503001</Card>
+    <Card>503002</Card>
+    <Card>503003</Card>
+    <Card>503004</Card>
+    <Card>503011</Card>
+    <Card>504001</Card>
+    
+    <Card>504003</Card>
+    <Card>504004</Card>
+    <Card>504005</Card>
+    <Card>504006</Card>
+    <Card>505001</Card>
+    <Card>505002</Card>
+    <Card>505003</Card>
+    <Card>505004</Card>
+    <Card>505005</Card>
+    <Card>505006</Card>
+    <Card>505007</Card>
+    
+    <Card>506002</Card>
+    <Card>506003</Card>
+    <Card>506004</Card>
+    <Card>506005</Card>
+    <Card>506006</Card>
+    <Card>506007</Card>
+    <Card>507001</Card>
+    <Card>507002</Card>
+    <Card>507003</Card>
+    <Card>507004</Card>
+    <Card>507005</Card>
+    <Card>507006</Card>
+    <Card>507007</Card>
+	
+    <Card>508011</Card>
+
+    <Card>511001</Card>
+    <Card>511002</Card>
+    <Card>511003</Card>
+    <Card>511004</Card>
+
+    <Card>512001</Card>
+    <Card>512002</Card>
+    <Card>512004</Card>
+    <Card>512005</Card>
+  
+  </DropTable>
+
+</CardDropTableXmlRoot>

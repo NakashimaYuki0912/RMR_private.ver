@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+  
+
+
+
+<!--이벤트X_1 : 휴식시간-->
+
+  <Stage id="100001">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28370001</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트X_2 : 매점-->
+
+  <Stage id="100002">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28370002</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트X_3 : 필요한 것-->
+
+  <Stage id="100003">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28370003</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트X_4 : 자판기-->
+
+  <Stage id="100004">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28370004</Unit>
+    </Wave>
+  </Stage>
+
+</StageXmlRoot>
+

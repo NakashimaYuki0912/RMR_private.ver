@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+  <!-- shi -->
+    <BattleCardDesc ID="501001">
+      <LocalizedName>사의 경계</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501002">
+      <LocalizedName>극검</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501003">
+      <LocalizedName>섬격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501004">
+      <LocalizedName>비검</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501005">
+      <LocalizedName>끝 없는 전투</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501006">
+      <LocalizedName>필사적인 사투</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501007">
+      <LocalizedName>위기 극복</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- seven -->
+    <BattleCardDesc ID="511001">
+      <LocalizedName>앙가즈망</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="511002">
+      <LocalizedName>리포스트</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="511003">
+      <LocalizedName>플레쉬</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="511004">
+      <LocalizedName>물리네</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="511005">
+      <LocalizedName>앙가드</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- sword -->
+    <BattleCardDesc ID="512001">
+      <LocalizedName>발검</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="512002">
+      <LocalizedName>자법</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="512003">
+      <LocalizedName>육참</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="512004">
+      <LocalizedName>살주</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="512005">
+      <LocalizedName>처단</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="512006">
+      <LocalizedName>골단</LocalizedName>
+    </BattleCardDesc>
+
+  <!-- puppet -->
+    <BattleCardDesc ID="502001">
+      <LocalizedName>자동 이동</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502002">
+      <LocalizedName>꼭두각시</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502003">
+      <LocalizedName>억압당한 육체</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502004">
+      <LocalizedName>묵직한 일격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502005">
+      <LocalizedName>기기긱</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502006">
+      <LocalizedName>삐그덕</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502007">
+      <LocalizedName>인형 방패</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- circus -->
+    <BattleCardDesc ID="503001">
+      <LocalizedName>예리한 손톱</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503002">
+      <LocalizedName>서커스 칼날</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503003">
+      <LocalizedName>저글링</LocalizedName> <!-- Juggling -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="503004">
+      <LocalizedName>와일드 카드</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503005">
+      <LocalizedName>사자의 발톱</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503006">
+      <LocalizedName>외발자전거 곡예</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503007">
+      <LocalizedName>육중한 돌진</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503008">
+      <LocalizedName>공연 시작</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503009">
+      <LocalizedName>저글링</LocalizedName> <!-- Juggling -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="503010">
+      <LocalizedName>와일드 카드</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 청소부 -->
+    <BattleCardDesc ID="504001">
+      <LocalizedName>333..1973</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="504002">
+      <LocalizedName>쓰레기 처리</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="504003">
+      <LocalizedName>뒷골목 청소</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="504004">
+      <LocalizedName>가족을 위하여</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="504005">
+      <LocalizedName>연료 뽑기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="504006">
+      <LocalizedName>뒷골목의 밤</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="505001">
+      <LocalizedName>지령이 향하는 곳</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505002">
+      <LocalizedName>지령 수행</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505003">
+      <LocalizedName>처형</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505004">
+      <LocalizedName>지령의 뜻</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505005">
+      <LocalizedName>믿음</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505006">
+      <LocalizedName>목표 포착</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505007">
+      <LocalizedName>수행자의 검</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="506001">
+      <LocalizedName>공간 절단</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506002">
+      <LocalizedName>차원의 틈</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506003">
+      <LocalizedName>파동</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506004">
+      <LocalizedName>과충전</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506005">
+      <LocalizedName>되돌리기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506006">
+      <LocalizedName>도약</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506007">
+      <LocalizedName>에너지 순환</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="507001">
+      <LocalizedName>깊은 숨결</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507002">
+      <LocalizedName>포 뜨기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507003">
+      <LocalizedName>연기 흡입</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507004">
+      <LocalizedName>연기의 궤적</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507005">
+      <LocalizedName>숨은 칼날</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507006">
+      <LocalizedName>곰방대</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507007">
+      <LocalizedName>감각 상실</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="508010">
+      <LocalizedName>타오르는 일격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508011">
+      <LocalizedName>맹렬한 돌진</LocalizedName>
+    </BattleCardDesc>
+
+      <!-- 우는 아이 -->
+    <BattleCardDesc ID="508001">
+      <LocalizedName>깊은 슬픔</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508002">
+      <LocalizedName>슬픔의 상처</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508003">
+      <LocalizedName>뒤틀린 환영</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508004">
+      <LocalizedName>지나간 환영</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508005">
+      <LocalizedName>구속</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508006">
+      <LocalizedName>속삭임</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508007">
+      <LocalizedName>날개짓</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508008">
+      <LocalizedName>괴롭히기</LocalizedName>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="-10">
+      <LocalizedName>Roguish Evade</LocalizedName> <!-- Evade -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="-11">
+      <LocalizedName>Twin Strikes</LocalizedName> <!-- Light Attack -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="-12">
+      <LocalizedName>Stand Ground</LocalizedName> <!-- Light Defense -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="-13">
+      <LocalizedName>Hit and Run</LocalizedName> <!-- Charge and Cover -->
+    </BattleCardDesc>
+	<BattleCardDesc ID="-14">
+      <LocalizedName>Coordinated Strikes</LocalizedName> <!-- Focused Strikes -->
+    </BattleCardDesc>
+  </cardDescList>
+</BattleCardDescRoot>

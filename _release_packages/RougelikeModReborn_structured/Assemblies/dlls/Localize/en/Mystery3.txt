@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryCh3_1Title">Gang War</text>
+             <text id="MysteryCh3_1Frame0Dia0">A gruesome battle between two gangs seem to be taking place. Despite your instincts the way behind you is blocked, and the fight seems nowhere near over. You'll have to make do and claw your way forward...</text>
+             <text id="MysteryCh3_1Frame0Choice0Desc">Rush in and hope for the best</text>
+
+             <text id="MysteryCh3_2Title">Six-Six, Shady Dealer</text>
+             <text id="MysteryCh3_2Frame0Dia0">"Hey, you there! [mirror]Shard[/color]!" A high-pitched robotic female voice calls out to you from a dark alleyway, enticing enough to bypass your instincts -- and you find yourself in walking towards a towering figure bearing six arms, each made from a different colored metal. It twitches its mechanical fingers in excitement as you approach.
+			 
+"These streets are pretty [red]D-A-N-G-E-R-O-U-S[/color], are they not? Especially with all those associations walking around with orders to shoot on sight..." The figure stretches middle right arm, crimson in color and bleeding some strange fluid, pointing its sharp index finger towards a monitor. It displays groups like the Zwei and Shi executing people in mass.
+
+"Tell you what, though, I can make them all [green]S-A-F-E[/color]! Just like that~" She snaps lower left arm's fingers. "All you have to do is buy this Hana-Approved VIP pass! Now now, it may be a tad... flimsy in nature, but it'll work! As long as you ain't tryna rush on the big boys~." She extends her ams and displays what looks like a plastic card with the official Hana Section-1 stamp. You can tell that its fake from very up close, and that so would others, but it might [i]just[/i] work.
+
+"So? Whaddya say?" Six-Six asks expectantly.</text>
+             <text id="MysteryCh3_2Frame0Choice0Desc">Buy the pass, it might be useful ([red]Pay 15[/color] [yellow]Ahn[/color])</text>
+             <text id="MysteryCh3_2Frame0Choice1Desc">Don't buy it, you're not looking for trouble</text>
+
+             <text id="MysteryCh3_2Frame1Dia0">Six-Six excitedly hands you the VIP Card, quickly disappearing the [yellow]Ahn[/color] you gave her. She slowly fades into the darkness as her right upper arm shoos you away.
+			 
+You will now avoid any Association-related battles during the Urban Legend Chapter.</text>
+             <text id="MysteryCh3_2Frame1Choice0Desc">Walk away relaxed</text>
+
+             <text id="MysteryCh3_2Frame2Dia0">Six-Six mechanically hisses in disappointment, shoving you out of the alleyway and fading into the shadows.</text>
+             <text id="MysteryCh3_2Frame2Choice0Desc">Walk away. Ouch ([red]-1 HP[/color])</text>
+
+             <text id="MysteryCh3_3Title">Six-Six, Shady Surgeon</text> 
+             <text id="MysteryCh3_3Frame0Dia0">"Hey, you there! [mirror]Shard[/color]!" A high-pitched robotic female voice calls out to you from a dark alleyway, enticing enough to bypass your instincts -- and you find yourself in walking towards a towering figure bearing six arms, each made from a different colored metal. It twitches its mechanical fingers in excitement as you approach. "Looking [red]W-O-R-S-E[/color] for wear, ye? Well, I got just the solution for that..."
+
+"The normal ways from which one can get stronger in the City are viable, sure, though they all lack a key component: quick results. What if you need to get faster in a day? An hour? Well, I got just the solution!" Six-Six gestures towards a tattered surgical chair, questionably clean tools neately organized in a tray at its side.
+
+"Just a small experimental surgery will make you [green]P-O-W-E-R-F-U-L[/color]! Ain't that nice? For just 20 [yellow]Ahn[/color] I can get ya that fix! Whaddya say, chum?" Six-Six stares expectantly.</text>
+             <text id="MysteryCh3_3Frame0Choice0Desc">Do the surgery ([red]Pay 20 [yellow]Ahn[/color].[/color] [green]Chosen Librarian: +5~10 Max HP and Stagger Resist[/color], [red]-1~1 Speed Range[/color])</text>
+             <text id="MysteryCh3_3Frame0Choice1Desc">Walk away</text>
+             <text id="MysteryCh3_3RewardName">Bone-Strengthening Surgery</text>
+             <text id="MysteryCh3_3RewardDesc">Chosen Librarian: +5~10 Max HP and Stagger Resist, -1~1 Speed Range</text>
+
+
+<!--
+             <text id="MysteryCh3_4Title">Laundry Day</text>
+             <text id="MysteryCh3_4Frame0Dia0">Laundry is the act of not only washing the clothes, but also the soul, which is why you visited this workshop today.</text>
+	
+             <text id="MysteryCh3_4Frame0Choice0Desc">[i][mirror]Wash Yourself Now[/color][/i] </text>
+             <text id="MysteryCh3_4Frame0Choice1Desc">You're clean enough as is.</text>
+			 
+             <text id="MysteryCh3_4Frame1Dia0">Watching your clothes tumble inside the machine would've been enough, but you decied to throw yourself in as well - much to the dismay of the staff - this somehow worked, however, and now you feel better than ever.</text>
+             <text id="MysteryCh3_4Frame1Choice0Desc">Walk away enjoying your new self (Librarian equips a random Key page, recovers all HP and removes all attributed Passives)</text>
+	
+             <text id="MysteryCh3_4Frame2Dia0">You walk away from the Laundry, telling yourself you need no such things. People exchange glances at each other as you pass by</text>
+             <text id="MysteryCh3_4Frame2Choice0Desc">You dont need it... right?</text>
+			 
+             <text id="MysteryCh3_4RewardName">Clean Soul</text>
+             <text id="MysteryCh3_4RewardDesc">Fresh like wet clothes! Chosen Librarian equips a random Key Page, recovers all HP and removes all attributed Passives</text>
+-->
+</localize>

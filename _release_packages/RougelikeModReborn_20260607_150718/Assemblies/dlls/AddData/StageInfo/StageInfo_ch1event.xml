@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+  
+
+
+
+<!--이벤트1_1 : 빈 책장-->
+
+  <Stage id="110001">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>28470001</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트1_2 : J.A.X-->
+
+  <Stage id="110002">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>28470002</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트1_3 : 윤의 회상-->
+
+  <Stage id="110003">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>28470003</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트1_3_1 : 윤 사무소-윤-->
+
+  <Stage id="1100031">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>6</Unit>
+      <Unit>5</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트1_4 : 핀의 고양이 찾기-->
+
+  <Stage id="110004">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>28470004</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트1_4_1 : 고양이 찾기 실패-->
+
+  <Stage id="1100041">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28480004</Unit>
+    </Wave>
+  </Stage>
+
+
+<!--이벤트1_5 : 널부러진 시체-->
+
+  <Stage id="110005">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>28470005</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트1_6 : 사무소 깨기-->
+
+  <Stage id="110006">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>28470006</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트1_6_1 : 사무소 깨부수기-->
+
+  <Stage id="1100061">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>28480006</Unit>
+      <Unit>28480006</Unit>
+      <Unit>28480006</Unit>
+    </Wave>
+  </Stage>
+
+  <Stage id="991101">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>28470001</Unit>
+    </Wave>
+  </Stage>
+
+  <Stage id="991102">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>5</Formation>
+      <Unit>10002</Unit>
+      <Unit>10001</Unit>
+    </Wave>
+  </Stage>
+
+  <Stage id="991103">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>21004</Unit>
+      <Unit>21004</Unit>
+      <Unit>21004</Unit>
+    </Wave>
+  </Stage>
+
+  <Stage id="991104">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>30001</Unit>
+      <Unit>30002</Unit>
+      <Unit>30003</Unit>
+    </Wave>
+  </Stage>
+
+  <Stage id="991105">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>10</Formation>
+      <Unit>41001</Unit>
+      <Unit>41001</Unit>
+      <Unit>41001</Unit>
+      <Unit>41001</Unit>
+      <Unit>41001</Unit>
+    </Wave>
+  </Stage>
+
+  <Stage id="991106">
+    <Wave>
+      <Formation>21</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50001</Unit>
+      <Unit>50001</Unit>
+      <Unit>50001</Unit>
+      <Unit>50001</Unit>
+      <Unit>50001</Unit>
+    </Wave>
+  </Stage>
+
+  <Stage id="991001">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>28470001</Unit>
+    </Wave>
+  </Stage>
+
+  <Stage id="991002">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>28470001</Unit>
+    </Wave>
+  </Stage>
+
+  <Stage id="991003">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>28470001</Unit>
+    </Wave>
+  </Stage>
+</StageXmlRoot>

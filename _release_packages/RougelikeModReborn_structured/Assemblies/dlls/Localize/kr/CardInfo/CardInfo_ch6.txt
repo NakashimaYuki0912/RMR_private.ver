@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="601001">
+      <LocalizedName>감정의 격동</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601002">
+      <LocalizedName>내면의 열혈</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601003">
+      <LocalizedName>검의 흐름</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601004">
+      <LocalizedName>견고한 수비</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601005">
+      <LocalizedName>속검</LocalizedName> <!-- 속도 + 검-->
+    </BattleCardDesc>
+    <BattleCardDesc ID="601006">
+      <LocalizedName>몰아치기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601007">
+      <LocalizedName>정면 돌파</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="601008">
+      <LocalizedName>휘몰아치기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601009">
+      <LocalizedName>철산고</LocalizedName> <!-- 鉄山靠 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="601010">
+      <LocalizedName>질풍각</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601011">
+      <LocalizedName>올려차기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601012">
+      <LocalizedName>철벽</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601013">
+      <LocalizedName>전면전</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601014">
+      <LocalizedName>휘몰아치기-일격</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="602001">
+      <LocalizedName>장전</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602002">
+      <LocalizedName>총검술</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602003">
+      <LocalizedName>견제 사격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602004">
+      <LocalizedName>충격탄</LocalizedName> <!-- '탄환'에 포함되는 카드가 아닙니다-->
+    </BattleCardDesc>
+    <BattleCardDesc ID="602005">
+      <LocalizedName>기습 사격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602006">
+      <LocalizedName>화력 집중</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602007">
+      <LocalizedName>철의 방어</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602008">
+      <LocalizedName>강철 너클</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602009">
+      <LocalizedName>즉결심판</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602010">
+      <LocalizedName>단죄</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602011">
+      <LocalizedName>규율</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602012">
+      <LocalizedName>계급과 존중</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="602020">
+      <LocalizedName>철갑 탄환</LocalizedName> <!-- 철갑(徹甲) -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="602021">
+      <LocalizedName>빙결 탄환</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602022">
+      <LocalizedName>화염 탄환</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="603001">
+      <LocalizedName>에너지 광선</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603002">
+      <LocalizedName>충격 흡수</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603003">
+      <LocalizedName>기회입니다!</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603004">
+      <LocalizedName>파괴 연타</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603005">
+      <LocalizedName>준비합시다!</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603006">
+      <LocalizedName>에너지 방패</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603007">
+      <LocalizedName>에너지 전환</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603008">
+      <LocalizedName>으스스한 일격</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="604001">
+      <LocalizedName>증기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604002">
+      <LocalizedName>방어 명령</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604003">
+      <LocalizedName>자동 돌격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604004">
+      <LocalizedName>기습 명령</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604005">
+      <LocalizedName>톱니가 이끄는 대로</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="604021">
+      <LocalizedName>푸른 궤적</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604022">
+      <LocalizedName>전주</LocalizedName> <!-- 전주 : 前奏 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="604023">
+      <LocalizedName>기다림</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604024">
+      <LocalizedName>정찰</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604025">
+      <LocalizedName>난무</LocalizedName>
+    </BattleCardDesc>
+    
+    <BattleCardDesc ID="605001">
+      <LocalizedName>척결</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605002">
+      <LocalizedName>형벌</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605003">
+      <LocalizedName>참수</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605004">
+      <LocalizedName>엄숙한 대행</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605005">
+      <LocalizedName>섬멸</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605006">
+      <LocalizedName>사슬 묶기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605007">
+      <LocalizedName>다중 베기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605008">
+      <LocalizedName>해금-Ⅰ</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605009">
+      <LocalizedName>해금-Ⅱ</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605010">
+      <LocalizedName>해금-Ⅲ</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- Enemy only -->
+    <BattleCardDesc ID="605021">
+      <LocalizedName>묵직한 궤적</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605022">
+      <LocalizedName>빠른 궤적</LocalizedName>
+    </BattleCardDesc>
+    
+   
+
+    <BattleCardDesc ID="606001">
+      <LocalizedName>휘몰아치기-애</LocalizedName> <!-- 샤오 카드.  애(愛) -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="606002">
+      <LocalizedName>염룡권</LocalizedName> <!-- 염룡권(焰龍拳)-->
+    </BattleCardDesc>
+    <BattleCardDesc ID="606003">
+      <LocalizedName>타오르는 감정</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="606004">
+      <LocalizedName>불꽃의 윤무</LocalizedName> <!--윤무(輪舞) -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="606005">
+      <LocalizedName>격렬한 불꽃</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="606006">
+      <LocalizedName>일점 찌르기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="606007">
+      <LocalizedName>화염일섬</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="606008">
+      <LocalizedName>내면의 열정</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- the red mist -->
+    <BattleCardDesc ID="607001">
+      <LocalizedName>대절단-가로</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607002">
+      <LocalizedName>대절단-세로</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607003">
+      <LocalizedName>종베기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607004">
+      <LocalizedName>찌르기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607005">
+      <LocalizedName>횡베기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607006">
+      <LocalizedName>기합</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607007">
+      <LocalizedName>돌진</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607008">
+      <LocalizedName>E.G.O 발현</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607021">
+      <LocalizedName>대절단-가로</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607022">
+      <LocalizedName>대절단-세로</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- binah -->
+    <BattleCardDesc ID="607201">
+      <LocalizedName>열화된 자물쇠</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607202">
+      <LocalizedName>열화된 요정</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607203">
+      <LocalizedName>열화된 충격파</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607204">
+      <LocalizedName>열화된 기둥</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607205">
+      <LocalizedName>열화된 사슬</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="608001">
+      <LocalizedName>광폭한 칼날</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608002">
+      <LocalizedName>정신 분쇄</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608003">
+      <LocalizedName>대지강타</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608004">
+      <LocalizedName>처분</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608005">
+      <LocalizedName>정신 채찍</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608006">
+      <LocalizedName>코뿔소 돌진</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608007">
+      <LocalizedName>집중 사격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608008">
+      <LocalizedName>일점 사격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608009">
+      <LocalizedName>전투 지휘</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608010">
+      <LocalizedName>에너지 강타</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608011">
+      <LocalizedName>육중한 충돌</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608012">
+      <LocalizedName>연속 절단</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608013">
+      <LocalizedName>신속한 제압</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608014">
+      <LocalizedName>풀뜯기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608015">
+      <LocalizedName>집중</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608016">
+      <LocalizedName>복제</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608017">
+      <LocalizedName>광폭화</LocalizedName>
+    </BattleCardDesc>
+  
+    <BattleCardDesc ID="609001">
+      <LocalizedName>사검술</LocalizedName> <!-- 사(巳)검술-->
+    </BattleCardDesc>
+    <BattleCardDesc ID="609002">
+      <LocalizedName>자색검</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609003">
+      <LocalizedName>뱀 가르기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609004">
+      <LocalizedName>뱀의 표적</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609005">
+      <LocalizedName>열상</LocalizedName> <!-- 열상(裂傷) -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="609006">
+      <LocalizedName>독니</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609007">
+      <LocalizedName>내려찍기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609008">
+      <LocalizedName>거대한 뱀의 충격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609009">
+      <LocalizedName>결투</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609010">
+      <LocalizedName>뱀의 장벽</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609011">
+      <LocalizedName>흘려보내기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609012">
+      <LocalizedName>약점 파악</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609013">
+      <LocalizedName>환영난무</LocalizedName>
+    </BattleCardDesc>
+  
+    <BattleCardDesc ID="609020">
+      <LocalizedName>참격 자세</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609021">
+      <LocalizedName>관통 자세</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609022">
+      <LocalizedName>타격 자세</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609023">
+      <LocalizedName>방어 자세</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 샤오 -->
+    <BattleCardDesc ID="610001">
+      <LocalizedName>포뢰</LocalizedName> <!-- 蒲牢 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610002">
+      <LocalizedName>폐안</LocalizedName> <!-- 狴犴 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610003">
+      <LocalizedName>초도</LocalizedName> <!-- 椒圖 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610004">
+      <LocalizedName>비희</LocalizedName> <!-- 贔屭 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610005">
+      <LocalizedName>애자</LocalizedName> <!-- 睚眦 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610006">
+      <LocalizedName>금예</LocalizedName> <!-- 金猊, 산예(狻猊)라고도 한다 -->
+    </BattleCardDesc>
+    
+    <BattleCardDesc ID="610008">
+      <LocalizedName>이문</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="610009">
+      <LocalizedName>도철</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="610010">
+      <LocalizedName>화룡참</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="610011">
+      <LocalizedName>협공</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="610012">
+      <LocalizedName>역린</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="610013">
+      <LocalizedName>역린</LocalizedName>
+    </BattleCardDesc>
+    
+    <BattleCardDesc ID="610021">
+      <LocalizedName>애자</LocalizedName> <!-- 睚眦 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610022">
+      <LocalizedName>도철</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- yan only card -->
+    <BattleCardDesc ID="611001">
+      <LocalizedName>뒤틀린 검</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611002">
+      <LocalizedName>불길한 낙인</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611003">
+      <LocalizedName>잠금</LocalizedName>
+    </BattleCardDesc>
+    <!-- yan player card -->
+    <BattleCardDesc ID="611004">
+      <LocalizedName>불길한 힘</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611005">
+      <LocalizedName>의지의 검</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611006">
+      <LocalizedName>맹목적인 신념</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611007">
+      <LocalizedName>도시의 의지</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- enemy only -->
+    <BattleCardDesc ID="611008">
+      <LocalizedName>뒤틀린 검</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- yan hand card -->
+    <BattleCardDesc ID="611021">
+      <LocalizedName>거대 주먹</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611022">
+      <LocalizedName>압축</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611023">
+      <LocalizedName>연속 주먹</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611024">
+      <LocalizedName>경계</LocalizedName> <!-- 경계(警戒) -->
+    </BattleCardDesc>
+
+    <!-- yan enemy buf card -->
+    <BattleCardDesc ID="611031">
+      <LocalizedName>공격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611032">
+      <LocalizedName>보호</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611033">
+      <LocalizedName>경계</LocalizedName> <!-- 경계(警戒) -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="611034">
+      <LocalizedName>수복</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611035">
+      <LocalizedName>버티기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611036">
+      <LocalizedName>전체 수복</LocalizedName>
+    </BattleCardDesc>
+  
+    <!-- yan passive card -->
+    <BattleCardDesc ID="611041">
+      <LocalizedName>지령-Ⅰ</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611042">
+      <LocalizedName>지령-Ⅱ</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611043">
+      <LocalizedName>지령-Ⅲ</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611044">
+      <LocalizedName>지령-Ⅳ</LocalizedName>
+    </BattleCardDesc>
+
+
+
+
+
+    <!-- 밤의 송곳 -->
+    <BattleCardDesc ID="612001">
+      <LocalizedName>틈새 공격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="612002">
+      <LocalizedName>단검술 찌르기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="612003">
+      <LocalizedName>페인트</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="612004">
+      <LocalizedName>기회 잡기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="612005">
+      <LocalizedName>약점 찌르기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="612006">
+      <LocalizedName>스틸레토</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 우제트 -->
+    <BattleCardDesc ID="613001">
+      <LocalizedName>하르페</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="613002">
+      <LocalizedName>모래 베기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="613003">
+      <LocalizedName>모래 타격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="613004">
+      <LocalizedName>후루시야</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="613005">
+      <LocalizedName>자마다르</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="613006">
+      <LocalizedName>우제트의 눈</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- 미래생명 -->
+    <BattleCardDesc ID="614001">
+      <LocalizedName>맞바꾸기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="614002">
+      <LocalizedName>보험 보상</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="614003">
+      <LocalizedName>등가 교환</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="614004">
+      <LocalizedName>분산 보상</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="614005">
+      <LocalizedName>마무리 일격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="614006">
+      <LocalizedName>생명 보험</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 공방소속 -->
+    <BattleCardDesc ID="615001">
+      <LocalizedName>시범 사용</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="615002">
+      <LocalizedName>연기 타격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="615003">
+      <LocalizedName>연기 강타</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="615004">
+      <LocalizedName>연기 찌르기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="615005">
+      <LocalizedName>즉석 개조</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="615006">
+      <LocalizedName>연기 내뿜기</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 베이야드 -->
+    <BattleCardDesc ID="616001">
+      <LocalizedName>쐐기 찌르기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616002">
+      <LocalizedName>가로지르기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616003">
+      <LocalizedName>완벽한 타격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616004">
+      <LocalizedName>밀어내기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616005">
+      <LocalizedName>휘둘러치기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616006">
+      <LocalizedName>준비자세</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616007">
+      <LocalizedName>일점 돌파</LocalizedName>
+    </BattleCardDesc>
+  </cardDescList>
+</BattleCardDescRoot>

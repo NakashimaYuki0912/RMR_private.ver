@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScenarioRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Chapter ID="7">
+    <Title>Chapter 7–Impuritas Civitatis–‘And the reason I am living is only because I am looking for what I have lost.’</Title>
+  </Chapter>
+  <Group>
+    <GroupName>Prologue</GroupName>
+    <Episode>
+      <EpisodeName>Episode 1</EpisodeName>
+      <Place>
+        <PlaceName>Location: Inside the Library</PlaceName>
+      </Place>
+    </Episode>
+  </Group>
+</ScenarioRoot>

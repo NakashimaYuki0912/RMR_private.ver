@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RewardPassivesRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+ <ChapterList Chapter="GradeAll" Type="Shop" ID="80000">
+    <RewardList ID="80001" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodLogic1" ArtWork="ShopPassiveLogic1"/>
+    <RewardList ID="80002" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodLogic2" ArtWork="ShopPassiveLogic2"/>
+    <RewardList ID="80003" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodLogic3" ArtWork="ShopPassiveLogic3"/>
+    <RewardList ID="80004" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodLogic4" ArtWork="ShopPassiveLogic4"/>
+    <RewardList ID="80005" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodLogic5" ArtWork="ShopPassiveLogic5"/>
+    <RewardList ID="80006" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodLogic6" ArtWork="ShopPassiveLogic6"/>
+    <RewardList ID="80007" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodLogic7" ArtWork="ShopPassiveLogic7"/>
+    <RewardList ID="80008" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodLogic8" ArtWork="ShopPassiveLogic8"/>
+    <RewardList ID="80009" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodLogic9" ArtWork="ShopPassiveLogic9"/>
+    <RewardList ID="80010" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodLogic10" ArtWork="ShopPassiveLogic10"/>
+    <RewardList ID="80011" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodLogic11" ArtWork="ShopPassiveLogic11"/>
+  </ChapterList> 
+
+ <ChapterList Chapter="GradeAll" Type="Shop" ID="81000">
+    <RewardList ID="81001" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodUnion1" ArtWork="ShopPassiveUnion1"/>
+    <RewardList ID="81002" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodUnion2" ArtWork="ShopPassiveUnion2"/>
+    <RewardList ID="81003" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodUnion3" ArtWork="ShopPassiveUnion3"/>
+    <RewardList ID="81004" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodUnion4" ArtWork="ShopPassiveUnion4"/>
+    <RewardList ID="81005" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodUnion5" ArtWork="ShopPassiveUnion5"/>
+    <RewardList ID="81006" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodUnion6" ArtWork="ShopPassiveUnion6"/>
+    <RewardList ID="81007" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodUnion7" ArtWork="ShopPassiveUnion7"/>
+    <RewardList ID="81008" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodUnion8" ArtWork="ShopPassiveUnion8"/>
+    <RewardList ID="81009" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodUnion9" ArtWork="ShopPassiveUnion9"/>
+    <RewardList ID="81010" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodUnion10" ArtWork="ShopPassiveUnion10"/>
+  </ChapterList> 
+
+ <ChapterList Chapter="GradeAll" Type="Shop" ID="82000">
+    <RewardList ID="82001" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodStigma1" ArtWork="ShopPassiveStigma1"/>
+    <RewardList ID="82002" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodStigma2" ArtWork="ShopPassiveStigma2"/>
+    <RewardList ID="82003" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodStigma3" ArtWork="ShopPassiveStigma3"/>
+    <RewardList ID="82004" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodStigma4" ArtWork="ShopPassiveStigma4"/>
+    <RewardList ID="82005" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodStigma5" ArtWork="ShopPassiveStigma5"/>
+    <RewardList ID="82006" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodStigma6" ArtWork="ShopPassiveStigma6"/>
+    <RewardList ID="82007" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodStigma7" ArtWork="ShopPassiveStigma7"/>
+    <RewardList ID="82008" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodStigma8" ArtWork="ShopPassiveStigma8"/>
+    <RewardList ID="82009" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodStigma9" ArtWork="ShopPassiveStigma9"/>
+  </ChapterList> 
+
+ <ChapterList Chapter="GradeAll" Type="Shop" ID="83000">
+    <RewardList ID="83001" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodMook1" ArtWork="ShopPassiveMook1"/>
+    <RewardList ID="83002" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodMook2" ArtWork="ShopPassiveMook2"/>
+    <RewardList ID="83003" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodMook3" ArtWork="ShopPassiveMook3"/>
+    <RewardList ID="83004" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodMook4" ArtWork="ShopPassiveMook4"/>
+    <RewardList ID="83005" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodMook5" ArtWork="ShopPassiveMook5"/>
+    <RewardList ID="83006" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodMook6" ArtWork="ShopPassiveMook6"/>
+    <RewardList ID="83007" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodMook7" ArtWork="ShopPassiveMook7"/>
+    <RewardList ID="83008" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodMook8" ArtWork="ShopPassiveMook8"/>
+    <RewardList ID="83009" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodMook9" ArtWork="ShopPassiveMook9"/>
+    <RewardList ID="83010" PassiveType="EachOther" Rarity="Common" TargetType="SelectOne" Script="ShopGoodMook10" ArtWork="ShopPassiveMook10"/>
+  </ChapterList> 
+
+</RewardPassivesRoot>

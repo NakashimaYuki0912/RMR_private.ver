@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="11">
+      <LocalizedName>收割内脏</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="12">
+      <LocalizedName>鼠辈之道</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="13">
+      <LocalizedName>无耻一击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="14">
+      <LocalizedName>狂撕乱咬</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="15">
+      <LocalizedName>后巷狂袭</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="16">
+      <LocalizedName>风紧扯呼</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="100001">
+      <LocalizedName>回避反击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="100002">
+      <LocalizedName>利刃突刺</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="100003">
+      <LocalizedName>重拳出击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="100004">
+      <LocalizedName>先发制人</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="100005">
+      <LocalizedName>闪电神经</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101001">
+      <LocalizedName>收割内脏</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101002">
+      <LocalizedName>鼠辈之道</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101003">
+      <LocalizedName>无耻一击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101004">
+      <LocalizedName>狂撕乱咬</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101005">
+      <LocalizedName>后巷狂袭</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101006">
+      <LocalizedName>风紧扯呼</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102001">
+      <LocalizedName>阵前指挥</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102002">
+      <LocalizedName>动作太慢</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102003">
+      <LocalizedName>自强不息</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102004">
+      <LocalizedName>过来练练</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102005">
+      <LocalizedName>过来练练</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102006">
+      <LocalizedName>战前准备</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103001">
+      <LocalizedName>微-微差爆破</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103002">
+      <LocalizedName>及-及时行乐</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103003">
+      <LocalizedName>充-充电时间</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103004">
+      <LocalizedName>雷-雷打不动</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103005">
+      <LocalizedName>思-思维干涩</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103006">
+      <LocalizedName>拦-拦腰截断</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104001">
+      <LocalizedName>压倒攻势</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104002">
+      <LocalizedName>先行一步</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104003">
+      <LocalizedName>尝尝这招</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104004">
+      <LocalizedName>丧心病狂</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104005">
+      <LocalizedName>潜步追踪</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104006">
+      <LocalizedName>碎尸万段</LocalizedName>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

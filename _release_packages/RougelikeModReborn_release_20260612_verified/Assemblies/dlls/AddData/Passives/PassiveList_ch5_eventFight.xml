@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PassiveXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <Passive ID="500011">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>RMR_Injured</Script>
+    <Name>Injured</Name>
+    <Desc>Starts the battle with 50% less HP.</Desc>
+  </Passive>
+
+  <Passive ID="500012">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>5</Cost>
+    <Script>RMR_CopleyPassive</Script>
+    <Name>Splay Their Reds</Name>
+    <Desc>Deal +10% damage and Stagger damage every time this character uses a Combat Page against a target consecutively. (Max. 50%)
+If damage increase is 30% or higher, all Offensive dice gain '[On Hit] Inflict 1 Bleed next Scene'.
+If this character uses a Combat Page against a different target, reset the damage increase.</Desc>
+  </Passive>
+  
+  <Passive ID="500013">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>0</Cost>
+    <Script>RMR_CopleyShimmering</Script>
+    <Name>Shimmering</Name>
+    <Desc>At the start of each Scene, exhaust all pages in hand and deck; add new pages to hand. Their Cost becomes 0.</Desc>
+  </Passive>
+  
+  <Passive ID="500014">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>3</Cost>
+    <Script>RMR_PrescriptPassive</Script>
+    <Name>Prescript</Name>
+    <Desc>Deal +10% damage and Stagger damage every time this character uses a Combat Page against a target consecutively. (Max. 30%)
+If this character uses a Combat Page against a different target, they deal -50% damage and Stagger damage for that engagement.</Desc>
+  </Passive>
+  
+  <Passive ID="500015">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Unique</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>0</Cost>
+    <Script>RMR_CopleyShimmering2</Script>
+    <Name>Shimmering</Name>
+    <Desc>At the start of each Scene, exhaust all pages in hand and deck; add new pages to hand. Their Cost becomes 0.</Desc>
+  </Passive>
+
+
+</PassiveXmlRoot>

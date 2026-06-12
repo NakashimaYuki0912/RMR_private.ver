@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <text id="Stage_MeatPieQuest">재료 전달</text>
+  <text id="Stage_BossMars">마스</text>
+  <text id="Stage_BossLulu">루루</text>
+
+
+  <text id="Stage_MeatPieQuest_Desc">모은 고기를 피에르에게 전달하러 가기</text>
+  <text id="Stage_BossMars_Desc">마스가 돌아왔습니다. 접대 후 다음 챕터로 넘어갑니다.</text>
+  <text id="Stage_BossLulu_Desc">루루가 돌아왔습니다. 접대 후 다음 챕터로 넘어갑니다.</text>
+</localize>

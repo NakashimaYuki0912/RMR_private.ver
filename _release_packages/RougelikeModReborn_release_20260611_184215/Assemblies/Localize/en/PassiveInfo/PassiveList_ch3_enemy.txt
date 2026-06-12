@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<PassiveDesc ID="30001">
+		<Name>Berserk</Name>
+		<Desc>If Emotion Level is 2 or higher at the end of the Scene, draw one more page at the start of the Scene and gain an additional Speed die.</Desc>
+	</PassiveDesc>
+  
+</PassiveDescRoot>
+  
+

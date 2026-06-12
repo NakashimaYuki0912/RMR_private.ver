@@ -1,0 +1,55 @@
+<ModInfo>
+  <ClothInfo>
+    <Name>StrangeOrb</Name>
+    <Default>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="5" pivot_y="-294" />
+      <Head head_x="2" head_y="368" rotation="0" head_enable="False" />
+    </Default>
+    <Guard>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="-30" pivot_y="-202" />
+      <Head head_x="23" head_y="368" rotation="5" head_enable="False" />
+    </Guard>
+    <Damaged>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="-5" pivot_y="-216" />
+      <Head head_x="53" head_y="354" rotation="5" head_enable="False" />
+    </Damaged>
+    <Evade>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="-60" pivot_y="-198" />
+      <Head head_x="159" head_y="356" rotation="3" head_enable="False" />
+    </Evade>
+    <Slash>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="7" pivot_y="-241" />
+      <Head head_x="-87" head_y="317" rotation="4" head_enable="False" />
+    </Slash>
+    <Penetrate>
+      <Direction>Side</Direction>
+      <Pivot pivot_x="166" pivot_y="-232" />
+      <Head head_x="-106" head_y="297" rotation="4" head_enable="False" />
+    </Penetrate>
+    <Hit>
+      <Direction>Side</Direction>
+      <Pivot pivot_x="57" pivot_y="-234" />
+      <Head head_x="-87" head_y="308" rotation="0" head_enable="False" />
+    </Hit>
+    <Move>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="74" pivot_y="-237" />
+      <Head head_x="-214" head_y="264" rotation="11" head_enable="False" />
+    </Move>
+	<Aim>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="5" pivot_y="-294" />
+      <Head head_x="2" head_y="368" rotation="0" head_enable="False" />
+    </Aim>
+	<Fire>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="7" pivot_y="-241" />
+      <Head head_x="-87" head_y="317" rotation="4" head_enable="False" />
+    </Fire>
+  </ClothInfo>
+</ModInfo>

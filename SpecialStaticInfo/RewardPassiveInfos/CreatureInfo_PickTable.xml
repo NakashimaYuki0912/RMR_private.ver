@@ -132,6 +132,45 @@
     <RewardList ID="15370373" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="Ozma3" ArtWork="Creature_Ozma3" Level="4"/>
   </ChapterList>
 
+  <ChapterList Chapter="GradeAll" Type="Custom" ID="9907">
+    <RewardList ID="15370401" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="snowwhite1" ArtWork="Creature_QueenBee1" Level="6"/>
+    <RewardList ID="15370402" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="snowwhite2" ArtWork="Creature_QueenBee2" Level="6"/>
+    <RewardList ID="15370403" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="snowwhite3" ArtWork="Creature_QueenBee3" Level="6"/>
+    <RewardList ID="15370404" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="freischutz1" ArtWork="Creature_Butterfly1" Level="6"/>
+    <RewardList ID="15370405" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="freischutz2" ArtWork="Creature_Butterfly2" Level="6"/>
+    <RewardList ID="15370406" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="freischutz3" ArtWork="Creature_Butterfly3" Level="6"/>
+    <RewardList ID="15370407" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="blackswan1" ArtWork="Creature_Laetitia1" Level="6"/>
+    <RewardList ID="15370408" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="blackswan2" ArtWork="Creature_Laetitia2" Level="6"/>
+    <RewardList ID="15370409" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="blackswan3" ArtWork="Creature_Laetitia3" Level="6"/>
+    <RewardList ID="15370410" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="orchestra1" ArtWork="Creature_Alriune1" Level="6"/>
+    <RewardList ID="15370411" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="orchestra2" ArtWork="Creature_Alriune2" Level="6"/>
+    <RewardList ID="15370412" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="orchestra3" ArtWork="Creature_Alriune3" Level="6"/>
+    <RewardList ID="15370413" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="clownofnihil1" ArtWork="Creature_Angry1" Level="6"/>
+    <RewardList ID="15370414" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="clownofnihil2" ArtWork="Creature_Angry2" Level="6"/>
+    <RewardList ID="15370415" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="clownofnihil3" ArtWork="Creature_Angry3" Level="6"/>
+    <RewardList ID="15370416" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="nothing1" ArtWork="Creature_Mountain1" Level="6"/>
+    <RewardList ID="15370417" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="nothing2" ArtWork="Creature_Mountain2" Level="6"/>
+    <RewardList ID="15370418" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="nothing3" ArtWork="Creature_Mountain3" Level="6"/>
+    <RewardList ID="15370419" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="wizard1" ArtWork="Creature_Ozma1" Level="6"/>
+    <RewardList ID="15370420" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="wizard2" ArtWork="Creature_Ozma2" Level="6"/>
+    <RewardList ID="15370421" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="wizard3" ArtWork="Creature_Ozma3" Level="6"/>
+    <RewardList ID="15370422" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="bossbird1" ArtWork="Creature_Bigbird1" Level="5"/>
+    <RewardList ID="15370423" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="bossbird2" ArtWork="Creature_Bigbird2" Level="5"/>
+    <RewardList ID="15370424" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="bossbird3" ArtWork="Creature_Bigbird3" Level="5"/>
+    <RewardList ID="15370425" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="bossbird4" ArtWork="Creature_LongBird1" Level="6"/>
+    <RewardList ID="15370426" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="bossbird5" ArtWork="Creature_SmallBird1" Level="6"/>
+    <RewardList ID="15370427" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="bossbird6" ArtWork="Creature_Bigbird1" Level="6"/>
+    <RewardList ID="15370428" PassiveType="Custom" Rarity="Unique" TargetType="All" RewardType="Creature" Script="onebadmanygood1" ArtWork="Creature_BlueStar1" Level="5"/>
+    <RewardList ID="15370429" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="plaguedoctor1" ArtWork="Creature_BlueStar2" Level="5"/>
+    <RewardList ID="15370430" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="whitenight1" ArtWork="Creature_BlueStar3" Level="5"/>
+    <RewardList ID="15370431" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="whitenight2" ArtWork="Creature_Bloodytree1" Level="6"/>
+    <RewardList ID="15370432" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="whitenight3" ArtWork="Creature_Bloodytree2" Level="6"/>
+    <RewardList ID="15370433" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="whitenight4" ArtWork="Creature_Bloodytree3" Level="6"/>
+    <RewardList ID="15370434" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="quietKidHammer" ArtWork="Creature_BloodBath1" Level="6"/>
+    <RewardList ID="15370435" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="quietKidEyeShine" ArtWork="Creature_BloodBath2" Level="6"/>
+    <RewardList ID="15370436" PassiveType="Custom" Rarity="Unique" TargetType="SelectOne" RewardType="Creature" Script="quietKidGuilty" ArtWork="Creature_BloodBath3" Level="6"/>
+  </ChapterList>
+
   <ChapterList Chapter="Grade1" Type="Custom" ID="9906">
     <RewardList ID="15999001" PassiveType="Custom" Rarity="Common" TargetType="All" RewardType="Creature" Script="RMRNoAbnormality" ArtWork="Stage_Rest" Level="1"/>
     <RewardList ID="15999002" PassiveType="Custom" Rarity="Common" TargetType="All" RewardType="Creature" Script="RMRNoAbnormality" ArtWork="Stage_Rest" Level="2"/>

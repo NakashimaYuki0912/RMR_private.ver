@@ -19,35 +19,73 @@ namespace RogueLike_Mod_Reborn
         public const int HandsOfLightMysteryId = 991003;
 
         private const string ProgressSaveName = "RMR_AbnormalityProgress";
+        private const string RealizationSaveName = "RMR_FloorRealizations";
         private const int NoAbnormalityFallbackBaseId = 15999000;
 
         private static readonly List<LorId> RouteUnlockedPages = new List<LorId>();
         private static readonly HashSet<int> PermanentlyUnlockedTiers = new HashSet<int>();
+        private static readonly HashSet<SephirahType> CompletedRealizations = new HashSet<SephirahType>();
+
+        // Floor → all abnormality script roots on that floor
+        // Sourced from vanilla EmotionCard_*.txt <Sephirah> tags
+        public static readonly Dictionary<SephirahType, string[]> FloorAbnormalityScripts = new Dictionary<SephirahType, string[]>
+        {
+            { SephirahType.Malkuth, new[] { "ScorchedGirl", "HappyTeddyBear", "FairyCarnival", "QueenBee", "snowwhite" } },
+            { SephirahType.Yesod, new[] { "ForsakenMurderer", "LittleHelper", "SingingMachine", "Butterfly", "freischutz" } },
+            { SephirahType.Hod, new[] { "ShyLookToday", "RedShoes", "SpiderBud", "Laetitia", "blackswan" } },
+            { SephirahType.Netzach, new[] { "UniverseZogak", "ChildofGalaxy", "Porccubus", "Alriune", "orchestra" } },
+            { SephirahType.Tiphereth, new[] { "QueenOfHatred", "KnightOfDespair", "Greed", "Angry", "clownofnihil" } },
+            { SephirahType.Gebura, new[] { "Redhood", "BigBadWolf", "Mountain", "Nosferatu", "nothing" } },
+            { SephirahType.Chesed, new[] { "ScareCrow", "LumberJack", "House", "Ozma", "wizard" } },
+            { SephirahType.Binah, new[] { "Bigbird", "SmallBird", "LongBird", "bossbird" } },
+            { SephirahType.Hokma, new[] { "Bloodytree", "Clock", "BlueStar", "onebadmanygood", "plaguedoctor", "whitenight" } },
+            { SephirahType.Keter, new[] { "BloodBath", "HeartofAspiration", "Pinocchio", "TheSnowQueen", "quietKid" } },
+        };
+
+        // Final realization battle exclusive script roots (Level 6 in vanilla EmotionCard_*.txt)
+        public static readonly HashSet<string> RealizationExclusiveScripts = new HashSet<string>
+        {
+            "snowwhite",        // Malkuth — SnowWhite's Apple
+            "freischutz",       // Yesod — Matan / Magic Bullet
+            "blackswan",        // Hod — BlackSwan
+            "orchestra",        // Netzach — Silent Orchestra
+            "clownofnihil",     // Tiphereth — NihilClown
+            "nothing",          // Gebura — NothingThere
+            "wizard",           // Chesed — Oz / Wizard of Oz
+            "bossbird",         // Binah — ApocalypseBird
+            "whitenight",       // Hokma — WhiteNight
+            "plaguedoctor",     // Hokma — WhiteNight (PlagueDoctor form)
+            "onebadmanygood",   // Hokma — WhiteNight (OneBadManyGood form)
+            "quietKid",         // Keter — QuietKid
+        };
 
         private static readonly string[] SimpleRoots =
         {
-            "BloodBath", "ScorchedGirl", "ForsakenMurderer", "HappyTeddyBear",
-            "LittleHelper", "SingingMachine", "ShyLookToday", "Redhood",
-            "BigBadWolf", "UniverseZogak", "ChildofGalaxy", "Butterfly", "Laetitia"
+            "ScorchedGirl", "HappyTeddyBear", "FairyCarnival", "QueenBee",
+            "ForsakenMurderer", "LittleHelper", "SingingMachine", "Butterfly",
+            "ShyLookToday", "RedShoes", "SpiderBud", "Laetitia",
+            "UniverseZogak", "ChildofGalaxy", "Porccubus", "Alriune"
         };
 
         private static readonly string[] MediumRoots =
         {
             "QueenOfHatred", "KnightOfDespair", "Greed", "Angry",
-            "Mountain", "Nosferatu", "ScareCrow", "LumberJack", "House", "Ozma"
+            "Redhood", "BigBadWolf", "Mountain", "Nosferatu",
+            "ScareCrow", "LumberJack", "House", "Ozma"
         };
 
         private static readonly string[] HardRoots =
         {
-            "Pinocchio", "FairyCarnival", "SpiderBud", "Porccubus",
-            "Bigbird", "SmallBird", "LongBird", "BlueStar", "Alriune",
-            "TheSnowQueen", "QueenBee", "Clock", "Bloodytree"
+            "BloodBath", "HeartofAspiration", "Pinocchio", "TheSnowQueen",
+            "Bigbird", "SmallBird", "LongBird",
+            "Bloodytree", "Clock", "BlueStar"
         };
 
         public static void StartNewRoute(ChapterGrade grade)
         {
             RouteUnlockedPages.Clear();
             LoadPermanentProgress();
+            LoadRealizationProgress();
             foreach (RewardPassiveInfo info in GetPermanentStartingPages())
                 UnlockPage(info.id);
         }
@@ -71,6 +109,7 @@ namespace RogueLike_Mod_Reborn
         {
             RouteUnlockedPages.Clear();
             LoadPermanentProgress();
+            LoadRealizationProgress();
             if (data == null)
             {
                 foreach (RewardPassiveInfo info in GetPermanentStartingPages())
@@ -149,7 +188,7 @@ namespace RogueLike_Mod_Reborn
                 tier = 1;
             else if (grade == ChapterGrade.Grade5)
                 tier = 2;
-            else if (grade == ChapterGrade.Grade6)
+            else if (grade >= ChapterGrade.Grade6)
                 tier = 3;
             if (tier == 0)
                 return;
@@ -168,6 +207,91 @@ namespace RogueLike_Mod_Reborn
         public static bool IsNoAbnormalityFallback(LorId id)
         {
             return id.packageId == LogLikeMod.ModId && id.id > NoAbnormalityFallbackBaseId && id.id <= NoAbnormalityFallbackBaseId + 6;
+        }
+
+        /// <summary>
+        /// Check if a creature/abnormality reward page ID has been unlocked in the current route.
+        /// </summary>
+        public static bool IsPageUnlocked(LorId id)
+        {
+            return RouteUnlockedPages.Exists(x => x == id);
+        }
+
+        /// <summary>
+        /// Returns the floor (SephirahType) that a script root belongs to, or Keter if unknown.
+        /// </summary>
+        public static SephirahType GetFloorForScript(string script)
+        {
+            string root = GetRootScript(script);
+            foreach (var kvp in FloorAbnormalityScripts)
+            {
+                foreach (string floorRoot in kvp.Value)
+                {
+                    if (ScriptMatchesRoot(root, floorRoot))
+                        return kvp.Key;
+                }
+            }
+            Debug.Log($"[RMRAbnormalityUnlockManager] Unknown script root: {root} — defaulting to Keter");
+            return SephirahType.None;
+        }
+
+        /// <summary>
+        /// Returns true if this reward info is a final realization battle exclusive (Level 6).
+        /// </summary>
+        public static bool IsRealizationExclusive(RewardPassiveInfo info)
+        {
+            if (info == null || info.rewardtype != RewardType.Creature)
+                return false;
+            string root = GetRootScript(info.script);
+            return RealizationExclusiveScripts.Any(exclusiveRoot => ScriptMatchesRoot(root, exclusiveRoot));
+        }
+
+        /// <summary>
+        /// Returns true if the player has completed the realization battle for the given floor.
+        /// </summary>
+        public static bool IsFloorRealizationCompleted(SephirahType floor)
+        {
+            return CompletedRealizations.Contains(floor);
+        }
+
+        /// <summary>
+        /// Mark a floor realization as completed. Unlocks all that floor's abnormality pages + EGO pages permanently.
+        /// Saves to persistent storage.
+        /// </summary>
+        public static void CompleteFloorRealization(SephirahType floor)
+        {
+            if (CompletedRealizations.Add(floor))
+            {
+                Debug.Log($"[RMRAbnormalityUnlockManager] Floor realization completed: {floor}");
+                // Unlock ALL abnormality pages for this floor
+                if (FloorAbnormalityScripts.TryGetValue(floor, out string[] roots))
+                {
+                    foreach (string root in roots)
+                    {
+                        foreach (RewardPassiveInfo info in GetAllCreatureRewardPages())
+                        {
+                            if (info != null && ScriptMatchesRoot(GetRootScript(info.script), root))
+                                UnlockPage(info.id);
+                        }
+                    }
+                }
+                SaveRealizationProgress();
+            }
+        }
+
+        /// <summary>
+        /// Returns the set of floors whose pages are available for the given chapter grade.
+        /// Grade 1-3 → Malkuth/Yesod/Hod/Netzach (前4层)
+        /// Grade 4-5 → Tiphereth/Gebura/Chesed (中3层)
+        /// Grade 6-7 → Binah/Hokma/Keter (后3层)
+        /// </summary>
+        public static HashSet<SephirahType> GetFloorsForChapter(ChapterGrade grade)
+        {
+            if (grade <= ChapterGrade.Grade3)
+                return new HashSet<SephirahType> { SephirahType.Malkuth, SephirahType.Yesod, SephirahType.Hod, SephirahType.Netzach };
+            if (grade <= ChapterGrade.Grade5)
+                return new HashSet<SephirahType> { SephirahType.Tiphereth, SephirahType.Gebura, SephirahType.Chesed };
+            return new HashSet<SephirahType> { SephirahType.Binah, SephirahType.Hokma, SephirahType.Keter };
         }
 
         private static void UnlockPage(LorId id)
@@ -198,6 +322,8 @@ namespace RogueLike_Mod_Reborn
                 .Where(info => GetTierForScript(info.script) == tier)
                 .Where(info => !RouteUnlockedPages.Exists(id => id == info.id))
                 .Where(info => !IsNoAbnormalityFallback(info.id))
+                .Where(info => LogueBookModels.EmotionCardList == null || !LogueBookModels.EmotionCardList.Any(x => x.id == info.id))
+                .Where(info => !IsRealizationExclusive(info) || IsFloorRealizationCompleted(GetFloorForScript(info.script)))
                 .ToList();
         }
 
@@ -245,14 +371,22 @@ namespace RogueLike_Mod_Reborn
 
         public static int GetTierForScript(string script)
         {
-            string root = GetRootScript(script);
-            if (SimpleRoots.Contains(root))
+            SephirahType floor = GetFloorForScript(script);
+            if (floor == SephirahType.Malkuth || floor == SephirahType.Yesod || floor == SephirahType.Hod || floor == SephirahType.Netzach)
                 return 1;
-            if (MediumRoots.Contains(root))
+            if (floor == SephirahType.Tiphereth || floor == SephirahType.Gebura || floor == SephirahType.Chesed)
                 return 2;
-            if (HardRoots.Contains(root))
+            if (floor == SephirahType.Binah || floor == SephirahType.Hokma || floor == SephirahType.Keter)
                 return 3;
-            return 1;
+            return 0;
+        }
+
+        private static bool ScriptMatchesRoot(string scriptRoot, string floorRoot)
+        {
+            if (string.IsNullOrEmpty(scriptRoot) || string.IsNullOrEmpty(floorRoot))
+                return false;
+            return string.Equals(scriptRoot, floorRoot, StringComparison.OrdinalIgnoreCase)
+                   || scriptRoot.StartsWith(floorRoot, StringComparison.OrdinalIgnoreCase);
         }
 
         private static string GetRootScript(string script)
@@ -284,6 +418,27 @@ namespace RogueLike_Mod_Reborn
             for (int tier = 1; tier <= 3; tier++)
                 data.AddData("Tier" + tier, PermanentlyUnlockedTiers.Contains(tier) ? 1 : 0);
             Singleton<LogueSaveManager>.Instance.SaveData(data, ProgressSaveName);
+        }
+
+        private static void LoadRealizationProgress()
+        {
+            CompletedRealizations.Clear();
+            SaveData data = Singleton<LogueSaveManager>.Instance.LoadData(RealizationSaveName);
+            if (data == null)
+                return;
+            foreach (SephirahType floor in Enum.GetValues(typeof(SephirahType)))
+            {
+                if (data.GetData(floor.ToString()) != null && data.GetInt(floor.ToString()) > 0)
+                    CompletedRealizations.Add(floor);
+            }
+        }
+
+        private static void SaveRealizationProgress()
+        {
+            SaveData data = new SaveData(SaveDataType.Dictionary);
+            foreach (SephirahType floor in Enum.GetValues(typeof(SephirahType)))
+                data.AddData(floor.ToString(), CompletedRealizations.Contains(floor) ? 1 : 0);
+            Singleton<LogueSaveManager>.Instance.SaveData(data, RealizationSaveName);
         }
 
         private static void RemoveLegacyProgressFile()

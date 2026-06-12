@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <bookDescList>
+    <BookDesc BookID="112001">
+      <BookName>쥐의 책장</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="112002">
+      <BookName>쥐의 책장</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="112003">
+      <BookName>쥐의 책장</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+
+
+  </bookDescList>
+</BookDescRoot>

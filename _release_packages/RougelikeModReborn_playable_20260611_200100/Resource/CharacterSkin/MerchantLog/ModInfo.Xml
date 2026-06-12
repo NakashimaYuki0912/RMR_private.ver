@@ -1,0 +1,55 @@
+<ModInfo>
+  <ClothInfo>
+    <Name>Merchant</Name>
+    <Default>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="9.2" pivot_y="-199.9" />
+      <Head head_x="0" head_y="0" rotation="0" head_enable="False" />
+    </Default>
+    <Guard>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="-7.152557E-07" pivot_y="-190.7" />
+      <Head head_x="0" head_y="0" rotation="0" head_enable="False" />
+    </Guard>
+    <Evade>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="-6.9" pivot_y="-193" />
+      <Head head_x="0" head_y="0" rotation="0" head_enable="False" />
+    </Evade>
+    <Damaged>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="-4.6" pivot_y="-183.8" />
+      <Head head_x="0" head_y="0" rotation="0" head_enable="False" />
+    </Damaged>
+    <Slash>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="167.9" pivot_y="-209.1" />
+      <Head head_x="0" head_y="0" rotation="0" head_enable="False" />
+    </Slash>
+    <Penetrate>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="223.1" pivot_y="-206.8" />
+      <Head head_x="0" head_y="0" rotation="0" head_enable="False" />
+    </Penetrate>
+    <Hit>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="234.6" pivot_y="-209.1" />
+      <Head head_x="0" head_y="0" rotation="0" head_enable="False" />
+    </Hit>
+    <Move>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="9.200001" pivot_y="-163.1" />
+      <Head head_x="0" head_y="0" rotation="0" head_enable="False" />
+    </Move>
+    <Fire>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="-6.899998" pivot_y="-197.6" />
+      <Head head_x="0" head_y="0" rotation="0" head_enable="False" />
+    </Fire>
+    <Aim>
+      <Direction>Front</Direction>
+      <Pivot pivot_x="-2.3" pivot_y="-202.2" />
+      <Head head_x="0" head_y="0" rotation="0" head_enable="False" />
+    </Aim>
+  </ClothInfo>
+</ModInfo>

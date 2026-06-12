@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <bookDescList>
+    <BookDesc BookID="200003">
+      <BookName>피트의 책장</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="200001">
+      <BookName>레니의 책장</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="200002">
+      <BookName>망치의 책장</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="200004">
+      <BookName>핀의 책장</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="200005">
+      <BookName>에리의 책장</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="200006">
+      <BookName>윤의 책장</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="201001">
+      <BookName>윤 사무소 해결사의 책장1</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="201002">
+      <BookName>윤 사무소 해결사의 책장2</BookName>
+    </BookDesc>
+    <BookDesc BookID="201003">
+      <BookName>윤 사무소 해결사의 책장3</BookName>
+    </BookDesc>
+    <BookDesc BookID="200008">
+      <BookName>콘스타의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="200007">
+      <BookName>모의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="200009">
+      <BookName>아놀드의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="200011">
+      <BookName>태인의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="200012">
+      <BookName>나오키의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="200010">
+      <BookName>맥컬린의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="210002">
+      <BookName>피에르의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="210001">
+      <BookName>잭의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="210003">
+      <BookName>마스의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="210006">
+      <BookName>루루의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="211005">
+      <BookName>루루친구의 책장1</BookName>
+    </BookDesc>
+    <BookDesc BookID="211006">
+      <BookName>루루친구의 책장2</BookName>
+    </BookDesc>
+    <BookDesc BookID="211007">
+      <BookName>루루친구의 책장3</BookName>
+    </BookDesc>
+    <BookDesc BookID="211008">
+      <BookName>루루친구의 책장4</BookName>
+    </BookDesc>
+    <BookDesc BookID="21">
+      <BookName>갈고리 사무소 해결사의 책장1</BookName>
+    </BookDesc>
+    <BookDesc BookID="22">
+      <BookName>갈고리 사무소 해결사의 책장2</BookName>
+    </BookDesc>
+    <BookDesc BookID="23">
+      <BookName>뒷골목 도축업자의 책장1</BookName>
+    </BookDesc>
+    <BookDesc BookID="24">
+      <BookName>뒷골목 도축업자의 책장2</BookName>
+    </BookDesc>
+    <BookDesc BookID="25">
+      <BookName>츠바이 협회 6과 해결사의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="220001">
+      <BookName>산의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="220002">
+      <BookName>줄리아의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="220004">
+      <BookName>월터의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="220003">
+      <BookName>이사도라의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="220006">
+      <BookName>올가의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="220005">
+      <BookName>미카의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="220007">
+      <BookName>레인의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="220008">
+      <BookName>경미의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="220010">
+      <BookName>줄루의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="220009">
+      <BookName>디노의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="39">
+      <BookName>버림받은 개 조직원의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="40">
+      <BookName>8급 해결사의 책장1</BookName>
+    </BookDesc>
+    <BookDesc BookID="41">
+      <BookName>8급 해결사의 책장2</BookName>
+    </BookDesc>
+    <BookDesc BookID="42">
+      <BookName>8급 해결사의 책장3</BookName>
+    </BookDesc>
+    <BookDesc BookID="43">
+      <BookName>7급 해결사의 책장1</BookName>
+    </BookDesc>
+    <BookDesc BookID="44">
+      <BookName>7급 해결사의 책장2</BookName>
+    </BookDesc>
+    <BookDesc BookID="45">
+      <BookName>7급 해결사의 책장3</BookName>
+    </BookDesc>
+    <BookDesc BookID="46">
+      <BookName>도끼파의 책장1</BookName>
+    </BookDesc>
+    <BookDesc BookID="47">
+      <BookName>도끼파의 책장2</BookName>
+    </BookDesc>
+
+    
+
+    <BookDesc BookID="230001">
+      <BookName>사육제의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230004">
+      <BookName>리웨이의 책장</BookName>
+
+    </BookDesc>
+    <BookDesc BookID="230005">
+      <BookName>스테판의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="230006">
+      <BookName>타마키의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230007">
+      <BookName>살바도르의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230008">
+      <BookName>유나의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230009">
+      <BookName>필립의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230010">
+      <BookName>알록의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="230011">
+      <BookName>달록의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="230012">
+      <BookName>보노의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230013">
+      <BookName>사랑마을 주민의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="230016">
+      <BookName>토머리의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230018">
+      <BookName>사요의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="230019">
+      <BookName>양의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="230020">
+      <BookName>긴의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="231001">
+      <BookName>흑운회 조직원의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="232001">
+      <BookName>지칸의 책장</BookName>
+    </BookDesc>
+
+
+    <BookDesc BookID="232002">
+      <BookName>녹슨 사슬 조직원의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="233001">
+      <BookName>공방 소속 해결사의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230021">
+      <BookName>미야오의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="230022">
+      <BookName>무무의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="230023">
+      <BookName>오잉크의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230024">
+      <BookName>오스카의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="230025">
+      <BookName>파멜리의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="230026">
+      <BookName>파멜라의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230027">
+      <BookName>필립의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="230028">
+      <BookName>필립의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="240001">
+      <BookName>유진의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240002">
+      <BookName>발렌틴의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240003">
+      <BookName>텐마의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="241001">
+      <BookName>시 협회 2과 해결사의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="240004">
+      <BookName>인형 1의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240005">
+      <BookName>인형 2의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240006">
+      <BookName>인형의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="240007">
+      <BookName>에마의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="240008">
+      <BookName>노아의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="240011">
+      <BookName>사자의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240012">
+      <BookName>원숭이의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240013">
+      <BookName>코끼리의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="240014">
+      <BookName>안톤의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240015">
+      <BookName>발레리의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240016">
+      <BookName>라일라의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="241017">
+      <BookName>청소부의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240018">
+      <BookName>검지 수행자의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240019">
+      <BookName>로즈의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240020">
+      <BookName>레스티의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240021">
+      <BookName>센의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240022">
+      <BookName>Warp 정리 요원의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240023">
+      <BookName>왕의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240024">
+      <BookName>진의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240025">
+      <BookName>미의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240026">
+      <BookName>웃는 얼굴들의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="240027">
+      <BookName>불안정한 우는 아이의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="240028">
+      <BookName>우는 아이의 책장</BookName>
+      <TextList>
+        <Desc></Desc>
+      </TextList>
+    </BookDesc>
+
+    <BookDesc BookID="243001">
+      <BookName>단테의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="243002">
+      <BookName>세븐 협회 해결사의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="243003">
+      <BookName>김삿갓의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="243004">
+      <BookName>검계 조직원의 책장</BookName>
+    </BookDesc>
+
+
+    <BookDesc BookID="243005">
+      <BookName>1급 해결사 동환의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250001">
+      <BookName>리우 협회 2과 해결사의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250002">
+      <BookName>로웰의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250003">
+      <BookName>세실의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250004">
+      <BookName>메이의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250005">
+      <BookName>엄지 조직원의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250006">
+      <BookName>칼로의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250007">
+      <BookName>데니스의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250008">
+      <BookName>카트리엘의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250009">
+      <BookName>보리스의 책장</BookName>
+
+    </BookDesc>
+    <BookDesc BookID="250010">
+      <BookName>네모의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250011">
+      <BookName>마르티나의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250012">
+      <BookName>바다의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250013">
+      <BookName>아르갈리아의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250014">
+      <BookName>톱니 신도의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250015">
+      <BookName>에스더의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250016">
+      <BookName>휴버트의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250017">
+      <BookName>글로리아의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250018">
+      <BookName>춘의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250019">
+      <BookName>리우 1과 협회원의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250020">
+      <BookName>샤오의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250021">
+      <BookName>미리스의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250022">
+      <BookName>붉은안개의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250023">
+      <BookName>순록팀의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250024">
+      <BookName>코뿔소팀의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250025">
+      <BookName>토끼팀의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250026">
+      <BookName>루돌프의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250027">
+      <BookName>루돌프의 책장2</BookName>
+    </BookDesc>
+    <BookDesc BookID="250028">
+      <BookName>막심의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250029">
+      <BookName>막심의 책장2</BookName>
+    </BookDesc>
+    <BookDesc BookID="250030">
+      <BookName>묘의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250031">
+      <BookName>묘의 책장2</BookName>
+    </BookDesc>
+    <BookDesc BookID="250032">
+      <BookName>니콜라이의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="250033">
+      <BookName>니콜라이의 책장2</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250034">
+      <BookName>보라눈물의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250040">
+      <BookName>미리스의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250041">
+      <BookName>샤오의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250051">
+      <BookName>enlxmfflsdis의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="260001">
+      <BookName>하나 협회 3과 해결사의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="260002">
+      <BookName>미리내의 책장</BookName>
+    </BookDesc>
+    <BookDesc BookID="260003">
+      <BookName>해롤드의 책장</BookName>
+    </BookDesc>
+
+
+    <BookDesc BookID="260004">
+      <BookName>올리비에의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="102">
+      <BookName>검은침묵의 책장</BookName>
+    </BookDesc>
+
+
+
+
+    <!-- 일반 초대장 -->
+
+    <BookDesc BookID="252001">
+      <BookName>알란의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="252002">
+      <BookName>밤의 송곳 조직원의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="234001">
+      <BookName>하나후다의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="234002">
+      <BookName>정사무소 해결사의 책장</BookName>
+    </BookDesc>
+
+
+    <BookDesc BookID="253001">
+      <BookName>우제트의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="254001">
+      <BookName>이리나의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="254002">
+      <BookName>미래생명 보험사의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="255001">
+      <BookName>야에의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="255002">
+      <BookName>이파리 공방 해결사의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="256001">
+      <BookName>바야르의 책장</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="256002">
+      <BookName>베이야드 해결사의 책장</BookName>
+    </BookDesc>
+
+
+  </bookDescList>
+</BookDescRoot>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PassiveXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <Passive ID="8572001">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>2</Cost>
+    <Script>ShopPassive2_1</Script>
+    <Name>비전 요리법</Name>
+    <Desc>적을 처치하면 모든 아군의 생명력 3 회복</Desc>
+  </Passive>
+
+  <Passive ID="8572002">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>3</Cost>
+    <Script>ShopPassive2_2</Script>
+    <Name>가로등</Name>
+    <Desc>무대 시작 시 무작위 아군 하나에게 가로등 효과를 부여함. 막 시작 시 대상이 사망한 상태면 다른 무작위 아군 하나에게 다시 부여함.
+(가로등 : 막 시작 시 행운 2를 얻음. '가로등' 지속능력을 가진 사서가 사망시 효과가 사라짐)</Desc>
+  </Passive>
+
+</PassiveXmlRoot>

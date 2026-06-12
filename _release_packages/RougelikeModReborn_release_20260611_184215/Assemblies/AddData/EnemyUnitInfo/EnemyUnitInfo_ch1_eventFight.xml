@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EnemyUnitClassRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+  <Enemy ID="28480004">
+    <!-- 이벤트 4 - 청소부 -->
+    <Name>청소부</Name>
+    <NameID>104</NameID>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>170</MaxHeight>
+
+    <BookId>28480004</BookId>
+
+    <Exp>25</Exp>
+  </Enemy>
+
+  <Enemy ID="28480006">
+    <!-- 이벤트 6 - 9급 해결사 -->
+    <Name>9급 해결사</Name>
+    <NameID>28480006</NameID>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>190</MaxHeight>
+
+    <BookId>28480006</BookId>
+
+    <Exp>4</Exp>
+    <DropTable Level="0">
+      <DropItem Prob="1">1001</DropItem>
+      <DropItem Prob="1">1002</DropItem>
+    </DropTable>
+  </Enemy>
+
+</EnemyUnitClassRoot>

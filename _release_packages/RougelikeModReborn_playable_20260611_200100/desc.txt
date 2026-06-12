@@ -1,0 +1,130 @@
+OriginUrl:https://steamcommunity.com/sharedfiles/filedetails/?id=3503523710
+Title:[EN/CN] Roguelike Mod REBORN
+Tag:Invitation
+
+```
+[h2] What is "Roguelike Mod REBORN"? [/h2]
+
+Roguelike Mod REBORN (RMR for short) is a mod that overhauls Library of Ruina to play as a roguelike, inspired by games like StS (Slay the Spire), Alina of the Arena, Risk of Rain & more. It adds a handful of new features, items, pages, enemies, EGO, abno cards & more.
+
+[i] *Its also a remake of the original Roguelike Mod, made by ABCDCODE [/i]
+
+[h2] Compatibility [/h2]
+[b]FOR MODDERS:[/b] Roguelike Reborn has extensive support for extension and satellite modding- you can make entirely separate campaigns with Roguelike systems, or simply add new items, events or encounters as you wish. There is extensive documentation of the mod in our Discord, if you are interested.
+[b]FOR PLAYERS:[/b] Since RMR changes not only Ruina's gameplay but its inner workings drastically, most regular mods will likely make no difference.
+
+[b]Known incompatibilities, issues and recommendations will be listed below:[/b]
+[list]
+[*]Heukhyeon's [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2868713582]Sayo to Everyone[/url]: CRITICAL - Completely destroys the passive attribution system within Roguelike.
+[/list]
+(Mods listed as CRITICAL will prevent you from playing Roguelike entirely. Please disable them before starting a run.)
+
+[h2] Our Roadmap [/h2]
+[img]https://images.steamusercontent.com/ugc/10664212133759830250/2E841BEA7BBE0352634D6EE1724F9331C03BB609/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false[/img] 
+
+[i][h3] Item Revision [/h3][/i]
+We weren't happy with Old Roguelike's (ORL) item system and their effects because they were filled with incorrect descriptions, localization errors and bugs. RMR's Item Revision update aims to fix and improve items (and upgrades), giving them a unique use and clear functionality.
+
+[i][h3] Abno Rework [/h3][/i]
+While ORL's abno selection allowed for customization early and less RNG-dependency it also let balance-breaking combos (with abnos that were never supposed to be used with each other) be crafted and used, trivializing some events and bosses on later chapters. We plan to rework the method to obtain them, allowing the player to receive new abno pages (fitting for their chapters) along the run.
+
+[i][h3] Card Upgrade Rework [/h3][/i]
+Card upgrades varied from higher rolls to new effects, but were mostly the former, leaving upgrades only effective on a small selection of cards. RMR plans to give every card meaningful upgrades (making most count) and different 'upgrade paths' in the future.
+
+[i][h3] Progression Rework [/h3][/i]
+ORL's progression system is less sofisticated for today's standards (mainly janky). Not only do we plan to add a better save/load feature, but also enhance rewards and the general experience - adding a new unique map for every run.
+
+[i][h3] Impurity Chapter [/h3][/i]
+A final chapter as a way to end the mod and offer late game bosses. Impuritas will serve as a test to the player's skill and decisions along their run, possibly giving vanilla bosses new mechanics and RMR-exclusive bosses their own to fit with the overall gameplay. 
+
+[h2] Credits [/h2]
+
+[table noborder=1 equalcells=1]
+    [tr]
+        [th][h3]Contributor[/h3][/th]
+        [th]Contribution[/th]
+    [/tr]
+    [tr]
+        [td][h3][url=https://steamcommunity.com/profiles/76561198104081554]abcdcode[/url][/h3][/td]
+        [td]Head developer of the original Roguelike mod[/td]
+    [/tr]
+    [tr]
+        [td][h3][url=https://steamcommunity.com/id/CalmMagma/]CalmMagma[/url][/h3][/td]
+        [td]Project coordinator and head developer of Roguelike Reborn[/td]
+    [/tr]
+    [tr]
+        [td][h3]Alany[/h3][/td]
+        [td]For initially commissioning the mod[/td]
+    [/tr]
+    [tr]
+        [td][h3][url=https://steamcommunity.com/id/angelafan/]Distopia[/url][/h3][/td]
+        [td]Writer and developer; mainly helping in localization and event encounters[/td]
+    [/tr]
+    [tr]
+        [td][h3][url=https://steamcommunity.com/id/berbtha]Berbtha[/url][/h3][/td]
+        [td]Head playtester and quality assurance[/td]
+    [/tr]
+    [tr]
+        [td][h3][url=https://steamcommunity.com/id/MeowLux/]Lux[/url][/h3][/td]
+        [td]Developer and quality assurance; mainly helping with balancing/reworks[/td]
+    [/tr]
+    [tr]
+        [td][h3][url=https://steamcommunity.com/id/soboles/]Soboles[/url][/h3][/td]
+        [td]Designer and quality assurance; mainly helping with balancing, reworks and overall documentation[/td]
+    [/tr]
+    [tr]
+        [td][h3][url=https://steamcommunity.com/id/scryscryscry/]Scry[/url][/h3][/td]
+        [td]Designer, combat page/event thumbnail/battle sprite artist[/td]
+    [/tr]
+    [tr]
+        [td][h3][url=https://steamcommunity.com/profiles/76561198083485094/]GustabMunchausen[/url][/h3][/td]
+        [td]Chinese translator and localizer[/td]
+    [/tr]
+    [tr]
+        [td][h3][url=https://steamcommunity.com/profiles/76561198834690841/]UnitDown[/url][/h3][/td]
+        [td]Icon and sprite artist ([url=https://x.com/The_UnitDown]@The_UnitDown on Twitter[/url])[/td]
+    [/tr]
+    [tr]
+        [td][h3][url=https://steamcommunity.com/id/acrides/]A-5K[/url][/h3][/td]
+        [td]Icon and sprite artist[/td]
+    [/tr]
+    [tr]
+        [td][h3][url=https://steamcommunity.com/id/Spooky3190/]Slick[/url][/h3][/td]
+        [td]Writer; mainly helped by writing item catalogue entries[/td]
+    [/tr]
+    [tr]
+        [td][h3][url=https://steamcommunity.com/profiles/76561199805896505/]BloobCake[/url][/h3][/td]
+        [td]Icon artist[/td]
+    [/tr]
+    [tr]
+        [td][h3][url=https://steamcommunity.com/id/ferdiangamer/]Lazorical[/url][/h3][/td]
+        [td]Developer; mainly helping by coding new items[/td]
+    [/tr]
+    [tr]
+        [td][h3][url=https://steamcommunity.com/profiles/76561199180231529]the_blanket[/url][/h3][/td]
+        [td]Icon artist ([url=https://x.com/T_Blanket_]@T_Blanket on Twitter[/url])[/td]
+    [/tr]
+	[tr]
+        [td][h3][url=https://steamcommunity.com/profiles/76561198053482852]Cyaminthe[/url][/h3][/td]
+        [td]Support; for developing [u]several[/u]* utilities/patches, as well as helping with decompiling the original DLL into a source project[/td]
+    [/tr]
+	[tr]
+        [td][h3][url=https://steamcommunity.com/profiles/76561198370058927/]CreatorExt[/url][/h3][/td]
+        [td]Support; for initially re-writing most of the old item descriptions and catching several logic failures[/td]
+    [/tr]
+[/table] 
+
+[u]*1FrameworkLoader, BattleCardEnhancedView, ErrorLogCleaner, LorIdExtensions, NoInstanceDeselect, PlayPointUIPlus, UnitRenderUtils, EnumExtender, KeywordUtil and Front Skin Patch[/u]
+[h3]Special Thanks[/h3]
+[list]
+[*][url=https://steamcommunity.com/profiles/76561198824893485]StartUp[/url] for being helpful and bongpilled.
+[*][url=https://www.youtube.com/channel/UCetjvfC4U3i_R9nGO-tX8Zw]tonrep[/url] (Youtube) for playing the mod in Absolute Pride Resonance when the mod released.
+[/list]
+
+
+[url=https://discord.gg/buC2SHRRGk] [img]https://images.steamusercontent.com/ugc/10785185480150355898/441E170B9ED30F710093C1F941219B43C0DCF617/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false[/img] [/url]
+
+[h3] Current Version [/h3]
+
+0.12 - Public Beta 1.2
+```

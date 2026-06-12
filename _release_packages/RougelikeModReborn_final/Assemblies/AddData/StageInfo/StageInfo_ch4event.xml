@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+  
+
+
+
+<!--이벤트4_1 : 폐허가 된 공방-->
+
+  <Stage id="140001">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28473001</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트4_2 : 운반책-->
+
+  <Stage id="140002">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28473002</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트4_2_1 : 운반책 복수반-->
+
+  <Stage id="1400021">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>21</Formation>
+      <Unit>28483002</Unit>
+      <Unit>28483002</Unit>
+      <Unit>28483002</Unit>
+      <Unit>28483002</Unit>
+      <Unit>28483002</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트4_3 : 급습-->
+
+  <Stage id="140003">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28473003</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트4_3_1 : 급습-->
+
+  <Stage id="1400031">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>28483001</Unit>
+      <Unit>28483001</Unit>
+      <Unit>28483001</Unit>
+    </Wave>
+  </Stage>
+ 
+  <Stage id="400041"> 
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>-999</Unit>
+      <ManagerScript>AutoStartMysteryStage</ManagerScript>
+    </Wave>
+  </Stage>
+ 
+  <Stage id="1400041">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>28483003</Unit>
+      <Unit>28483003</Unit>
+      <Unit>28483003</Unit>
+    </Wave>
+  </Stage>
+  
+</StageXmlRoot>
+

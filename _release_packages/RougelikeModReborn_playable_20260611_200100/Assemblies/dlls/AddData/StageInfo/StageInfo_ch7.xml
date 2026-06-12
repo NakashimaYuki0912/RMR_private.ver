@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+  <!-- Impurity Normal: ensemble-grade warmup. Replace with verified vanilla Impuritas ids when available. -->
+  <Stage id="70001">
+    <Wave>
+      <Formation>21</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50014</Unit>
+      <Unit>50014</Unit>
+      <Unit>50014</Unit>
+      <Unit>50014</Unit>
+      <Unit>50014</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impurity Normal: Index proxies -->
+  <Stage id="70002">
+    <Wave>
+      <Formation>41</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <AggroScript>theIndex</AggroScript>
+      <Unit>50015</Unit>
+      <Unit>50016</Unit>
+      <Unit>50017</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impurity Normal: ensemble and proxies -->
+  <Stage id="70003">
+    <Wave>
+      <Formation>41</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <AggroScript>theIndex</AggroScript>
+      <Unit>50014</Unit>
+      <Unit>50015</Unit>
+      <Unit>50016</Unit>
+      <Unit>50017</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impurity Normal: Xiao advance group -->
+  <Stage id="70004">
+    <Wave>
+      <Formation>41</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50036</Unit>
+      <Unit>50037</Unit>
+      <Unit>50037</Unit>
+      <Unit>50037</Unit>
+      <Unit>50037</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impurity Normal: Yan ensemble -->
+  <Stage id="70005">
+    <Wave>
+      <Formation>31</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <FormationType>AscendingOrder</FormationType>
+      <Unit>50051</Unit>
+      <Unit>50039</Unit>
+      <Unit>50040</Unit>
+    </Wave>
+    <MapInfo>Yan</MapInfo>
+  </Stage>
+
+  <!-- Impurity Normal: mixed finale group -->
+  <Stage id="70006">
+    <Wave>
+      <Formation>41</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50014</Unit>
+      <Unit>50015</Unit>
+      <Unit>50016</Unit>
+      <Unit>50017</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impurity Boss: The Purple Tear -->
+  <Stage id="70007">
+    <Wave>
+      <Formation>1</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50035</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impurity Boss: Xiao -->
+  <Stage id="70008">
+    <Wave>
+      <Formation>1</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50038</Unit>
+    </Wave>
+    <MapInfo>Xiao</MapInfo>
+  </Stage>
+
+  <!-- Impurity Boss: Distorted Yan -->
+  <Stage id="70009">
+    <Wave>
+      <Formation>31</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <FormationType>AscendingOrder</FormationType>
+      <Unit>50051</Unit>
+      <Unit>50039</Unit>
+      <Unit>50040</Unit>
+    </Wave>
+    <MapInfo>Yan</MapInfo>
+  </Stage>
+
+</StageXmlRoot>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="514002">
+      <LocalizedName>Trash Disposal</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="514003">
+      <LocalizedName>Sweep the Backstreets</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="514005">
+      <LocalizedName>Extract Fuel</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="514006">
+      <LocalizedName>Night in the Backstreets</LocalizedName>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

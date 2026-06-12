@@ -95,6 +95,22 @@ namespace abcdcode_LOGLIKE_MOD
             __instance.SetBUttonState((UIBattleSettingEditTap)5);
         }
 
+        public static void OnClickRealization(UIBattleSettingEditPanel __instance)
+        {
+            UISoundManager.instance.PlayEffectSound(UISoundType.Ui_Click);
+            if (LogLikeMod.CheckStage())
+            {
+                // Open the realization selection panel
+                var panel = Singleton<LogRealizationPanel>.Instance;
+                if (panel == null)
+                {
+                    GameObject go = new GameObject("LogRealizationPanel");
+                    panel = go.AddComponent<LogRealizationPanel>();
+                }
+                panel.Show(__instance);
+            }
+        }
+
         public static void OnClickInventory(UIBattleSettingEditPanel __instance)
         {
             UISoundManager.instance.PlayEffectSound(UISoundType.Ui_Click);
@@ -460,7 +476,7 @@ namespace abcdcode_LOGLIKE_MOD
                 LogLikeMod.ResetNextStage();
                 if (LogLikeMod.curstagetype == StageType.Boss)
                 {
-                    if (LogLikeMod.curchaptergrade != ChapterGrade.Grade6 && LogueBookModels.RemainStageList.ContainsKey(LogLikeMod.curchaptergrade + 1))
+                    if (LogLikeMod.curchaptergrade != ChapterGrade.Grade7 && LogueBookModels.RemainStageList.ContainsKey(LogLikeMod.curchaptergrade + 1))
                         LogLikeMod.nextlist = LogueBookModels.GetNextList(LogLikeMod.curchaptergrade + 1, true);
                     else
                         LogLikeMod.nextlist.Clear();
@@ -567,6 +583,16 @@ namespace abcdcode_LOGLIKE_MOD
         /// </summary>
         public void StageController_EndBattle(Action<StageController> orig, StageController self)
         {
+            // Handle realization battle end
+            if (RMRRealizationManager.InRealizationBattle && self.Phase != StageController.StagePhase.EndBattle)
+            {
+                bool victory = BattleObjectManager.instance.GetAliveListWithAvailable(Faction.Player).Count > 0
+                    && BattleObjectManager.instance.GetAliveListWithAvailable(Faction.Enemy).Count == 0;
+                RMRRealizationManager.OnRealizationBattleEnded(victory);
+                orig(self);
+                return;
+            }
+
             if (LogLikeMod.CheckStage(true) && self.Phase != StageController.StagePhase.EndBattle)
             {
                 LogLikeMod.EndBattle = false;
@@ -870,11 +896,36 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 if (stage.type == StageType.Creature)
                 {
+                    Debug.Log($"[RMR AbnoRoute] Creature stage selected. placeholder={stage.Id}, chapter={LogLikeMod.curchaptergrade}");
                     StageClassInfo abnormalityStage = RMRAbnormalityBattleRouter.PickStageForChapter(LogLikeMod.curchaptergrade);
                     if (abnormalityStage != null)
                     {
+                        Debug.Log($"[RMR AbnoRoute] Routed to vanilla abnormality stage: {abnormalityStage.id}");
                         LogLikeMod.SetNextStage(abnormalityStage.id, StageType.Creature);
                         LogueBookModels.RemoveStageInlist(stage.Id, LogLikeMod.curchaptergrade);
+                        return;
+                    }
+                    else
+                    {
+                        // No usable vanilla abnormality stage found.
+                        // DO NOT fall through to the placeholder 99110x stage (which contains normal enemies).
+                        // Instead, remove the placeholder and regenerate the next list.
+                        Debug.LogError($"[RMR AbnoRoute] No vanilla abnormality stage for chapter {LogLikeMod.curchaptergrade}. Removing placeholder {stage.Id} from all chapters to prevent normal-battle routing.");
+                        LogueBookModels.RemoveStageInlist(stage.Id);
+                        LogLikeMod.nextlist = LogueBookModels.GetNextList(LogLikeMod.curchaptergrade);
+                        // Pick a safe non-Creature fallback from the remain list so the game doesn't get stuck.
+                        List<LogueStageInfo> remainList = LogueBookModels.RemainStageList[LogLikeMod.curchaptergrade];
+                        LogueStageInfo fallbackStage = remainList.Find(s => s.type != StageType.Creature);
+                        if (fallbackStage != null)
+                        {
+                            Debug.Log($"[RMR AbnoRoute] Fallback to non-Creature stage: {fallbackStage.Id} type={fallbackStage.type}");
+                            LogLikeMod.SetNextStage(fallbackStage.Id, fallbackStage.type);
+                            LogueBookModels.RemoveStageInlist(fallbackStage.Id, LogLikeMod.curchaptergrade);
+                        }
+                        else
+                        {
+                            Debug.LogError($"[RMR AbnoRoute] CRITICAL: No fallback stage available for chapter {LogLikeMod.curchaptergrade}!");
+                        }
                         return;
                     }
                 }
@@ -1004,10 +1055,25 @@ namespace abcdcode_LOGLIKE_MOD
                     LogLikeMod.AtlasBtn = LogLikeMod.CreatureBtn;
                     LogLikeMod.AtlasBtnFrame = LogLikeMod.CreatureBtnFrame;
                 }
+                if (LogLikeMod.RealizationBtn == null)
+                {
+                    Button fieldValue = LogLikeMod.GetFieldValue<Button>(self, "button_BattleCard");
+                    LogLikeMod.RealizationBtn = UnityEngine.Object.Instantiate<Button>(fieldValue, fieldValue.transform.parent);
+                    LogLikeMod.RealizationBtn.transform.localPosition = fieldValue.transform.localPosition + new Vector3(800f, 0.0f);
+                    Button.ButtonClickedEvent btnEvent = new Button.ButtonClickedEvent();
+                    btnEvent.AddListener((UnityAction)(() => LogLikeRoutines.OnClickRealization(self)));
+                    LogLikeMod.RealizationBtn.onClick = btnEvent;
+                    UITextDataLoader txtLoader = LogLikeMod.RealizationBtn.transform.GetChild(1).gameObject.GetComponent<UITextDataLoader>();
+                    txtLoader.key = "ui_Realization";
+                    txtLoader.SetText();
+                    LogLikeMod.RealizationBtnFrame = LogLikeMod.RealizationBtn.transform.GetChild(0).gameObject.GetComponent<Image>();
+                    LogLikeMod.RealizationBtnFrame.enabled = false;
+                }
                 LogLikeMod.InvenBtn.gameObject.SetActive(true);
                 LogLikeMod.CreatureBtn.gameObject.SetActive(true);
                 LogLikeMod.CraftBtn.gameObject.SetActive(true);
                 LogLikeMod.AtlasBtn.gameObject.SetActive(true);
+                LogLikeMod.RealizationBtn.gameObject.SetActive(true);
                 Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(false);
                 Singleton<LogCreatureTabPanel>.Instance.SetActive(false);
                 Singleton<LogCraftPanel>.Instance.SetActive(false);
@@ -1023,6 +1089,8 @@ namespace abcdcode_LOGLIKE_MOD
                 LogLikeMod.CreatureBtn.gameObject.SetActive(false);
                 LogLikeMod.CraftBtn.gameObject.SetActive(false);
                 LogLikeMod.AtlasBtn.gameObject.SetActive(false);
+                if (LogLikeMod.RealizationBtn != null)
+                    LogLikeMod.RealizationBtn.gameObject.SetActive(false);
                 orig(self, state);
             }
         }

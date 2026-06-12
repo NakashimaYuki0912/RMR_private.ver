@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<PassiveDesc ID="150015">
+		<Name>变幻莫测</Name>
+		<Desc>每一幕开始时移除手中的书页并将意图使用的书页置入手中
+自身的书页费用为0</Desc>
+	</PassiveDesc>
+  	<PassiveDesc ID="150016">
+		<Name>变幻莫测</Name>
+		<Desc>每一幕开始时移除手中的书页并将意图使用的书页置入手中
+自身的书页费用为0</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="150017">
+		<Name>变幻莫测</Name>
+		<Desc>每一幕开始时移除手中的书页并将意图使用的书页置入手中
+自身的书页费用为0</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="250005">
+    <Name>子弹补给</Name>
+    <Desc>每以近战书页击中目标3次便随机将1张子弹书页置入手中</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="250009">
+    <Name>额外补给</Name>
+    <Desc>每将3张子弹书页移出战斗便在当幕结束时随机将1张子弹书页置入手中</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="254003">
+    <Name>人寿保险</Name>
+    <Desc>(本被动能力无法转移)
+每一幕结束时若自身体力不高于30%则将1张4费“人寿保险”置入手中
+(每一舞台至多触发1次)</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="250022">
+    <Name>卡莉</Name>
+    <Desc>每一幕开始时额外恢复1点光芒并额外抽取1张书页
+若体力减至350则恢复所有混乱抗性并展现E.G.O
+该效果触发前体力无法低于350
+若“E.G.O展现”状态被解除则3幕之后再次展现E.G.O</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="250422">
+    <Name>殷红迷雾</Name>
+    <Desc>所有骰子威力+2
+可使用殷红迷雾固有E.G.O“尸横遍野”
+每一幕中随机1类攻击抗性将变为“一般” 其余攻击抗性将变为“耐性”
+击杀敌方角色时获得1层“血雾” 每有1层“血雾”便使自身的所有骰子威力+1(至多+5)
+若每一幕通过直接攻击造成的伤害总量不足40点则失去40%的混乱抗性
+陷入混乱时解除“E.G.O展现”状态</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="250227">
+    <Name>变幻莫测</Name>
+    <Desc>每一幕开始时移除手中的书页并将意图使用的书页置入手中
+每一幕开始时恢复所有光芒</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="250327">
+    <Name>次元漫步</Name>
+    <Desc>若体力减至350则当幕结束时强制终结舞台并重启战斗
+该效果触发前体力无法低于350</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="150038">
+    <Name>变幻莫测</Name>
+    <Desc>每一幕开始时移除手中的书页并将意图使用的书页置入手中
+自身的书页费用为0</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="150039">
+    <Name>变幻莫测</Name>
+    <Desc>每一幕开始时移除手中的书页并将意图使用的书页置入手中
+自身的书页费用为0</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="150139">
+   <Name>手</Name>
+    <Desc>无法陷入混乱
+承受致死伤害时无法死亡
+每一幕开始时若体力不高于30则无法战斗
+rnfmabj死亡时自身将一同死亡</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="150051">
+    <Name>变幻莫测</Name>
+    <Desc>每一幕开始时移除手中的书页并将意图使用的书页置入手中
+自身的书页费用为0</Desc>
+	</PassiveDesc>
+</PassiveDescRoot>
+  
+

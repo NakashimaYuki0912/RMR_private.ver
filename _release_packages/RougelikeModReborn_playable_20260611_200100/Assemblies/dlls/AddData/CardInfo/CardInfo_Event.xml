@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiceCardXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+
+  <Card ID="80001">
+    <Name>jax</Name>
+    <Artwork>jax.png</Artwork>
+    <Rarity>Common</Rarity>
+    <Spec Range="Instance" Cost="0" />
+    <Script>jax_0</Script>
+    <ScriptDesc>[장착 시 발동] 체력을 5% 잃고 이번막에 힘을 2 얻음</ScriptDesc>
+    <BehaviourList>
+    </BehaviourList>
+    <Chapter>1</Chapter>
+    <Priority>0</Priority>
+  </Card>
+
+  <Card ID="80002">
+    <Name>jax</Name>
+    <Artwork>jax.png</Artwork>
+    <Rarity>Common</Rarity>
+    <Spec Range="Instance" Cost="0" />
+    <Script>choiceTest_0</Script>
+    <ScriptDesc>[장착 시 발동] 무작위 전투책장 1장을 선택해 손으로 가져옴</ScriptDesc>
+    <BehaviourList>
+    </BehaviourList>
+    <Chapter>1</Chapter>
+    <Priority>0</Priority>
+  </Card>
+
+  <Card ID="706108">
+    <Name>로직 아틀리에</Name>
+    <Artwork>LogicSpecial.png</Artwork>
+    <Rarity>Unique</Rarity>
+    <Spec Range="Far" Cost="2" />
+    <Script></Script>
+    <ScriptDesc></ScriptDesc>
+    <BehaviourList>
+      <Behaviour Min="3" Dice="7" Type="Atk" Detail="Penetrate" Motion="S1" EffectRes="BlackSilence_Revolver" Script="" ActionScript="" Desc="" />
+      <Behaviour Min="4" Dice="7" Type="Atk" Detail="Penetrate" Motion="S2" EffectRes="BlackSilence_Revolver" Script="" ActionScript="" Desc="" />
+      <Behaviour Min="6" Dice="11" Type="Atk" Detail="Hit" Motion="S11" EffectRes="BlackSilence_Shotgun" Script="" ActionScript="" Desc="" />
+    </BehaviourList>
+    <Chapter>7</Chapter>
+    <Priority>0</Priority>
+    <SkinChange>BlackSilence</SkinChange>
+    <SkinChangeType>Normal</SkinChangeType>
+
+  </Card>
+
+</DiceCardXmlRoot>

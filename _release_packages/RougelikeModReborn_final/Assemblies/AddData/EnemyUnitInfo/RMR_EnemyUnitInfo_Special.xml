@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EnemyUnitClassRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+  <Enemy ID="-100">
+    <Name>Strange Orb</Name>
+    <NameID>-100</NameID>
+    <MinHeight>170</MinHeight>
+    <MaxHeight>170</MaxHeight>
+
+    <BookId>-100</BookId>
+
+    <DropTable Level="0">
+    </DropTable>
+  </Enemy>
+  
+  <Enemy ID="-999">
+    <!-- Auto Event Starter :) -->
+    <Name>???</Name>
+    <MinHeight>175</MinHeight>
+    <MaxHeight>175</MaxHeight>
+    <Unknown>false</Unknown>
+    <BookId>-999</BookId>
+    <Gender>F</Gender>
+    <FaceType>Skin</FaceType>
+    <Exp>0</Exp>
+    <BodyId>0</BodyId>
+    <DropTable Level="0">
+    </DropTable>
+  </Enemy>
+
+</EnemyUnitClassRoot>

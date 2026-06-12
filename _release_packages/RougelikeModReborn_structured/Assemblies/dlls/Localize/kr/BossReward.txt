@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="BossRewardFlaverText">챕터 보상</text>
+
+             <text id="BossReward1Name">제본</text>
+             <text id="BossReward1Desc">[전역] 지속능력 계승 비용 총량이 2 증가. 중첩 가능</text>
+             <text id="BossReward1Desc_Effect">[전역] 지속능력 계승 비용 총량이 {0} 증가</text>
+             <text id="BossReward2Name">회상</text>
+             <text id="BossReward2Desc">현재 챕터의 한정-예술 전투책장 보상을 {0}회, 한정-예술 핵심책장 보상을 {1}획득</text>
+             <text id="BossReward3Name">부와 명예</text>
+             <text id="BossReward3Desc">{0}안 획득. 다음 챕터에 상점이 1회 추가로 등장</text>
+             <text id="BossReward4Name">합본</text>
+             <text id="BossReward4Desc">사서 하나의 체력과 흐트러짐 저항 100% 증가. 다음 사서가 추가되지 않음</text>
+             <text id="BossReward5Name">와일드 카드</text>
+             <text id="BossReward5Desc">[전역] 사용 시 인벤토리에 있는 전투 책장 중 하나를 선택. 선택한 전투책장을 지정한 사서 손에 추가. 무대 당 1번 사용가능</text>
+             <text id="BossReward5_1Name">와일드 카드</text>
+             <text id="BossReward5_1Desc">'{0}' 책장을 선택한 사서 손에 추가</text>
+             <text id="BossReward6Name">네잎 클로버</text>
+             <text id="BossReward6Desc">세잎 클로버 물품을 대체. '[전역] 지속능력 계승 비용 총량 1 증가. 막 시작 시 모든 사서에게 행운 1 부여.' 효과를 지닌 네잎 클로버 물품 획득</text>
+             <text id="BossReward6_1Name">네잎 클로버</text>
+             <text id="BossReward6_1Desc">[전역] 지속능력 계승 비용 총량 1 증가. 막 시작 시 모든 사서에게 행운 1 부여.</text>
+             <text id="BossReward7Name">한정본</text>
+             <text id="BossReward7Desc">[전역] 전투책장 보상과 상점 전투책장 물품이 15% 확률로 강화된 상태로 등장</text>
+             <text id="BossReward8Name">용광로</text>
+             <text id="BossReward8Desc">연성 비용이 20% 감소</text>
+</localize>

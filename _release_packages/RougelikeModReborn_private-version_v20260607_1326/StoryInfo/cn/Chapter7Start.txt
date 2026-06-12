@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScenarioRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Chapter ID="7">
+    <Title>第7章节–杂质–“我还活着，只是，为了找到失落之物。”</Title>
+  </Chapter>
+  <Group>
+    <GroupName>序章</GroupName>
+    <Episode>
+      <EpisodeName>第1幕</EpisodeName>
+      <Place>
+        <PlaceName>地点：图书馆内部</PlaceName>
+      </Place>
+    </Episode>
+  </Group>
+</ScenarioRoot>

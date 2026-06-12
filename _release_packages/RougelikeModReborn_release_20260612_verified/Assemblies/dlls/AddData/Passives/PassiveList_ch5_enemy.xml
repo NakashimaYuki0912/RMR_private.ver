@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PassiveXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <Passive ID="240508">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>240508Log</Script>
+    <Name>일렁임</Name>
+    <Desc>매 막 마다 손과 덱에 있는 모든 책장을 소멸시키고 사용할 책장을 손에 추가.
+모든 책장의 비용이 0이 됨.</Desc>
+  </Passive>
+
+  <Passive ID="240008">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>240008Log</Script>
+    <Name>올라타기</Name>
+    <Desc>막 종료 시 에마와 합쳐짐</Desc>
+  </Passive>
+
+ <Passive ID="240028">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>240028Log</Script>
+    <Name>일렁임</Name>
+    <Desc>매 막 마다 손과 덱에 있는 모든 책장을 소멸시키고 사용할 책장을 손에 추가.
+모든 책장의 비용이 0이 됨.</Desc>
+  </Passive>
+
+</PassiveXmlRoot>

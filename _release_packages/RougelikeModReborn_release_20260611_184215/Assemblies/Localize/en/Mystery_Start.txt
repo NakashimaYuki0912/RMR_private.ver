@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryChStartTitle">Start</text>
+             <text id="MysteryChStartFrame0Dia0">Angela, the director of the library, has entrusted you with the reception of the guests.
+She said it won't be easy and she will give you one thing that will help you with reception.</text>
+             <text id="MysteryChStartChoice0">Get Nothing</text>
+             <text id="MysteryChStartChoice1">City's Currency(Gain 20 Ahn)</text>
+             <text id="MysteryChStartChoice2">City's Technology(Gain 9 Canard and Urban Myth Chapter's Combat Page randomly.)</text>
+             <text id="MysteryChStartChoice3">Enkephalin</text>
+             <text id="MysteryChStartChoice4">City's Clothes(Gain 2 EquipPage Reward)</text>
+             <text id="StartBoost3Name">Enkephalin</text>
+             <text id="StartBoost3Desc">[Global] During Canard and Urban Myth Chapter, librian's Emotion Level starts at 1.</text>
+
+             <text id="MysteryChStartFrame1Dia0">The door of the library opens, and guests who receive invitations comes.
+Prepare for the reception.</text>
+             <text id="MysteryChStartFrame1End">Start Reception</text>
+
+</localize>

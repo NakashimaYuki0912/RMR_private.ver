@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<LogueEffectXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+ 
+  <LogueEffectInfo Id="GlobalEffect_Bookbinder">
+    <Name>装订书籍</Name> 
+    <Desc>所有司书的被动归属费用上限+2</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“被动多多益善！”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[​暂无]</CatalogDesc>
+  </LogueEffectInfo> 
+  
+   <LogueEffectInfo Id="GlobalEffect_Bookbinder_Effect">
+    <Name>装订书籍</Name> 
+    <Desc>所有司书的被动归属费用上限+{0}</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“被动多多益善！”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[​暂无]</CatalogDesc>
+  </LogueEffectInfo> 
+  
+   <LogueEffectInfo Id="GlobalEffect_Retrospection">
+    <Name>追忆过去</Name> 
+    <Desc>获得当前章节等级的{0}张艺术级核心书页与{1}张战斗书页</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“我仍记......”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[​暂无]</CatalogDesc>
+  </LogueEffectInfo> 
+  
+   <LogueEffectInfo Id="GlobalEffect_LuckyTael">
+    <Name>幸运之尾</Name> 
+    <Desc>获得{0}眼。将1次商店置入下一章节的接待池中。</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“据说可以用风与云来吸引商人。”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[​暂无]</CatalogDesc>
+  </LogueEffectInfo> 
+  
+   <LogueEffectInfo Id="GlobalEffect_CupOfGreed">
+    <Name>贪婪之杯</Name> 
+    <Desc>从当前书库中选择1张战斗书页将其置入另一名司书手中。每舞台限用1次。</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“有屯屯鼠必有挥金人。”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[​暂无]</CatalogDesc>
+  </LogueEffectInfo> 
+  
+   <LogueEffectInfo Id="GlobalEffect_CupOfGreed_Effect">
+    <Name>贪婪之杯</Name> 
+    <Desc>从当前书库中选择1张战斗书页将其置入另一名司书手中。每舞台限用1次。</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“有屯屯鼠必有挥金人。”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[​暂无]</CatalogDesc>
+  </LogueEffectInfo> 
+  
+   <LogueEffectInfo Id="GlobalEffect_TwoLeafClover">
+    <Name>两叶草</Name> 
+    <Desc>替换“三叶草”。被动归属费用上限+1。每一幕开始时使所有司书获得1层“幸运”。</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“它到底算残缺还是稀有，这是一个问题。”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[​暂无]</CatalogDesc>
+  </LogueEffectInfo> 
+ 
+  
+   <LogueEffectInfo Id="GlobalEffect_BlastFurnace">
+    <Name>鼓风高炉</Name> 
+    <Desc>所有制造费用-25%</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“你不确定这种笨重的设备在这种情况下对你有什么帮助，但它确实有用。”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[​暂无]</CatalogDesc>
+  </LogueEffectInfo> 
+ 
+  
+    <!-- 
+  <LogueEffectInfo Id="GlobalEffect_">
+    <Name>Dshka</Name> 
+    <Desc>Dshka</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“Dshka”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[​暂无]</CatalogDesc>
+  </LogueEffectInfo> 
+  -->
+</LogueEffectXmlRoot>

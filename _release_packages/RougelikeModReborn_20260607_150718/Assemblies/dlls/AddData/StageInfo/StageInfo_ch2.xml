@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+<!-- 일반 : 잭과 피에르 -->
+  <Stage id="20001">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>5</Formation>
+      <Unit>10002</Unit>
+      <Unit>10001</Unit>
+    </Wave>
+
+  </Stage>
+
+
+<!-- 일반 : 루루 친구들 -->
+  <Stage id="20002">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>5</Formation>
+      <Unit>11005</Unit>
+      <Unit>11006</Unit>
+    </Wave>
+
+  </Stage>
+
+<!-- 일반 : 루루와 산 -->
+  <Stage id="20003">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>5</Formation>
+      <Unit>10004</Unit>
+      <Unit>10005</Unit>
+    </Wave>
+
+  </Stage>
+
+<!-- 일반 : 뒷골목 도축업자 -->
+  <Stage id="20004">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>5</Formation>
+      <Unit>11003</Unit>
+      <Unit>11004</Unit>
+    </Wave>
+
+  </Stage>
+
+<!-- 보스 : 마스 -->
+  <Stage id="20005">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>10003</Unit>
+    </Wave>
+
+  </Stage>
+
+<!-- 보스 : 화난 루루와 친구들 -->
+  <Stage id="20006">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>10006</Unit>
+      <Unit>11005</Unit>
+      <Unit>11006</Unit>
+    </Wave>
+
+  </Stage>
+
+<!-- 일반 : 쥐떼 -->
+  <Stage id="20007">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>21</Formation>
+      <Unit>12001</Unit>
+      <Unit>12001</Unit>
+      <Unit>12001</Unit>
+      <Unit>12001</Unit>
+      <Unit>12001</Unit>
+    </Wave>
+
+  </Stage>
+
+</StageXmlRoot>

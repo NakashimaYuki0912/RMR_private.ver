@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EnemyUnitClassRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+
+
+<Enemy ID="28494002">
+    <!--엄지 조직원-->
+    <NameID>122</NameID>
+    <MinHeight>160</MinHeight>
+    <MaxHeight>180</MaxHeight>
+
+    <BookId>28494002</BookId>
+
+    <Exp>5</Exp>
+  </Enemy>
+  
+<Enemy ID="28494003">
+    <!--index proselyte -->
+    <NameID>105</NameID>
+    <MinHeight>160</MinHeight>
+    <MaxHeight>180</MaxHeight>
+
+    <BookId>28494003</BookId>
+	
+	<AiScript>theIndex</AiScript>
+	
+	<DropTable Level="0">
+      <DropItem Prob="1">5002</DropItem>
+      <DropItem Prob="1">5003</DropItem>
+    </DropTable>
+
+    <Exp>5</Exp>
+  </Enemy>
+  <Enemy ID="28494004">
+    <!--index proxy copley -->
+    <NameID>2001</NameID>
+    <MinHeight>186</MinHeight>
+    <MaxHeight>186</MaxHeight>
+
+    <BookId>28494004</BookId>
+	
+	<DropTable Level="0">
+      <DropItem Prob="1">5003</DropItem>
+      <DropItem Prob="1">5004</DropItem>
+    </DropTable>
+
+    <Exp>5</Exp>
+  </Enemy>
+ <Enemy ID="28494005">
+    <!--index proselyte 2 -->
+    <NameID>105</NameID>
+    <MinHeight>160</MinHeight>
+    <MaxHeight>180</MaxHeight>
+
+    <BookId>28494005</BookId>
+	
+	<AiScript>theIndex</AiScript>
+	
+	<DropTable Level="0">
+      <DropItem Prob="1">5002</DropItem>
+      <DropItem Prob="1">5003</DropItem>
+    </DropTable>
+
+    <Exp>5</Exp>
+  </Enemy>
+  <Enemy ID="28494006">
+    <!--index proxy copley enraged for choice 2 -->
+    <NameID>2001</NameID>
+    <MinHeight>186</MinHeight>
+    <MaxHeight>186</MaxHeight>
+
+    <BookId>28494006</BookId>
+	
+	<DropTable Level="0">
+      <DropItem Prob="1">5003</DropItem>
+      <DropItem Prob="1">5004</DropItem>
+    </DropTable>
+
+    <Exp>5</Exp>
+  </Enemy>
+</EnemyUnitClassRoot>

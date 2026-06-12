@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="28581001">
+		<Name>联合工坊商人</Name>
+		<Desc>你想买些什么？</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581001">
+    <Name>活体武器 - 狂暴镰刃</Name>
+    <Desc>(无法与其他活体武器同时使用)
+每一幕结束时失去体力上限5%的体力(至多12)
+恢复等同于当幕造成伤害25%的体力(向下取整)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581002">
+    <Name>活体武器 - 吸血指爪</Name>
+    <Desc>(无法与其他活体武器同时使用)
+每一幕结束时失去体力上限5%的体力(至多12)
+攻击命中目标时这一幕对目标施加2层“流血”
+施加“流血”时增加等同于目标“流血”层数的伤害</Desc>
+	</PassiveDesc>1
+
+	<PassiveDesc ID="8581003">
+    <Name>活体武器 - 六指</Name>
+    <Desc>(无法与其他活体武器同时使用)
+每一幕结束时失去体力上限5%的体力(至多12)
+使自身所有骰子的最小值+3~5</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581004">
+    <Name>活体武器 - 远视之眼</Name>
+    <Desc>(无法与其他活体武器同时使用)
+每一幕结束时失去体力上限5%的体力(至多12)
+每一幕开始时获得2层“幸运”</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581005">
+    <Name>活体武器 - 粗糙趾甲</Name>
+    <Desc>(无法与其他活体武器同时使用)
+每一幕结束时失去体力上限5%的体力(至多12)
+自身骰子拼点失败时将再次使用(每颗骰子限1次)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581006">
+    <Name>活体武器 - 翼状纹身</Name>
+    <Desc>(无法与其他活体武器同时使用)
+每一幕结束时失去体力上限5%的体力(至多12)
+被1张近战书页单方面攻击时摧毁其中所有骰子(每一幕限2次)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581007">
+    <Name>生物燃料</Name>
+    <Desc>[全局]1名角色死亡时使所有角色恢复5%的体力(至多6点)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581008">
+    <Name>外骨骼</Name>
+    <Desc>使1名司书的体力上限+10混乱抗性上限+5</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581009">
+    <Name>强制苏醒</Name>
+    <Desc>陷入混乱时失去25%当前体力值解除混乱并恢复全部混乱抗性</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8581010">
+    <Name>战斗感知</Name>
+    <Desc>使用上一场战斗使用过的战斗书页时使其中所有骰子的最大值+1“幸运”+1</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

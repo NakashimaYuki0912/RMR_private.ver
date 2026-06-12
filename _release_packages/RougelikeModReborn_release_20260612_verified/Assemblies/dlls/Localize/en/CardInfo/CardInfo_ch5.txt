@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+  <!-- shi -->
+    <BattleCardDesc ID="501001">
+      <LocalizedName>Boundary of Death</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501002">
+      <LocalizedName>Extreme Edge</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501003">
+      <LocalizedName>Flashing Strike</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501004">
+      <LocalizedName>Flying Sword</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501005">
+      <LocalizedName>Endless Battle</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501006">
+      <LocalizedName>Desperate Struggle</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501007">
+      <LocalizedName>To Overcome Crisis</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- seven -->
+    <BattleCardDesc ID="511001">
+      <LocalizedName>Engagement</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="511002">
+      <LocalizedName>Riposte</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="511003">
+      <LocalizedName>Flèche</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="511004">
+      <LocalizedName>Moulinet</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="511005">
+      <LocalizedName>En Garde</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- sword -->
+    <BattleCardDesc ID="512001">
+      <LocalizedName>Draw of the Sword</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="512002">
+      <LocalizedName>Acupuncture</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="512003">
+      <LocalizedName>Yield My Flesh</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="512004">
+      <LocalizedName>Overthrow</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="512005">
+      <LocalizedName>Slay</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="512006">
+      <LocalizedName>To Claim Their Bones</LocalizedName>
+    </BattleCardDesc>
+
+  <!-- puppet -->
+    <BattleCardDesc ID="502001">
+      <LocalizedName>Automated Movement</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502002">
+      <LocalizedName>Manikin</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502003">
+      <LocalizedName>Repressed Flesh</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502004">
+      <LocalizedName>Forceful Gesture</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502005">
+      <LocalizedName>Gigigig</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502006">
+      <LocalizedName>Creak</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502007">
+      <LocalizedName>Puppet Blockage</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- circus -->
+    <BattleCardDesc ID="503001">
+      <LocalizedName>Sharp Nails</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503002">
+      <LocalizedName>Circus Knives</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503003">
+      <LocalizedName>Juggling</LocalizedName> <!-- Juggling -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="503004">
+      <LocalizedName>Wild Card</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503005">
+      <LocalizedName>Lion's Claws</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503006">
+      <LocalizedName>Unicycle Act</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503007">
+      <LocalizedName>Bulky Charge</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503008">
+      <LocalizedName>Let the Show Begin</LocalizedName>
+    </BattleCardDesc>
+	<BattleCardDesc ID="503011">
+      <LocalizedName>Let the Show Begin</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 청소부 -->
+    <BattleCardDesc ID="504001">
+      <LocalizedName>333… 1973</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="504002">
+      <LocalizedName>Trash Disposal</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="504003">
+      <LocalizedName>Sweep the Backstreets</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="504004">
+      <LocalizedName>For the Family</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="504005">
+      <LocalizedName>Extract Fuel</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="504006">
+      <LocalizedName>Night in the Backstreets</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="505001">
+      <LocalizedName>To Where the Prescript Points</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505002">
+      <LocalizedName>Undertake Prescript</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505003">
+      <LocalizedName>Execute</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505004">
+      <LocalizedName>Will of the Prescript</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505005">
+      <LocalizedName>Faith</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505006">
+      <LocalizedName>Sense Quarry</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505007">
+      <LocalizedName>Proselyte's Blade</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="506001">
+      <LocalizedName>Rip Space</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506002">
+      <LocalizedName>Dimensional Rift</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506003">
+      <LocalizedName>Ripple</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506004">
+      <LocalizedName>Overcharge</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506005">
+      <LocalizedName>Rewind</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506006">
+      <LocalizedName>Leap</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506007">
+      <LocalizedName>Energy Cycle</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="507001">
+      <LocalizedName>Deep Drag</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507002">
+      <LocalizedName>Flesh Fillet</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507003">
+      <LocalizedName>Inhale Smoke</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507004">
+      <LocalizedName>Trace of Fumes</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507005">
+      <LocalizedName>Hidden Blade</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507006">
+      <LocalizedName>Smoking Pipe</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507007">
+      <LocalizedName>Loss of Senses</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="508010">
+      <LocalizedName>Blazing Strike</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508011">
+      <LocalizedName>Fierce Charge</LocalizedName>
+    </BattleCardDesc>
+
+      <!-- 우는 아이 -->
+    <BattleCardDesc ID="508001">
+      <LocalizedName>Inconsolable Grief</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508002">
+      <LocalizedName>Wound of Sorrow</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508003">
+      <LocalizedName>Distorted Illusion</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508004">
+      <LocalizedName>Bygone Illusion</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508005">
+      <LocalizedName>Restrain</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508006">
+      <LocalizedName>Murmur</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508007">
+      <LocalizedName>Wing Stroke</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508008">
+      <LocalizedName>Victimize</LocalizedName>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

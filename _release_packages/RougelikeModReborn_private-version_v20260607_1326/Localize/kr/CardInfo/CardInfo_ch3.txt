@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+
+    <BattleCardDesc ID="300001">
+      <LocalizedName>견제</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="300002">
+      <LocalizedName>예리한 일격</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="300003">
+      <LocalizedName>후방공격</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="300004">
+      <LocalizedName>맞서기</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="300005">
+      <LocalizedName>작렬</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301001">
+      <LocalizedName>업무처리</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301002">
+      <LocalizedName>고요한 밤</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301003">
+      <LocalizedName>울타리</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301004">
+      <LocalizedName>당신의 방패</LocalizedName>
+      <Ability />>
+    </BattleCardDesc>
+    <BattleCardDesc ID="301005">
+      <LocalizedName>전투 준비</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301006">
+      <LocalizedName>회전베기</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301007">
+      <LocalizedName>수호자</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301008">
+      <LocalizedName>제압</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301009">
+      <LocalizedName>흘려치기</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301010">
+      <LocalizedName>역습</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301011">
+      <LocalizedName>치안 수호</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302001">
+      <LocalizedName>맹습</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302002">
+      <LocalizedName>잠깐!</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302003">
+      <LocalizedName>도박수</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302004">
+      <LocalizedName>과감한 판단</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302005">
+      <LocalizedName>침착하게</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302006">
+      <LocalizedName>신속보법</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302007">
+      <LocalizedName>가르기</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303001">
+      <LocalizedName>됐고!</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303002">
+      <LocalizedName>난투</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303003">
+      <LocalizedName>끝내주지</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303004">
+      <LocalizedName>가볍게</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303005">
+      <LocalizedName>충격 강타</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303006">
+      <LocalizedName>파괴 일격</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303007">
+      <LocalizedName>난입</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303008">
+      <LocalizedName>으깨기</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303009">
+      <LocalizedName>손 풀기</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

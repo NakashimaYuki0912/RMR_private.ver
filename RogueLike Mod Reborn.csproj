@@ -183,6 +183,7 @@
     <Compile Include="abcdcode_Refactored\CraftEffectModels.cs" />
     <Compile Include="abcdcode_Refactored\Upgrades.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\CreaturePickUpModel.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_RMRVanillaEmotion.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\DebugEffect_Damage.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_binding2pwLog.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\DiceCardAbility_bleedingXsmokeLog.cs" />
@@ -312,6 +313,7 @@
     <Compile Include="abcdcode_LOGLIKE_MOD\LogCraftPanel.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\LogCreatureTabPanel.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\LogAtlasPanel.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogRealizationPanel.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\LogDiceCardSelfAbility.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\LogLikeMod.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\LogSoundEffectManager.cs" />
@@ -687,6 +689,7 @@
     <Compile Include="RMR_PickUps.cs" />
     <Compile Include="RMR_DiceEffects.cs" />
     <Compile Include="RMR_AbnormalityUnlocks.cs" />
+    <Compile Include="RMR_RealizationManager.cs" />
     <Compile Include="RMR_AbnormalityBattleRouter.cs" />
     <Compile Include="RMR_MysteryEvents.cs" />
     <Compile Include="RMR_Core.cs" />

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<PassiveDesc ID="240508">
+		<Name>일렁임</Name>
+		<Desc>매 막 마다 손과 덱에 있는 모든 책장을 소멸시키고 사용할 책장을 손에 추가, 모든 책장의 비용이 0이 됨</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="240008">
+		<Name>올라타기</Name>
+		<Desc>막 종료 시 에마와 합쳐짐</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="240028">
+		<Name>일렁임</Name>
+		<Desc>매 막 마다 손과 덱에 있는 모든 책장을 소멸시키고 사용할 책장을 손에 추가, 모든 책장의 비용이 0이 됨</Desc>
+	</PassiveDesc>
+  
+</PassiveDescRoot>
+  
+

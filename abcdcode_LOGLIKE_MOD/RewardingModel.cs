@@ -9,6 +9,7 @@ using LOR_XML;
 using RogueLike_Mod_Reborn;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -250,23 +251,138 @@ namespace abcdcode_LOGLIKE_MOD
             return diceCardXmlInfoList5 == null || diceCardXmlInfoList5.Count == 0 ? (DiceCardXmlInfo)null : diceCardXmlInfoList5[UnityEngine.Random.Range(0, diceCardXmlInfoList5.Count)];
         }
 
+        /// <summary>
+        /// Pick one card from a pre-filtered pool using the same weighted-rarity logic as <see cref="GetCard"/>.
+        /// Returns null when the pool is empty or all candidates are excluded.
+        /// </summary>
+        public static DiceCardXmlInfo GetCardFromFilteredPool(
+            List<DiceCardXmlInfo> pool,
+            CardDropValueXmlInfo info,
+            HashSet<LorId> excludeIds)
+        {
+            // Separate by rarity, excluding already-picked IDs
+            var byRarity = new Dictionary<Rarity, List<DiceCardXmlInfo>>();
+            foreach (var card in pool)
+            {
+                if (excludeIds.Contains(card.id))
+                    continue;
+                if (!byRarity.ContainsKey(card.Rarity))
+                    byRarity[card.Rarity] = new List<DiceCardXmlInfo>();
+                byRarity[card.Rarity].Add(card);
+            }
+
+            // Build weighted rarity list (same weights as GetCard)
+            var rarityList = new List<Rarity>();
+            if (byRarity.ContainsKey(Rarity.Common))
+                for (int i = 0; i < info.CommonValue; i++) rarityList.Add(Rarity.Common);
+            if (byRarity.ContainsKey(Rarity.Uncommon))
+                for (int i = 0; i < info.UncommonValue; i++) rarityList.Add(Rarity.Uncommon);
+            if (byRarity.ContainsKey(Rarity.Rare))
+                for (int i = 0; i < info.RareValue; i++) rarityList.Add(Rarity.Rare);
+            if (byRarity.ContainsKey(Rarity.Unique))
+                for (int i = 0; i < info.UniqueValue; i++) rarityList.Add(Rarity.Unique);
+
+            if (rarityList.Count == 0)
+                return null;
+
+            Rarity rarity = rarityList[UnityEngine.Random.Range(0, rarityList.Count)];
+            if (!byRarity.ContainsKey(rarity) || byRarity[rarity].Count == 0)
+                return null;
+
+            var rarityPool = byRarity[rarity];
+            return rarityPool[UnityEngine.Random.Range(0, rarityPool.Count)];
+        }
+
         public static List<DiceCardXmlInfo> PickUpCards(CardDropValueXmlInfo info)
         {
-            List<DiceCardXmlInfo> cardlist = new List<DiceCardXmlInfo>();
-            do
+            List<DiceCardXmlInfo> result = new List<DiceCardXmlInfo>();
+
+            // Get the full drop table and build the unowned card pool
+            CardDropTableXmlInfo dropTable = Singleton<CardDropTableXmlList>.Instance.GetData(
+                new LorId(info.workshopID, info.DropTableId));
+
+            if (dropTable == null || dropTable.cardIdList.Count == 0)
             {
-                DiceCardXmlInfo card;
-                do
-                {
-                    card = RewardingModel.GetCard(info);
-                }
-                while (card == null);
-                if (!cardlist.Contains(card))
-                    cardlist.Add(card);
+                Debug.Log("[PickUpCards] Drop table is empty");
+                return result;
             }
-            while (cardlist.Count != 3 && cardlist.Count != Singleton<CardDropTableXmlList>.Instance.GetData(new LorId(info.workshopID, info.DropTableId)).cardIdList.Count);
-            Singleton<GlobalLogueEffectManager>.Instance.ChangeCardReward(ref cardlist);
-            return cardlist;
+
+            var allCards = new List<DiceCardXmlInfo>();
+            foreach (LorId cardId in dropTable.cardIdList)
+            {
+                DiceCardXmlInfo cardItem = ItemXmlDataList.instance.GetCardItem(cardId, true);
+                if (cardItem != null)
+                    allCards.Add(cardItem);
+            }
+
+            int totalInPool = allCards.Count;
+
+            // Filter: exclude already-owned cards
+            var unowned = allCards.Where(c => !LogueBookModels.HasOwnedCombatPage(c.id)).ToList();
+            int ownedCount = totalInPool - unowned.Count;
+
+            // Filter: exclude cards that are already upgraded versions
+            // (upgraded cards should only come from rest upgrades, not from reward pools)
+            int upgradeCount = unowned.RemoveAll(c =>
+                c.id.packageId != null && c.id.packageId.Contains(LogCardUpgradeManager.UpgradeKeyword));
+            int filteredUpgrade = upgradeCount;
+
+            Debug.Log($"[PickUpCards] Pool total:{totalInPool} owned:{ownedCount} upgradeFiltered:{filteredUpgrade} available:{unowned.Count}");
+
+            // Build the 3-choice list, deduplicating within the selection
+            var pickedIds = new HashSet<LorId>();
+            int targetCount = Math.Min(3, unowned.Count);
+
+            for (int i = 0; i < targetCount; i++)
+            {
+                DiceCardXmlInfo card = GetCardFromFilteredPool(unowned, info, pickedIds);
+                if (card != null)
+                {
+                    pickedIds.Add(card.id);
+                    result.Add(card);
+                    Debug.Log($"[PickUpCards] #{i}: {card.id.packageId}:{card.id.id} ({card.Name})");
+                }
+            }
+
+            if (result.Count < 3)
+                Debug.Log($"[PickUpCards] Only {result.Count}/3 cards available (all owned or pool exhausted)");
+
+            Singleton<GlobalLogueEffectManager>.Instance.ChangeCardReward(ref result);
+
+            // Second filter: after global effects may have injected upgrades or already-owned cards,
+            // remove owned cards, upgrade versions, and duplicates by normalized originalId.
+            var seenKeys = new HashSet<string>();
+            for (int i = result.Count - 1; i >= 0; i--)
+            {
+                var card = result[i];
+                string key = LogueBookModels.NormalizeCardKey(card.id);
+
+                // Remove if already owned (global effect may have swapped in an owned card)
+                if (LogueBookModels.HasOwnedCombatPage(card.id))
+                {
+                    Debug.Log($"[PickUpCards] Post-filter removed owned: {card.id.packageId}:{card.id.id}");
+                    result.RemoveAt(i);
+                    continue;
+                }
+
+                // Remove upgrade versions (upgrades only via rest, not reward pools)
+                if (card.id.packageId != null && card.id.packageId.Contains(LogCardUpgradeManager.UpgradeKeyword))
+                {
+                    Debug.Log($"[PickUpCards] Post-filter removed upgrade: {card.id.packageId}:{card.id.id}");
+                    result.RemoveAt(i);
+                    continue;
+                }
+
+                // Deduplicate by normalized originalId (within the 3-choice set)
+                if (!seenKeys.Add(key))
+                {
+                    Debug.Log($"[PickUpCards] Post-filter removed duplicate originalId: {card.id.packageId}:{card.id.id}");
+                    result.RemoveAt(i);
+                }
+            }
+
+            Debug.Log($"[PickUpCards] After post-filter: {result.Count} cards remain");
+            return result;
         }
 
         public static bool RewardInStage()
@@ -288,11 +404,19 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static void StartPickReward_InStage()
         {
-            if (LogLikeMod.rewards_InStage.Count == 0 || LogLikeMod.rewards_InStage.Count <= 0)
+            while (LogLikeMod.rewards_InStage.Count > 0)
+            {
+                List<EmotionCardXmlInfo> passiveRewardsInlist = LogueBookModels.GetPassiveRewards_Inlist(LogLikeMod.rewards_InStage[0].rewards);
+                if (passiveRewardsInlist == null || passiveRewardsInlist.Count == 0)
+                {
+                    Debug.Log("[StartPickReward_InStage] Empty reward, skipping to next");
+                    LogLikeMod.rewards_InStage.RemoveAt(0);
+                    continue;
+                }
+                RewardingModel.rewardFlag = RewardingModel.RewardFlag.RewardInStage;
+                SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.Init(1, passiveRewardsInlist);
                 return;
-            List<EmotionCardXmlInfo> passiveRewardsInlist = LogueBookModels.GetPassiveRewards_Inlist(LogLikeMod.rewards_InStage[0].rewards);
-            RewardingModel.rewardFlag = RewardingModel.RewardFlag.RewardInStage;
-            SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.Init(1, passiveRewardsInlist);
+            }
         }
 
         public static void StartPickReward()
@@ -323,6 +447,13 @@ namespace abcdcode_LOGLIKE_MOD
                 else if (LogLikeMod.rewards_passive.Count > 0)
                 {
                     List<EmotionCardXmlInfo> passiveRewardsInlist = LogueBookModels.GetPassiveRewards_Inlist(LogLikeMod.rewards_passive.FindAll(x => x !=null)[0].rewards);
+                    if (passiveRewardsInlist == null || passiveRewardsInlist.Count == 0)
+                    {
+                        Debug.Log("[StartPickReward] Empty passive reward, skipping to next");
+                        LogLikeMod.rewards_passive.RemoveAt(0);
+                        StartPickReward();
+                        return;
+                    }
                     RewardingModel.rewardFlag = RewardingModel.RewardFlag.PassiveReward;
                     SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.Init(1, passiveRewardsInlist);
                 }
@@ -425,16 +556,22 @@ namespace abcdcode_LOGLIKE_MOD
             }
             int level = LogLikeMod.curemotion;
             List<RewardPassiveInfo> rewardPassiveInfoList = new List<RewardPassiveInfo>(LogueBookModels.EmotionCardList);
-            rewardPassiveInfoList.RemoveAll(x => x.level != level || LogueBookModels.selectedEmotion.Contains(x));
-            foreach (RewardPassiveInfo info in rewardPassiveInfoList)
-                infos.Add(LogLikeMod.GetRegisteredPickUpXml(info));
-            while (true)
+            HashSet<string> selectedEmotionIds = new HashSet<string>();
+            foreach (RewardPassiveInfo selected in LogueBookModels.selectedEmotion)
             {
-                EmotionCardXmlInfo emotionCardXmlInfo = infos.Find(x => infos.FindAll(y => x == y).Count > 1);
-                if (emotionCardXmlInfo != null)
-                    infos.Remove(emotionCardXmlInfo);
-                else
-                    break;
+                if (selected != null)
+                    selectedEmotionIds.Add(RewardingModel.GetRewardPassiveKey(selected));
+            }
+            rewardPassiveInfoList.RemoveAll(x => x.level != level || selectedEmotionIds.Contains(RewardingModel.GetRewardPassiveKey(x)));
+            HashSet<string> emotionCardKeys = new HashSet<string>();
+            foreach (RewardPassiveInfo info in rewardPassiveInfoList)
+            {
+                EmotionCardXmlInfo card = LogLikeMod.GetRegisteredPickUpXml(info);
+                if (card == null)
+                    continue;
+                string key = RewardingModel.GetEmotionCardKey(card);
+                if (emotionCardKeys.Add(key))
+                    infos.Add(card);
             }
             while (true)
             {
@@ -490,6 +627,24 @@ namespace abcdcode_LOGLIKE_MOD
             NextStageChoose,
             EmtoionChoose,
             RewardInStage,
+        }
+
+        private static string GetRewardPassiveKey(RewardPassiveInfo info)
+        {
+            if (info == null)
+                return string.Empty;
+            return info.id.packageId + ":" + info.id.id.ToString();
+        }
+
+        private static string GetEmotionCardKey(EmotionCardXmlInfo info)
+        {
+            if (info == null)
+                return string.Empty;
+            string script = string.Empty;
+            if (info.Script != null && info.Script.Count > 0)
+                script = info.Script[0];
+            string packageId = LogLikeMod.GetPickUpXmlWorkShopId_Passive(info) ?? string.Empty;
+            return packageId + ":" + info.id.ToString() + ":" + script;
         }
     }
 }

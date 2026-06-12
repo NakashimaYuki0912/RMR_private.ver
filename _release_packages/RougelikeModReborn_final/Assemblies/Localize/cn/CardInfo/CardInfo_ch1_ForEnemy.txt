@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="-103002">
+      <LocalizedName>及-及时行乐</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="-103004">
+      <LocalizedName>雷-雷打不动</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="-104001">
+      <LocalizedName>压倒攻势</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="-104004">
+      <LocalizedName>丧心病狂</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="-104006">
+      <LocalizedName>碎尸万段</LocalizedName>
+    </BattleCardDesc>
+  </cardDescList>
+</BattleCardDescRoot>

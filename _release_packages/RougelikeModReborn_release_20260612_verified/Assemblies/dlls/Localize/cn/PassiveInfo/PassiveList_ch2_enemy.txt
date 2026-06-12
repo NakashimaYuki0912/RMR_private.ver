@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<PassiveDesc ID="20001">
+		<Name>狂暴</Name>
+		<Desc>每一幕结束时若情感等级不低于2则下一幕开始时额外抽取1张书页并获得1颗额外的速度骰子</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="20002">
+		<Name>后巷规矩</Name>
+		<Desc>单方面攻击造成的伤害+1</Desc>
+	</PassiveDesc>
+  
+</PassiveDescRoot>
+  
+

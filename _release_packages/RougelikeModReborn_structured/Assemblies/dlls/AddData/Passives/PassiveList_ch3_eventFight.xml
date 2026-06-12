@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PassiveXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <Passive ID="300011">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>Mystery3_1_1</Script>
+    <Name>패싸움</Name>
+    <Desc>자신과 소속이 다른 모두를 공격 대상으로 삼음</Desc>
+  </Passive>
+
+  <Passive ID="300012">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>Mystery3_1_2</Script>
+    <Name>패싸움</Name>
+    <Desc>자신과 소속이 다른 모두를 공격 대상으로 삼음</Desc>
+  </Passive>
+
+
+</PassiveXmlRoot>

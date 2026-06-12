@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+
+    <BattleCardDesc ID="300001">
+      <LocalizedName>牵制战术</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="300002">
+      <LocalizedName>锐利一击</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="300003">
+      <LocalizedName>绕后背刺</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="300004">
+      <LocalizedName>针锋相对</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="300005">
+      <LocalizedName>爆裂打击</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301001">
+      <LocalizedName>业务清算</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301002">
+      <LocalizedName>肃杀之夜</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301003">
+      <LocalizedName>以身为盾</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301004">
+      <LocalizedName>您的盾牌</LocalizedName>
+      <Ability />>
+    </BattleCardDesc>
+    <BattleCardDesc ID="301005">
+      <LocalizedName>严阵以待</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301006">
+      <LocalizedName>回旋斩击</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301007">
+      <LocalizedName>人民卫士</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301008">
+      <LocalizedName>武力压制</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301009">
+      <LocalizedName>猛烈回击</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301010">
+      <LocalizedName>防守反击</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="301011">
+      <LocalizedName>治安维和</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302001">
+      <LocalizedName>猛烈攻势</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302002">
+      <LocalizedName>慢着慢着！</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302003">
+      <LocalizedName>铤而走险</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302004">
+      <LocalizedName>当机立断</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302005">
+      <LocalizedName>沉着冷静</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302006">
+      <LocalizedName>雷厉风行</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="302007">
+      <LocalizedName>锯刃切割</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303001">
+      <LocalizedName>再来再来！</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303002">
+      <LocalizedName>笼中狗斗</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303003">
+      <LocalizedName>绝命连踢</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303004">
+      <LocalizedName>轻装上阵</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303005">
+      <LocalizedName>强力勾拳</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303006">
+      <LocalizedName>破坏一击</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303007">
+      <LocalizedName>半道截杀</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303008">
+      <LocalizedName>蛮力捣碎</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="303009">
+      <LocalizedName>放松肌肉</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

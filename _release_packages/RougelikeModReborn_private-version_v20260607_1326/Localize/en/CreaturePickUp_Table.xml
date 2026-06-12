@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <text id="PickUpCreature_BloodBath1_Name">Blood</text>
+  <text id="PickUpCreature_BloodBath1_Desc">[Single Ally]
+Defensive dice gain 1-2 Power.
+Receive +3-5 Stagger damage when hit.</text>
+  <text id="PickUpCreature_BloodBath1_FlaverText">Unbearable depression overwhelms all who look into the bath.</text>
+  <text id="PickUpCreature_BloodBath2_Name">Scars</text>
+  <text id="PickUpCreature_BloodBath2_Desc">[Single Ally]
+Take 2-5 less damaage from Slash attacks. When hit, reduce the damage of the attack to 0 at a 20% chance.</text>
+  <text id="PickUpCreature_BloodBath2_FlaverText">When I saw the latticework of scars on her severed wrist, I was reminded of our wine cabinet. That day, I popped the cork off the last one.</text>
+  <text id="PickUpCreature_BloodBath3_Name">Pale Hands</text>
+  <text id="PickUpCreature_BloodBath3_Desc">[Single Ally]
+After three successful attacks on the same target, deal 3-10 bonus Stagger damage.
+(Resets upon attacking a different target, Excludes Mass Attacks)</text>
+  <text id="PickUpCreature_BloodBath3_FlaverText">Many hands float in the bath. 
+They are the hands of the people I once loved.</text>
+
+  <text id="PickUpCreature_ScorchedGirl1_Name">Ashes</text>
+  <text id="PickUpCreature_ScorchedGirl1_Desc">[Single Ally]
+When hit, inflict 1-3 Burn to the attacker, and gain a buff at a 40% chance next Scene:
+‘Offensive dice inflict 1 Burn on hit’(Does not stack)</text>
+  <text id="PickUpCreature_ScorchedGirl1_FlaverText">“The charred body represents the child’s crumbled hope, while the ever blazing flame represents the obsession for affection."</text>
+  <text id="PickUpCreature_ScorchedGirl2_Name">Footfalls</text>
+  <text id="PickUpCreature_ScorchedGirl2_Desc">[All Allies]
+When a Librarian’s HP is at 20% or lower, deal 30% of the target’s Max HP as damage(Max. 36) and inflict 1-3 Burn upon approaching them, then die.</text>
+      <text id="PickUpCreature_ScorchedGirl2_FlaborText">I am coming to you. You, who will be reduced to ash like me.</text>
+  <text id="PickUpCreature_ScorchedGirl2_FlaverText">I am coming to you. You, who will be reduced to ash like me.</text>
+  <text id="PickUpCreature_ScorchedGirl3_Name">Matchlight</text>
+  <text id="PickUpCreature_ScorchedGirl3_Desc">[Single Ally]
+The first two Combat Pages the librarian uses after this Abnormality page is selected gain the ‘Matchlight’ status (Excludes [On Play] pages) 
+Whenever the librarian uses a page with ‘Matchlight’, gain 1 ‘Ember’. 
+Pages with ‘Matchlight’ become stronger based on the amount of Ember; however, they have a 25% chance to damage the user if Ember is at 4 or higher.</text>
+  <text id="PickUpCreature_ScorchedGirl3_FlaverText">“Well, she’s like a ticking time bomb. No one can tell if she’s in a good mood or not.”</text>
+
+  <text id="PickUpCreature_ForsakenMurderer1_Name">Metallic Ringing</text>
+  <text id="PickUpCreature_ForsakenMurderer1_Desc">[Single Ally]
+Upon a successful Blunt attack, inflict 1 Bind and Paralysis next Scene. (Excludes Mass Attacks)</text>
+  <text id="PickUpCreature_ForsakenMurderer1_FlaverText">“My head… turning into metal… folds in my brain, being flattened…”</text>
+  <text id="PickUpCreature_ForsakenMurderer2_Name">Chained Wrath</text>
+  <text id="PickUpCreature_ForsakenMurderer2_Desc">[Single Ally]
+Blunt dice gain 1-3 Power.
+Speed is fixed at 1.</text>
+  <text id="PickUpCreature_ForsakenMurderer2_FlaverText">He wears a straitjacket, but is as free as any man. No amounts of chains and restraints is enough to prevent him from commiting violence.</text>
+  <text id="PickUpCreature_ForsakenMurderer3_Name">Violence</text>
+  <text id="PickUpCreature_ForsakenMurderer3_Desc">[Single Ally]
+Lower the minimum value of all dice by 1, and raise the maximum value by 3.</text>
+  <text id="PickUpCreature_ForsakenMurderer3_FlaverText">“What’s really pitiful is people like you dying to the likes of me.”</text>
+
+  <text id="PickUpCreature_ShyLookToday1_Name">Look of the Day</text>
+  <text id="PickUpCreature_ShyLookToday1_Desc">[Single Ally]
+The librarian’s face constantly shifts.
+Dice gain different amounts of Power depending on the current face. (Min -2, Max +2)
+Anger is fierce.</text>
+  <text id="PickUpCreature_ShyLookToday1_FlaverText">One sunny day, just like that day they sincerely dried the laundry, they dried their own skin.</text>
+  <text id="PickUpCreature_ShyLookToday2_Name">Social Distancing</text>
+  <text id="PickUpCreature_ShyLookToday2_Desc">[Single Ally]
+Block dice gain 1-2 Power.
+Deal +2-7 Stagger damage on a deflect.</text>
+  <text id="PickUpCreature_ShyLookToday2_FlaverText">If one tries to look at the face behind the skin, the result will not be pretty. The space behind their skin is the only personal space they have left. Leaving it uninvaded is the last bit of generosity the City can offer.</text>
+  <text id="PickUpCreature_ShyLookToday3_Name">Shyness</text>
+  <text id="PickUpCreature_ShyLookToday3_Desc">[Single Ally]
+When using a page, all Block dice on that page gain Power equal to the number of Defensive dice on said page.</text>
+  <text id="PickUpCreature_ShyLookToday3_FlaverText">The inability to show one’s face is perhaps a form of shyness. When throbbing emotions surge up from time to time, it’s best to simply cover the face.</text>
+
+  <text id="PickUpCreature_UniverseZogak1_Name">Echoes from the Beyond</text>
+  <text id="PickUpCreature_UniverseZogak1_Desc">[All Characters]
+Deal 5-10 Stagger damage to all enemies. All allies recover 5-10 Stagger Resist.</text>
+  <text id="PickUpCreature_UniverseZogak1_FlaverText">You see a song in front of you. It's approaching, becoming more colorful by the second.</text>
+  <text id="PickUpCreature_UniverseZogak2_Name">Tentacles</text>
+  <text id="PickUpCreature_UniverseZogak2_Desc">[Single Ally]
+On a successful Pierce attack, reduce the max Stagger Resist of target by 5%. (Up to 50%, Excludes Mass Attacks)</text>
+  <text id="PickUpCreature_UniverseZogak2_FlaverText">The moment its tentacles penetrate you, it'll drain all the interest for the life you're currently living out of you.</text>
+  <text id="PickUpCreature_UniverseZogak3_Name">Incomprehensible</text>
+  <text id="PickUpCreature_UniverseZogak3_Desc">[Single Ally]
+On a one-sided attack, inflict 1 Feeble and Disarm next Scene at a 50% chance.
+The likelihood increases by 10% for every successful attack. (Three times per engagement, Excludes Mass Attacks)</text>
+  <text id="PickUpCreature_UniverseZogak3_FlaverText">Eventually, he succeeded in entering the domain of the ‘Fragment of the Universe’. However, it was obvious that his small brain couldn't withstand it.</text>
+
+  <text id="PickUpCreature_QueenOfHatred1_Name">Love</text>
+  <text id="PickUpCreature_QueenOfHatred1_Desc">[Single Ally]
+After winning a clash using an Offensive die, a random ally recovers 3-5 HP.
+After winning a clash using a Defensive die, a random ally recovers 2-4 Stagger Resist.</text>
+  <text id="PickUpCreature_QueenOfHatred1_FlaverText">In the name of Love and Justice~ Here comes Magical Girl!</text>
+  <text id="PickUpCreature_QueenOfHatred2_Name">Justice</text>
+  <text id="PickUpCreature_QueenOfHatred2_Desc">[Single Ally]
+The enemy who dealt the most damage to allies on the previous Scene is marked as a 'Villain'.
+Deal +3-5 damage when attacking the 'Villain'.</text>
+  <text id="PickUpCreature_QueenOfHatred2_FlaverText">If I am on the side of good, then someone has to be on the side of evil. Without someone to play the villain, I can’t exist.</text>
+  <text id="PickUpCreature_QueenOfHatred3_Name">Hate</text>
+  <text id="PickUpCreature_QueenOfHatred3_Desc">[Single Ally]
+After losing a clash, take 2-4 Stagger Damage, and gain 1 Strength next Scene. (Up to 2 per Scene)
+After losing three clashes, reduce the Cost of the most expensive page in hand by 1. (Once per Scene)</text>
+  <text id="PickUpCreature_QueenOfHatred3_FlaverText">She vowed to love everything in the world, but all that was left was a collapsing heart.</text>
+
+  <text id="PickUpCreature_Redhood1_Name">Prey</text>
+  <text id="PickUpCreature_Redhood1_Desc">[Single Ally]
+Mark the first enemy that is attacked by this librarian after the page is selected.
+Deal +2-6 damage when attacking the marked foe.</text>
+  <text id="PickUpCreature_Redhood1_FlaverText">The wolf’s death is the one and only thing I can love in my life.</text>
+  <text id="PickUpCreature_Redhood2_Name">Vengence</text>
+  <text id="PickUpCreature_Redhood2_Desc">[Single Ally]
+At the start of the Scene, gain Strength based on the amount of damage taken in the previous Scene. (1 Strength per 5 damage, up to 2)</text>
+  <text id="PickUpCreature_Redhood2_FlaverText">Between us, there’s no victory to be won. All I think about is how I’ll kill that bastard in a way more gruesome and painful than the last time.</text>
+  <text id="PickUpCreature_Redhood3_Name">Ruddled Welts</text>
+  <text id="PickUpCreature_Redhood3_Desc">[Single Ally]
+If the librarian's HP is at 50%/35%/25% or lower, gain 1/2/4 Strength each Scene.</text>
+  <text id="PickUpCreature_Redhood3_FlaverText">I got used to grinding the axe instead of picking flowers when I was 15.</text>
+
+  <text id="PickUpCreature_ScareCrow1_Name">Torn Off Wisdom</text>
+  <text id="PickUpCreature_ScareCrow1_Desc">[Single Ally]
+Whenever the librarian uses a page, discard a random page from hand and restore 1 Light. (Excludes [On Play] pages)</text>
+  <text id="PickUpCreature_ScareCrow1_FlaverText">When he returned, he had a visibly long scar on his head. People asked him how he felt, and he responded that his head felt lighter.</text>
+  <text id="PickUpCreature_ScareCrow2_Name">Gleaning</text>
+  <text id="PickUpCreature_ScareCrow2_Desc">[Single Ally]
+After attacking an enemy with a higher amount of Stagger Resist, deal 2-4 bonus Stagger damage, and recover 2-5 Stagger Resist.(Excludes Mass Attacks)</text>
+  <text id="PickUpCreature_ScareCrow2_FlaverText">It shows aggression towards certain employees, attempting to take their brains. These employees are those who scored “Excellent” on the intelligence test.</text>
+  <text id="PickUpCreature_ScareCrow3_Name">Rake</text>
+  <text id="PickUpCreature_ScareCrow3_Desc">[Single Ally]
+After Staggering an enemy, copy two pages owned by that enemy and add them to the librarian's hand with 2 less Cost.
+The copied pages are exhausted on use.
+(Can only copy Melee pages while equipping a Melee-only Key page, and vice versa; no effect against characters with 'Shimmering')</text>
+  <text id="PickUpCreature_ScareCrow3_FlaverText">The rake tilled the human brain instead of farmland. How many of the wise people among us have lost their lives to this rake?</text>
+
+  <text id="PickUpCreature_Bigbird1_Name">Watchful Eyes</text>
+  <text id="PickUpCreature_Bigbird1_Desc">[Single Ally]
+Fully restore the selected librarian's Light.
+Each Scene, a random ally gains no Light while the selected librarian restores 1 additional Light.</text>
+  <text id="PickUpCreature_Bigbird1_FlaverText">The eyes always shone brilliantly, burning like stars in the night sky. But it gave its eyes to the Big Bird in order to protect the forest.</text>
+  <text id="PickUpCreature_Bigbird2_Name">Eternally Lit Lamp</text>
+  <text id="PickUpCreature_Bigbird2_Desc">[Single Ally]
+Any enemy this librarian targets will be forced to target the librarian back, regardless of Speed.</text>
+  <text id="PickUpCreature_Bigbird2_FlaverText">“If I kill the creatures first, then no one would be killed by the beast!”</text>
+  <text id="PickUpCreature_Bigbird3_Name">Salvation</text>
+  <text id="PickUpCreature_Bigbird3_Desc">[Single Ally]
+All dice gain +1 Power against enemies with higher Speed.
+If target's HP is at 25% or lower, destroy all of their dice upon winning a clash.</text>
+  <text id="PickUpCreature_Bigbird3_FlaverText">To this bird, death in itself is salvation.</text>
+
+  <text id="PickUpCreature_Bloodytree1_Name">Lean, Bloody Wings</text>
+  <text id="PickUpCreature_Bloodytree1_Desc">[Single Ally]
+On a deflect, deal half of the Block dice roll as physical damage to the opponent.</text>
+  <text id="PickUpCreature_Bloodytree1_FlaverText">Once it recognizes that it lost your attention and focus… It will spread its wings. Like an angel, its wings will reach the skies and extend toward the ground, eventually blocking the sun out.</text>
+  <text id="PickUpCreature_Bloodytree2_Name">Gaze of Others</text>
+  <text id="PickUpCreature_Bloodytree2_Desc">[Single Ally]
+Deal +2-4 damage in a one-sided attack.
+In a clash, deal 3-6 less damage with attacks, but Block dice gain 1-3 Power.</text>
+  <text id="PickUpCreature_Bloodytree2_FlaverText">That’s what a gaze is. Attention. An invisible string that connects us. Sole focus.</text>
+  <text id="PickUpCreature_Bloodytree3_Name">Attention and Focus</text>
+  <text id="PickUpCreature_Bloodytree3_Desc">[Single Ally]
+Deal and take twice as much Stagger damage on a deflect.</text>
+  <text id="PickUpCreature_Bloodytree3_FlaverText">Don’t look away, just keep your eyes on it. Contain it in your sight.</text>
+
+
+
+ <text id="PickUpCreature_HeartofAspiration1_Name">Pulsation</text>
+  <text id="PickUpCreature_HeartofAspiration1_Desc">[All Allies]
+Gain 1-2 Strength at the end of each Scene.
+At the end of each Scene, if the librarian did not deal any damage with Offensive dice, they lose 25% of their Max HP. (Max. 30)</text>
+  <text id="PickUpCreature_HeartofAspiration1_FlaverText">Excessive Aspiration would bring about unwarranted frenzy.</text>
+ <text id="PickUpCreature_HeartofAspiration2_Name">Urging</text>
+  <text id="PickUpCreature_HeartofAspiration2_Desc">[Single Ally]
+Increase Max HP by 15%. (Current HP increases accordingly)
+Gain 1-2 Speed.</text>
+  <text id="PickUpCreature_HeartofAspiration2_FlaverText">When borrowed, its rate of contraction will double, enhancing the borrower's vigor and strength.</text>
+ <text id="PickUpCreature_HeartofAspiration3_Name">Fervent Beats</text>
+  <text id="PickUpCreature_HeartofAspiration3_Desc">[Single Ally]
+The selected librarian dies at the end of the third Scene after this page was chosen.
+Gain 4 Strength, Endurance, Haste, and Protection each Scene until death. All Stagger Damage resistances change to "Ineffective".</text>
+  <text id="PickUpCreature_HeartofAspiration3_FlaverText">A heart without an owner; it still beats even after being removed from its body.</text>
+
+  <text id="PickUpCreature_HappyTeddyBear1_Name">Nostalgic Embrace of the Old Days</text>
+  <text id="PickUpCreature_HappyTeddyBear1_Desc">[Single Ally]
+Upon winning a clash, deal bonus Stagger damage equal to the dice's value at a 20% chance.
+Clashing against the same target multiple times will increase the likelihood.</text>
+  <text id="PickUpCreature_HappyTeddyBear1_FlaverText">Teddy was hugging someone tightly. Teddy loved hugs. But something was odd.</text>
+  <text id="PickUpCreature_HappyTeddyBear2_Name">Happy Memories</text>
+  <text id="PickUpCreature_HappyTeddyBear2_Desc">[Single Ally]
+The Combat page with the highest Cost in hand is chosen (Excludes [On Play] pages). Using pages with the same name will decrease the Cost of every copy of the page the character currently owns by 1.</text>
+  <text id="PickUpCreature_HappyTeddyBear2_FlaverText">But, you see, Teddy never wanted to be separate from its owner ever again.</text>
+  <text id="PickUpCreature_HappyTeddyBear3_Name">Display of Affection</text>
+  <text id="PickUpCreature_HappyTeddyBear3_Desc">[Single Ally]
+All dice gain 1-2 Power in a clash.
+All dice lose 1-2 Power in a one-sided attack.</text>
+  <text id="PickUpCreature_HappyTeddyBear3_FlaverText">Its memories began with a warm hug.</text>
+
+  <text id="PickUpCreature_LittleHelper1_Name">Recharge</text>
+  <text id="PickUpCreature_LittleHelper1_Desc">[Single Ally]
+If the librarian has maximum Light at the start of a Scene, gain 1-2 Haste, and deal +2-7 damage with attacks for that Scene.</text>
+  <text id="PickUpCreature_LittleHelper1_FlaverText">However, the limbs were equipped with sharp instruments instead of cleaning supplies.</text>
+  <text id="PickUpCreature_LittleHelper2_Name">Repetitive Pattern Recognition</text>
+  <text id="PickUpCreature_LittleHelper2_Desc">[Single Ally]
+After every 3 clash wins, restore 1 Light and gain 1-2 Haste next Scene.</text>
+  <text id="PickUpCreature_LittleHelper2_FlaverText">The day I was sent to a new home for the first time, I gave them the gift they wanted so earnestly.</text>
+  <text id="PickUpCreature_LittleHelper3_Name">Clean</text>
+  <text id="PickUpCreature_LittleHelper3_Desc">[Single Ally]
+Offensive dice gain Power against enemies with slower Speed (+1 Power per point of difference, up to 3).</text>
+  <text id="PickUpCreature_LittleHelper3_FlaverText">It recognizes a bad mood as a sign that the surroundings are dirty, and promptly enters cleaning mode.</text>
+
+  <text id="PickUpCreature_RedShoes1_Name">Glitter</text>
+  <text id="PickUpCreature_RedShoes1_Desc">[Single Ally]
+At the start of the Scene, each enemy is Allured at a 50% chance.
+Allured enemies prioritize the this librarian as a target, and deal +2-4 damage with attacks.
+Gains 1-2 Power in clashes against Allured enemies.</text>
+  <text id="PickUpCreature_RedShoes1_FlaverText">The shoes were colorless.
+They will soon turn red.</text>
+  <text id="PickUpCreature_RedShoes2_Name">Obsession</text>
+  <text id="PickUpCreature_RedShoes2_Desc">[All Characters]
+All characters apply twice as many stacks of Bleed.</text>
+  <text id="PickUpCreature_RedShoes2_FlaverText">I'll break your legs. Then you won't be able to dance ever again.</text>
+  <text id="PickUpCreature_RedShoes3_Name">Axe</text>
+  <text id="PickUpCreature_RedShoes3_Desc">[Single Ally]
+Slash dice gain 1-3 Power.
+Take 2-5 Stagger damage when a Slash attack does not connect.
+(Excludes Mass Attacks)</text>
+  <text id="PickUpCreature_RedShoes3_FlaverText">At some point, &lt;Redacted&gt; was wearing the shoes, grinning from ear to ear. It was uh, well it was quite strange. That wasn’t a smile. It was…</text>
+
+  <text id="PickUpCreature_ChildofGalaxy1_Name">Pebble</text>
+  <text id="PickUpCreature_ChildofGalaxy1_Desc">[Single Ally]
+At the start of each Scene, three random pages in hand gain the 'Pebble' status. (Excludes [On Play] pages)
+Recover 3-7 HP upon using pages with the Pebble.
+Lose 1-3 HP upon using pages without the Pebble.</text>
+ <text id="PickUpCreature_ChildofGalaxy1_FlaverText">“Do you like it? More than you like me? Isn't it obvious? I know everything. Whatever you do, wherever you go.”</text>
+  <text id="PickUpCreature_ChildofGalaxy2_Name">Teardrop</text>
+  <text id="PickUpCreature_ChildofGalaxy2_Desc">[Single Ally]
+Dice Power +1. On death, all characters take 50% of this character's Max HP as damage. (Max. 60)</text>
+ <text id="PickUpCreature_ChildofGalaxy2_FlaverText">I hear his whispers and breath. Pitch black darkness follows… just like the night I met him…</text>
+<text id="PickUpCreature_ChildofGalaxy3_Name">A Token of Friendship</text>
+  <text id="PickUpCreature_ChildofGalaxy3_Desc">[All Allies]
+For 3 Scenes, all allies recover 10% of Max HP at the start of the Scene. (Max. 12)</text>
+ <text id="PickUpCreature_ChildofGalaxy3_FlaverText">The pebble dropped into your hand sparkles, sways, tickles, and eventually becomes the universe.</text>
+
+  <text id="PickUpCreature_KnightOfDespair1_Name">Blessing</text>
+  <text id="PickUpCreature_KnightOfDespair1_Desc">[Single Ally]
+If the character took damage from attacks on the previous Scene, change this character's resistances against the type that dealt the most damage to 'Endured' for the Scene.
+(Applies separately for physical and Stagger damage)</text>
+ <text id="PickUpCreature_KnightOfDespair1_FlaverText">The will to protect seems to remain unchanged after all this time; even in containment, it is still obsessed with the act of protection.</text>
+  <text id="PickUpCreature_KnightOfDespair2_Name">Despair</text>
+  <text id="PickUpCreature_KnightOfDespair2_Desc">[All Allies]
+Whenever an ally dies, all other allies gain 1-3 Strength and Haste, and all enemies are inflicted with 2 Fragile.</text>
+ <text id="PickUpCreature_KnightOfDespair2_FlaverText">As with sorrow, perhaps sharing the burden will blunt the edge.</text>
+  <text id="PickUpCreature_KnightOfDespair3_Name">Blades Whetted by Teardrops</text>
+  <text id="PickUpCreature_KnightOfDespair3_Desc">[Single Ally]
+On a successful Pierce attack, if the die rolled max. value, deal bonus damage equal to 10% of the target's Max HP. (Max. 12, Excludes Mass Attacks)</text>
+ <text id="PickUpCreature_KnightOfDespair3_FlaverText">When Justice turns its back once more, several dozen blades will rove without a purpose. The swords will eventually point at those she could not protect.</text>
+
+  <text id="PickUpCreature_BigBadWolf1_Name">Instincts</text>
+  <text id="PickUpCreature_BigBadWolf1_Desc">[Single Ally]
+Each time the selected librarian wins a clash, the last die on their current page gains 1-2 Power.
+Recover 3-7 HPHealIcon.png HP on a successful hit with that final die.</text>
+ <text id="PickUpCreature_BigBadWolf1_FlaverText">The taste of flesh was so good after such a long absence. Since then, it got harder and harder to keep himself in check. Still, it didn’t matter to him. After all, he was “destined” to be a big bad wolf.</text>
+  <text id="PickUpCreature_BigBadWolf2_Name">Claws of Savagery</text>
+  <text id="PickUpCreature_BigBadWolf2_Desc">[Single Ally]
+After the librarian sustains damage greater than 25% of their Max HP, become untargetable and unclashable next Scene.
+The librarian gains 2 Strength that Scene, and inflicts 1 Bleed with each successful attack.</text>
+ <text id="PickUpCreature_BigBadWolf2_FlaverText">Once upon a time, these claws would cut open the bellies of numerous creatures and tear apart their guts.</text>
+  <text id="PickUpCreature_BigBadWolf3_Name">The Role of the Wolf</text>
+  <text id="PickUpCreature_BigBadWolf3_Desc">[Single Ally]
+Counter Dice gain 1-2 Power.
+Counter Dice inflict 2 Fragile upon winning a clash. (3 times per Scene)</text>
+ <text id="PickUpCreature_BigBadWolf3_FlaverText">Wolves could not cross the line when doing bad things. And wolves had to be punished. Wolves always needed to be an example.</text>
+
+  <text id="PickUpCreature_LumberJack1_Name">A Warm Heart</text>
+  <text id="PickUpCreature_LumberJack1_Desc">[Single Ally]
+At the start of the Scene, boost the Power of Offensive dice by +1-2 for the Scene if the librarian has 3 or more Light.</text>
+ <text id="PickUpCreature_LumberJack1_FlaverText">In anger, he swung his axe through the wizard’s heart. The warm heart was pulsing vigorously.</text>
+  <text id="PickUpCreature_LumberJack2_Name">Cardiae</text>
+  <text id="PickUpCreature_LumberJack2_Desc">[Single Ally]
+After dealing 15 or more damage to enemies in a single Scene, reduce the Cost of the two most expensive pages in hand by 1.
+On kill, reduce the cost to 0 instead.
+The Cost reduction is reset when the pages are used.</text>
+ <text id="PickUpCreature_LumberJack2_FlaverText">There will never be enough hearts. Once a Woodsman, he now fells people instead of trees.</text>
+  <text id="PickUpCreature_LumberJack3_Name">Timber</text>
+  <text id="PickUpCreature_LumberJack3_Desc">[Single Ally]
+When attacking a target that has more Light than the librarian, Offensive dice gain Power equal to the amount of Light the target has. (Up to 2)</text>
+  <text id="PickUpCreature_LumberJack3_FlaverText">This is a forest full of hearts. No matter how many he cuts down, the forest still remains dense.</text>
+
+  <text id="PickUpCreature_SmallBird1_Name">Punishment</text>
+  <text id="PickUpCreature_SmallBird1_Desc">[Single Ally]
+After taking damage, the first die of the first page the librarian uses next Scene gains 2-4 Power. (Excludes [On Play] pages)</text>
+  <text id="PickUpCreature_SmallBird1_FlaverText">It must be because there's no one to punish people for their misdeeds. If someone takes that role, then no foul act would happen in this world ever again!</text>
+  <text id="PickUpCreature_SmallBird2_Name">Punishing Beak</text>
+  <text id="PickUpCreature_SmallBird2_Desc">[Single Ally]
+The librarian's attacks deal bonus damage equal to the number of Scenes that pass without the librarian taking damage from attacks. (Max. 10)</text>
+  <text id="PickUpCreature_SmallBird2_FlaverText">People have been committing sins since long ago. “Why do they commit sins, knowing it's wrong?”</text>
+  <text id="PickUpCreature_SmallBird3_Name">Small Flutters</text>
+  <text id="PickUpCreature_SmallBird3_Desc">[Single Ally]
+Evade dice gain 1-2 Power.
+Upon winning a clash using Evade dice, the next Offensive die gains 1-2 Power.</text>
+  <text id="PickUpCreature_SmallBird3_FlaverText">A small and confident bird that punishes the evil, guilty, and all sorts irreverent people.</text>
+
+  <text id="PickUpCreature_Clock1_Name">Time</text>
+  <text id="PickUpCreature_Clock1_Desc">[All Allies]
+The player has 30 seconds to select Combat pages before the combat phase begins each Scene.
+Boost the Power of all dice of all librarians by 1-2.</text>
+  <text id="PickUpCreature_Clock1_FlaverText">Time flows as life does, and life goes as time does.</text>
+  <text id="PickUpCreature_Clock2_Name">The Thirteenth Toll</text>
+  <text id="PickUpCreature_Clock2_Desc">[Single Ally]
+Every 13th Combat page the librarian plays gains 1-2 Power. (Excludes [On Play] pages)
+The dice on the page also gain the following effect: ‘[On Hit] Deal bonus damage equal to (Dice value)% of target's Max HP’.</text>
+  <text id="PickUpCreature_Clock2_FlaverText">I know of absolute solitude. I shared my silence, and now I take its price. Once the time comes and the original owner arrives, the price will be paid.</text>
+  <text id="PickUpCreature_Clock3_Name">Silence</text>
+  <text id="PickUpCreature_Clock3_Desc">[Single Ally]
+Add a 'Silence' page to the hand: ‘Cost 3 - [On Use] Take 25% of Max. HP as damage; inflict 5 Bind on all other characters next Scene’.
+Add an 'Amplify' page to the hand: ‘Cost 3 - [On Use] Take 15% of Max. HP as damage; Gain 5 Haste next Scene’.</text>
+  <text id="PickUpCreature_Clock3_FlaverText">Rarely, I feel as if time has stopped. Fleeting moments of silence sometimes befall me.</text>
+
+  <text id="PickUpCreature_Pinocchio1_Name">Learning</text>
+  <text id="PickUpCreature_Pinocchio1_Desc">[Single Ally]
+Add a 'Learn' page to the hand: ‘Cost 2 - [Start of Clash] Replace all dice with ones on the opponent's page.’</text>
+  <text id="PickUpCreature_Pinocchio1_FlaverText">All the child could do was 'learn' by observing others and mimicking their behavior. And that was the problem.</text>
+  <text id="PickUpCreature_Pinocchio2_Name">Lies</text>
+  <text id="PickUpCreature_Pinocchio2_Desc">[Single Ally]
+At the start of the Scene, randomize the Costs of all pages whose original Cost is less than 4.</text>
+  <text id="PickUpCreature_Pinocchio2_FlaverText">People lie all the time. Why is that a bad thing?</text>
+  <text id="PickUpCreature_Pinocchio3_Name">Curiosity</text>
+  <text id="PickUpCreature_Pinocchio3_Desc">[Single Ally]
+At the start of the Scene, shuffle all pages into the draw pile and draw 4 pages.</text>
+  <text id="PickUpCreature_Pinocchio3_FlaverText">I’m keen to learn as usual. Would you like to see me learn?</text>
+
+  <text id="PickUpCreature_FairyCarnival1_Name">The Fairies' Care</text>
+  <text id="PickUpCreature_FairyCarnival1_Desc">[Single Ally]
+For three Scenes, recover 15% of Max HP (Max. 18) at the end of the Scene.
+If the librarian is hit 3 times while this effect is active, lose 25% of current HP (Max. 30) and lose this effect.</text>
+  <text id="PickUpCreature_FairyCarnival1_FlaverText">The fairies protect our employees. Everything will be peaceful while you are under the fairies' care.</text>
+  <text id="PickUpCreature_FairyCarnival2_Name">Gluttony</text>
+  <text id="PickUpCreature_FairyCarnival2_Desc">[Single Ally]
+When attacking a target who already took damage in the same Scene, deal +1-3 damage and recover 2-5 HP on hit.</text>
+ <text id="PickUpCreature_FairyCarnival2_FlaverText">The fairies were no more than carnivorous monsters, and their "protection" was their method to keep the meat fresh.</text>
+  <text id="PickUpCreature_FairyCarnival3_Name">Predation</text>
+  <text id="PickUpCreature_FairyCarnival3_Desc">[Single Ally]
+All allies except the selected librarian lose 10 HP.
+The librarian recovers as much HP as others lost from this effect, and gains 3 Strength and 3 Haste this Scene.</text>
+ <text id="PickUpCreature_FairyCarnival3_FlaverText">His stomach and face were ripped off, and his eyeballs and organs were damaged as if they were eaten by something. Meanwhile, the fairies had someone’s blood and flesh smeared all over their mouths.</text>
+
+  <text id="PickUpCreature_SingingMachine1_Name">Music</text>
+  <text id="PickUpCreature_SingingMachine1_Desc">[All Characters]
+All characters deal +4-8 damage with attacks this reception. They also suffer +4-8 Stagger damage upon taking a hit.
+Whenever an ally defeats an enemy, they recover 15 HP and Stagger Resist</text>
+  <text id="PickUpCreature_SingingMachine1_FlaverText">But nothing could compare to the music it makes when it eats a human.</text>
+  <text id="PickUpCreature_SingingMachine2_Name">Rhythm</text>
+  <text id="PickUpCreature_SingingMachine2_Desc">[Single Ally]
+For the duration of the battle, gain 1 Rhythm at the start of each Scene. Whenever a character with Rhythm makes a successful attack, a random character gains 1 Rhythm at a 25% chance next Scene.
+(Rhythm: Gain 1 Strength, take additional Stagger damage from hits, lasts 1 Scene)</text>
+  <text id="PickUpCreature_SingingMachine2_FlaverText">It was creating a rhythm.</text>
+  <text id="PickUpCreature_SingingMachine3_Name">Musical Addiction</text>
+  <text id="PickUpCreature_SingingMachine3_Desc">[Single Ally]
+Offensive dice gain 1-3 Power.
+Defensive dice roll 1.</text>
+  <text id="PickUpCreature_SingingMachine3_FlaverText">After all, art is a devil’s gift, born from despair and suffering. Never stop performing until the body crumbles to dust.</text>
+
+  <text id="PickUpCreature_SpiderBud1_Name">Cocoon</text>
+  <text id="PickUpCreature_SpiderBud1_Desc">[Single Ally]
+On hit, if the dice rolled maximum value: inflict 1-2 Paralysis, Bind, and Fragile next Scene.(Excludes Mass Attacks)</text>
+  <text id="PickUpCreature_SpiderBud1_FlaverText">Unsurprisingly, not a single employee volunteered to retrieve the corpse of their cocooned colleague.</text>
+  <text id="PickUpCreature_SpiderBud2_Name">Meal</text>
+  <text id="PickUpCreature_SpiderBud2_Desc">[Single Ally]
+On hit against a Staggered enemy, all allies recover 2-4 HP.(Excludes Mass Attacks)</text>
+  <text id="PickUpCreature_SpiderBud2_FlaverText">Peter was dragged to the ceiling in only a moment. The cocooned employee hanging off the ceiling of the Containment Unit will be a healthy meal for the spider's offspring.</text>
+  <text id="PickUpCreature_SpiderBud3_Name">Alertness</text>
+  <text id="PickUpCreature_SpiderBud3_Desc">[Single Ally]
+Enemies lose 1 Power in clashes against the selected librarian.
+Upon winning a clash, inflict 1 Bind and Fragile next Scene at a 50% chance.</text>
+  <text id="PickUpCreature_SpiderBud3_FlaverText">The eyes shone in the dark, searching for prey to feed to its spiderlings.</text>
+
+  <text id="PickUpCreature_Porccubus1_Name">Thorns</text>
+  <text id="PickUpCreature_Porccubus1_Desc">[Single Ally]
+On a successful Pierce attack, inflict 1 Thrill to the target.
+Against targets with 3+ Thrill, deal 2-7 bonus damage and Stagger damage, then remove all stacks of Thrill.(Excludes Mass Attacks)</text>
+  <text id="PickUpCreature_Porccubus1_FlaverText">At first, all I had to do was be lightly pricked by one of the thorns. Now I have to rub my whole body against it to get the same high.</text>
+  <text id="PickUpCreature_Porccubus2_Name">Elation</text>
+  <text id="PickUpCreature_Porccubus2_Desc">[Single Ally]
+Dice Power +1. Reduce Max Stagger Resist by 50%.</text>
+  <text id="PickUpCreature_Porccubus2_FlaverText">Now it's time for my head to burst. Good day.</text>
+  <text id="PickUpCreature_Porccubus3_Name">Laughing Powder</text>
+  <text id="PickUpCreature_Porccubus3_Desc">[All Allies]
+When hit, recover 2-4 Stagger Resist if the character isn't staggered.</text>
+  <text id="PickUpCreature_Porccubus3_FlaverText">When the powder that falls from the thorns becomes known to the world, people may forever sink into the swamp of intoxication.</text>
+
+  <text id="PickUpCreature_Greed1_Name">Intemperance</text>
+  <text id="PickUpCreature_Greed1_Desc">[Single Ally]
+If the first die of a Combat page wins a clash, destroy all remaining dice the opponent has at a 25% chance.</text>
+  <text id="PickUpCreature_Greed1_FlaverText">The first seed of desire originated from the pure yearning for happiness. The tiny seed grew larger and larger, hungering for more. Over time, the seed hardened and turned into a piece of shiny gem.</text>
+  <text id="PickUpCreature_Greed2_Name">Road to Happiness</text>
+  <text id="PickUpCreature_Greed2_Desc">[Single Ally]
+Gain 1 Endurance for each clash won in a Scene. (Up to 3 per Scene)</text>
+  <text id="PickUpCreature_Greed2_FlaverText">Happiness became obsession, obsession became greed, and the greed forever solidified to become a golden amber. The happiness in the beginning, still holding a smile, dwells inside.</text>
+  <text id="PickUpCreature_Greed3_Name">Greed</text>
+  <text id="PickUpCreature_Greed3_Desc">[Single Ally]
+In a clash, if the winner's dice roll is greater than the loser's by 4 or higher, the loser takes 3-7 bonus damage, and the winner recovers 2-5 HP. (Both the librarian and their opponent can activate this effect)</text>
+  <text id="PickUpCreature_Greed3_FlaverText">The magical girl, who was no longer a magical girl, ate many things. Authority, money, fame, and many other forms of pleasure. She ended up eating away anything in her sight. Now, only visceral greed remains.</text>
+
+  <text id="PickUpCreature_Mountain1_Name">Absorption</text>
+  <text id="PickUpCreature_Mountain1_Desc">[Single Ally]
+For the duration of the Act, recover 20% of Max. HP (Max. 20) upon defeating an enemy.
+At the start of the Scene, gain Strength based on the amount of HP the librarian has recovered this Act. (1 Strength per 10% of Max. HP healed, up to 3)</text>
+  <text id="PickUpCreature_Mountain1_FlaverText">It only wants one thing: our flesh drenched in blood. Once it gets a whiff of the scent, it will pursue us in an instant.</text>
+  <text id="PickUpCreature_Mountain2_Name">Laughter</text>
+  <text id="PickUpCreature_Mountain2_Desc">[Single Ally]
+When the librarian takes a hit while their HP is at 50% or lower, a screech bursts out at a 50% chance. (Up to 3 times per Scene)
+The screech deals 2-5 Stagger damage to all enemies and inflicts 1 Fragile next Scene.</text>
+  <text id="PickUpCreature_Mountain2_FlaverText">From the mountains of bodies, the dead gave life to something. The dead fused with one another, all smiling.</text>
+  <text id="PickUpCreature_Mountain3_Name">Mountain of Corpses</text>
+  <text id="PickUpCreature_Mountain3_Desc">[Single Ally]
+All librarians except the selected one are immediately killed when this page is chosen.
+The selected librarian gains Max Light capacity, Light restoration, Strength, Protection, and Haste proportional to the number of librarians killed for the rest of the battle.</text>
+  <text id="PickUpCreature_Mountain3_FlaverText">The more bodies it comes across, the more defined its shape becomes. And it is never satisfied.</text>
+
+  <text id="PickUpCreature_House1_Name">Courage</text>
+  <text id="PickUpCreature_House1_Desc">[Single Ally]
+At the start of the Scene, gain Strength and Protection equal to the number of allies currently alive subtracted by 2. (If the value is less than 0, Feeble and Fragile will be inflicted instead.)</text>
+  <text id="PickUpCreature_House1_FlaverText">Can I follow you forever? So I can tear them apart…</text>
+  <text id="PickUpCreature_House2_Name">Home</text>
+  <text id="PickUpCreature_House2_Desc">[All Allies]
+At the start of the Scene, numbered targets are placed on up to 3/2/2/1/1 enemies, depending on the number of allies currently alive.
+Each time a target is attacked in the correct order, increase outgoing damage by 3 for the Scene.</text>
+  <text id="PickUpCreature_House2_FlaverText">Unable to ever go back home, they began an endless journey.</text>
+  <text id="PickUpCreature_House3_Name">A Road Walked Together</text>
+  <text id="PickUpCreature_House3_Desc">[Single Ally]
+If an ally redirects an attack that was initially targeting this character, dice on that ally's page gain 1-2 Power in the clash.</text>
+  <text id="PickUpCreature_House3_FlaverText">Let's walk together. To a wonderful land… The world of dreams.</text>
+
+  <text id="PickUpCreature_LongBird1_Name">The Weight of Sin</text>
+  <text id="PickUpCreature_LongBird1_Desc">[Single Ally]
+Whenever a die this librarian plays rolls the minimum value, take 2-7 damage and gain 1-2 Strength and Endurance next Scene.</text>
+  <text id="PickUpCreature_LongBird1_FlaverText">Its scale would never neglect the weight of even the smallest sin.</text>
+  <text id="PickUpCreature_LongBird2_Name">Judgement</text>
+  <text id="PickUpCreature_LongBird2_Desc">[Single Ally]
+At the start of the Scene, all characters gain 1 Sin at a 50% chance.
+If a character has 5+ Sin, they take damage equal to 10% of their Max. HP at the start of the Scene, and all Sin is removed from them.
+Sin can be transferred to another character by attacking and damaging them. (Once per page)</text>
+  <text id="PickUpCreature_LongBird2_FlaverText">Then somebody said, “But what if the scale doesn’t tip in either direction someday?” Worried, Long Bird made a scale that always tipped to one side. That way every judgement would yield a clear verdict.</text>
+  <text id="PickUpCreature_LongBird3_Name">Tilted Scale</text>
+  <text id="PickUpCreature_LongBird3_Desc">[Single Ally]
+After attacking the enemy with the most HP, recover the HP of the ally with the least HP by 2-8. (3 times per Scene, Excludes Mass Attacks)</text>
+  <text id="PickUpCreature_LongBird3_FlaverText">All that remains is the unjust scale. The long bird continues on, doling out judgement.</text>
+
+  <text id="PickUpCreature_BlueStar1_Name">Martyr</text>
+  <text id="PickUpCreature_BlueStar1_Desc">[Single Ally]
+Add a 'Martyr' page to hand: ‘Cost 0 - [On Play] For this Scene, deal 4-6 bonus Stagger damage with attacks but take 1-3 damage after a successful attack’.</text>
+  <text id="PickUpCreature_BlueStar1_FlaverText">Let us meet again as stars.</text>
+  <text id="PickUpCreature_BlueStar2_Name">Penance</text>
+  <text id="PickUpCreature_BlueStar2_Desc">[Single Ally]
+If any character is Staggered at the start of the Scene, they take 3-7 damage, and all allies gain 1 Strength for the Scene. (Multiple Staggered characters do not give more Strength)</text>
+  <text id="PickUpCreature_BlueStar2_FlaverText">Our Blue Star is the only sanctuary that accepts us. We will be cleansed of our sins there.</text>
+  <text id="PickUpCreature_BlueStar3_Name">A Nostalgic Sound</text>
+  <text id="PickUpCreature_BlueStar3_Desc">[All Allies]
+All allies deal 2-4 additional Stagger damage for this Scene. The effect of this page activates every 3 Scenes afterwards.</text>
+  <text id="PickUpCreature_BlueStar3_FlaverText">The rise of a star is a brand new beginning. Don’t you hear the everlasting sound of the trumpet?</text>
+
+  <text id="PickUpCreature_TheSnowQueen1_Name">Sword of Frost</text>
+  <text id="PickUpCreature_TheSnowQueen1_Desc">[Single Ally]
+Upon winning a clash, inflict 1-3 Bind to the opponent at a 50% chance.
+Deal +2-5 Stagger damage against targets with Bind.</text>
+  <text id="PickUpCreature_TheSnowQueen1_FlaverText">A queen lives alone in the frosty winter forest.</text>
+  <text id="PickUpCreature_TheSnowQueen2_Name">A Kiss</text>
+  <text id="PickUpCreature_TheSnowQueen2_Desc">[Single Ally]
+After winning 2 or more clashes with a single Combat page, inflict Ice Splinter to the opponent.
+At the end of each Scene, characters with 3 or more Ice Splinters become Immobilized for the next Scene.</text>
+  <text id="PickUpCreature_TheSnowQueen2_FlaverText">The Snow Queen’s kiss froze his heart, and he couldn’t feel the cold anymore.</text>
+  <text id="PickUpCreature_TheSnowQueen3_Name">Blizzard</text>
+  <text id="PickUpCreature_TheSnowQueen3_Desc">[Single Ally]
+All characters except the selected librarian become Immobilized for this Scene.
+Next Scene, all enemies are inflicted with 6 Bind.</text>
+  <text id="PickUpCreature_TheSnowQueen3_FlaverText">Spring arrived with blossoming roses. Its warmth melted the Snow Queen’s palace. No one remembered her, sleeping underneath.</text>
+
+  <text id="PickUpCreature_QueenBee1_Name">Spores</text>
+  <text id="PickUpCreature_QueenBee1_Desc">[Single Ally]
+When hit, inflict 1-3 Burn and 1-3 Bleed to the attacker next Scene.</text>
+  <text id="PickUpCreature_QueenBee1_FlaverText">It has been confirmed that the spores carry drone eggs that hatch inside a living host.</text>
+  <text id="PickUpCreature_QueenBee2_Name">Worker Bee</text>
+  <text id="PickUpCreature_QueenBee2_Desc">[Single Ally]
+The enemy who dealt the most damage to the selected librarian is marked. Other allies deal 2-4 more damage to the marked foe with their attacks.</text>
+  <text id="PickUpCreature_QueenBee2_FlaverText">They show only two forms of behavior: Delivering nutrients to the Queen, and proliferating.</text>
+  <text id="PickUpCreature_QueenBee3_Name">Loyalty</text>
+  <text id="PickUpCreature_QueenBee3_Desc">[Single Ally]
+At the start of the Scene, all allies gain Strength based on the amount of damage the selected librarian received on the previous Scene.
+(1 Strength per 5 damage)</text>
+  <text id="PickUpCreature_QueenBee3_FlaverText">The loyalty of bees is a naturally developed instinct. If we discover a way to draw forth that instinct, many things could change.</text>
+
+  <text id="PickUpCreature_Butterfly1_Name">Eternal Rest</text>
+  <text id="PickUpCreature_Butterfly1_Desc">[Single Ally]
+Deal +2-7 damage and +2-5 Stagger damage against the enemy with the lowest current HP.</text>
+  <text id="PickUpCreature_Butterfly1_FlaverText">People believed that they would become beautiful beings with small wings when they died. It’s a silly story. Nonsensical too.</text>
+  <text id="PickUpCreature_Butterfly2_Name">Lament</text>
+  <text id="PickUpCreature_Butterfly2_Desc">[Single Ally]
+Deal +2-4 damage against an enemy with a status ailment.
+If the librarian has a status ailment at the start of the Scene, gain 1-2 Strength.</text>
+  <text id="PickUpCreature_Butterfly2_FlaverText">They say the mourner with a huge luggage on his back had come to be a savior to all.</text>
+  <text id="PickUpCreature_Butterfly3_Name">Coffin</text>
+  <text id="PickUpCreature_Butterfly3_Desc">[Single Ally]
+On hit against an enemy whose HP is at 50% or lower, Seal one Speed die of the target (Twice per Scene, Excludes Mass Attacks).</text>
+  <text id="PickUpCreature_Butterfly3_FlaverText">He’s carrying a coffin. A large coffin to pay tribute to the employees who have nowhere else to go. It is still too small to comfort those innocent sacrifices.</text>
+
+  <text id="PickUpCreature_Laetitia1_Name">Surprise Gift</text>
+<text id="PickUpCreature_Laetitia1_Desc">The first opponent to clash against the selected librarian gains the 'Giftee' status.
+If the 'Giftee' clashes against a character other than the selected librarian, the 'Gift' explodes with a 40% chance, dealing 2-7 damage and inflicting 2 Bleed next Scene.
+When the 'Giftee' dies, a new 'Gift' can be given.</text>
+  <text id="PickUpCreature_Laetitia1_FlaverText">And when the kid meets someone she likes, she will give them a gift made all by herself. The gift's content is a secret though!</text>
+  <text id="PickUpCreature_Laetitia2_Name">Friend</text>
+  <text id="PickUpCreature_Laetitia2_Desc">[Single Ally]
+At the start of the Scene, sneak a 'friend' into one of the Combat pages in hand. (Excludes [On Play] pages)
+Does not activate when there's already a page with a 'friend' in hand.
+The page with the 'friend' gains 2-4 Power.
+However, if the page is not used within 2 Scenes, it exhausts, dealing 2-7 damage to the librarian.</text>
+  <text id="PickUpCreature_Laetitia2_FlaverText">She was so sad that she had to leave her dear friends behind, so she came up with a brilliant idea!</text>
+  <text id="PickUpCreature_Laetitia3_Name">Funny Prank</text>
+  <text id="PickUpCreature_Laetitia3_Desc">[Single Ally]
+The first die of any Combat page the librarian plays will always roll either the maximum or minimum value.
+Take 2-7 damage if it rolled the minimum value.</text>
+  <text id="PickUpCreature_Laetitia3_FlaverText">So this little lady has made a decision! To stay here and never leave until laughter is restored to this place!</text>
+
+  <text id="PickUpCreature_Alriune1_Name">Flower Petals</text>
+  <text id="PickUpCreature_Alriune1_Desc">[Single Ally]
+Each time the librarian sustains damage greater than 10% of their Max HP, all enemies take 4-8 Stagger damage, and the librarian recovers 5-10 HP.</text>
+  <text id="PickUpCreature_Alriune1_FlaverText">Shedding flower petal in place of tears, you spoke to me. “We were all part of earth once, so I plead you not to speak of the end here and now.”</text>
+  <text id="PickUpCreature_Alriune2_Name">Autumn's Passing</text>
+  <text id="PickUpCreature_Alriune2_Desc">[Single Ally]
+When hit, inflict 1 Aroma.
+(Aroma: At the start of the Scene, take Stagger damage equal to the amount of Aroma and halve the stack.)</text>
+  <text id="PickUpCreature_Alriune2_FlaverText">Bearing the hope to return to dust, it shall return to the grave with all that desires to live.</text>
+  <text id="PickUpCreature_Alriune3_Name">Spring's Genesis</text>
+  <text id="PickUpCreature_Alriune3_Desc">[Single Ally]
+Each Scene, a 'Petal' attaches to a random character.
+After the character with the Petal takes 4 hits in a single Scene, all characters take 3-7 Stagger damage, and the librarian becomes untargetable for the next Scene.</text>
+  <text id="PickUpCreature_Alriune3_FlaverText">Unwithering flowers violently blossom.</text>
+
+  <text id="PickUpCreature_Angry1_Name">Wrath</text>
+  <text id="PickUpCreature_Angry1_Desc">[Single Ally]
+The selected librarian enters a state of Wrath.
+The librarian will become uncontrollable and target random characters, including allies.
+Also, the librarian gains 2 Strength, restores 2 Light, and draws 2 more pages each Scene.</text>
+  <text id="PickUpCreature_Angry1_FlaverText">The Servant was betrayed after abandoning her principles and ingeniously trusting someone with her whole heart. Now, she is dominated by the anger towards herself for what she had done.</text>
+  <text id="PickUpCreature_Angry2_Name">Companion</text>
+  <text id="PickUpCreature_Angry2_Desc">[Single Ally]
+When there is no 'Companion' present, the first enemy the selected librarian attacks is marked as a 'Companion'. When the selected librarian defeats the 'Companion', all librarians restore 3 Light and recover 10 HP and Stagger Resist.</text>
+  <text id="PickUpCreature_Angry2_FlaverText">The Servant of Wrath valued justice and balance more than anyone, but she began sharing knowledge with the Hermit-an enemy of her realm-becoming friends with her in secret.</text>
+  <text id="PickUpCreature_Angry3_Name">Acidic Sludge</text>
+  <text id="PickUpCreature_Angry3_Desc">[All Enemies]
+Inflict 5 Erosion to all enemies. Enemies with Erosion also gain Bind equal to the amount of Erosion they currently have.
+(Erosion: At the end of the Scene, take damage equal to the amount of Erosion and lose 1 stack; when taking a hit, take bonus damage and Stagger damage equal to the amount of Erosion.)</text>
+  <text id="PickUpCreature_Angry3_FlaverText">When the two met at last, the Hermit brought countless minions to destroy the Servant's world.</text>
+
+  <text id="PickUpCreature_Nosferatu1_Name">Fear of Water</text>
+  <text id="PickUpCreature_Nosferatu1_Desc">[Single Ally]
+On hit, inflict 1 Bleed next Scene, and gain 1 Blood.
+Blood grants various effects depending on its amount, such as increasing attack damage at the cost of HP, taking Stagger damage at the start of the Scene, and granting Strength.</text>
+  <text id="PickUpCreature_Nosferatu1_FlaverText">He seemed lost. He was looking for something, but he didn’t appear to know what he wanted to find.</text>
+  <text id="PickUpCreature_Nosferatu2_Name">Wine</text>
+  <text id="PickUpCreature_Nosferatu2_Desc">[Single Ally]
+Upon defeating an enemy with Bleed, all allies recover 10 HP, and the selected librarian gains max Blood.</text>
+  <text id="PickUpCreature_Nosferatu2_FlaverText">It maintains a human form, but a single drop of blood should be enough for it to shapeshift into a ferocious monster and spend the night in a rampage.</text>
+  <text id="PickUpCreature_Nosferatu3_Name">Vampirism</text>
+  <text id="PickUpCreature_Nosferatu3_Desc">[Single Ally]
+Deal +2-4 damage and recover 2-5 HP upon attacking a target with Bleed.(Excludes Mass Attacks)</text>
+  <text id="PickUpCreature_Nosferatu3_FlaverText">…And the thirst would never truly be quenched.</text>
+
+  <text id="PickUpCreature_Ozma1_Name">Power of the Past</text>
+  <text id="PickUpCreature_Ozma1_Desc">[Single Ally]
+Increase the Cost of Combat pages by 1.
+All dice gain 3-4 Power.</text>
+  <text id="PickUpCreature_Ozma1_FlaverText">Ozma held the pumpkin-carving knife, then took off running towards where the lady wizard should be.</text>
+<text id="PickUpCreature_Ozma2_Name">Oblivion</text>
+  <text id="PickUpCreature_Ozma2_Desc">[Single Ally]
+Add an 'Oblivion' page to hand: ‘Cost 3 - [On Play;][Exhaust] Immobilized for this Scene; cannot be targeted. At the end of this Scene, recover 40% of Max. HP (up to 48) and fully restore Light.’</text>
+  <text id="PickUpCreature_Ozma2_FlaverText">There was such a fine and beautiful person, staring at her with a perplexed expression.</text>
+<text id="PickUpCreature_Ozma3_Name">Powder of Life</text>
+  <text id="PickUpCreature_Ozma3_Desc">[All Allies]
+When a librarian takes lethal damage, nullify it and recover 20% of Max. HP (up to 24). Can only activate once per reception.</text>
+  <text id="PickUpCreature_Ozma3_FlaverText">Finally, she sprinkled cinnamon powder—her favorite—and clutched the pumpkin in her arms.</text>
+
+</localize>

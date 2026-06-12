@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<RogueMysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Mystery ID="50002">
+    <Frame ID="0">
+      <Dialog>这是一个由J公司主办的巨大赌场，这是一个令人印象深刻的地方，各种各样的人聚集在一起，押上他们所有的财产，以期有机会大赚一笔。
+
+你呢？你能从这疯狂的赌场里获得什么吗？</Dialog>
+      <Choice ID="0">
+        <Desc>赌上你当前一半的眼-有50%/50%的概率使其[green]大赚 [red]全部失去</Desc>
+      </Choice>
+      <Choice ID="1">
+        <Desc>赌上你的装备-有50%/50%的概率[green]复制当前所有的核心书页 [red]全部失去</Desc>
+      </Choice>
+      <Choice ID="2">
+        <Desc>赌上司书的命-有50%/50%的概率[green]所有司书恢复全部体力并复活死亡司书 [red]1名随机司书死亡</Desc>
+      </Choice>
+      <Choice ID="3">
+        <Desc>支付入场费，不要赌博 [red]花费10眼</Desc>
+      </Choice>
+    </Frame>
+
+
+    <Frame ID="1">
+      <Dialog>你以眼下注。
+你掷出骰子，喊出号码。然后……
+它精准的停在你的数字上！</Dialog>
+      <Choice ID="0">
+        <Desc>获得赌资150%的眼</Desc> <!-- change this from gain double Ahn to gain +50% Ahn -->
+      </Choice>
+    </Frame>
+
+    <Frame ID="2">
+      <Dialog>你以眼下注。
+你掷出骰子，喊出号码。然后……
+似乎很明显，骰子停在一个不同的数字上。</Dialog>
+      <Choice ID="0">
+        <Desc>失去所有赌资</Desc>
+      </Choice>
+    </Frame>
+
+    <Frame ID="3">
+      <Dialog>你以装备下注。
+你掷出骰子，喊出号码。然后……
+它精准的停在你的数字上！</Dialog>
+      <Choice ID="0">
+        <Desc>获得所有核心书页的副本</Desc>
+      </Choice>
+    </Frame>
+
+    <Frame ID="4">
+      <Dialog>你以装备下注。
+你掷出骰子，喊出号码。然后……
+似乎很明显，骰子停在一个不同的数字上。</Dialog>
+      <Choice ID="0">
+        <Desc>失去所有赌资</Desc>
+      </Choice>
+    </Frame>
+
+    <Frame ID="5">
+      <Dialog>你以司书的命下注。
+你掷出骰子，喊出号码。然后……
+它精准的停在你的数字上！</Dialog>
+      <Choice ID="0">
+        <Desc>所有司书恢复全部体力</Desc>
+      </Choice>
+    </Frame>
+
+    <Frame ID="6">
+      <Dialog>你以司书的命下注。
+你掷出骰子，喊出号码。然后……
+似乎很明显，骰子停在一个不同的数字上。</Dialog>
+      <Choice ID="0">
+        <Desc>失去所有赌资</Desc>
+      </Choice>
+    </Frame>
+
+    <Frame ID="7">
+      <Dialog>你付了入场费就离开了赌场。
+这可能是一个外行的选择，但安全总比后悔好。</Dialog>
+      <Choice ID="0">
+        <Desc>离开</Desc>
+      </Choice>
+    </Frame>
+
+    <Title>赌场</Title>
+  </Mystery>
+</RogueMysteryXmlRoot>

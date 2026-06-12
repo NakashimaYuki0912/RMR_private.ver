@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="28583001">
+		<Name>묵 공방 상인</Name>
+		<Desc>뭔가 사지 그래요?</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583001">
+    <Name>발도</Name>
+    <Desc>책장의 첫 공격 주사위 위력 + 2. 나머지 주사위 위력 - 1</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583002">
+    <Name>찰나</Name>
+    <Desc>책장의 첫 공격 주사위는 공격 속성에 상관없이 적 내성을 '취약'으로 적용(면역 제외)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583003">
+    <Name>생사결</Name>
+    <Desc>내 체력이 50% 미만일때 피해량 + 2. 적 체력이 50% 미만이면 피해량 + 2</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583004">
+    <Name>무광</Name>
+    <Desc>일방 공격 시 반격을 무시함</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583005">
+    <Name>납도</Name>
+    <Desc>책장의 첫 주사위로 적 처치 시 해당 주사위와 같은 반격 주사위 획득</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583006">
+    <Name>부위 절단</Name>
+    <Desc>공격 주사위 하나로 최대 체력의 10% 또는 15 이상의 피해를 입히면 다음 막에 출혈 5, 마비 2 부여</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583007">
+    <Name>살기</Name>
+    <Desc>[전역] 공격 주사위 이외의 피해량이 2배가 됨</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583008">
+    <Name>잔상</Name>
+    <Desc>책장의 첫 공격 주사위 합 승리 시 대상에게 해당 주사위를 일방공격으로 재사용(막당 1회)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583009">
+    <Name>무호흡</Name>
+    <Desc>빛이 부족해도 대신 비용*3 만큼 흐트러짐 저항을 소모해 책장 사용 가능</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583010">
+    <Name>담금질</Name>
+    <Desc>[전역] 모든 사서의 공격 주사위에 적중 시 피해 1 부여</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

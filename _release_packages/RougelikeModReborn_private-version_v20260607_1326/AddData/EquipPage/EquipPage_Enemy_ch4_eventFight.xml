@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+<!-- 이벤트 3 - 괴한 -->
+<Book ID="28483001">
+		<Name>습격자</Name>
+		<TextId>28483001</TextId>
+    <EquipEffect>
+      <EmotionLevel>2</EmotionLevel>
+      <HP>25</HP>
+      <Break>15</Break>
+      <SpeedMin>2</SpeedMin>
+      <Speed>6</Speed>
+      <SResist>Normal</SResist>
+      <PResist>Normal</PResist>
+      <HResist>Normal</HResist>
+      <SBResist>Vulnerable</SBResist>
+      <PBResist>Normal</PBResist>
+      <HBResist>Vulnerable</HBResist>
+      <Passive Level="1">400011</Passive>
+      <Passive Pid="@origin" Level="1">230005</Passive>
+    </EquipEffect>
+    <BookIcon>FullStopOffice</BookIcon>
+    <CharacterSkin>Stephan</CharacterSkin>
+    <Rarity>Uncommon</Rarity>
+    <RandomFace>true</RandomFace>
+	</Book>
+
+<!-- 이벤트 2 - 복수부대 -->
+ <Book ID="28483002">
+    <Name>뒷골목 조직원</Name>
+    <TextId>28483002</TextId>
+    <EquipEffect>
+      <HP>50</HP>
+      <Break>20</Break>
+      <SpeedMin>2</SpeedMin>
+      <Speed>5</Speed>
+      <SResist>Normal</SResist>
+      <PResist>Normal</PResist>
+      <HResist>Normal</HResist>
+      <SBResist>Normal</SBResist>
+      <PBResist>Normal</PBResist>
+      <HBResist>Normal</HBResist>
+
+      <Passive>400021</Passive>
+
+    </EquipEffect>
+    <Chapter>4</Chapter>
+    <Rarity>Rare</Rarity>
+    <CharacterSkin>RustyChainGroup</CharacterSkin>
+    <RandomFace>true</RandomFace>
+  </Book>
+
+</BookXmlRoot>

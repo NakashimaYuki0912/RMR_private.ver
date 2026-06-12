@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+    <Book ID="-100">
+	<Name>Strange Orb</Name>
+	<EquipEffect>
+		<EmotionLevel>0</EmotionLevel>
+		<HP>20</HP>
+		<Break>1</Break>
+		<SpeedMin>1</SpeedMin>
+		<Speed>1</Speed>
+		<SResist>Normal</SResist>
+		<PResist>Normal</PResist>
+		<HResist>Normal</HResist>
+		<SBResist>Immune</SBResist>
+		<PBResist>Immune</PBResist>
+		<HBResist>Immune</HBResist>
+		<Passive>-100</Passive>
+		<StartPlayPoint>0</StartPlayPoint>
+		<MaxPlayPoint>0</MaxPlayPoint>
+	</EquipEffect>
+	<BookIcon>Rats</BookIcon>
+    <NotEquip>true</NotEquip>
+    <CharacterSkin>StrangeOrb</CharacterSkin>
+    <CharacterSkinType>Custom</CharacterSkinType>
+    <Rarity>Uncommon</Rarity>
+    </Book>
+	
+    <!-- Auto event keypage thingy -->
+	<Book ID="-999">
+	<Name>???</Name>
+	<EquipEffect>
+		<EmotionLevel>1</EmotionLevel>
+		<HP>1</HP>
+		<Break>1</Break>
+		<SpeedMin>1</SpeedMin>
+		<Speed>1</Speed>
+		<SResist>Immune</SResist>
+		<PResist>Immune</PResist>
+		<HResist>Immune</HResist>
+		<SBResist>Immune</SBResist>
+		<PBResist>Immune</PBResist>
+		<HBResist>Immune</HBResist>
+		<StartPlayPoint>0</StartPlayPoint>
+		<MaxPlayPoint>2</MaxPlayPoint>
+	</EquipEffect>
+	<BookIcon>None</BookIcon>
+	<CharacterSkin>TheSparklingMirror</CharacterSkin>
+	<CharacterSkinType>Custom</CharacterSkinType>
+	<Rarity>Special</Rarity>
+	<SkinGender>N</SkinGender>
+	<RandomFace>false</RandomFace>
+	</Book>
+</BookXmlRoot>

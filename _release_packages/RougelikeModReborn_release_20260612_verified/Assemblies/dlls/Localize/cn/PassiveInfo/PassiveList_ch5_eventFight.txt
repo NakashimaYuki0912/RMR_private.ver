@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="500011">
+		<Name>受伤</Name>
+		<Desc>以50%的体力开启战斗</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="500012">
+		<Name>裂伤见红</Name>
+		<Desc>连续对某一目标使用战斗书页时使自身造成的伤害与混乱伤害+10%(至多+50%)
+使用战斗书页造成伤害时若伤害提升幅度不低于30%则使其中所有进攻型骰子的命中目标时下一幕对目标施加1层“流血”
+若对不同目标使用战斗书页则重置伤害提升率</Desc>
+	</PassiveDesc>
+	
+	<PassiveDesc ID="500013">
+		<Name>变幻莫测</Name>
+		<Desc>每一幕开始时移除手中的书页并将意图使用的书页置入手中
+自身的书页费用为0</Desc>
+	</PassiveDesc>
+	
+	<PassiveDesc ID="500014">
+		<Name>指令</Name>
+		<Desc>连续对某一目标使用战斗书页时使自身造成的伤害与混乱伤害+10%(至多+30%)
+若对不同目标使用战斗书页则使当次战斗造成的伤害与混乱伤害-50%</Desc>
+	</PassiveDesc>
+	
+	<PassiveDesc ID="500015">
+		<Name>变幻莫测</Name>
+		<Desc>每一幕开始时移除手中的书页并将意图使用的书页置入手中
+自身的书页费用为0</Desc>
+	</PassiveDesc>
+  
+</PassiveDescRoot>
+  
+

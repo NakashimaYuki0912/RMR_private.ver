@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryCh4_1Title">폐허가 된 공방</text>
+             <text id="MysteryCh4_1Frame0Dia0">부숴지고 버려진 공방이었던 폐허입니다.
+귀한것들은 이미 사라지고 없지만, 뒤져보니 아직 쓸만한 물품들이 남아 있습니다.
+썩어도 공방제 물품이니 직접 쓸 수도 있고, 아마 찾아보면 좋은 구매자들을 찾을 수 있을지도 모릅니다.</text>
+             <text id="MysteryCh4_1Frame0Choice0Desc">직접 쓴다(도시질병 전투책장 보상 5개 획득)</text>
+             <text id="MysteryCh4_1Frame0Choice1Desc">팔아 넘긴다(25안 획득)</text>
+             <text id="MysteryCh4_1Frame1Dia0">당신은 뒷골목 조직들에게 물건을 넘기고 돈을 받았습니다.</text>
+             <text id="MysteryCh4_1Frame1Dia1">당신은 협회 해결사들에게 물건을 넘기고 돈을 받았습니다.</text>
+             <text id="MysteryCh4_1Frame1Dia2">당신은 공방 기술자들에게 물건을 넘기고 돈을 받았습니다.</text>
+             <text id="MysteryCh4_1Frame1Dia3">당신은 무기 수집가들에게 물건을 넘기고 돈을 받았습니다.</text>
+             <text id="MysteryCh4_1Frame1Choice0Desc">25안 획득</text>
+
+             <text id="MysteryCh4_2Title">운반책</text>
+             <text id="MysteryCh4_2Frame0Dia0">익명의 제보자에게 들은 정보대로, 귀한 물품을 옮기고 있는 조직의 운반책을 발견했습니다.
+습격할 준비를 마쳤지만, 당신은 약간 망설입니다. 이제와서 후환이 두려운걸까요?</text>
+             <text id="MysteryCh4_2Frame0Choice0Desc">습격한다.(30~50안 획득. 일반 전투 3회 추가)</text>
+             <text id="MysteryCh4_2Frame0Choice1Desc">포기한다.</text>
+             <text id="MysteryCh4_2Frame1Dia0">당신은 조직원을 죽이고 물건을 강탈했습니다.</text>
+             <text id="MysteryCh4_2Frame1Choice0Desc">종료(30~50안 획득. 일반 전투 3회 추가)</text>
+             <text id="MysteryCh4_2Frame2Dia0">당신은 습격을 포기합니다.</text>
+             <text id="MysteryCh4_2Frame2Choice0Desc">종료</text>
+
+             <text id="MysteryCh4_3Title">급습</text>
+             <text id="MysteryCh4_3Frame0Dia0">총성이 울려퍼집니다! 당신은 급히 엄폐물들 뒤에 숨었습니다.
+건물 위에서 총을 쏘는 괴한들이 보입니다. 너무 멀어 반격하기는 힘들겠네요.
+누구의 사주라도 받은건지, 아니면 그저 강도들인진 알 수 없지만, 비싼 탄환을 언제까지 날리고 있진 못할겁니다.</text>
+             <text id="MysteryCh4_3Frame0Choice0Desc">전투 시작!</text>
+             <text id="MysteryCh4_3Frame0Choice1Desc">연막을 깔고 자리를 피한다(연막탄 소모. 전투 회피)</text>
+
+             <text id="MysteryCh4_4Title">잠입작전</text>
+             <text id="MysteryCh4_4Frame0Dia0">대체로 도시에서의 일은 결국 힘으로 끝날때가 많습니다.
+하지만 모두가 그런식으로 일하지는 않습니다. 염탐, 침입, 첩자... 은밀하고 비밀스럽게 행하는 일도 얼마든지 있지요.
+무작정 싸우기만 하던 당신에게도 그런 의뢰가 들어왔습니다. 과연 잘 해낼 수 있을까요?
+
+방향키로 캐릭터를 조작해 장애물들을 피하고 목표까지 가면 성공!</text>
+             <text id="MysteryCh4_4Frame0Choice0Desc">잠입작전 시작!</text>
+
+ <text id="MysteryCh4_4Frame1Dia0">성공적으로 잠입해 원하던 목표를 손에 넣었습니다!</text>
+             <text id="MysteryCh4_4Frame1Choice0Desc">종료(30안 획득)</text>
+
+ <text id="MysteryCh4_4Frame2Dia0">적들에게 들키고 말았습니다...
+다행히도 무사히 빠져나왔으나 의뢰는 실패했습니다.</text>
+             <text id="MysteryCh4_4Frame2Choice0Desc">종료</text>
+
+
+
+
+</localize>

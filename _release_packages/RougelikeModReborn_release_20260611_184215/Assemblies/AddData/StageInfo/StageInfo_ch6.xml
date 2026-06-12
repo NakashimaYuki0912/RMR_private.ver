@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+<!-- 일반 : 리우2과 5인 -->
+  <Stage id="60001">
+
+    <Wave>
+      <Formation>21</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50001</Unit>
+      <Unit>50001</Unit>
+      <Unit>50001</Unit>
+      <Unit>50001</Unit>
+      <Unit>50001</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 리우2과 네임드 -->
+  <Stage id="60002">
+
+    <Wave>
+      <Formation>21</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50002</Unit>
+      <Unit>50003</Unit>
+      <Unit>50004</Unit>
+      <Unit>50001</Unit>
+      <Unit>50001</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 엄지 -->
+  <Stage id="60003">
+
+    <Wave>
+      <Formation>21</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50005</Unit>
+      <Unit>50005</Unit>
+      <Unit>50005</Unit>
+      <Unit>50005</Unit>
+      <Unit>50005</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 엄지 네임드 칼로-보리스 -->
+  <Stage id="60004">
+
+    <Wave>
+      <Formation>21</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50006</Unit>
+      <Unit>50009</Unit>
+      <Unit>50005</Unit>
+      <Unit>50005</Unit>
+      <Unit>50005</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 엄지 네임드 데니스-카트리엘 -->
+  <Stage id="60005">
+
+    <Wave>
+      <Formation>21</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50007</Unit>
+      <Unit>50008</Unit>
+      <Unit>50005</Unit>
+      <Unit>50005</Unit>
+      <Unit>50005</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 톱니 -->
+  <Stage id="60006">
+
+    <Wave>
+      <Formation>21</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50014</Unit>
+      <Unit>50014</Unit>
+      <Unit>50014</Unit>
+      <Unit>50014</Unit>
+      <Unit>50014</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 검지 2차 -->
+  <Stage id="60007">
+
+    <Wave>
+      <Formation>21</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <AggroScript>theIndex</AggroScript>
+      <Unit>51002</Unit>
+      <Unit>51001</Unit>
+      <Unit>51001</Unit>
+      <Unit>51001</Unit>
+      <Unit>51001</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 검지 대행자 -->
+  <Stage id="60008">
+
+    <Wave>
+      <Formation>21</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <AggroScript>theIndex</AggroScript>
+      <Unit>50015</Unit>
+      <Unit>50016</Unit>
+      <Unit>50017</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 리우 1과 -->
+  <Stage id="60009">
+
+    <Wave>
+      <Formation>21</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <AggroScript>theIndex</AggroScript>
+      <Unit>50019</Unit>
+      <Unit>50019</Unit>
+      <Unit>50019</Unit>
+      <Unit>50019</Unit>
+      <Unit>50019</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 리우 1과 네임드 -->
+  <Stage id="60010">
+
+    <Wave>
+      <Formation>21</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <AggroScript>theIndex</AggroScript>
+      <Unit>50021</Unit>
+      <Unit>50018</Unit>
+      <Unit>50019</Unit>
+      <Unit>50019</Unit>
+      <Unit>50019</Unit>
+    </Wave>
+  </Stage>
+
+
+
+<!-- 일반 : R사 토끼팀 -->
+  <Stage id="60011">
+
+    <Wave>
+      <Formation>21</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50101</Unit>
+      <Unit>50101</Unit>
+      <Unit>50101</Unit>
+      <Unit>50101</Unit>
+      <Unit>50101</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : R사 코뿔소팀 -->
+  <Stage id="60012">
+
+    <Wave>
+      <Formation>21</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50102</Unit>
+      <Unit>50102</Unit>
+      <Unit>50102</Unit>
+      <Unit>50102</Unit>
+      <Unit>50102</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : R사 순록팀 -->
+  <Stage id="60013">
+
+    <Wave>
+      <Formation>21</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50103</Unit>
+      <Unit>50103</Unit>
+      <Unit>50103</Unit>
+      <Unit>50103</Unit>
+      <Unit>50103</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : R사 네임드 4인방 -->
+  <Stage id="60014">
+
+    <Wave>
+      <Formation>1</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <FormationType>AscendingOrder</FormationType>
+      <Unit>50031</Unit>
+      <Unit>50032</Unit>
+      <Unit>50033</Unit>
+      <Unit>50034</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 밤의 송곳 네임드 -->
+  <Stage id="60015">
+
+    <Wave>
+      <Formation>41</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>52001</Unit>
+      <Unit>52002</Unit>
+      <Unit>52002</Unit>
+      <Unit>52002</Unit>
+      <Unit>52002</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 우제트 -->
+  <Stage id="60016">
+
+    <Wave>
+      <Formation>41</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>53001</Unit>
+      <Unit>53001</Unit>
+      <Unit>53001</Unit>
+      <Unit>53001</Unit>
+      <Unit>53001</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 미래생명 -->
+  <Stage id="60017">
+
+    <Wave>
+      <Formation>41</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>54001</Unit>
+      <Unit>54002</Unit>
+      <Unit>54002</Unit>
+      <Unit>54002</Unit>
+      <Unit>54002</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 이파리 공방 -->
+  <Stage id="60018">
+
+    <Wave>
+      <Formation>41</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>55001</Unit>
+      <Unit>55002</Unit>
+      <Unit>55002</Unit>
+      <Unit>55002</Unit>
+      <Unit>55002</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 베이야드 -->
+  <Stage id="60019">
+
+    <Wave>
+      <Formation>41</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>56001</Unit>
+      <Unit>56002</Unit>
+      <Unit>56002</Unit>
+      <Unit>56002</Unit>
+      <Unit>56002</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 보스 : 붉은 안개 -->
+  <Stage id="60020">
+
+    <Wave>
+      <Formation>1</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <AggroScript>theRedMist</AggroScript>
+      <Unit>50022</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 보스 : 보라눈물 -->
+  <Stage id="60021">
+
+    <Wave>
+      <Formation>1</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50035</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 보스 : 샤오 -->
+  <Stage id="60022">
+
+    <Wave>
+      <Formation>1</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>50038</Unit>
+    </Wave>
+    <MapInfo>Xiao</MapInfo>
+  </Stage>
+
+<!-- 보스 : 얀 -->
+  <Stage id="60023">
+
+    <Wave>
+      <Formation>31</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <FormationType>AscendingOrder</FormationType>
+      <Unit>50051</Unit>
+      <Unit>50039</Unit>
+      <Unit>50040</Unit>
+    </Wave>
+    <MapInfo>Yan</MapInfo>
+  </Stage>
+</StageXmlRoot>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryCh4_1Title">废弃的工坊</text>
+             <text id="MysteryCh4_1Frame0Dia0">你发现自己站在一个被毁坏的工坊前，一座被都市经济学吃干抹净的纪念碑，提醒你永远不要梦想太多。尽管这栋建筑的条件很差，但你仍然可以看到里面有一些贵重的装备——问题是你应该卖掉还是使用它...</text>
+			 
+             <text id="MysteryCh4_1Frame0Choice0Desc">留下装备 ([green]+3张[/color] [rare]限定级[/color] [green]都市恶疾战斗书页[/color])</text>
+			 
+             <text id="MysteryCh4_1Frame0Choice1Desc">把它们卖给本地帮派 ([green]+25[/color] [yellow]眼[/color])</text>
+<!--
+			 <text id="MysteryCh4_1Frame0Choice0Desc">维修装备并妥善保管 ([red]-1 武器修理[/color], [green]+2[/color] [unique]艺术级[/color] [green]都市恶疾书页[/color])</text>
+			 
+			 <text id="MysteryCh4_1Frame0Choice2Desc">维修装备并卖掉它们 ([red]-1 武器修理[/color], [green]+50[/color] [yellow]眼[/color])</text>
+-->
+             <text id="MysteryCh4_1Frame1Dia0">你设法使用了一些损坏的设备，以比平时更高的价格卖给了当地的帮派。</text>
+			 
+             <text id="MysteryCh4_1Frame1Choice0Desc">离开</text>
+
+             <text id="MysteryCh4_2Title">拦截包裹</text>
+             <text id="MysteryCh4_2Frame0Dia0">你从当地线人那里得到消息，黑云会的一个重要包裹正在他们的领地外运送着，而且是一条特别不安全的路线。虽然情报本身不会有任何好处，但你很确定你是唯一一个收到它的人，所以你可以：
+  
+正面攻击护卫队。考虑到严密的安保措施，这将是有风险的。 
+放弃吧，顺其自然。也许这个包裹不值你的命。</text>
+
+             <text id="MysteryCh4_2Frame0Choice0Desc">突袭护卫队 ([green]+30~50[/color] [yellow]眼[/color]。进行一场困难的战斗。)</text>
+             <text id="MysteryCh4_2Frame0Choice1Desc">别管他们</text>
+			 
+             <text id="MysteryCh4_2Frame1Dia0">你在一条特别封闭的街道附近设置了一个伏击，当他们经过时，你从阴影中跳了出来。你很快意识到你正在与一名高级黑云会成员作战...</text>
+             <text id="MysteryCh4_2Frame1Choice0Desc">战!</text>
+			 
+<!--
+<text id="MysteryCh4_2Frame1Dia0">你杀死了护送人员，并确保了包裹的安全。原来里面是几个镀金发夹。至少他们会在市场上卖个好价钱。</text>
+<text id="MysteryCh4_2Frame1Choice0Desc">卖掉发夹并离开 ([green]+{0}[/color] [yellow]眼[/color].</text>
+-->
+
+             <text id="MysteryCh4_2Frame2Dia0">你决定不去干涉黑云会的事——鬼知道会发生什么。</text>
+             <text id="MysteryCh4_2Frame2Choice0Desc">离开</text>
+
+             <text id="MysteryCh4_3Title">伏击</text>
+             <text id="MysteryCh4_3Frame0Dia0">当你走过构成后巷的迷宫般的小路时，一切都变得安静起来。这条路通向高速公路——这是你唯一的前进之路——走了一会儿，你看到窗户上的阴影正在逼近，一个东西似乎瞄准了你，然后开枪射击，几乎没打中你的头。
+  
+你躲在附近的小巷里，不幸的是，这是一条死胡同，迫使你面对袭击者或以某种方式逃跑。</text>
+
+             <text id="MysteryCh4_3Frame0Choice0Desc">拉近距离并开战 ([red]体力-10%[/color], 开始战斗)</text>
+			 
+             <text id="MysteryCh4_3Frame0Choice1Desc">使用烟雾弹逃生 ([red]消耗烟雾弹[/color], 避免战斗)</text>
+
+<!--
+             <text id="MysteryCh4_4Title">秘密作战</text>
+             <text id="MysteryCh4_4Frame0Dia0">大多数时候，都市的工作都以力量结束。
+但并不是每个人都这样工作。间谍、非法渗透、偷窃...有很多事情要秘密的做。
+这样的事情现在来到了你身边，之前你只是鲁莽地战斗。你真的能做到吗？
+
+用箭头键控制角色，避开障碍物，完成目标！</text>
+             <text id="MysteryCh4_4Frame0Choice0Desc">秘密作战开始!</text>
+
+ <text id="MysteryCh4_4Frame1Dia0">您已成功渗透并达到预期目标！</text>
+             <text id="MysteryCh4_4Frame1Choice0Desc">结束(获得30[yellow]眼[/color])</text>
+
+ <text id="MysteryCh4_4Frame2Dia0">敌人发现了你......
+幸运的是，你安全逃脱了，但任务失败了。</text>
+             <text id="MysteryCh4_4Frame2Choice0Desc">结束</text>
+
+magma told me this event sucks
+-->
+
+</localize>

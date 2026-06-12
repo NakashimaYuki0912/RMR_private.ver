@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	
+	<PassiveDesc ID="1000000000">
+		<Name>速战速决-急迫</Name>
+		<Desc>情感等级达到2级时额外获得1颗速度骰子(无法叠加)</Desc>
+	</PassiveDesc>
+	
+	<PassiveDesc ID="1000000001">
+		<Name>速战速决-孤独</Name>
+		<Desc>开启舞台时若所有其他友方角色均未拥有速战速决类被动则速度骰子+1(无法叠加)</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

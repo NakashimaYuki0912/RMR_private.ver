@@ -638,7 +638,7 @@ namespace RogueLike_Mod_Reborn
             foreach (DiceCardItemModel card in LogueBookModels.cardlist.FindAll(x => x.GetRarity() == Rarity.Uncommon && x.ClassInfo.CheckCanUpgrade()))
             {
                 LogueBookModels.AddUpgradeCard(card.GetID(), true);
-                LogueBookModels.RemoveCard(card.GetID());   
+                LogueBookModels.DeleteCard(card.GetID());
             }
         }
 
@@ -2051,9 +2051,11 @@ namespace RogueLike_Mod_Reborn
         public override void ChangeShopCard(ref DiceCardXmlInfo card)
         {
             base.ChangeShopCard(ref card);
+            // Upgrade chance disabled: upgrades are now only obtained via rest upgrades.
+            // Previously: 20% chance to replace with upgraded version.
             if (card.CheckCanUpgrade())
             {
-                if (UnityEngine.Random.value < 0.20f)
+                if (UnityEngine.Random.value < 0f) // was 0.20f — disabled
                 {
                     card = Singleton<LogCardUpgradeManager>.Instance.GetUpgradeCard(card.id);
                 }
@@ -2065,21 +2067,9 @@ namespace RogueLike_Mod_Reborn
             List<DiceCardXmlInfo> list = new List<DiceCardXmlInfo>();
             foreach (DiceCardXmlInfo diceCardXmlInfo in cardlist)
             {
-                if (!diceCardXmlInfo.CheckCanUpgrade())
-                {
-                    list.Add(diceCardXmlInfo);
-                }
-                else
-                {
-                    if (UnityEngine.Random.value < 0.20f)
-                    {
-                        list.Add(Singleton<LogCardUpgradeManager>.Instance.GetUpgradeCard(diceCardXmlInfo.id));
-                    }
-                    else
-                    {
-                        list.Add(diceCardXmlInfo);
-                    }
-                }
+                // Upgrade chance disabled: upgrades are now only obtained via rest upgrades.
+                // All cards pass through unmodified.
+                list.Add(diceCardXmlInfo);
             }
             cardlist = list;
         }

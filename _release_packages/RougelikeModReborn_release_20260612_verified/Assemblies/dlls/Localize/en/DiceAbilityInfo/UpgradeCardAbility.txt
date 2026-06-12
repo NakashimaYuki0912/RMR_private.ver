@@ -1,0 +1,1640 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardAbilityDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+
+
+  <BattleCardAbility ID="RMR_Starter_Evade">
+    <Desc>[On Use] Draw 1 page and gain 1 Endurance this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Starter_CoordinatedStrikes">
+    <Desc>[On Use] Dice on this page gain +1 Power for each copy of this page being used against the same target</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_HitAndRunBlockonEvade">
+    <Desc>[On Clash Lose] Reduce incoming damage and stagger damage by natural value</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_MeatJamUpgrade">
+    <Desc>[On Play] Recover 30 HP and remove a copy of this page from inventory</Desc>
+  </BattleCardAbility>
+
+   <BattleCardAbility ID="RMR_RecycleOnClashLose">
+    <Desc>[On Clash Lose] Recycle this die (Up to 10 times)</Desc>
+  </BattleCardAbility>
+  
+   <BattleCardAbility ID="RMR_Gain2AhnOnKill">
+    <Desc>[On Kill] Gain 2 Ahn</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Track">
+    <Desc>[On Use] Recover 4 HP</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_TrackUpgrade">
+    <Desc>[Combat Start] All Offensive dice the user plays this Scene gain ‘[On Hit] Recover 1 HP’
+[On Use] Recover 4 HP</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Recover2HPSRatk">
+    <Desc>[On Hit] Recover 2 HP and Stagger Resist</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Chargeup">
+    <Desc>[On Use] At the start of each Scene, restore 1 Light and inflict 1 Paralysis on self for the rest of the Act</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ChargeupUpgrade">
+    <Desc>[On Use] Draw 1 page; at the start of each Scene, restore 1 Light and inflict 1 Paralysis on self for the rest of the Act</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_BackstreetsDash">
+    <Desc>[Start of Clash] Reduce Stagger damage of all target’s dice by 5</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_BackstreetsDashDie">
+    <Desc>[On Clash Win] Deal additional Stagger damage equal to target’s die value</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SkitterAway">
+    <Desc>[On Play] This Speed die has [Speed +3]</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SkitterAwayUpgrade">
+    <Desc>[On Play] This Speed die has [Speed +5]</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_EndureUpgrade">
+    <Desc>[On Use] Gain 1 Protection and Stagger Protection this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_DriedupUpgrade">
+    <Desc>[On Use] Gain 2 Strength and Haste next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Add2PowerAllpw">
+    <Desc>[On Clash Win] Add +2 Power to all dice on this page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ChopItOff">
+    <Desc>Dice on this page gain Power equal to target’s Paralysis (Max. 3)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_GoinFirst">
+    <Desc>[On Use] If this page is user’s first played Combat Page this Scene, boost min value of all dice on this page by +2</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_StruggleUpgrade">
+    <Desc>[On Use] Gain 2 Protection this Scene and next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_YouOnlyLiveOnce">
+    <Desc>[Start of Clash] Dice on this page and opponent's page deal 50% more damage and Stagger damage</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_GutHarvesting">
+    <Desc>[On Kill] Gain 4 Ahn
+[After Use] The page loses this ability afterwards</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_GutHarvestingUpgrade">
+    <Desc> [On Kill] Gain Ahn depending on target’s Key page rarity (4/7/10/15)
+[After Use] The page loses this ability afterwards</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_GatherIntelUpgrade">
+    <Desc>[On Use] Draw all copies of a page of highest rarity in deck</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_whythefuckistherenoendurance1atk">
+    <Desc>[On Hit] Gain 1 Endurance next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_breakvuln1atk">
+    <Desc>[On Hit] Inflict 1 Stagger Fragile next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_whythefuckistherenobleeding1pw">
+    <Desc>[On Clash Win] Inflict 1 Bleed next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Appetite">
+    <Desc>[On Hit] Recover HP equal to target’s Bleed (Max. 15)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_QuickAttack">
+    <Desc>[On Use] Gain 2 Haste next Scene; if Speed is higher than the target's, all dice on this page gain +2 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_bleed2atkcard">
+    <Desc>[On Hit] Inflict 2 Bleed next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_PreparedMindLulu">
+    <Desc>[Combat Start] When inflicting Burn using Combat Pages this Scene, inflict 1 additional stack</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_PreparedMindLuluUpgrade">
+    <Desc>[Combat Start] When inflicting Burn using Combat Pages this Scene, inflict 1 additional stack and gain 1 Endurance this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_CrueltyDie">
+    <Desc>[On Hit] Recover HP and Stagger Resist equal to target’s Bleed (Max. 30)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_CrueltyUpgradeDie">
+    <Desc>[On Hit] Recover HP and Stagger Resist equal to 2x the target’s Bleed (Max. 40)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Endurance1start">
+    <Desc>[Combat Start] Gain 1 Endurance this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Endurance2start">
+    <Desc>[Combat Start] Gain 2 Endurance this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Multiblock">
+    <Desc>[Combat Start] Gain 3 Protection, Stagger Protection and 5 Shield this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_MultiblockUpgrade">
+    <Desc>[Combat Start] Gain 4 Protection, Stagger Protection and 10 Shield this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FleetFootsteps">
+    <Desc>[On Play] This Speed die has [Speed +2]</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Deflect">
+    <Desc>[On Clash Win] Reduce Power of opponent's next die by 1</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_IngredientHunt">
+    <Desc>[On Use] Dice on this page gain +1 Power if target has Bleed</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SetFireUpgradeDie">
+    <Desc>[On Hit] Inflict 5 Burn; Deal 3 damage to self</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Multihit">
+    <Desc>[On Use] All dice of this page gain ‘[On Hit] Recycle this die at a 33% chance (Up to 1 time)’</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Multihitdie">
+    <Desc>[On Hit] Recycle this die at a 33% chance (Up to 1 time)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_break3atkcard">
+    <Desc>[On Hit] Deal 3 Stagger damage</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_NonstopAssault">
+    <Desc>[On Use] At the start of the next Scene, draw all other copies of 'Nonstop Assault' from the deck</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_NonstopAssaultUpgrade">
+    <Desc>[On Use] Restore 1 Light; at the start of the next Scene, draw all other copies of 'Nonstop Assault' from the deck</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_LawOrder">
+    <Desc>[On Clash Win] Add a Block die (Roll: 3-8) to the counter queue</Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="RMR_LawOrderUpgrade">
+    <Desc>[On Clash Win] Add two Block dice (Roll: 3-8) to the counter queue</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Diversion">
+    <Desc>[Combat Start] Targeted page is forced to clash against this page</Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="RMR_SharpSwipe">
+    <Desc>[Combat Start] All Offensive dice the user plays this Scene gain ‘[On Hit] Inflict 1 Bleed next Scene’</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Standoff">
+    <Desc>[Start of Clash] Gain 5 Shield and Stagger Shield this Scene</Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="RMR_StandoffUpgrade">
+    <Desc>[Start of Clash] Gain 8 Shield and Stagger Shield this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Avert">
+    <Desc>[Start of Clash] If opponent’s page was initially targeting another ally, all dice on this page gain +2 Power</Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="RMR_StartinLightly">
+    <Desc>[On Use] Gain 1 Blunt Power-Up this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_GuardianUpgrade">
+    <Desc>[On Use] Give 1 Endurance and Haste to all allies next Scene</Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="RMR_GambleUpgrade">
+    <Desc>[On Use] Discard a page with the lowest Cost; if the discarded page’s Cost is not 0, gain Critical Strike equal to 2x the Cost</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_BackAttack">
+    <Desc>[On Use] If target is targeted by another ally's page whose Cost is 3 or higher, all dice on this page gain +1 Power</Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="RMR_SliceUpgrade">
+    <Desc>[On Use] Discard a page with the lowest Cost and gain 1 Slash Power-Up this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_StayClamUpgrade">
+    <Desc>[On Discard] Draw a page and gain 3 Stagger Shield this Scene
+[On Use] Draw 1 page</Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="RMR_FishOnslaughtUpgrade">
+    <Desc>[On Use] Discard a page with the lowest Cost and gain 1 Damage Up this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_recover5breakpw">
+    <Desc>[On Clash Win] Recover 5 Stagger Resist</Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="RMR_SearingBlow">
+    <Desc>This page can be upgraded any number of times</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Outburst">
+    <Desc>[On Use] Discard a page with the lowest Cost and restore 3 Light</Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="RMR_allydraw1pw">
+    <Desc>[On Clash Win] A random other ally draws 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_break2atk">
+    <Desc>[On Hit] Deal 2 Stagger damage to target</Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="RMR_paralysisbind1atk">
+    <Desc>[On Hit] Inflict 1 Paralysis and Bind next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_CutIn">
+    <Desc>[On Use] For every page target has yet to use this Scene, boost min value of all dice on this page by +1</Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="RMR_5shield">
+    <Desc>[On Use] Gain 5 Shield this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_BladeWhirl">
+    <Desc>[On Use] If user has Endurance, draw 1 page</Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="RMR_BladeWhirlUpgrade">
+    <Desc>[On Use] If user has Endurance, draw 1 page and restore 1 Light</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_HandlingWorkUpgrade">
+    <Desc>[Combat Start] If user has any ‘Fatal’ or ‘Weak’ resistances, set them to ‘Normal’ for this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_TasteChain">
+    <Desc>[Combat Start] All other allies using a Unity page inflict 1 Bleed to themselves next Scene
+[On Use] Inflict 1 Bleed to self next Scene; restore 1 Light</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_LowNight">
+    <Desc>[On Discard] If user’s HP is above 50%, take 4 damage and gain 1 Strength this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_LowNightUpgrade">
+    <Desc>[On Discard] If user’s HP is above 50%, take 4 damage and gain 1 Strength this Scene
+Otherwise if user’s HP is below 50%, gain 4 Shield this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_RulesBackstreets">
+    <Desc>[On Use] If target has 4+ Bleed, boost min value of all dice on this page by +2</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_bleed2draw1atk">
+    <Desc>[On Hit] Inflict 2 Bleed next Scene; draw 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_HandleRequest">
+    <Desc>[On Use] When inflicting Burn using Combat Pages this Scene, inflict 1 additional stack</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_nodeflectdamage">
+    <Desc>[On Clash Lose] Take no deflect damage</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_boostdiceminvalue2pl">
+    <Desc>[On Clash Lose] Boost min value of all dice on this page by +2</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_PrescriptOrder">
+    <Desc>[Zeal]
+[On Use] If Singleton, draw 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_PrescriptOrderUpgrade">
+    <Desc>[Zeal]
+[On Use] If Singleton, draw 1 page
+Otherwise gain Stagger Shield this Scene equal to pages in hand</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_TargetSpotted">
+    <Desc>[Combat Start] Gain 5 Critical Strike this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_binding3crit">
+    <Desc>[On Crit] Inflict 3 Bind next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_UnavoidableGazeUpgrade">
+    <Desc>Dice on this page gain Power equal to target’s Paralysis (Max. 5)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_YoureSoft">
+    <Desc>[Unity]
+[Combat Start] All other allies using a Unity page gain 1 Bleed Protection next Scene
+[On Use] Inflict 2 Bleed to self next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Relay">
+    <Desc>[On Discard] A random other ally draws 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_RelayUpgrade">
+    <Desc>[On Discard] A random other ally draws 1 page
+[On Use] Draw 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_DarkCloudUpgrade">
+    <Desc>[Combat Start] All Offensive dice the user plays this Scene gain ‘This die deals 2 less Stagger damage; [On Hit] Inflict 1 Bleed next Scene’</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_bleeding1atk2lessbreakdmg">
+    <Desc>This die deals 2 less Stagger damage
+[On Hit] Inflict 1 Bleed next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_UpbeatPerformance">
+    <Desc>[On Clash Win] All allies gain 1 Positive Emotion Point</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ReturnFireUpgrade">
+    <Desc>[Combat Start] Gain 8 Critical Strike this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_1weakcrit">
+    <Desc>[On Crit] Inflict 1 Feeble next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_2weakcrit">
+    <Desc>[On Crit] Inflict 2 Feeble next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FrontalDodge">
+    <Desc>[Unity]
+[On Use] Recover 8 Stagger Resist</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FlankAttack">
+    <Desc>[Combat Start] For this Scene, all allies using a Unity page gain +1 Power for all dice (Cannot be stacked)
+[On Use] Inflict 1 Bleed to self next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FlankAttackUpgrade">
+    <Desc>[Unity]
+[Combat Start] For this Scene, all allies using a Unity page gain +1 Power for all dice (Cannot be stacked)
+[On Use] Inflict 1 Bleed to self next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_RedNotes">
+    <Desc>[Combat Start] Give 1 Strength and Endurance to a random ally without Strength</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_RedNotesUpgrade">
+    <Desc>[Combat Start] Give 1 Strength and Endurance to two random allies without Strength</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_WillBeTasty">
+    <Desc>[On Use] If target is Staggered, recover 4 HP</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_IHATECQC">
+    <Desc>[On Clash Lose] Gain 1 Protection and Stagger Protection this Scene; gain 3 Critical Strike next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_IHATECQCUpgrade">
+    <Desc>[On Clash Lose] Gain 1 Protection and Stagger Protection this Scene; gain 5 Critical Strike next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_TakeTheShot">
+    <Desc>[On Crit] Restore 1 Light and draw 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_TakeTheShotUpgrade">
+    <Desc>[Combat Start] Gain 5 Critical Strike this Scene
+[On Crit] Restore 1 Light and draw 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_5breakdmgcrit">
+    <Desc>[On Crit] Deal 5 Stagger damage to target</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_OpportunitySpotted">
+    <Desc>[On Use] Boost the max value of all Offensive dice on this page by the amount of unique status ailments on target (Max. 3)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_YoureHindranceUpgrade">
+    <Desc>[On Hit] Inflict 1 Disarm next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_CleanUp">
+    <Desc>[On Use] Restore 2 Light
+If target has 4+ Bleed, draw 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_CumulusWallDie">
+    <Desc>[On Clash Win] If opponent's die is Offensive, recycle both user's and opponent's die</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_CumulusWall">
+    <Desc>[Combat Start] Gain 5 Shield and Stagger Shield this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_CumulusWallUpgrade">
+    <Desc>[Combat Start] Gain 5 Shield and Stagger Shield this Scene
+[On Use] If target has 4+ Bleed, gain 5 Shield and Stagger Shield next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ShrineToMusic">
+    <Desc>[Combat Start] Inflict 1 Feeble and Disarm to a random enemy without Feeble</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ShrineToMusicUpgrade">
+    <Desc>[Combat Start] Inflict 1 Feeble and Disarm to two random enemies without Feeble</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Headshot">
+    <Desc>[On Crit] Destroy opponent’s next die</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_dmgupquickness1ally2atk">
+    <Desc>[On Hit] Give 1 Damage Up and Haste to two random allies next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SpearedSweep">
+    <Desc>[Start of Clash] Inflict 2 Disarm to target this Scene
+[After Use] Purge Disarm from target</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SpearedSweepUpgrade">
+    <Desc>[On Hit] Deal 1 damage to target
+[Start of Clash] Inflict 2 Disarm to target this Scene
+[After Use] Purge Disarm from target</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SpearSweepDie">
+    <Desc>[On Clash Win] Add a Pierce die (Roll: 3-5) to the dice queue</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SpearSweepDieUpgrade">
+    <Desc>[On Clash Win] Add a Pierce die (Roll: 4-5) to the dice queue</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FullStopToLife">
+    <Desc>[On Use] Give 4 Critical Strike to a random other ally and self next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FullStopToLifeUpgrade1">
+    <Desc>[On Use] Give 8 Critical Strike to a random other ally and self next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FullStopToLifeUpgrade2">
+    <Desc>[On Use] Gain 5 Critical Strike this Scene and 8 Critical Strike next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ElectricShock">
+    <Desc>[After Use] If target has Paralysis, purge Paralysis from target and deal Stagger damage equal to twice the purged amount</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ElectricShockUpgrade">
+    <Desc>[After Use] If target has Paralysis, purge Paralysis from target and gain Charge equal to twice the purged amount</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_HeresMyChance">
+    <Desc>[Unity]
+[On Use] Inflict 3 Bleed to self next Scene; all dice on this page gain +1 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Whet">
+    <Desc>[After Use] All dice on the next Combat Page used gain +1 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Detonate">
+    <Desc>This die deals no damage; [On Hit] Inflict Burn equal to roll value</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SkyCut">
+    <Desc>This die deals no Stagger damage; [On Hit] Inflict Bleed next Scene equal to (the roll - min value) (Min. 1)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_add5powerpl">
+    <Desc>[On Clash Lose] Add +5 Power to next die</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SearingSword">
+    <Desc>Dice on this page deal 50% less damage</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_HeadtoHead">
+    <Desc>[Unity]
+[Combat Start] All other allies using a Unity page gain '[Start of Clash] Make dice on opponent's page deal less damage and Stagger damage equal to opponent's Bleed' (Cannot be stacked)
+[On Use] Inflict 2 Bleed to self next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_HeadtoHeadUpgrade">
+    <Desc>[Unity]
+[Combat Start] All other allies using a Unity page gain '[Start of Clash] Make dice on opponent's page deal less damage and Stagger damage equal to opponent's Bleed' (Cannot be stacked)
+[On Use] Inflict 2 Bleed to self next Scene
+[Start of Clash] Draw 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SunsetBlade">
+    <Desc>[Start of Clash] Boost min value of all dice on this page by +2 and reduce outgoing damage by 3</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_StructuralAnalysis">
+    <Desc>[On Use] Types of Offensive dice on this page change to the types the target is weakest to
+[On Hit] If type of die is Pierce, inflict 1 Paralysis next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Feast">
+    <Desc>[On Kill] Exhaust this page and increase user's Max HP by 2</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FeastUpgrade">
+    <Desc>[On Kill] Exhaust this page and increase user's Max HP by 3</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Eject">
+    <Desc>[Start of Clash] Reduce damage and Stagger damage of all target’s dice by 2</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_EjectUpgrade">
+    <Desc>[Start of Clash] Reduce damage and Stagger damage of all target’s dice by 4</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_NotAnotherStep">
+    <Desc>[Start of Clash] If Speed is lower than the target’s, gain 10 Critical Strike this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_NotAnotherStepUpgrade">
+    <Desc>[Start of Clash] If Speed is lower than the target’s, gain 15 Critical Strike this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SharpenedBlade">
+    <Desc>[Combat Start] When inflicting Bleed using Combat Pages this Scene, inflict 1 additional stack; all dice the user plays deal 2 less damage and Stagger damage this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SharpenedBladeUpgrade">
+    <Desc>[Combat Start] When inflicting Bleed using Combat Pages this Scene, inflict 2 additional stacks; all dice the user plays deal 4 less damage and Stagger damage this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SharpenedBladev2">
+    <Desc>[Combat Start] Gain 2 Damage Up this Scene; Slash dice gain "[On Hit] Inflict Bleed next Scene equal to user's Damage Up" for this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SilentMist">
+    <Desc>[On Use] Gain 3 Protection and Stagger Protection next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ButterflySlash">
+    <Desc>Dice on this page deal 4 less damage
+[On Clash Win] Inflict 1 Burn</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_IndiscriminateShots">
+    <Desc>[Combat Start] Destroy this page; dice on this page are played against random enemies</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_IndiscriminateShotsDie1">
+    <Desc>[On Crit] Last die gains +2 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_IndiscriminateShotsDie1Upgrade">
+    <Desc>[On Crit] Last die gains +4 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_IndiscriminateShotsDie2">
+    <Desc>[On Hit] Deal damage to target equal to roll value</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_BeyondShadow">
+    <Desc>[On Use] All dice on this page gain +2 Power at a (user’s Critical Strike)% chance</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_critchance2pw">
+    <Desc>[On Clash Win] Gain 2 Critical Strike next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_bleed1twiceatk">
+    <Desc>[On Hit] Inflict 1 Bleed 2 times next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_bleed1atkcard">
+    <Desc>[On Hit] Inflict 1 Bleed next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_2bleedcrit">
+    <Desc>[On Crit] Inflict 2 Bleed next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_3bleedcrit">
+    <Desc>[On Crit] Inflict 3 Bleed next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ScatteringSlash">
+    <Desc>[Combat Start] Gain 12 Shield this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ScatteringSlashUpgrade">
+    <Desc>[Combat Start] Gain 16 Shield this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_UnforgettableMelody">
+    <Desc>[Combat Start] Allies with Strength draw 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_UnforgettableMelodyUpgrade">
+    <Desc>[Combat Start] Gain 1 Strength this Scene
+[On Use] Allies with Strength draw 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FaintMemories">
+    <Desc>[On Use] Deal 7 Stagger damage to self; all dice on this page gain +2 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FaintMemoriesUpgrade">
+    <Desc>[On Use] Deal 9 Stagger damage to self; all dice on this page gain +3 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_KillMotherfuckerOfChoice">
+    <Desc>[On Crit] This deals 50% more damage and Stagger damage</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_KillMotherfuckerOfChoiceUpgrade">
+    <Desc>[On Crit] This deals 75% more damage and Stagger damage</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_BindingArmsUpgrade">
+    <Desc>[On Use] Lower this page's Cost by 1 (Up to 3 times)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_HeavyPeaks">
+    <Desc>[After Use] If user has enough Emotion Points to raise Emotion Level, gain 3 Strength and Endurance this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_nodamage">
+    <Desc>This die deals no damage or Stagger damage</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Tailoring">
+    <Desc>Costs 1 less if ‘Fascinating Fabric’ is in hand
+[On Use] If ‘Fascinating Fabric’ is not in hand, draw 2 pages dice on this page deal 4 less damage and Stagger damage</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_TailoringUpgrade">
+    <Desc>Costs 1 less if ‘Fascinating Fabric’ is in hand
+[On Kill] Upgrade the rarity of dropped book by target</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FascinatingFabric">
+    <Desc>Only up to 3 of this page can be held at once
+[On Use] Gain 1 Protection and Stagger Protection this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FascinatingFabricUpgrade">
+    <Desc>Only up to 3 of this page can be held at once
+[On Use] Gain 2 Protection and Stagger Protection this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_CrackOfDawnDie">
+    <Desc>This die deals no damage; [On Hit] Inflict 9 Burn</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_CrackOfDawnDieUpgrade">
+    <Desc>This die deals no damage; [On Hit] Inflict 11 Burn</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_NowDie">
+    <Desc>[Unity] [Combat Start] All other allies using a Unity Page gain 1 Damage Up this Scene for every 3 Bleed they have (Cannot be stacked)
+[On Use] Inflict 5 Bleed to self next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Mendweapon">
+    <Desc>[Combat Start] Gain 1 Pierce Power-Up this Scene
+[On Use] Restore 1 Light</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Refine">
+    <Desc>[Combat Start] Gain 2 Pierce Clash Power this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Sakura">
+    <Desc>[On Use] Discard up to 4 random pages in hand, for each page discarded, boost the min value of all dice on this page by +1</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SakuraUpgrade">
+    <Desc>[On Use] Discard up to 4 random pages in hand, for each page discarded, boost the min value of all dice on this page by +1; if 4 pages were discarded, if user has any ‘Fatal’ or ‘Weak’ resistances, set them to ‘Endured’ for this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_InkOver">
+    <Desc>While this is in hand, at the start of the Scene, reduce the Cost of this page by 1 until used for each enemy with 10+ Bleed
+[On Hit] Inflict 1 Bleed next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_InkOverDie">
+    <Desc>[​​On Hit] If target has 4+ Bleed, draw pages equal to (target’s Bleed / 4) (Max. 2)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_InkOverDieUpgrade">
+    <Desc>[​On Hit] If target has 3+ Bleed, draw pages equal to (target’s Bleed / 3) (Max. 3)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_energy2draw1">
+    <Desc>[On Use] Restore 2 Light and draw 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Observe">
+    <Desc>[On Use] At the start of each Scene, gain 1 Strength for the rest of the Act</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ObserveUpgrade">
+    <Desc>[On Use] Gain 2 Strength next Scene
+At the start of each Scene, gain 1 Strength for the rest of the Act</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_WrathOfTormentUpgrade">
+    <Desc>[On Use] Deal 9 damage to self; all dice on this page gain +3 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_PrescriptLoophole">
+    <Desc>[On Use] Add 'Unlock-Ⅲ' to hand</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Skewer">
+    <Desc>[On Use] If Singleton, inflict 1 Fragile and Stagger Fragile to target this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SkewerDie">
+    <Desc>[On Clash Win] If Singleton, destroy opponent's next die</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Amputation">
+    <Desc>Only usable in the 'Blade Unlocked' state</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Amputationfirstdie">
+    <Desc>[On Clash Win] Destroy all of opponent's dice
+[On Clash Lose] Destroy all dice on this page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Amputationdie">
+    <Desc>[On Hit] Deal damage equal to 25% of target's Max HP; target loses 25% Max HP permanently</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Engagement">
+    <Desc>[Combat Start] Gain 6 Shield and Stagger Shield this Scene
+[On Use] Add 'En Garde' to user's hand</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_EngagementUpgrade">
+    <Desc>[Combat Start] Gain 8 Shield and Stagger Shield this Scene
+[On Use] Add 'En Garde+' to user's hand</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_EnGarde">
+    <Desc>[Combat Start] Gain 1 Clash Power this Scene and next Scene
+[On Use] Give 1 Strength to target and self next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_EnGardeUpgrade">
+    <Desc>[Combat Start] Gain 1 Clash Power this Scene and next Scene
+[On Use] Give 2 Strength to target and self next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_OvercomeCrisis">
+    <Desc>[On Use] Draw 1 page; a random other ally using a Unity page draws 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_OvercomeCrisisUpgrade">
+    <Desc>[Unity]
+[On Use] Draw 1 page; a random other ally using a Unity page draws 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SmokingPipe">
+    <Desc>[On Use] Gain 3 Smoke; restore 1 Light</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SmokingPipeUpgrade">
+    <Desc>[On Use] Gain 4 Smoke; restore 1 Light</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Juggling">
+    <Desc>While in deck, at the start of each Scene, add a copy of this page without this ability to deck</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Faith">
+    <Desc>[Zeal]
+[On Use] If Singleton, restore 1 Light</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FaithDie">
+    <Desc>Type of this die changes to the same type as user's highest stacks of Power-Up</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Leap">
+    <Desc>[On Use] Gain 1 Haste next Scene; spend 3 Charge to draw 3 pages</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_LeapUpgrade">
+    <Desc>[On Use] Gain 2 Haste next Scene; spend 3 Charge to draw 3 pages</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_AdaptPage">
+    <Desc>[On Scroll] [Adapt]</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_AdaptDice">
+    <Desc>[Adapt]</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_AdaptDice_Riposte">
+    <Desc>[Adapt][On Clash Win] Reduce Power of opponent’s next die by 2</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_AdaptDice_RiposteUpgrade">
+    <Desc>[Adapt][On Clash Win] Reduce Power of opponent’s next die by 3</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_DesperateStruggle">
+    <Desc>[Unity]
+[Combat Start] For this Scene, all other allies using a Unity page deal 5 damage to themselves and gain +2 Clash Power this Scene (Once, cannot be stacked)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_HiddenBlade">
+    <Desc>[On Use] Spend 3 Smoke to boost Power of all dice on this page by +2 and gain 2 Damage Up this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_HiddenBladeUpgrade">
+    <Desc>[On Use] Spend 2 Smoke to boost Power of all dice on this page by +2 and gain 2 Damage Up this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FlyingSword">
+    <Desc>[Unity]
+[Combat Start] For this Scene, all other allies using a Unity page gain 1 Haste next Scene (Cannot be stacked)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FlyingSwordUpgrade">
+    <Desc>[Unity]
+[Combat Start] For this Scene, all other allies using a Unity page gain 1 Haste next Scene (Cannot be stacked)
+[On Use] Gain 2 Haste next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_HastePower1">
+    <Desc>If user has Haste, add +1 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_HastePower2">
+    <Desc>If user has Haste, add +2 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Gigigi">
+    <Desc>[On Use] Restore 1 Light; draw 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_InhaleSmoke">
+    <Desc>[On Use] Gain 4 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_InhaleSmokeUpgrade">
+    <Desc>[On Use] Gain 6 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_WildCard">
+    <Desc>[On Hit] All allies recover 5 Stagger Resist</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_allydraw1atk">
+    <Desc>[On Hit] A random other ally draws 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Acupuncture">
+    <Desc>[Combat Start] Gain 4 Critical Strike this Scene; if user has 15+ Critical Strike, gain 1 Slash Clash Power this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ProselyteBlade">
+    <Desc>[Zeal]
+[Combat Start] All dice the user plays lose 4 Power for this Scene
+[On Use] For the rest of the Act, at the start of each Scene, gain 1 random Power-Up (Slash, Pierce, Blunt, Defense)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ProselyteBladeUpgrade">
+    <Desc>[Combat Start] All dice the user plays lose 2 Power for this Scene
+[On Use] For the rest of the Act, at the start of each Scene, gain 1 random Power-Up (Slash, Pierce, Blunt, Defense)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SingletonPower2">
+    <Desc>If Singleton, add +2 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SenseQuarry">
+    <Desc>[Zeal]
+[On Use] If Singleton, all dice on this page gain +1 Power for every unique status ailment target has</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FlecheCounter">
+    <Desc>If target has Strength or Endurance, add +1 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FierceCharge">
+    <Desc>[On Play] This Speed die has [Speed +6]
+[On Hit] Inflict 5 Burn</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FierceChargeUpgrade">
+    <Desc>[On Play] This Speed die has [Speed +6]
+[On Clash Win] Inflict 5 Burn
+[On Hit] Inflict 5 Burn</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FierceChargeDie">
+    <Desc>This die deals no damage
+[On Clash Win] Use this page again on a random enemy</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ExtremeEdge">
+    <Desc>[Unity]
+[Combat Start] For this Scene, all other allies using a Unity page gain 1 Resilience this Scene (Cannot be stacked)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_YieldMyFlesh">
+    <Desc>[On Clash Lose] Gain 15 Shield and Stagger Shield this Scene; add 'To Claim Their Bones' to user's hand</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_YieldMyFleshUpgrade">
+    <Desc>[On Clash Lose] Gain 20 Shield and Stagger Shield this Scene; add 'To Claim Their Bones+' to user's hand</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ToWherePrescript">
+    <Desc>[Zeal]
+[On Use] If Singleton, all dice on this page gain +1 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ToWherePrescriptUpgrade">
+    <Desc>[Zeal]
+[On Use] If Singleton, all dice on this page gain +2 Power
+[On Hit] Inflict 1 Fragile next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_PrescriptDie">
+    <Desc>[On Clash Win] If Singleton, destroy opponent’s and user’s next die</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Zeal">
+    <Desc>[Zeal]</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Execute">
+    <Desc>If Singleton, add Power equal to (1 + the number of pages with an effect involving 'Singleton' in deck / 2) (Rounded down)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ExecuteUpgrade">
+    <Desc>If Singleton, add Power equal to (3 + the number of pages with an effect involving 'Singleton' in deck / 2) (Rounded down)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FleshFillet">
+    <Desc>[On Use] Spend 2 Smoke to boost Power of all dice on this page by +2</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FleshFilletDie">
+    <Desc>[On Hit] Inflict Bleed next Scene equal to stacks of Smoke on target</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Slay">
+    <Desc>[On Crit] Gain 1 Strength next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_sweeperpage">
+    <Desc>[On Use] Gain 'Persistence' for 4 Scenes </Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_sweeperpageUpgrade">
+    <Desc>[On Use] Gain 'Persistence' for 6 Scenes </Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_RipSpace">
+    <Desc>[On Use] Spend all Charge; at a (Charge x 10)% chance, boost min and max value of all dice on this page by +8
+Otherwise deal 20 damage to self</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_RipSpaceUpgrade">
+    <Desc>[On Use] Spend all Charge; at a (Charge x 12)% chance, boost min and max value of all dice on this page by +8
+Otherwise deal 20 damage to self</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_RipSpaceDie">
+    <Desc>If 10 Charge was spent at once, add +2 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_RipSpaceDieUpgrade">
+    <Desc>If 10 Charge was spent at once, add +4 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_EndlessBattle">
+    <Desc>[Unity]
+[Start of Clash] If HP is at 25% or lower, dice on this page and the page clashing with it are unaffected by Power gain or loss</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_LetShowBegin">
+    <Desc>[Combat Start] Boost Counter dice Power by +2 for this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_TraceFumes">
+    <Desc>[On Use] If target has no Smoke, reduce the Cost of this page by 1</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_UndertakePrescript">
+    <Desc>[Zeal]
+[On Use] If not Singleton, all dice on this page lose 2 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FlashingStrike">
+    <Desc>[Unity]
+[On Use] If Speed is 6 or higher, all dice on this page gain +2 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_FlashingStrikeUpgrade">
+    <Desc>[Unity]
+[On Use] If Speed is 5 or higher, all dice on this page gain +2 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ForTheFamily">
+    <Desc>[Combat Start] Give 1 Protection to two random allies this Scene and next Scene
+[On Use] All allies with ‘Persistence’ recover 3 HP and Stagger Resist</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ForTheFamilyUpgrade">
+    <Desc>[Combat Start] Give 1 Protection to two random allies this Scene and next Scene
+[On Use] All allies with ‘Persistence’ gain 1 Protection next Scene, recover 4 HP and Stagger Resist</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_TrashDisposalDie">
+    <Desc>[On Hit] If the natural roll is not Min, recycle this die (Up to 6 times)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_BoundaryOfDeath">
+    <Desc>[On Use] If HP is at 20% or lower, gain 1 Luck this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_BlazingStrike">
+    <Desc>Can only be used at Emotion Level 3 and above
+[On Use] Inflict Burn to target equal to their Burn (Max. 30)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_BlazingStrikeDie">
+    <Desc>This die deals no damage or Stagger damage
+[On Hit] Inflict 10 Burn</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_BlazingStrikeDieUpgrade">
+    <Desc>This die deals no damage or Stagger damage
+[On Hit] Inflict 20 Burn</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ForcefulGesture">
+    <Desc>[On Hit] Inflict 1 random status ailment next Scene (Feeble, Disarm, Bind, Fragile, or Stagger Fragile)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ForcefulGestureUpgrade">
+    <Desc>[On Hit] Inflict 2 random status ailments next Scene (Feeble, Disarm, Bind, Fragile, or Stagger Fragile)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Ripple">
+    <Desc>[On Use] Spend 2 Charge to boost Power of all dice on this page by +2 (Up to 2 times)</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_RippleDie">
+    <Desc>[On Clash Lose] Spend 1 Charge to recycle this die</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Overthrow">
+    <Desc>[Combat Start] Gain 3 Slash Clash Power this Scene
+[On Use] Gain 7 Critical Strike next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_OverthrowUpgrade">
+    <Desc>[Combat Start] Gain 3 Slash Clash Power this Scene
+[On Use] Gain 5 Critical Strike this Scene and 10 Critical Strike next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_OverthrowDie">
+    <Desc>[On Crit] Reduce the Cost of this page by 1</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_WillOfThePrescript">
+    <Desc>[On Use] If Singleton, draw pages equal to the number of pages with an effect involving 'Singleton' in deck
+[Start of Clash] Copy random dice effects from pages in deck with an effect involving ‘Zeal’ and add them to dice on this page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Moulinet">
+    <Desc>[On Use] If target has Fragile, all dice on this page gain +1 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Overcharge">
+    <Desc>[On Use] Gain 5 Charge and seal a Speed die of user for the next Scene; if user has less than 10 Charge, repeat this effect</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_OverchargeUpgrade1">
+    <Desc>[On Use] Gain 7 Charge and seal a Speed die of user for the next Scene; if user has less than 10 Charge, repeat this effect</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_OverchargeUpgrade2">
+    <Desc>[On Use] Gain 11 Charge and become Immobilized next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_LossOfSensesUpgrade">
+    <Desc>[On Clash Win] Reduce Power of opponent’s next die by 2</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_LossOfSensesDie">
+    <Desc>[On Hit] If target has 6+ Smoke, increase Cost of target’s most expensive page by 1 until used; target loses 5 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_LoSDraw2">
+    <Desc>[On Hit] If target has 3+ Smoke, draw 2 pages</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_AutomatedMovement">
+    <Desc>[On Play] This Speed die has [Speed +2]
+[On Use] Gain 2 Haste next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_RepressedFlesh">
+    <Desc>[Combat Start] Deal 1 bonus Stagger damage on Blunt hits for this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_RepressedFleshUpgrade">
+    <Desc>[Combat Start] Deal 2 bonus Stagger damage on Blunt hits for this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_CoolerRepressed">
+    <Desc>Reduce Power of target's current Defensive die by 3
+[On Clash Win] If opponent’s die is Defensive, draw 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Gain2Smoke">
+    <Desc>[On Use] Gain 2 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Gain3Smoke">
+    <Desc>[On Use] Gain 3 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Gain4Smoke">
+    <Desc>[On Use] Gain 4 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Gain5Smoke">
+    <Desc>[On Use] Gain 5 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_GuidanceGears">
+    <Desc>[On Use] Gain 2 Smoke. Restore 2 Light</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_GuidanceGearsUpgrade">
+    <Desc>[On Use] Gain 3 Smoke. Restore 2 Light</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SmokeBlowDie">
+    <Desc>[On Hit] Restore 1 Light; Inflict 3 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SmokeSmash">
+    <Desc>[On Use] If user has 9+ Smoke, boost Power of all dice on this page by +2</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SmokeSmashUpgrade">
+    <Desc>[On Use] If user has 8+ Smoke, boost Power of all dice on this page by +2</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_AssaultOrder">
+    <Desc>[On Use] If target has 2 or more Smoke, all Offensive dice on this page gain +1 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_AssaultOrderUpgrade">
+    <Desc>[On Use] If target has 2 or more Smoke, all dice on this page gain +1 Power</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_SmokePrickDie">
+    <Desc>[On Hit] Inflict 2 Smoke; Gain 1 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Vapour">
+    <Desc>[On Use] Gain 4 Smoke and draw 1 page</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ExhaleSmoke">
+    <Desc>[On Use] Gain 8 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_ExhaleSmokeDie">
+    <Desc>[On Hit] Inflict 3 Smoke; If target has 5+ Smoke, inflict 3 Paralysis next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_critchance12pw">
+    <Desc>[On Clash Win] Gain 12 Critical Strike next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_critchance5pw">
+    <Desc>[On Clash Win] Gain 5 Critical Strike next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_2protpwnow">
+    <Desc>[On Clash Win] Gain 2 Protection this Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_break5pw">
+    <Desc>[On Clash Win] Deal 5 Stagger damage</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_GainSmoke4Atk">
+    <Desc>[On Hit] Gain 4 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Smoke1Atk">
+    <Desc>[On Hit] Inflict 1 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Smoke2Atk">
+    <Desc>[On Hit] Inflict 2 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Smoke3Atk">
+    <Desc>[On Hit] Inflict 3 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Smoke4Atk">
+    <Desc>[On Hit] Inflict 4 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Smoke5Atk">
+    <Desc>[On Hit] Inflict 5 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Smoke6Atk">
+    <Desc>[On Hit] Inflict 6 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Smoke7Atk">
+    <Desc>[On Hit] Inflict 7 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Smoke8Atk">
+    <Desc>[On Hit] Inflict 8 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Smoke9Atk">
+    <Desc>[On Hit] Inflict 9 Smoke</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_shield5atk">
+    <Desc>[On Hit] Gain 5 Shield next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_shield5pw">
+    <Desc>[On Clash Win] Gain 5 Shield next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_draw3pw">
+    <Desc>[On Clash Win] Draw 3 pages</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_1vulnbreakvulnpw">
+    <Desc>[On Clash Win] Inflict 1 Fragile and Stagger Fragile next Scene</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_recover1pl">
+    <Desc>[On Clash Lose] Recover 1 HP</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_recover5atk">
+    <Desc>[On Hit] Recover 5 HP</Desc>
+  </BattleCardAbility>
+  
+  
+
+  <BattleCardAbility ID="protection2friendLog">
+    <Desc>[On Use] Give 2 Protection to all allies next Scene</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="recoverHp2Log">
+    <Desc>[On Use] Recover 2 HP</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="downgradeNext2pwLog">
+    <Desc>[On Clash Win] Lower max value of opponent’s next die by 4</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="recoverHp5atkLog">
+    <Desc>[On Hit] Recover 5 HP</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="ruru2Log">
+    <Desc>[On Hit] Inflict 3 Burn; Deal 2 damage to self</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="carnivalLog">
+    <Desc>Add ‘Fascinating Fabric+’ to each other’s hands</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="burn5atkLog">
+    <Desc>[On Hit] Inflict 5 Burn</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerUp2targetParalysisLog">
+    <Desc>Add +2 Power if target has Paralysis</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="tomerry1Log">
+    <Desc>[On Use] If HP is at 25% or lower, all dice on this page gain +3 Power</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="tomerry2Log">
+    <Desc>[On Use] Deal 5 damage to self; all dice on this page gain +3 Power</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerUpNext4plLog">
+    <Desc>[On Clash Lose] Add +4 Power to next die</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="bleedingSlash2thisRoundLog">
+    <Desc>[Combat Start] Upon each successful Slash attack this Scene, inflict 2 Bleed next Scene</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="enemy3weak1thisRoundLog">
+    <Desc>[Combat Start] Inflict 1 Feeble to three random enemies</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="ally3strength1thisRoundLog">
+    <Desc>[Combat Start] Give 1 Strength to three random allies</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="damage7atkLog">
+    <Desc>[On Hit] Deal 7 damage to target</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="damage4pwLog">
+    <Desc>[On Clash Win] Deal 4 damage to target</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="quick2discardLog">
+    <Desc>[On Discard] Gain 2 Haste next Scene</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="quickall2discardLog">
+    <Desc>[On Discard] Give 2 Haste to all allies next Scene</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="sakuraLog">
+    <Desc>[On Use] If 4+ pages are in hand, discard 4 random pages and boost the min value of all dice on this page by +4</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerUp2speed5Log">
+    <Desc>[On Use] If speed is 5 or higher, all dice on this page gain +2 Power</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="energy2atkAndHpLog">
+    <Desc>[On Hit] If HP is at 25% or lower, restore 2 Light</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="sweeperOnlyLog">
+    <Desc>[On Use] All Offensive dice of this page gain ‘[On Hit] Recover 3 HP’</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="ally3protection1thisRoundLog">
+    <Desc>[Combat Start] Give 1 Protection to three random allies</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerUpDice6highlanderLog">
+    <Desc>If Singleton, add +6 Power</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerUp2fullCardLog">
+    <Desc>[On Use] If there are 5 or more pages in hand, all dice on this page gain +2 Power</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="warpSkillLog">
+    <Desc>[On Use] Spend all Charge; has a (Charge x 9.9)% chance to succeed.</Desc>
+    <Desc>[Success] All dice on this page gain +10 Power;
+[Failure] Deal 15 damage to self</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="drawCardWarpLog">
+    <Desc>[On Use] Gain 2 Haste next Scene; spend 3 Charge to draw 2 pages</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="smoke9atkLog">
+    <Desc>[On Hit] Inflict 9 Smoke</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="bleedingXsmokeLog">
+    <Desc>[On Hit] Inflict Bleed equal to stacks of Smoke on target</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="energySmokeLog">
+    <Desc>[On Use] Gain 3 Smoke. Restore 1 Light</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="debufsSmokeLog">
+    <Desc>[On Hit] If target has 6 or more Smoke, inflict 2 Paralysis and 1 Feeble</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="Seven_FlecheLog">
+    <Desc>[On Clash Win] Deal 5 Stagger damage; inflict 1 Fragile next Scene</Desc>
+  </BattleCardAbility>
+<BattleCardAbility ID="Seven_EngagementLog">
+    <Desc>[On Use] Add 'En Garde+' to user's hand</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="Seven_EnGardeLog">
+    <Desc>[On Use] Gain 2 Strength next Scene, give 1 Strength to target</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="Sword_getbonecuttingcardplLog">
+    <Desc>[On Clash Lose] Add ‘To Claim Their Bones+’ to user’s hand</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="paralysis10bleeding5atkLog">
+    <Desc>[On Hit] Inflict 10 Paralysis and 5 Bleed next Scene</Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="Stigma8_0Up">
+    <Desc>[On Play] Inflict 8 Burn to target</Desc>
+  </BattleCardAbility>
+
+<BattleCardAbility ID="gainPositive2Log">
+    <Desc>[On Use] Gain 2 Positive Emotion Point</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="quickness2atkLog">
+    <Desc>[On Hit] Gain 2 Haste next Scene</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="lowelonlyLog">
+    <Desc>[On Use] Add a Mass Attack page to hand that can be only used next Scene</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="liuBurnDiceLog">
+    <Desc>[On Hit] Inflict 2 + (Personal Emotion Level) amount of Burn</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="AddBullet1AndDrawLog">
+    <Desc>[On Use] Add a random Ammunition+ to hand; draw 1 page</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="AddBullet2Log">
+    <Desc>[On Use] Add 2 random Ammunition+ to hand</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="dmgUp3AllLog">
+    <Desc>[On Use] All allies deal +3 damage with their Offensive dice next Scene</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="thumbBullet1Log">
+    <Desc>Exhausts when used or discarded; [On Exhaust] Dice clashing against user’s Ranged Combat Pages Gain -1 Power and –1 Damage for this Scene</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="thumbBullet2Log">
+    <Desc>Exhausts when used or discarded; [On Exhaust] On hit with Ranged Combat Pages this Scene, inflict 2 Paralysis and 1 Disarm next Scene</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="thumbBullet3Log">
+    <Desc>Exhausts when used or discarded; [On Exhaust] On hit with Ranged Combat Pages this Scene, inflict 3 Burn</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="warpCharge7Log">
+    <Desc>[On Use] Gain 7 Charge</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="warpCharge9Log">
+    <Desc>[On Use] Gain 9 Charge</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="badaCardRemakeLog">
+    <Desc>[On Use] Spend 4 Charge to boost Power of all dice on this page by +3</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="chargeEnergyLog">
+    <Desc>[On Use] Spend 3 Charge to restore 3 Light</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="breakChargeRemakeLog">
+    <Desc>[On Hit] Spend 2 Charge to deal 6 Stagger damage, up to four times</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="smokeSelf5drawLog">
+    <Desc>[On Use] Gain 5 Smoke and draw 1 page</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="smokeSelf5Log">
+    <Desc>[On Use] Gain 5 Smoke</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="smokePowerUpLog">
+    <Desc>[On Use] If target has 2 or more Smoke, all dice on this page gain +1 Power</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="energy2Smoke3Log">
+    <Desc>[On Use] Gain 3 Smoke. Restore 2 Light</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="gloriaDiceLog">
+    <Desc>[On Hit] Inflict 2 Feeble this Scene</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="estherCardLog">
+    <Desc>Only usable in the ‘Blade Unlocked’ state</Desc>
+    <Desc>Reduce Power of all opponent’s dice clashing against this by 15</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="estherDiceLog">
+    <Desc>[On Hit] Deal bonus damage and stagger damage by 8x the natural roll</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="hubertDiceLog">
+    <Desc>[On Hit] Inflict 2 Feeble and 10 Bleed next Scene</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerUp2targetHp50Log">
+    <Desc>Add +2 Power if target’s HP is at 50% or lower</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="cardPowerDown2targetHighlanderLog">
+    <Desc>[Start of Clash] If Singleton, reduce Power of all target’s dice by 2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="indexRelease1Log">
+    <Desc>[On Use] Add 'Unlock-Ⅱ+' to hand</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="indexRelease2Log">
+    <Desc>[On Use] Add 'Unlock-Ⅲ+' to hand</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="burn8atkLog">
+    <Desc>[On Hit] Inflict 8 Burn</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="burn1pwLog">
+    <Desc>[Clash Win] Inflict 1 Burn</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="rudolphDiceLog">
+    <Desc>[On Hit] Deal 8 Stagger damage</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="nicolaiCard2Log">
+    <Desc>Only usable at 20+ Charge. Upon defeating an enemy with this page, add a copy of ‘Disposal+’ to hand and lower its Cost by 1.</Desc>
+    <Desc>If target’s HP is at 50% or lower, deal twice as much damage.</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="deerCardLog">
+    <Desc>[On Use] Deal 3 Stagger damage to self</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="deerDiceLog">
+    <Desc>[On Hit] Spend 3 Charge to deal 10 Stagger damage</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerUp1speed5exhaustLog">
+    <Desc>[On Use] If Speed is 5 or higher, all dice on this page gain +1 Power</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerUp3speed5exhaustLog">
+    <Desc>[On Use] If Speed is 5 or higher, all dice on this page gain +3 Power</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="otherAlly3strength1thisRoundLog">
+    <Desc>[Combat Start] Give 1 Strength to 3 other allies</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="energyAndChargeLog">
+    <Desc>[On Use] Restore 1 Light and gain 4 Charge</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="warpCharge9">
+    <Desc>[On Use] Gain 9 Charge</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerDownNext3pwTargetLog">
+    <Desc>[Clash Win] Reduce Power of opponent’s next die by 3</Desc>
+  </BattleCardAbility>
+<BattleCardAbility ID="purpleAreaDice1Log">
+    <Desc>[On Hit] Deal 7 damage</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="purpleAreaDice2Log">
+    <Desc>[On Hit] Deal 7 Stagger damage</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="purpleAreaDice3Log">
+    <Desc>[On Hit] Inflict 4 Bleed and 1 Fragile this Scene and next Scene</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="burnAllLog">
+    <Desc>[On Hit] Inflict 3 Burn to all enemies</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="shyaoSelfBurnLog">
+    <Desc>[Combat Start] Take 10 less damage from Burn for this Scene and next Scene</Desc>
+    <Desc>[On Use] If user has Burn, recover 5 HP and gain 2 Protection next Scene</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="allyBufLog">
+    <Desc>[Combat Start] Give 2 Strength, 2 Protection, and 2 Stagger Protection to a random other ally</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="yanAreaDiceLog">
+    <Desc>[On Hit] Inflict 3 Erosion</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="yanOnly1DiceLog">
+    <Desc>[On Hit] Inflict 3 Erosion</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="yanInstantEnergyLog">
+    <Desc>[On Play] Restore all Light; Lose as much Light next Scene</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="binding2pwLog">
+    <Desc>[Clash Win] Inflict 2 Bind next Scene</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="awlofnight1Log">
+    <Desc>[On Use] Boost Power of this page’s offensive dice by sum of user’s Haste and target’s Bind</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="usett_eyeLog">
+    <Desc>[On Hit] Give 2 Protection and 2 Stagger Protection to all allies next Scene</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="plutoCardLog">
+    <Desc>[On Discard] Restore 2 Light</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="discardAllEnergy1Log">
+    <Desc>[On Discard] All allies restore 1 Light</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="handCountpowerUpLog">
+    <Desc>[On Use] Boost Power by +1 for each page in hand; Discard all pages from hand</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="lifeInsuranceAreaAtkLog">
+    <Desc>[On Hit] Inflict 2 Disarm, Bind, and Feeble; Recover 4 HP</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerup2byselfsmoke8Log">
+    <Desc>[On Use] If user has 8+ Smoke, all dice on this page gain +2 Power</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="DontMoveDrawLog">
+    <Desc>[On Use] If the character did not use any pages on the previous Scene, draw 1 Page</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="selfstunwithabilLog">
+    <Desc>[On Play]
+Become Immobilized this Scene.
+Gain 4 Strength next Scene.
+Add a copy of ‘Pinpoint Breakthrough+’ to hand.</Desc>
+  </BattleCardAbility>
+
+</BattleCardAbilityDescRoot>
+

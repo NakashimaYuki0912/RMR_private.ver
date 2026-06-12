@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DeckXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+    <!-- 양아치 -->
+    <Deck ID="28482001">
+    <Card>303009</Card>
+    <Card>303009</Card>
+    <Card>303007</Card>
+    <Card>303007</Card>
+    <Card>300003</Card>
+    <Card>300004</Card>
+    <Card>303008</Card>
+    <Card>303008</Card>
+  </Deck>
+
+  <!-- 깡패 -->
+  <Deck ID="28482002">
+    <Card>303009</Card>
+    <Card>303009</Card>
+    <Card>303007</Card>
+    <Card>303007</Card>
+    <Card>300003</Card>
+    <Card>300003</Card>
+    <Card>300004</Card>
+    <Card>303008</Card>
+  </Deck>
+</DeckXmlRoot>

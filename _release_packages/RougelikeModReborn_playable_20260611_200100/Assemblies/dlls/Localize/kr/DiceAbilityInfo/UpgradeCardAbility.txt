@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardAbilityDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BattleCardAbility ID="protection2friendLog">
+    <Desc>[사용시] 모든 아군에게 다음 막에 보호 2 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="recoverHp2Log">
+    <Desc>[사용시] 체력 2 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="downgradeNext2pwLog">
+    <Desc>[합 승리] 대상의 다음 주사위 최댓값 -4</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="recoverHp5atkLog">
+    <Desc>[적중] 체력 5 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="ruru2Log">
+    <Desc>[적중] 화상 3 부여. 자신에게 피해 2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="carnivalLog">
+    <Desc>서로의 손에 '멋진 원단+' 책장 추가</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="burn5atkLog">
+    <Desc>[적중] 화상 5 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerUp2targetParalysisLog">
+    <Desc>대상이 마비 상태라면 위력+2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="tomerry1Log">
+    <Desc>[사용시] 자신의 체력이 25% 이하라면 모든 주사위 위력+3</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="tomerry2Log">
+    <Desc>[사용시] 자신에게 피해 5. 모든 주사위 위력+3</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerUpNext4plLog">
+    <Desc>[합 패배] 자신의 다음 주사위 위력 +4</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="bleedingSlash2thisRoundLog">
+    <Desc>[전투 시작] 이번 막 동안 참격으로 공격 적중시 대상에게 다음 막에 출혈 2 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="enemy3weak1thisRoundLog">
+    <Desc>[전투 시작] 무작위 적 3명에게 허약 1 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="ally3strength1thisRoundLog">
+    <Desc>[전투 시작] 무작위 아군 3명에게 힘 1 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="damage7atkLog">
+    <Desc>[적중] 대상에게 피해 7</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="damage4pwLog">
+    <Desc>[합 승리] 대상에게 피해 4</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="quick2discardLog">
+    <Desc>이 책장을 버리면 신속 2를 얻음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="quickall2discardLog">
+    <Desc>이 책장을 버리면 다음 막 모든 아군에게 신속 2 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="sakuraLog">
+    <Desc>[사용 시] 손에 있는 책장이 4장 이상이라면 무작위 4장을 버림. 4장을 버렸다면 모든 주사위 최솟값 +4</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerUp2speed5Log">
+    <Desc>[사용시] 속도가 5 이상이면 이 책장의 모든 주사위 위력 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="energy2atkAndHpLog">
+    <Desc>[적중] 체력이 25% 이하면 빛 2 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="sweeperOnlyLog">
+    <Desc>[사용시] 이 책장의 모든 공격 주사위가 '[적중] 체력 3 회복'을 얻음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="ally3protection1thisRoundLog">
+    <Desc>[전투 시작] 무작위 아군 3명에게 보호 1 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerUpDice6highlanderLog">
+    <Desc>'유일'상태라면 위력 +6</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerUp2fullCardLog">
+    <Desc>[사용시] 내 손에 책장이 5장 이상이라면, 이 책장의 모든 주사위 위력 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="warpSkillLog">
+    <Desc>[사용시] (충전x9.9)%의 확률로 성공, 충전 모두 소모.</Desc>
+    <Desc>[성공] 이 책장의 모든 주사위 위력 +10.
+[실패] 자신에게 피해 15</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="drawCardWarpLog">
+    <Desc>[사용시] 다음 막에 신속 2를 얻음. 충전 3을 소모하여 책장을 2장을 뽑음.</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="smoke9atkLog">
+    <Desc>[적중] 연기 9 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="bleedingXsmokeLog">
+    <Desc>[적중] 대상에게 있는 연기 만큼 출혈 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="energySmokeLog">
+    <Desc>[사용시] 연기 3을 얻음. 빛 1 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="debufsSmokeLog">
+    <Desc>[적중] 대상에게 연기가 6 이상 있다면 마비 2와 허약 1 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="Seven_FlecheLog">
+    <Desc>[합 승리] 흐트러짐 피해 5. 다음 막에 취약 1 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="Seven_EngagementLog">
+    <Desc>[사용시] 자신의 손에 '앙가드+' 전투 책장 추가</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="Seven_EnGardeLog">
+    <Desc>[사용시] 다음 막에 자신에게 힘 2, 대상에게 힘 1 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="Sword_getbonecuttingcardplLog">
+    <Desc>[합 패배] 자신의 패에 골단+를 넣는다</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="paralysis10bleeding5atkLog">
+    <Desc>[적중] 다음막에 마비 10, 출혈 5 부여</Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="Stigma8_0Up">
+    <Desc>[장착 시 발동] 대상에게 화상 8 부여</Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="gainPositive2Log">
+    <Desc>[사용시] 긍정 감정 2 누적</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="quickness2atkLog">
+    <Desc>[적중] 다음 막에 신속 2를 얻음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="lowelonlyLog">
+    <Desc>[사용시] 다음 막 동안에만 사용할 수 있는 [광역 공격 책장]을 손에 추가.</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="liuBurnDiceLog">
+    <Desc>[적중] 화상 2 부여. 감정 단계 1당 부여하는 화상 수치 1 증가</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="AddBullet1AndDrawLog">
+    <Desc>[사용시] 손에 무작위 탄환+를 1장 추가. 책장을 1장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="AddBullet2Log">
+    <Desc>[사용시] 손에 무작위 탄환+를 2장 추가</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="dmgUp3AllLog">
+    <Desc>[사용시] 다음 막 동안 모든 아군의 공격 주사위 피해량 +3</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="thumbBullet1Log">
+    <Desc>이 책장을 버리거나 사용하면 소멸하고, 이번 막 동안 원거리 전투 책장으로 합을 할 때 대상 주사위의 위력 -1, 피해량 -1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="thumbBullet2Log">
+    <Desc>이 책장을 버리거나 사용하면 소멸하고, 이번 막 동안 원거리 전투 책장으로 공격을 적중시킬 때 다음 막에 마비 2와 무장해제 1 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="thumbBullet3Log">
+    <Desc>이 책장을 버리거나 사용하면 소멸하고, 이번 막 동안 원거리 전투 책장으로 공격을 적중시킬 때 화상 3 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="warpCharge7Log">
+    <Desc>[사용시] 충전 7을 얻음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="warpCharge9Log">
+    <Desc>[사용시] 충전 9를 얻음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="badaCardRemakeLog">
+    <Desc>[사용시] 충전 4를 소모하여 이 책장의 모든 주사위 위력 +3</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="chargeEnergyLog">
+    <Desc>[사용시] 충전 3을 소모하여 빛 3 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="breakChargeRemakeLog">
+    <Desc>[적중] '충전 2를 소모하여 대상에게 흐트러짐 피해 6'를 4번 발동</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="smokeSelf5drawLog">
+    <Desc>[사용시] 연기 5를 얻음. 책장을 1장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="smokeSelf5Log">
+    <Desc>[사용시] 연기 5를 얻음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="smokePowerUpLog">
+    <Desc>[사용시] 대상에게 연기가 2 이상 있다면 이 책장의 모든 주사위의 위력 +1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="energy2Smoke3Log">
+    <Desc>[사용시] 연기 3을 얻음. 빛 2 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="gloriaDiceLog">
+    <Desc>[적중] 이번 막에 허약 2 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="estherCardLog">
+    <Desc>'해금' 상태일 때만 사용가능</Desc>
+    <Desc>합을 하는 동안 대상 주사위 위력 -15</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="estherDiceLog">
+    <Desc>[적중] 원래 주사위 값 1당 대상에게 피해와 흐트러짐 피해 8</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="hubertDiceLog">
+    <Desc>[적중] 다음 막에 허약 2과 출혈 10 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerUp2targetHp50Log">
+    <Desc>대상의 체력이 50% 이하라면 위력 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="cardPowerDown2targetHighlanderLog">
+    <Desc>[합 시작시] '유일' 상태라면 대상 책장의 모든 주사위 위력 -2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="indexRelease1Log">
+    <Desc>[사용시] '해금-Ⅱ+'을 손에 추가한다.</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="indexRelease2Log">
+    <Desc>[사용시] '해금-Ⅲ+'을 손에 추가한다.</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="burn8atkLog">
+    <Desc>[적중] 화상 8 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="burn1pwLog">
+    <Desc>[합 승리] 화상 1 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="rudolphDiceLog">
+    <Desc>[적중] 대상에게 흐트러짐 피해 8</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="nicolaiCard2Log">
+    <Desc>충전이 20 이상일 때만 사용 가능. 이 책장으로 적을 처치하면 '처분+'을 손에 추가하고 그 책장의 비용 1 감소.</Desc>
+    <Desc>대상의 체력이 50% 이하면 주는 피해량이 2배가 된다.</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="deerCardLog">
+    <Desc>[사용시] 자신에게 흐트러짐 피해 3</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="deerDiceLog">
+    <Desc>[적중] 충전 3을 소모하여 대상에게 흐트러짐 피해 10</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerUp1speed5exhaustLog">
+    <Desc>[사용시] 속도가 5 이상이면 이 책장의 모든 주사위 위력 +1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerUp3speed5exhaustLog">
+    <Desc>[사용시] 속도가 5 이상이면 이 책장의 모든 주사위 위력 +3</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="otherAlly3strength1thisRoundLog">
+    <Desc>[전투 시작] 다른 무작위 아군 3명에게 힘 1 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="energyAndChargeLog">
+    <Desc>[사용시] 빛 1 회복, 충전 4를 얻음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="warpCharge9">
+    <Desc>[사용시] 충전 9를 얻음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerDownNext3pwTargetLog">
+    <Desc>[합 승리] 대상의 다음 주사위 위력 -3</Desc>
+  </BattleCardAbility>
+<BattleCardAbility ID="purpleAreaDice1Log">
+    <Desc>[적중] 대상에게 피해 7</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="purpleAreaDice2Log">
+    <Desc>[적중] 대상에게 흐트러짐 피해 7</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="purpleAreaDice3Log">
+    <Desc>[적중] 이번 막과 다음 막에 출혈 4, 취약 1 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="burnAllLog">
+    <Desc>[적중] 모든 적에게 화상 3 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="shyaoSelfBurnLog">
+    <Desc>[전투 시작] 2막 동안 화상에 의한 피해량이 10 감소한다.</Desc>
+    <Desc>[사용시] 자신에게 화상이 있다면 체력을 5 회복하고 다음 막에 보호 2를 얻는다.</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="allyBufLog">
+    <Desc>[전투 시작] 다른 무작위 아군 하나에게 보호 2, 흐트러짐 보호 2, 힘 2 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="yanAreaDiceLog">
+    <Desc>[적중] 부식 3 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="yanOnly1DiceLog">
+    <Desc>[적중] 부식 3 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="yanInstantEnergyLog">
+    <Desc>[장착시 발동] 빛을 모두 회복. 빛을 회복한 만큼 다음 막에 빛 감소.</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="binding2pwLog">
+    <Desc>[합 승리] 다음 막에 속박 2 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="awlofnight1Log">
+    <Desc>[사용시] 자신의 신속과 상대의 속박 수치만큼 공격 주사위 위력 증가</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="usett_eyeLog">
+    <Desc>[적중] 다음 막에 아군 전체에 보호 2, 흐트러짐 보호 2부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="plutoCardLog">
+    <Desc>이 책장을 버리면 빛을 2 회복한다</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="discardAllEnergy1Log">
+    <Desc>이 책장을 버리면 모든 아군 빛 1 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="handCountpowerUpLog">
+    <Desc>[사용 시] 손에 있는 책장 수만큼 위력 증가. 손에 있는 책장을 모두 버림</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="lifeInsuranceAreaAtkLog">
+    <Desc>[적중] 무장해제 2, 속박 2, 허약 2를 부여하고 자신의 체력 4 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="powerup2byselfsmoke8Log">
+    <Desc>[사용시] 자신에게 연기 8 이상 있다면, 이 책장의 모든 주사위 위력 + 2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="DontMoveDrawLog">
+    <Desc>[사용시] 이전 막에 행동하지 않았다면 책장을 1장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="selfstunwithabilLog">
+    <Desc>[장착시 발동]
+이번 막 행동 불가 버프를 얻음.
+다음 막에 힘 4을 얻음.
+자신의 손에 '일점 돌파+'를 추가</Desc>
+  </BattleCardAbility>
+
+</BattleCardAbilityDescRoot>
+

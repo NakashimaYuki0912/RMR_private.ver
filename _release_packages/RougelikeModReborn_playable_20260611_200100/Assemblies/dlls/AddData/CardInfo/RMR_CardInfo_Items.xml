@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiceCardXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+  <Card ID="-100">
+    <Name>Shiv</Name>
+    <Artwork>Shiv.png</Artwork>
+    <Rarity>Common</Rarity>
+    <Spec Range="Instance" Cost="0" />
+    <Script>RMR_ShivThrow</Script>
+    <ScriptDesc />
+    <BehaviourList>
+      <Behaviour Min="1" Dice="3" Type="Atk" Detail="Penetrate" Motion="Z" EffectRes="Sword_Z" Script="RMR_Shivhidden" Desc="" />
+    </BehaviourList>
+    <Chapter>1</Chapter>
+    <Priority>0</Priority>
+  </Card>
+
+  <Card ID="-101">
+    <Name>Calm</Name>
+    <Artwork>Street7</Artwork>
+    <Rarity>Uncommon</Rarity>
+    <Option>Personal</Option>
+    <Spec Range="Instance" Cost="2" />
+    <Script>RMR_StillWater_Calm</Script>
+    <ScriptDesc />
+    <BehaviourList />
+    <Chapter>1</Chapter>
+    <Priority>0</Priority>
+  </Card>
+
+  <Card ID="-102">
+    <Name>Wrath</Name>
+    <Artwork>Street10</Artwork>
+    <Rarity>Uncommon</Rarity>
+    <Option>Personal</Option>
+    <Spec Range="Instance" Cost="1" />
+    <Script>RMR_StillWater_Wrath</Script>
+    <ScriptDesc />
+    <BehaviourList />
+    <Chapter>1</Chapter>
+    <Priority>0</Priority>
+  </Card>
+
+  <Card ID="-103">
+    <Name>The Remote</Name>
+    <Artwork>sword2</Artwork>
+    <Rarity>Common</Rarity>
+    <Spec Range="Instance" Cost="0" />
+    <Script>RMR_Remote</Script>
+    <ScriptDesc />
+    <BehaviourList />
+    <Chapter>1</Chapter>
+    <Priority>0</Priority>
+  </Card>
+  
+  <Card ID="-104">
+    <Name>Wails of the Past</Name>
+    <Artwork>Creature_Bigbird.png</Artwork>
+    <Rarity>Uncommon</Rarity>
+    <Option>ExhaustOnUse</Option>
+    <Spec Range="Near" Cost="0" />
+    <Script>RMR_Diversion</Script>
+    <ScriptDesc />
+    <BehaviourList>
+    </BehaviourList>
+    <Chapter>1</Chapter>
+    <Priority>0</Priority>
+  </Card>
+  
+  <Card ID="-105">
+    <Name>Joker Card</Name>
+    <Artwork>jeong1</Artwork>
+    <Rarity>Unique</Rarity>
+    <Option>ExhaustOnUse</Option>
+    <Spec Range="Instance" Cost="0" />
+    <Script>RMR_Jokercard</Script>
+    <ScriptDesc />
+    <BehaviourList>
+    </BehaviourList>
+    <Chapter>1</Chapter>
+    <Priority>0</Priority>
+  </Card>
+
+</DiceCardXmlRoot>

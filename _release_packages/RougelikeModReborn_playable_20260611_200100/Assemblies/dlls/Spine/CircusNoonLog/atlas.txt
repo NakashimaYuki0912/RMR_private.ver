@@ -1,0 +1,342 @@
+
+CircusNoon.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+scorpion_back_leg1_1
+  rotate: false
+  xy: 222, 56
+  size: 62, 106
+  orig: 62, 106
+  offset: 0, 0
+  index: -1
+scorpion_back_leg1_2
+  rotate: true
+  xy: 177, 381
+  size: 99, 111
+  orig: 99, 111
+  offset: 0, 0
+  index: -1
+scorpion_back_leg1_3
+  rotate: false
+  xy: 793, 622
+  size: 53, 61
+  orig: 53, 61
+  offset: 0, 0
+  index: -1
+scorpion_back_leg2_1
+  rotate: true
+  xy: 616, 817
+  size: 66, 131
+  orig: 66, 131
+  offset: 0, 0
+  index: -1
+scorpion_back_leg2_2
+  rotate: false
+  xy: 165, 271
+  size: 103, 108
+  orig: 103, 108
+  offset: 0, 0
+  index: -1
+scorpion_back_leg2_3
+  rotate: false
+  xy: 368, 42
+  size: 60, 58
+  orig: 60, 58
+  offset: 0, 0
+  index: -1
+scorpion_body
+  rotate: false
+  xy: 2, 636
+  size: 444, 386
+  orig: 444, 386
+  offset: 0, 0
+  index: -1
+scorpion_front_leg1_1
+  rotate: true
+  xy: 297, 435
+  size: 63, 105
+  orig: 63, 105
+  offset: 0, 0
+  index: -1
+scorpion_front_leg1_2
+  rotate: false
+  xy: 798, 965
+  size: 136, 57
+  orig: 136, 57
+  offset: 0, 0
+  index: -1
+scorpion_front_leg1_3
+  rotate: true
+  xy: 270, 173
+  size: 65, 51
+  orig: 65, 51
+  offset: 0, 0
+  index: -1
+scorpion_front_leg2_1
+  rotate: true
+  xy: 297, 500
+  size: 66, 130
+  orig: 66, 130
+  offset: 0, 0
+  index: -1
+scorpion_front_leg2_2
+  rotate: false
+  xy: 448, 641
+  size: 136, 57
+  orig: 136, 57
+  offset: 0, 0
+  index: -1
+scorpion_front_leg2_3
+  rotate: true
+  xy: 749, 816
+  size: 67, 49
+  orig: 67, 49
+  offset: 0, 0
+  index: -1
+scorpion_hand_back_arm1
+  rotate: false
+  xy: 323, 228
+  size: 83, 62
+  orig: 83, 62
+  offset: 0, 0
+  index: -1
+scorpion_hand_back_arm2
+  rotate: true
+  xy: 2, 4
+  size: 46, 107
+  orig: 46, 107
+  offset: 0, 0
+  index: -1
+scorpion_hand_back_hair
+  rotate: false
+  xy: 448, 700
+  size: 128, 114
+  orig: 128, 114
+  offset: 0, 0
+  index: -1
+scorpion_hand_back_head1
+  rotate: false
+  xy: 616, 885
+  size: 168, 71
+  orig: 168, 71
+  offset: 0, 0
+  index: -1
+scorpion_hand_back_head1_backteeth
+  rotate: false
+  xy: 119, 2
+  size: 134, 52
+  orig: 134, 52
+  offset: 0, 0
+  index: -1
+scorpion_hand_back_head1_teeth
+  rotate: true
+  xy: 578, 707
+  size: 107, 49
+  orig: 107, 49
+  offset: 0, 0
+  index: -1
+scorpion_hand_back_head2
+  rotate: true
+  xy: 2, 179
+  size: 203, 161
+  orig: 203, 161
+  offset: 0, 0
+  index: -1
+scorpion_hand_back_head2_backteeth
+  rotate: false
+  xy: 297, 568
+  size: 146, 66
+  orig: 146, 66
+  offset: 0, 0
+  index: -1
+scorpion_hand_back_head2_teeth
+  rotate: false
+  xy: 629, 686
+  size: 119, 56
+  orig: 119, 56
+  offset: 0, 0
+  index: -1
+scorpion_hand_front_arm1
+  rotate: true
+  xy: 629, 744
+  size: 71, 116
+  orig: 71, 116
+  offset: 0, 0
+  index: -1
+scorpion_hand_front_arm2
+  rotate: false
+  xy: 290, 387
+  size: 105, 46
+  orig: 105, 46
+  offset: 0, 0
+  index: -1
+scorpion_hand_front_hair
+  rotate: true
+  xy: 323, 292
+  size: 93, 78
+  orig: 93, 78
+  offset: 0, 0
+  index: -1
+scorpion_hand_front_head1
+  rotate: false
+  xy: 177, 482
+  size: 118, 152
+  orig: 118, 152
+  offset: 0, 0
+  index: -1
+scorpion_hand_front_head1_backteeth
+  rotate: true
+  xy: 286, 34
+  size: 68, 80
+  orig: 68, 80
+  offset: 0, 0
+  index: -1
+scorpion_hand_front_head1_teeth
+  rotate: true
+  xy: 747, 744
+  size: 70, 69
+  orig: 70, 69
+  offset: 0, 0
+  index: -1
+scorpion_hand_front_head2
+  rotate: false
+  xy: 616, 958
+  size: 180, 64
+  orig: 180, 64
+  offset: 0, 0
+  index: -1
+scorpion_hand_front_head2_backteeth
+  rotate: true
+  xy: 270, 240
+  size: 139, 51
+  orig: 139, 51
+  offset: 0, 0
+  index: -1
+scorpion_hand_front_head2_teeth
+  rotate: false
+  xy: 323, 168
+  size: 91, 58
+  orig: 91, 58
+  offset: 0, 0
+  index: -1
+scorpion_head
+  rotate: false
+  xy: 165, 164
+  size: 103, 105
+  orig: 103, 105
+  offset: 0, 0
+  index: -1
+scorpion_pimple_1
+  rotate: false
+  xy: 119, 56
+  size: 101, 106
+  orig: 101, 106
+  offset: 0, 0
+  index: -1
+scorpion_pimple_10
+  rotate: false
+  xy: 750, 685
+  size: 80, 57
+  orig: 80, 57
+  offset: 0, 0
+  index: -1
+scorpion_pimple_3
+  rotate: true
+  xy: 629, 620
+  size: 64, 95
+  orig: 64, 95
+  offset: 0, 0
+  index: -1
+scorpion_pimple_4
+  rotate: true
+  xy: 936, 956
+  size: 66, 85
+  orig: 66, 85
+  offset: 0, 0
+  index: -1
+scorpion_pimple_5
+  rotate: true
+  xy: 404, 439
+  size: 59, 57
+  orig: 59, 57
+  offset: 0, 0
+  index: -1
+scorpion_pimple_6
+  rotate: false
+  xy: 726, 627
+  size: 65, 56
+  orig: 65, 56
+  offset: 0, 0
+  index: -1
+scorpion_pimple_7
+  rotate: true
+  xy: 786, 921
+  size: 35, 34
+  orig: 35, 34
+  offset: 0, 0
+  index: -1
+scorpion_pimple_8
+  rotate: false
+  xy: 429, 524
+  size: 41, 42
+  orig: 41, 42
+  offset: 0, 0
+  index: -1
+scorpion_pimple_9
+  rotate: false
+  xy: 822, 928
+  size: 33, 35
+  orig: 33, 35
+  offset: 0, 0
+  index: -1
+scorpion_shoulder
+  rotate: true
+  xy: 786, 885
+  size: 34, 33
+  orig: 34, 33
+  offset: 0, 0
+  index: -1
+scorpion_tail_hair
+  rotate: false
+  xy: 2, 52
+  size: 115, 125
+  orig: 115, 125
+  offset: 0, 0
+  index: -1
+scorpion_tail_head
+  rotate: false
+  xy: 2, 384
+  size: 173, 250
+  orig: 173, 250
+  offset: 0, 0
+  index: -1
+scorpion_tail_head_teeth1
+  rotate: true
+  xy: 381, 102
+  size: 64, 49
+  orig: 64, 49
+  offset: 0, 0
+  index: -1
+scorpion_tail_head_teeth2
+  rotate: false
+  xy: 586, 638
+  size: 41, 67
+  orig: 41, 67
+  offset: 0, 0
+  index: -1
+scorpion_tail_muscle_needle
+  rotate: false
+  xy: 286, 104
+  size: 93, 62
+  orig: 93, 62
+  offset: 0, 0
+  index: -1
+scorpion_tail_musle
+  rotate: false
+  xy: 448, 816
+  size: 166, 206
+  orig: 166, 206
+  offset: 0, 0
+  index: -1

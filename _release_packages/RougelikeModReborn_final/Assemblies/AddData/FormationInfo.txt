@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<FormationXmlRoot>
+
+
+
+  <Formation ID="130001">
+    <Name>난투극 적들 배열</Name>
+    <Unlock>2</Unlock>
+    <Position>
+      <Name>1번</Name>
+      <Vector x="17" y="-15"/>
+    </Position>
+    <Position>
+      <Name>2번</Name>
+      <Vector x="12" y="-8"/>
+    </Position>
+    <Position>
+      <Name>3번</Name>
+      <Vector x="14" y="0"/>
+    </Position>
+    <Position>
+      <Name>4번</Name>
+      <Vector x="19" y="7"/>
+    </Position>
+    <Position>
+      <Name>5번</Name>
+      <Vector x="15" y="15"/>
+    </Position>
+    <Position>
+      <Name>6번</Name>
+      <Vector x="-16" y="-15"/>
+    </Position>
+    <Position>
+      <Name>7번</Name>
+      <Vector x="-19" y="-7"/>
+    </Position>
+    <Position>
+      <Name>8번</Name>
+      <Vector x="-13" y="0"/>
+    </Position>
+    <Position>
+      <Name>9번</Name>
+      <Vector x="-17" y="8"/>
+    </Position>
+    <Position>
+      <Name>10번</Name>
+      <Vector x="-13" y="15"/>
+    </Position>
+  </Formation>
+
+<Formation ID="230001">
+    <Name>난투극 사서들 배열</Name>
+    <Unlock>2</Unlock>
+    <Position>
+      <Name>1번</Name>
+      <Vector x="2" y="-10"/>
+    </Position>
+    <Position>
+      <Name>2번</Name>
+      <Vector x="-3" y="0"/>
+    </Position>
+    <Position>
+      <Name>3번</Name>
+      <Vector x="1" y="10"/>
+    </Position>
+    <Position>
+      <Name>4번</Name>
+      <Vector x="4" y="-5"/>
+    </Position>
+    <Position>
+      <Name>5번</Name>
+      <Vector x="-4" y="-10"/>
+    </Position>
+  </Formation>
+
+ <Formation ID="2500021">
+    <Name>지령의 결과 적들 배열</Name>
+    <Unlock>2</Unlock>
+    <Position>
+      <Name>1번</Name>
+      <Vector x="16" y="-14"/>
+    </Position>
+    <Position>
+      <Name>2번</Name>
+      <Vector x="17" y="0"/>
+    </Position>
+    <Position>
+      <Name>3번</Name>
+      <Vector x="15" y="14"/>
+    </Position>
+    <Position>
+      <Name>4번</Name>
+      <Vector x="-15" y="-14"/>
+    </Position>
+    <Position>
+      <Name>5번</Name>
+      <Vector x="-17" y="0"/>
+    </Position>
+    <Position>
+      <Name>6번</Name>
+      <Vector x="-16" y="14"/>
+    </Position>
+  </Formation>
+
+
+</FormationXmlRoot>

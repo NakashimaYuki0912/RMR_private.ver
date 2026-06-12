@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<LogueEffectXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <LogueEffectInfo Id="RMR_IronHeart">
+    <Name>Heart of Iron</Name> 
+    <Desc>The Patron Librarian recovers 6 HP and gains 1 Max HP at the start of each Combat Encounter. (Normal, Elite, Boss)</Desc> 
+    <FlavorText>&lt;color=#CA0812&gt;"Tough, but still caring. One of the last of its kind."&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>    Organs are always wanting: absorbing new ideas, nutrients or desires onto themselves, then discarding when the necessity has ceased. There is a constant loop to such actions, and although most do out of necessity, one doesn't - rather, it remembers everything. No matter how small.
+
+    Such is the nature of the heart, the birthplace of feelings and pride - the heart never forgets what it has felt, nor does it let go of feelings that actively cause it harm - it remembers. Not because it can, but because it must. Something must always remember, no matter how tragic, so that one may never lose their way.
+
+    One such mind gave up every feeling it had for promises of grander, sweeter dreams - so deep was the trauma of such action that the mind chose to forget - forget the sun on her skin, the tiredness and joy after a well fed belly. And like before, even if her mind chose to forget, her heart didn't.
+
+    Because the mind... the mind can forget, but the heart never will.</CatalogDesc>
+  </LogueEffectInfo> 
+
+  <LogueEffectInfo Id="RMR_HunterCloak">
+    <Name>Hunter's Cloak</Name> 
+    <Desc>The Patron Librarian draws 2 pages at the start of each Act. At the start of each Scene, add a copy of 'Shiv' to the hand of the Patron Librarian.</Desc>
+    <FlavorText>&lt;color=#08CA12&gt;"Torn and worn, and yet littered with seemingly endless shivs."&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>	A cloak made from a rugged and tough cloth material, whose forest green hue has mostly faded. Rumor has it, it was once worn by a Color Fixer, from ages long past, but nobody you ask seems to know exactly whom.
+
+	The cloak houses a few small throwing daggers in pockets on its interior. No matter how many you remove, there is always a new dagger every time you peer inside of it.</CatalogDesc>
+  </LogueEffectInfo> 
+
+  <LogueEffectInfo Id="RMR_StrangeOrb">
+    <Name>Unstable Orb</Name>
+    <Desc>At the start of the Act, summon an Orb. The Orb has 20 HP, cannot be Staggered or targeted. The Orb's resistances are 'Fatal'. The Orb grows stronger each Chapter.
+- Each Scene, the Orb adds a 'Wails of the Past' Combat Page to its hand.</Desc> 
+    <FlavorText>&lt;color=#08CAA9&gt;"Unstable as it might be, it seems to stick by your side unconditionally."&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>	Not many minds remember the days before the Grand War - something so horrible and so extensive, something so feared and so forgotten - only embers remain of the "Old World", roaming its ruins for a long-lost purpose. One such case is seen with an amalgam - a union that can only be described as an anomaly.
+
+	After the Old World was shattered into its many unfathomable pieces, they were still there: Divided, but standing together mere moments after the lights that brought end to all reason. They wondered and wandered, finding themselves in familiar yet alien ruins of their old homes, schools and roads. The fires still fought to the bitter end, and life would only be ruin from now on.
+
+	Many years later the fires had almost been extinguished - a new beacon of cold lights forming itself in a distance - they thought that perhaps their embers could reach the promised cold of its inner walls, but they were left outside - fending for themselves in the ruins they were so familiar with. Eventually, through so much pressure and years of single minded thoughts - they focused, undying like the fires they descended from.
+
+	From a voice it became two, and two became many. Thoughts and words drooled and fused into single, overloaded actions - they could look, but not see. Touch, but not feel. Argue, but not speak. Such was the sentence of embers as bright as theirs - destined to become one with the reluctant fires of the Old World, forced to be deprived of themselves.
+
+	Yet, through some mysterious means, they find themselves here - familiar and alien as before. Although forever changed, their hearts remained the same: Perhaps they could find answers in this place, or a final gust of wind to fade into the New World.</CatalogDesc>
+  </LogueEffectInfo> 
+
+  <LogueEffectInfo Id="RMR_ViciousGlasses">
+    <Name>Vicious Glasses</Name>
+    <Desc>At the start of each Scene, give 10 Critical Strike to all allies.</Desc> 
+    <FlavorText>&lt;color=#CA08A9&gt;"You hear various voices crying for afar, demanding removal of these so called 'Random Crits'."&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[No entry for now.]</CatalogDesc>
+  </LogueEffectInfo> 
+  
+  <LogueEffectInfo Id="RMR_LightGuidance">
+    <Name>Light's Guidance</Name>
+    <Desc>Each Scene, all librarians boost the Power of a random type of die by +1. (Slash, Pierce, Blunt, Defense)</Desc> 
+    <FlavorText>&lt;color=#FEFCDD&gt;"Occasionally it beckons you to 'play better', whatever that means…"&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[No entry for now.]</CatalogDesc>
+  </LogueEffectInfo> 
+  
+  <LogueEffectInfo Id="RMR_RoadlessCamelot">
+    <Name>Roadless Camelot</Name>
+    <Desc>At the start of each Scene, a random librarian gains 'Roadless Camelot' for the Scene.
+(Roadless Camelot - Each time this character uses a Combat Page, all other allies temporarily upgrade a random Combat Page in their hand for the rest of the Act.)</Desc> 
+    <FlavorText>&lt;color=#03EAF2&gt;"The crystallization of an utopia without any entrance. Like the reflection of a moon on water, its beauty is matched only by its fragility."&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>Almost everyone has an ideal they chase after. An utopia, where their dreams are realized and their wishes are fulfilled. From simple wants such as warm food and shelter, to grand ambitions looking up at the top of the chain. It is simply a constant value of hope against the ruthless cycle of gears that make up the machine called the City.
+
+Yet, sometimes that side may truly be unreachable. Without any clear roads that lead towards that dream, all that is left... is nothing more than a mirage of what could have been, and what could never be.
+
+After all, that is what a dream is.</CatalogDesc>
+  </LogueEffectInfo> 
+	
+	
+  <LogueEffectInfo Id="RMR_StrangeOrbGrade2">
+    <Name>Unstable Orb</Name>
+    <Desc>At the start of the Act, summon an Orb. The Orb has 20 HP, cannot be Staggered or targeted. The Orb's resistances are 'Weak'. The Orb grows stronger each Chapter.
+- Each Scene, the Orb adds a 'Wails of the Past' Combat Page to its hand.
+- Each Scene, all allies gain 3 Shield.
+- Every other Scene, all allies recover 3 Stagger Resist.</Desc> 
+    <FlavorText>&lt;color=#08CAA9&gt;"Unstable as it might be, it seems to stick by your side unconditionally."&lt;/color&gt;</FlavorText> 
+    <CatalogDesc></CatalogDesc>
+  </LogueEffectInfo>
+  
+  <LogueEffectInfo Id="RMR_StrangeOrbGrade3">
+    <Name>Unstable Orb</Name>
+    <Desc>At the start of the Act, summon an Orb. The Orb has 20 HP, cannot be Staggered or targeted. The Orb's resistances are 'Normal'. The Orb grows stronger each Chapter.
+- Each Scene, the Orb adds a 'Wails of the Past' Combat Page to its hand.
+- Each Scene, all allies gain 3 Shield.
+- Every other Scene, all allies recover 3 Stagger Resist.
+- On the 3rd Scene, all allies restore 1 Light.</Desc> 
+    <FlavorText>&lt;color=#08CAA9&gt;"Unstable as it might be, it seems to stick by your side unconditionally."&lt;/color&gt;</FlavorText> 
+    <CatalogDesc></CatalogDesc>
+  </LogueEffectInfo> 
+  
+  <LogueEffectInfo Id="RMR_StrangeOrbGrade4">
+    <Name>Unstable Orb</Name>
+    <Desc>At the start of the Act, summon an Orb. The Orb has 20 HP, cannot be Staggered or targeted. The Orb's resistances are 'Endured'. The Orb grows stronger each Chapter.
+- Each Scene, the Orb adds a 'Wails of the Past' Combat Page to its hand.
+- Each Scene, all allies gain 3 Shield and either 1 Damage Up, Bleed Protection or 3 Burn Protection.
+- Every other Scene, all allies recover 3 Stagger Resist.
+- On the 3rd Scene, all allies restore 1 Light.</Desc> 
+    <FlavorText>&lt;color=#08CAA9&gt;"Unstable as it might be, it seems to stick by your side unconditionally."&lt;/color&gt;</FlavorText> 
+    <CatalogDesc></CatalogDesc>
+  </LogueEffectInfo> 
+  
+  <LogueEffectInfo Id="RMR_StrangeOrbGrade5">
+    <Name>Unstable Orb</Name>
+    <Desc>At the start of the Act, summon an Orb. The Orb has 20 HP, cannot be Staggered or targeted. The Orb's resistances are 'Endured'. The Orb grows stronger each Chapter.
+- Each Scene, the Orb adds a 'Wails of the Past' Combat Page to its hand.
+- Each Scene, all allies gain 3 Shield and either 1 Damage Up, Bleed Protection or 3 Burn Protection.
+- Every other Scene, all allies recover 3 Stagger Resist.
+- On the 3rd Scene, all allies restore 1 Light.
+- On the 4th Scene, all allies draw 1 page. Starting with the 4th Scene, a random other ally draws 1 page each Scene.</Desc> 
+    <FlavorText>&lt;color=#08CAA9&gt;"Unstable as it might be, it seems to stick by your side unconditionally."&lt;/color&gt;</FlavorText> 
+    <CatalogDesc></CatalogDesc>
+  </LogueEffectInfo> 
+  
+  <LogueEffectInfo Id="RMR_StrangeOrbGrade6">
+    <Name>Strange Orb</Name>
+    <Desc>At the start of the Act, summon an Orb. The Orb has 20 HP, cannot be Staggered or targeted. The Orb's resistances are 'Endured'. The Orb has stabilized.
+- Each Scene, the Orb adds a 'Wails of the Past' Combat Page to its hand.
+- Each Scene, all allies gain 3 Shield and either 1 Damage Up, Bleed Protection or 3 Burn Protection; reduce the Cost of a random page whose Cost is above 0, in a random other ally's hand by 1 until used.
+- Every other Scene, all allies recover 3 Stagger Resist.
+- On the 3rd Scene, all allies restore 1 Light.
+- On the 4th Scene, all allies draw 1 page. Starting with the 4th Scene, a random other ally draws 1 page each Scene.</Desc> 
+    <FlavorText>&lt;color=#08CAA9&gt;"Unstable as it might be, it seems to stick by your side unconditionally."&lt;/color&gt;</FlavorText> 
+    <CatalogDesc></CatalogDesc>
+  </LogueEffectInfo> 
+  
+</LogueEffectXmlRoot>

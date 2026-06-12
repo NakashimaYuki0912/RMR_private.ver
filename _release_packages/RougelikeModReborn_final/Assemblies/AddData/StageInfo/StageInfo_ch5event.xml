@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+  
+
+
+
+<!--이벤트5_1 : 8시의 서커스-->
+
+  <Stage id="150001">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28474001</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트5_2 : 지령-->
+
+  <Stage id="150002">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28474002</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트5_2_1 : 지령의 결과-->
+
+  <Stage id="250002">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28484002</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트5_2_2 : 지령의 결과_엄지 접대-->
+
+  <Stage id="2500021">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2500021</Formation>
+      <Unit>28494002</Unit>
+      <Unit>28494002</Unit>
+      <Unit>28494002</Unit>
+      <Unit>28494002</Unit>
+      <Unit>28494002</Unit>
+      <Unit>28494002</Unit>
+    </Wave>
+  </Stage>
+  
+  
+  <!-- copley event -->
+  <Stage id="150003">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28474003</Unit>
+    </Wave>
+  </Stage>
+  
+<!-- index copley first choice -->
+  <Stage id="1500031">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>21</Formation>
+      <Unit>28494004</Unit>
+      <Unit>28494003</Unit>
+      <Unit>28494003</Unit>
+      <Unit>28494003</Unit>
+      <Unit>28494005</Unit>
+    </Wave>
+  </Stage>
+
+<!-- index copley second choice -->
+  <Stage id="1500032">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>21</Formation>
+      <Unit>28494006</Unit>
+      <Unit>28494003</Unit>
+      <Unit>28494003</Unit>
+      <Unit>28494003</Unit>
+      <Unit>28494005</Unit>
+    </Wave>
+  </Stage>
+
+</StageXmlRoot>
+

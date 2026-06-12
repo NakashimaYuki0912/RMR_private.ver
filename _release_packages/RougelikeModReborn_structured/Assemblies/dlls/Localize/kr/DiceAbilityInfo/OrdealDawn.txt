@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardAbilityDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BattleCardAbility ID="MachineDawnCard1_1">
+    <Desc>[합 승리] 취약 1 부여</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="MachineDawnCard2_0">
+    <Desc>취약 상태인 적에게만 사용가능
+[사용시] 대상의 취약 수치만큼 이 책장의 모든 주사위 위력 증가</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="MachineDawnCard2_3">
+    <Desc>대상의 취약 수치만큼 재사용(최대 3회)</Desc>
+  </BattleCardAbility>
+
+</BattleCardAbilityDescRoot>
+

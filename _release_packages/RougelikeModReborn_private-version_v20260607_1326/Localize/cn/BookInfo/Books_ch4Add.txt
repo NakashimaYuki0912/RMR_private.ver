@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <bookDescList>
+    <BookDesc BookID="28483001">
+      <BookName>神秘袭击者之页</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+
+    <BookDesc BookID="28483002">
+      <BookName>后巷帮派成员之页</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+  </bookDescList>
+</BookDescRoot>

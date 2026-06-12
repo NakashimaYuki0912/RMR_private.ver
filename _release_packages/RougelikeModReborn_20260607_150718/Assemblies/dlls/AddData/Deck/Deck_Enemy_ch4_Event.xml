@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DeckXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+  
+  <!--습격자들-->
+  <Deck ID="28483001">
+    <Card>402001</Card>
+    <Card>402001</Card>
+    <Card>402001</Card>
+    <Card>402005</Card>
+    <Card>402005</Card>
+    <Card>402005</Card>
+    <Card>402006</Card>
+    <Card>402006</Card>
+    <Card>402006</Card>
+  </Deck>
+
+  <!--운반책 복수자들-->
+  <Deck ID="28483002">
+    <Card>300001</Card>
+    <Card>300002</Card>
+    <Card>300004</Card>
+    <Card>300004</Card>
+    <Card>300005</Card>
+    <Card>303008</Card>
+    <Card>303008</Card>
+  </Deck>
+
+</DeckXmlRoot>

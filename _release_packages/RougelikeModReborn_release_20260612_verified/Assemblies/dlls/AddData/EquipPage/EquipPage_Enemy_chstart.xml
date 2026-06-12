@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+	<!-- 챕터 시작 -->
+	<Book ID="854">
+		<Name>???</Name>
+		<EquipEffect>
+			<EmotionLevel>1</EmotionLevel>
+			<HP>1</HP>
+			<Break>1</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>1</Speed>
+			<SResist>Immune</SResist>
+			<PResist>Immune</PResist>
+			<HResist>Immune</HResist>
+			<SBResist>Immune</SBResist>
+			<PBResist>Immune</PBResist>
+			<HBResist>Immune</HBResist>
+			<StartPlayPoint>0</StartPlayPoint>
+			<MaxPlayPoint>2</MaxPlayPoint>
+			<Passive Level="1">854</Passive>
+		</EquipEffect>
+		<BookIcon>None</BookIcon>
+		<CharacterSkin>TheSparklingMirror</CharacterSkin>
+    	<CharacterSkinType>Custom</CharacterSkinType>
+		<Rarity>Special</Rarity>
+		<SkinGender>N</SkinGender>
+    	<RandomFace>false</RandomFace>
+  </Book>
+
+	<!-- 서고 -->
+	<Book ID="855">
+		<Name>???</Name>
+		<EquipEffect>
+			<EmotionLevel>1</EmotionLevel>
+			<HP>1</HP>
+			<Break>1</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>1</Speed>
+			<SResist>Immune</SResist>
+			<PResist>Immune</PResist>
+			<HResist>Immune</HResist>
+			<SBResist>Immune</SBResist>
+			<PBResist>Immune</PBResist>
+			<HBResist>Immune</HBResist>
+			<StartPlayPoint>0</StartPlayPoint>
+			<MaxPlayPoint>2</MaxPlayPoint>
+			<Passive Level="1">855</Passive>
+		</EquipEffect>
+		<BookIcon>None</BookIcon>
+		<CharacterSkin>TheSparklingMirror</CharacterSkin>
+    	<CharacterSkinType>Custom</CharacterSkinType>
+		<Rarity>Special</Rarity>
+		<SkinGender>N</SkinGender>
+    	<RandomFace>false</RandomFace>
+  </Book>
+
+
+</BookXmlRoot>

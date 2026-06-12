@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="2000001">
+      <LocalizedName>고기</LocalizedName>
+      <Ability>신선한 고기. 피에르의 미트파이 재료</Ability>
+    </BattleCardDesc>
+    <BattleCardDesc ID="2000002">
+      <LocalizedName>고기 잼</LocalizedName>
+      <Ability>[장착 시 발동] 체력을 15 회복하고 덱에서 제거됨</Ability>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

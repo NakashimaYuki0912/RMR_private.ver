@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryCh5_1Title">서커스 공연</text>
+             <text id="MysteryCh5_1Frame0Dia0">이곳은 서커스 공연이 한창입니다.
+기괴하게 생긴 광대, 여기저기 기워낸 사자, 손달린 코끼리... 이게 도시인들의 취향인걸까요?
+당신이 원한다면 잠시 관람하고 가는 것도 괜찮을겁니다.</text>
+             <text id="MysteryCh5_1Frame0Choice0Desc">관람한다(모든 사서의 현재 체력 - 20%. 영감 획득)</text>
+             <text id="MysteryCh5_1Frame0Choice1Desc">지나친다</text>
+             <text id="MysteryCh5_1Frame1Dia0">황당하고 화려하며 해괴망측한 공연을 본 사서들은 모두 진이 빠져버렸지만, 한편으로는 공연의 내용에서 무언가 깨달은 부분이 있는 듯 합니다.
+그게 뭔지는 스스로도 설명하지 못하겠지만요.</text>
+             <text id="MysteryCh5_1Frame1Choice0Desc">종료</text>
+
+             <text id="MysteryCh5_2Title">지령</text>
+             <text id="MysteryCh5_2Frame0Dia0">어느 시민이 상자를 들고 우리에게 다가옵니다.
+"지령이 당신들한테 이걸 건네주라는군요."
+상자 안에는 꽤 많은 양의 지폐가 들어있습니다.
+
+지령은 반드시 검지에게 득이 되게끔 이뤄진다고 합니다.
+...이걸 받는게 어떤 의미일지 잠시 고민해봅시다.</text>
+             <text id="MysteryCh5_2Frame0Choice0Desc">받는다(40안 획득)</text>
+             <text id="MysteryCh5_2Frame0Choice1Desc">무시한다</text>
+             <text id="MysteryCh5_2Frame1Dia0">당신은 상자를 받았습니다.
+지령에 득이 되는 일이 꼭 우리에게 독이 되리란 법은 없죠.</text>
+             <text id="MysteryCh5_2Frame1Choice0Desc">종료</text>
+             <text id="MysteryCh5_2Frame2Dia0">당신은 상자를 받지 않았습니다.
+지령 수행에 실패한 시민의 안색이 시퍼래졌지만 우리가 신경쓸 필요는 없겠죠.</text>
+             <text id="MysteryCh5_2Frame2Choice0Desc">종료</text>
+
+ <text id="MysteryCh5_2_1Title">지령의 결과</text>
+             <text id="MysteryCh5_2_1Frame0Dia0">"니놈들이라더군. 엄지의 물건에 손을 댄게."
+엄지의 카포와 솔다토들이 나타나 우리에게 총을 겨눴습니다.
+...지령의 결과가 이렇게 돌아오는군요.</text>
+             <text id="MysteryCh5_2_1Frame0Choice0Desc">전투 개시!</text>
+             <text id="MysteryCh5_2_1Frame0Choice1Desc">목숨 구걸(60안 소모)</text>
+
+</localize>

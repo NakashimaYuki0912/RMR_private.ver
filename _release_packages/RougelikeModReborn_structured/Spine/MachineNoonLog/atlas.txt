@@ -1,0 +1,139 @@
+
+machine_Noon.png
+size: 2048,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: true
+  xy: 2, 2
+  size: 27, 35
+  orig: 27, 35
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 1128, 105
+  size: 73, 56
+  orig: 73, 56
+  offset: 0, 0
+  index: -1
+3
+  rotate: true
+  xy: 1446, 172
+  size: 81, 112
+  orig: 81, 112
+  offset: 0, 0
+  index: -1
+R A
+  rotate: true
+  xy: 1215, 154
+  size: 99, 125
+  orig: 99, 125
+  offset: 0, 0
+  index: -1
+R A 2
+  rotate: false
+  xy: 2, 31
+  size: 305, 222
+  orig: 305, 222
+  offset: 0, 0
+  index: -1
+T
+  rotate: false
+  xy: 1772, 175
+  size: 74, 78
+  orig: 74, 78
+  offset: 0, 0
+  index: -1
+T 5
+  rotate: false
+  xy: 1994, 202
+  size: 50, 51
+  orig: 50, 51
+  offset: 0, 0
+  index: -1
+back
+  rotate: true
+  xy: 621, 109
+  size: 144, 258
+  orig: 144, 258
+  offset: 0, 0
+  index: -1
+body 2
+  rotate: true
+  xy: 1674, 158
+  size: 95, 96
+  orig: 95, 96
+  offset: 0, 0
+  index: -1
+head
+  rotate: true
+  xy: 309, 66
+  size: 187, 310
+  orig: 187, 310
+  offset: 0, 0
+  index: -1
+l a
+  rotate: true
+  xy: 1032, 111
+  size: 50, 94
+  orig: 50, 94
+  offset: 0, 0
+  index: -1
+l a 2
+  rotate: false
+  xy: 1032, 163
+  size: 181, 90
+  orig: 181, 90
+  offset: 0, 0
+  index: -1
+l a T
+  rotate: false
+  xy: 881, 104
+  size: 149, 149
+  orig: 149, 149
+  offset: 0, 0
+  index: -1
+rr1
+  rotate: true
+  xy: 309, 37
+  size: 27, 35
+  orig: 27, 35
+  offset: 0, 0
+  index: -1
+rr2
+  rotate: false
+  xy: 1918, 197
+  size: 74, 56
+  orig: 74, 56
+  offset: 0, 0
+  index: -1
+rr3
+  rotate: true
+  xy: 1560, 172
+  size: 81, 112
+  orig: 81, 112
+  offset: 0, 0
+  index: -1
+rrT 4
+  rotate: true
+  xy: 621, 58
+  size: 49, 51
+  orig: 49, 51
+  offset: 0, 0
+  index: -1
+t 2
+  rotate: false
+  xy: 1848, 183
+  size: 68, 70
+  orig: 68, 70
+  offset: 0, 0
+  index: -1
+t 3
+  rotate: true
+  xy: 1342, 154
+  size: 99, 102
+  orig: 99, 102
+  offset: 0, 0
+  index: -1

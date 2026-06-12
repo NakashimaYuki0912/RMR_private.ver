@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EnemyUnitClassRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+ <Enemy ID="28475001">
+    <!--챕터6 - ?방1-->
+    <Name>???</Name>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>200</MaxHeight>
+    <BookId>28475001</BookId>
+    <Gender>Creature</Gender>
+
+    <Exp>0</Exp>
+
+    <DropTable Level="0">
+    </DropTable>
+  </Enemy>
+
+ <Enemy ID="28475002">
+    <!--챕터6 - ?방2-->
+    <Name>???</Name>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>200</MaxHeight>
+    <BookId>28475002</BookId>
+    <Gender>Creature</Gender>
+
+    <Exp>0</Exp>
+
+    <DropTable Level="0">
+    </DropTable>
+  </Enemy>
+
+</EnemyUnitClassRoot>

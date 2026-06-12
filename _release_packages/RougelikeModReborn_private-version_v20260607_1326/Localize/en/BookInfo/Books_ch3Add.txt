@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <bookDescList>
+    <BookDesc BookID="28482001">
+      <BookName>Backstreet Bully's Page</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+
+    <BookDesc BookID="28482002">
+      <BookName>Backstreet Bully's Page</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+
+  </bookDescList>
+</BookDescRoot>

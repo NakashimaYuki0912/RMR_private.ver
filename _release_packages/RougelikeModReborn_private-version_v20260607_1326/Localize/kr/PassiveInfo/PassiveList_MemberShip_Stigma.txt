@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="28582001">
+		<Name>스티그마 공방 상인</Name>
+		<Desc>뭔가 사지 그래요?</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582001">
+    <Name>고화자전</Name>
+    <Desc>[전역]피해 계산 시 사라지는 화상 스택이 1/3에서 1/4로 감소</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582002">
+    <Name>기매화</Name>
+    <Desc>전투 책장으로 적에게 화상을 부여하면 4막 후에 부여한 수치만큼 다시 화상을 부여함</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582003">
+    <Name>수화불통</Name>
+    <Desc>자신에게 화상이 있는 동안 다른 상태이상에 면역</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582004">
+    <Name>배웅불</Name>
+    <Desc>[전역] 사망 시 지니고 있던 화상 수치의 절반을 모든 아군에게 부여</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582005">
+    <Name>재</Name>
+    <Desc>화상이 사라질때 이번 전투에서 얻었던 최대 화상수치만큼 체력을 회복함</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582006">
+    <Name>급어성화</Name>
+    <Desc>화상 상태의 적에게 공격 적중 시 즉시 화상 피해를 입힘</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582007">
+    <Name>스티그마</Name>
+    <Desc>전투책장 사용 시 해당 전투책장의 원래 비용만큼 적에게 화상을 부여(비용이 0인 책장이라면 대신 1 부여)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582008">
+    <Name>발화</Name>
+    <Desc>무대 시작 시 '발화' 전투책장을 손으로 가져옴. 해당 책장 사용 시 지정한 대상에게 화상 5 부여</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582009">
+    <Name>화로</Name>
+    <Desc>자신에게 화상이 있다면 일방공격 대상이 당할때 자신에게 있는 화상 수치만큼 적에게 화상 부여</Desc>
+	</PassiveDesc>
+
+
+</PassiveDescRoot>
+  
+

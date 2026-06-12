@@ -92,7 +92,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             LogLikeMod.UILogCardSlot CardSlot = LogLikeMod.UILogCardSlot.SlotCopyingByOrig();
             CardSlot.transform.SetParent(this.transform);
-            CardSlot.transform.localScale = new Vector3(1.2f, 1.2f);
+            CardSlot.transform.localScale = new Vector3(1.0f, 1.0f);
             CardSlot.transform.localPosition = new Vector3(0.0f, 0.0f);
             CardSlot.SetData(new DiceCardItemModel(cardinfo));
             CardSlot.selectable.SubmitEvent.RemoveAllListeners();

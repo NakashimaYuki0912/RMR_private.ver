@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="300011">
+		<Name>패싸움</Name>
+		<Desc>자신과 소속이 다른 모두를 공격 대상으로 삼음</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="300012">
+		<Name>패싸움</Name>
+		<Desc>자신과 소속이 다른 모두를 공격 대상으로 삼음</Desc>
+	</PassiveDesc>
+  
+</PassiveDescRoot>
+  
+

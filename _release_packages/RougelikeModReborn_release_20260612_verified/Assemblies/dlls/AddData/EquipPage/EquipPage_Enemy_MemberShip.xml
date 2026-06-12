@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+<!-- 공방 멤버쉽 취득1 -->
+<Book ID="28478001">
+		<Name>???</Name>
+		<EquipEffect>
+			<EmotionLevel>1</EmotionLevel>
+			<HP>100</HP>
+			<Break>100</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>1</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Normal</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Normal</PBResist>
+			<HBResist>Normal</HBResist>
+			<StartPlayPoint>0</StartPlayPoint>
+			<MaxPlayPoint>2</MaxPlayPoint>
+			<Passive Level="1">28478001</Passive>
+		</EquipEffect>
+		<BookIcon>None</BookIcon>
+		<CharacterSkin>Creature_SilentGirl_BlackHand</CharacterSkin>
+		<Rarity>Common</Rarity>
+    <RandomFace>true</RandomFace>
+	</Book>
+
+
+</BookXmlRoot>

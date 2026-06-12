@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<CharactersNameRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<Name ID="28570001">보따리 상인</Name>
+
+  	<Name ID="28580001">로직 아틀리에 상인</Name>
+	<Name ID="28581001">유니온 공방 상인</Name>
+	<Name ID="28582001">스티그마 공방 상인</Name>
+	<Name ID="28583001">묵 공방 상인</Name>
+
+
+</CharactersNameRoot>

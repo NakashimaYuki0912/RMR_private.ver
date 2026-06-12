@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<RogueMysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Mystery ID="10003">
+    <Frame ID="0">
+      <Dialog>你在后巷遇到一群人。他们中间是一位穿着黑白相间衣服的年轻人，很显然那是食指的制服。看到你走近，那人微笑着，人群散开，他拿出一张印有红色符号的小纸条。
+
+"你们好！我们今天提供特别服务！收下这份指令，我们可以给你20[yellow]眼[/color]！很划算，不是吗？"</Dialog>
+      <Choice ID="0">
+        <Desc>收下指令 [green]获得20[yellow]眼[/color].</Desc>
+      </Choice>
+      <Choice ID="1">
+        <Desc>礼貌地拒绝。</Desc>
+      </Choice>
+    </Frame>
+
+
+    <Frame ID="1">
+      <Dialog>你拿着那张小纸条与一袋[yellow]眼[/color]。在你回应并说谢谢之前，那个人已经不见了。你打开一张小纸条，上面写着：“专注于你遇到的下一个人”。你注意到它有点模糊。</Dialog>
+      <Choice ID="0">
+        <Desc>继续</Desc>
+      </Choice>
+    </Frame>
+
+    <Frame ID="2">
+      <Dialog>“哦，好吧。还有谁想要呢？”那人似乎对你的拒绝并不在意并转过身去。很快，后巷的居民又一拥而上。</Dialog>
+      <Choice ID="0">
+        <Desc>继续</Desc>
+      </Choice>
+    </Frame>
+
+    <Title>食指......?</Title>
+  </Mystery>
+</RogueMysteryXmlRoot>

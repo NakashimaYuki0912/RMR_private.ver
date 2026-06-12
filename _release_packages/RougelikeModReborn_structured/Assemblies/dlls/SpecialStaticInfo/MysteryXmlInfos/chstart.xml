@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Mystery ID="-1" Title="MysteryChStartTitle">
+    <script>ChStart</script>
+    <Frame ID="0" FrameType="DEFAULT">
+      <Dialog>MysteryChStartFrame0Dia0</Dialog>
+      <ArtWork>ChStart_Frame0</ArtWork>
+      <Choice ID="0">
+        <Next>1</Next>
+      </Choice>
+      <Choice ID="1">
+        <Next>1</Next>
+      </Choice>
+      <Choice ID="2">
+        <Next>1</Next>
+      </Choice>
+      <Choice ID="3">
+        <Next>1</Next>
+      </Choice>
+    </Frame>
+
+    <Frame ID="1" FrameType="DEFAULT">
+      <Dialog>MysteryChStartFrame1Dia0</Dialog>
+      <ArtWork>ChStart_Frame1</ArtWork>
+      <Choice ID="0">
+        <Desc>MysteryChStartFrame1End</Desc>
+        <Next>-1</Next>
+      </Choice>
+    </Frame>
+  </Mystery>
+
+<Mystery ID="-3" Title="MysteryChStartTitle">
+    <script>Rest</script>
+  </Mystery>
+
+<Mystery ID="-4" Title="MysteryChStartTitle">
+    <script>CardReward</script>
+  </Mystery>
+
+
+
+</MysteryXmlRoot>

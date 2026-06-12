@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+  <!-- shi -->
+    <BattleCardDesc ID="501001">
+      <LocalizedName>生死界限</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501002">
+      <LocalizedName>极意之剑</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501003">
+      <LocalizedName>闪击战术</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501004">
+      <LocalizedName>飞剑刺杀</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501005">
+      <LocalizedName>无尽鏖战</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501006">
+      <LocalizedName>殊死搏斗</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="501007">
+      <LocalizedName>劈荆斩棘</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- seven -->
+    <BattleCardDesc ID="511001">
+      <LocalizedName>短兵相接</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="511002">
+      <LocalizedName>格挡回击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="511003">
+      <LocalizedName>双旋飞刺</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="511004">
+      <LocalizedName>绞剑迅击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="511005">
+      <LocalizedName>起势动作</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- sword -->
+    <BattleCardDesc ID="512001">
+      <LocalizedName>寒芒出鞘</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="512002">
+      <LocalizedName>穿刺剑法</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="512003">
+      <LocalizedName>舍吾皮肉</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="512004">
+      <LocalizedName>弑主妖剑</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="512005">
+      <LocalizedName>就地处斩</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="512006">
+      <LocalizedName>断汝筋骨</LocalizedName>
+    </BattleCardDesc>
+
+  <!-- puppet -->
+    <BattleCardDesc ID="502001">
+      <LocalizedName>自行移动</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502002">
+      <LocalizedName>牵丝傀儡</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502003">
+      <LocalizedName>受压肉体</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502004">
+      <LocalizedName>沉重一击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502005">
+      <LocalizedName>叽叽叽叽</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502006">
+      <LocalizedName>嘎吱嘎吱</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="502007">
+      <LocalizedName>傀儡盾牌</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- circus -->
+    <BattleCardDesc ID="503001">
+      <LocalizedName>尖锐指爪</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503002">
+      <LocalizedName>马戏之刃</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503003">
+      <LocalizedName>杂耍手技</LocalizedName> <!-- Juggling -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="503004">
+      <LocalizedName>袖口王牌</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503005">
+      <LocalizedName>威猛狮爪</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503006">
+      <LocalizedName>独轮猴戏</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503007">
+      <LocalizedName>鲁莽象冲</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503008">
+      <LocalizedName>演出开始</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="503009">
+      <LocalizedName>杂耍手技</LocalizedName> <!-- Juggling -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="503010">
+      <LocalizedName>袖口王牌</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 청소부 -->
+    <BattleCardDesc ID="504001">
+      <LocalizedName>壹玖柒叁</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="504002">
+      <LocalizedName>垃圾处理</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="504003">
+      <LocalizedName>清扫后巷</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="504004">
+      <LocalizedName>为了家人</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="504005">
+      <LocalizedName>抽取燃料</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="504006">
+      <LocalizedName>后巷深宵</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="505001">
+      <LocalizedName>指令所向</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505002">
+      <LocalizedName>执行指令</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505003">
+      <LocalizedName>残酷刑罚</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505004">
+      <LocalizedName>指令之意</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505005">
+      <LocalizedName>狂热信仰</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505006">
+      <LocalizedName>搜捕目标</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="505007">
+      <LocalizedName>苦行之刃</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="506001">
+      <LocalizedName>空间撕裂</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506002">
+      <LocalizedName>次元裂隙</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506003">
+      <LocalizedName>脉冲轰炸</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506004">
+      <LocalizedName>过度充能</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506005">
+      <LocalizedName>返本还原</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506006">
+      <LocalizedName>腾跃速攻</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="506007">
+      <LocalizedName>能源循环</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="507001">
+      <LocalizedName>剧烈呼吸</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507002">
+      <LocalizedName>千刀万剐</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507003">
+      <LocalizedName>吸入浓烟</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507004">
+      <LocalizedName>烟云轨迹</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507005">
+      <LocalizedName>隐蔽锋刃</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507006">
+      <LocalizedName>烟管技艺</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="507007">
+      <LocalizedName>官能丧失</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="508010">
+      <LocalizedName>燃烧一击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508011">
+      <LocalizedName>挺身而出</LocalizedName>
+    </BattleCardDesc>
+
+      <!-- 우는 아이 -->
+    <BattleCardDesc ID="508001">
+      <LocalizedName>痛彻骨髓</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508002">
+      <LocalizedName>哀痛创痕</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508003">
+      <LocalizedName>扭曲尊容</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508004">
+      <LocalizedName>旧日倩影</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508005">
+      <LocalizedName>自我束缚</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508006">
+      <LocalizedName>喁喁细语</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508007">
+      <LocalizedName>秽翼抽打</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="508008">
+      <LocalizedName>无尽折磨</LocalizedName>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

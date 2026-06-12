@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StagesXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ChapterList Chapter="GradeAll">
+    <StageList ID="100001" StageType="Mystery" />
+    <StageList ID="100002" StageType="Mystery" />
+    <StageList ID="100003" StageType="Mystery" /> 
+  </ChapterList>
+
+
+
+</StagesXmlRoot>

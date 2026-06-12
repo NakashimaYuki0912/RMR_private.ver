@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Mystery ID="-100">
+    <script>RMR_ChStartNew</script>
+    <Frame ID="0" FrameType="DEFAULT">
+      <ArtWork>RMR_SparklingMirror</ArtWork>
+      <Choice ID="0">
+        <Next>1</Next>
+      </Choice>
+      <Choice ID="1">
+        <Next>1</Next>
+      </Choice>
+      <Choice ID="2">
+        <Next>1</Next>
+      </Choice>
+      <Choice ID="3">
+        <Next>1</Next>
+      </Choice>
+	  <Choice ID="4">
+        <Next>1</Next>
+      </Choice>
+	  <Choice ID="5">
+        <Next>1</Next>
+      </Choice>
+    </Frame>
+
+    <Frame ID="1" FrameType="DEFAULT">
+      <ArtWork>RMR_SparklingMirror</ArtWork>
+      <Choice ID="0">
+        <Next>-1</Next>
+      </Choice>
+    </Frame>
+  </Mystery>
+</MysteryXmlRoot>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="28583001">
+		<Name>墨工坊商人</Name>
+		<Desc>你想买些什么？</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583001">
+    <Name>拔刀术</Name>
+    <Desc>每张战斗书页的第一颗进攻型骰子威力+2但其他骰子威力-1</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583002">
+    <Name>一瞬</Name>
+    <Desc>每张战斗书页的第一颗进攻型骰子将无视目标抗性直接造成“致命”抗性伤害(“免疫”抗性除外)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583003">
+    <Name>生与死</Name>
+    <Desc>若自身体力不高于50%则对目标造成的伤害+2
+若目标体力不高于50%则对其造成的伤害+2</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583004">
+    <Name>暗淡无光</Name>
+    <Desc>单方面攻击时无视目标反击骰子</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583005">
+    <Name>快拔护鞘</Name>
+    <Desc>每张战斗书页的第一颗进攻型骰子获得效果: "[击杀时]复制本骰子并置入反击列表"</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583006">
+    <Name>斩断</Name>
+    <Desc>攻击命中目标时若造成的伤害不低于15或高于目标体力上限的10%则下一幕对目标施加5层“流血”与2层“麻痹”</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583007">
+    <Name>杀戮光环</Name>
+    <Desc>[全局]所有除进攻型骰子造成的伤害以外的伤害x2</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583008">
+    <Name>残像</Name>
+	<Desc>每张战斗书页的第一颗进攻型骰子若拼点胜利则该骰子将以单方面攻击的形式再次对目标使用</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583009">
+    <Name>屏息</Name>
+    <Desc>光芒不足时仍可使用书页
+每超出1点光芒使自身失去3点混乱抗性</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8583010">
+    <Name>淬火</Name>
+    <Desc>[全局]所有司书造成的伤害+1</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

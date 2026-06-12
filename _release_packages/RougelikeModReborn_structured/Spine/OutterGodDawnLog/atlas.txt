@@ -1,0 +1,55 @@
+
+cosmic_dawn.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 579, 113
+  size: 65, 59
+  orig: 65, 59
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 379, 57
+  size: 128, 38
+  orig: 128, 38
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 679, 174
+  size: 68, 49
+  orig: 68, 49
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 2
+  size: 375, 221
+  orig: 375, 221
+  offset: 0, 0
+  index: -1
+light
+  rotate: false
+  xy: 379, 97
+  size: 198, 126
+  orig: 198, 126
+  offset: 0, 0
+  index: -1
+reg
+  rotate: false
+  xy: 579, 174
+  size: 98, 49
+  orig: 98, 49
+  offset: 0, 0
+  index: -1
+tale
+  rotate: false
+  xy: 379, 18
+  size: 101, 37
+  orig: 101, 37
+  offset: 0, 0
+  index: -1

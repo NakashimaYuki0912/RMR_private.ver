@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="BossRewardFlaverText">챕터 보상</text>
+
+             <text id="CraftEquipChapter1Name">핵심책장 제작 - 뜬소문</text>
+             <text id="CraftEquipChapter1Desc">무작위 뜬소문급 핵심책장 1개를 생성</text>
+             <text id="CraftEquipChapter2Name">핵심책장 제작 - 도시괴담</text>
+             <text id="CraftEquipChapter2Desc">무작위 도시괴담급 핵심책장 1개를 생성</text>
+             <text id="CraftEquipChapter3Name">핵심책장 제작 - 도시전설</text>
+             <text id="CraftEquipChapter3Desc">무작위 도시전설급 핵심책장 1개를 생성</text>
+             <text id="CraftEquipChapter4Name">핵심책장 제작 - 도시질병</text>
+             <text id="CraftEquipChapter4Desc">무작위 도시질병급 핵심책장 1개를 생성</text>
+             <text id="CraftEquipChapter5Name">핵심책장 제작 - 도시악몽</text>
+             <text id="CraftEquipChapter5Desc">무작위 도시악몽급 핵심책장 1개를 생성</text>
+             <text id="CraftEquipChapter6Name">핵심책장 제작 - 도시의별</text>
+             <text id="CraftEquipChapter6Desc">무작위 도시의별급 핵심책장 1개를 생성</text>
+
+             <text id="CraftEquipResult">{0} 을(를) 제작했습니다.</text>
+             <text id="CraftEquipCant">더이상 제작할 수 없습니다.</text>
+</localize>

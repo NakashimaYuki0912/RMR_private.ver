@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+<Book ID="-30001">
+		<Name>의문</Name>
+		<TextId>-30001</TextId>
+		<EquipEffect>
+			<EmotionLevel>3</EmotionLevel>
+			<HP>60</HP>
+			<Break>30</Break>
+			<SpeedMin>2</SpeedMin>
+			<Speed>6</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Vulnerable</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Vulnerable</PBResist>
+			<HBResist>Normal</HBResist>
+			<Passive>-30001</Passive>
+			<Passive>-30002</Passive>
+		</EquipEffect>
+		<BookIcon></BookIcon>
+		<CharacterSkin>MachineDawnLog</CharacterSkin>
+    <CharacterSkinType>CUSTOM</CharacterSkinType>
+		<Rarity>Common</Rarity>
+	</Book>
+
+</BookXmlRoot>

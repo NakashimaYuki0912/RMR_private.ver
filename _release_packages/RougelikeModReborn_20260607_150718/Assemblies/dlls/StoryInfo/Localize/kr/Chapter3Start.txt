@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScenarioRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Chapter ID="3">
+    <Title>챕터3–도시전설–‘나의 방에 품긴 제물의 위대한 향내를 맛보노라.’</Title>
+  </Chapter>
+  <Group>
+    <GroupName>프롤로그</GroupName>
+    <Episode>
+      <EpisodeName>에피소드1</EpisodeName>
+      <Place>
+        <PlaceName>장소: 도서관 내부</PlaceName>
+      </Place>
+    </Episode>
+  </Group>
+</ScenarioRoot>

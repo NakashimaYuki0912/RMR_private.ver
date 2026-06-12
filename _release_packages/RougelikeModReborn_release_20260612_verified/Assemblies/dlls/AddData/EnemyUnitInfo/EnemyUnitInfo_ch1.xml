@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EnemyUnitClassRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+  
+  <Enemy ID="1">
+    <!--레니-->
+    <Name>레니</Name>
+    <NameID>11</NameID>
+    <MinHeight>165</MinHeight><!-- 165 -->
+    <MaxHeight>165</MaxHeight>
+    
+    <BookId>100001</BookId>
+
+    <Exp>2</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="1.5">1001</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="2">
+    <!--망치-->
+    <Name>망치</Name>
+    <NameID>12</NameID>
+    <MinHeight>180</MinHeight>
+    <MaxHeight>180</MaxHeight>
+
+    <BookId>100002</BookId>
+
+    <Exp>2</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="1.5">1001</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="3">
+    <!--피트-->
+    <Name>피트</Name>
+    <NameID>13</NameID>
+    <MinHeight>175</MinHeight>
+    <MaxHeight>175</MaxHeight>
+
+    <BookId>100003</BookId>
+
+    <Exp>2</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="1.5">1001</DropItem>
+    </DropTable>
+  </Enemy>
+<Enemy ID="1003">
+    <!--윤 해결사3-->
+    <Name>윤사무소 9급 해결사</Name>
+    <NameID>50</NameID>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>190</MaxHeight>
+
+    <BookId>101003</BookId>
+
+    <Exp>3</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="2">1001</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="1004">
+    <!--윤 해결사3 : 전투 대사(BookId)만 다르게 하기 위함-->
+    <Name>윤사무소 9급 해결사</Name>
+    <NameID>50</NameID>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>190</MaxHeight>
+
+    <BookId>101004</BookId>
+
+    <Exp>3</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="2">1001</DropItem>
+    </DropTable>
+  </Enemy>
+  <Enemy ID="4">
+    <!--핀-->
+    <Name>핀</Name>
+    <NameID>18</NameID>
+    <MinHeight>140</MinHeight>
+    <MaxHeight>140</MaxHeight>
+    
+    <BookId>100004</BookId>
+
+    <Exp>5</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="2">1001</DropItem>
+      <DropItem Prob="1">1002</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="5">
+    <!--에리-->
+    <Name>에리</Name>
+    <NameID>19</NameID>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>150</MaxHeight>
+
+    <BookId>100005</BookId>
+
+    <Exp>7</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="2">1002</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="6">
+    <!--윤-->
+    <Name>윤</Name>
+    <NameID>17</NameID>
+    <MinHeight>180</MinHeight>
+    <MaxHeight>180</MaxHeight>
+
+    <BookId>100006</BookId>
+
+    <Exp>10</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="2">1001</DropItem>
+      <DropItem Prob="1">1003</DropItem>
+    </DropTable>
+  </Enemy>
+
+
+  <Enemy ID="7">
+    <!--모-->
+    <Name>모</Name>
+    <NameID>15</NameID>
+    <MinHeight>170</MinHeight>
+    <MaxHeight>170</MaxHeight>
+
+    <BookId>100007</BookId>
+
+    <Exp>8</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="2">1002</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="8">
+    <!--콘스타-->
+    <Name>콘스타</Name>
+    <NameID>14</NameID>
+    <MinHeight>170</MinHeight>
+    <MaxHeight>170</MaxHeight>
+
+    <BookId>100008</BookId>
+
+    <Exp>7</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="2">1002</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="9">
+    <!--아놀드-->
+    <Name>아놀드</Name>
+    <NameID>16</NameID>
+    <MinHeight>170</MinHeight>
+    <MaxHeight>170</MaxHeight>
+
+    <BookId>100009</BookId>
+
+    <Exp>7</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="2">1003</DropItem>
+    </DropTable>
+  </Enemy>
+
+
+  <Enemy ID="10">
+    <!--맥컬린-->
+    <Name>맥컬린</Name>
+    <NameID>21</NameID>
+    <MinHeight>190</MinHeight>
+    <MaxHeight>190</MaxHeight>
+
+    <BookId>100010</BookId>
+
+    <Exp>6</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="2">1001</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="11">
+    <!--태인-->
+    <Name>태인</Name>
+    <NameID>22</NameID>
+    <MinHeight>170</MinHeight>
+    <MaxHeight>170</MaxHeight>
+
+    <BookId>100011</BookId>
+
+    <Exp>10</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="2">1002</DropItem>
+    </DropTable>
+
+  </Enemy>
+
+  <Enemy ID="12">
+    <!--나오키-->
+    <Name>나오키</Name>
+    <NameID>20</NameID>
+    <MinHeight>160</MinHeight>
+    <MaxHeight>160</MaxHeight>
+
+    <BookId>100012</BookId>
+
+    <Exp>6</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="2">1003</DropItem>
+    </DropTable>
+
+  </Enemy>
+
+ <Enemy ID="11001">
+    <!--갈고리 사무소1 챕터1-->
+    <Name>갈고리 사무소 해결사</Name>
+    <NameID>53</NameID>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>200</MaxHeight>
+
+    <BookId>111001</BookId>
+
+    <Exp>5</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="2">1001</DropItem>
+    </DropTable>
+  </Enemy>
+
+
+</EnemyUnitClassRoot>

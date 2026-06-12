@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <text id="PickUpCreature_BloodBath1_Name">鲜血</text>
+  <text id="PickUpCreature_BloodBath1_Desc">[选择一名司书]
+该司书的“防御型”骰子威力+1~2
+被击中时所受混乱伤害+3~5</text>
+  <text id="PickUpCreature_BloodBath1_FlaverText">望向浴缸内部，你会莫名感到无法承受的忧郁。</text>
+  <text id="PickUpCreature_BloodBath2_Name">疤痕</text>
+  <text id="PickUpCreature_BloodBath2_Desc">[选择一名司书]
+该司书被斩击骰子击中时所受伤害-2~5
+被任意“进攻型”骰子击中时有20%的概率免受此次伤害。</text>
+  <text id="PickUpCreature_BloodBath2_FlaverText">当我注视着她那伤痕累累的手腕时，我想起了我们的酒窖。那一夜，我把最后一瓶喝得精光。</text>
+  <text id="PickUpCreature_BloodBath3_Name">瘆白之手</text>
+  <text id="PickUpCreature_BloodBath3_Desc">[选择一名司书]
+若该司书连续3次击中同一目标，则追加3~10点混乱伤害并重置此计数。
+(攻击其他角色时重置此计数，无法对群体攻击书页生效)</text>
+  <text id="PickUpCreature_BloodBath3_FlaverText">我触碰到了冰冷而僵硬的手。
+——我曾深爱之人的手。</text>
+
+  <text id="PickUpCreature_ScorchedGirl1_Name">余烬</text>
+  <text id="PickUpCreature_ScorchedGirl1_Desc">[选择一名司书]
+该司书被击中时将对攻击方施加1~3层“烧伤”并有40%的概率在下一幕中赋予自身的“进攻型”骰子额外效果“[命中时] 对目标施加1层[烧伤]”(不可叠加)</text>
+  <text id="PickUpCreature_ScorchedGirl1_FlaverText">焦黑的身体象征着少女支离破碎的希望，永恒的火焰却寄托着对爱的强烈渴望。</text>
+  <text id="PickUpCreature_ScorchedGirl2_Name">脚步</text>
+  <text id="PickUpCreature_ScorchedGirl2_Desc">[影响所有司书]
+若某司书的体力不高于20%，则该司书与攻击目标触发战斗时将造成“自身体力上限x30%”的伤害(至多36点)并对其施加1~3层“烧伤”，随后死亡</text>
+      <text id="PickUpCreature_ScorchedGirl2_FlaborText">我来找你了，和我一起化成灰吧。</text>
+  <text id="PickUpCreature_ScorchedGirl2_FlaverText">我来找你了，和我一起化成灰吧。</text>
+  <text id="PickUpCreature_ScorchedGirl3_Name">残光</text>
+  <text id="PickUpCreature_ScorchedGirl3_Desc">[选择一名司书]
+应用该异想体书页后，该司书后续使用的2张书页及其携带的所有同名书页将被赋予“火柴标记”。(无法对装备书页生效) 
+该司书使用“火柴书页”时将获得1层“火苗”，每层“火苗”将使“火柴书页”的第1颗骰子最大值+1
+若“火苗”层数不低于4，则使用“火柴书页”时有25%的概率爆炸并对自身造成“第1颗骰子最大值”的伤害。</text>
+  <text id="PickUpCreature_ScorchedGirl3_FlaverText">她从不轻易表露内心的情感，就像一枚不知何时才会引爆的定时炸弹。</text>
+
+  <text id="PickUpCreature_ForsakenMurderer1_Name">铁块的回声</text>
+  <text id="PickUpCreature_ForsakenMurderer1_Desc">[选择一名司书]
+该司书以打击骰子击中目标时将在下一幕中对其施加1层“束缚”与“麻痹”。(无法对群体攻击书页生效)</text>
+  <text id="PickUpCreature_ForsakenMurderer1_FlaverText">脑袋……铁块……大脑上的褶皱……变光滑了……</text>
+  <text id="PickUpCreature_ForsakenMurderer2_Name">受缚的愤怒</text>
+  <text id="PickUpCreature_ForsakenMurderer2_Desc">[选择一名司书]
+该司书的打击骰子威力+1~3
+速度固定为1点。</text>
+  <text id="PickUpCreature_ForsakenMurderer2_FlaverText">即使全身遭到束缚，他仍比任何人都要自由。这还远远无法阻止他施暴。</text>
+  <text id="PickUpCreature_ForsakenMurderer3_Name">极端暴力</text>
+  <text id="PickUpCreature_ForsakenMurderer3_Desc">[选择一名司书]
+该司书的所有骰子最小值-1，最大值+3</text>
+  <text id="PickUpCreature_ForsakenMurderer3_FlaverText">最可怜的明明是你们，道貌岸然的伪君子，死在俺手里的小人。</text>
+
+  <text id="PickUpCreature_ShyLookToday1_Name">今日的表情</text>
+  <text id="PickUpCreature_ShyLookToday1_Desc">[选择一名司书]
+该司书的骰子威力取决于下令战斗时的表情。(最小-2，最大+2)</text>
+  <text id="PickUpCreature_ShyLookToday1_FlaverText">某一天，又是一个阳光明媚的好日子，我就像很久以前小心翼翼地晾干衣服那样，晾起了自己的脸皮。</text>
+  <text id="PickUpCreature_ShyLookToday2_Name">社交距离</text>
+  <text id="PickUpCreature_ShyLookToday2_Desc">[选择一名司书]
+该司书使用的书页中每有1颗“防御型”骰子，便使自身当前书页的招架骰子威力+1</text>
+  <text id="PickUpCreature_ShyLookToday2_FlaverText">也许是因为害羞才会执意藏起面容，当无法隐忍的情感涌上心头之际，最好遮住你的脸。</text>
+  <text id="PickUpCreature_ShyLookToday3_Name">害羞</text>
+  <text id="PickUpCreature_ShyLookToday3_Desc">[选择一名司书]
+该司书的招架骰子威力+1~2
+反震伤害+2~7</text>
+  <text id="PickUpCreature_ShyLookToday3_FlaverText">不要窥探她隐藏在脸皮后的真实容貌，这不会有什么好结果的。巨大的脸皮之后是她仅有的私人空间，确保她的隐私不受侵犯是都市留给她的最后一项特权。</text>
+
+  <text id="PickUpCreature_UniverseZogak1_Name">异界的回响</text>
+  <text id="PickUpCreature_UniverseZogak1_Desc">[影响所有角色]
+对所有来宾造成5~10点混乱伤害。
+为所有司书恢复5~10点混乱抗性。</text>
+  <text id="PickUpCreature_UniverseZogak1_FlaverText">眼前响起了悦耳的歌声，它正慢慢朝你靠近……</text>
+  <text id="PickUpCreature_UniverseZogak2_Name">触须</text>
+  <text id="PickUpCreature_UniverseZogak2_Desc">[选择一名司书]
+该司书以突刺骰子击中目标时将使其混乱抗性上限-5%(至多-50%，无法对群体攻击书页生效)</text>
+  <text id="PickUpCreature_UniverseZogak2_FlaverText">被触须穿透的那一瞬间，今后的人生将再也无法激起你分毫的兴趣……</text>
+  <text id="PickUpCreature_UniverseZogak3_Name">无法理解</text>
+  <text id="PickUpCreature_UniverseZogak3_Desc">[选择一名司书]
+该司书单方面攻击击中目标时有50%的概率在下一幕中对其施加1层“虚弱”与“破绽”。(每张书页至多触发3次，无法对群体攻击书页生效)
+每击中1次便使触发概率+10%</text>
+  <text id="PickUpCreature_UniverseZogak3_FlaverText">总而言之，那家伙成功踏入了“宇宙碎片”的领域，但他的大脑显然无法承受。</text>
+
+  <text id="PickUpCreature_QueenOfHatred1_Name">博爱</text>
+  <text id="PickUpCreature_QueenOfHatred1_Desc">[选择一名司书]
+该司书以“进攻型”骰子取得拼点胜利时将随机为1名司书恢复3~5点体力。
+该司书以“防御型”骰子取得拼点胜利时将随机为1名司书恢复2~4点混乱抗性。</text>
+  <text id="PickUpCreature_QueenOfHatred1_FlaverText">以爱与正义之名~魔法少女闪亮登场！</text>
+  <text id="PickUpCreature_QueenOfHatred2_Name">正义</text>
+  <text id="PickUpCreature_QueenOfHatred2_Desc">[选择一名司书]
+每一幕中通过直接攻击对司书方造成最多伤害的来宾将被标记为“坏蛋”。
+该司书击中“坏蛋”时伤害+3~5</text>
+  <text id="PickUpCreature_QueenOfHatred2_FlaverText">如果我与正义同在，就一定有人与邪恶同在。没有坏蛋，我就失去了存在的意义。</text>
+  <text id="PickUpCreature_QueenOfHatred3_Name">憎恶</text>
+  <text id="PickUpCreature_QueenOfHatred3_Desc">[选择一名司书]
+该司书拼点失败时将追加承受2~4点混乱伤害并在下一幕中获得1层“强壮”(每一幕至多触发2次)
+若1幕之内拼点失败3次，则随机使手中1张费用最高的书页费用-1(每一幕至多触发1次)</text>
+  <text id="PickUpCreature_QueenOfHatred3_FlaverText">她发誓要用爱去对待世间万物，然而最终只剩下一颗伤痕累累的，破碎的心。</text>
+
+  <text id="PickUpCreature_Redhood1_Name">猎物</text>
+  <text id="PickUpCreature_Redhood1_Desc">[选择一名司书]
+应用该异想体书页后，该司书击中的第1名来宾将被标记为“猎物”。
+该司书击中“猎物”时伤害+2~6</text>
+  <text id="PickUpCreature_Redhood1_FlaverText">那头狼的惨死，是我生命中唯一喜爱的事。</text>
+  <text id="PickUpCreature_Redhood2_Name">复仇</text>
+  <text id="PickUpCreature_Redhood2_Desc">[选择一名司书]
+该司书每承受5点伤害(包括直接攻击伤害与负面状态伤害)，便在下一幕中获得1层“强壮”。(至多2层)</text>
+  <text id="PickUpCreature_Redhood2_FlaverText">我们之间不会有任何一方胜出，更谈不上庆祝。我只想用比前一回更残忍，更痛苦的手段撕烂那头狗杂种。</text>
+  <text id="PickUpCreature_Redhood3_Name">伤疤</text>
+  <text id="PickUpCreature_Redhood3_Desc">[选择一名司书]
+每一幕开始时若该司书的体力不高于50%/35%/25%，则获得1/2/4层“强壮”。</text>
+  <text id="PickUpCreature_Redhood3_FlaverText">15岁时，磨斧子取代了采野花，成为我生命中习以为常的一部分。</text>
+
+  <text id="PickUpCreature_ScareCrow1_Name">被扯出的智慧</text>
+  <text id="PickUpCreature_ScareCrow1_Desc">[选择一名司书]
+该司书每使用1张书页，便从手中随机丢弃1张书页以恢复1点光芒。(无法对装备书页生效)</text>
+  <text id="PickUpCreature_ScareCrow1_FlaverText">归来之时，他的前额多了一道长长的疤痕。当被人问及是否痊愈时，他只答道觉得脑袋变轻了。</text>
+  <text id="PickUpCreature_ScareCrow2_Name">收割</text>
+  <text id="PickUpCreature_ScareCrow2_Desc">[选择一名司书]
+该司书击中混乱抗性高于自身的目标时将恢复2~5点混乱抗性并追加2~4点混乱伤害。(无法对群体攻击书页生效)</text>
+  <text id="PickUpCreature_ScareCrow2_FlaverText">它会对特定职员表现出攻击性，并试图夺走对方的大脑。这类职员在IQ测试中普遍成绩优异。</text>
+  <text id="PickUpCreature_ScareCrow3_Name">钉耙</text>
+  <text id="PickUpCreature_ScareCrow3_Desc">[选择一名司书]
+若该司书使目标陷入混乱，则从其手中随机复制2张书页并置入自身手中。
+复制的书页费用-2并将在使用后移出战斗。
+(近战角色仅复制近战书页/远程角色仅复制远程书页，无法对拥有被动能力“变幻莫测”的角色生效)</text>
+  <text id="PickUpCreature_ScareCrow3_FlaverText">本该耕耘田地的农具却被用于破开大脑，我们当中有多少聪明才子惨死在这杆钉耙之下？</text>
+
+  <text id="PickUpCreature_Bigbird1_Name">监视之眼</text>
+  <text id="PickUpCreature_Bigbird1_Desc">[选择一名司书]
+应用该异想体书页后，该司书将恢复所有光芒且光芒恢复量+1
+每一幕开始时除该司书外的随机1名司书将无法恢复光芒。</text>
+  <text id="PickUpCreature_Bigbird1_FlaverText">那只鸟儿的眼睛总是闪闪发光，像夜空中的繁星那般璀璨。但为了守护森林，它将眼睛赠予了大鸟。</text>
+  <text id="PickUpCreature_Bigbird2_Name">永燃灯</text>
+  <text id="PickUpCreature_Bigbird2_Desc">[选择一名司书]
+被该司书指定为攻击目标的来宾也会将攻击目标转变为该司书。(无视其速度)</text>
+  <text id="PickUpCreature_Bigbird2_FlaverText">只要我先杀掉动物，就不会有动物被怪兽杀掉了呀！</text>
+  <text id="PickUpCreature_Bigbird3_Name">救赎</text>
+  <text id="PickUpCreature_Bigbird3_Desc">[选择一名司书]
+该司书与速度高于自身的目标拼点时将使自身当前书页的所有骰子威力+1
+若目标体力不高于25%，则拼点胜利时将摧毁其当前书页的所有骰子。</text>
+  <text id="PickUpCreature_Bigbird3_FlaverText">对这只鸟而言，死亡本身即是救赎。 </text>
+
+  <text id="PickUpCreature_Bloodytree1_Name">萎缩的血翼</text>
+  <text id="PickUpCreature_Bloodytree1_Desc">[选择一名司书]
+该司书造成反震伤害时将追加一半于招架骰子点数的伤害。</text>
+  <text id="PickUpCreature_Bloodytree1_FlaverText">一旦它意识到你的关注已被切断，便会展开翅膀。宛若一位天使，它的翅膀将伸向天空，继而遮蔽太阳。</text>
+  <text id="PickUpCreature_Bloodytree2_Name">他人的视线</text>
+  <text id="PickUpCreature_Bloodytree2_Desc">[选择一名司书]
+该司书单方面攻击击中目标时伤害+2~4
+拼点时招架骰子威力+1~3，击中目标时伤害-3~6</text>
+  <text id="PickUpCreature_Bloodytree2_FlaverText">所谓视线正是如此。关注。无形之连接。完全集中。</text>
+  <text id="PickUpCreature_Bloodytree3_Name">关注与集中</text>
+  <text id="PickUpCreature_Bloodytree3_Desc">[选择一名司书]
+该司书造成或承受反震伤害时伤害x2</text>
+  <text id="PickUpCreature_Bloodytree3_FlaverText">不要转移视线，一直盯着它，将它收容在你的视线之中。</text>
+
+
+
+ <text id="PickUpCreature_HeartofAspiration1_Name">脉动</text>
+  <text id="PickUpCreature_HeartofAspiration1_Desc">[影响所有司书]
+每一幕结束时所有司书将在下一幕中获得1~2层“强壮”，未在当幕使用“进攻型”骰子造成伤害的司书将承受“自身体力上限x25%”的伤害。(至多30点)</text>
+  <text id="PickUpCreature_HeartofAspiration1_FlaverText">过度的渴望会使人发狂。</text>
+ <text id="PickUpCreature_HeartofAspiration2_Name">渴望</text>
+  <text id="PickUpCreature_HeartofAspiration2_Desc">[选择一名司书]
+该司书的速度+1~2
+体力上限+15%并恢复等量体力。</text>
+  <text id="PickUpCreature_HeartofAspiration2_FlaverText">携带者的心率瞬间提升至2倍以上，并获得了惊人的肌肉活力与力量。</text>
+ <text id="PickUpCreature_HeartofAspiration3_Name">剧烈搏动</text>
+  <text id="PickUpCreature_HeartofAspiration3_Desc">[选择一名司书]
+该司书将永久获得4层“强壮”，“忍耐”，“迅捷”与“守护”且所有混乱攻击抗性将变为“抵抗”。
+3幕之后，该司书将直接死亡。</text>
+  <text id="PickUpCreature_HeartofAspiration3_FlaverText">一颗无主之心，即使与身体分离也从未停止跳动。</text>
+
+  <text id="PickUpCreature_HappyTeddyBear1_Name">思念的拥抱</text>
+  <text id="PickUpCreature_HappyTeddyBear1_Desc">[选择一名司书]
+该司书拼点胜利时有20%的概率追加“自身骰子点数”的混乱伤害。
+对同一目标每取得一次拼点胜利，该效果的触发概率便+5%
+(攻击其他角色时重置此概率)</text>
+  <text id="PickUpCreature_HappyTeddyBear1_FlaverText">泰迪正紧紧抱着某人。泰迪非常喜欢拥抱。但，似乎有些不对劲。</text>
+  <text id="PickUpCreature_HappyTeddyBear2_Name">幸福的记忆</text>
+  <text id="PickUpCreature_HappyTeddyBear2_Desc">[选择一名司书]
+随机从该司书手中选择1张当前费用最高的书页，其携带的所有同名书页将被赋予“幸福标记”。(无法对装备书页生效)
+“幸福书页”每被该司书使用一次，其费用便一同-1</text>
+  <text id="PickUpCreature_HappyTeddyBear2_FlaverText">可泰迪再也不想失去它的主人了。</text>
+  <text id="PickUpCreature_HappyTeddyBear3_Name">表达爱意</text>
+  <text id="PickUpCreature_HappyTeddyBear3_Desc">[选择一名司书]
+该司书拼点时自身的骰子威力+1~2
+单方面攻击时自身的骰子威力-1~2</text>
+  <text id="PickUpCreature_HappyTeddyBear3_FlaverText">它的记忆始于温暖的怀抱。</text>
+
+  <text id="PickUpCreature_LittleHelper1_Name">充电</text>
+  <text id="PickUpCreature_LittleHelper1_Desc">[选择一名司书]
+每一幕开始时若该司书的光芒全满，则获得1~2层“迅捷”且击中目标时伤害+2~7</text>
+  <text id="PickUpCreature_LittleHelper1_FlaverText">机械臂上本应配备的清洁用具被全部替换成极度锋利的切割工具。</text>
+  <text id="PickUpCreature_LittleHelper2_Name">反复识别功能</text>
+  <text id="PickUpCreature_LittleHelper2_Desc">[选择一名司书]
+该司书每取得3次拼点胜利，便恢复1点光芒并在下一幕中获得1~2层“迅捷”。</text>
+  <text id="PickUpCreature_LittleHelper2_FlaverText">搬进新家的第一天，我把那个人期盼已久的礼物转交给了他们。</text>
+  <text id="PickUpCreature_LittleHelper3_Name">清洁</text>
+  <text id="PickUpCreature_LittleHelper3_Desc">[选择一名司书]
+该司书的速度每高于目标1点，便使自身的“进攻型”骰子威力+1(至多+3)</text>
+  <text id="PickUpCreature_LittleHelper3_FlaverText">若是将周遭的环境识别为脏乱差，它的坏情绪指示灯会迅速亮起并进入全面清洁模式。</text>
+
+  <text id="PickUpCreature_RedShoes1_Name">闪亮</text>
+  <text id="PickUpCreature_RedShoes1_Desc">[选择一名司书]
+每一幕开始时所有来宾各有50%的概率陷入“着魔”状态。
+“着魔”的来宾会优先将该司书指定为攻击目标。
+“着魔”的来宾击中任意司书时伤害+2~4
+该司书与“着魔”的来宾拼点时将使自身当前书页的所有骰子威力+1~2</text>
+  <text id="PickUpCreature_RedShoes1_FlaverText">这双鞋是无色的。
+不过很快就会染红了。</text>
+  <text id="PickUpCreature_RedShoes2_Name">血之渴望</text>
+  <text id="PickUpCreature_RedShoes2_Desc">[影响所有角色]
+所有角色使用书页施加“流血”时层数x2</text>
+  <text id="PickUpCreature_RedShoes2_FlaverText">我要砍断你的狗腿，这辈子都别想跳舞。</text>
+  <text id="PickUpCreature_RedShoes3_Name">利斧</text>
+  <text id="PickUpCreature_RedShoes3_Desc">[选择一名司书]
+该司书的斩击骰子威力+1~3
+该司书使用斩击骰子时若未能击中目标，则承受2~5点混乱伤害。(无法对群体攻击书页生效)</text>
+  <text id="PickUpCreature_RedShoes3_FlaverText">前辈突然换上舞鞋，颇为满意地露出微笑。她的笑容有些奇怪，不……那根本不是在笑……</text>
+
+  <text id="PickUpCreature_ChildofGalaxy1_Name">卵石</text>
+  <text id="PickUpCreature_ChildofGalaxy1_Desc">[选择一名司书]
+每一幕开始时随机为该司书手中的3张书页赋予“卵石标记”。(无法对装备书页生效)
+该司书使用“卵石书页”时将恢复3~7点体力。
+使用非“卵石书页”时将失去1~3点体力。</text>
+ <text id="PickUpCreature_ChildofGalaxy1_FlaverText">它真有那么好吗？比起我呢？这是理所当然的？我什么都知道，无论你做了什么，无论你要去往何方。</text>
+  <text id="PickUpCreature_ChildofGalaxy2_Name">泪水</text>
+  <text id="PickUpCreature_ChildofGalaxy2_Desc">[选择一名司书]
+该司书的所有骰子威力+1
+该司书死亡时将使所有角色失去50%的现有体力。(至多60点)</text>
+ <text id="PickUpCreature_ChildofGalaxy2_FlaverText">耳畔传来他的低语和呼吸……接着便是一片漆黑……就像我与他初见的那个夜晚……</text>
+<text id="PickUpCreature_ChildofGalaxy3_Name">友谊之证</text>
+  <text id="PickUpCreature_ChildofGalaxy3_Desc">[影响所有司书]
+3幕之内，每一幕开始时为所有司书恢复10%的体力。(至多12点)</text>
+ <text id="PickUpCreature_ChildofGalaxy3_FlaverText">你手中的卵石闪耀着，摇曳着，颤动着。在那之后，它便化作整个银河。</text>
+
+  <text id="PickUpCreature_KnightOfDespair1_Name">加护</text>
+  <text id="PickUpCreature_KnightOfDespair1_Desc">[选择一名司书]
+每一幕开始时若该司书在上一幕中承受直接攻击伤害，则使承伤最多的攻击抗性变为“耐性”。
+(物理攻击抗性与混乱攻击抗性单独计算)</text>
+ <text id="PickUpCreature_KnightOfDespair1_FlaverText">即使身陷桎梏，她依然狂热地试图守护他人，一如既往。</text>
+  <text id="PickUpCreature_KnightOfDespair2_Name">绝望</text>
+  <text id="PickUpCreature_KnightOfDespair2_Desc">[影响所有司书]
+某司书死亡时将在下一幕中使所有司书获得1~3层“强壮”与“迅捷”并对所有来宾施加2层“易损”。</text>
+ <text id="PickUpCreature_KnightOfDespair2_FlaverText">越是与人倾诉，越会削其锋芒。一如她的哀伤。</text>
+  <text id="PickUpCreature_KnightOfDespair3_Name">泪剑</text>
+  <text id="PickUpCreature_KnightOfDespair3_Desc">[选择一名司书]
+若该司书以突刺骰子掷出最大值且击中目标，则追加“目标体力上限x10%”的伤害。(至多12点，无法对群体攻击书页生效)
+</text>
+ <text id="PickUpCreature_KnightOfDespair3_FlaverText">若是再度被正义背叛，数十把利剑便将迷茫地四处飘荡，最终指向无法守护之人。</text>
+
+  <text id="PickUpCreature_BigBadWolf1_Name">掠食本能</text>
+  <text id="PickUpCreature_BigBadWolf1_Desc">[选择一名司书]
+该司书拼点胜利时将使自身当前书页的最后一颗骰子威力+1~2(无法对反击骰子生效)
+若以该骰子击中目标，则恢复3~7点体力。</text>
+ <text id="PickUpCreature_BigBadWolf1_FlaverText">好久没吃到，如此鲜美的肉了。从那时起，想要自律变得越来越难。不过没关系，我是一头又大又“坏”的狼。</text>
+  <text id="PickUpCreature_BigBadWolf2_Name">凶残利爪</text>
+  <text id="PickUpCreature_BigBadWolf2_Desc">[选择一名司书]
+若该司书已累计承受超出“自身体力上限x25%”的伤害，则下一幕中自身将无法被指定为攻击目标且无法改变来宾的攻击目标。
+在此状态下，该司书将获得2层“强壮”且击中目标时将在下一幕中对其施加1层“流血”。(触发后重置承伤计数)</text>
+ <text id="PickUpCreature_BigBadWolf2_FlaverText">很久以前，这对利爪曾破开无数生物的肚囊，将其内脏一一撕裂。</text>
+  <text id="PickUpCreature_BigBadWolf3_Name">狼的角色</text>
+  <text id="PickUpCreature_BigBadWolf3_Desc">[选择一名司书]
+该司书的反击骰子威力+1~2
+以反击骰子取得拼点胜利时将在下一幕中对目标施加1~2层“易损”。(每一幕至多触发3次)</text>
+ <text id="PickUpCreature_BigBadWolf3_FlaverText">狼做坏事时绝不能越界，狼理应受到惩罚，狼永远是坏榜样……</text>
+
+  <text id="PickUpCreature_LumberJack1_Name">温暖的心</text>
+  <text id="PickUpCreature_LumberJack1_Desc">[选择一名司书]
+每一幕开始时若该司书的光芒数不低于3点，则使自身的“进攻型”骰子威力+1~2</text>
+ <text id="PickUpCreature_LumberJack1_FlaverText">一怒之下，它抡起斧头砍穿了巫师的心脏。那颗心正温暖而有力地跳动着。</text>
+  <text id="PickUpCreature_LumberJack2_Name">心脏</text>
+  <text id="PickUpCreature_LumberJack2_Desc">[选择一名司书]
+若该司书在1幕之内至少造成15点伤害，则随机使手中2张费用最高的书页费用-1
+若击杀目标，则效果改为“费用减为0”
+(减费的书页将在使用后复原)</text>
+ <text id="PickUpCreature_LumberJack2_FlaverText">再多的心脏也无法填补空缺，那台曾是樵夫的机器不再劈砍树木，而是采伐人类。</text>
+  <text id="PickUpCreature_LumberJack3_Name">伐木</text>
+  <text id="PickUpCreature_LumberJack3_Desc">[选择一名司书]
+该司书攻击光芒数高于自身的目标时，目标每剩余1点光芒，便使自身的“进攻型”骰子威力+1(至多+2)</text>
+  <text id="PickUpCreature_LumberJack3_FlaverText">在那拥有无数心脏的森林之中，无论怎么砍伐，树木依然青翠如常。</text>
+
+  <text id="PickUpCreature_SmallBird1_Name">惩戒</text>
+  <text id="PickUpCreature_SmallBird1_Desc">[选择一名司书]
+若该司书承受伤害，则下一幕中自身使用的第1张书页的第1颗骰子威力+2~4 (无法对装备书页生效)</text>
+  <text id="PickUpCreature_SmallBird1_FlaverText">一定是因为没人惩罚那些干坏事的人。只要有人来扮演这个角色，世上就再也不会发生坏事了。</text>
+  <text id="PickUpCreature_SmallBird2_Name">责罚之喙</text>
+  <text id="PickUpCreature_SmallBird2_Desc">[选择一名司书]
+该司书每有一幕未承受伤害，便使自身的“进攻型”骰子伤害+1(至多+10)
+(被击中时重置此计数)</text>
+  <text id="PickUpCreature_SmallBird2_FlaverText">很久以前人们就犯下累累罪行。他们明知那是错的，却为何还要执意这么做呢？</text>
+  <text id="PickUpCreature_SmallBird3_Name">小翅儿扑扑</text>
+  <text id="PickUpCreature_SmallBird3_Desc">[选择一名司书]
+该司书的闪避骰子威力+1~2
+以闪避骰子取得拼点胜利时将使自身当前书页的下一颗“进攻型”骰子威力+1~2</text>
+  <text id="PickUpCreature_SmallBird3_FlaverText">这是一只惩罚恶徒，罪犯以及一切不敬之人的自信小小鸟。</text>
+
+  <text id="PickUpCreature_Clock1_Name">时间</text>
+  <text id="PickUpCreature_Clock1_Desc">[影响所有司书]
+所有司书的所有骰子威力+1~2
+每一幕的战前准备阶段仅有30秒。</text>
+  <text id="PickUpCreature_Clock1_FlaverText">时流若生，生逝如时。</text>
+  <text id="PickUpCreature_Clock2_Name">第十三声钟响</text>
+  <text id="PickUpCreature_Clock2_Desc">[选择一名司书]
+每当该司书使用第13张书页时将使其中的所有骰子威力+1~2并赋予“进攻型”骰子额外效果“[命中时] 追加‘目标体力上限x(骰子点数)%’的伤害” (无法对装备书页生效)</text>
+  <text id="PickUpCreature_Clock2_FlaverText">吾知晓绝对的孤独。分享沉默，应得果报。待到原主归来之时，汝当偿付代价。</text>
+  <text id="PickUpCreature_Clock3_Name">沉默</text>
+  <text id="PickUpCreature_Clock3_Desc">[选择一名司书]
+将1张0费“沉默”与1张0费“加速”置入该司书手中。
+效果分别为“[装备时] 承受‘自身体力上限x15%’的伤害并使除自身外的所有角色速度-5”
+“[装备时] 承受‘自身体力上限x10%’的伤害并使自身速度+5”
+切换舞台时将1张“沉默”与1张“加速”洗入卡组。</text>
+  <text id="PickUpCreature_Clock3_FlaverText">时而产生时间停止的错觉，时而出现刹那般的沉默。</text>
+
+  <text id="PickUpCreature_Pinocchio1_Name">学习</text>
+  <text id="PickUpCreature_Pinocchio1_Desc">[选择一名司书]
+将1张2费“模仿学习”置入该司书手中。
+效果为“[拼点开始] 将本书页的骰子替换为目标当前书页中的骰子”
+切换舞台时将1张“模仿学习”洗入卡组。</text>
+  <text id="PickUpCreature_Pinocchio1_FlaverText">这家伙只会跟在别人身后“学习”，而这就是问题所在。</text>
+  <text id="PickUpCreature_Pinocchio2_Name">谎言</text>
+  <text id="PickUpCreature_Pinocchio2_Desc">[选择一名司书]
+每一幕开始时随机调整该司书手中书页的费用。(仅对初始费用为0~3费的书页生效)</text>
+  <text id="PickUpCreature_Pinocchio2_FlaverText">人人都在说谎，这有啥不好的？</text>
+  <text id="PickUpCreature_Pinocchio3_Name">好奇</text>
+  <text id="PickUpCreature_Pinocchio3_Desc">[选择一名司书]
+每一幕开始时洗回该司书手中的书页并抽取4张书页。</text>
+  <text id="PickUpCreature_Pinocchio3_FlaverText">我今天也在努力学习，要向你展示一下吗？</text>
+
+  <text id="PickUpCreature_FairyCarnival1_Name">精灵的呵护</text>
+  <text id="PickUpCreature_FairyCarnival1_Desc">[选择一名司书]
+3幕之内，每一幕结束时为该司书恢复15%的体力。(至多18点)
+效果结束前若该司书累计被击中3次，则追加承受“自身体力上限x25%”的伤害并移除该效果。(至多30点)</text>
+  <text id="PickUpCreature_FairyCarnival1_FlaverText">精灵会保护职员们。在她们的悉心照料下，一切都会变得安宁祥和。</text>
+  <text id="PickUpCreature_FairyCarnival2_Name">贪食</text>
+  <text id="PickUpCreature_FairyCarnival2_Desc">[选择一名司书]
+该司书击中当幕已损失体力的目标时伤害+1~3并恢复2~5点体力。</text>
+ <text id="PickUpCreature_FairyCarnival2_FlaverText">说到底，这些精灵不过是一群爱吃肉的怪物罢了，所谓的“呵护”也仅仅是为了保持食物的新鲜。</text>
+  <text id="PickUpCreature_FairyCarnival3_Name">猎食</text>
+  <text id="PickUpCreature_FairyCarnival3_Desc">[选择一名司书]
+这一幕开始时对除该司书外的所有司书造成10点伤害。
+该司书将恢复“伤害总值”的体力并获得3层“强壮”与“迅捷”。</text>
+ <text id="PickUpCreature_FairyCarnival3_FlaverText">他的内脏和眼球遭到不明生物啃食，受损严重。此外，我们察觉到精灵们的嘴角沾有某人的血肉。</text>
+
+  <text id="PickUpCreature_SingingMachine1_Name">音乐</text>
+  <text id="PickUpCreature_SingingMachine1_Desc">[影响所有角色]
+所有角色击中目标时伤害+4~8，被击中时将追加承受4~8点混乱伤害。
+某司书击杀来宾时将恢复15点体力与混乱抗性。</text>
+  <text id="PickUpCreature_SingingMachine1_FlaverText">这世上再也没有比“人”更加动听的旋律了。</text>
+  <text id="PickUpCreature_SingingMachine2_Name">旋律</text>
+  <text id="PickUpCreature_SingingMachine2_Desc">[选择一名司书]
+每一幕开始时该司书将获得1层“节奏”。
+拥有“节奏”的角色击中目标时有25%的概率在下一幕中随机对1名角色施加1层“节奏”。
+(节奏: 获得1层“强壮”，被击中时将追加承受2~5点混乱伤害，持续1幕)</text>
+  <text id="PickUpCreature_SingingMachine2_FlaverText">此乃，旋律。</text>
+  <text id="PickUpCreature_SingingMachine3_Name">成瘾</text>
+  <text id="PickUpCreature_SingingMachine3_Desc">[选择一名司书]
+该司书的“进攻型”骰子威力+1~3
+“防御型”骰子点数固定为1点。</text>
+  <text id="PickUpCreature_SingingMachine3_FlaverText">艺术本就是绝望与苦痛之魔施舍的礼物，不要停止演奏，直到你的身体已如碎肉一般破烂不堪。</text>
+
+  <text id="PickUpCreature_SpiderBud1_Name">茧缚</text>
+  <text id="PickUpCreature_SpiderBud1_Desc">[选择一名司书]
+若该司书掷出最大值且击中目标，则下一幕中对目标施加1~2层“麻痹”，“束缚”与“易损”。(无法对群体攻击书页生效)</text>
+  <text id="PickUpCreature_SpiderBud1_FlaverText">没有人自愿取回茧中的尸体。</text>
+  <text id="PickUpCreature_SpiderBud2_Name">进食</text>
+  <text id="PickUpCreature_SpiderBud2_Desc">[选择一名司书]
+该司书击中处于“混乱”状态的目标时将为所有司书恢复2~4点体力。(无法对群体攻击书页生效)</text>
+  <text id="PickUpCreature_SpiderBud2_FlaverText">成为茧后，员工彼得被倒吊在收容单元的天花板上，为蜘蛛可爱的子女们献上丰盛的一餐。</text>
+  <text id="PickUpCreature_SpiderBud3_Name">警戒</text>
+  <text id="PickUpCreature_SpiderBud3_Desc">[选择一名司书]
+该司书拼点时目标的骰子威力-1
+该司书拼点胜利时有50%的概率在下一幕中对目标施加1层“束缚”与“易损”。</text>
+  <text id="PickUpCreature_SpiderBud3_FlaverText">为了饥肠辘辘的孩子们，于黑暗中觅食的眼瞳发出阵阵红光。</text>
+
+  <text id="PickUpCreature_Porccubus1_Name">棘刺</text>
+  <text id="PickUpCreature_Porccubus1_Desc">[选择一名司书]
+该司书以突刺骰子击中目标时将对其施加1层“快感”。(无法对群体攻击书页生效)
+若目标的“快感”层数不低于3，则对其造成2~7点伤害与混乱伤害并重置该层数。</text>
+  <text id="PickUpCreature_Porccubus1_FlaverText">最初只需要把刺儿轻轻戳进皮肉，而如今需要用全身疯狂地摩擦才能获得等同的刺激。</text>
+  <text id="PickUpCreature_Porccubus2_Name">嗨爆</text>
+  <text id="PickUpCreature_Porccubus2_Desc">[选择一名司书]
+该司书的所有骰子威力+1
+该司书的混乱抗性上限-50%</text>
+  <text id="PickUpCreature_Porccubus2_FlaverText">我的脑袋就要爆炸了，再见咯~</text>
+  <text id="PickUpCreature_Porccubus3_Name">笑粉</text>
+  <text id="PickUpCreature_Porccubus3_Desc">[影响所有司书]
+某司书被击中时若未陷入混乱，则恢复2~4点混乱抗性。</text>
+  <text id="PickUpCreature_Porccubus3_FlaverText">如果棘刺上散落的粉末被世人所知，那么人类恐怕将永远陷入狂喜的泥淖中无法自拔。</text>
+
+  <text id="PickUpCreature_Greed1_Name">放纵</text>
+  <text id="PickUpCreature_Greed1_Desc">[选择一名司书]
+该司书使用书页时若第1颗骰子取得拼点胜利，则有25%的概率摧毁目标当前书页的所有骰子。</text>
+  <text id="PickUpCreature_Greed1_FlaverText">第一颗欲望之种源于对幸福的纯粹向往。小小的种子不甘于现状，逐渐变得又大又硬。</text>
+  <text id="PickUpCreature_Greed2_Name">幸福之路</text>
+  <text id="PickUpCreature_Greed2_Desc">[选择一名司书]
+该司书每取得1次拼点胜利，便在下一幕中获得1层“忍耐”。(每一幕至多触发3次)</text>
+  <text id="PickUpCreature_Greed2_FlaverText">幸福化作痴迷，痴迷又化成贪婪，而贪婪则永远凝结为金黄的琥珀。</text>
+  <text id="PickUpCreature_Greed3_Name">贪婪</text>
+  <text id="PickUpCreature_Greed3_Desc">[选择一名司书]
+该司书拼点胜利时若点数高于目标4点，则追加3~7点伤害并为自身恢复2~5点体力。
+拼点失败时若点数低于目标4点，则追加承受3~7点伤害并为目标恢复2~5点体力。</text>
+  <text id="PickUpCreature_Greed3_FlaverText">不再是魔法少女的女孩吃掉了许多东西。权力，金钱，名誉，以及其他形式的欢愉。她将目光所及的一切吞噬殆尽，如今只剩下本能的贪婪。</text>
+
+  <text id="PickUpCreature_Mountain1_Name">死尸吸收</text>
+  <text id="PickUpCreature_Mountain1_Desc">[选择一名司书]
+[仅限本舞台]
+该司书击杀来宾时将恢复20%的体力。(至多20点)
+每一幕开始时该司书在本舞台中每恢复10%的体力，便获得1层“强壮”。(至多3层)</text>
+  <text id="PickUpCreature_Mountain1_FlaverText">它唯一想要的，就是浸泡在鲜血中的人肉。一闻到血腥便会狂奔而来。</text>
+  <text id="PickUpCreature_Mountain2_Name">尸体在笑</text>
+  <text id="PickUpCreature_Mountain2_Desc">[选择一名司书]
+若该司书的体力不高于50%，则被击中时将对所有来宾造成2~5点混乱伤害并在下一幕中对其施加1层“易损”。(每一幕至多触发3次)</text>
+  <text id="PickUpCreature_Mountain2_FlaverText">一座尸山。那些死尸面带微笑，成为互相分享残肢的一个整体。</text>
+  <text id="PickUpCreature_Mountain3_Name">尸山</text>
+  <text id="PickUpCreature_Mountain3_Desc">[选择一名司书]
+直接击杀除该司书外的所有司书。
+每击杀1名司书，该司书便永久获得1层“强壮”，“守护”与“迅捷”且光芒上限与光芒恢复量+1
+</text>
+  <text id="PickUpCreature_Mountain3_FlaverText">尸体越多，它的体型就越是庞大。而且永不满足。</text>
+
+  <text id="PickUpCreature_House1_Name">勇气</text>
+  <text id="PickUpCreature_House1_Desc">[选择一名司书]
+A每一幕开始时该司书将获得“存活司书数-2”层“强壮”与“守护”。
+(若舞台中已无友方司书存活，则改为获得1层“虚弱”与“易损”)</text>
+  <text id="PickUpCreature_House1_FlaverText">今后能一直跟着你喵？这样我就有勇气撕碎他们……</text>
+  <text id="PickUpCreature_House2_Name">家</text>
+  <text id="PickUpCreature_House2_Desc">[影响所有司书]
+每一幕开始时根据存活司书数随机为3/2/2/1/1名来宾赋予数字。
+某司书按数字顺序攻击对应来宾时将使自身的“进攻型”骰子伤害+3</text>
+  <text id="PickUpCreature_House2_FlaverText">就这样，我开始了无尽的冒险，永远回不了家了。</text>
+  <text id="PickUpCreature_House3_Name">同行之路</text>
+  <text id="PickUpCreature_House3_Desc">[选择一名司书]
+若某司书保护该司书免受攻击(转移攻击目标)，则使其当前书页的所有骰子威力+1~2</text>
+  <text id="PickUpCreature_House3_FlaverText">一同出发吧。美丽的世界。梦的世界……</text>
+
+  <text id="PickUpCreature_LongBird1_Name">罪孽的分量</text>
+  <text id="PickUpCreature_LongBird1_Desc">[选择一名司书]
+该司书每掷出一次最小值，便承受2~7点伤害并在下一幕中获得1~2层“强壮”与“忍耐”。
+</text>
+  <text id="PickUpCreature_LongBird1_FlaverText">它的天秤永远不会忽略任何罪孽的分量。</text>
+  <text id="PickUpCreature_LongBird2_Name">审判</text>
+  <text id="PickUpCreature_LongBird2_Desc">[选择一名司书]
+每一幕开始时所有角色各有50%的概率获得1层“罪孽”
+若某角色的“罪孽”层数达到5，则立即承受“自身体力上限x10%”的伤害并重置该层数。
+所有角色击中目标时将向其转移1层“罪孽”。(每张书页至多转移1层)
+</text>
+  <text id="PickUpCreature_LongBird2_FlaverText">“但是，如果天秤不偏向任何一边，那该怎么办呀？”高鸟听后很担心，于是它举起那杆“无论何时都能作出明确判决”的歪斜天秤。</text>
+  <text id="PickUpCreature_LongBird3_Name">歪斜的天秤</text>
+  <text id="PickUpCreature_LongBird3_Desc">[选择一名司书]
+该司书击中体力最高的来宾时将为体力最低的司书恢复2~8点体力。(每一幕至多触发3次，无法对群体攻击书页生效)
+</text>
+  <text id="PickUpCreature_LongBird3_FlaverText">而今，高鸟只剩下那杆不公正的天秤，可它的审判仍未停止。</text>
+
+  <text id="PickUpCreature_BlueStar1_Name">殉教</text>
+  <text id="PickUpCreature_BlueStar1_Desc">[选择一名司书]
+将1张0费“殉教”置入该司书手中。
+效果为“[装备时] 这一幕中击中目标时将追加4~6点混乱伤害并对自身造成1~3点伤害”
+切换舞台时将1张“殉教”洗入卡组。</text>
+  <text id="PickUpCreature_BlueStar1_FlaverText">让我们化作星辰再会吧。</text>
+  <text id="PickUpCreature_BlueStar2_Name">赎罪</text>
+  <text id="PickUpCreature_BlueStar2_Desc">[选择一名司书]
+每一幕开始时若舞台中存在处于“混乱”状态的角色，则该角色将承受3~7点伤害并使所有司书获得1层“强壮”。(不可叠加)</text>
+  <text id="PickUpCreature_BlueStar2_FlaverText">我们的“碧蓝新星”是接纳罪人的唯一之地，我们将在那里洗去一切罪孽。</text>
+  <text id="PickUpCreature_BlueStar3_Name">思念之声</text>
+  <text id="PickUpCreature_BlueStar3_Desc">[影响所有司书]
+这一幕中所有司书击中目标时混乱伤害+2~4
+(此后每3幕触发1次)</text>
+  <text id="PickUpCreature_BlueStar3_FlaverText">冉冉升起的新星意味着全新的开始。你听不见那悠扬的号声吗？</text>
+
+  <text id="PickUpCreature_TheSnowQueen1_Name">凌剑</text>
+  <text id="PickUpCreature_TheSnowQueen1_Desc">[选择一名司书]
+该司书拼点胜利时有50%的概率在下一幕中对目标施加1~3层“束缚”。
+该司书击中处于“束缚”状态下的目标时将追加2~5点混乱伤害。</text>
+  <text id="PickUpCreature_TheSnowQueen1_FlaverText">寒冷的冬林中，唯有一位女皇。</text>
+  <text id="PickUpCreature_TheSnowQueen2_Name">亲吻</text>
+  <text id="PickUpCreature_TheSnowQueen2_Desc">[选择一名司书]
+若该司书以1张战斗书页至少取得2次拼点胜利，则对目标施加1层“霜凌”。
+每一幕结束时“霜凌”层数不低于3的来宾将在下一幕中陷入“眩晕”并重置该层数。</text>
+  <text id="PickUpCreature_TheSnowQueen2_FlaverText">冰雪女皇的吻冰封了他的内心，使他不再寒冷。</text>
+  <text id="PickUpCreature_TheSnowQueen3_Name">雪暴</text>
+  <text id="PickUpCreature_TheSnowQueen3_Desc">[选择一名司书]
+这一幕中使除该司书外的所有角色陷入“眩晕”。
+下一幕中对所有来宾施加6层“束缚”。</text>
+  <text id="PickUpCreature_TheSnowQueen3_FlaverText">玫瑰盛开，雪宫崩塌。欢笑的人们不曾记得，在那有位沉睡的美人。</text>
+
+  <text id="PickUpCreature_QueenBee1_Name">孢子</text>
+  <text id="PickUpCreature_QueenBee1_Desc">[选择一名司书]
+该司书被击中时将对攻击方施加1~3层“烧伤”并在下一幕中对其施加1~3层“流血”。</text>
+  <text id="PickUpCreature_QueenBee1_FlaverText">研究表明，孢子内含有能在宿主体内孵化的蜂卵。</text>
+  <text id="PickUpCreature_QueenBee2_Name">工蜂</text>
+  <text id="PickUpCreature_QueenBee2_Desc">[选择一名司书]
+每一幕中通过直接攻击对该司书造成最多伤害的来宾将被标记为“威胁”。
+未应用该异想体书页的司书击中“威胁”时将追加2~4点伤害。</text>
+  <text id="PickUpCreature_QueenBee2_FlaverText">工蜂只表现出两种行为模式: 为蜂后提供营养素，扩大蜂群数量。</text>
+  <text id="PickUpCreature_QueenBee3_Name">忠诚</text>
+  <text id="PickUpCreature_QueenBee3_Desc">[选择一名司书]
+该司书每承受5点伤害(包括直接攻击伤害与负面状态伤害)，便在下一幕中使所有司书获得1层“强壮”。</text>
+  <text id="PickUpCreature_QueenBee3_FlaverText">蜜蜂的忠诚是一种自然本能，一旦找到激发这种本能的方法，那么许多事物都将改变。</text>
+
+  <text id="PickUpCreature_Butterfly1_Name">安息</text>
+  <text id="PickUpCreature_Butterfly1_Desc">[选择一名司书]
+该司书击中当前体力最低的来宾时伤害+2~7，混乱伤害+2~5</text>
+  <text id="PickUpCreature_Butterfly1_FlaverText">人死后会化作有着小小翅膀的美妙存在，着实荒谬。</text>
+  <text id="PickUpCreature_Butterfly2_Name">哀悼</text>
+  <text id="PickUpCreature_Butterfly2_Desc">[选择一名司书]
+该司书击中拥有负面状态的来宾时伤害+2~7
+每一幕开始时若该司书拥有负面状态，则获得1~2层“强壮”。</text>
+  <text id="PickUpCreature_Butterfly2_FlaverText">身负重担的悼念者，
+前来此地救赎众生。</text>
+  <text id="PickUpCreature_Butterfly3_Name">棺柩</text>
+  <text id="PickUpCreature_Butterfly3_Desc">[选择一名司书]
+该司书击中体力不高于50%的来宾时将在下一幕中封印其1颗速度骰子。(每一幕至多触发2次，无法对群体攻击书页生效)</text>
+  <text id="PickUpCreature_Butterfly3_FlaverText">背负棺柩的他，只为悼念无处可去的职员，但这远不足以安抚那些无辜的替罪羔羊。</text>
+
+  <text id="PickUpCreature_Laetitia1_Name">惊喜礼物</text>
+<text id="PickUpCreature_Laetitia1_Desc">应用该异想体书页后，第1名与该司书拼点的来宾将被赠予1份“小小礼物”。
+拥有礼物的来宾与未应用该异想体书页的司书拼点时有40%的概率承受2~7点伤害并在下一幕中获得2层“流血”。
+拥有礼物的来宾死亡后，该司书可向其余来宾赠予礼物。</text>
+  <text id="PickUpCreature_Laetitia1_FlaverText">要是遇见喜欢的人，小不点儿会把亲手制作的礼物送给他们。但礼物的内容是绝密哦！</text>
+  <text id="PickUpCreature_Laetitia2_Name">小伙伴</text>
+  <text id="PickUpCreature_Laetitia2_Desc">[选择一名司书]
+每一幕开始时随机为该司书手中的1张书页赋予“伙伴标记”。(无法对装备书页生效且若手中已有标记则不生效)
+“伙伴书页”中的所有骰子威力+2~4
+若“伙伴书页”在2幕之内未被使用，则该书页将被移出战斗并对该司书造成2~7点伤害。</text>
+  <text id="PickUpCreature_Laetitia2_FlaverText">小不点儿很伤心，她舍不得离开亲爱的朋友们。小眼珠子咕噜一转，她想出了一个绝妙的主意！</text>
+  <text id="PickUpCreature_Laetitia3_Name">奇趣恶作剧</text>
+  <text id="PickUpCreature_Laetitia3_Desc">[选择一名司书]
+该司书使用书页时第1颗骰子必定掷出最小值或最大值。
+若掷出最小值，则该司书将承受2~7点伤害。</text>
+  <text id="PickUpCreature_Laetitia3_FlaverText">小不点儿决定留下来，直到为每个人带来欢声和笑语！</text>
+
+  <text id="PickUpCreature_Alriune1_Name">花瓣</text>
+  <text id="PickUpCreature_Alriune1_Desc">[选择一名司书]
+若该司书已累计承受超出“自身体力上限x10%”的伤害，则恢复5~10点体力并对所有来宾造成4~8点混乱伤害。(触发后重置承伤计数)</text>
+  <text id="PickUpCreature_Alriune1_FlaverText">你曾对我说，要用花瓣代替泪水。“我们都是从尘土中走来的，请不要轻言我的结局。”你告诉过我，漫身的鲜花将化作最后的遗言。</text>
+  <text id="PickUpCreature_Alriune2_Name">秋日的消逝</text>
+  <text id="PickUpCreature_Alriune2_Desc">[选择一名司书]
+该司书被击中时将对攻击方施加1层“余香”。
+(余香: 每一幕开始时承受“余香”层数的混乱伤害，随后将“余香”层数减半。)
+</text>
+  <text id="PickUpCreature_Alriune2_FlaverText">怀着归于尘土的心愿，将所有渴望“生”的事物一同带入坟墓。</text>
+  <text id="PickUpCreature_Alriune3_Name">春日的起源</text>
+  <text id="PickUpCreature_Alriune3_Desc">[选择一名司书]
+每一幕开始时随机使1名来宾获得“花瓣”。
+1幕之内，若拥有“花瓣”的来宾被该司书击中4次，则对所有角色造成3~7点混乱伤害且该司书将在下一幕中获得“匿踪”。
+(匿踪: 这一幕开始时无法被指定为攻击目标)
+</text>
+  <text id="PickUpCreature_Alriune3_FlaverText">永不凋零的鲜花，只是无可奈何地绽放。</text>
+
+  <text id="PickUpCreature_Angry1_Name">愤怒</text>
+  <text id="PickUpCreature_Angry1_Desc">[选择一名司书]
+应用该异想体书页后，该司书将处于“愤怒”状态，无法控制且指定攻击目标时不分敌我。
+该司书的光芒恢复量+2，每一幕开始时获得2层“强壮”并额外抽取2张书页。</text>
+  <text id="PickUpCreature_Angry1_FlaverText">侍从摒弃了信念，意图全心全意地信任某人，然却遭到背叛。如今的她被自己的愤怒所驱使。</text>
+  <text id="PickUpCreature_Angry2_Name">朋友</text>
+  <text id="PickUpCreature_Angry2_Desc">[选择一名司书]
+应用该异想体书页后，该司书击中的第1名来宾将被标记为“朋友”。
+若该司书击杀“朋友”，则为所有司书恢复3点光芒及10点体力与混乱抗性。
+“朋友”死亡后，该司书可将其余来宾标记为“朋友”。</text>
+  <text id="PickUpCreature_Angry2_FlaverText">尽管愤怒侍从比任何人都注重正义与均衡，却仍与她们的敌人“隐士”分享学识，暗中成为了朋友。</text>
+  <text id="PickUpCreature_Angry3_Name">毒液</text>
+  <text id="PickUpCreature_Angry3_Desc">[影响所有来宾]
+对所有来宾施加5层“腐蚀”。
+每一幕开始时所有来宾将被额外施加自身“腐蚀”层数的“束缚”。
+(腐蚀: 每一幕结束时承受“腐蚀”层数的伤害，随后将该层数-1。被击中时将追加承受“腐蚀”层数的伤害与混乱伤害。)</text>
+  <text id="PickUpCreature_Angry3_FlaverText">终于，在那相遇之日，隐士带领一众手下毁灭了侍从的世界。</text>
+
+  <text id="PickUpCreature_Nosferatu1_Name">恐水症</text>
+  <text id="PickUpCreature_Nosferatu1_Desc">[选择一名司书]
+该司书击中目标时将在下一幕中获得1层“吸血”并对目标施加1层“流血”。(无法对群体攻击书页生效)</text>
+  <text id="PickUpCreature_Nosferatu1_FlaverText">他们彷徨着。像在寻找什么，却又不明白自己究竟想要什么。</text>
+  <text id="PickUpCreature_Nosferatu2_Name">红酒</text>
+  <text id="PickUpCreature_Nosferatu2_Desc">[选择一名司书]
+若该司书击杀处于“流血”状态的来宾，则为所有司书恢复10点体力且下一幕开始时该司书将获得最大层数的“吸血”。</text>
+  <text id="PickUpCreature_Nosferatu2_FlaverText">虽维持着人类的身姿，但只要有一滴血就会化为凶暴的怪物，度过狂乱的一夜。</text>
+  <text id="PickUpCreature_Nosferatu3_Name">吸血</text>
+  <text id="PickUpCreature_Nosferatu3_Desc">[选择一名司书]
+该司书击中处于“流血”状态下的目标时伤害+2~4并恢复2~5点体力。(无法对群体攻击书页生效)</text>
+  <text id="PickUpCreature_Nosferatu3_FlaverText">……饥渴，永不满足。</text>
+
+  <text id="PickUpCreature_Ozma1_Name">旧日之力</text>
+  <text id="PickUpCreature_Ozma1_Desc">[选择一名司书]
+该司书的所有书页费用+1且所有骰子威力+3~4
+</text>
+  <text id="PickUpCreature_Ozma1_FlaverText">奥兹玛举起削南瓜的小刀，不顾一切地冲向巫师的所在地。</text>
+<text id="PickUpCreature_Ozma2_Name">遗忘</text>
+  <text id="PickUpCreature_Ozma2_Desc">[选择一名司书]
+将1张3费“遗忘”置入该司书手中。
+效果为“[佚亡] [装备时] 这一幕中使自身陷入[眩晕]并无法行动且无法被指定为攻击目标
+这一幕结束时恢复40%的体力(至多48点)与所有光芒”
+切换舞台时将1张“遗忘”洗入卡组。
+</text>
+  <text id="PickUpCreature_Ozma2_FlaverText">一位无比善良又美丽的人，正用难以置信的表情看着自己，不是么？</text>
+<text id="PickUpCreature_Ozma3_Name">生命之粉</text>
+  <text id="PickUpCreature_Ozma3_Desc">[影响所有司书]
+所有司书承受致死伤害时将免受此次伤害并恢复20%的体力。(至多24点)
+(每名司书整场接待至多触发1次)
+</text>
+  <text id="PickUpCreature_Ozma3_FlaverText">最后撒上自己心爱的肉桂粉，将南瓜紧紧拥入怀中。</text>
+
+</localize>

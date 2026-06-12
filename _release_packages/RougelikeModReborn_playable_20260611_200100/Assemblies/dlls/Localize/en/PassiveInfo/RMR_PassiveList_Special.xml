@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="-100">
+		<Name>Strange Orb</Name>
+		<Desc>Resistances change depending on the current chapter, starting at Fatal in Canard and capping at Endured in Urban Plague.
+		
+Gains additional effects depending on the current chapter.</Desc>
+	</PassiveDesc>
+  
+</PassiveDescRoot>
+  
+

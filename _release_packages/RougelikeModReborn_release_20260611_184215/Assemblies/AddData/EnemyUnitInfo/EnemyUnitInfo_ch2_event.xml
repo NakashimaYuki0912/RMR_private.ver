@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EnemyUnitClassRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+ <Enemy ID="28471001">
+    <!--챕터2 - ?방1-->
+    <Name>???</Name>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>200</MaxHeight>
+    <BookId>28471001</BookId>
+    <Gender>Creature</Gender>
+
+    <Exp>0</Exp>
+
+    <DropTable Level="0">
+    </DropTable>
+  </Enemy>
+
+ <Enemy ID="28481001">
+    <!--챕터2 - ?방1_완료-->
+    <Name>???</Name>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>200</MaxHeight>
+    <BookId>28481001</BookId>
+    <Gender>Creature</Gender>
+
+    <Exp>0</Exp>
+
+    <DropTable Level="0">
+    </DropTable>
+  </Enemy>
+
+ <Enemy ID="28471002">
+    <!--챕터2 - ?방2-->
+    <Name>???</Name>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>200</MaxHeight>
+    <BookId>28471002</BookId>
+    <Gender>Creature</Gender>
+
+    <Exp>0</Exp>
+
+    <DropTable Level="0">
+    </DropTable>
+  </Enemy>
+
+
+  <Enemy ID="28471003">
+    <!--fraud index event enemy-->
+    <Name>???</Name>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>200</MaxHeight>
+    <BookId>28471003</BookId>
+    <Gender>Creature</Gender>
+
+    <Exp>0</Exp>
+
+    <DropTable Level="0">
+    </DropTable>
+  </Enemy>
+
+</EnemyUnitClassRoot>

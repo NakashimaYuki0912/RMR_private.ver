@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+
+
+    <BattleCardDesc ID="8580011">
+      <LocalizedName>사주경계</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="8582008">
+      <LocalizedName>발화</LocalizedName>
+      <Ability>[장착 시 발동] 대상에게 화상 5 부여</Ability>
+    </BattleCardDesc>
+ 
+     <BattleCardDesc ID="90012">
+      <LocalizedName>조잡한 방패</LocalizedName>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

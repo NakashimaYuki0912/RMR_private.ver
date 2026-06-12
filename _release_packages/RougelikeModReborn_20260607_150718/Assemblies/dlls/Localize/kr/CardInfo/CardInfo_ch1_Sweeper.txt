@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="514002">
+      <LocalizedName>쓰레기 처리</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="514003">
+      <LocalizedName>뒷골목 청소</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="514005">
+      <LocalizedName>연료 뽑기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="514006">
+      <LocalizedName>뒷골목의 밤</LocalizedName>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

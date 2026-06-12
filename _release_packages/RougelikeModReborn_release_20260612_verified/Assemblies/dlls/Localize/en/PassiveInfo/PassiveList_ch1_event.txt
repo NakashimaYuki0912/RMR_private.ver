@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<PassiveDesc ID="1">
+		<Name>Current Ahn</Name>
+		<Desc>???</Desc>
+	</PassiveDesc>
+	
+	<PassiveDesc ID="854">
+		<Name>Sparkling</Name>
+		<Desc>With me you shall walk through endless, ever so sparkling possibilities.</Desc>
+	</PassiveDesc>
+	
+   <PassiveDesc ID="28480004">
+    <Name>Night in the Backstreets</Name>
+    <Desc>Ends the Act forcibly at the end of the third Scene.</Desc>
+   </PassiveDesc>
+  
+</PassiveDescRoot>
+  
+

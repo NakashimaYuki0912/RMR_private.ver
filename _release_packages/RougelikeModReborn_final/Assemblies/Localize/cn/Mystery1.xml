@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    
+			 <text id="MysteryCh1_1Title">奇异之书</text>
+             <text id="MysteryCh1_1Frame0Dia0">你走进一家破旧的古董店寻找战利品。探索之中，你在一张腐烂的木桌上发现一本非常花哨的书，它的书页渗出[mirror]闪闪发光的尘粒[/color]。桌子旁边的一块小匾上写着：“写下一个卑微的梦，以钩针来编织”。</text>
+             <text id="MysteryCh1_1Frame0Choice0Desc">写一个愚蠢的梦 ([green]获得2张当前章节的战斗书页[/color])</text>
+             <text id="MysteryCh1_1Frame0Choice1Desc">写一个严肃的梦 ([green]获得1张下一章节的战斗书页[/color])</text>
+
+             <text id="MysteryCh1_1Frame1Dia0">你写下一个愚蠢的梦，书很快就合上了。在你离开时，你看到一些武器放在入口处。</text>
+             <text id="MysteryCh1_1Frame1Choice0Desc">离开这里</text>
+
+             <text id="MysteryCh1_1Frame2Dia0">你写下一个严肃的梦，书很快就合上了。在你离开时，你看到一些武器放在入口处。</text>
+             <text id="MysteryCh1_1Frame2Choice0Desc">离开这里</text>
+
+<!--
+            <text id="MysteryCh1_2Title">强化 (OLD LOCALIZE)</text>
+             <text id="MysteryCh1_2Frame0Dia0">一个戴着眼罩、咧嘴笑着的男人朝你走来。 (OLD LOCALIZE)
+“你好，陌生人。对推进科学感兴趣吗？我可以让你比任何训练或祝福都更强大。如果你是那些有追求死亡愿望的英雄之一，你会需要它的。”
+“怎么说？”</text>
+             <text id="MysteryCh1_2Frame0Choice0Desc">试试J.A.X (获得J.A.X战斗书页)</text>
+             <text id="MysteryCh1_2Frame0Choice1Desc">成为测试对象 (使1名司书的所有战斗书页变为本章节的随机战斗书页)</text>
+             <text id="MysteryCh1_2Frame0Choice2Desc">摄入突变剂 (使1名司书获得特殊被动能力)</text>
+
+             <text id="MysteryCh1_2Frame1Dia0">“太好了。”
+这名男子给出一个看起来很危险的注射器，里面装满了发光的液体，然后偷偷溜进一条阴暗的小巷。</text>
+             <text id="MysteryCh1_2Frame1Choice0Desc">离开</text>
+
+             <text id="MysteryCh1_2Frame2Dia0">“太棒了。”
+那人给你注射了三种未知物质，然后拿出一个记事本。当你开始感到头晕目眩时，他开始疯狂地写笔记。
+你完全忘记了时间。当你恢复理智时，那个阴暗的家伙已经消失了。</text>
+             <text id="MysteryCh1_2Frame2Choice0Desc">离开</text>
+
+             <text id="MysteryCh1_2Frame3Dia0">“了不起。”
+你喝下那神秘的物质。你立刻感到精神振奋，肌肉纤维在剧烈抽搐。</text>
+             <text id="MysteryCh1_2Frame3Choice0Desc">离开</text>
+
+-->
+             <text id="MysteryCh1_3Title">润的回忆</text>
+             <text id="MysteryCh1_3Frame0Dia0">&lt;i&gt;你发现自己身处一个商业区，面向一个廉价的后巷摊位，接到一个陌生号码的电话。
+
+"喂，[mirror]碎片[/color]!" 
+
+润的声音在电话里响起。考虑到上次交流的情况，当你不确定他为什么会给你打电话时，你会感到困惑。
+
+“我有一个新的线索，是件大事……不过我手头有点紧。你能借我一些吗？”他单调的话语让你感到了贫血。
+
+你们俩之间的沉默越来越令人不安，最终被润打破了。
+
+“不，说真的，我有很好的预感。这可能是我最近一段时间要签的最后一份合同……”
+
+他的声音中有一丝绝望，暂时打破了他冷酷而严肃的形象。&lt;/i&gt;
+</text>
+             <text id="MysteryCh1_3Frame0Choice0Desc">给他汇钱——他比你更需要钱 (支付5眼)</text>
+             <text id="MysteryCh1_3Frame0Choice1Desc">挂断电话——你已经听够了他的滑稽操作。</text>
+
+             <text id="MysteryCh1_3Frame1Dia0">当你汇款时，电话突然消音了。你试图与润沟通但无人接听。当你决定离开时，听到沉重、响亮和急促的脚步声。有人抓住你的胳膊……</text>
+             <text id="MysteryCh1_3Frame1Choice0Desc">战!</text>
+
+             <text id="MysteryCh1_3Frame2Dia0">你挂了电话，走开了。一群失望的收尾人经过，对你毫不在意。</text>
+             <text id="MysteryCh1_3Frame2Choice0Desc">生活继续</text>
+
+
+             <text id="MysteryCh1_4Title">寻找哈基米</text>
+             <text id="MysteryCh1_4Frame0Dia0">一位穿着粉红色自制毛衣的老年妇女让你去找她的猫咪Kibbles。
+这是一个简单的委托，但谁又知道Kibbles去了哪里。你感到很头疼，因为在夜晚来临前找到它才是关键所在。</text>
+             <text id="MysteryCh1_4Frame0Choice0Desc">接受并寻找Kibbles</text>
+             <text id="MysteryCh1_4Frame0Choice1Desc">谢绝</text>
+
+             <text id="MysteryCh1_4Frame1Dia0">你拒绝了这个委托，这让那个女人十分痛苦。她快步走到街上寻找Kibbles。</text>
+             <text id="MysteryCh1_4Frame1Choice0Desc">离开</text>
+
+             <text id="MysteryCh1_4Frame2Dia0">你放弃了这一委托，并支付了由当地帮派收取的违约金。</text>
+             <text id="MysteryCh1_4Frame2Choice0Desc">离开 ([red]支付5[/color] [yellow]眼[/color])</text>
+
+             <text id="MysteryCh1_4Frame3Dia0">当前时间 - 15:00
+你正在附近寻找Kibbles，天上高悬的太阳猛猛灼烧着你的脖子。时间绰绰有余。</text>
+             <text id="MysteryCh1_4Frame3Choice0Desc">寻找 (10%的概率成功)</text>
+             <text id="MysteryCh1_4Frame3Choice1Desc">取消委托并支付违约金。</text>
+
+             <text id="MysteryCh1_4Frame4Dia0">当前时间 - 17:00
+你正在本地商业区里搜索。傍晚的太阳凉快了许多，虽然还是很热就是了。</text>
+             <text id="MysteryCh1_4Frame4Choice0Desc">寻找 (15%的概率成功)</text>
+             <text id="MysteryCh1_4Frame4Choice1Desc">取消委托并支付违约金。</text>
+
+             <text id="MysteryCh1_4Frame5Dia0">当前时间 - 19:00
+你正在寻找Kibbles，这次是在附近较贫穷的地区。太阳下山，焦虑悄悄地爬上你的心头。</text>
+             <text id="MysteryCh1_4Frame5Choice0Desc">寻找 (20%的概率成功)</text>
+             <text id="MysteryCh1_4Frame5Choice1Desc">取消委托并支付违约金。</text>
+
+             <text id="MysteryCh1_4Frame6Dia0">当前时间 - 21:00
+Kibbles仍然难以捉摸，这迫使你在排水沟和附近的下水道周围寻找。太阳已经完全落下，夜色变得寒冷而宁静。</text>
+             <text id="MysteryCh1_4Frame6Choice0Desc">寻找 (25%的概率成功)</text>
+             <text id="MysteryCh1_4Frame6Choice1Desc">取消委托并支付违约金。</text>
+
+             <text id="MysteryCh1_4Frame7Dia0">当前时间 - 23:00
+街道出奇地安静，一层浅黄色的薄雾悄悄降临。你现在没有时间去找Kibbles了，尽管你听到远处有喵喵的声音。</text>
+             <text id="MysteryCh1_4Frame7Choice0Desc">寻找 (30%的概率成功)</text>
+             <text id="MysteryCh1_4Frame7Choice1Desc">取消委托并支付违约金。</text>
+
+             <text id="MysteryCh1_4Frame8Dia0">当前时间 - ??:??
+Kibbles不见了，而你却被带进了死胡同。下水道的门和盖子在你身后齐声打开，随之而来的是扭曲的、近乎非人的、含着漱沫的哭声。一个带着红眼睛和武器的影子向你冲来。你没有出路。</text>
+             <text id="MysteryCh1_4Frame8Choice0Desc">为一场可怕的遭遇做好准备。</text>
+
+
+             <text id="MysteryCh1_4Frame9Dia0">你找到了Kibbles！当你把它递给那位老人时，它轻声地咕噜着。现在她们正面带微笑地回家。</text>
+             <text id="MysteryCh1_4Frame9Choice0Desc">一位当地帮派的成员给了你丰厚的报酬，称赞你的出色工作。(+15[yellow]眼[/color])</text>
+
+
+             <text id="MysteryCh1_5Title">半成品的尸体</text>
+             <text id="MysteryCh1_5Frame0Dia0">一具穿着精致西装的中年男子的尸体静静地躺在你面前，他的肠子暴露在外。从散落的低质量手术工具和脚印来看，你可以看出一些耗子来过这里，尽管出于某种原因，它们在中途放弃了收割。你可以搜查那个人的口袋，或者，如果你有技能，可以完成收割。</text>
+
+             <text id="MysteryCh1_5Frame0Choice0Desc">搜刮他的口袋 ([green]获得1~10[/color] [yellow]眼[/color])</text>
+             <text id="MysteryCh1_5Frame0Choice1Desc">亲自收割 (消耗1张[red]收割内脏[/color]书页，[green]获得5~20[/color] [yellow]眼[/color])</text>
+
+             <text id="MysteryCh1_5Frame1Dia0">你翻遍血迹斑斑的口袋，找到了一些沾满油脂的零钱。</text>
+             <text id="MysteryCh1_5Frame1Choice0Desc">离开这里 (+{0} [yellow]眼[/color])</text>
+
+             <text id="MysteryCh1_5Frame2Dia0">经过一个小时的可怕工作，你割下了看起来很有价值的肠子，并把它们卖给了当地的一个帮派。</text>
+             <text id="MysteryCh1_5Frame2Choice0Desc">离开这里 ([red]失去1张收割内脏[/color]书页。+{0} [yellow]眼[/color])</text>
+
+             <text id="MysteryCh1_6Title">突袭事务所</text>
+	<text id="MysteryCh1_6Frame0Dia0">你运气不好，但看到了一个赚快钱的机会：突袭一个当地的事务所，这个事务所在努力完成一个艰难的任务后实力削弱，它的成员看起来很受伤和绝望。</text>
+             <text id="MysteryCh1_6Frame0Choice0Desc">突袭他们!</text>
+             <text id="MysteryCh1_6Frame0Choice1Desc">离开——这不值得你付出尊严</text>
+
+</localize>

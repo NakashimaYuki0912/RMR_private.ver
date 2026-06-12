@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+<!-- 일반 : 사육제 -->
+  <Stage id="40001">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>30001</Unit>
+      <Unit>30002</Unit>
+      <Unit>30003</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 마침표 사무소 -->
+  <Stage id="40002">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>30004</Unit>
+      <Unit>30005</Unit>
+      <Unit>30006</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 시선 사무소 -->
+  <Stage id="40003">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>30010</Unit>
+      <Unit>30011</Unit>
+      <Unit>30012</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 사랑마을 주민 -->
+  <Stage id="40004">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>11</Formation>
+      <Unit>30013</Unit>
+      <Unit>30015</Unit>
+      <Unit>30014</Unit>
+      <Unit>30015</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 흑운회 일반 -->
+  <Stage id="40005">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>11</Formation>
+      <Unit>31001</Unit>
+      <Unit>31001</Unit>
+      <Unit>31001</Unit>
+      <Unit>31001</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 녹슨사슬 일반 -->
+  <Stage id="40006">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>11</Formation>
+      <Unit>31003</Unit>
+      <Unit>31003</Unit>
+      <Unit>31003</Unit>
+      <Unit>31003</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 공방 소속 -->
+  <Stage id="40007">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>11</Formation>
+      <Unit>31004</Unit>
+      <Unit>31004</Unit>
+      <Unit>31004</Unit>
+      <Unit>31004</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 녹슨사슬 지칸 -->
+  <Stage id="40008">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>31002</Unit>
+      <Unit>31003</Unit>
+      <Unit>31003</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 정사무소 -->
+  <Stage id="40009">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>11</Formation>
+      <Unit>34002</Unit>
+      <Unit>34002</Unit>
+      <Unit>34002</Unit>
+      <Unit>34002</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 정사무소 하나후다 -->
+  <Stage id="40010">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>34001</Unit>
+      <Unit>34002</Unit>
+      <Unit>34002</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 새벽 사무소 -->
+  <Stage id="40011">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>30007</Unit>
+      <Unit>30008</Unit>
+      <Unit>30009</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 흑운회 네임드 -->
+  <Stage id="40012">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>30018</Unit>
+      <Unit>30019</Unit>
+      <Unit>30020</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 보스 : 토머리 -->
+  <Stage id="40013">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>11</Formation>
+      <Unit>30016</Unit>
+      <Unit>30013</Unit>
+      <Unit>30014</Unit>
+      <Unit>30015</Unit>
+    </Wave>
+
+    <MapInfo>Tomerry</MapInfo>
+  </Stage>
+
+<!-- 보스 : EGO 필립 -->
+  <Stage id="40014">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>13</Formation>
+      <Unit>30028</Unit>
+    </Wave>
+    
+    <MapInfo>Philip1</MapInfo>
+    <MapInfo>Philip2</MapInfo>
+    <MapInfo>Philip3</MapInfo>
+  </Stage>
+
+</StageXmlRoot>

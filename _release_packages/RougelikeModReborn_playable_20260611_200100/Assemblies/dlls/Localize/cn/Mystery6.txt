@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryCh6_1Title">命运的邂逅</text>
+             <text id="MysteryCh6_1Frame0Dia0">[mirror]闪光之镜[/color]再次出现在你的面前，这次走了这么远，你应该得到奖励——你觉得你快到了，然后你的想法被分享给了它——而当你的思绪被切断时，你有了一些选择。</text>
+             <text id="MysteryCh6_1Frame0Choice0Desc">崇敬过去 ([green]升级所有等级低于都市之星的战斗书页[/color]. [red]后续你将无法获得战斗书页奖励[/color])</text>
+             <text id="MysteryCh6_1Frame0Choice1Desc">享受现在 ([green]获得10张都市之星级的战斗书页[/color])</text>
+             <text id="MysteryCh6_1Frame0Choice2Desc">憧憬未来 ([green]升级本次事件之后获得的每一张战斗书页[/color])</text>
+             <text id="MysteryCh6_1Frame1Dia0">[mirror]闪光之镜[/color]在你面前召唤出你所选择的奖励，这些来自异世界的东西的本质你有些眼熟，不过在你仔细观察它们之前它就消失了。</text>
+             <text id="MysteryCh6_1Frame1Choice0Desc">离开... </text>
+
+
+             <text id="MysteryCh6_2Title">搏一搏，单车变摩托！</text>
+             <text id="MysteryCh6_2Frame0Dia0">你发现自己被召唤到一个巨大的J公司赌场里，而且已经在一张桌子前开始了一场骰子游戏。来自男性发牌员的声音让你从恍惚中醒来。 
+
+"[mirror]碎片[/color]...你玩不玩?" 他在桌旁让出一个座位，其他顾客穿着花哨的罩衫和连衣裙。 
+
+
+你可以玩游戏并赢得一些大笔现金，甚至用你的装备或友方的生命去赌，尽管这很冒险。你也可以离开赌场，但这些地方总是有入场费的。</text>
+             <text id="MysteryCh6_2Frame0Choice0Desc">赌一些[yellow]眼[/color] ([red]支付一半当前拥有的[/color] [yellow]眼[/color]。有50%的概率赢得双倍。)</text>
+			 
+             <text id="MysteryCh6_2Frame0Choice1Desc">赌你的装备 ([red]支付你当前装备的核心书页[/color]。有50%的概率获得1张相同的核心书页。)</text>
+			 
+             <text id="MysteryCh6_2Frame0Choice2Desc">赌你朋友的命 ([red]支付1名司书的生命[/color]。有50%的概率复活并完全治愈所有司书。)</text>
+			 
+             <text id="MysteryCh6_2Frame0Choice3Desc">离开 ([red]支付10[/color] [yellow]眼[/color])</text>
+
+             <text id="MysteryCh6_2Frame1Dia0">你用眼打赌，庄家用桌子下的机器很快把它们转换成筹码。他解释说，这是一场骰子游戏，你通过在两个六面骰子中投掷较大的数字来获胜。他用他晒的发黑伤痕累累的手摇晃骰子——先是他的，然后是你的——让它们掉到桌子上。它们开始转动...</text>
+ <text id="MysteryCh6_2Frame1Choice0Desc">[green]好耶-是我更大[/color]! 你口袋鼓鼓的离开了。</text>
+ 
+             <text id="MysteryCh6_2Frame2Dia0">你用眼打赌，庄家用桌子下的机器很快把它们转换成筹码。他解释说，这是一场骰子游戏，你通过在两个六面骰子中投掷较大的数字来获胜。他用他晒的发黑伤痕累累的手摇晃骰子——先是他的，然后是你的——让它们掉到桌子上。它们开始转动...</text>
+ <text id="MysteryCh6_2Frame2Choice0Desc">[red]谢特-我是小的[/color]! 发牌员送你离开了。</text>
+
+             <text id="MysteryCh6_2Frame3Dia0">你用装备打赌，庄家用桌子下的机器很快把它们转换成筹码。他解释说，这是一场骰子游戏，你通过在两个六面骰子中投掷较大的数字来获胜。他用他晒的发黑伤痕累累的手摇晃骰子——先是他的，然后是你的——让它们掉到桌子上。它们开始转动...</text>
+ <text id="MysteryCh6_2Frame3Choice0Desc">[green]好耶-是我更大[/color]! 你口袋鼓鼓的离开了。</text>
+ 
+             <text id="MysteryCh6_2Frame4Dia0">你用装备打赌，庄家用桌子下的机器很快把它们转换成筹码。他解释说，这是一场骰子游戏，你通过在两个六面骰子中投掷较大的数字来获胜。他用他晒的发黑伤痕累累的手摇晃骰子——先是他的，然后是你的——让它们掉到桌子上。它们开始转动...
+骰子滚动过来，你高喊着数字。然后......似乎很明显，骰子停在了另一个数字上。</text>
+ <text id="MysteryCh6_2Frame4Choice0Desc">[red]谢特-我是小的[/color]! 发牌员送你离开了。</text>
+
+             <text id="MysteryCh6_2Frame5Dia0">你用司书的命打赌，庄家很快叫安保人员抓住了他们。他解释说，这是一场骰子游戏，你通过在两个六面骰子中投掷较大的数字来获胜。他用他晒的发黑伤痕累累的手摇晃骰子——先是他的，然后是你的——让它们掉到桌子上。它们开始转动...</text>
+ <text id="MysteryCh6_2Frame5Choice0Desc">[green]好耶-是我更大[/color]! 复活1名友方角色并使你完全恢复体力。</text>
+ 
+             <text id="MysteryCh6_2Frame6Dia0">你用司书的命打赌，庄家很快叫安保人员抓住了他们。他解释说，这是一场骰子游戏，你通过在两个六面骰子中投掷较大的数字来获胜。他用他晒的发黑伤痕累累的手摇晃骰子——先是他的，然后是你的——让它们掉到桌子上。它们开始转动...</text>
+ <text id="MysteryCh6_2Frame6Choice0Desc">[red]谢特-我是小的[/color]! 发牌员抓走了你的司书然后把你踹了出去。</text>
+
+             <text id="MysteryCh6_2Frame7Dia0">你决定最好还是支付费用然后离开。在这种赌场里拿贵重物品冒险并无卵用...</text>
+             <text id="MysteryCh6_2Frame7Choice0Desc">离开 ([red]-10[/color] [yellow]眼[/color])</text>
+</localize>

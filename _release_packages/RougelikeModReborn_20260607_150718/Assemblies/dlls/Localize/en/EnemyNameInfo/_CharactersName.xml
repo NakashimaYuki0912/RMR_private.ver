@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<CharactersNameRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<!-- 1챕터 -->
+	<Name ID="11">Mang-chi</Name>
+	<Name ID="12">Lenny</Name>
+	<Name ID="13">Pete</Name>
+	<Name ID="14">Consta</Name>
+	<Name ID="15">Mo</Name>
+	<Name ID="16">Arnold</Name>
+	<Name ID="17">Yun</Name>
+	<Name ID="18">Finn</Name>
+	<Name ID="19">Eri</Name>
+	<Name ID="20">Naoki</Name>
+	<Name ID="21">McCullin</Name>
+	<Name ID="22">Taein</Name>
+	<Name ID="50">Grade 9 Yun's Fixer</Name>
+	<Name ID="51">Yun's Fixer</Name>
+  	<Name ID="53">Hook Fixer</Name>
+
+
+<!-- 2챕터 -->
+	<Name ID="23">Jack</Name>
+	<Name ID="24">Mars</Name>
+	<Name ID="25">San</Name>
+	<Name ID="26">Lulu</Name>
+
+	<Name ID="48">Pierre</Name>
+	<Name ID="49">Lulu's Friend</Name>
+	<Name ID="52">Backstreets Butcher</Name>
+
+
+
+<!-- 3챕터 -->
+	<Name ID="27">Walter</Name>
+	<Name ID="28">Isadora</Name>
+	<Name ID="29">Julia</Name>
+	<Name ID="30">Gyeong-mi</Name>
+	<Name ID="31">Zulu</Name>
+	<Name ID="32">Dino</Name>
+	<Name ID="33">Mika</Name>
+	<Name ID="34">Olga</Name>
+	<Name ID="35">Rain</Name>
+	<Name ID="47">Zwei Crew</Name>
+	<Name ID="54">Ordinary Grade 8 Fixer</Name>
+	<Name ID="55">Capable Grade 8 Fixer</Name>
+	<Name ID="56">Ordinary Grade 7 Fixer</Name>
+	<Name ID="57">Capable Grade 7 Fixer</Name>
+	<Name ID="58">Axe Gang Grunt</Name>
+	<Name ID="59">Axe Gang Excutive</Name>
+	<Name ID="60">Stray Dog</Name>
+
+
+<!-- 업데이트 예정-->
+  <Name ID="61">Alpha</Name>
+  <Name ID="62">Beta</Name>
+  <Name ID="63">Gamma</Name>
+
+   <Name ID="64">Liwei</Name>
+  <Name ID="65">Stephan</Name>
+  <Name ID="66">Tamaki</Name>
+  
+  <Name ID="67">Salvador</Name>
+  <Name ID="68">Yuna</Name>
+  <Name ID="69">Philip</Name>
+
+    <Name ID="70">Alloc</Name>
+  <Name ID="71">Dalloc</Name>
+  <Name ID="72">Bono</Name>
+  
+   <Name ID="73">Love Townsperson</Name>
+  <Name ID="74">Love Townsperson</Name>
+  <Name ID="75">Love Townsperson</Name>
+  <Name ID="76">Tomerry</Name>
+  <Name ID="77">Tomerry</Name>
+
+  <Name ID="78">Sayo</Name>
+  <Name ID="79">Yang</Name>
+  <Name ID="80">Gin</Name>
+  <Name ID="81">Kurokumo Henchman</Name>
+
+  <Name ID="82">Meow</Name>
+  <Name ID="83">MuMu</Name>
+  <Name ID="84">Oink</Name>
+
+  <Name ID="85">Oscar</Name>
+  <Name ID="86">Pameli</Name>
+  <Name ID="87">Pamela</Name>
+
+  <Name ID="88">Yujin</Name>
+  <Name ID="89">Valentin</Name>
+  <Name ID="90">Tenma</Name>
+  <Name ID="91">Shi S. Section 2 Fixer</Name>
+
+  <Name ID="92">Nimble Puppet</Name>
+  <Name ID="93">Weighty Puppet</Name>
+  <Name ID="94">Puppet</Name>
+
+  <Name ID="95">Emma &amp; Noah</Name>
+  <Name ID="96">Emma</Name>
+  <Name ID="97">Noah</Name>
+  <Name ID="98">Lion</Name>
+  <Name ID="99">Monkey</Name>
+  <Name ID="100">Elephant</Name>
+
+  <Name ID="101">Anton</Name>
+  <Name ID="102">Lyla</Name>
+  <Name ID="103">Valerie</Name>
+  <Name ID="104">Sweeper</Name>
+
+  <Name ID="105">Index Proselyte</Name>
+
+  <Name ID="106">Rose</Name>
+  <Name ID="107">Sen</Name>
+  <Name ID="108">Lesti</Name>
+  <Name ID="109">WARP Cleanup Agent</Name>
+
+  <Name ID="110">Wang</Name>
+  <Name ID="111">Jin</Name>
+  <Name ID="112">Mi</Name>
+  <Name ID="113">Smiling Face</Name>
+
+  <Name ID="114">The Crying Children</Name>
+  <Name ID="115">Unseeing Child</Name>
+  <Name ID="116">Unhearing Child</Name>
+  <Name ID="117">Unspeaking Child</Name>
+
+  <Name ID="118">Liu S. Section 2 Fixer</Name>
+
+  <Name ID="119">Lowell</Name>
+  <Name ID="120">Cecil</Name>
+  <Name ID="121">Mei</Name>
+  
+  <Name ID="122">Thumb Soldato</Name>
+  <Name ID="123">Kalo</Name>
+  <Name ID="124">Boris</Name>
+  <Name ID="125">Katriel</Name>
+  <Name ID="126">Denis</Name>
+
+  <Name ID="127">Nemo</Name>
+  <Name ID="128">Bada</Name>
+  <Name ID="129">Martina</Name>
+
+  <Name ID="130">Argalia</Name>
+  <Name ID="131">Church of Gears Worshipper</Name>
+
+  <Name ID="132">Esther</Name>
+  <Name ID="133">Hubert</Name>
+  <Name ID="134">Gloria</Name>
+  
+  <Name ID="135">Chun</Name>
+  <Name ID="136">Liu S. Section 1 Fixer</Name>
+  <Name ID="137">Xiao</Name>
+  <Name ID="138">Miris</Name>
+
+  <Name ID="139">Kali</Name>
+
+  <Name ID="140">Nikolai</Name>
+  <Name ID="141">Myo</Name>
+  <Name ID="142">Maxim</Name>
+  <Name ID="143">Rudolph</Name>
+  
+  <Name ID="144">Rabbit</Name>
+  <Name ID="145">Rhino</Name>
+  <Name ID="146">Reindeer</Name>
+  
+  <Name ID="147">Iori</Name>
+
+  <Name ID="148">얀샋ㄷ요무</Name>
+  <Name ID="149">Right Hand</Name>
+  <Name ID="150">Left Hand</Name>
+  
+  <Name ID="151">Hana S. Section 3 Fixer</Name>
+  <Name ID="152">Mirinae</Name>
+  <Name ID="153">Harold</Name>
+  <Name ID="154">Olivier</Name>
+
+
+  <Name ID="1001">Jikan</Name>
+  <Name ID="1002">Rusted Chainlink</Name>
+  <Name ID="1003">Workshop-affiliated Fixer</Name>
+
+  <Name ID="1004">Dante</Name>
+  <Name ID="1005">Seven Association Fixer</Name>
+  <Name ID="1006">Bamboo Hat Kim</Name>
+  <Name ID="1007">Blade Lineage Cutthroat</Name>
+  <Name ID="1008">Grade 1 Fixer Dong-hwan</Name>
+
+  <Name ID="1009">Hanafuda</Name>
+
+
+  <Name ID="1010">Allen</Name>
+  <Name ID="1011">Night Awl</Name>
+  <Name ID="1012">Jeong's Office Fixeer</Name>
+  <Name ID="1013">Udjat</Name>
+  <Name ID="1014">Irina</Name>
+  <Name ID="1015">Mirae Insurer</Name>
+  <Name ID="1016">Yae</Name>
+  <Name ID="1017">Leaflet Workshop Fixer</Name>
+  <Name ID="1018">Bayard</Name>
+  <Name ID="1019">Bayard's Office Fixer</Name>
+  
+  <Name ID="2001">Copley</Name>
+
+</CharactersNameRoot>

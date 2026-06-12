@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <text id="Stage_MemberShip">工坊报价合同</text>
+<text id="Stage_MemberShip_Desc">与您选择的工坊签订合同！</text>
+         
+<text id="MemberShipTitle">工坊报价合同</text>
+             <text id="MemberShipFrame0Dia0">你的能力和惊世智慧引起了几个工坊的注意，并敦促你与他们签订合同。
+这些合同几乎都很棒，但不幸的是，对你来说，当前的情况性质使你无法签署多份合同。
+请仔细选择。
+
+-所选工坊的店铺将在每章中出现一次。
+-工坊商店会出售一次性物品和工坊专用物品。</text>
+             <text id="MemberShipFrame0Choice0Desc">成为会员 - 逻辑工作室</text>
+             <text id="MemberShipFrame0Choice1Desc">成为会员 - 联合工坊</text>
+             <text id="MemberShipFrame0Choice2Desc">成为会员 - 烙印工坊</text>
+             <text id="MemberShipFrame0Choice3Desc">成为会员 - 墨工坊</text>
+
+             <text id="MemberShipFrame1DiaLogic">逻辑工作室
+-擅长使用远程书页和追加伤害
+-签署合同后，所有司书都将接受培训，允许他们使用远程书页
+-关键词：伤害、威力、单方面攻击</text>
+
+             <text id="MemberShipFrame1DiaUnion">联合工坊
+-专注于提升、多用骰子和治疗
+-关键词：运气、多样性、恢复体力</text>
+
+             <text id="MemberShipFrame1DiaStigma">烙印工坊
+-专注于最大化烧伤的应用
+-关键词：烧伤，异常状态</text>
+
+             <text id="MemberShipFrame1DiaMook">墨工坊
+-专注于强化单骰书页造成更多的伤害
+-关键词：伤害、抵抗、单次攻击</text>
+
+           <text id="MemberShipFrame1Choice0Desc">签署合同</text>
+           <text id="MemberShipFrame1Choice1Desc">看看其他选择</text>
+
+             <text id="MemberShipFrame2Dia0">合同已签署！这个工坊希望在战斗中为你服务。</text>
+           <text id="MemberShipFrame2Choice0Desc">离开</text>
+
+</localize>

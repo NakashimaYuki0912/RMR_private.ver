@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScenarioRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Chapter ID="-1">
+    <Title>흐음</Title>
+  </Chapter>
+  <Group>
+    <GroupName>만담</GroupName>
+    <Episode>
+      <EpisodeName>만담2</EpisodeName>
+      <Place>
+        <PlaceName>장소: 도서관 – 사회과학의 층</PlaceName>
+        <Dialog ID="0" Model="게부라">
+          <Teller>게부라</Teller>
+          <Title>언어의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Gebura1</VoiceFile>
+          <Content>그 능글거리는 면상 내 앞에서 치워.</Content>
+        </Dialog>
+        <Dialog ID="1" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed1</VoiceFile>
+          <Content>에이~ 또 그러네.</Content>
+        </Dialog>
+        <Dialog ID="2" Model="게부라">
+          <Teller>게부라</Teller>
+          <Title>언어의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Gebura2</VoiceFile>
+          <Content>하아… 차라리 기계 덩이일 때 네 모습이 나았어.</Content>
+        </Dialog>
+        <Dialog ID="3" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed2</VoiceFile>
+          <Content>오, 정말? 게부라한테 칭찬받기 힘든데… 오늘 운이 좋은걸~?</Content>
+        </Dialog>
+        <Dialog ID="4" Model="게부라">
+          <Teller>게부라</Teller>
+          <Title>언어의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Gebura3</VoiceFile>
+          <Content>뭐? 그건 칭찬이 아니라…</Content>
+        </Dialog>
+        <Dialog ID="5" Model="티페리트">
+          <Teller>티페리트</Teller>
+          <Title>자연과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Tiphereth1</VoiceFile>
+          <Content>알겠으니까 둘 다 이제 그만 좀 싸워. 지겹지도 않아?</Content>
+        </Dialog>
+        <Dialog ID="6" Model="게부라">
+          <Teller>게부라</Teller>
+          <Title>언어의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Gebura4</VoiceFile>
+          <Content>…이 시퍼런 자식이 계속 커피를 들이밀잖아.</Content>
+        </Dialog>
+        <Dialog ID="7" Model="게부라">
+          <Teller>게부라</Teller>
+          <Title>언어의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Gebura5</VoiceFile>
+          <Content>그런 쓰기만 한 게 어디가 좋다고 그렇게 마시는 거야?</Content>
+        </Dialog>
+        <Dialog ID="8" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed3</VoiceFile>
+          <Content>익숙해지면 좋다니까~</Content>
+        </Dialog>
+        <Dialog ID="9" Model="게부라">
+          <Teller>게부라</Teller>
+          <Title>언어의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Gebura6</VoiceFile>
+          <Content>그러니까 너나 실컷 마시라고. 난 익숙해지고 싶지 않으니까.</Content>
+        </Dialog>
+        <Dialog ID="10" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed4</VoiceFile>
+          <Content>그러지 말고~ 너희를 위해 특별히 달달한 걸로 준비했으니까… 성의를 봐서라도 마셔봐~</Content>
+        </Dialog>
+        <Dialog ID="11" Model="게부라">
+          <Teller>게부라</Teller>
+          <Title>언어의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Gebura7</VoiceFile>
+          <Content>그… 마가리또인가.</Content>
+        </Dialog>
+        <Dialog ID="12" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed5</VoiceFile>
+          <Content>맞아맞아. 그거~</Content>
+        </Dialog>
+        <Dialog ID="13" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed6</VoiceFile>
+          <Content>마끼아또라고 부르지만…</Content>
+        </Dialog>
+        <Dialog ID="14" Model="게부라">
+          <Teller>게부라</Teller>
+          <Title>언어의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Gebura8</VoiceFile>
+          <Content>…그거나 그거나. 하긴 그건 먹을 만 했지.</Content>
+        </Dialog>
+        <Dialog ID="15" Model="티페리트">
+          <Teller>티페리트</Teller>
+          <Title>자연과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Tiphereth2</VoiceFile>
+          <Content>난 캐러멜 맛이 너무 짙어서 별로던데…</Content>
+        </Dialog>
+        <Dialog ID="16" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed7</VoiceFile>
+          <Content>그래서 이번에는 비엔나를 준비해 봤어~ 이건 좀 괜찮을 거야.</Content>
+        </Dialog>
+        <Dialog ID="17" Model="티페리트">
+          <Teller>티페리트</Teller>
+          <Title>자연과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Tiphereth3</VoiceFile>
+          <Content>신경 써주는 건 고맙지만… 넌 왜 자꾸 커피를 추천하는 거야?</Content>
+        </Dialog>
+        <Dialog ID="18" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed8</VoiceFile>
+          <Content>그야~ 커피 맛을 알아주는 친구가 한 명 정도는 있으면 좋을 것 같아서?</Content>
+        </Dialog>
+        <Dialog ID="19" Model="티페리트">
+          <Teller>티페리트</Teller>
+          <Title>자연과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Tiphereth4</VoiceFile>
+          <Content>나도 커피 정도는 함께 마셔줄 수 있어. 유독 게부라에게만 끈질기게 굴잖아.</Content>
+        </Dialog>
+        <Dialog ID="20" Model="게부라">
+          <Teller>게부라</Teller>
+          <Title>언어의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Gebura9</VoiceFile>
+          <Content>그건 나도 궁금하네.</Content>
+        </Dialog>
+        <Dialog ID="21" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed9</VoiceFile>
+          <Content>글쎄… 뭐라고 해야 할까.</Content>
+        </Dialog>
+        <Dialog ID="22" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed10</VoiceFile>
+          <Content>게부라는…</Content>
+        </Dialog>
+        <Dialog ID="23" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed11</VoiceFile>
+          <Content>반응이 재밌어서?</Content>
+        </Dialog>
+        <Dialog ID="24" Model="게부라">
+          <Teller>게부라</Teller>
+          <Title>언어의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Gebura10</VoiceFile>
+          <Content>뭐?</Content>
+        </Dialog>
+        <Dialog ID="25" Model="티페리트">
+          <Teller>티페리트</Teller>
+          <Title>자연과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Tiphereth5</VoiceFile>
+          <Content>…</Content>
+        </Dialog>
+        <Dialog ID="26" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed12</VoiceFile>
+          <Content>분위기 살벌하네… 농담이야~</Content>
+        </Dialog>
+        <Dialog ID="27" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed13</VoiceFile>
+          <Content>같이 커피 마시자는 구실로 이렇게 모일 수 있다는 게 좋지 않아~?</Content>
+        </Dialog>
+        <Dialog ID="28" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed14</VoiceFile>
+          <Content>다 함께 모이기에 커피 한 잔만 한 이유가 없으니까~</Content>
+        </Dialog>
+        <Dialog ID="29" Model="티페리트">
+          <Teller>티페리트</Teller>
+          <Title>자연과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Tiphereth6</VoiceFile>
+          <Content>이런 일 아니면 각자의 층에서 자기 할 일만 하긴 하지…</Content>
+        </Dialog>
+        <Dialog ID="30" Model="게부라">
+          <Teller>게부라</Teller>
+          <Title>언어의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Gebura11</VoiceFile>
+          <Content>그럼 굳이 커피가 아니어도 되는 거 아냐?</Content>
+        </Dialog>
+        <Dialog ID="31" Model="티페리트">
+          <Teller>티페리트</Teller>
+          <Title>자연과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Tiphereth7</VoiceFile>
+          <Content>다른 핑계 댈 거리가 없어서?</Content>
+        </Dialog>
+        <Dialog ID="32" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed15</VoiceFile>
+          <Content>정곡을 찌르네~</Content>
+        </Dialog>
+        <Dialog ID="33" Model="게부라">
+          <Teller>게부라</Teller>
+          <Title>언어의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Gebura12</VoiceFile>
+          <Content>됐어. 그런 이유라면 내가 티페리트 데리고 자주 얼굴 비치면 되는 일이잖아.</Content>
+        </Dialog>
+        <Dialog ID="34" Model="티페리트">
+          <Teller>티페리트</Teller>
+          <Title>자연과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Tiphereth8</VoiceFile>
+          <Content>우리가 그렇게 허물없는 사이는 아니지만…</Content>
+        </Dialog>
+        <Dialog ID="35" Model="티페리트">
+          <Teller>티페리트</Teller>
+          <Title>자연과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Tiphereth9</VoiceFile>
+          <Content>굳이 이렇게까지 해서 모일 이유를 만든다는 것도 웃기다고 생각하는데?</Content>
+        </Dialog>
+        <Dialog ID="36" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed16</VoiceFile>
+          <Content>그렇다니 영광이지만~</Content>
+        </Dialog>
+        <Dialog ID="37" Model="헤세드">
+          <Teller>헤세드</Teller>
+          <Title>사회과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Chesed17</VoiceFile>
+          <Content>그래서 이 커피는… 한 번 마셔볼래?</Content>
+        </Dialog>
+        <Dialog ID="38" Model="티페리트">
+          <Teller>티페리트</Teller>
+          <Title>자연과학의 층 지정사서</Title>
+          <VoiceFile>ch8_Talk_ep2_Tiphereth10</VoiceFile>
+          <Content>애써 준비했다는데 사양할 이유도 없지!</Content>
+        </Dialog>
+      </Place>
+    </Episode>
+  </Group>
+</ScenarioRoot>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CardDropValueXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <DropValue ID="3001" WorkShopID="abcdcodecalmmagma.LogueLikeReborn">
+    <Desc>도시괴담 - 일반</Desc>
+    <TableId>-854201</TableId>
+    <CommonValue>70</CommonValue>
+    <UncommonValue>20</UncommonValue>
+    <RareValue>9</RareValue>
+    <UniqueValue>1</UniqueValue>
+  </DropValue>
+
+<DropValue ID="3002" WorkShopID="abcdcodecalmmagma.LogueLikeReborn">
+    <TableId>-854201</TableId>
+   <Desc>도시괴담 - 고급</Desc>
+    <CommonValue>25</CommonValue>
+    <UncommonValue>50</UncommonValue>
+    <RareValue>18</RareValue>
+    <UniqueValue>7</UniqueValue>
+  </DropValue>
+
+  <DropValue ID="3003" WorkShopID="abcdcodecalmmagma.LogueLikeReborn">
+   <Desc>도시괴담 - 한정</Desc>
+    <TableId>-854201</TableId>
+    <CommonValue>10</CommonValue>
+    <UncommonValue>15</UncommonValue>
+    <RareValue>60</RareValue>
+    <UniqueValue>15</UniqueValue>
+  </DropValue>
+
+  <DropValue ID="3004" WorkShopID="abcdcodecalmmagma.LogueLikeReborn">
+   <Desc>도시괴담 - 예술</Desc>
+    <TableId>-854201</TableId>
+    <CommonValue>5</CommonValue>
+    <UncommonValue>10</UncommonValue>
+    <RareValue>30</RareValue>
+    <UniqueValue>60</UniqueValue>
+  </DropValue>
+
+  <DropValue ID="13001" WorkShopID="abcdcodecalmmagma.LogueLikeReborn">
+    <Desc>도시괴담 - 상점용</Desc>
+    <TableId>-854201</TableId>
+    <CommonValue>35</CommonValue>
+    <UncommonValue>35</UncommonValue>
+    <RareValue>20</RareValue>
+    <UniqueValue>10</UniqueValue>
+  </DropValue>
+
+
+</CardDropValueXmlRoot>

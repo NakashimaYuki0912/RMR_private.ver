@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="LogueLikeMod_CricusDawn1Buf_Name">붙음</text>
+             <text id="LogueLikeMod_CricusDawn1Buf_Desc">공격으로 피해를 입을 때 붙음 대상에게 같은 피해를 입힘
+막 종료 시 해제되며 흐트러진 상태가 아니라면 5안을 훔치고 붙음 대상에게 '상실'을 부여</text>
+             <text id="LogueLikeMod_CricusDawn2Buf_Name">상실</text>
+             <text id="LogueLikeMod_CricusDawn2Buf_Desc">모든 주사위 위력 - 1. 시작의 환호성들의 공격 대상이 됨</text>
+
+</localize>

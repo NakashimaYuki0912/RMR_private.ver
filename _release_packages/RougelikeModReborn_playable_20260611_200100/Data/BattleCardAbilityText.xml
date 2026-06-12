@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardAbilityDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BattleCardAbility ID="my">
+    <Desc>[사용시] 체력 5 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="mydice">
+    <Desc>[적중] 피해 10</Desc>
+  </BattleCardAbility>
+</BattleCardAbilityDescRoot>

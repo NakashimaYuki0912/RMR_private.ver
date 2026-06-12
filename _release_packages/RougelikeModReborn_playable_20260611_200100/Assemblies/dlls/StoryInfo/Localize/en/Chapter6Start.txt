@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScenarioRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Chapter ID="6">
+    <Title>Chapter 6–Star of The City–‘I try calling each star something beautiful.’</Title>
+  </Chapter>
+  <Group>
+    <GroupName>Prologue</GroupName>
+    <Episode>
+      <EpisodeName>Episode 1</EpisodeName>
+      <Place>
+        <PlaceName>Location: Inside the Library</PlaceName>
+      </Place>
+    </Episode>
+  </Group>
+</ScenarioRoot>

@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <bookDescList>
+    <BookDesc BookID="200003">
+      <BookName>皮特之页</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="200001">
+      <BookName>莱尼之页</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="200002">
+      <BookName>锤哥之页</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="200004">
+      <BookName>芬恩之页</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="200005">
+      <BookName>艾莉之页</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="200006">
+      <BookName>润之页</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="201001">
+      <BookName>潤事务所收尾人之页1</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="201002">
+      <BookName>潤事务所收尾人之页2</BookName>
+    </BookDesc>
+    <BookDesc BookID="201003">
+      <BookName>潤事务所收尾人之页3</BookName>
+    </BookDesc>
+    <BookDesc BookID="200008">
+      <BookName>鏮鍶錔之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="200007">
+      <BookName>鏌之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="200009">
+      <BookName>錒鍩鍀之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="200011">
+      <BookName>泰仁之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="200012">
+      <BookName>直树之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="200010">
+      <BookName>麦奎林之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="210002">
+      <BookName>皮埃尔之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="210001">
+      <BookName>杰克之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="210003">
+      <BookName>马斯之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="210006">
+      <BookName>璐璐之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="211005">
+      <BookName>璐璐亲友之页1</BookName>
+    </BookDesc>
+    <BookDesc BookID="211006">
+      <BookName>璐璐亲友之页2</BookName>
+    </BookDesc>
+    <BookDesc BookID="211007">
+      <BookName>璐璐亲友之页3</BookName>
+    </BookDesc>
+    <BookDesc BookID="211008">
+      <BookName>璐璐亲友之页4</BookName>
+    </BookDesc>
+    <BookDesc BookID="21">
+      <BookName>吊钩事务所收尾人之页1</BookName>
+    </BookDesc>
+    <BookDesc BookID="22">
+      <BookName>吊钩事务所收尾人之页2</BookName>
+    </BookDesc>
+    <BookDesc BookID="23">
+      <BookName>后巷屠夫之页1</BookName>
+    </BookDesc>
+    <BookDesc BookID="24">
+      <BookName>后巷屠夫之页2</BookName>
+    </BookDesc>
+    <BookDesc BookID="25">
+      <BookName>Zwei协会6科收尾人之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="220001">
+      <BookName>衫之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="220002">
+      <BookName>茱莉亚之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="220004">
+      <BookName>沃尔特之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="220003">
+      <BookName>伊莎多拉之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="220006">
+      <BookName>奥尔佳之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="220005">
+      <BookName>美香之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="220007">
+      <BookName>雷恩之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="220008">
+      <BookName>景美之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="220010">
+      <BookName>祖鲁之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="220009">
+      <BookName>迪诺之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="39">
+      <BookName>丧家犬成员之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="40">
+      <BookName>8阶收尾人之页1</BookName>
+    </BookDesc>
+    <BookDesc BookID="41">
+      <BookName>8阶收尾人之页2</BookName>
+    </BookDesc>
+    <BookDesc BookID="42">
+      <BookName>8阶收尾人之页3</BookName>
+    </BookDesc>
+    <BookDesc BookID="43">
+      <BookName>7阶收尾人之页1</BookName>
+    </BookDesc>
+    <BookDesc BookID="44">
+      <BookName>7阶收尾人之页2</BookName>
+    </BookDesc>
+    <BookDesc BookID="45">
+      <BookName>7阶收尾人之页3</BookName>
+    </BookDesc>
+    <BookDesc BookID="46">
+      <BookName>斧頭幫成员之页1</BookName>
+    </BookDesc>
+    <BookDesc BookID="47">
+      <BookName>斧頭幫干部之页</BookName>
+    </BookDesc>
+
+    
+
+    <BookDesc BookID="230001">
+      <BookName>谢肉祭之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230004">
+      <BookName>李伟之页</BookName>
+
+    </BookDesc>
+    <BookDesc BookID="230005">
+      <BookName>史蒂芬之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="230006">
+      <BookName>玉树之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230007">
+      <BookName>萨尔瓦多之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230008">
+      <BookName>尤娜之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230009">
+      <BookName>菲利普之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230010">
+      <BookName>阿洛科之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="230011">
+      <BookName>达罗克之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="230012">
+      <BookName>波诺之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230013">
+      <BookName>爱之小镇镇民之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="230016">
+      <BookName>汤吗丽之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230018">
+      <BookName>纱世之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="230019">
+      <BookName>杨之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="230020">
+      <BookName>银之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="231001">
+      <BookName>黑云成员之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="232001">
+      <BookName>基坎之页</BookName>
+    </BookDesc>
+
+
+    <BookDesc BookID="232002">
+      <BookName>锈链成员之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="233001">
+      <BookName>工坊所属收尾人之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230021">
+      <BookName>喵呜之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="230022">
+      <BookName>姆姆之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="230023">
+      <BookName>奥因克之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230024">
+      <BookName>奥斯卡之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="230025">
+      <BookName>帕梅莉之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="230026">
+      <BookName>帕梅菈之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="230027">
+      <BookName>菲利普之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="230028">
+      <BookName>菲利普之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="240001">
+      <BookName>柳真之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240002">
+      <BookName>瓦伦汀之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240003">
+      <BookName>天満之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="241001">
+      <BookName>し协会2科收尾人之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="240004">
+      <BookName>灵活傀儡之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240005">
+      <BookName>沉重傀儡之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240006">
+      <BookName>傀儡之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="240007">
+      <BookName>艾玛之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="240008">
+      <BookName>诺亚之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="240011">
+      <BookName>狮子之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240012">
+      <BookName>猴子之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240013">
+      <BookName>大象之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="240014">
+      <BookName>安东之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240015">
+      <BookName>瓦列里之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240016">
+      <BookName>莱拉之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="241017">
+      <BookName>清道夫之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240018">
+      <BookName>食指苦行者之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240019">
+      <BookName>萝丝之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240020">
+      <BookName>莱斯蒂之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240021">
+      <BookName>森之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240022">
+      <BookName>WARP清扫人员之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240023">
+      <BookName>王之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240024">
+      <BookName>津之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240025">
+      <BookName>美之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240026">
+      <BookName>笑面之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="240027">
+      <BookName>不稳定的泣子之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="240028">
+      <BookName>泣子之页</BookName>
+      <TextList>
+        <Desc></Desc>
+      </TextList>
+    </BookDesc>
+
+    <BookDesc BookID="243001">
+      <BookName>但丁之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="243002">
+      <BookName>Seven协会3科收尾人之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="243003">
+      <BookName>金笠之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="243004">
+      <BookName>剑契成员之页</BookName>
+    </BookDesc>
+
+
+    <BookDesc BookID="243005">
+      <BookName>1阶收尾人东焕之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250001">
+      <BookName>六协会2科收尾人之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250002">
+      <BookName>罗威尔之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250003">
+      <BookName>塞希尔之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250004">
+      <BookName>梅之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250005">
+      <BookName>拇指士兵之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250006">
+      <BookName>卡洛之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250007">
+      <BookName>丹尼斯之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250008">
+      <BookName>卡特丽尔之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250009">
+      <BookName>鲍里斯之页</BookName>
+
+    </BookDesc>
+    <BookDesc BookID="250010">
+      <BookName>尼莫之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250011">
+      <BookName>玛蒂娜之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250012">
+      <BookName>巴达之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250013">
+      <BookName>阿尔加利亚之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250014">
+      <BookName>齿轮信徒之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250015">
+      <BookName>以斯帖之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250016">
+      <BookName>休伯特之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250017">
+      <BookName>格洛丽亚之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250018">
+      <BookName>椿之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250019">
+      <BookName>六协会1科收尾人之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250020">
+      <BookName>邵之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250021">
+      <BookName>米里斯之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250022">
+      <BookName>殷红迷雾之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250023">
+      <BookName>驯鹿之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250024">
+      <BookName>犀牛之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250025">
+      <BookName>兔子之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250026">
+      <BookName>鲁道夫之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250027">
+      <BookName>鲁道夫之页Ⅱ型</BookName>
+    </BookDesc>
+    <BookDesc BookID="250028">
+      <BookName>马克西姆之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250029">
+      <BookName>马克西姆之页Ⅱ型</BookName>
+    </BookDesc>
+    <BookDesc BookID="250030">
+      <BookName>缪之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250031">
+      <BookName>缪之页Ⅱ型</BookName>
+    </BookDesc>
+    <BookDesc BookID="250032">
+      <BookName>尼可莱之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="250033">
+      <BookName>尼可莱之页Ⅱ型</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250034">
+      <BookName>堇紫泪滴之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250040">
+      <BookName>米里斯之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250041">
+      <BookName>邵之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="250051">
+      <BookName>rnfmabj之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="260001">
+      <BookName>하나协会3科收尾人之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="260002">
+      <BookName>美里奈之页</BookName>
+    </BookDesc>
+    <BookDesc BookID="260003">
+      <BookName>哈罗德之页</BookName>
+    </BookDesc>
+
+
+    <BookDesc BookID="260004">
+      <BookName>奥利维耶之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="102">
+      <BookName>漆黑噤默之页</BookName>
+    </BookDesc>
+
+
+
+
+    <!-- 일반 초대장 -->
+
+    <BookDesc BookID="252001">
+      <BookName>艾兰之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="252002">
+      <BookName>夜锥成员之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="234001">
+      <BookName>花札之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="234002">
+      <BookName>定事务所收尾人之页</BookName>
+    </BookDesc>
+
+
+    <BookDesc BookID="253001">
+      <BookName>瓦吉特之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="254001">
+      <BookName>伊里纳之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="254002">
+      <BookName>未来人寿之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="255001">
+      <BookName>八重之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="255002">
+      <BookName>叶工坊收尾人之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="256001">
+      <BookName>巴亚尔之页</BookName>
+    </BookDesc>
+
+    <BookDesc BookID="256002">
+      <BookName>贝亚德事务所收尾人之页</BookName>
+    </BookDesc>
+
+
+  </bookDescList>
+</BookDescRoot>

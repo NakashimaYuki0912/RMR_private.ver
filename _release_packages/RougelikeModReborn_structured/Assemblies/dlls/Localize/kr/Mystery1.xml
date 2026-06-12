@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryCh1_1Title">빈 책장</text>
+             <text id="MysteryCh1_1Frame0Dia0">빈 책장이 있습니다.
+지금은 아무것도 적혀있지 않지만, 당신이라면 이 안에 무언가를 적을 수 있을 것 같습니다.</text>
+             <text id="MysteryCh1_1Frame0Choice0Desc">현재를 기록한다.(뜬소문급 전투책장 보상을 2회 획득)</text>
+             <text id="MysteryCh1_1Frame0Choice1Desc">미래를 생각한다.(도시괴담급 전투책장 보상을 1회 획득)</text>
+
+             <text id="MysteryCh1_1Frame1Dia0">당신은 현재를 기록합니다.</text>
+             <text id="MysteryCh1_1Frame1Choice0Desc">종료(뜬소문급 전투책장 보상을 2회 획득)</text>
+
+             <text id="MysteryCh1_1Frame2Dia0">당신은 미래를 상상합니다.</text>
+             <text id="MysteryCh1_1Frame2Choice0Desc">종료(도시괴담급 전투책장 보상을 1회 획득)</text>
+
+
+             <text id="MysteryCh1_2Title">증강자</text>
+             <text id="MysteryCh1_2Frame0Dia0">안대를 낀 채로 사악한 웃음을 짓는 남자가 당신에게 다가옵니다.
+"여보게 거기, 낯선 이여. 과학의 발전에 관심이 있나? 그 어떤 훈련이나 축복보다도 당신을 강하게 만들어줄 수 있지. 당신이 죽고 싶어 안달이 난 저 영웅들 중 하나라면, 이게 필요할 걸세."
+"어떻게 할텐가?"</text>
+             <text id="MysteryCh1_2Frame0Choice0Desc">J.A.X를 시험한다 (J.A.X 전투책장을 획득)</text>
+             <text id="MysteryCh1_2Frame0Choice1Desc">실험의 피험체가 된다 (사서 한명의 모든 전투책장을 현재 챕터의 무작위 책장으로 변환)</text>
+             <text id="MysteryCh1_2Frame0Choice2Desc">돌연변이 인자를 삼킨다 (사서 한명에게 특수한 지속능력 부여)</text>
+
+             <text id="MysteryCh1_2Frame1Dia0">"휼륭한 선택이야."
+남자는 빛나는 액체로 가득 채워진 위험해 보이는 주사기를 건넨 뒤 그늘진 골목길로 빠져나갑니다.</text>
+             <text id="MysteryCh1_2Frame1Choice0Desc">종료</text>
+
+             <text id="MysteryCh1_2Frame2Dia0">"휼륭해"
+남자는 정체불명의 세 가지 물질을 당신에게 주입하고서 메모장을 꺼냅니다. 당신이 약간의 어지러움을 느끼기 시작하자, 그는 미친 듯이 메모를 써내려가기 시작합니다.
+시간 감각은 완전히 잃은 후, 당신이 정신을 완전히 되찾았을 때, 그 수상한 사람은 이미 사라진 뒤였습니다.</text>
+             <text id="MysteryCh1_2Frame2Choice0Desc">종료</text>
+
+             <text id="MysteryCh1_2Frame3Dia0">"놀랍구만."
+당신은 불가사의한 물질을 삼켰습니다. 곧바로, 당신은 기운이 솟아나고 당신의 근섬유가 요동치는 것이 느껴집니다.</text>
+             <text id="MysteryCh1_2Frame3Choice0Desc">종료</text>
+
+
+             <text id="MysteryCh1_3Title">윤의 회상</text>
+             <text id="MysteryCh1_3Frame0Dia0">&lt;i&gt;"이번에야 말로 촉이 왔어"
+"......"
+"아니, 이번에는 느낌이 나쁘지 않다니까?"
+"애들 붙이게 쩐좀 땡겨줘."&lt;/i&gt;
+</text>
+             <text id="MysteryCh1_3Frame0Choice0Desc">돈을 빌려준다 (5안 소모. 윤 사무소를 접대)</text>
+             <text id="MysteryCh1_3Frame0Choice1Desc">전화를 끊는다</text>
+
+             <text id="MysteryCh1_3Frame1Dia0">윤은 빌린 돈으로 해결사들을 모아 도서관으로 향했습니다.
+...행운을 빌어주죠.</text>
+             <text id="MysteryCh1_3Frame1Choice0Desc">종료</text>
+
+             <text id="MysteryCh1_3Frame2Dia0">당신은 전화를 끊었습니다. 그가 어떻게 될지 알고 있으니까요.</text>
+             <text id="MysteryCh1_3Frame2Choice0Desc">종료</text>
+
+
+
+             <text id="MysteryCh1_4Title">고양이 찾기</text>
+             <text id="MysteryCh1_4Frame0Dia0">당신은 어느 주민에게 잃어버린 고양이를 찾아달라는 의뢰를 받았습니다.
+간단해보이는 의뢰이지만, 밤까지 찾지 못한다면 무슨 일이 일어날지 우리 모두 알고 있죠.</text>
+             <text id="MysteryCh1_4Frame0Choice0Desc">수락한다(고양이 찾기 시작!)</text>
+             <text id="MysteryCh1_4Frame0Choice1Desc">거절한다</text>
+
+             <text id="MysteryCh1_4Frame1Dia0">당신은 의뢰를 거절했습니다.</text>
+             <text id="MysteryCh1_4Frame1Choice0Desc">종료</text>
+
+             <text id="MysteryCh1_4Frame2Dia0">당신은 의뢰를 취소하고 위약금을 지불했습니다.</text>
+             <text id="MysteryCh1_4Frame2Choice0Desc">종료(5안 소모)</text>
+
+             <text id="MysteryCh1_4Frame3Dia0">현재시각 - 12:00
+고양이를 찾고 있습니다. 해가 중천에 떠있으니 시간은 충분합니다.</text>
+             <text id="MysteryCh1_4Frame3Choice0Desc">찾기(10%)</text>
+             <text id="MysteryCh1_4Frame3Choice1Desc">의뢰를 취소한다.(5안 소모)</text>
+
+             <text id="MysteryCh1_4Frame4Dia0">현재시각 - 15:00
+고양이를 찾고 있습니다. 아직 낮입니다. 좀 더 찾아보죠.</text>
+             <text id="MysteryCh1_4Frame4Choice0Desc">찾기(15%)</text>
+             <text id="MysteryCh1_4Frame4Choice1Desc">의뢰를 취소한다.(5안 소모)</text>
+
+             <text id="MysteryCh1_4Frame5Dia0">현재시각 - 18:00
+고양이를 찾고 있습니다. 이제 저녁입니다. 슬슬 불안하군요.</text>
+             <text id="MysteryCh1_4Frame5Choice0Desc">찾기(20%)</text>
+             <text id="MysteryCh1_4Frame5Choice1Desc">의뢰를 취소한다.(5안 소모)</text>
+
+             <text id="MysteryCh1_4Frame6Dia0">현재시각 - 21:00
+고양이를 찾고 있습니다. 하늘이 컴컴해졌습니다.</text>
+             <text id="MysteryCh1_4Frame6Choice0Desc">찾기(25%)</text>
+             <text id="MysteryCh1_4Frame6Choice1Desc">의뢰를 취소한다.(5안 소모)</text>
+
+             <text id="MysteryCh1_4Frame7Dia0">현재시각 - 0:00
+고양이를 찾고 있습니다. 곧 있으면 뒷골목의 밤이 올겁니다. 이대로 포기해야 할까요?</text>
+             <text id="MysteryCh1_4Frame7Choice0Desc">찾기(30%. 실패시 청소부를 접대)</text>
+             <text id="MysteryCh1_4Frame7Choice1Desc">의뢰를 취소한다.(5안 소모)</text>
+
+             <text id="MysteryCh1_4Frame8Dia0">현재시각 - 3:13
+뒷골목의 밤이 왔습니다. 청소부들이 나타났습니다.
+...싸울 준비를 하죠.</text>
+             <text id="MysteryCh1_4Frame8Choice0Desc">전투 준비!</text>
+
+
+             <text id="MysteryCh1_4Frame9Dia0">고양이를 찾았습니다! 주민은 얼마 안되는 의뢰비를 지불했습니다.</text>
+             <text id="MysteryCh1_4Frame9Choice0Desc">종료(15안 획득)</text>
+
+
+
+
+             <text id="MysteryCh1_5Title">싸늘한 시체</text>
+             <text id="MysteryCh1_5Frame0Dia0">당신 눈 앞에 널부러져 있는 시체가 있습니다.
+배를 열려다 만 흔적으로 보아 아마 쥐들이 &lt;color=red&gt;내장담기&lt;/color=red&gt;를 하려다 무슨 문제라도 생긴 듯 합니다.
+적당히 호주머니를 뒤져볼 수도 있고, 기술이 있다면 못다한 일을 마저 할 수도 있겠죠.</text>
+             <text id="MysteryCh1_5Frame0Choice0Desc">주머니를 뒤져본다(0~10안 획득)</text>
+             <text id="MysteryCh1_5Frame0Choice1Desc">내장담기를 마저 한다(내장담기 책장 1장 소모. 5~20안 획득)</text>
+
+             <text id="MysteryCh1_5Frame1Dia0">당신은 시체의 호주머니를 뒤져 약간의 동전을 손에 넣었습니다.
+잔인하지만 이게 뒷골목의 방식이죠.</text>
+             <text id="MysteryCh1_5Frame1Choice0Desc">종료 (0~10안 획득)</text>
+
+             <text id="MysteryCh1_5Frame2Dia0">당신은 시체의 내장을 뜯어 조직들에게 넘겼습니다.
+잔인하지만 이게 뒷골목의 방식이죠.</text>
+             <text id="MysteryCh1_5Frame2Choice0Desc">종료 (내장담기 책장 1장 소모. 5~20안 획득)</text>
+
+             <text id="MysteryCh1_6Title">사무소 깨기</text>
+<text id="MysteryCh1_6Frame0Dia0">도시에서 유명해질 방법을 찾고 있나요?
+저기 있는 사무소에 달려가서 닥치는 대로 부수세요. 아마 그 동네에서 가장 유명해질겁니다.
+
+안좋은 의미로 말이지만요.</text>
+             <text id="MysteryCh1_6Frame0Choice0Desc">돌입한다(9급 해결사 3명을 접대)</text>
+             <text id="MysteryCh1_6Frame0Choice1Desc">포기한다</text>
+
+</localize>

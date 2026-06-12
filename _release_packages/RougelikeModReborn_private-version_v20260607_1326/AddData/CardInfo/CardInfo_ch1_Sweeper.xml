@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiceCardXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Card ID="514002">
+    <Name>쓰레기 처리</Name>
+    <Artwork>Sweepers2</Artwork>
+    <Rarity>Unique</Rarity>
+    <Option>OnlyPage</Option>
+    <Spec Range="Near" Cost="2"/>
+    <Script>sweeperOnly</Script>
+    <ScriptDesc>[전용 책장], [사용시] 이 책장의 모든 공격 주사위가 '[적중] 체력 2 회복'을 얻음</ScriptDesc>
+    <BehaviourList>
+      <Behaviour Min="2" Dice="7" Type="Def" Detail="Guard" Motion="G" EffectRes="Sweeper_G" Script="" Desc="" />
+      <Behaviour Min="3" Dice="8" Type="Atk" Detail="Hit" Motion="J" EffectRes="Sweeper_J" Script="" Desc="" />
+      <Behaviour Min="2" Dice="4" Type="Def" Detail="Guard" Motion="G" EffectRes="Sweeper_G" Script="" Desc="" />
+      <Behaviour Min="2" Dice="3" Type="Atk" Detail="Penetrate" Motion="J" EffectRes="Sweeper_S" Script="sweeperOnlyDice" ActionScript="sweeperOnly" Desc="" />
+    </BehaviourList>
+    <Chapter>5</Chapter>
+    <Priority>1</Priority>
+    <SortPriority>1</SortPriority>
+  </Card>
+  <Card ID="514003">
+    <Name>뒷골목 청소</Name>
+    <Artwork>Sweepers3</Artwork>
+    <Rarity>Uncommon</Rarity>
+    <Spec Range="Near" Cost="2"/>
+    <Script />
+    <ScriptDesc />
+    <BehaviourList>
+      <Behaviour Min="4" Dice="7" Type="Atk" Detail="Penetrate" Motion="H" EffectRes="Sweeper_H" Script="paralysis2atk" Desc="" />
+      <Behaviour Min="2" Dice="6" Type="Def" Detail="Guard" Motion="G" EffectRes="Sweeper_G" Script="" Desc="" />
+      <Behaviour Min="3" Dice="7" Type="Atk" Detail="Slash" Motion="J" EffectRes="Sweeper_J" Script="recoverHp3atk" Desc="" />
+    </BehaviourList>
+    <Chapter>5</Chapter>
+    <Priority>0</Priority>
+    <PriorityScript>energyRecover1</PriorityScript>
+  </Card>
+  <Card ID="514005">
+    <Name>연료 뽑기</Name>
+    <Artwork>Sweepers5</Artwork>
+    <Rarity>Common</Rarity>
+    <Spec Range="Near" Cost="1"/>
+    <Script>energy2</Script>
+    <ScriptDesc>[사용시] 빛 2 회복</ScriptDesc>
+    <BehaviourList>
+      <Behaviour Min="3" Dice="7" Type="Atk" Detail="Penetrate" Motion="J" EffectRes="Sweeper_J" Script="recoverHp2atk" Desc="" />
+      <Behaviour Min="2" Dice="6" Type="Def" Detail="Guard" Motion="G" EffectRes="Sweeper_G" Script="" Desc="" />
+    </BehaviourList>
+    <Chapter>5</Chapter>
+    <Priority>0</Priority>
+  </Card>
+  <Card ID="514006">
+    <Name>뒷골목의 밤</Name>
+    <Artwork>Sweepers6</Artwork>
+    <Rarity>Common</Rarity>
+    <Spec Range="Near" Cost="1"/>
+    <Script>powerDown2thisRound</Script>
+    <ScriptDesc>[전투 시작] 이번 막 동안 모든 주사위의 위력 -2</ScriptDesc>
+    <BehaviourList>
+      <Behaviour Min="6" Dice="9" Type="Atk" Detail="Hit" Motion="H" EffectRes="Sweeper_H" Script="recoverHp3atk" Desc="" />
+      <Behaviour Min="5" Dice="9" Type="Atk" Detail="Penetrate" Motion="Z" EffectRes="Sweeper_Z" Script="recoverHp2atk" Desc="" />
+    </BehaviourList>
+    <Chapter>5</Chapter>
+    <Priority>0</Priority>
+  </Card>
+
+  
+</DiceCardXmlRoot>

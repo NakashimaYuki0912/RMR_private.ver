@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="BossRewardFlaverText">章节通关奖励</text>
+
+             <text id="BossReward1Name">装订书本</text>
+             <text id="BossReward1Desc">[全局]被动转移费用上限+2</text>
+             <text id="BossReward1Desc_Effect">[全局]被动转移费用上限+{0}</text>
+             <text id="BossReward2Name">回忆过去</text>
+             <text id="BossReward2Desc">获得{0}张当前章节的限定-艺术级战斗书页奖励，并获得{1}张当前章节的限定-艺术级核心书页奖励</text>
+             <text id="BossReward3Name">收取名利</text>
+             <text id="BossReward3Desc">获得{0}眼。将1个商店置入下一章节的接待列表中。</text>
+             <text id="BossReward4Name">汇总编辑</text>
+             <text id="BossReward4Desc">使1名司书的体力与混乱抗性翻倍但不会获得下一名司书。</text>
+             <text id="BossReward5Name">通配符卡</text>
+             <text id="BossReward5Desc">[全局]使用时可从你的书库中选择1张战斗书页交给选定的司书。每场接待限1次。</text>
+             <text id="BossReward5_1Name">通配符卡</text>
+             <text id="BossReward5_1Desc">选择的司书获得'{0}'战斗书页</text>
+			 <text id="BossReward6Name">四叶草</text>
+             <text id="BossReward6Desc">移除“三叶草”。[全局]被动转移费用上限+1。每一幕开始时使所有司书获得1层“幸运”。</text>
+             <text id="BossReward6_1Name">四叶草</text>
+             <text id="BossReward6_1Desc">[全局]被动转移费用上限+1。每一幕开始时使所有司书获得1层“幸运”。</text>
+             <text id="BossReward7Name">限量款式</text>
+             <text id="BossReward7Desc">战斗书页奖励与商店出售的战斗书页有15%的概率以强化后的状态出现。</text>
+             <text id="BossReward8Name">鼓风高炉</text>
+             <text id="BossReward8Desc">制造物品的费用-25%</text>
+</localize>

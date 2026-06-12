@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+
+
+    <BattleCardDesc ID="401001">
+      <LocalizedName>Tailoring</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401002">
+      <LocalizedName>Feast</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401003">
+      <LocalizedName>Will Make Fine Silk</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401004">
+      <LocalizedName>Will Be Tasty?</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401005">
+      <LocalizedName>As the Prescript Orders</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401006">
+      <LocalizedName>Bizzare Attack</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401007">
+      <LocalizedName>Fascinating Fabric</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="402001">
+      <LocalizedName>Going for Bullseye</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402002">
+      <LocalizedName>Return Fire</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402003">
+      <LocalizedName>Indiscriminate Shots</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402004">
+      <LocalizedName>I Hate CQC</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402005">
+      <LocalizedName>Not Another Step</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402006">
+      <LocalizedName>Take the Shot</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402007">
+      <LocalizedName>Headshot</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402008">
+      <LocalizedName>Target Spotted</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402009">
+      <LocalizedName>Full-Stop to Life</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402010">
+      <LocalizedName>Beyond the Shadow</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="403001">
+      <LocalizedName>Crack of Dawn</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403002">
+      <LocalizedName>Flash of Sunup</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403003">
+      <LocalizedName>Butterfly Slash</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403004">
+      <LocalizedName>Eject</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403005">
+      <LocalizedName>Sunset Blade</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403006">
+      <LocalizedName>Handle Request</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403007">
+      <LocalizedName>Stigmatize</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- (Gaze Office)-->
+    <BattleCardDesc ID="404001">
+      <LocalizedName>Observe</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404002">
+      <LocalizedName>Opportunity Spotted</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404003">
+      <LocalizedName>Binding Arms</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404004">
+      <LocalizedName>You're a Hindrance</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404005">
+      <LocalizedName>Zzzzzap</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404006">
+      <LocalizedName>Electric Shock</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404007">
+      <LocalizedName>Structural Analysis</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404008">
+      <LocalizedName>Unavoidable Gaze</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- Tomerry -->
+    <BattleCardDesc ID="405001">
+      <LocalizedName>Faint Memories</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405002">
+      <LocalizedName>Wrath of Torment</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- Tomerry enemy only -->
+    <BattleCardDesc ID="405003">
+      <LocalizedName>Sharp Pommelin'</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405004">
+      <LocalizedName>Heavy Pommelin'</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405005">
+      <LocalizedName>Pointed Pommelin'</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405006">
+      <LocalizedName>Sharp Ram</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405007">
+      <LocalizedName>Heavy Ram</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405008">
+      <LocalizedName>Pointed Ram</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405009">
+      <LocalizedName>Woulda Square Look Nice?</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405010">
+      <LocalizedName>Triangle Sounds Better!</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405011">
+      <LocalizedName>Let's Play!</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405012">
+      <LocalizedName>Love Town Welcomes All</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405013">
+      <LocalizedName>Ruckus</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405014">
+      <LocalizedName>Whip of Love</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- Equal to 405001, 405002 -->
+    <BattleCardDesc ID="405015">
+      <LocalizedName>Faint Memories</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405016">
+      <LocalizedName>Wrath of Torment</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- Kurokumo clan -->
+    <BattleCardDesc ID="406001">
+      <LocalizedName>Ink Over</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406002">
+      <LocalizedName>Sharpened Blade</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406003">
+      <LocalizedName>Cumulus Wall</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406004">
+      <LocalizedName>Sky-Clearing Cut</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406005">
+      <LocalizedName>Scattering Slash</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406006">
+      <LocalizedName>Silent Mist</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406007">
+      <LocalizedName>Rules of the Backstreets</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406008">
+      <LocalizedName>Clean Up</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406009">
+      <LocalizedName>Dark Cloud</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- Bremen -->
+    <BattleCardDesc ID="407001">
+      <LocalizedName>Heavy Peaks</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407002">
+      <LocalizedName>Unforgettable Memory</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407003">
+      <LocalizedName>Hard Rehearsal</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407004">
+      <LocalizedName>Shrine to Music</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407005">
+      <LocalizedName>Upbeat Performance</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407006">
+      <LocalizedName>Tendon Chords</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407007">
+      <LocalizedName>The Red Notes</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 쐐기 -->
+    <BattleCardDesc ID="408001">
+      <LocalizedName>Transpierce</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408002">
+      <LocalizedName>Sparking Spear</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408003">
+      <LocalizedName>Collision</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408004">
+      <LocalizedName>Speared Sweep</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408005">
+      <LocalizedName>High-speed Stabbing</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408006">
+      <LocalizedName>Rue</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="408007">
+      <LocalizedName>Blazing Strike</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408008">
+      <LocalizedName>Searing Sword</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408009">
+      <LocalizedName>Fierce Charge</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408010">
+      <LocalizedName>Feather Shield</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408011">
+      <LocalizedName>Rueful Eventide</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="408012">
+      <LocalizedName>Searing Sword</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408013">
+      <LocalizedName>Feather Shield</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 녹슨 사슬파 -->
+    <BattleCardDesc ID="409001">
+      <LocalizedName>Want a Taste of this Chain?</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409002">
+      <LocalizedName>You're Soft</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409003">
+      <LocalizedName>Frontal Dodge</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409004">
+      <LocalizedName>Flank Attack</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409005">
+      <LocalizedName>Here's My Chance</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409006">
+      <LocalizedName>Head-to-Head</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409007">
+      <LocalizedName>Now Die</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 공방 소속 해결사 -->
+    <BattleCardDesc ID="410001">
+      <LocalizedName>Mend Weapon</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="410002">
+      <LocalizedName>Stab and Detonate</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="410003">
+      <LocalizedName>Whet</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="410004">
+      <LocalizedName>Refine</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 정사무소 해결사 -->
+    <BattleCardDesc ID="411101">
+      <LocalizedName>Low at Night, High at Day</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="411102">
+      <LocalizedName>Relay</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="411103">
+      <LocalizedName>Flip the Table</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="411104">
+      <LocalizedName>Shuffle Hands</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="411105">
+      <LocalizedName>Sakura</LocalizedName>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

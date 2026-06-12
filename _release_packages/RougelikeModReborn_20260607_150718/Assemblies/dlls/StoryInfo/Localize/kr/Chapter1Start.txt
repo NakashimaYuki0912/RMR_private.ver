@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScenarioRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Chapter ID="1">
+    <Title>챕터1–뜬소문-‘두 손이 주머니를 더듬어 길에 나아갑니다.’</Title>
+  </Chapter>
+  <Group>
+    <GroupName>프롤로그</GroupName>
+    <Episode>
+      <EpisodeName>에피소드1</EpisodeName>
+      <Place>
+        <PlaceName>장소: 도서관 내부</PlaceName>
+      </Place>
+    </Episode>
+  </Group>
+</ScenarioRoot>

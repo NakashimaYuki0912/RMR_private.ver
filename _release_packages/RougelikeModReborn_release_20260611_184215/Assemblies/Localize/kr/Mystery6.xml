@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryCh6_1Title">가치</text>
+             <text id="MysteryCh6_1Frame0Dia0">끝에 거의 다다른 당신에게 도서관이 묻습니다.
+가장 중요하게 여기는게 무엇인지를요.</text>
+             <text id="MysteryCh6_1Frame0Choice0Desc">과거(획득한 도시악몽 이하 등급의 모든 전투책장을 강화. 이후 전투책장 보상이 등장하지 않음)</text>
+             <text id="MysteryCh6_1Frame0Choice1Desc">현재(도시의 별 등급 전투책장 보상 10회)</text>
+             <text id="MysteryCh6_1Frame0Choice2Desc">미래(앞으로 얻는 모든 전투책장이 강화됨)</text>
+             <text id="MysteryCh6_1Frame1Dia0">도서관이 당신의 대답에 응하여 힘을 줍니다.</text>
+             <text id="MysteryCh6_1Frame1Choice0Desc">종료</text>
+
+
+             <text id="MysteryCh6_2Title">노름판</text>
+             <text id="MysteryCh6_2Frame0Dia0">J사에서 주관하는 대형 카지노입니다.
+온갖 사람들이 한데 모여 온갖 것들을 걸고 온갖 꼴들을 보는, 참으로 인상적인 장소지요.
+여러분은 어떨까요? 이 미쳐 돌아가는 판에서 무언가를 얻어낼 수 있을까요?</text>
+             <text id="MysteryCh6_2Frame0Choice0Desc">돈을 베팅(현재 가진 안의 50%를 걸음. 일정 확률로 2배를 획득)</text>
+             <text id="MysteryCh6_2Frame0Choice1Desc">장비를 베팅(사서들이 장착한 핵심책장을 걸음. 일정 확률로 복사하여 가져옴)</text>
+             <text id="MysteryCh6_2Frame0Choice2Desc">목숨을 베팅(사서 한명의 목숨을 걸음. 일정 확률로 모든 사서 부활 및 회복)</text>
+             <text id="MysteryCh6_2Frame0Choice3Desc">나가기(입장비 10안 소모)</text>
+
+             <text id="MysteryCh6_2Frame1Dia0">당신은 돈을 걸었습니다.
+주사위가 구르고, 숫자를 외칩니다. 그리고...
+정확히 그 숫자에서 멈춥니다!</text>
+ <text id="MysteryCh6_2Frame1Choice0Desc">베팅한 돈의 2배 획득</text>
+             <text id="MysteryCh6_2Frame2Dia0">당신은 돈을 걸었습니다.
+주사위가 구르고, 숫자를 외칩니다. 그리고...
+당연하다는 듯, 주사위는 다른 숫자에서 멈춥니다.</text>
+ <text id="MysteryCh6_2Frame2Choice0Desc">베팅한 돈을 잃음</text>
+
+             <text id="MysteryCh6_2Frame3Dia0">당신은 장비를 걸었습니다.
+주사위가 구르고, 숫자를 외칩니다. 그리고...
+정확히 그 숫자에서 멈춥니다!</text>
+ <text id="MysteryCh6_2Frame3Choice0Desc">베팅한 전투책장을 복사해서 획득</text>
+             <text id="MysteryCh6_2Frame4Dia0">당신은 장비를 걸었습니다.
+주사위가 구르고, 숫자를 외칩니다. 그리고...
+당연하다는 듯, 주사위는 다른 숫자에서 멈춥니다.</text>
+ <text id="MysteryCh6_2Frame4Choice0Desc">베팅한 전투책장을 잃음</text>
+
+             <text id="MysteryCh6_2Frame5Dia0">당신은 목숨을 걸었습니다.
+주사위가 구르고, 숫자를 외칩니다. 그리고...
+정확히 그 숫자에서 멈춥니다!</text>
+ <text id="MysteryCh6_2Frame5Choice0Desc">모든 사서를 부활 및 완전히 회복시킴</text>
+             <text id="MysteryCh6_2Frame6Dia0">당신은 목숨을 걸었습니다.
+주사위가 구르고, 숫자를 외칩니다. 그리고...
+당연하다는 듯, 주사위는 다른 숫자에서 멈춥니다.</text>
+ <text id="MysteryCh6_2Frame6Choice0Desc">사서 한명을 선택해 죽임</text>
+
+             <text id="MysteryCh6_2Frame7Dia0">당신은 입장비만 내고는 그대로 카지노를 나왔습니다.
+아마 저 판에 끼는 것 보단 현명한 선택이겠죠.</text>
+             <text id="MysteryCh6_2Frame7Choice0Desc">나가기(입장비 10안 소모)</text>
+</localize>

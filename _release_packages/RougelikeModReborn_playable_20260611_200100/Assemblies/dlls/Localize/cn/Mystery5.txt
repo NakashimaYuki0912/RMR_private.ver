@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryCh5_1Title">最后一分钟的表演</text>
+             <text id="MysteryCh5_1Frame0Dia0">你经过一个看起来像马戏团帐篷的地方，它的标志是红白相间的小丑，尽管它很安静让你好奇的进去调查。当你深入其中时，你会发现，虽然表演已经准备好开始了，但除了一个长相怪异的小丑，没有其他演员进行演出——他面带愉快的微笑想你打招呼。马戏团里到处都是各种长矛的残骸。
+			 
+"啊![mirror]碎片[/color]! 在这里见到你真好~~”他的瘦高的身体摆出极端的、富有表现力的姿势。"哦，楚楚可怜的我正面临着可怕的绝境！我的演员都……出事故了，不是吗？所以，我们需要新的节目! 哦哦哦哦，[mirror]碎片[/color]，你能帮帮我吗？演出很快就要开始了..."
+			 
+这个小丑确实很奇怪，虽然你不能指望他，但你觉得有必要表演一番。看着张贴在马戏团墙上的日程安排，你发现表演可能有点无聊...</text>
+             <text id="MysteryCh5_1Frame0Choice0Desc">[yellow]干就完了！有什么不喜欢的？[/color] ([red]所有司书: -20%体力[/color]。[green]获得[/color] [unique]'灵感'[/color])</text>
+             <text id="MysteryCh5_1Frame0Choice1Desc">离开。我可不当小丑。</text>
+             <text id="MysteryCh5_1Frame1Dia0">你穿上戏服，表演了一场感觉像是永恒的表演，起舞直至你的骨头吱吱作响，眼袋下面长出眼袋——这当然是一场令人厌烦的表演，但你会感觉到......激发了做更多事情的灵感。肯定在外面。</text>
+             <text id="MysteryCh5_1Frame1Choice0Desc">离开 [yellow]灵感![/color]</text>
+
+             <text id="MysteryCh5_2Title">恶兆</text>
+             <text id="MysteryCh5_2Frame0Dia0">一个绝望的年轻人冲向我们，一只手拿着一个金属加固的盒子——一个用于运输稀有物品的普通拇指盒——另一只手还拿着几张未付的账单。他就在我们脚前停下，把盒子递给了我们。"嘿-嘿，[mirror]碎片[/color]! 是你，对吧？我-我...我要你拿着这个！这是我的指令......" 他打开盒子，露出几枚用拇指符号制成的金币。
+			 
+如果我们拿走盒子，卖掉硬币，我们肯定会赚不少钱，虽然这可能会激怒拇指。不拿比较安全，但这个人肯定会死。</text>
+             <text id="MysteryCh5_2Frame0Choice0Desc">拿走盒子变卖</text>
+             <text id="MysteryCh5_2Frame0Choice1Desc">离开。你不想冒险。</text>
+             <text id="MysteryCh5_2Frame1Dia0">你收走盒子并很快把它卖给了一个阴暗的商人，换来了大笔的眼。商人告诉了你潜在的危险，但你已经干了。</text>
+             <text id="MysteryCh5_2Frame1Choice0Desc">口袋鼓鼓 ([green]+40[/color] [yellow]眼[/color])</text>
+             <text id="MysteryCh5_2Frame2Dia0">你拒绝了这个盒子，这让年轻人非常绝望——他跟着你走了一会儿，试图拼命说服你接受它，但最终你拒绝了。当你回到你的路上时，你可以听到远处男性的尖叫声和释放蒸汽的声音…</text>
+             <text id="MysteryCh5_2Frame2Choice0Desc">安全的离开</text>
+
+ <text id="MysteryCh5_2_1Title">报应不爽</text>
+             <text id="MysteryCh5_2_1Frame0Dia0">"喂，那边那个--[mirror]碎片[/color]!" 一群拇指士兵包围着你，除了他们的领队，大部分的武器都指向了你。他对着你拿着的敞开的盒子做出手势。"你就是那个拿走我们包裹的[i]蠢货[/i]，是吗?" 其他士兵向领队举起你的照片，剥去你的欺骗手段。
+			 
+"用你的尸体给我们偿还吧!" 他们拿着武器排成行刑队的队形。</text>
+             <text id="MysteryCh5_2_1Frame0Choice0Desc">上去干了！</text>
+             <text id="MysteryCh5_2_1Frame0Choice1Desc">贿赂他们 ([red]支付60[/color] [yellow]眼[/color])</text>
+
+</localize>

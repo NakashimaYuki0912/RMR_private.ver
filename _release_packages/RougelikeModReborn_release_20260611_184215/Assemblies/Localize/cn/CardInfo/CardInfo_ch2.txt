@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+
+    <BattleCardDesc ID="200001">
+      <LocalizedName>强力一击</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="200002">
+      <LocalizedName>连续招架</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="200003">
+      <LocalizedName>连续攻击</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="200004">
+      <LocalizedName>快速攻击</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="200005">
+      <LocalizedName>突然袭击</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201001">
+      <LocalizedName>保持新鲜</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201002">
+      <LocalizedName>食材改刀</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201003">
+      <LocalizedName>烹杀万物</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201004">
+      <LocalizedName>烹饪准备</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201005">
+      <LocalizedName>猎取食材</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201006">
+      <LocalizedName>残忍无情</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201007">
+      <LocalizedName>饥渴难耐</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202001">
+      <LocalizedName>攻击偏转</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202002">
+      <LocalizedName>明镜止水</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202003">
+      <LocalizedName>灼热打击</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202004">
+      <LocalizedName>食我火棍</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202005">
+      <LocalizedName>处理业务</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202006">
+      <LocalizedName>寂静之夜</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202007">
+      <LocalizedName>闪电连击</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202008">
+      <LocalizedName>迅捷步伐</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202009">
+      <LocalizedName>收集情报</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202010">
+      <LocalizedName>烈焰猛击</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202011">
+      <LocalizedName>火棍痛殴</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202012">
+      <LocalizedName>水止镜明</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

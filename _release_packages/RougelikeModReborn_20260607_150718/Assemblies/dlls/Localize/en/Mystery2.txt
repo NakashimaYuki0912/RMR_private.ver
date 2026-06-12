@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryCh2_1Title">A Meaty Quest</text>
+             <text id="MysteryCh2_1Frame0Dia0">You find yourself dining at Pierre's Bistro, though it seems no one has been receiving their orders tonight, causing you to ask the waiter -- a tall and brollic bronze-skinned man in a butcher's attire, sampling a red soup -- he turns his head and puts on a forced smile as you arrive. "Yes, what is it?"
+			 
+You explain that you're upset about the delay in your food, quickly joined by others in a symphony of complains -- all suddenly silent as the man strikes the counter with his cleaver, letting out a diappoited sigh. "Ah, I'm sorry, shouldn't have hit the counter like that. About our shortage... hey, Pierre! Come out front, please." He calls to the kitchen behind him, a feminine voice answering back.
+
+"Yes, Jack?" A short white-haired woman walked in front the kitchen, bits and pieces of gore covering her apron. She approaches the counter with enthusiasm, despite her tired expression. "Ahh, is this about the wait times again? Well, listen here [mirror]Shard[/color]..."
+
+"If you're in such a hurry why don'tcha go grab some ingredients for us, then?" She leans over with a sly smile. "That or we can turn [i]you[/i] into one right now~!" A bloodstained kitchen knife danced in her fingers</text>
+             <text id="MysteryCh2_1Frame0Choice0Desc">Agree to hunt ingredients for Pierre ([green]Gain 20~30[/color] [yellow]Ahn[/color])</text>
+             <text id="MysteryCh2_1Frame0Choice1Desc">Refuse politely and try to leave</text>
+
+             <text id="MysteryCh2_1Frame1Dia0">"Alright! I'll be waiting for ya~" Pierre let out a big smile.</text>
+             <text id="MysteryCh2_1Frame1Dia1">
+You can now obtain the 'Meat' Combat Page by skipping page rewards after a fight. Skipping 5 Combat Page rewards will allow you to complete the quest.</text>
+             <text id="MysteryCh2_1Frame1Choice0Desc">Walk away a wee bit hungry</text>
+
+             <text id="MysteryCh2_1Frame2Dia0">Pierre grinned eerily as she drew her knife and Jack his cleaver. Other customers also seemed to have brought their own utensils...</text>
+             <text id="MysteryCh2_1Frame2Choice0Desc">Fight your way out</text>
+
+
+             <text id="MysteryCh2_1_1Title">A Meaty Quest -- Part 2</text>
+             <text id="MysteryCh2_1_1Frame0Dia0">After a long hunt you return the 'ingredients' to Pierre, the latter receiving them eagerly. "Thank you, [mirror]Shard[/color]~! Here' your reward." Pierre hands out nearly organized bills and sends you on your way.</text>
+             <text id="MysteryCh2_1_1Frame0Choice0Desc">Walk away... still a wee bit hungry (+{0} [yellow]Ahn[/color])</text>
+             <text id="MysteryCh2_1_1Frame0Choice1Desc">Cook me something instead ([green]Gain 5 'Meat Jam' Combat Page[/color])</text>
+
+             <text id="MysteryCh2_2Title">Unprepared Minds</text>
+ <text id="MysteryCh2_2Frame0Dia0">You hear intense shouting in the distance and decide to sneakily to analyze the situation. Upon approaching you notice two fixers seemingly arguing with each other -- one is a short blonde girl wearing a heavy duty jacket with a big white fur coat, the other an average-sized white haired boy carrying a massive grey sword. By the looks of it they haven't noticed you yet.
+ 
+ "Lulu, I... can't just run away like this. We're on a request, and its not what a fixer would do... What my mother--"
+
+ "Cut it out, Mars! This place's gonna kill us! Is it not bad enough that San is gone!?" 
+ 
+ Despite being so distracted they still blocked your way forward, and by the various hauled equipment and supplies along the way you suspect they wouldn't let you pass unharmed. Thanks to this hidden position, however, you can confidently take one of them out before the fight begins.</text>
+             
+			 <text id="MysteryCh2_2Frame0Choice0Desc">Hit Mars's exposed flank</text>
+             <text id="MysteryCh2_2Frame0Choice1Desc">Pierce Lulu's throat</text>
+
+ <text id="MysteryCh2_2Frame1Dia0">Mars has barely any time to react as you strike the side of his head, collapsing it in one go -- his lifeless body falls with a morbid thud, eyes wide and empty. 
+ 
+ "MARS? NOOO! [mirror]SHARD[/color]! I'LL KI--" Lulu cries out but is dragged away by her friends, escaping before you can provoke a fight. You have a feeling that this is not over...</text>
+             <text id="MysteryCh2_2Frame1Choice0Desc">Loot the body and walk away ([green]Gain Mars' Key Page[/color])</text>
+
+ <text id="MysteryCh2_2Frame2Dia0">Lulu's screams come out as a gargled mess, spewing blood everywhere she looks -- her body attempts a comeback but quickly stumbles, convulsing to death on the floor.
+ 
+ "Wait, no-- Lulu!" Mars cries out in shock, then anger, being held back by his coworkers then dragged away before you can finish the fight. You have a feeling that this is not over...</text>
+             <text id="MysteryCh2_2Frame2Choice0Desc">Loot the body and walk away ([green]Gain Lulu's Key Page[/color])</text>
+
+</localize>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	 
+	 <text id="LogueLikeBook_Ch1_1">Book of Canard - Paperback</text>
+	 <text id="LogueLikeBook_Ch1_2">Book of Canard - Hardcover</text>
+	 <text id="LogueLikeBook_Ch1_3">Book of Canard - Limited</text>
+	 <text id="LogueLikeBook_Ch1_4">Book of Canard - Objet d'art</text>
+
+	 <text id="LogueLikeBook_Ch2_1">Book of Urban Myth - Paperback</text>
+	 <text id="LogueLikeBook_Ch2_2">Book of Urban Myth - Hardcover</text>
+	 <text id="LogueLikeBook_Ch2_3">Book of Urban Myth - Limited</text>
+	 <text id="LogueLikeBook_Ch2_4">Book of Urban Myth - Objet d'art</text>
+
+	 <text id="LogueLikeBook_Ch3_1">Book of Urban Legend - Paperback</text>
+	 <text id="LogueLikeBook_Ch3_2">Book of Urban Legend - Hardcover</text>
+	 <text id="LogueLikeBook_Ch3_3">Book of Urban Legend - Limited</text>
+	 <text id="LogueLikeBook_Ch3_4">Book of Urban Legend - Objet d'art</text>
+
+	 <text id="LogueLikeBook_Ch4_1">Book of Urban Plague - Paperback</text>
+	 <text id="LogueLikeBook_Ch4_2">Book of Urban Plague - Hardcover</text>
+	 <text id="LogueLikeBook_Ch4_3">Book of Urban Plague - Limited</text>
+	 <text id="LogueLikeBook_Ch4_4">Book of Urban Plague - Objet d'art</text>
+
+	 <text id="LogueLikeBook_Ch5_1">Book of Urban Nightmare - Paperback</text>
+	 <text id="LogueLikeBook_Ch5_2">Book of Urban Nightmare - Hardcover</text>
+	 <text id="LogueLikeBook_Ch5_3">Book of Urban Nightmare - Limited</text>
+	 <text id="LogueLikeBook_Ch5_4">Book of Urban Nightmare - Objet d'art</text>
+
+	 <text id="LogueLikeBook_Ch6_1">Book of Star of the City - Paperback</text>
+	 <text id="LogueLikeBook_Ch6_2">Book of Star of the City - Hardcover</text>
+	 <text id="LogueLikeBook_Ch6_3">Book of Star of the City - Limited</text>
+	 <text id="LogueLikeBook_Ch6_4">Book of Star of the City - Objet d'art</text>
+            
+	<text id="LogueLikeBook_Ch0_1_Modded">Roguelike Mod+</text>
+	<text id="LogueLikeBook_Ch0_1">Roguelike Mod</text>
+    	<text id="LogueLikeBook_Ch0_2">Roguelike Mod - Saved Run</text>
+	<text id="LogueLikeBook_Ch6_Debug">RMR Debug Chapter 6</text>
+</localize>

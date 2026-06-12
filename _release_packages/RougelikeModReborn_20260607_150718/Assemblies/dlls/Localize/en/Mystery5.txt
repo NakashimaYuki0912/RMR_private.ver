@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryCh5_1Title">Last-Minute Performance</text>
+             <text id="MysteryCh5_1Frame0Dia0"> You pass by what seems like a circus tent, its symbol a striped red and white clown, though the silence has you curious enough to investigate. As you go further inside its revealed that, while the performance is ready to begin, there are no actors to execute the play -- save for a bizarre-looking clown, who greets you with a cheery smile. The remains of various pikes and spears litter the circus.
+			 
+"Ah! [mirror]Shard[/color]! How nice it is to see you here~~" His tower body moves to extreme, expressive poses. "Ohh my poor poor self is in a terrible situation! My actors have all... had an acccident, yes!? And as such a need new ones for the show! Ohhh, [mirror]Shard[/color], wont you help me? The performance is so soon..."
+			 
+This clown is certainly bizarre, though you can't hope but feel compelled to perform. Looking at the schedule posted on the circus' wall reveals that the performance might be a bit tiresome...</text>
+             <text id="MysteryCh5_1Frame0Choice0Desc">[yellow]Perform! Whats not to like?[/color] ([red]All Librarians: -20% HP[/color]. [green]Gain[/color] [unique]'Inspiration'[/color])</text>
+             <text id="MysteryCh5_1Frame0Choice1Desc">Walk away, you're no clown</text>
+             <text id="MysteryCh5_1Frame1Dia0">You put on a costume and perform for what felt like an eternity, dancing until your bones creaked and eyes grew bags under their bags -- it was a tiresome performance for sure, but you feel... inspired to do much much more. Definitely outside of here.</text>
+             <text id="MysteryCh5_1Frame1Choice0Desc">Walk away [yellow]INSPIRED![/color]</text>
+
+             <text id="MysteryCh5_2Title">Bad Omen</text>
+             <text id="MysteryCh5_2Frame0Dia0"> A desperate-looking young man rushes to us, carrying a metal-reinforced scatola -- a common Thumb box used for transporting rare goods -- in one hand and several unpaid bills in the other. He stops right before our feet and offers the box. "H-hey, [mirror]Shard[/color]! It's you, right? I-I... I need you to take this! It's my prescript..." He opens the box to reveal several gold coins, maked with thumb symbols.
+			 
+Were we to take the box and sell the coins, we'd certainly make a profit, though it could anger the Thumb. Not taking it is safer, but this man will be certainly doomed.</text>
+             <text id="MysteryCh5_2Frame0Choice0Desc">Grab the scatola and sell it</text>
+             <text id="MysteryCh5_2Frame0Choice1Desc">Walk away, you don't want to risk it</text>
+             <text id="MysteryCh5_2Frame1Dia0">You received the scatola and quickly sold it to a shady dealer for a handsome amount of Ahn. The dealer warns you of the potential danger, but the harm is already done.</text>
+             <text id="MysteryCh5_2Frame1Choice0Desc">Walk away richer ([green]+40[/color] [yellow]Ahn[/color])</text>
+             <text id="MysteryCh5_2Frame2Dia0">You refuse the box, much to the young man's despair -- he follows you for a while, trying to desperately convince you to take it, but ultimately you refuse. As return to your path you can hear the sound of masculine screams and release vapor in the distance...</text>
+             <text id="MysteryCh5_2Frame2Choice0Desc">Walk away safer</text>
+
+ <text id="MysteryCh5_2_1Title">Rightful Payback</text>
+             <text id="MysteryCh5_2_1Frame0Dia0">"Ey, you there-- [mirror]Shard[/color]!" A group of Thumb soldatos encircle you, most of their weapons pointed save the leader. He gestures at the open scatola you're carrying. "You the [i]scemo[/i] that took our package, sì?" The other soldiers hold up a picture of you to the squad leader, stripping your means of deception.
+			 
+"We gonna take it back from ya corpse!" They hold their weapons in a firing squad formation.</text>
+             <text id="MysteryCh5_2_1Frame0Choice0Desc">Rush in and fight</text>
+             <text id="MysteryCh5_2_1Frame0Choice1Desc">Bribe them ([red]Pay 60[/color] [yellow]Ahn[/color])</text>
+
+</localize>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+  
+
+
+
+<!--이벤트2_1 : 피에르의 미트파이-->
+
+  <Stage id="120001">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>28471001</Unit>
+    </Wave>
+  </Stage>
+
+
+<!--이벤트2_1_1 : 피에르랑 한바탕-->
+  <Stage id="1200011">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>11003</Unit>
+      <Unit>10002</Unit>
+      <Unit>11004</Unit>
+    </Wave>
+  </Stage>
+
+
+<!--이벤트2_1_2 : 미트파이 재료 납품 스테이지-->
+  <Stage id="220001">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>28481001</Unit>
+    </Wave>
+  </Stage>
+
+<!--이벤트2_2 : 마음가짐-->
+  <Stage id="120002">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>28471002</Unit>
+    </Wave>
+  </Stage>
+  
+
+<!-- fraud index event -->
+  <Stage id="120003">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>2</Formation>
+      <Unit>28471003</Unit>
+    </Wave>
+  </Stage>
+
+
+</StageXmlRoot>
+

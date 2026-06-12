@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="500011">
+		<Name>Injured</Name>
+		<Desc>Starts the battle with 50% less HP.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="500012">
+		<Name>Splay Their Reds</Name>
+		<Desc>Deal +10% damage and Stagger damage every time this character uses a Combat Page against a target consecutively. (Max. 50%)
+Upon using a Combat Page, if damage increase is 30% or higher, all Offensive dice on the page gain '[On Hit] Inflict 1 Bleed next Scene'.
+If this character uses a Combat Page against a different target, reset the damage increase.</Desc>
+	</PassiveDesc>
+	
+	<PassiveDesc ID="500013">
+		<Name>Shimmering</Name>
+		<Desc>At the start of each Scene, exhaust all pages in hand and deck; add new pages to hand. Their Cost becomes 0.</Desc>
+	</PassiveDesc>
+	
+	<PassiveDesc ID="500014">
+		<Name>Prescript</Name>
+		<Desc>Deal +10% damage and Stagger damage every time this character uses a Combat Page against a target consecutively. (Max. 30%)
+If this character uses a Combat Page against a different target, they deal -50% damage and Stagger damage for that engagement.</Desc>
+	</PassiveDesc>
+	
+	<PassiveDesc ID="500015">
+		<Name>Shimmering</Name>
+		<Desc>At the start of each Scene, exhaust all pages in hand and deck; add new pages to hand. Their Cost becomes 0.</Desc>
+	</PassiveDesc>
+  
+</PassiveDescRoot>
+  
+

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryCh6_1Title">A Fateful Encounter</text>
+             <text id="MysteryCh6_1Frame0Dia0">[mirror]The Sparkling Mirror[/color] stands once again before you, this time offering rewards for reaching this far -- you're almost there, you think, sharing its thoughts -- as your minds sever you are presented with a few choices.</text>
+             <text id="MysteryCh6_1Frame0Choice0Desc">Idolize the Past ([green]Upgrade every Combat Page below Star of the City[/color]. [red]You are unable to gain any further Combat Page rewards[/color])</text>
+             <text id="MysteryCh6_1Frame0Choice1Desc">Enjoy the Present ([green]Gain 10 Star of the City Combat Pages[/color])</text>
+             <text id="MysteryCh6_1Frame0Choice2Desc">Hope for the Future ([green]Upgrade every Combat Page obtained after this event[/color])</text>
+             <text id="MysteryCh6_1Frame1Dia0">[mirror]The Sparkling Mirror[/color] summons the chosen rewards in front of you, their essence otherworldly and familiar in a way, though it vanishes before you can scrutinize it better.</text>
+             <text id="MysteryCh6_1Frame1Choice0Desc">Walk away... </text>
+
+             <text id="MysteryCh6_2Title">Lets Go Gambling!</text>
+             <text id="MysteryCh6_2Frame0Dia0">You find yourself summoned inside a gigantic J Corp cansino, already in front a table starting a game of Craps. A rapsy masculine voice coming from the dealer breaks you from your trance. 
+
+"[mirror]Shard[/color]... ya playin'?" He offers a seat in the table, the other clients dressed in fancy smokings and dresses. 
+
+You could play and win some serious cash, even bet using your equipment or an ally's life, risky as it is. You could also leave the casino, but there is always an entrance fee in these places. </text>
+             <text id="MysteryCh6_2Frame0Choice0Desc">Bet some [yellow]Ahn[/color] ([red]Pay 50% of current[/color] [yellow]Ahn[/color]. Win double the amount at a 50% chance)</text>
+			 
+             <text id="MysteryCh6_2Frame0Choice1Desc">Bet your equipment ([red]Pay in the currently equipped Key Page[/color]. Get a copy of it at a 50% chance)</text>
+			 
+             <text id="MysteryCh6_2Frame0Choice2Desc">Bet the life of an ally ([red]Pay inn a Librarian's life[/color]. Revive and fully heal every librarian at a 50% chance)</text>
+			 
+             <text id="MysteryCh6_2Frame0Choice3Desc">Walk away ([red]Pay 10[/color] [yellow]Ahn[/color])</text>
+
+             <text id="MysteryCh6_2Frame1Dia0">You bet some Ahn, the dealer quickly converting it into chips with a machine under the table. He explains that this is game of Craps, where you win by rolling the bigger number in two six sided dice. He shakes the dice in his tan-colored scarred hands -- first his, then yours -- letting them fall onto the table. They roll...</text>
+ <text id="MysteryCh6_2Frame1Choice0Desc">[green]In your favor[/color]! You walk away richer</text>
+ 
+             <text id="MysteryCh6_2Frame2Dia0">You bet some Ahn, the dealer quickly converting it into chips with a machine under the table. He explains that this is game of Craps, where you win by rolling the bigger number in two six sided dice. He shakes the dice in his tan-colored scarred hands -- first his, then yours -- letting them fall onto the table. They roll...</text>
+ <text id="MysteryCh6_2Frame2Choice0Desc">[red]Against you[/color]! The dealer sends you away</text>
+
+             <text id="MysteryCh6_2Frame3Dia0">You bet your equipment, the dealer quickly handing to a nearby waiter. He explains that this is game of Craps, where you win by rolling the bigger number in two six sided dice. He shakes the dice in his tan-colored scarred hands -- first his, then yours -- letting them fall onto the table. They roll...</text>
+ <text id="MysteryCh6_2Frame3Choice0Desc">[green]In your favor[/color]! You walk away richer</text>
+ 
+             <text id="MysteryCh6_2Frame4Dia0">You bet your equipment, the dealer quickly handing to a nearby waiter. He explains that this is game of Craps, where you win by rolling the bigger number in two six sided dice. He shakes the dice in his tan-colored scarred hands -- first his, then yours -- letting them fall onto the table. They roll...
+Die get rolled, and you shouted the number. Then...
+As if it was obvious, the die stop at a different number.</text>
+ <text id="MysteryCh6_2Frame4Choice0Desc">[red]Against you[/color]! The dealer sends you away</text>
+
+             <text id="MysteryCh6_2Frame5Dia0">You bet your ally's life, the dealer quickly sending in security to hold them. He explains that this is game of Craps, where you win by rolling the bigger number in two six sided dice. He shakes the dice in his tan-colored scarred hands -- first his, then yours -- letting them fall onto the table. They roll...</text>
+ <text id="MysteryCh6_2Frame5Choice0Desc">[green]In your favor[/color]! An ally is revived and you heal fully</text>
+ 
+             <text id="MysteryCh6_2Frame6Dia0">You bet your ally's life, the dealer quickly sending in security to hold them. He explains that this is game of Craps, where you win by rolling the bigger number in two six sided dice. He shakes the dice in his tan-colored scarred hands -- first his, then yours -- letting them fall onto the table. They roll...</text>
+ <text id="MysteryCh6_2Frame6Choice0Desc">[red]Against you[/color]! The dealer takes your ally and kicks you out</text>
+
+             <text id="MysteryCh6_2Frame7Dia0">You decide its best to just pay the fee and leave. No use in risking valuable things in these casinos...</text>
+             <text id="MysteryCh6_2Frame7Choice0Desc">Leave ([red]-10[/color] [yellow]Ahn[/color])</text>
+</localize>

@@ -59,6 +59,9 @@
   <text id="CardCheckPopUp_CannotUpgrade">You have no upgradeable Combat Pages.</text>
 
   <text id="ui_Inventory">Item</text>
+  <text id="ui_CraftTab">Skills</text>
+  <text id="ui_AtlasTab">Atlas</text>
+  <text id="ui_Realization">Realization</text>
   <text id="ui_CreatureTab">Abnormality</text>
   <text id="ui_CraftTab">Craft</text>
   <text id="ui_CraftCost">Cost</text>

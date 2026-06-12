@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiceCardXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+
+  <Card ID="-3000001">
+    <Name>물음</Name>
+    <Artwork>MachineDawnCard1</Artwork>
+    <Rarity>Common</Rarity>
+    <Spec Range="Near" Cost="1" />
+    <Script />
+    <ScriptDesc />
+    <BehaviourList>
+      <Behaviour Min="3" Dice="8" Type="Atk" Detail="Penetrate" Motion="Z" EffectRes="" Script="MachineDawnCard1_1" Desc="[합 승리] 취약 1 부여" />
+      <Behaviour Min="2" Dice="4" Type="Atk" Detail="Penetrate" Motion="Z" EffectRes="" Script="" Desc="" />
+    </BehaviourList>
+    <Chapter>3</Chapter>
+    <Priority>0</Priority>
+  </Card>
+  <Card ID="-3000002">
+    <Name>결론</Name>
+    <Artwork>MachineDawnCard2</Artwork>
+    <Rarity>Common</Rarity>
+    <Spec Range="Near" Cost="3" />
+    <Script>MachineDawnCard2_0</Script>
+    <ScriptDesc>취약 상태인 적에게만 사용가능
+[사용시] 대상의 취약 수치만큼 이 책장의 모든 주사위 위력 증가</ScriptDesc>
+    <BehaviourList>
+      <Behaviour Min="4" Dice="8" Type="Atk" Detail="Hit" Motion="H" EffectRes="" Script="" Desc="" />
+      <Behaviour Min="3" Dice="5" Type="Def" Detail="Guard" Motion="G" EffectRes="" Script="" Desc="" />
+      <Behaviour Min="2" Dice="4" Type="Atk" Detail="Penetrate" Motion="Z" EffectRes="" Script="MachineDawnCard2_3" Desc="대상의 취약 수치만큼 재사용(최대 3회)" />
+    </BehaviourList>
+    <Chapter>3</Chapter>
+    <PriorityScript>MachineDawnCard2</PriorityScript>
+  </Card>
+
+  <Card ID="-3000011">
+    <Name>과실</Name>
+    <Artwork>OutterGodDawnCard1</Artwork>
+    <Rarity>Common</Rarity>
+    <Spec Range="Near" Cost="1" />
+    <Script></Script>
+    <ScriptDesc></ScriptDesc>
+    <BehaviourList>
+      <Behaviour Min="1" Dice="7" Type="Standby" Detail="Guard" Motion="G" EffectRes="" Script="OutterGodDawnCard1_1" ActionScript="" Desc="" /> 
+      <Behaviour Min="2" Dice="6" Type="Standby" Detail="Guard" Motion="G" EffectRes="" Script="OutterGodDawnCard1_2" ActionScript="" Desc="" />       
+    </BehaviourList>
+    <Chapter>3</Chapter>
+    <Priority>0</Priority>
+  </Card>
+
+  <Card ID="-3000021">
+    <Name>시작!</Name>
+    <Artwork>CircusDawnCard1</Artwork>
+    <Rarity>Common</Rarity>
+    <Spec Range="Near" Cost="1" />
+    <Script>CircusDawnCard1_0</Script>
+    <ScriptDesc>이 책장의 주사위가 모두 합 패배 처리 되지 않는다면 대상 사서와 '붙음' 상태가 됨</ScriptDesc>
+    <BehaviourList>
+      <Behaviour Min="2" Dice="4" Type="Def" Detail="Guard" Motion="G" EffectRes="" Script="" Desc="" /> 
+      <Behaviour Min="1" Dice="3" Type="Atk" Detail="Slash" Motion="J" EffectRes="" Script="" Desc="" />
+      <Behaviour Min="1" Dice="8" Type="Def" Detail="Evasion" Motion="E" EffectRes="" Script="" Desc="" /> 
+    </BehaviourList>
+    <Chapter>3</Chapter>
+    <Priority>0</Priority>
+  </Card>
+  <Card ID="-3000022">
+    <Name>장난</Name>
+    <Artwork>CircusDawnCard2</Artwork>
+    <Rarity>Common</Rarity>
+    <Spec Range="Near" Cost="2" />
+    <Script>CircusDawnCard1_0</Script>
+    <ScriptDesc>'붙음' 상태에서만 사용 가능</ScriptDesc>
+    <BehaviourList>
+      <Behaviour Min="1" Dice="8" Type="Standby" Detail="Evasion" Motion="E" EffectRes="" Script="" Desc="" /> 
+      <Behaviour Min="1" Dice="6" Type="Standby" Detail="Evasion" Motion="E" EffectRes="" Script="" Desc="" /> 
+    </BehaviourList>
+    <Chapter>3</Chapter>
+    <Priority>0</Priority>
+  </Card>
+  <Card ID="-3000022">
+    <Name>장난</Name>
+    <Artwork>CircusDawnCard2</Artwork>
+    <Rarity>Common</Rarity>
+    <Spec Range="Near" Cost="2" />
+    <Script>CircusDawnCard1_0</Script>
+    <ScriptDesc>'붙음' 상태에서만 사용 가능</ScriptDesc>
+    <BehaviourList>
+      <Behaviour Min="1" Dice="8" Type="Standby" Detail="Evasion" Motion="E" EffectRes="" Script="" Desc="" /> 
+      <Behaviour Min="1" Dice="6" Type="Standby" Detail="Evasion" Motion="E" EffectRes="" Script="" Desc="" /> 
+    </BehaviourList>
+    <Chapter>3</Chapter>
+    <Priority>0</Priority>
+  </Card>
+ <Card ID="-3000023">
+    <Name>재주넘기</Name>
+    <Artwork>CircusDawnCard1</Artwork>
+    <Rarity>Common</Rarity>
+    <Spec Range="Near" Cost="1" />
+    <Script>CircusDawnCard1_0</Script>
+    <ScriptDesc>'상실' 상태인 적에게만 사용 가능</ScriptDesc>
+    <BehaviourList>
+      <Behaviour Min="2" Dice="4" Type="Def" Detail="Guard" Motion="G" EffectRes="" Script="" Desc="" /> 
+      <Behaviour Min="1" Dice="3" Type="Atk" Detail="Slash" Motion="J" EffectRes="" Script="" Desc="" />
+      <Behaviour Min="1" Dice="8" Type="Def" Detail="Evasion" Motion="E" EffectRes="" Script="" Desc="" /> 
+    </BehaviourList>
+    <Chapter>3</Chapter>
+    <Priority>0</Priority>
+  </Card>
+</DiceCardXmlRoot>

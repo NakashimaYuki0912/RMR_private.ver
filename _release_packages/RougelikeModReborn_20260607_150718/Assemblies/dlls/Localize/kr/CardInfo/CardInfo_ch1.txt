@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="11">
+      <LocalizedName>내장담기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="12">
+      <LocalizedName>쥐의 생존법</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="13">
+      <LocalizedName>더러운 타격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="14">
+      <LocalizedName>물어뜯기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="15">
+      <LocalizedName>골목 돌파</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="16">
+      <LocalizedName>튀어</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="100001">
+      <LocalizedName>흘려치기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="100002">
+      <LocalizedName>찌르기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="100003">
+      <LocalizedName>때리기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="100004">
+      <LocalizedName>선공</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="100005">
+      <LocalizedName>재빠름</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101001">
+      <LocalizedName>내장담기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101002">
+      <LocalizedName>쥐의 생존법</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101003">
+      <LocalizedName>더러운 타격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101004">
+      <LocalizedName>물어뜯기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101005">
+      <LocalizedName>골목 돌파</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="101006">
+      <LocalizedName>튀어</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102001">
+      <LocalizedName>진두지휘</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102002">
+      <LocalizedName>느려</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102003">
+      <LocalizedName>분투</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102004">
+      <LocalizedName>테스트 좀 해볼까</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102005">
+      <LocalizedName>느낌 좋은데</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="102006">
+      <LocalizedName>준비</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103001">
+      <LocalizedName>터터트려</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103002">
+      <LocalizedName>이인생 한 방</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103003">
+      <LocalizedName>추충전</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103004">
+      <LocalizedName>버버티기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103005">
+      <LocalizedName>퍼퍼석퍼석</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="103006">
+      <LocalizedName>저절단</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104001">
+      <LocalizedName>압도</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104002">
+      <LocalizedName>먼저간다</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104003">
+      <LocalizedName>받아내보시지</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104004">
+      <LocalizedName>광란</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104005">
+      <LocalizedName>추적</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="104006">
+      <LocalizedName>난도질</LocalizedName>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

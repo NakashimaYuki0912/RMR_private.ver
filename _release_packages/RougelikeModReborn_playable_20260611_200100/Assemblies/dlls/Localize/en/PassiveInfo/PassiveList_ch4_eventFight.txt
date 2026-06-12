@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="400011">
+		<Name>Raid</Name>
+		<Desc>Not subject to One-Side attack. When all my dice are consumed, the forced Clash ends. The battle ends after act 3</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="400021">
+		<Name>blood revenge</Name>
+		<Desc>All dice gain +1 Power</Desc>
+	</PassiveDesc>
+  
+</PassiveDescRoot>
+  
+

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookUseXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+
+
+<BookUse ID="4001">
+    <Name>도시질병의 책 - 일반</Name>
+    <TextId>LogueLikeBook_Ch4_1</TextId>
+    <Chapter>4</Chapter>
+  </BookUse>
+
+<BookUse ID="4002">
+    <Name>도시질병의 책 - 고급</Name>
+    <TextId>LogueLikeBook_Ch4_2</TextId>
+    <Chapter>4</Chapter>
+  </BookUse>
+
+<BookUse ID="4003">
+    <Name>도시질병의 책 - 한정</Name>
+    <TextId>LogueLikeBook_Ch4_3</TextId>
+    <Chapter>4</Chapter>
+  </BookUse>
+
+<BookUse ID="4004">
+    <Name>도시질병의 책 - 예술</Name>
+    <TextId>LogueLikeBook_Ch4_4</TextId>
+    <Chapter>4</Chapter>
+  </BookUse>
+
+</BookUseXmlRoot>

@@ -1,0 +1,104 @@
+
+machine_Midnight.png
+size: 2048,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: true
+  xy: 1531, 139
+  size: 108, 250
+  orig: 108, 250
+  offset: 0, 0
+  index: -1
+a1
+  rotate: true
+  xy: 686, 18
+  size: 229, 333
+  orig: 229, 333
+  offset: 0, 0
+  index: -1
+a2
+  rotate: true
+  xy: 351, 11
+  size: 236, 333
+  orig: 236, 333
+  offset: 0, 0
+  index: -1
+b1
+  rotate: false
+  xy: 2, 16
+  size: 347, 231
+  orig: 347, 231
+  offset: 0, 0
+  index: -1
+bolt
+  rotate: false
+  xy: 1347, 88
+  size: 50, 34
+  orig: 50, 34
+  offset: 0, 0
+  index: -1
+bolt 2
+  rotate: true
+  xy: 1276, 13
+  size: 35, 50
+  orig: 35, 50
+  offset: 0, 0
+  index: -1
+c1
+  rotate: false
+  xy: 1021, 100
+  size: 253, 147
+  orig: 253, 147
+  offset: 0, 0
+  index: -1
+efect
+  rotate: true
+  xy: 1021, 23
+  size: 75, 159
+  orig: 75, 159
+  offset: 0, 0
+  index: -1
+efect 2
+  rotate: false
+  xy: 1906, 103
+  size: 75, 144
+  orig: 75, 144
+  offset: 0, 0
+  index: -1
+efect 3 light
+  rotate: false
+  xy: 1983, 125
+  size: 59, 122
+  orig: 59, 122
+  offset: 0, 0
+  index: -1
+effect4
+  rotate: true
+  xy: 1276, 124
+  size: 123, 253
+  orig: 123, 253
+  offset: 0, 0
+  index: -1
+t 3
+  rotate: false
+  xy: 1276, 50
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+t4
+  rotate: true
+  xy: 1783, 131
+  size: 116, 121
+  orig: 116, 121
+  offset: 0, 0
+  index: -1
+t5
+  rotate: false
+  xy: 1182, 2
+  size: 92, 96
+  orig: 92, 96
+  offset: 0, 0
+  index: -1

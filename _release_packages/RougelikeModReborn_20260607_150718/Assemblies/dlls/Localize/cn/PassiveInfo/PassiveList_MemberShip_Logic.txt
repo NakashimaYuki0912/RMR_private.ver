@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="28580001">
+		<Name>逻辑工作室商人</Name>
+		<Desc>你想买些什么？</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580001">
+    <Name>装弹</Name>
+    <Desc>每一幕结束时若手中没有远程书页则抽取2张远程书页</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580002">
+    <Name>藏身术</Name>
+    <Desc>使用远程书页与近战书页拼点时强制使目标书页所有骰子置入其反击列表并结束拼点(每一幕限1次)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580003">
+    <Name>抢占先机</Name>
+    <Desc>第一幕内额外获得1颗速度骰子</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580004">
+    <Name>火网</Name>
+    <Desc>[全局]对其他司书的远程书页所选的目标使用的远程书页的进攻型骰子威力+1</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580005">
+    <Name>特别定制 - 逻辑工作室</Name>
+    <Desc>获得3张“逻辑工作室”战斗书页</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580006">
+    <Name>备用弹匣</Name>
+    <Desc>开启舞台时将卡组中第一张远程书页复制并置入手中</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580007">
+    <Name>穿透射击</Name>
+    <Desc>使用远程书页击杀敌方角色时其中剩余的骰子将以单方面攻击的形式再次对随机敌方角色使用</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580008">
+    <Name>微量死亡</Name>
+    <Desc>远程书页的进攻型骰子单方面攻击时伤害+3</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580009">
+    <Name>弹道学</Name>
+    <Desc>远程书页的进攻型骰子的可额外触发1次“幸运”</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580010">
+    <Name>枪械保养</Name>
+    <Desc>若一幕内自身未使用远程书页则下一幕使自身远程书页中的所有骰子威力+2</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8580011">
+    <Name>全方位防御</Name>
+    <Desc>使用远程书页时获得1颗突刺反击骰子(3~9)
+(每一幕限1次)</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

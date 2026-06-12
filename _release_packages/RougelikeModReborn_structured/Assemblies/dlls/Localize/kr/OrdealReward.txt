@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="OrdealRewardFlaverText">시련 보상</text>
+
+             <text id="OrdealReward1Name">무엇이든 바꿔드립니다</text>
+             <text id="OrdealReward1Desc">[전역] 사서 한명을 선택. 피해를 5 입히고 다른 모든 사서들의 빛 1 회복. 매 막 시작마다 반복하며 피해량과 빛 회복량이 100%씩 증가
+무대 당 1번 사용 가능</text>
+             <text id="OrdealReward2Name">오래전의 믿음과 약속</text>
+             <text id="OrdealReward2Desc">[전역] 사서 한명을 선택. 선택한 사서의 손에 있는 전투책장 중 하나를 선택하여 강화. 50% 확률로 성공하며 실패시 해당 전투책장은 소멸함
+1막 당 1번 사용가능</text>
+             <text id="OrdealReward3Name">조정의 거울</text>
+             <text id="OrdealReward3Desc">사서 한명의 체력과 흐트러짐 저항 -20~20% 증감</text>
+             <text id="OrdealReward4Name">뚜껑따인 웰치어스</text>
+             <text id="OrdealReward4Desc">[전역] 사서 한명을 선택해 아래 효과를 하나를 무작위로 얻음
+-체력 10 회복
+-흐트러짐 저항 10 회복
+-체력과 흐트러짐 저항 10 회복
+-행동불가
+1막 당 1번 사용가능</text>
+             <text id="OrdealReward5Name">발광 팔찌</text>
+             <text id="OrdealReward5Desc">[전역] 사서 한명을 선택. 매 막 시작 시 해당 사서의 체력 10% 회복. 2막 동안 피해를 입지 않으면 사망
+무대 당 1번 사용 가능</text>
+             <text id="OrdealReward6Name">살갗 예언</text>
+             <text id="OrdealReward6Desc">[전역] 사서 한명을 선택. 해당 사서의 흐트러짐 저항 50% 증가. 해당 사서가 흐트러질때 사망
+무대 당 1번 사용 가능</text>
+             <text id="OrdealReward7Name">테레지아</text>
+             <text id="OrdealReward7Desc">[전역] 매 막 시작 시 모든 캐릭터의 흐트러짐 저항 10 회복</text>
+             <text id="OrdealReward8Name">행동교정</text>
+             <text id="OrdealReward8Desc">[전역] 사서 한명을 선택. 해당 사서의 속도 주사위 +1. 모든 주사위를 사용하지 않으면 다음 막에 흐트러짐 피해를 20 입음
+무대 당 1번 사용 가능</text>
+             <text id="OrdealReward9Name">3월 27일의 방공호</text>
+             <text id="OrdealReward9Desc">[전역] 사서 한명을 선택. 해당 사서는 행동불가 및 대상으로 지정할 수 없는 상태가 됨. 모든 적이 막 시작 시 힘과 인내를 1씩 얻음. 얻는 힘과 인내 수치는 매 막마다 1씩 증가
+무대 당 1번 사용 가능</text>
+             <text id="OrdealReward10Name">거목수액</text>
+             <text id="OrdealReward10Desc">[전역] 사서 한명을 선택. 생명력과 흐트러짐 저항을 모두 회복. 20% 확률로 사망.</text>
+             <text id="OrdealReward11Name">미쳐버린 연구원의 수첩</text>
+             <text id="OrdealReward11Desc">[전역] 사서 한명을 선택. 매 막 시작 시 책장 1장을 추가로 뽑음. 손이 가득 찬 상태에서 전투 책장을 뽑으면 피해를 15 입음.
+무대 당 1번 사용 가능</text>
+             <text id="OrdealReward12Name">이계의 초상</text>
+             <text id="OrdealReward12Desc">[전역] 사서 두명을 선택. 처음 선택한 사서가 받는 피해를 두번째 선택한 사서가 대신 받음.
+무대 당 1번 사용 가능</text>
+
+</localize>

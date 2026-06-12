@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+	<PassiveDesc ID="8572001">
+    <Name>Special Recipe</Name>
+    <Desc>Upon defeating an enemy, all allies recover 3 HP.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8572002">
+    <Name>Streetlight</Name>
+    <Desc>At the start of the act, give 'Streetlight' to a random other ally. At the start of the Scene, if no other ally has 'Streetlight', give 'Streetlight to a random other ally.
+(Streetlight : At the start of the Scene, gain 2 Luck. Lose this effect if the Librarian with 'Streetlight' Passive dies.)</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

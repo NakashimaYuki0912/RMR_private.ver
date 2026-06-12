@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<RogueMysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Mystery ID="50002">
+    <Frame ID="0">
+      <Dialog>It's a Gigantic casino hosted by J Corp. It's an impressive place where all kinds of people gather and bet all of their belongings for a chance at hitting it big.
+
+How about you? Can you get anything out of this crazy board?</Dialog>
+      <Choice ID="0">
+        <Desc>Bet 50% of your current Ahn: 50/50 chance to either [green]double it [red]or lose it.</Desc>
+      </Choice>
+      <Choice ID="1">
+        <Desc>Bet your equipment: 50/50 chance to either [green]gain additional copies of all equipped Key Pages, [red]or lose them.</Desc>
+      </Choice>
+      <Choice ID="2">
+        <Desc>Bet a librarian's life: 50/50 chance to either [green]heal all librarians to full HP and revive dead librarians, [red]or kill a random librarian.</Desc>
+      </Choice>
+      <Choice ID="3">
+        <Desc>Just pay the entrance fee and leave without gambling. [red]Costs 10 Ahn.</Desc>
+      </Choice>
+    </Frame>
+
+
+    <Frame ID="1">
+      <Dialog>You bet money.
+You throw the die, you shout the number. Then...
+It stopped at the exact number!</Dialog>
+      <Choice ID="0">
+        <Desc>Get 50% of the Ahn you bet.</Desc>
+      </Choice>
+    </Frame>
+
+    <Frame ID="2">
+      <Dialog>You bet money.
+You throw the die, you shout the number. Then...
+As if it was obvious, the die stops at a different number.</Dialog>
+      <Choice ID="0">
+        <Desc>You lost your bet.</Desc>
+      </Choice>
+    </Frame>
+
+    <Frame ID="3">
+      <Dialog>You bet equipment.
+You throw the die, you shout the number. Then...
+It stopped at the exact number!</Dialog>
+      <Choice ID="0">
+        <Desc>Get additional copies of all equipped Key Pages.</Desc>
+      </Choice>
+    </Frame>
+
+    <Frame ID="4">
+      <Dialog>You bet equipment.
+You throw the die, you shout the number. Then...
+As if it was obvious, the die stops at a different number.</Dialog>
+      <Choice ID="0">
+        <Desc>You lost your bet.</Desc>
+      </Choice>
+    </Frame>
+
+    <Frame ID="5">
+      <Dialog>You bet a librarian's life.
+You throw the die, you shout the number. Then...
+It stopped at the exact number!</Dialog>
+      <Choice ID="0">
+        <Desc>Restore all librarians to Max HP.</Desc>
+      </Choice>
+    </Frame>
+
+    <Frame ID="6">
+      <Dialog>You bet a librarian's life.
+You throw the die, you shout the number. Then...
+As if it was obvious, the die stops at a different number.</Dialog>
+      <Choice ID="0">
+        <Desc>You lost your bet.</Desc>
+      </Choice>
+    </Frame>
+
+    <Frame ID="7">
+      <Dialog>You just paid the entrance fee and left the casino.
+It's probably an amateur choice, but better safe than sorry.</Dialog>
+      <Choice ID="0">
+        <Desc>Leave.</Desc>
+      </Choice>
+    </Frame>
+
+    <Title>Gambling Board</Title>
+  </Mystery>
+</RogueMysteryXmlRoot>

@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<BattleEffectTextRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<effectTextList>
+
+    <BattleEffectText ID="RMR_CriticalStrike">
+	  <Name>Critical Strike</Name>
+	  <Desc>Attacks this Scene have {0}% chance to deal +50% damage and stagger damage.</Desc>
+	</BattleEffectText>
+	
+    <BattleEffectText ID="RMR_CriticalStrike_Keyword">
+	  <Name>Critical Strike X</Name>
+	  <Desc>Attacks this Scene have X% chance to deal +50% damage and stagger damage.</Desc>
+	</BattleEffectText>
+	
+	<BattleEffectText ID="RMR_Luck">
+	  <Name>Luck</Name>
+	  <Desc>When rolling a die, roll {0} more times, apply the highest value and lose 1 Luck.</Desc>
+	</BattleEffectText>
+	
+    <BattleEffectText ID="RMR_Luck_Keyword">
+	  <Name>Luck X</Name>
+	  <Desc>When rolling a die, roll X more times, apply the highest value and lose 1 Luck.</Desc>
+	</BattleEffectText>
+	
+	<BattleEffectText ID="RMR_Smoke">
+      <Name>Smoke</Name>
+      <Desc>Deal and take {0}% more damage. Can stack up to 10. Dice Power +1 if the character has 9+ Smoke. Smoke is halved at the end of the Scene.</Desc>
+    </BattleEffectText>
+	 
+    <BattleEffectText ID="RMR_Smoke_Keyword">
+      <Name>Smoke X</Name>
+      <Desc>Amplifies damage dealt and taken. At 9+ Smoke, all dice gain +1 Power. Stacks up to 10. Smoke is halved at the end of each Scene.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_Persistence">
+      <Name>Persistent</Name>
+      <Desc>For the next {0} Scenes, upon taking lethal damage, revive with 30 HP and purge this.</Desc>
+    </BattleEffectText>
+
+    <BattleEffectText ID="RMR_Persistence_Keyword">
+      <Name>Persistent X</Name>
+      <Desc>For the next X Scenes, upon taking lethal damage, revive with 30 HP and purge this.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_BurnProtection">
+      <Name>Burn Protection</Name>
+      <Desc>Take {0} less damage from Burn this Scene.</Desc>
+    </BattleEffectText>
+	 
+    <BattleEffectText ID="RMR_BurnProtection_Keyword">
+      <Name>Burn Protection X</Name>
+      <Desc>Take X less damage from Burn this Scene.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_BleedProtection">
+      <Name>Bleed Protection</Name>
+      <Desc>Take {0} less damage from Bleed this Scene.</Desc>
+    </BattleEffectText>
+
+    <BattleEffectText ID="RMR_BleedProtection_Keyword">
+      <Name>Bleed Protection X</Name>
+      <Desc>Take X less damage from Bleed this Scene.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_Shield">
+      <Name>Shield</Name>
+      <Desc>Prevent the next {0} damage taken for the Scene.</Desc>
+    </BattleEffectText>
+
+    <BattleEffectText ID="RMR_Shield_Keyword">
+      <Name>Shield X</Name>
+      <Desc>Prevent the next X damage taken for the Scene.</Desc>
+    </BattleEffectText>
+
+    <BattleEffectText ID="RMR_StaggerShield">
+      <Name>Stagger Shield</Name>
+      <Desc>Prevent the next {0} Stagger damage taken for the Scene.</Desc>
+    </BattleEffectText>
+
+    <BattleEffectText ID="RMR_StaggerShield_Keyword">
+      <Name>Stagger Shield X</Name>
+      <Desc>Prevent the next X Stagger damage taken for the Scene.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_ClashPower">
+      <Name>Clash Power</Name>
+      <Desc>For the duration of the Scene, all dice gain {0} Power and deal {0} less damage, Stagger damage, and deflect Stagger damage in a clash if this character is affected by Power gain and loss.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_ClashPowerDown">
+      <Name>Clash Power</Name>
+      <Desc>For the duration of the Scene, all dice lose {0} Power and deal +{0} damage, Stagger damage, and deflect Stagger damage in a clash if this character is affected by Power gain and loss.</Desc>
+    </BattleEffectText>
+
+    <BattleEffectText ID="RMR_ClashPower_Keyword">
+      <Name>Clash Power X</Name>
+      <Desc>All dice gain X Power and deal X less damage, Stagger damage, and deflect Stagger damage in a clash for the Scene.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_SlashClashPower">
+      <Name>Slash Clash Power</Name>
+      <Desc>For the duration of the Scene, Slash dice gain {0} Power and deal {0} less damage, Stagger damage, and deflect Stagger damage in a clash if this character is affected by Power gain and loss.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_SlashClashPowerDown">
+      <Name>Slash Clash Power</Name>
+      <Desc>For the duration of the Scene, Slash dice lose {0} Power and deal +{0} damage, Stagger damage, and deflect Stagger damage in a clash if this character is affected by Power gain and loss.</Desc>
+    </BattleEffectText>
+
+    <BattleEffectText ID="RMR_SlashClashPower_Keyword">
+      <Name>Slash Clash Power X</Name>
+      <Desc>Slash dice gain X Power and deal X less damage, Stagger damage, and deflect Stagger damage in a clash for the Scene.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_PierceClashPower">
+      <Name>Pierce Clash Power</Name>
+      <Desc>For the duration of the Scene, Pierce dice gain {0} Power and deal {0} less damage, Stagger damage, and deflect Stagger damage in a clash if this character is affected by Power gain and loss.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_PierceClashPowerDown">
+      <Name>Pierce Clash Power</Name>
+      <Desc>For the duration of the Scene, Pierce dice lose {0} Power and deal +{0} damage, Stagger damage, and deflect Stagger damage in a clash if this character is affected by Power gain and loss.</Desc>
+    </BattleEffectText>
+
+    <BattleEffectText ID="RMR_PierceClashPower_Keyword">
+      <Name>Pierce Clash Power X</Name>
+      <Desc>Pierce dice gain X Power and deal X less damage, Stagger damage, and deflect Stagger damage in a clash for the Scene.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_BluntClashPower">
+      <Name>Blunt Clash Power</Name>
+      <Desc>For the duration of the Scene, Blunt dice gain {0} Power and deal {0} less damage, Stagger damage, and deflect Stagger damage in a clash if this character is affected by Power gain and loss.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_BluntClashPowerDown">
+      <Name>Blunt Clash Power</Name>
+      <Desc>For the duration of the Scene, Blunt dice lose {0} Power and deal +{0} damage, Stagger damage, and deflect Stagger damage in a clash if this character is affected by Power gain and loss.</Desc>
+    </BattleEffectText>
+
+    <BattleEffectText ID="RMR_BluntClashPower_Keyword">
+      <Name>Blunt Clash Power X</Name>
+      <Desc>Blunt dice gain X Power and deal X less damage, Stagger damage, and deflect Stagger damage in a clash for the Scene.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_Prescriptbuf">
+      <Name>Prescript</Name>
+      <Desc>Deal +10% damage and Stagger damage every time this character uses a Combat Page against a target consecutively. (Max. 30%)
+If this character uses a Combat Page against a different target, they deal -50% damage and Stagger damage for that engagement.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_RoadlessCamelotBuf">
+      <Name>Roadless Camelot</Name>
+      <Desc>Each time this character uses a Combat Page, all other allies temporarily upgrade a random Combat Page in their hand for the rest of the Act.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_Zeal_Keyword">
+      <Name>Zeal</Name>
+      <Desc>(Unimplemented, does nothing as of currently.)</Desc>
+	<!-- At the start of the Act, add a copy of this page to all other allies' deck. -->
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_Adapt_Keyword">
+      <Name>Adapt</Name>
+      <Desc>Change the position of the die with Adapt.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_Restoration">
+      <Name>Restoration</Name>
+      <Desc>In {1} Scenes, purge this and this character recovers {0} HP. Increase stack by half of the damage received while this character has this status.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_Restoration_Keyword">
+      <Name>Restoration X</Name>
+      <Desc>In 3 Scenes, purge this and this character recovers X HP. Increase stack by half of the damage received while this character has this status.</Desc>
+    </BattleEffectText>
+	
+	<BattleEffectText ID="RMR_Engarde">
+      <Name>En Garde</Name>
+      <Desc>Upon winning {0} clashes against the same target, inflict 1 Fragile and Stagger Fragile to them next Scene.</Desc>
+    </BattleEffectText>
+	
+	
+	<!-- base stagger fragile is not localized so this is here to give it localization in case other mods do not do it -->
+	<BattleEffectText ID="Vulnerable_break">
+      <Name>Stagger Fragile</Name>
+      <Desc>Take {0} additional Stagger damage from attacks this Scene.</Desc>
+    </BattleEffectText>
+	
+	</effectTextList>
+</BattleEffectTextRoot>

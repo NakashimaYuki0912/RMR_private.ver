@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardAbilityDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <BattleCardAbility ID="RMR_ShivThrow">
+    <Desc>[点击后滚动鼠标滚轮]本书页费用将增加/减少1(至多5)并使本书页第一颗骰子的最大值与最小值+2/-2
+[装备时]移除本书页并将本书页第一颗骰子置入手中费用最低的1张书页中(切换舞台后重置) </Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="RMR_Remote">
+    <Desc>[装备时]清除目标所有光芒并卸下目标装备的所有非0费书页</Desc>
+  </BattleCardAbility>
+
+</BattleCardAbilityDescRoot>

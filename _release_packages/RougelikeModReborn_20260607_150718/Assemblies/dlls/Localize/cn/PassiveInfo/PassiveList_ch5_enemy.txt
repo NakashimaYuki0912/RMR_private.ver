@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<PassiveDesc ID="240508">
+		<Name>变幻莫测</Name>
+		<Desc>每一幕开始时移除手中的书页并将意图使用的书页置入手中
+自身的书页费用为0</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="240008">
+		<Name>飞身跨骑</Name>
+		<Desc>这一幕结束时与艾玛合体</Desc>
+	</PassiveDesc>
+
+  	<PassiveDesc ID="240028">
+		<Name>变幻莫测</Name>
+		<Desc>每一幕开始时移除手中的书页并将意图使用的书页置入手中
+自身的书页费用为0</Desc>
+	</PassiveDesc>
+</PassiveDescRoot>
+  
+

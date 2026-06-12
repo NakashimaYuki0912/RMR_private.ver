@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardAbilityDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <BattleCardAbility ID="RMR_ShivThrow">
+    <Desc>[On Scroll Up/Down] This page costs 1 more (up to 5)/less; add +2/-2 to min and max value to the first die on this page [On Play] Exhaust this page and add the first die of this page to the page with the lowest Cost in hand until used</Desc>
+  </BattleCardAbility>
+
+  <BattleCardAbility ID="RMR_Remote">
+    <Desc>[On Play] Remove all of the target's Light and unslot any non-0 Cost pages</Desc>
+  </BattleCardAbility>
+  
+  <BattleCardAbility ID="RMR_Jokercard">
+    <Desc>[On Play] Discard all pages in hand; draw 4 pages</Desc>
+  </BattleCardAbility>
+
+</BattleCardAbilityDescRoot>

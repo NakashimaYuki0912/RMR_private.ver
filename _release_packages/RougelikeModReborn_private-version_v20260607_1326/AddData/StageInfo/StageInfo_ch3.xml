@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+<!-- 일반 : 츠바이 일반3명 -->
+  <Stage id="30001">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>21004</Unit>
+      <Unit>21004</Unit>
+      <Unit>21004</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 버림받은개 일반3명 -->
+  <Stage id="30002">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>21005</Unit>
+      <Unit>21005</Unit>
+      <Unit>21005</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 7급 해결사 3명 -->
+  <Stage id="30003">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>21009</Unit>
+      <Unit>21009</Unit>
+      <Unit>21009</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 우수한 7급 해결사 2명 -->
+  <Stage id="30004">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>21009</Unit>
+      <Unit>21010</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 도끼파 3명 -->
+  <Stage id="30005">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>20001</Unit>
+      <Unit>20002</Unit>
+      <Unit>21004</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 일반 : 산,줄리아,츠바이 1명 -->
+  <Stage id="30006">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>21011</Unit>
+      <Unit>21011</Unit>
+      <Unit>21011</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 보스 : 월터,이사도라,츠바이 2명 -->
+  <Stage id="30007">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>9</Formation>
+      <Unit>20004</Unit> <!-- 월터 -->
+      <Unit>20003</Unit> <!-- 이사도라 -->
+      <Unit>21004</Unit>
+      <Unit>21004</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 보스 : 경미,디노,줄루 3인방 -->
+  <Stage id="30008">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>20008</Unit>
+      <Unit>20009</Unit>
+      <Unit>20010</Unit>
+    </Wave>
+  </Stage>
+
+<!-- 보스 : 어금니 사무소 3인방 -->
+  <Stage id="30009">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>3</Formation>
+      <Unit>20006</Unit>
+      <Unit>20005</Unit>
+      <Unit>20007</Unit>
+    </Wave>
+  </Stage>
+
+</StageXmlRoot>

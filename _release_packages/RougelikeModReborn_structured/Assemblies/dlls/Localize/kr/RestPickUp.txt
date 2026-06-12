@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+             <text id="RestGood6_Desc">전투책장 1장을 선택해 제거. 제거한 전투책장의 이전단계 챕터의 전투책장 보상 1회 획득
+제거한 전투책장의 등급에 따라 더 높은 등급의 전투책장 보상 획득. 뜬소문 챕터의 전투책장 제거시 가장 낮은 등급의 뜬소문 챕터 전투책장 보상 획득
+다른 행동과 관계없이 사용가능
+남은 횟수 : {0}회</text>
+</localize>

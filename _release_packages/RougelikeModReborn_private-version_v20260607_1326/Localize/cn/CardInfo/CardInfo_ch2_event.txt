@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="2000001">
+      <LocalizedName>大肉</LocalizedName>
+      <Ability>新鲜的肉。皮埃尔的大肉派的主要成分。</Ability>
+    </BattleCardDesc>
+    <BattleCardDesc ID="2000002">
+      <LocalizedName>肉酱</LocalizedName>
+      <Ability>[装备时]恢复20点体力并将本书页移除出书库</Ability>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="LogueLikeMod_LuckyBuf_Page_Name">행운 X</text>
+             <text id="LogueLikeMod_LuckyBuf_Page_Desc">주사위를 굴릴 때 X번 더 굴려 가장 높게 나온 값을 적용</text>
+             <text id="LogueLikeMod_LuckyBuf_Name">행운</text>
+             <text id="LogueLikeMod_LuckyBuf_Desc">주사위를 굴릴 때 {0}번 더 굴려 가장 높게 나온 값을 적용</text>
+
+             <text id="LogueLikeMod_PuppeteerBuf_Name">인형사</text>
+             <text id="LogueLikeMod_PuppeteerBuf_Desc">이번 막에 책장 사용시 꼭두각시가 동일한 책장을 대상에게 일방공격으로 사용</text>
+             <text id="LogueLikeMod_PuppetBuf_Name">꼭두각시</text>
+             <text id="LogueLikeMod_PuppetBuf_Desc">이번막에 행동불가. 인형사가 이번 막에 책장 사용시 동일한 책장을 대상에게 일방공격으로 사용</text>
+
+             <text id="LogueLikeMod_MaxUpMinDownBuf_Name">각성제</text>
+             <text id="LogueLikeMod_MaxUpMinDownBuf_Desc">모든 주사위 최대값 + 2, 최소값 - 1. 막 종료 시 스택이 1 감소</text>
+             <text id="LogueLikeMod_MaxDownMinUpBuf_Name">안정제</text>
+             <text id="LogueLikeMod_MaxDownMinUpBuf_Desc">모든 주사위 최대값 - 1, 최소값 + 2. 막 종료 시 스택이 1 감소</text>
+
+</localize>

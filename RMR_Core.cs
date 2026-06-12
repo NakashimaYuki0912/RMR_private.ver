@@ -103,6 +103,52 @@ namespace RogueLike_Mod_Reborn
             }
         }
 
+        /// <summary>
+        /// Safely retrieves the BattleDialogXmlList._dictionary via reflection.
+        /// Returns null when the field is inaccessible (avoids FieldAccessException).
+        /// </summary>
+        private static Dictionary<string, BattleDialogRoot> GetBattleDialogDictionary()
+        {
+            try
+            {
+                var field = AccessTools.Field(typeof(BattleDialogXmlList), "_dictionary");
+                if (field == null)
+                {
+                    Debug.LogError("[RMRCore] Field BattleDialogXmlList._dictionary not found via AccessTools");
+                    return null;
+                }
+                return field.GetValue(BattleDialogXmlList.Instance) as Dictionary<string, BattleDialogRoot>;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[RMRCore] Cannot access BattleDialogXmlList._dictionary: {e.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Safely retrieves the BattleEffectTextsXmlList._dictionary via reflection.
+        /// Returns null when the field is inaccessible (avoids FieldAccessException).
+        /// </summary>
+        private static Dictionary<string, BattleEffectText> GetBattleEffectTextDictionary()
+        {
+            try
+            {
+                var field = AccessTools.Field(typeof(BattleEffectTextsXmlList), "_dictionary");
+                if (field == null)
+                {
+                    Debug.LogError("[RMRCore] Field BattleEffectTextsXmlList._dictionary not found via AccessTools");
+                    return null;
+                }
+                return field.GetValue(BattleEffectTextsXmlList.Instance) as Dictionary<string, BattleEffectText>;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[RMRCore] Cannot access BattleEffectTextsXmlList._dictionary: {e.Message}");
+                return null;
+            }
+        }
+
         public static void LoadSatelliteBattleDialog(string language)
         {
             string str = Path.Combine("Localize", language);
@@ -110,7 +156,9 @@ namespace RogueLike_Mod_Reborn
 
             if (Directory.Exists(Path.Combine(ogpath, str, "BattleDialogs")))
             {
-                BattleDialogXmlList.Instance._dictionary["Workshop"].characterList.RemoveAll(x => x.id.packageId == RMRCore.packageId);
+                var dialogDict = GetBattleDialogDictionary();
+                if (dialogDict != null && dialogDict.TryGetValue("Workshop", out var workshopRoot))
+                    workshopRoot.characterList.RemoveAll(x => x.id.packageId == RMRCore.packageId);
                 DirectoryInfo directoryInfo = new DirectoryInfo(Path.Combine(ogpath, str, "BattleDialogs"));
                 foreach (System.IO.FileInfo fileinfo in directoryInfo.GetFiles())
                 {
@@ -132,7 +180,9 @@ namespace RogueLike_Mod_Reborn
                 string uniqueId = modContentInfo.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(Path.Combine(modContentInfo.GetLogDllPath(), str, "BattleDialogs")))
                 {
-                    BattleDialogXmlList.Instance._dictionary["Workshop"].characterList.RemoveAll(x => x.id.packageId == uniqueId);
+                    var dialogDict = GetBattleDialogDictionary();
+                    if (dialogDict != null && dialogDict.TryGetValue("Workshop", out var workshopRoot))
+                        workshopRoot.characterList.RemoveAll(x => x.id.packageId == uniqueId);
                     DirectoryInfo directoryInfo2 = new DirectoryInfo(Path.Combine(modContentInfo.GetLogDllPath(), str, "BattleDialogs"));
                     foreach (System.IO.FileInfo fileinfo2 in directoryInfo2.GetFiles())
                     {
@@ -154,6 +204,13 @@ namespace RogueLike_Mod_Reborn
 
         public static void LoadSatelliteBattleTexts(string language)
         {
+            var dict = GetBattleEffectTextDictionary();
+            if (dict == null)
+            {
+                Debug.LogError("[RMRCore] LoadSatelliteBattleTexts aborted — could not access BattleEffectTextsXmlList._dictionary");
+                return;
+            }
+
             string str = Path.Combine("Localize", language);
             string ogpath = Path.Combine(ModContentManager.Instance.GetModPath(RMRCore.packageId), "Assemblies", "dlls");
 
@@ -167,10 +224,10 @@ namespace RogueLike_Mod_Reborn
                         var root = new XmlSerializer(typeof(BattleEffectTextRoot)).Deserialize(fileinfo.OpenRead()) as BattleEffectTextRoot;
                         foreach (var info in root.effectTextList)
                         {
-                            if (!BattleEffectTextsXmlList.Instance._dictionary.ContainsKey(info.ID))
-                                BattleEffectTextsXmlList.Instance._dictionary.Add(info.ID, info);
+                            if (!dict.ContainsKey(info.ID))
+                                dict.Add(info.ID, info);
                             else
-                                BattleEffectTextsXmlList.Instance._dictionary[info.ID] = info;
+                                dict[info.ID] = info;
                         }
                     }
                     catch (Exception e)
@@ -194,10 +251,10 @@ namespace RogueLike_Mod_Reborn
                             var root = new XmlSerializer(typeof(BattleEffectTextRoot)).Deserialize(fileinfo2.OpenRead()) as BattleEffectTextRoot;
                             foreach (var info in root.effectTextList)
                             {
-                                if (!BattleEffectTextsXmlList.Instance._dictionary.ContainsKey(info.ID))
-                                    BattleEffectTextsXmlList.Instance._dictionary.Add(info.ID, info);
+                                if (!dict.ContainsKey(info.ID))
+                                    dict.Add(info.ID, info);
                                 else
-                                    BattleEffectTextsXmlList.Instance._dictionary[info.ID] = info;
+                                    dict[info.ID] = info;
                             }
                         }
                         catch (Exception e)
@@ -266,13 +323,46 @@ namespace RogueLike_Mod_Reborn
             }
         }
 
+        /// <summary>
+        /// Safely retrieves the AssetBundleManagerRemake._cardAssetBundle via reflection.
+        /// Calls LoadCardAssetBundle() first to ensure the bundle is loaded.
+        /// Returns null when the field is inaccessible (avoids FieldAccessException).
+        /// </summary>
+        private static AssetBundle GetCardAssetBundle()
+        {
+            try
+            {
+                Singleton<AssetBundleManagerRemake>.Instance.LoadCardAssetBundle();
+                var field = AccessTools.Field(typeof(AssetBundleManagerRemake), "_cardAssetBundle");
+                if (field == null)
+                {
+                    Debug.LogError("[RMRCore] Field AssetBundleManagerRemake._cardAssetBundle not found via AccessTools");
+                    return null;
+                }
+                var bundle = field.GetValue(Singleton<AssetBundleManagerRemake>.Instance) as AssetBundle;
+                if (bundle == null)
+                {
+                    Debug.LogError("[RMRCore] AssetBundleManagerRemake._cardAssetBundle is null after LoadCardAssetBundle()");
+                    return null;
+                }
+                return bundle;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[RMRCore] Cannot access AssetBundleManagerRemake._cardAssetBundle: {e.Message}");
+                return null;
+            }
+        }
+
         public static void LoadVanillaCardArt()
         {
             List<ArtworkCustomizeData> list = Singleton<CustomizingCardArtworkLoader>.Instance.GetWorkshopArtworkData("LoR.StartUp.LocalizationManager");
             if (list == null) // check for Localization Manager vanilla page loading
             {
-                Singleton<AssetBundleManagerRemake>.Instance.LoadCardAssetBundle();
-                Sprite[] array = Singleton<AssetBundleManagerRemake>.Instance._cardAssetBundle.LoadAllAssets<Sprite>();
+                AssetBundle cardBundle = GetCardAssetBundle();
+                if (cardBundle == null)
+                    return;
+                Sprite[] array = cardBundle.LoadAllAssets<Sprite>();
                 list = Singleton<CustomizingCardArtworkLoader>.Instance.GetWorkshopArtworkData(RMRCore.packageId);
                 foreach (Sprite sprite in array)
                 {

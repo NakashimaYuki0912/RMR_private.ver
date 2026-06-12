@@ -567,6 +567,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
             LogueBookModels.LoadAtlasUnlocks(save.GetData("atlasRoleBookUnlocks"), LogueBookModels.AtlasUnlockedRoleBooks);
             LogueBookModels.LoadAtlasUnlocks(save.GetData("atlasBattleCardUnlocks"), LogueBookModels.AtlasUnlockedBattleCards);
+            // Migration: sync all unlocked cards/books to atlas (handles old saves without atlas data)
+            LogueBookModels.EnsureAtlasUnlocks();
+            foreach (var card in LogueBookModels.cardlist)
+                LogueBookModels.AtlasUnlockedBattleCards.Add(card.GetID());
+            foreach (var book in LogueBookModels.booklist)
+                LogueBookModels.AtlasUnlockedRoleBooks.Add(book.ClassInfo.id);
             RMRAbnormalityUnlockManager.LoadRouteUnlocks(save.GetData("RMRAbnormalityUnlocks"));
             LogueBookModels.nextinstanceid = save.GetInt("nextinstanceid");
         }
@@ -678,13 +684,18 @@ namespace abcdcode_LOGLIKE_MOD
                     num = 99
                 });
             }
-            list3.AddRange(LogueBookModels.cardlist);
+            foreach (DiceCardItemModel card in LogueBookModels.cardlist)
+            {
+                card.num = LogueBookModels.UNLOCKED_CARD_COUNT;
+                list3.Add(card);
+            }
             list3.Sort(new Comparison<DiceCardItemModel>(SortUtil.CardItemCompByCost));
             return list3;
         }
 
         public static List<DiceCardItemModel> GetCardList(bool RemoveBasic = false, bool Decks = false)
         {
+            LogueBookModels.PurgeBaseCardsWhenUpgradeExists();
             List<DiceCardItemModel> list = LogueBookModels.cardlist;
             List<DiceCardItemModel> list2 = new List<DiceCardItemModel>();
             var ids = new List<DiceCardXmlInfo>();
@@ -718,7 +729,7 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 list2.Add(new DiceCardItemModel(diceCardItemModel.ClassInfo)
                 {
-                    num = diceCardItemModel.num
+                    num = LogueBookModels.UNLOCKED_CARD_COUNT
                 });
             }
             if (Decks)
@@ -759,11 +770,94 @@ namespace abcdcode_LOGLIKE_MOD
         public static void AddUpgradeCard(LorId cardid, bool callInvenChangeEvent = true) =>
             LogueBookModels.AddCard(Singleton<LogCardUpgradeManager>.Instance.GetUpgradeCard(cardid).id, 1, callInvenChangeEvent);
 
+        /// <summary>
+        /// Removes base versions of cards from cardlist when an upgraded version exists.
+        /// Ensures "once upgraded, always upgraded" — base cards are replaced by their upgraded counterparts.
+        /// </summary>
+        public static void PurgeBaseCardsWhenUpgradeExists()
+        {
+            var upgradedIds = new HashSet<LorId>();
+            // Collect all upgraded cards
+            foreach (var card in LogueBookModels.cardlist)
+            {
+                if (card.GetID().packageId.Contains(LogCardUpgradeManager.UpgradeKeyword))
+                {
+                    LorId originalId = card.GetID().GetOriginalId();
+                    if (originalId != card.GetID()) // has a different base
+                        upgradedIds.Add(originalId);
+                }
+            }
+            // Remove base versions that have upgraded counterparts
+            if (upgradedIds.Count > 0)
+                LogueBookModels.cardlist.RemoveAll(x => upgradedIds.Contains(x.GetID()));
+        }
+
+        /// <summary>
+        /// Normalize a card ID to a stable key for ownership comparison.
+        /// - Calls GetOriginalId() to strip &lt;LogUpgrade&gt; markers
+        /// - Normalizes packageId: empty / "@origin" → "BaseGame"
+        /// - Returns key like "BaseGame:204001"
+        /// </summary>
+        public static string NormalizeCardKey(LorId id)
+        {
+            LorId baseId = id.GetOriginalId();
+            string pkg = baseId.packageId ?? "";
+            if (string.IsNullOrEmpty(pkg) || pkg == "@origin")
+                pkg = "BaseGame";
+            return pkg + ":" + baseId.id.ToString();
+        }
+
+        /// <summary>
+        /// Check if a combat page (battle card) has already been obtained.
+        /// Uses normalized ID comparison — if player owns base OR upgraded version, returns true.
+        /// </summary>
+        public static bool HasOwnedCombatPage(LorId id)
+        {
+            if (LogueBookModels.cardlist == null) return false;
+            string targetKey = NormalizeCardKey(id);
+            return LogueBookModels.cardlist.Any(x => NormalizeCardKey(x.GetID()) == targetKey);
+        }
+
+        /// <summary>
+        /// Check if a book/key page has already been obtained.
+        /// Uses booklist.
+        /// </summary>
+        public static bool HasOwnedBookPage(LorId id)
+        {
+            if (LogueBookModels.booklist == null) return false;
+            return LogueBookModels.booklist.Any(x => x.ClassInfo.id == id);
+        }
+
+        /// <summary>
+        /// Check if a RewardPassiveInfo has already been obtained.
+        /// Handles different reward types appropriately:
+        ///   EquipPage → check booklist (has the key page been acquired?)
+        ///   Creature  → check EmotionCardList + RouteUnlockedPages
+        ///   Other     → false (passives can be obtained multiple times)
+        /// </summary>
+        public static bool HasObtainedReward(RewardPassiveInfo info)
+        {
+            if (info == null) return false;
+            if (info.rewardtype == RewardType.EquipPage)
+                return HasOwnedBookPage(info.id);
+            if (info.rewardtype == RewardType.Creature)
+            {
+                if (LogueBookModels.EmotionCardList != null && LogueBookModels.EmotionCardList.Any(x => x.id == info.id))
+                    return true;
+                return RMRAbnormalityUnlockManager.IsPageUnlocked(info.id);
+            }
+            return false;
+        }
+
+        // Unlock-based card inventory: once a card type is acquired, it is always available.
+        // num defaults to 1 for caller compatibility, but internally we always use UNLOCKED_CARD_COUNT.
+        public const int UNLOCKED_CARD_COUNT = 99;
+
         public static void AddCard(LorId cardId, int num = 1, bool callInvenChangeEvent = true)
         {
             if (callInvenChangeEvent)
                 cardId = Singleton<GlobalLogueEffectManager>.Instance.InvenAddCardChange(cardId);
-            if (num < 0)
+            if (num <= 0)
                 return;
             DiceCardXmlInfo cardItem = ItemXmlDataList.instance.GetCardItem(cardId);
             if (cardItem == null || cardItem.optionList.Contains(CardOption.NoInventory) || cardItem.optionList.Contains(CardOption.Basic))
@@ -772,66 +866,55 @@ namespace abcdcode_LOGLIKE_MOD
             DiceCardItemModel diceCardItemModel = LogueBookModels.cardlist.Find(x => x.GetID() == cardId);
             if (diceCardItemModel != null)
             {
-                diceCardItemModel.num += num;
+                // Card type already unlocked — ensure count stays at UNLOCKED_CARD_COUNT
+                diceCardItemModel.num = LogueBookModels.UNLOCKED_CARD_COUNT;
             }
             else
             {
                 LogueBookModels.cardlist.Add(new DiceCardItemModel(cardItem)
                 {
-                    num = num
+                    num = LogueBookModels.UNLOCKED_CARD_COUNT
                 });
                 LogueBookModels.cardlist.Sort(new Comparison<DiceCardItemModel>(SortUtil.CardItemCompByCost));
             }
+            // Ensure base versions are cleaned up when upgrade exists
+            LogueBookModels.PurgeBaseCardsWhenUpgradeExists();
         }
 
+        // Permanently remove a card type from the unlocked inventory.
+        // Used by effects that consume/destroy cards (e.g. StasisBlaze, StasisSpark, rest events).
+        // The num parameter is kept for caller compatibility; in the unlock-based system,
+        // any positive num simply removes the card type entirely.
         public static void DeleteCard(LorId cardId, int num = 1)
         {
             DiceCardItemModel diceCardItemModel = LogueBookModels.cardlist.Find((Predicate<DiceCardItemModel>)(x => x.GetID() == cardId));
             if (num <= 0)
             {
                 Debug.LogError("num must not be zero");
+                return;
             }
-            else
+            if (diceCardItemModel == null)
             {
-                DiceCardXmlInfo cardItem = ItemXmlDataList.instance.GetCardItem(cardId);
-                if (diceCardItemModel == null)
-                {
-                    Debug.LogError("There's no Card");
-                }
-                else
-                {
-                    diceCardItemModel.num -= num;
-                    if (diceCardItemModel.num > 0)
-                        return;
-                    using (List<UnitDataModel>.Enumerator enumerator = LogueBookModels.playerModel.GetEnumerator())
-                    {
-                    label_11:
-                        if (enumerator.MoveNext())
-                        {
-                            UnitDataModel current = enumerator.Current;
-                            bool inventory;
-                            do
-                            {
-                                inventory = current.bookItem.MoveCardFromCurrentDeckToInventory(cardId);
-                                if (diceCardItemModel.num >= 0)
-                                    goto label_14;
-                            }
-                            while (inventory);
-                            goto label_11;
-                        }
-                    }
-                label_14:
-                    foreach (UnitDataModel unitDataModel in LogueBookModels.playerModel)
-                    {
-                        if (unitDataModel.GetDeckAllList().Find((Predicate<DiceCardXmlInfo>)(x => x.id == cardItem.id)) != null)
-                            return;
-                    }
-                    if (diceCardItemModel.num <= 0)
-                        LogueBookModels.cardlist.Remove(diceCardItemModel);
-                }
+                Debug.LogError("There's no Card");
+                return;
             }
+            DiceCardXmlInfo cardItem = ItemXmlDataList.instance.GetCardItem(cardId);
+            // Remove the card from all player decks first
+            foreach (UnitDataModel unitDataModel in LogueBookModels.playerModel)
+            {
+                bool inventory;
+                do
+                {
+                    inventory = unitDataModel.bookItem.MoveCardFromCurrentDeckToInventory(cardId);
+                }
+                while (inventory);
+            }
+            LogueBookModels.cardlist.Remove(diceCardItemModel);
         }
 
+        // Check whether a card type is available in the unlocked inventory.
+        // In the unlock-based system, this just verifies the card type is unlocked.
+        // The num and actual count are no longer relevant — any unlocked card has UNLOCKED_CARD_COUNT copies.
         public static bool RemoveCard(LorId cardId, int num = 1)
         {
             DiceCardItemModel diceCardItemModel = LogueBookModels.cardlist.Find((Predicate<DiceCardItemModel>)(x => x.GetID() == cardId));
@@ -848,12 +931,8 @@ namespace abcdcode_LOGLIKE_MOD
                 Debug.LogError("not enough card");
                 return false;
             }
-            if (diceCardItemModel.num < num)
-            {
-                Debug.LogError("not enough card");
-                return false;
-            }
-            diceCardItemModel.num -= num;
+            // In unlock-based system, presence in cardlist means the card type is available.
+            // We no longer decrement num — the card stays unlocked.
             return true;
         }
 
@@ -1341,13 +1420,13 @@ namespace abcdcode_LOGLIKE_MOD
                 case ChapterGrade.Grade1:
                     stageLimits = new StageLimits
                     {
-                        Normal = 6,
+                        Normal = 3,
                         Elite = 0,
-                        Mystery = 6,
-                        Shop = 2,
+                        Mystery = 1,
+                        Shop = 1,
                         Boss = 1,
-                        Rest = 1,
-                        Creature = 1,
+                        Rest = 0,
+                        Creature = 0,  // No abnormality battles in floor 1-2
                         Chapter = chapter
                     };
                     break;
@@ -1356,23 +1435,23 @@ namespace abcdcode_LOGLIKE_MOD
                     {
                         Normal = 5,
                         Elite = 0,
-                        Mystery = 5,
-                        Shop = 2,
+                        Mystery = 1,
+                        Shop = 1,
                         Boss = 1,
-                        Rest = 3,
-                        Creature = 1,
+                        Rest = 0,
+                        Creature = 0,  // No abnormality battles in floor 1-2
                         Chapter = chapter
                     };
                     break;
                 case ChapterGrade.Grade3:
                     stageLimits = new StageLimits
                     {
-                        Normal = 6,
+                        Normal = 5,
                         Elite = 0,
-                        Mystery = 5,
-                        Shop = 2,
+                        Mystery = 2,
+                        Shop = 1,
                         Boss = 1,
-                        Rest = 2,
+                        Rest = 0,
                         Creature = 1,
                         Chapter = chapter
                     };
@@ -1380,12 +1459,12 @@ namespace abcdcode_LOGLIKE_MOD
                 case ChapterGrade.Grade4:
                     stageLimits = new StageLimits
                     {
-                        Normal = 10,
+                        Normal = 5,
                         Elite = 0,
                         Mystery = 2,
-                        Shop = 2,
+                        Shop = 1,
                         Boss = 1,
-                        Rest = 1,
+                        Rest = 0,
                         Creature = 1,
                         Chapter = chapter
                     };
@@ -1393,7 +1472,7 @@ namespace abcdcode_LOGLIKE_MOD
                 case ChapterGrade.Grade5:
                     stageLimits = new StageLimits
                     {
-                        Normal = 11,
+                        Normal = 6,
                         Elite = 0,
                         Mystery = 2,
                         Shop = 2,
@@ -1406,7 +1485,20 @@ namespace abcdcode_LOGLIKE_MOD
                 case ChapterGrade.Grade6:
                     stageLimits = new StageLimits
                     {
-                        Normal = 11,
+                        Normal = 6,
+                        Elite = 0,
+                        Mystery = 2,
+                        Shop = 2,
+                        Boss = 1,
+                        Rest = 0,
+                        Creature = 1,
+                        Chapter = chapter
+                    };
+                    break;
+                case ChapterGrade.Grade7:
+                    stageLimits = new StageLimits
+                    {
+                        Normal = 6,
                         Elite = 0,
                         Mystery = 2,
                         Shop = 2,
@@ -1493,6 +1585,13 @@ namespace abcdcode_LOGLIKE_MOD
             List<RewardPassiveInfo> rewardPassiveInfoList = new List<RewardPassiveInfo>();
             List<RewardPassiveInfo> rewards = new List<RewardPassiveInfo>();
             if (list != null) rewards.AddRange(list);
+
+            // Filter out already-obtained rewards
+            int totalBefore = rewards.Count;
+            int removed = rewards.RemoveAll(x => HasObtainedReward(x));
+            if (removed > 0)
+                Debug.Log($"[GetPassiveRewards] Filtered {removed}/{totalBefore} obtained, {rewards.Count} remain");
+
             List<EmotionCardXmlInfo> passiveRewards = new List<EmotionCardXmlInfo>();
             do
             {
@@ -1505,6 +1604,7 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
             while (rewards.Count != 0 && rewardPassiveInfoList.Count != 3);
+            Debug.Log($"[GetPassiveRewards] Final: {rewardPassiveInfoList.Count} passives selected");
             for (int index = 0; index < rewardPassiveInfoList.Count; ++index)
                 passiveRewards.Add(LogLikeMod.GetRegisteredPickUpXml(rewardPassiveInfoList[index]));
             return passiveRewards;

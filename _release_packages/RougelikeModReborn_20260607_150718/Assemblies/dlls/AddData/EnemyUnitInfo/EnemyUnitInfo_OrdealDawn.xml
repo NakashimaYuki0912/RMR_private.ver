@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EnemyUnitClassRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+  <Enemy ID="-30001">
+    <Name>의문</Name>
+    <NameID>-30001</NameID>
+    <MinHeight>176</MinHeight>
+    <MaxHeight>176</MaxHeight>
+
+    <BookId>-30001</BookId>
+
+    <Exp>10</Exp>
+
+        <AiScript>MachineDawn</AiScript>
+
+    <DropTable Level="0">
+    </DropTable>
+  </Enemy>
+
+</EnemyUnitClassRoot>

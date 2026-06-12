@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<CharactersNameRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<Name ID="28570001">热心店主</Name>
+
+  	<Name ID="28580001">逻辑工作室商人</Name>
+	<Name ID="28581001">联合工坊商人</Name>
+	<Name ID="28582001">烙印工坊商人</Name>
+	<Name ID="28583001">墨工坊商人</Name>
+
+
+</CharactersNameRoot>

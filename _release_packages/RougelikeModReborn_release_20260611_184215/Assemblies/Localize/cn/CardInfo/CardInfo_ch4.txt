@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+
+
+    <BattleCardDesc ID="401001">
+      <LocalizedName>精心裁剪</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401002">
+      <LocalizedName>饕人狂宴</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401003">
+      <LocalizedName>漂亮的线</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401004">
+      <LocalizedName>会好吃吗？</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401005">
+      <LocalizedName>谨遵指令</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401006">
+      <LocalizedName>怪形袭击</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401007">
+      <LocalizedName>精美面料</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="402001">
+      <LocalizedName>瞄准眉心</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402002">
+      <LocalizedName>火力反击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402003">
+      <LocalizedName>随意开火</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402004">
+      <LocalizedName>讨厌肉搏</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402005">
+      <LocalizedName>不要过来</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402006">
+      <LocalizedName>火力压制</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402007">
+      <LocalizedName>一枪爆头</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402008">
+      <LocalizedName>锁定目标</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402009">
+      <LocalizedName>命之句点</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402010">
+      <LocalizedName>影之彼端</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="403001">
+      <LocalizedName>天将拂晓</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403002">
+      <LocalizedName>黎明闪光</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403003">
+      <LocalizedName>蝴蝶纷舞</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403004">
+      <LocalizedName>锋刃齐射</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403005">
+      <LocalizedName>霞光剑刃</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403006">
+      <LocalizedName>处理委托</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403007">
+      <LocalizedName>愤怨烙印</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- (Gaze Office)-->
+    <BattleCardDesc ID="404001">
+      <LocalizedName>观测评估</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404002">
+      <LocalizedName>把握时机</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404003">
+      <LocalizedName>拘束之臂</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404004">
+      <LocalizedName>别来烦我</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404005">
+      <LocalizedName>啪滋滋滋</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404006">
+      <LocalizedName>电能激荡</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404007">
+      <LocalizedName>结构分析</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404008">
+      <LocalizedName>在睫难逃</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- Tomerry -->
+    <BattleCardDesc ID="405001">
+      <LocalizedName>朦胧记忆</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405002">
+      <LocalizedName>苦痛之怒</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- Tomerry enemy only -->
+    <BattleCardDesc ID="405003">
+      <LocalizedName>锋利袭击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405004">
+      <LocalizedName>笨重袭击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405005">
+      <LocalizedName>尖锐袭击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405006">
+      <LocalizedName>锋利突击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405007">
+      <LocalizedName>笨重突击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405008">
+      <LocalizedName>尖锐突击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405009">
+      <LocalizedName>叠成方块？</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405010">
+      <LocalizedName>折成三角！</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405011">
+      <LocalizedName>一起玩吧！</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405012">
+      <LocalizedName>爱之港湾</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405013">
+      <LocalizedName>闹闹哄哄</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405014">
+      <LocalizedName>狂爱鞭挞</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- Equal to 405001, 405002 -->
+    <BattleCardDesc ID="405015">
+      <LocalizedName>朦胧记忆</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405016">
+      <LocalizedName>苦痛之怒</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- Kurokumo clan -->
+    <BattleCardDesc ID="406001">
+      <LocalizedName>黑云翻墨</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406002">
+      <LocalizedName>锋芒毕现</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406003">
+      <LocalizedName>黑云壁障</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406004">
+      <LocalizedName>斩破长空</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406005">
+      <LocalizedName>散乱之舞</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406006">
+      <LocalizedName>沉雾寂霭</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406007">
+      <LocalizedName>沉雾寂霭</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406008">
+      <LocalizedName>血振纳刀</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406009">
+      <LocalizedName>黑云压境</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- Bremen -->
+    <BattleCardDesc ID="407001">
+      <LocalizedName>沉闷之声</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407002">
+      <LocalizedName>绕梁残音</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407003">
+      <LocalizedName>埋头苦练</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407004">
+      <LocalizedName>音乐圣地</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407005">
+      <LocalizedName>尽情演奏</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407006">
+      <LocalizedName>肌腱之音</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407007">
+      <LocalizedName>血红音符</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 쐐기 -->
+    <BattleCardDesc ID="408001">
+      <LocalizedName>致命穿透</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408002">
+      <LocalizedName>闪耀之枪</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408003">
+      <LocalizedName>激烈交锋</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408004">
+      <LocalizedName>长枪横扫</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408005">
+      <LocalizedName>疾风突刺</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408006">
+      <LocalizedName>悔恨交加</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="408007">
+      <LocalizedName>爆炎一击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408008">
+      <LocalizedName>炽热之刃</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408009">
+      <LocalizedName>挺身而出</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408010">
+      <LocalizedName>凤翎之盾</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408011">
+      <LocalizedName>哀怨残阳</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="408012">
+      <LocalizedName>炽热之刃</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408013">
+      <LocalizedName>凤翎之盾</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 녹슨 사슬파 -->
+    <BattleCardDesc ID="409001">
+      <LocalizedName>尝尝锁链？</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409002">
+      <LocalizedName>你弱爆了</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409003">
+      <LocalizedName>正面规避</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409004">
+      <LocalizedName>迂回进攻</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409005">
+      <LocalizedName>绝佳时机</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409006">
+      <LocalizedName>正面对决</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409007">
+      <LocalizedName>送你上路</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 공방 소속 해결사 -->
+    <BattleCardDesc ID="410001">
+      <LocalizedName>武器维护</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="410002">
+      <LocalizedName>穿刺引爆</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="410003">
+      <LocalizedName>修整打磨</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="410004">
+      <LocalizedName>冶炼锻造</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 정사무소 해결사 -->
+    <BattleCardDesc ID="411101">
+      <LocalizedName>昼伏夜出</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="411102">
+      <LocalizedName>暗中调换</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="411103">
+      <LocalizedName>柳暗花明</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="411104">
+      <LocalizedName>过手洗牌</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="411105">
+      <LocalizedName>樱上幕帘</LocalizedName>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

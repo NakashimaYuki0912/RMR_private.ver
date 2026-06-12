@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScenarioRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Chapter ID="2">
+    <Title>챕터2-도시괴담-‘사람들은 해가 넘어가기 전 이 노래 끝의 공포를 생각할 사이가 없었다.’</Title>
+  </Chapter>
+  <Group>
+    <GroupName>프롤로그</GroupName>
+    <Episode>
+      <EpisodeName>에피소드1</EpisodeName>
+      <Place>
+        <PlaceName>장소: 도서관 내부</PlaceName>
+      </Place>
+    </Episode>
+  </Group>
+</ScenarioRoot>

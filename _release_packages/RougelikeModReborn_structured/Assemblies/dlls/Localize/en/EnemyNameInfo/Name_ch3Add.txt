@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<CharactersNameRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<Name ID="28482001">Backstreet Bully</Name>
+
+	<Name ID="28482002">Backstreet Bully</Name>
+
+</CharactersNameRoot>

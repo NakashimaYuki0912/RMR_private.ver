@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RewardPassivesRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+
+<ChapterList Chapter="Grade6" Type="Custom" ID="16000">
+    <RewardList ID="1160002" PassiveType="Nolimit" TargetType="SelectOne" Rarity="Common" Script="Ch6_2EventPlayerDie" ArtWork="Ch6Event2Effect"/>
+  </ChapterList>
+
+</RewardPassivesRoot>

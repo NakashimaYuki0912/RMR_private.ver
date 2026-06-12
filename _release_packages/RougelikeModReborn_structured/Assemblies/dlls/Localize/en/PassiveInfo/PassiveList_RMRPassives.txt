@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	
+	<PassiveDesc ID="1000000000">
+		<Name>Posthaste</Name>
+		<Desc>Gain an additional Speed die at Emotion Level 2. (Cannot Overlap)</Desc>
+	</PassiveDesc>
+	
+	<PassiveDesc ID="1000000001">
+		<Name>Lone Speed</Name>
+		<Desc>At the start of the Act, if all other allies do not have a Speed-type passives, Speed Dice Slot +1. (Cannot Overlap)</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

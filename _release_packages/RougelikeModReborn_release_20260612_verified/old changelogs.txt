@@ -1,0 +1,606 @@
+--- PREVIOUS DEVBUILD CHANGELOGS --- 
+
+Update: 19 Jun @ 10:37am
+- Quick fix for .91's upgrade/card changes
+
+
+Update: 19 Jun @ 10:06am
+Devbuild .91
+- Re-scaled or replaced the event thumbnails of all remaining events
+--> Also added an extra frame thumbnail to Haulage (Ch4_2)
+- WE FIXED THE FLOATING TOOLTIP ISSUE LET'S GOOO
+- The following pages have been changed in some way (Be it: rarity, ability, dice or all of the mentioned - you can refer to the doc):
+--> Law and Order, Diversion, Sharp Swipe, Standoff, Avert, The Art of Rapid Steps, Startin' Out Lightly, Guardian, Gamble, Back Attack, Slice, Silent Night, Stay Calm, Fence
+Fierce Onslaught, Destructive Impact, Shocking Blow, Outburst, Crush, I'll End You, Cut In, Your Shield, Blade Whirl, Handling Work, Retaliate
+--> Upgrades and changes made by Lux
+- Added a Child of the Galaxy map manager to the starting event
+
+
+-- TECHNICAL CHANGES --
+- Removed a couple of unnecessary MonoMod hooks
+- Documented every single monomod hook in LogLikeHooks and the remaining harmony patches in RMRPatches
+- Also documented all GlobalLogueEffectBase/OnceEffect methods
+- Axed RMRMysteryExtensions, included them into MysteryBase
+
+
+Update: 16 Jun @ 4:26pm
+Devbuild .90
+- Slightly tweaked alignment of overlay on shop items
+- Fixed an issue with events not displaying properly
+- Added a finalizer to make UI.UISelectableIconController.HideIcon stop throwing errors for no reason
+- When a new librarian is created besides the Patron Librarian, that librarian will receive the appearance and name of the Librarian with the same placement on the currently selected floor
+- (Hopefully) fixed a potential softlock/crash when adding new librarians
+- Deck replacements should be smoother now (no more empty decks by default)
+- Fixed some occasional layering issues in the shop
+-- TECHNICAL CHANGES --
+- Added some documentation to LogLikeMod
+-- KNOWN ISSUES --
+- For some reason, tooltips in shops keep waving left and right. This is beyond me for the time being.
+
+
+Update: 15 Jun @ 8:09pm
+- Small patch to better align tooltips of items in the shop
+
+
+Update: 15 Jun @ 7:54pm
+Devbuild .89
+- Fixed card previews not working in the shop
+- Fixed item tooltips not being properly aligned in the shop
+- Fixed empty/partially empty decks being filled with vanilla basic pages
+--> These will now use RoguelikeGamemodeBase.BaseDeckReplacement as reference
+- Fixed up and down indicator arrows being wrongly positioned on MysteryBase whenever the description overflows
+- Fixed a NullReferenceException in ExtensionUtils.IsDead() which could cause errors when trying to use items that checked if any units were dead (which means most consumables)
+
+
+Update: 14 Jun @ 9:51pm
+Devbuild .88
+- Changed artwork of a few events
+- Optimized resource loading for Crit Chance (should be stuttering less)
+- Added The Polyhedra as a shop item
+---> Selected Librarian permanently gains +1 Max HP, Max SP, Speed, Max Light Capacity, mininum dice value, maximum dice value, damage and stagger damage.
+- Removed several redundant entries in the item catalog
+- Renamed Thumb Training Certificate to Atelier Logic Training Certificate
+-- TECHNICAL CHANGES --
+- Gave additional functionality to LogStatBonus for increasing Speed and Light values
+- Commented PickUpModelBase class and a few methods on other classes
+- More refactoring and addition of [HideFromItemCatalog] to all hidden/technical effect classes
+
+
+Update: 12 Jun @ 6:04pm
+Devbuild .87
+- Fixed upgrades being broken
+- (FINALLY) Fixed continued runs replacing the Patron Librarian's deck
+- Fixed The Remote having Harvester's Scythe keywordId
+
+
+Update: 11 Jun @ 10:41pm
+Emergency patch to fix EVERYTHING breaking
+
+
+Update: 11 Jun @ 9:09pm
+Devbuild .86
+- Massive amounts of code refactoring and rewriting
+--> The mod may boot slightly faster due to this
+--> This is largely a technical change that makes future additions easier
+- Upgrade event now supports multiple choice upgrades (needs testing)
+- Fixed regular events having the wrong button positioning (no idea why that happened)
+
+
+Update: 9 Jun @ 2:12pm
+- TECHNICAL UPDATE : Merged both DLLs into one with split namespaces (no perceptible gameplay changes other than faster load time)
+
+Update: 8 Jun @ 11:39pm
+Devbuild .85
+- Added several modules from Cyam's Toolbox for better interoperability and functionality
+---> Main inclusions: BattleCardEnhancedView for supporting 5+ dice and extended keyword lists; UnitRenderPlus for supporting BattleSetting preview of receptions with 5+ enemy units
+- Altered inventory UI to look more consistent with the rest of the mod
+- Reworked and re-localized Killing Aura
+---> [Global] All non-attack damage taken by enemies is doubled.
+- Fixed cap with Pound not working (good job dumbass)
+- Fixed duplicates of basic pages showing up in the inventory alongside a potential crash upon continuing game
+- Re-re-fixed keyword bufs
+- Fixed Hit and Run's second die not having an ability
+- Added a VFX alongside SFX to Critical Strike
+
+
+Update: 31 May @ 11:37pm
+Devbuild .84
+- Fixed Charge Up+ having two "Single-Use" tooltips
+- Fixed broken background on rest upgrade screen
+- Fixed KeywordBufs not working again again
+- Add hidden cap to RMR_OnClashLoseRecycle
+- Fixed duplicates of Combat Pages showing up in the inventory (needs testing)
+- Fixed Combat Pages going above their equip limit (needs testing)
+- Fixed Hunter's Cloak/Shiv adding dice between fights (needs testing)
+- Crowbar, Harvester's Scythe and Big Brother's Chains will no longer show up once obtained
+---> This will prevent insane amounts of damage/crit chance/heal stacking
+- Updated event image for rest and shop events, alongside several other events
+
+
+Update: 30 May @ 3:55pm
+Devbuild .83
+- Removed the mod's OGs tutorials because they were bricking people's games
+
+
+Update: 30 May @ 12:39pm
+Devbuild .82
+- Fixed keyword bufs
+- Fixed Lux's upgrades not existing
+
+
+Update: 29 May @ 9:41pm
+Devbuild .81
+- MADE DEVBUILD v.80 PLAYABLE
+
+
+Update: 29 May @ 5:01pm
+Devbuild .80
+- Relocalized Insanity (formerly Inspiration)
+- Added a sound effect on successful critical hits
+- Passives/Attribution items now show up in the Item Catalog
+- Fixed CardReward event having the wrong background
+- Fixed PickUpModels in the Item Catalog not having tooltips
+- Fixed relocalized vanilla items in the Item Catalog not having proper credenza entries
+- Fixed initial event having 8 empty choices (oops!)
+- Altered upgrades for the following Combat pages (courtesy of soboles and Lux)
+--> Dodge and Strike+, Thrust+, Wallop+, Preemptive Strike+, Quickness+, Gut-harvesting+, Rats' Guide to Survival+, Dirty Blow+, Bite Off+ and Preparation+
+- Altered base versions(!) of the following Combat Pages, alongside their upgrades (courtesy of Lux)
+--> Track, C-charge Up!, Backstreets Dash, Skitter Away, E-endure, B-blow It Up!, You're Too Slow, D-dried Up, Fend This Off If You Can, Time for a Little Test, C-chop It Off!, Goin' First, Struggle, Y-you Only Live Once!, Gut Harvesting, Commandeering, Rampage, Pound, Gather Intel, Appetite, Quick Attack, Trim the Ingredients, Prepared Mind (Lulu), Cruelty, Cooking Prep, Prepared Mind (Mars), Keep It Fresh, Multi-Block, Silent Night, Fleet Footsteps, Deflect, Ingredient Hunt, I Can Cook Anything, Set Fire, Multi-Hit, Strong Strike and Nonstop Assault
+---> This should provide for a far more engaging and interesting early-game
+- Also altered all the base Combat Pages (Evade, Light Defense, Charge and Cover, etc.) to have better utility and make the start less punishing/RNG-reliant
+- Updated the sprites for Hunter's Cloak and Harvester's Scythe
+--> Both icons drawn by BloobCake
+- Fixed Big Brother's Chains not working properly (finally!!)
+- Critical Strike now gives 1 Positive Emotion Coin on a crit
+- Crowbar's rarity is now consistent
+
+
+Update: 7 May @ 3:14pm
+Devbuild .79
+- Fixed the initial event showing Still Water instead of Vicious Glasses
+- Fixed CardChoice and CardReward UI anomalies due to using new event UI
+- Changed MysteryBase's UI to adapt to more than 4 choices (up to 12) in one frame/screen
+--> This should let us make more complex events later
+
+
+Update: 5 May @ 5:31pm
+Devbuild .78
+- Completely revamped MysteryEvent UI
+- Pressing the "New Run" button will now go to the new Roguelike reception
+- Fixed item catalog having inconsistent color palette
+- Fixed *several* UI anomalies with the Item Catalog
+- Changed how Critical Strike works internally for better interoperability
+- Added rarities to most relocalized items (special items from events or still unlocalized remain as Special)
+- Added Enkephalin Sticker to the random items pool (previously unobtainable)
+- Relocalized 9-14 and The Past (from SoTC event)
+
+
+Update: 18 Apr @ 3:12pm
+Devbuild .77
+- Added a more elaborate/transparent rarity system for items
+- Added Harvester's Scythe
+--> At the start of the Act, give 5 Critical Strike to all allies. Whenever any character crits, they restore 5 HP.
+
+
+Update: 14 Apr @ 4:03pm
+Devbuild .76
+- Fixed Original Intention giving enemies power AGAIN
+- Fixed Unstable Speed not giving its respective passive
+- Fixed new items being free
+
+
+
+Update: 7 Jan @ 1:38pm
+Devbuild .75
+- Relocalized Player keypage names
+--> Will now show as "A Rogue Patron Librarian's Page" and "A Rogue Librarian's Page", respectively
+
+
+Update: 7 Jan @ 12:11pm
+Devbuild .74
+- Fixed Original Intention giving power to enemies
+- Added Crowbar and Big Brother's Chains to the shop pool (new items!)
+--> Crowbar / Attacks deal +50% damage and stagger damage to targets above 90% HP
+----> Icon made by unitdown
+--> Big Brother's Chains / When using a Combat Page, all dice on that page gain Power equal to the amount of copies of the Combat Page in hand.
+----> Icon made by CalmMagma
+- Limited Edition removed
+--> Now *all* cards have a 20% chance to be upgraded (from 15% with Limited Edition, 0% without)
+
+
+Update: 3 Jan @ 10:51am
+Devbuild v0.73
+- Fixed Shivs adding unlimited and persistent dice to cards
+- Fixed a couple of localization quirks
+
+
+Update: 3 Dec, 2024 @ 9:38am
+Devbuild v0.72
+- Noah's page is no longer obtainable (good riddance!)
+- Yujin's, Valentin's and Tenma's pages now have HP reduction tags since Kizuna doesn't work properly (might be reverted)
+
+
+Update: 3 Dec, 2024 @ 8:19am
+back to v.71 baby
+
+
+Update: 3 Dec, 2024 @ 7:34am
+-- REVERTED TO DEVBUILD v.7 --
+
+
+Update: 28 Nov, 2024 @ 1:21pm
+Devbuild v0.71
+- Fixed several items having old/no descriptions in shops
+- Localized Backstreet's Gang Member page
+- Improved the book drop rates from Backstreets Gang Members
+
+
+Update: 3 Aug, 2024 @ 11:55am
+DevBuild v0.7
+- Implemented KeywordBufs with KeywordUtil/EnumExtender (thanks Cyaminthe!)
+- Improved logic and randomness functionality of the Strange Orb (the same Librarian can no longer be affected by "Two random allies gain 2 Light/draw 2 pages" effect)
+- Relocalized Sedative and Stimulant (now Caffeine Pills and Grade 1 Steroids)
+- Fixed Crying Children fight breaking when choosing the Strange Orb as a starter item
+- Fixed Yujin going back to full HP after de-equipping and re-equipping her page while at 100% HP with another keypage
+- Fixed Hunter's Cloak
+- Reworked Still Water (now Vicious Glasses)
+- Added Icons to HP Bullet, Bomb and Medkit
+- and some other stuff which I forgot because the repo has been completely reorganized
+
+
+Update: 30 Jul, 2024 @ 1:28pm
+- dev .64 for the nintendo 64
+
+
+Update: 30 Jul, 2024 @ 1:11pm
+- today on this episode of: steamworkuploader doesn't do its one job
+
+
+
+Update: 30 Jul, 2024 @ 12:41pm
+- I'M SHITSHTING???
+
+
+Update: 29 Jul, 2024 @ 6:59pm
+help me
+
+
+Update: 29 Jul, 2024 @ 5:01pm
+- pre v0.1-2; pick ups in the item catalog and reworking of pickup relocalization as well as several items being relocalized- new icons coming soon
+
+
+Update: 28 Jul, 2024 @ 9:25am
+- pre v0.1-1
+
+
+Update: 27 Jul, 2024 @ 3:58pm
+- fixed some shit
+
+
+Update: 13 Jul, 2024 @ 9:44am
+Attempted hotfix for pilp fight
+
+
+Update: 30 Jun, 2024 @ 9:44am
+- Fixed Thumb event screwing up camera zoom and unit formation
+- Fixed Philip fight looping infinitely by not cycling through its proper phases
+- Fixed an annoying issue which led to logs being severely bloated by improper dictionary handling (REAL SHIT!!!)
+- Added a configuration file (at C:/Users/<user>/AppData/LocalLow/Project Moon/LibraryOfRuina/LogueSave/RMR_Config.xml)
+- This will let you access certain debugging features such as enabling extended logging and debug mode for the Item Catalog- more options might be added later.
+- If the file has not been created yet, it will be made upon booting up the new version of the mod with all debugging features disabled by default.
+
+
+Update: 3 Jun, 2024 @ 2:25pm
+- fixed text color shorthands
+
+
+Update: 3 Jun, 2024 @ 1:45pm
+- WE FIXED THE CONTINUE BUTTON WE SAVED THE WORLD
+
+
+Update: 3 Jun, 2024 @ 8:58am
+- il cumpile errro fix attempt 2
+
+
+
+Update: 3 Jun, 2024 @ 8:32am
+- attempted fix to IL cumpile error
+
+
+Update: 2 Jun, 2024 @ 2:26pm
+- Updated Sunset Blades upgrade to increase burn infliction
+- Fixed Pebble always making the user lose 1~3 HP even when using pages with Pebble
+- Minor fixes to the Item Catalog screen
+- Fixed most enemy keypages not being properly localized
+- Several stability fixes (saves still not fixed unfortunately)
+- Fixed initial event not localizing properly
+- Tweaked UI positioning of mystery events
+- Added icons to several items and the initial event
+- Initial event portrait and item icons made by unitdown
+
+
+Update: 2 Jun, 2024 @ 2:24pm
+Edit
+Revert to this version
+Download
+Update: 24 May, 2024 @ 5:55pm
+- Reworked sprites for Strange Orb
+
+
+Update: 22 May, 2024 @ 2:52pm
+- Attempted fix to Strange Orb
+
+
+Update: 22 May, 2024 @ 8:50am
+- Fixed unsafe MysteryEvent localization again again
+
+
+Update: 21 May, 2024 @ 4:24pm
+- attempted fix to il compile error
+
+
+Update: 21 May, 2024 @ 1:39pm
+- fixed fatal error with the gamemode initialization patch
+
+
+Update: 21 May, 2024 @ 11:45am
+- Removed the Orb.
+
+
+Update: 21 May, 2024 @ 10:35am
+- Roguelike+ Gamemode should be real
+
+
+
+Update: 20 May, 2024 @ 4:54pm
+- New starting event and gamemode.
+
+
+Update: 13 May, 2024 @ 3:56pm
+- Gamemodes are finished, initial event fixed
+
+
+Update: 13 May, 2024 @ 2:55pm
+- h3
+
+
+Update: 13 May, 2024 @ 2:45pm
+- h2
+
+
+Update: 13 May, 2024 @ 2:39pm
+- h
+
+
+Update: 13 May, 2024 @ 11:29am
+- attempted fix 5 electricestest boogaloolestest
+
+
+Update: 13 May, 2024 @ 10:48am
+- attempted fix 4 electricest boogaloolest
+
+
+Update: 13 May, 2024 @ 10:21am
+- attempted fix 3 electricer boogalooer
+
+
+Update: 13 May, 2024 @ 10:02am
+- attempted fix 2 electric boogaloo
+
+
+Update: 13 May, 2024 @ 9:16am
+- Attempted fix of ambiguous patch
+
+
+
+Update: 12 May, 2024 @ 1:25pm
+- experimental gamemode update
+
+
+Update: 10 May, 2024 @ 1:19pm
+- Attempted fix of exclusives not dequipping
+
+
+Update: 8 May, 2024 @ 10:44am
+- fixed more stuff for satellite mod support
+
+
+Update: 8 Apr, 2024 @ 12:12pm
+- Fixed the initial event shitting itself
+
+
+Update: 17 Jan, 2024 @ 7:16am
+- HOPEFULLY fixed the initial event bug
+
+
+Update: 16 Dec, 2023 @ 3:08pm
+- fixed a transpiler error
+
+
+Update: 14 Dec, 2023 @ 8:32pm
+- some fixes and further continued progress with the codebase
+
+
+Update: 12 Dec, 2023 @ 4:20pm
+- Fixed some garbage as always
+
+
+Update: 12 Dec, 2023 @ 11:16am
+- fixed some garbage :tm::copyright::registered;
+
+
+Update: 12 Dec, 2023 @ 8:49am
+- Removed incompatibility list, fixed a couple minor issues
+
+
+
+Update: 12 Dec, 2023 @ 12:19am
+- wow those tests went pretty well
+
+
+Update: 11 Dec, 2023 @ 11:18pm
+- added a bunch of localization systems, time to test 'em!!!
+
+
+Update: 8 Dec, 2023 @ 11:51pm
+- done
+
+
+Update: 8 Dec, 2023 @ 10:59pm
+- i'm
+
+
+Update: 8 Dec, 2023 @ 10:40pm
+- game
+
+
+Update: 8 Dec, 2023 @ 10:11pm
+- IT'S GOING TO BE OVER SOON
+
+
+Update: 8 Dec, 2023 @ 9:21pm
+- I'M GONNA LOSE IT ALL
+
+
+Update: 8 Dec, 2023 @ 8:36pm
+- WE GETTING OUT OF THE OUTSKIRTS WITH THIS ONE (PLEASE)
+
+
+Update: 8 Dec, 2023 @ 8:05pm
+- TEST NUMBER 10 GIVE IT UP FOR TEST NUMBER 10 TRUST TRUST
+
+
+Update: 8 Dec, 2023 @ 7:51pm
+- test numba 9 idk even
+
+
+
+Update: 8 Dec, 2023 @ 7:29pm
+- test number 8 give it up for test number 8
+
+
+Update: 8 Dec, 2023 @ 7:19pm
+- NUMBER 7 : STUDENT WATCHES CORN AND GETS NAKED
+
+
+Update: 8 Dec, 2023 @ 7:10pm
+- item localization test number 6
+
+
+Update: 8 Dec, 2023 @ 10:07am
+- woke up this morning got yourself a gun
+
+
+Update: 8 Dec, 2023 @ 2:02am
+- ruina has cum to our FAMLIY!!!!
+
+
+Update: 8 Dec, 2023 @ 1:52am
+- im actually on the verge o fcalospie
+
+
+Update: 8 Dec, 2023 @ 1:33am
+- pleaSE BRO WORK STOP THROWING NULLREFERENEXCEPTIPNS
+
+
+Update: 8 Dec, 2023 @ 1:13am
+- oh yeah baby all for the mets it's all about the mets
+
+
+Update: 8 Dec, 2023 @ 12:49am
+- test part 3 baybe give it up for part 3
+
+
+Update: 8 Dec, 2023 @ 12:25am
+- attempt numero dos
+
+
+
+
+- testing item localization and icon system
+
+
+Update: 3 Dec, 2023 @ 1:31am
+- item catalog is finally finished!!!!!!!!!!!!!!
+
+
+Update: 2 Dec, 2023 @ 1:08pm
+- OK The item catalog SHOULD be workie now
+
+
+Update: 2 Dec, 2023 @ 11:34am
+- final final.......
+
+
+Update: 2 Dec, 2023 @ 1:40am
+- Final item catalog update (hopefully)
+
+
+Update: 1 Dec, 2023 @ 10:41pm
+- im GONNA LISOTTOK ITTTTT
+
+
+Update: 1 Dec, 2023 @ 9:45pm
+- i'm gonna LOSE it pt. 2
+
+
+Update: 1 Dec, 2023 @ 8:12pm
+- page attempt 1134
+
+
+Update: 1 Dec, 2023 @ 7:42pm
+- page thing attempt 222
+
+
+Update: 1 Dec, 2023 @ 7:03pm
+- page system 22nd attempt
+
+
+
+Update: 1 Dec, 2023 @ 11:02am
+- further item catalog update
+
+
+Update: 30 Nov, 2023 @ 9:19pm
+- THE FINAL SHOWDWOWN????? (for real? on God?)
+
+
+Update: 30 Nov, 2023 @ 8:16pm
+- please god the item catalog SHOULD work now
+
+
+Update: 30 Nov, 2023 @ 7:08pm
+- Further progress on the Item Catalog tab
+
+
+Update: 30 Nov, 2023 @ 12:05am
+- it wasn't
+
+
+Update: 29 Nov, 2023 @ 11:17pm
+- THE FINAL SHOWDOWN?????
+
+
+Update: 29 Nov, 2023 @ 10:25pm
+- debugging part 4 electric boogalooeiasd
+
+
+Update: 29 Nov, 2023 @ 6:16pm
+- debugging 3
+
+
+Update: 29 Nov, 2023 @ 5:46pm
+- debuggin 3
+
+
+Update: 29 Nov, 2023 @ 5:18pm
+- debugging 2
+
+
+
+Update: 29 Nov, 2023 @ 4:46pm
+- debugging time
+
+
+Update: 29 Nov, 2023 @ 4:25pm
+- INITIAL UPLOAD

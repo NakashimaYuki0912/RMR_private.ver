@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CardDropTableXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+ 
+
+  <DropTable ID="-999999">
+    
+	<!-- shi -->
+	<Card>501001</Card>
+	
+	<!-- sweepers -->
+	<Card>504002</Card>
+	
+	<!-- W corp -->
+	<Card>506001</Card>
+	
+	<!-- kim -->
+	<Card>512003</Card>
+	
+	<!-- cane office-->
+	<Card>603001</Card>
+	<Card>603004</Card>
+	<Card>603008</Card>
+	
+	<!-- the thumb -->
+	<Card>602009</Card>
+	<Card>602010</Card>
+	
+	
+	<!-- index -->
+	<Card>605001</Card>
+    <Card>605002</Card>
+    <Card>605003</Card>
+	
+	<!-- yanners -->
+	<Card>611001</Card>
+    <Card>611002</Card>
+    <Card>611003</Card>
+	
+	<!-- rcorp -->
+	<Card>608002</Card>
+    <Card>608003</Card>
+    <Card>608004</Card>
+	<Card>608017</Card>
+	
+	
+	<!-- liu sec 2 -->
+    <Card>601008</Card>
+	<Card>601009</Card>
+	<!-- liu sec 1 -->
+	<Card>606002</Card>
+	
+	
+	
+	<!-- night awls -->
+	<Card>612006</Card>
+	
+	<!-- udjat -->
+	<Card>613006</Card>
+	
+	<!-- mirae life insurance -->
+	 <Card>614004</Card>
+	 
+	<!-- leaflet workshop -->
+	 <Card>615006</Card>
+	
+	
+  </DropTable>
+
+</CardDropTableXmlRoot>

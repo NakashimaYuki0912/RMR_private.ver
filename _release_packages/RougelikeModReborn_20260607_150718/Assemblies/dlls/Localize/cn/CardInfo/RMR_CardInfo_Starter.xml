@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="-10">
+      <LocalizedName>俏皮闪避</LocalizedName> <!-- Evade -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="-11">
+      <LocalizedName>双重打击</LocalizedName> <!-- Light Attack -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="-12">
+      <LocalizedName>坚定不移</LocalizedName> <!-- Light Defense -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="-13">
+      <LocalizedName>游击战术</LocalizedName> <!-- Charge and Cover -->
+    </BattleCardDesc>
+	<BattleCardDesc ID="-14">
+      <LocalizedName>协同攻击</LocalizedName> <!-- Focused Strikes -->
+    </BattleCardDesc>
+  </cardDescList>
+</BattleCardDescRoot>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<text id="Shop7_Name">初心</text>
+	 <text id="Shop7_Desc">使用上一章节的战斗书页时使其中所有骰子威力+1。商店内将出现上一章节的战斗书页。</text>
+	
+	 
+	 <text id="ShopGood25_1Name">傀儡师</text>
+	 <text id="ShopGood25_1Desc">该角色使用战斗书页时，“傀儡”将使用相同的战斗书页对目标进行单方面攻击。</text>
+	 
+	 <text id="ShopGood25_2Name">傀儡</text>
+	 <text id="ShopGood25_2Desc">这一幕使自身“眩晕”。 当“傀儡师”使用战斗书页时，“傀儡”将使用相同的战斗书页对目标进行单方面攻击。</text>
+	 
+	 <text id="ShopGood40_1Name">科技工具箱</text>
+	 <text id="ShopGood40_1Desc">将'{0}'书页置入手中。书页费用为0（使用后复原）。</text>
+
+	 <text id="MeatPieQuest_Name">肉派委托</text>
+	 <text id="MeatPieQuest_Desc">跳过战斗书页奖励以获得“大肉”。获得5个“大肉”以完成委托。
+获得的大肉 : {0}</text>
+
+	 <text id="Ch5Event1Effect_Name">灵感</text>
+	 <text id="Ch5Event1Effect_Desc">本章节中，每一幕开始时，每位司书都会分享以下效果：
+-3层“强壮”
+-3层“忍耐”
+-3层“守护”
+-3层“易损”
+-“眩晕”</text>
+	<text id="Ch6Event1Effect1_Name">留恋过去</text>
+	 <text id="Ch6Event1Effect1_Desc">不会获得战斗书页奖励</text>
+	 
+	 <text id="Ch6Event2Effect_Name">尖桩</text>
+	 <text id="Ch6Event2Effect_Desc">杀死所选的司书</text>
+
+
+
+
+
+	  <text id="Shop3_1_Name">搬运工作</text>
+	 <text id="Shop3_1_Desc">随机事件结束后可获得1张都市传说级的战斗书页奖励。</text>
+
+	 <text id="Shop3_2_Name">承诺的重要性</text>
+	 <text id="Shop3_2_Desc">普通战斗结束后可获得1张都市传说级的战斗书页奖励。</text>
+
+
+</localize>

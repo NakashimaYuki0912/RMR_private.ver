@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="601001">
+      <LocalizedName>慷慨激昂</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601002">
+      <LocalizedName>碧血丹心</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601003">
+      <LocalizedName>剑之所向</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601004">
+      <LocalizedName>牢不可破</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601005">
+      <LocalizedName>牢不可破</LocalizedName> <!-- 속도 + 검-->
+    </BattleCardDesc>
+    <BattleCardDesc ID="601006">
+      <LocalizedName>破竹之势</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601007">
+      <LocalizedName>长驱直入</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="601008">
+      <LocalizedName>燎原之势</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601009">
+      <LocalizedName>铁山靠</LocalizedName> <!-- 鉄山靠 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="601010">
+      <LocalizedName>飞燕疾风</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601011">
+      <LocalizedName>神龍抬首</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601012">
+      <LocalizedName>固若金汤</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601013">
+      <LocalizedName>一决雌雄</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601014">
+      <LocalizedName>燎原烈火</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="602001">
+      <LocalizedName>子弹装填</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602002">
+      <LocalizedName>枪刺拼杀</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602003">
+      <LocalizedName>牵制射击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602004">
+      <LocalizedName>冲击弹头</LocalizedName> <!-- '탄환'에 포함되는 카드가 아닙니다-->
+    </BattleCardDesc>
+    <BattleCardDesc ID="602005">
+      <LocalizedName>奇袭射击</LocalizedName>
+    </BattleCardDesc>
+   <BattleCardDesc ID="602006">
+      <LocalizedName>密集火网</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602007">
+      <LocalizedName>防御姿态</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602008">
+      <LocalizedName>什伍连坐</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602009">
+      <LocalizedName>即决审判</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602010">
+      <LocalizedName>拳环暴揍</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602011">
+      <LocalizedName>钢铁纪律</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602012">
+      <LocalizedName>阶级礼仪</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="602020">
+      <LocalizedName>彻甲弹</LocalizedName> <!-- 철갑(徹甲) -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="602021">
+      <LocalizedName>冰封弹</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602022">
+      <LocalizedName>烧夷弹</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="603001">
+      <LocalizedName>能量射线</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603002">
+      <LocalizedName>冲击吸收</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603003">
+      <LocalizedName>机会来喽！</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603004">
+      <LocalizedName>毁灭连击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603005">
+      <LocalizedName>都给我上！</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603006">
+      <LocalizedName>能量护盾</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603007">
+      <LocalizedName>能量转换</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603008">
+      <LocalizedName>恶寒一击</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="604001">
+      <LocalizedName>蒸汽喷发</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604002">
+      <LocalizedName>防御指示</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604003">
+      <LocalizedName>自行突击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604004">
+      <LocalizedName>掩杀指示</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604005">
+      <LocalizedName>齿轮指引</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="604021">
+      <LocalizedName>苍蓝轨迹</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604022">
+      <LocalizedName>崩坏序曲</LocalizedName> <!-- 전주 : 前奏 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="604023">
+      <LocalizedName>相机而动</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604024">
+      <LocalizedName>相机而动</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604025">
+      <LocalizedName>蘭·舞</LocalizedName>
+    </BattleCardDesc>
+    
+    <BattleCardDesc ID="605001">
+      <LocalizedName>斩尽杀绝</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605002">
+      <LocalizedName>激流送葬</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605003">
+      <LocalizedName>激流送葬</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605004">
+      <LocalizedName>严穆代行</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605005">
+      <LocalizedName>全数歼灭</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605006">
+      <LocalizedName>铁索捆缚</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605007">
+      <LocalizedName>乱剑劈砍</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605008">
+      <LocalizedName>剑刃解放-Ⅰ</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605009">
+      <LocalizedName>剑刃解放-Ⅱ</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605010">
+      <LocalizedName>剑刃解放-Ⅲ</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- Enemy only -->
+    <BattleCardDesc ID="605021">
+      <LocalizedName>沉重轨迹</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605022">
+      <LocalizedName>迅捷轨迹</LocalizedName>
+    </BattleCardDesc>
+    
+   
+
+    <BattleCardDesc ID="606001">
+      <LocalizedName>燎原挚焰</LocalizedName> <!-- 샤오 카드.  애(愛) -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="606002">
+      <LocalizedName>炎龍贯拳</LocalizedName> <!-- 염룡권(焰龍拳)-->
+    </BattleCardDesc>
+    <BattleCardDesc ID="606003">
+      <LocalizedName>热血沸腾</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="606004">
+      <LocalizedName>炽焰轮舞</LocalizedName> <!--윤무(輪舞) -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="606005">
+      <LocalizedName>冲天烈火</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="606006">
+      <LocalizedName>封喉一刺</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="606007">
+      <LocalizedName>火光瞬闪</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="606008">
+      <LocalizedName>赤胆忠心</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- the red mist -->
+    <BattleCardDesc ID="607001">
+      <LocalizedName>尸横遍野</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607002">
+      <LocalizedName>血雾弥漫</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607003">
+      <LocalizedName>大刀纵劈</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607004">
+      <LocalizedName>大刀直刺</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607005">
+      <LocalizedName>大刀横斩</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607006">
+      <LocalizedName>屏息凝神</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607007">
+      <LocalizedName>陷阵之志</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607008">
+      <LocalizedName>E.G.O展现</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607021">
+      <LocalizedName>尸横遍野</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607022">
+      <LocalizedName>血雾弥漫</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- binah -->
+    <BattleCardDesc ID="607201">
+      <LocalizedName>劣化之锁</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607202">
+      <LocalizedName>劣化妖灵</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607203">
+      <LocalizedName>劣化震击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607204">
+      <LocalizedName>劣化之柱</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607205">
+      <LocalizedName>劣化之链</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="608001">
+      <LocalizedName>狂暴血刃</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608002">
+      <LocalizedName>精神粉碎</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608003">
+      <LocalizedName>地形破坏</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608004">
+      <LocalizedName>宰杀处置</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608005">
+      <LocalizedName>精神鞭挞</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608006">
+      <LocalizedName>犀角突击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608007">
+      <LocalizedName>火力集中</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608008">
+      <LocalizedName>单点射击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608009">
+      <LocalizedName>沙场指挥</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608010">
+      <LocalizedName>能量轰击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608011">
+      <LocalizedName>蛮力冲撞</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608012">
+      <LocalizedName>连续切割</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608013">
+      <LocalizedName>快速压制</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608014">
+      <LocalizedName>撕咬鲜草</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608015">
+      <LocalizedName>心神凝聚</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608016">
+      <LocalizedName>克隆复制</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608017">
+      <LocalizedName>极端狂化</LocalizedName>
+    </BattleCardDesc>
+  
+    <BattleCardDesc ID="609001">
+      <LocalizedName>灵蛇剑术</LocalizedName> <!-- 사(巳)검술-->
+    </BattleCardDesc>
+    <BattleCardDesc ID="609002">
+      <LocalizedName>紫光凝剑</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609003">
+      <LocalizedName>游蛇切断</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609004">
+      <LocalizedName>猎物锁定</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609005">
+      <LocalizedName>贯通创伤</LocalizedName> <!-- 열상(裂傷) -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="609006">
+      <LocalizedName>尖牙穿透</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609007">
+      <LocalizedName>迅猛下劈</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609008">
+      <LocalizedName>巨蟒冲击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609009">
+      <LocalizedName>决斗之舞</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609010">
+      <LocalizedName>鳞蛇壁障</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609011">
+      <LocalizedName>流转不息</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609012">
+      <LocalizedName>无所遁形</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609013">
+      <LocalizedName>幻·舞</LocalizedName>
+    </BattleCardDesc>
+  
+    <BattleCardDesc ID="609020">
+      <LocalizedName>斩击架势</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609021">
+      <LocalizedName>突刺架势</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609022">
+      <LocalizedName>打击架势</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609023">
+      <LocalizedName>防御架势</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 샤오 -->
+    <BattleCardDesc ID="610001">
+      <LocalizedName>蒲牢鸣钟</LocalizedName> <!-- 蒲牢 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610002">
+      <LocalizedName>狴犴争讼</LocalizedName> <!-- 狴犴 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610003">
+      <LocalizedName>椒图镇邪</LocalizedName> <!-- 椒圖 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610004">
+      <LocalizedName>赑屃负礎</LocalizedName> <!-- 贔屭 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610005">
+      <LocalizedName>睚眦雪恨</LocalizedName> <!-- 睚眦 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610006">
+      <LocalizedName>狻猊腾云</LocalizedName> <!-- 金猊, 산예(狻猊)라고도 한다 -->
+    </BattleCardDesc>
+    
+    <BattleCardDesc ID="610008">
+      <LocalizedName>螭吻吞脊</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="610009">
+      <LocalizedName>饕餮饗食</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="610010">
+      <LocalizedName>烨龙烈斩</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="610011">
+      <LocalizedName>双面夹击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="610012">
+      <LocalizedName>龍之逆鳞</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="610013">
+      <LocalizedName>龍之逆鳞</LocalizedName>
+    </BattleCardDesc>
+    
+    <BattleCardDesc ID="610021">
+      <LocalizedName>睚眦雪恨</LocalizedName> <!-- 睚眦 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610022">
+      <LocalizedName>饕餮饗食</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- yan only card -->
+    <BattleCardDesc ID="611001">
+      <LocalizedName>扭曲之刃</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611002">
+      <LocalizedName>不祥烙印</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611003">
+      <LocalizedName>封锁目标</LocalizedName>
+    </BattleCardDesc>
+    <!-- yan player card -->
+    <BattleCardDesc ID="611004">
+      <LocalizedName>不祥之力</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611005">
+      <LocalizedName>意志之刃</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611006">
+      <LocalizedName>盲目信念</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611007">
+      <LocalizedName>都市之意</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- enemy only -->
+    <BattleCardDesc ID="611008">
+      <LocalizedName>扭曲之刃</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- yan hand card -->
+    <BattleCardDesc ID="611021">
+      <LocalizedName>巨拳轰击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611022">
+      <LocalizedName>巨掌拍打</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611023">
+      <LocalizedName>乱拳痛殴</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611024">
+      <LocalizedName>无懈可击</LocalizedName> <!-- 경계(警戒) -->
+    </BattleCardDesc>
+
+    <!-- yan enemy buf card -->
+    <BattleCardDesc ID="611031">
+      <LocalizedName>执行-进攻</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611032">
+      <LocalizedName>执行-护卫</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611033">
+      <LocalizedName>执行-警戒</LocalizedName> <!-- 경계(警戒) -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="611034">
+      <LocalizedName>执行-修复</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611035">
+      <LocalizedName>执行-固守</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611036">
+      <LocalizedName>全体修复</LocalizedName>
+    </BattleCardDesc>
+  
+    <!-- yan passive card -->
+    <BattleCardDesc ID="611041">
+      <LocalizedName>指令接收-Ⅰ</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611042">
+      <LocalizedName>指令接收-Ⅱ</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611043">
+      <LocalizedName>指令接收-Ⅲ</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611044">
+      <LocalizedName>指令接收-Ⅳ</LocalizedName>
+    </BattleCardDesc>
+
+
+
+
+
+    <!-- 밤의 송곳 -->
+    <BattleCardDesc ID="612001">
+      <LocalizedName>避实击虚</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="612002">
+      <LocalizedName>短剑连刺</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="612003">
+      <LocalizedName>攻其不备</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="612004">
+      <LocalizedName>及锋而试</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="612005">
+      <LocalizedName>直取要害</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="612006">
+      <LocalizedName>夜阑华彩</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 우제트 -->
+    <BattleCardDesc ID="613001">
+      <LocalizedName>Harpe</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="613002">
+      <LocalizedName>驭沙割裂</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="613003">
+      <LocalizedName>驭沙侵袭</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="613004">
+      <LocalizedName>Furusiyya</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="613005">
+      <LocalizedName>Jamadhar</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="613006">
+      <LocalizedName>蛇神之眼</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- 미래생명 -->
+    <BattleCardDesc ID="614001">
+      <LocalizedName>偷梁换柱</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="614002">
+      <LocalizedName>保险补偿</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="614003">
+      <LocalizedName>等价交换</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="614004">
+      <LocalizedName>分散补偿</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="614005">
+      <LocalizedName>解脱一击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="614006">
+      <LocalizedName>人寿保险</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 공방소속 -->
+    <BattleCardDesc ID="615001">
+      <LocalizedName>使用示范</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="615002">
+      <LocalizedName>烟锤猛击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="615003">
+      <LocalizedName>烟锤袭击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="615004">
+      <LocalizedName>烟锤冲击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="615005">
+      <LocalizedName>现场改造</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="615006">
+      <LocalizedName>浓烟喷射</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 베이야드 -->
+    <BattleCardDesc ID="616001">
+      <LocalizedName>长楔冲刺</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616002">
+      <LocalizedName>横从穿贯</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616003">
+      <LocalizedName>完美攻势</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616004">
+      <LocalizedName>回身直击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616005">
+      <LocalizedName>扬威曜武</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616006">
+      <LocalizedName>预备动作</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616007">
+      <LocalizedName>一点突破</LocalizedName>
+    </BattleCardDesc>
+  </cardDescList>
+</BattleCardDescRoot>

@@ -130,6 +130,8 @@ namespace abcdcode_LOGLIKE_MOD
         public static Button ChangeEmotinCardBtn;
         public static Button CraftBtn;
         public static Image CraftBtnFrame;
+        public static Button RealizationBtn;
+        public static Image RealizationBtnFrame;
         public static Button CreatureBtn;
         public static Image CreatureBtnFrame;
         public static Button AtlasBtn;
@@ -1404,7 +1406,7 @@ namespace abcdcode_LOGLIKE_MOD
             LogLikeMod.nextlist = new List<EmotionCardXmlInfo>();
             if (LogLikeMod.curstagetype == StageType.Boss)
             {
-                if (LogLikeMod.curchaptergrade != ChapterGrade.Grade6 && LogueBookModels.RemainStageList.ContainsKey(LogLikeMod.curchaptergrade + 1))
+                if (LogLikeMod.curchaptergrade != ChapterGrade.Grade7 && LogueBookModels.RemainStageList.ContainsKey(LogLikeMod.curchaptergrade + 1))
                     LogLikeMod.nextlist = LogueBookModels.GetNextList(LogLikeMod.curchaptergrade + 1, true);
                 else
                     LogLikeMod.nextlist.Clear();
@@ -2272,6 +2274,9 @@ namespace abcdcode_LOGLIKE_MOD
                     }
                 }
             }
+            PickUpModelBase vanillaEmotion = PickUpModel_RMRVanillaEmotion.TryCreate(script);
+            if (vanillaEmotion != null)
+                return vanillaEmotion;
             return (PickUpModelBase)null;
         }
 

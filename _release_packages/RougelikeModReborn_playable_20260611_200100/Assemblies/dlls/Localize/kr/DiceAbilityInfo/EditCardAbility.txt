@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardAbilityDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BattleCardAbility ID="lowelonlyLogEdit">
+    <Desc>[사용시] 이 책장의 모든 주사위 제거. 다음 막 동안에만 사용할 수 있는 [광역 공격 책장]을 손에 추가.</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="AddBullet1AndDrawLogEdit">
+    <Desc>[사용시] 손에 무작위 탄환을 1장 추가. 책장을 1장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="AddBullet2LogEdit">
+    <Desc>[사용시] 손에 무작위 탄환을 2장 추가</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="indexRelease1LogEdit">
+    <Desc>[사용시] '해금-Ⅱ'을 손에 추가한다.</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="indexRelease2LogEdit">
+    <Desc>[사용시] '해금-Ⅲ'을 손에 추가한다.</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="nicolaiCard2LogEdit">
+    <Desc>충전이 20 이상일 때만 사용 가능. 이 책장으로 적을 처치하면 '처분'을 손에 추가하고 그 책장의 비용 1 감소.</Desc>
+    <Desc>대상의 체력이 50% 이하면 주는 피해량이 2배가 된다.</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="selfstunwithabilLogEdit">
+    <Desc>[장착시 발동]
+이번 막 행동 불가 버프를 얻음.
+다음 막에 힘 3을 얻음.
+자신의 손에 '일점 돌파'를 추가</Desc>
+  </BattleCardAbility>
+
+</BattleCardAbilityDescRoot>
+

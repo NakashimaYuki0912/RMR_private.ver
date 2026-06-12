@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EnemyUnitClassRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+  <Enemy ID="854">
+    <!--챕터시작-->
+    <Name>???</Name>
+    <MinHeight>175</MinHeight>
+    <MaxHeight>175</MaxHeight>
+    <Unknown>false</Unknown>
+    <BookId>854</BookId>
+    <Gender>F</Gender>
+    <FaceType>Skin</FaceType>
+    <Exp>0</Exp>
+    <BodyId>0</BodyId>
+    <DropTable Level="0">
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="855">
+    <!--챕터시작-->
+    <Name>???</Name>
+    <MinHeight>175</MinHeight>
+    <MaxHeight>175</MaxHeight>
+    <Unknown>false</Unknown>
+    <BookId>855</BookId>
+    <Gender>F</Gender>
+    <FaceType>Skin</FaceType>
+    <Exp>0</Exp>
+    <BodyId>0</BodyId>
+    <DropTable Level="0">
+    </DropTable>
+  </Enemy>
+
+</EnemyUnitClassRoot>

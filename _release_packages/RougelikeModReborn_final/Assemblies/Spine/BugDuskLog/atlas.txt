@@ -1,0 +1,90 @@
+
+BugDusk.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+0
+  rotate: false
+  xy: 944, 216
+  size: 59, 38
+  orig: 59, 38
+  offset: 0, 0
+  index: -1
+1
+  rotate: false
+  xy: 721, 138
+  size: 130, 116
+  orig: 130, 116
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 584, 138
+  size: 135, 116
+  orig: 135, 116
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 414, 107
+  size: 168, 147
+  orig: 168, 147
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 853, 145
+  size: 89, 109
+  orig: 89, 109
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 2, 2
+  size: 85, 74
+  orig: 85, 74
+  offset: 0, 0
+  index: -1
+Leg1
+  rotate: false
+  xy: 944, 172
+  size: 19, 42
+  orig: 19, 42
+  offset: 0, 0
+  index: -1
+Leg2
+  rotate: true
+  xy: 414, 83
+  size: 22, 48
+  orig: 22, 48
+  offset: 0, 0
+  index: -1
+Leg3
+  rotate: true
+  xy: 584, 113
+  size: 23, 46
+  orig: 23, 46
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 78
+  size: 410, 176
+  orig: 410, 176
+  offset: 0, 0
+  index: -1
+mouse1
+  rotate: false
+  xy: 89, 20
+  size: 52, 56
+  orig: 52, 56
+  offset: 0, 0
+  index: -1
+mouse2
+  rotate: false
+  xy: 143, 41
+  size: 60, 35
+  orig: 60, 35
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="28582001">
+		<Name>烙印工坊商人</Name>
+		<Desc>你想买些什么？</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582001">
+    <Name>人才因其才而受伤</Name>
+    <Desc>[全局]触发“烧伤”效果时损失的“烧伤”层数由1/3改为1/4</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582002">
+    <Name>无端提及过去</Name>
+    <Desc>使用战斗书页施加“烧伤”时在4幕后对目标施加等量“烧伤”</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582003">
+    <Name>相互憎恨</Name>
+    <Desc>拥有“烧伤”的角色免疫其他负面状态</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582004">
+    <Name>离别之焰</Name>
+    <Desc>[全局]拥有“烧伤”的角色死亡时对其所有友方角色施加等同于该角色“烧伤”层数一半的“烧伤(至少1层)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582005">
+    <Name>灰烬</Name>
+    <Desc>自身失去所有“烧伤”时恢复等同于本场战斗中自身拥有的“烧伤”的最高层数值的体力</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582006">
+    <Name>迅疾如星</Name>
+    <Desc>攻击命中目标时若目标拥有“烧伤”则触发目标的“烧伤”1次</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582007">
+    <Name>烙印</Name>
+    <Desc>使用战斗书页时对目标施加等同于书页费用的“烧伤”(至少1层)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582008">
+    <Name>点燃</Name>
+    <Desc>开启舞台时将1张“点燃”置入手中</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8582009">
+    <Name>火盆</Name>
+    <Desc>若自身拥有“烧伤”则受到单方面攻击时对攻击者施加等同于自身“烧伤”层数的“烧伤”</Desc>
+	</PassiveDesc>
+
+
+</PassiveDescRoot>
+  
+

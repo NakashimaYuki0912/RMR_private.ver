@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<LogueEffectXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <LogueEffectInfo Id="RMRPickUp_Polyhedra">
+    <Name>多面体</Name> 
+    <Desc>所选的司书体力上限、混乱抗性上限、速度、光芒上限、所有骰子的最大值与最小值、造成的伤害与混乱伤害永久+1。</Desc> 
+    <FlavorText>&lt;color=#585858&gt;“多面体在手……感受黑暗的愤怒！！”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[暂无]</CatalogDesc>
+  </LogueEffectInfo> 
+
+
+<!-- 
+  <LogueEffectInfo Id="GlobalEffect_">
+    <Name>Dshka</Name> 
+    <Desc>Dshka</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“Dshka”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[No entry for now.]</CatalogDesc>
+  </LogueEffectInfo> 
+  
+  
+  <LogueEffectInfo Id="GlobalEffect_">
+    <Name>Dshka</Name> 
+    <Desc>Dshka</Desc> 
+    <FlavorText>&lt;color=#CACACA&gt;“Dshka”&lt;/color&gt;</FlavorText> 
+    <CatalogDesc>[No entry for now.]</CatalogDesc>
+  </LogueEffectInfo> 
+  -->
+</LogueEffectXmlRoot>

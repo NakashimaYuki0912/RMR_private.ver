@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RewardPassivesRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+
+<ChapterList Chapter="Grade4" Type="CommonReward" ID="4000">
+    <RewardList ID="230001" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="230001"/>
+    <RewardList ID="230004" PassiveType="Nolimit" Rarity="Rare" TargetType="All" RewardType="EquipPage" ArtWork="230004"/>
+    <RewardList ID="230005" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="230005"/>
+    <RewardList ID="230006" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="230006"/>
+    <RewardList ID="230007" PassiveType="Nolimit" Rarity="Unique" TargetType="All" RewardType="EquipPage" ArtWork="230007"/>
+    <RewardList ID="230008" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="230008"/>
+    <RewardList ID="230010" PassiveType="Nolimit" Rarity="Rare" TargetType="All" RewardType="EquipPage" ArtWork="230010"/>
+    <RewardList ID="230011" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="230011"/>
+    <RewardList ID="230012" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="230012"/>
+    <RewardList ID="230018" PassiveType="Nolimit" Rarity="Rare" TargetType="All" RewardType="EquipPage" ArtWork="230018"/>
+    <RewardList ID="230019" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="230019"/>
+    <RewardList ID="230020" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="230020"/>
+    <RewardList ID="231001" PassiveType="Nolimit" Rarity="Common" TargetType="All" RewardType="EquipPage" ArtWork="231001"/>
+    <RewardList ID="230021" PassiveType="Nolimit" Rarity="Rare" TargetType="All" RewardType="EquipPage" ArtWork="230021"/>
+    <RewardList ID="230022" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="230022"/>
+    <RewardList ID="230023" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="230023"/>
+    <RewardList ID="230024" PassiveType="Nolimit" Rarity="Unique" TargetType="All" RewardType="EquipPage" ArtWork="230024"/>
+    <RewardList ID="230025" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="230025"/>
+    <RewardList ID="230026" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="230026"/>
+    <RewardList ID="232001" PassiveType="Nolimit" Rarity="Rare" TargetType="All" RewardType="EquipPage" ArtWork="232001"/>
+    <RewardList ID="232002" PassiveType="Nolimit" Rarity="Common" TargetType="All" RewardType="EquipPage" ArtWork="232002"/>
+    <RewardList ID="233001" PassiveType="Nolimit" Rarity="Uncommon" TargetType="All" RewardType="EquipPage" ArtWork="233001"/>
+    <RewardList ID="234001" PassiveType="Nolimit" Rarity="Unique" TargetType="All" RewardType="EquipPage" ArtWork="234001"/>
+    <RewardList ID="234002" PassiveType="Nolimit" Rarity="Common" TargetType="All" RewardType="EquipPage" ArtWork="234002"/>
+  </ChapterList>
+
+</RewardPassivesRoot>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookUseXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+
+
+<BookUse ID="3001">
+    <Name>도시전설의 책 - 일반</Name>
+    <TextId>LogueLikeBook_Ch3_1</TextId>
+    <Chapter>3</Chapter>
+  </BookUse>
+
+<BookUse ID="3002">
+    <Name>도시전설의 책 - 고급</Name>
+    <TextId>LogueLikeBook_Ch3_2</TextId>
+    <Chapter>3</Chapter>
+  </BookUse>
+
+<BookUse ID="3003">
+    <Name>도시전설의 책 - 한정</Name>
+    <TextId>LogueLikeBook_Ch3_3</TextId>
+    <Chapter>3</Chapter>
+  </BookUse>
+
+<BookUse ID="3004">
+    <Name>도시전설의 책 - 예술</Name>
+    <TextId>LogueLikeBook_Ch3_4</TextId>
+    <Chapter>3</Chapter>
+  </BookUse>
+
+</BookUseXmlRoot>

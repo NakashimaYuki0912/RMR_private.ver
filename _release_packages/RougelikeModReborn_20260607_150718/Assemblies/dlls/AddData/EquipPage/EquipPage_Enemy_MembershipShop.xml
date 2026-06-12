@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+	<Book ID="28580001">
+		<Name>상인</Name>
+		<TextId>28570001</TextId>
+		<EquipEffect>
+			<EmotionLevel>0</EmotionLevel>
+			<HP>100</HP>
+			<Break>100</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>1</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Normal</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Normal</PBResist>
+			<HBResist>Normal</HBResist>
+			<StartPlayPoint>1</StartPlayPoint>
+			<MaxPlayPoint>1</MaxPlayPoint>
+			<Passive Level="1">28580001</Passive>
+		</EquipEffect>
+		<BookIcon>Rats</BookIcon>
+		<CharacterSkin>MerchantLog</CharacterSkin>
+    <CharacterSkinType>CUSTOM</CharacterSkinType>
+		<!-- <CharacterSkin>Lenny</CharacterSkin> -->
+		<Rarity>Uncommon</Rarity>
+	</Book>
+
+	<Book ID="28581001">
+		<Name>상인</Name>
+		<TextId>28570001</TextId>
+		<EquipEffect>
+			<EmotionLevel>0</EmotionLevel>
+			<HP>100</HP>
+			<Break>100</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>1</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Normal</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Normal</PBResist>
+			<HBResist>Normal</HBResist>
+			<StartPlayPoint>1</StartPlayPoint>
+			<MaxPlayPoint>1</MaxPlayPoint>
+			<Passive Level="1">28581001</Passive>
+		</EquipEffect>
+		<BookIcon>Rats</BookIcon>
+		<CharacterSkin>MerchantLog</CharacterSkin>
+    <CharacterSkinType>CUSTOM</CharacterSkinType>
+		<!-- <CharacterSkin>Lenny</CharacterSkin> -->
+		<Rarity>Uncommon</Rarity>
+	</Book>
+
+	<Book ID="28582001">
+		<Name>상인</Name>
+		<TextId>28570001</TextId>
+		<EquipEffect>
+			<EmotionLevel>0</EmotionLevel>
+			<HP>100</HP>
+			<Break>100</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>1</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Normal</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Normal</PBResist>
+			<HBResist>Normal</HBResist>
+			<StartPlayPoint>1</StartPlayPoint>
+			<MaxPlayPoint>1</MaxPlayPoint>
+			<Passive Level="1">28582001</Passive>
+		</EquipEffect>
+		<BookIcon>Rats</BookIcon>
+		<CharacterSkin>MerchantLog</CharacterSkin>
+    <CharacterSkinType>CUSTOM</CharacterSkinType>
+		<!-- <CharacterSkin>Lenny</CharacterSkin> -->
+		<Rarity>Uncommon</Rarity>
+	</Book>
+
+	<Book ID="28583001">
+		<Name>상인</Name>
+		<TextId>28570001</TextId>
+		<EquipEffect>
+			<EmotionLevel>0</EmotionLevel>
+			<HP>100</HP>
+			<Break>100</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>1</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Normal</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Normal</PBResist>
+			<HBResist>Normal</HBResist>
+			<StartPlayPoint>1</StartPlayPoint>
+			<MaxPlayPoint>1</MaxPlayPoint>
+			<Passive Level="1">28583001</Passive>
+		</EquipEffect>
+		<BookIcon>Rats</BookIcon>
+		<CharacterSkin>MerchantLog</CharacterSkin>
+    <CharacterSkinType>CUSTOM</CharacterSkinType>
+		<!-- <CharacterSkin>Lenny</CharacterSkin> -->
+		<Rarity>Uncommon</Rarity>
+	</Book>
+
+
+</BookXmlRoot>

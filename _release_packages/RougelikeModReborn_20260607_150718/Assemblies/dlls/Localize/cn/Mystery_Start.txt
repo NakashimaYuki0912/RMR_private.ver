@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryChStartTitle">开始</text>
+             <text id="MysteryChStartFrame0Dia0">图书馆馆长安吉拉委托你接待客人。
+她说这并不容易，她会给你一件能帮助你接待的东西。</text>
+             <text id="MysteryChStartChoice0">什么的不要</text>
+             <text id="MysteryChStartChoice1">都市的货币(获得20眼)</text>
+             <text id="MysteryChStartChoice2">都市的科技(随机获得9张传闻至都市传说章节的战斗书页)</text>
+             <text id="MysteryChStartChoice3">脑啡肽</text>
+             <text id="MysteryChStartChoice4">都市的衣服(获得2张核心书页奖励)</text>
+             <text id="StartBoost3Name">脑啡肽</text>
+             <text id="StartBoost3Desc">[全局生效]在传闻至都市传说章节内所有司书以1级情感等级开始战斗。</text>
+
+             <text id="MysteryChStartFrame1Dia0">图书馆的大门打开，收到邀请的客人来了。
+为招待做好准备。</text>
+             <text id="MysteryChStartFrame1End">开始接待</text>
+
+</localize>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="300011">
+		<Name>帮派大乱斗</Name>
+		<Desc>以不同帮派的角色为目标</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="300012">
+		<Name>帮派大乱斗</Name>
+		<Desc>以不同帮派的角色为目标</Desc>
+	</PassiveDesc>
+  
+</PassiveDescRoot>
+  
+

@@ -1,0 +1,209 @@
+
+machineDusk.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+11
+  rotate: true
+  xy: 177, 2
+  size: 81, 38
+  orig: 81, 38
+  offset: 0, 0
+  index: -1
+111
+  rotate: false
+  xy: 729, 379
+  size: 68, 131
+  orig: 68, 131
+  offset: 0, 0
+  index: -1
+22
+  rotate: true
+  xy: 671, 235
+  size: 83, 38
+  orig: 83, 38
+  offset: 0, 0
+  index: -1
+222
+  rotate: false
+  xy: 799, 379
+  size: 68, 131
+  orig: 68, 131
+  offset: 0, 0
+  index: -1
+2222
+  rotate: true
+  xy: 729, 358
+  size: 19, 158
+  orig: 19, 158
+  offset: 0, 0
+  index: -1
+33
+  rotate: true
+  xy: 789, 226
+  size: 82, 39
+  orig: 82, 39
+  offset: 0, 0
+  index: -1
+333
+  rotate: true
+  xy: 729, 310
+  size: 46, 131
+  orig: 46, 131
+  offset: 0, 0
+  index: -1
+3333
+  rotate: true
+  xy: 226, 73
+  size: 28, 128
+  orig: 28, 128
+  offset: 0, 0
+  index: -1
+444
+  rotate: false
+  xy: 869, 379
+  size: 68, 131
+  orig: 68, 131
+  offset: 0, 0
+  index: -1
+555
+  rotate: false
+  xy: 939, 379
+  size: 68, 131
+  orig: 68, 131
+  offset: 0, 0
+  index: -1
+666
+  rotate: true
+  xy: 226, 103
+  size: 47, 131
+  orig: 47, 131
+  offset: 0, 0
+  index: -1
+Body
+  rotate: false
+  xy: 2, 152
+  size: 434, 358
+  orig: 434, 358
+  offset: 0, 0
+  index: -1
+back ground
+  rotate: false
+  xy: 438, 226
+  size: 231, 284
+  orig: 231, 284
+  offset: 0, 0
+  index: -1
+cover 1
+  rotate: false
+  xy: 2, 85
+  size: 222, 65
+  orig: 222, 65
+  offset: 0, 0
+  index: -1
+cover 2
+  rotate: false
+  xy: 438, 159
+  size: 222, 65
+  orig: 222, 65
+  offset: 0, 0
+  index: -1
+d
+  rotate: false
+  xy: 1009, 449
+  size: 9, 61
+  orig: 9, 61
+  offset: 0, 0
+  index: -1
+d2
+  rotate: false
+  xy: 830, 243
+  size: 35, 65
+  orig: 35, 65
+  offset: 0, 0
+  index: -1
+d3
+  rotate: false
+  xy: 671, 320
+  size: 56, 190
+  orig: 56, 190
+  offset: 0, 0
+  index: -1
+d4
+  rotate: true
+  xy: 2, 20
+  size: 63, 173
+  orig: 63, 173
+  offset: 0, 0
+  index: -1
+gg
+  rotate: false
+  xy: 217, 34
+  size: 108, 37
+  orig: 108, 37
+  offset: 0, 0
+  index: -1
+gg 2
+  rotate: true
+  xy: 889, 343
+  size: 34, 111
+  orig: 34, 111
+  offset: 0, 0
+  index: -1
+t 3
+  rotate: true
+  xy: 359, 77
+  size: 73, 76
+  orig: 73, 76
+  offset: 0, 0
+  index: -1
+t 3 2
+  rotate: false
+  xy: 717, 180
+  size: 51, 54
+  orig: 51, 54
+  offset: 0, 0
+  index: -1
+t 3 3
+  rotate: true
+  xy: 356, 2
+  size: 73, 76
+  orig: 73, 76
+  offset: 0, 0
+  index: -1
+t 3 4
+  rotate: true
+  xy: 711, 236
+  size: 72, 76
+  orig: 72, 76
+  offset: 0, 0
+  index: -1
+t 3 5
+  rotate: true
+  xy: 770, 179
+  size: 45, 47
+  orig: 45, 47
+  offset: 0, 0
+  index: -1
+t 3 6
+  rotate: true
+  xy: 717, 133
+  size: 45, 46
+  orig: 45, 46
+  offset: 0, 0
+  index: -1
+t 3 7
+  rotate: true
+  xy: 434, 2
+  size: 73, 76
+  orig: 73, 76
+  offset: 0, 0
+  index: -1
+t 3 8
+  rotate: false
+  xy: 662, 169
+  size: 53, 55
+  orig: 53, 55
+  offset: 0, 0
+  index: -1

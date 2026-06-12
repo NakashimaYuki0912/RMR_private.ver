@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+<Book ID="28482001">
+		<Name>뒷골목 양아치</Name>
+		<TextId>28482001</TextId>
+		<EquipEffect>
+			<EmotionLevel>2</EmotionLevel>
+			<HP>30</HP>
+			<Break>16</Break>
+			<SpeedMin>2</SpeedMin>
+			<Speed>5</Speed>
+			<SResist>Weak</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Normal</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Weak</PBResist>
+			<HBResist>Normal</HBResist>
+			<Passive Pid="@origin" Level="1">221005</Passive>
+			<Passive>300011</Passive>
+		</EquipEffect>
+		<BookIcon>TheStrayDogs</BookIcon>
+		<CharacterSkin>StrayDogs_1</CharacterSkin>
+		<Rarity>Common</Rarity>
+    <RandomFace>true</RandomFace>
+	</Book>
+
+<Book ID="28482002">
+		<Name>뒷골목 깡패</Name>
+		<TextId>28482002</TextId>
+		<EquipEffect>
+			<EmotionLevel>2</EmotionLevel>
+			<HP>30</HP>
+			<Break>16</Break>
+			<SpeedMin>2</SpeedMin>
+			<Speed>5</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Weak</PResist>
+			<HResist>Normal</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Weak</PBResist>
+			<HBResist>Normal</HBResist>
+			<Passive Pid="@origin" Level="1">221013</Passive>
+			<Passive>300012</Passive>
+		</EquipEffect>
+		<CharacterSkin>AxeGroup1</CharacterSkin>
+		<Rarity>Common</Rarity>
+    <RandomFace>true</RandomFace>
+	</Book>
+
+</BookXmlRoot>

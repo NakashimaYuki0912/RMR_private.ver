@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+  <!-- Impuritas Normal: Hana Association section 3, based on vanilla stage 60001. -->
+  <Stage id="70001">
+    <Wave>
+      <Formation>1</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>60001</Unit>
+      <Unit>60001</Unit>
+      <Unit>60001</Unit>
+      <Unit>60001</Unit>
+      <Unit>60001</Unit>
+    </Wave>
+    <Wave>
+      <Formation>1</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>60002</Unit>
+      <Unit>60003</Unit>
+      <Unit>60101</Unit>
+      <Unit>60101</Unit>
+      <Unit>60101</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impuritas Normal: Philip ensemble layer, based on vanilla stage 70001. -->
+  <Stage id="70002">
+    <Wave>
+      <Formation>1</Formation>
+      <FormationType>AscendingOrder</FormationType>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>1301011</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impuritas Normal: Eileen ensemble layer, based on vanilla stage 70002. -->
+  <Stage id="70003">
+    <Wave>
+      <Formation>34</Formation>
+      <FormationType>AscendingOrder</FormationType>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>1302011</Unit>
+      <Unit>1302021</Unit>
+      <Unit>1302021</Unit>
+      <Unit>1302021</Unit>
+      <Unit>1302021</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impuritas Normal: Greta ensemble layer, based on vanilla stage 70003. -->
+  <Stage id="70004">
+    <Wave>
+      <Formation>29</Formation>
+      <FormationType>AscendingOrder</FormationType>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>1303011</Unit>
+      <Unit>1303021</Unit>
+      <Unit>1303021</Unit>
+      <Unit>1303021</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impuritas Normal: Chesed-floor ensemble cluster, based on vanilla stage 70007. -->
+  <Stage id="70005">
+    <Wave>
+      <Formation>34</Formation>
+      <FormationType>AscendingOrder</FormationType>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>1307011</Unit>
+      <Unit>1307041</Unit>
+      <Unit>1307051</Unit>
+      <Unit>1307021</Unit>
+      <Unit>1307031</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impuritas Normal: middle/lower reverberation mix. -->
+  <Stage id="70006">
+    <Wave>
+      <Formation>36</Formation>
+      <FormationType>AscendingOrder</FormationType>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>1405011</Unit>
+      <Unit>1406011</Unit>
+      <Unit>1407011</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impuritas Boss: Black Silence, based on vanilla stage 60003. -->
+  <Stage id="70007">
+    <Wave>
+      <Formation>1</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <ManagerScript>BlackSilence</ManagerScript>
+      <Unit>60005</Unit>
+    </Wave>
+    <MapInfo>BlackSilence2</MapInfo>
+    <MapInfo>BlackSilence3</MapInfo>
+    <MapInfo>BlackSilence4</MapInfo>
+  </Stage>
+
+  <!-- Impuritas Boss: Twisted Reverberation Band, condensed from vanilla stage 60004. -->
+  <Stage id="70008">
+    <Wave>
+      <Formation>37</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <ManagerScript>TwistedReverberationBand</ManagerScript>
+      <Unit>1401011</Unit>
+      <Unit>1402011</Unit>
+      <Unit>1403011</Unit>
+      <Unit>1404011</Unit>
+    </Wave>
+    <Wave>
+      <Formation>38</Formation>
+      <FormationType>AscendingOrder</FormationType>
+      <AvailableUnit>5</AvailableUnit>
+      <ManagerScript>TwistedReverberationBand_Middle</ManagerScript>
+      <Unit>1405011</Unit>
+      <Unit>1406011</Unit>
+      <Unit>1407011</Unit>
+    </Wave>
+    <Wave>
+      <Formation>39</Formation>
+      <FormationType>AscendingOrder</FormationType>
+      <AvailableUnit>5</AvailableUnit>
+      <ManagerScript>TwistedReverberationBand</ManagerScript>
+      <Unit>1410011</Unit>
+      <Unit>1409011</Unit>
+      <Unit>1408011</Unit>
+    </Wave>
+    <MapInfo>ReverberationBand1</MapInfo>
+    <MapInfo>ReverberationBand2</MapInfo>
+    <MapInfo>ReverberationBand3</MapInfo>
+    <MapInfo>ReverberationBand4</MapInfo>
+  </Stage>
+
+  <!-- Impuritas Boss: Head encounter, based on vanilla stage 60007. -->
+  <Stage id="70009">
+    <Wave>
+      <Formation>5</Formation>
+      <FormationType>AscendingOrder</FormationType>
+      <AvailableUnit>5</AvailableUnit>
+      <ManagerScript>FinalFinal</ManagerScript>
+      <Unit>80001</Unit>
+      <Unit>80002</Unit>
+    </Wave>
+  </Stage>
+
+</StageXmlRoot>

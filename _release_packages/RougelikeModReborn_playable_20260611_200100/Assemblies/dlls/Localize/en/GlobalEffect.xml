@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<text id="Shop7_Name">Original Intention</text>
+	 <text id="Shop7_Desc">Upon using previous chapter's Combat Pages, all dice on the Page gain + 1 Power. Combat Pages from the previous chapter appears in the shop.</text>
+	
+	 
+	 <text id="ShopGood25_1Name">The Puppeteer</text>
+	 <text id="ShopGood25_1Desc">When this character uses Combat Page, Manikin uses the same Combat Page as a one-sided attack on the target.</text>
+	 
+	 <text id="ShopGood25_2Name">Manikin</text>
+	 <text id="ShopGood25_2Desc">Get 'Immobilization' this Scene. When The Puppeteer uses Combat Page in this Scene, this character uses the same Combat Page as a one-sided attack on the target.</text>
+	 
+	 <text id="ShopGood40_1Name">Science Kit</text>
+	 <text id="ShopGood40_1Desc">Add '{0}' Combat Page to hand. It costs 0 until used.</text>
+
+	 <text id="MeatPieQuest_Name">Meatpie Quest</text>
+	 <text id="MeatPieQuest_Desc">Skip Combat Page reward to get Meat. Gather 5 Meat to complete the Quest.
+
+Gathered Meat : {0}</text>
+
+	 <text id="Ch5Event1Effect_Name">Inspiration</text>
+	 <text id="Ch5Event1Effect_Desc">During this chapter, at the start of the Scene, every Librarians share the following effects:
+-3 Strength
+-3 Endurance
+-3 Protection
+-3 Fragile
+-Immobilization</text>
+	<text id="Ch6Event1Effect1_Name">Stuck in the Past</text>
+	 <text id="Ch6Event1Effect1_Desc">Doesn't get Combat Page reward anymore</text>
+	 
+	 <text id="Ch6Event2Effect_Name">Stake</text>
+	 <text id="Ch6Event2Effect_Desc">Kill selected Librarian</text>
+
+
+
+
+
+	  <text id="Shop3_1_Name">Handling Work</text>
+	 <text id="Shop3_1_Desc">After a random event, gain one Urban Legend Combat Page reward.</text>
+
+	 <text id="Shop3_2_Name">Importance of Promise</text>
+	 <text id="Shop3_2_Desc">After a normal battle, gain one Urban Legend Combat Page reward.</text>
+
+
+</localize>

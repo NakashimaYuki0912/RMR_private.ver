@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="602001">
+      <LocalizedName>子弹装填</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602002">
+      <LocalizedName>枪刺拼杀</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602003">
+      <LocalizedName>牵制射击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602004">
+      <LocalizedName>冲击弹头</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602005">
+      <LocalizedName>奇袭射击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602006">
+      <LocalizedName>密集火网</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602007">
+      <LocalizedName>防御姿态</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602008">
+      <LocalizedName>什伍连坐</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602009">
+      <LocalizedName>即决审判</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602010">
+      <LocalizedName>拳环暴揍</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602011">
+      <LocalizedName>钢铁纪律</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602012">
+      <LocalizedName>阶级礼仪</LocalizedName>
+    </BattleCardDesc>
+  </cardDescList>
+</BattleCardDescRoot>

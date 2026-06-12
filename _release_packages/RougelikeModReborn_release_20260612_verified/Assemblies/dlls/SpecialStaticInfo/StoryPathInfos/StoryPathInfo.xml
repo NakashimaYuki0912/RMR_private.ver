@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LogStoryPathRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <StoryPathList Id="1" Text="Chapter1Start.txt" Effect="Chapter1Start.txt" episode="0" group="1" />
+  <StoryPathList Id="2" Text="Chapter2Start.txt" Effect="Chapter2Start.txt" episode="0" group="1" />
+  <StoryPathList Id="3" Text="Chapter3Start.txt" Effect="Chapter3Start.txt" episode="0" group="1" />
+  <StoryPathList Id="4" Text="Chapter4Start.txt" Effect="Chapter4Start.txt" episode="0" group="1" />
+  <StoryPathList Id="5" Text="Chapter5Start.txt" Effect="Chapter5Start.txt" episode="0" group="1" />
+  <StoryPathList Id="6" Text="Chapter6Start.txt" Effect="Chapter6Start.txt" episode="0" group="1" />
+  <StoryPathList Id="7" Text="Chapter7Start.txt" Effect="Chapter7Start.txt" episode="0" group="1" />
+</LogStoryPathRoot>

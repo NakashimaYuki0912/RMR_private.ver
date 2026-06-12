@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<RogueMysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <Mystery ID="400041">
+	<Frame ID="0">
+		<Dialog>你偶然间遇到一个挡在你前路的六协会1科的营地，这个营地似乎不久前才建立起来，他们的首领是该组织的一个低级成员。当你正心烦意乱地评估这个营地可能带来的威胁时，他们的首领走了过来，示意手下人放下武器。
+
+“我们是六协会1科本地分部的成员！你是[mirror]碎片[/color]吧？我们听说过你。”那人捋了捋他那油亮的棕色头发，整理了一下手套。“我们认为我们的技术对你这样的人来说会很有用，所以我们得到了授权来教授这些技术……当然，是有代价的。你意下如何？”
+
+那人审视着你的身形，显得十分自信。在营地不远处的一张金属桌上，你可以看到两本色彩鲜艳的手册，所以如果你没钱的话……</Dialog>
+		<Choice ID="0">
+			<Desc>学习铁布衫 ([red]支付20[/color] [yellow]眼[/color]. [red]获得[/color] [稀有]铁布衫秘籍[/color])</Desc>
+		</Choice>
+					
+		<Choice ID="1">
+			<Desc>学习神龙拳 ([red]支付30[/color] [yellow]Ahn[/color]. [green]Gain[/color] [稀有]神龙拳秘籍[/color])</Desc>
+		</Choice>
+		
+		 <Choice ID="2">
+			<Desc>[red]学武功还要花钱?[/color] ([red]开启一场困难战斗[/color], [green]两本秘籍我全都要[/color])</Desc>
+		</Choice>
+		
+		  <Choice ID="3">
+			<Desc>拒绝提议</Desc>
+		</Choice>
+	</Frame>
+		
+	<Frame ID="1">
+		<Dialog>“铁布衫是吧？好嘞！这是一门低阶功法，你应该很快就能学会。”那人领着你进入室内，“这门功法教导我们要不动如山，同时将伤害转移到敌人身上……”
+
+你花了几个小时来掌握这门功法的核心理念，并进一步了解了六协会。那人递给你一些装备和一些建议，然后送你离开。</Dialog>
+		<Choice ID="0">
+			<Desc>稳如泰山的离开这里</Desc>
+		</Choice>
+	</Frame>
+		
+	<Frame ID="2">
+		<Dialog>“神龙拳是吧？好嘞！这是一门低阶功法，你应该很快就能学会。”那人领着你进入室内，“这门功法教导我们要像古代神话中的神兽一样精准且凶猛……” 
+		
+你花了几个小时来掌握这门功法的核心理念，并进一步了解了六协会。那人递给你一些装备和一些建议，然后送你离开。</Dialog>
+		<Choice ID="0">
+			<Desc>婉若游龙的离开这里</Desc>
+		</Choice>
+	</Frame>
+		
+	<Frame ID="3">
+		<Dialog>在他反应过来之前你迅速出击，尽管你的攻势被他的技巧所化解。他抬起下巴，眼中燃起怒火，笑容中透着杀意。“原来你和我想来这套，好好好……”
+
+“大家保持警惕！”其他人迅速围绕在队长周围，并带头发起进攻……</Dialog>
+		<Choice ID="0">
+			<Desc>比划比划！</Desc>
+		</Choice>
+	</Frame>
+		
+	<Frame ID="4">
+		<Dialog>当你拒绝他的提议时，那人皱了皱眉，但很快又恢复了自信的笑容。“好吧，这可是你的损失。保重，[mirror]碎片[/color]，你永远不知道……”
+
+他看见你被护送着穿过营地。</Dialog>
+		<Choice ID="0">
+			<Desc>离开</Desc>
+		</Choice>
+	</Frame>
+	<Title>六协会训练营</Title>
+  </Mystery>
+</RogueMysteryXmlRoot>

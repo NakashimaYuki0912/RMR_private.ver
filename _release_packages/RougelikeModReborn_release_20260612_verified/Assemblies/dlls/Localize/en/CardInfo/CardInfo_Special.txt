@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+
+
+    <BattleCardDesc ID="8580011">
+      <LocalizedName>All-Around Defense</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="8582008">
+      <LocalizedName>Ignition</LocalizedName>
+      <Ability>[On Play] Inflict 5 Burn to the Target.</Ability>
+    </BattleCardDesc>
+ 
+     <BattleCardDesc ID="90012">
+      <LocalizedName>Crude Shield</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="706108">
+      <LocalizedName>Atelier Logic</LocalizedName>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

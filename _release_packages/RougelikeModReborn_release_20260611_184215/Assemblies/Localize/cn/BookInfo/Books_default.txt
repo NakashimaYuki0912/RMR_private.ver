@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <bookDescList>
+    <BookDesc BookID="-854">
+      <BookName>旅途指定司书之页</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+    <BookDesc BookID="-855">
+      <BookName>旅途助理司书之页</BookName>
+      <TextList />
+      <PassiveList />
+    </BookDesc>
+
+  </bookDescList>
+</BookDescRoot>

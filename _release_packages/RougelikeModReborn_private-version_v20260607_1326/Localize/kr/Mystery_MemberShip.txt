@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <text id="Stage_MemberShip">공방 멥버쉽</text>
+<text id="Stage_MemberShip_Desc">원하는 공방과 계약을 맺으세요!</text>
+         
+<text id="MemberShipTitle">공방 멥버쉽</text>
+             <text id="MemberShipFrame0Dia0">이제 도시내에서 제법 이름을 떨치게 된 여러분.
+이를 눈여겨 본 여러 공방에게서 멤버쉽 가입 제의가 왔습니다.
+도시에서 이런 계약은 사실 다다익선이지만, 안타깝게도 도서관에서 허락하는 계약은 단 하나 뿐이군요.
+신중하게 선택합시다.
+
+-선택한 공방의 상점이 매 챕터마다 1번씩 등장하게 됨
+-공방 상점에선 일회용품과 공방 전용 물품을 판매</text>
+             <text id="MemberShipFrame0Choice0Desc">멤버쉽 - 로직 아틀리에</text>
+             <text id="MemberShipFrame0Choice1Desc">멤버쉽 - 유니온 공방</text>
+             <text id="MemberShipFrame0Choice2Desc">멤버쉽 - 스티그마 공방</text>
+             <text id="MemberShipFrame0Choice3Desc">멤버쉽 - 묵 공방</text>
+
+             <text id="MemberShipFrame1DiaLogic">로직 아틀리에
+-원거리 책장 지원 특화
+-계약 시 모든 사서가 원거리 책장 사용 가능
+-주요 키워드 : 피해량, 위력, 일방공격</text>
+
+             <text id="MemberShipFrame1DiaUnion">유니온 공방
+-주사위 강화, 유지력 특화
+-주요 키워드 : 행운, 다양성, 체력 회복</text>
+
+             <text id="MemberShipFrame1DiaStigma">스티그마 공방
+-화상 상태이상 지원 특화
+-주요 키워드 : 화상, 상태이상</text>
+
+             <text id="MemberShipFrame1DiaMook">묵 공방
+-단일 주사위 지원 특화
+-주요 키워드 : 추가 피해, 내성, 일격</text>
+
+           <text id="MemberShipFrame1Choice0Desc">가입하기</text>
+           <text id="MemberShipFrame1Choice1Desc">다시 고르기</text>
+
+             <text id="MemberShipFrame2Dia0">멤버쉽 가입이 완료되었습니다.</text>
+           <text id="MemberShipFrame2Choice0Desc">종료</text>
+
+</localize>

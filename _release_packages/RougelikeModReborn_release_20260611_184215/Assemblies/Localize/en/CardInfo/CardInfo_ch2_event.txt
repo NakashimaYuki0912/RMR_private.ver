@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="2000001">
+      <LocalizedName>Meat</LocalizedName>
+      <Ability>Fresh Meat. Main Ingredient of Pierre's meatpie.</Ability>
+    </BattleCardDesc>
+    <BattleCardDesc ID="2000002">
+      <LocalizedName>Meat Jam</LocalizedName>
+      <Ability>[On Play] Recover 20 HP and remove a copy of this page from inventory</Ability>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

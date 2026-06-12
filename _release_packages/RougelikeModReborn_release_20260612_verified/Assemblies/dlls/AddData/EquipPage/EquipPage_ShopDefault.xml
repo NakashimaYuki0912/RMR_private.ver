@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+	<Book ID="-2857">
+		<Name>상점 패시브</Name>
+		<TextId>-2857</TextId>
+		<EquipEffect>
+			<EmotionLevel>0</EmotionLevel>
+			<HP>1</HP>
+			<Break>1</Break>
+			<SpeedMin>1</SpeedMin>
+			<Speed>1</Speed>
+			<SResist>Normal</SResist>
+			<PResist>Normal</PResist>
+			<HResist>Normal</HResist>
+			<SBResist>Normal</SBResist>
+			<PBResist>Normal</PBResist>
+			<HBResist>Normal</HBResist>
+			<StartPlayPoint>1</StartPlayPoint>
+			<MaxPlayPoint>1</MaxPlayPoint>
+		</EquipEffect>
+		<BookIcon>Rats</BookIcon>
+        <NotEquip>true</NotEquip>
+		<CharacterSkin>Merchant</CharacterSkin>
+    <CharacterSkinType>CUSTOM</CharacterSkinType>
+		<!-- <CharacterSkin>Lenny</CharacterSkin> -->
+		<Rarity>Uncommon</Rarity>
+	</Book>
+
+</BookXmlRoot>

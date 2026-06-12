@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiceCardXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+  <Card ID="-103002">
+    <Name>이인생 한 방</Name>
+    <Artwork>Iron2</Artwork>
+    <Rarity>Rare</Rarity>
+    <Spec Range="Near" Cost="3" />
+    <Script />
+    <ScriptDesc />
+    <BehaviourList>
+      <Behaviour Min="1" Dice="8" Type="Atk" Detail="Hit" Motion="J" EffectRes="Iron_One" Script="paralysis2atk" Desc="[적중] 마비 2 부여" />
+    </BehaviourList>
+    <Chapter>1</Chapter>
+    <Priority>0</Priority>
+  </Card>
+  <Card ID="-103004">
+    <Name>버버티기</Name>
+    <Artwork>Iron1</Artwork>
+    <Rarity>Uncommon</Rarity>
+    <Spec Range="Near" Cost="1" />
+    <Script />
+    <ScriptDesc />
+    <BehaviourList>
+      <Behaviour Min="1" Dice="4" Type="Def" Detail="Guard" Motion="G" EffectRes="Basic_G" Script="" Desc="" />
+      <Behaviour Min="1" Dice="3" Type="Def" Detail="Guard" Motion="G" EffectRes="Basic_G" Script="paralysis1pw" Desc="[합 승리] 마비 1 부여" />
+      <Behaviour Min="1" Dice="2" Type="Atk" Detail="Hit" Motion="H" EffectRes="Iron_H" Script="paralysis1atk" Desc="[적중] 마비 1 부여" />
+    </BehaviourList>
+    <Chapter>1</Chapter>
+    <Priority>0</Priority>
+  </Card>
+  <Card ID="-104001">
+    <Name>압도</Name>
+    <Artwork>Hook2</Artwork>
+    <Rarity>Rare</Rarity>
+    <Spec Range="Near" Cost="2" />
+    <Script />
+    <ScriptDesc />
+    <BehaviourList>
+      <Behaviour Min="4" Dice="6" Type="Atk" Detail="Penetrate" Motion="Z" EffectRes="Hook_Z" Script="bleeding2atk" Desc="[적중] 출혈 2 부여" />
+      <Behaviour Min="1" Dice="3" Type="Atk" Detail="Slash" Motion="J" EffectRes="Hook_J" Script="" Desc="" />
+    </BehaviourList>
+    <Chapter>1</Chapter>
+    <Priority>0</Priority>
+  </Card>
+  <Card ID="-104004">
+    <Name>광란</Name>
+    <Artwork>Hook5</Artwork>
+    <Rarity>Rare</Rarity>
+    <Spec Range="Near" Cost="3" />
+    <Script />
+    <ScriptDesc />
+    <BehaviourList>
+      <Behaviour Min="2" Dice="3" Type="Atk" Detail="Hit" Motion="J" EffectRes="Hook_Crazy_J" Script="bleeding1atk" Desc="[적중] 출혈 1 부여" />
+      <Behaviour Min="3" Dice="4" Type="Atk" Detail="Penetrate" Motion="Z" EffectRes="Hook_Z" Script="bleeding1atk" Desc="[적중] 출혈 1 부여" />
+      <Behaviour Min="3" Dice="5" Type="Atk" Detail="Slash" Motion="H" EffectRes="Hook_Crazy_H" Script="" Desc="" />
+    </BehaviourList>
+    <Chapter>1</Chapter>
+    <Priority>0</Priority>
+  </Card>
+  <Card ID="-104006">
+    <Name>난도질</Name>
+    <Artwork>Hook4</Artwork>
+    <Rarity>Uncommon</Rarity>
+    <Spec Range="Near" Cost="2" />
+    <Script />
+    <ScriptDesc />
+    <BehaviourList>
+      <Behaviour Min="1" Dice="5" Type="Atk" Detail="Slash" Motion="J" EffectRes="Hook_J" Script="recoverHp1atk" Desc="[적중] hp 1 회복" />
+      <Behaviour Min="2" Dice="5" Type="Atk" Detail="Slash" Motion="H" EffectRes="Hook_H" Script="recoverHp1atk" Desc="[적중] hp 1 회복" />
+    </BehaviourList>
+    <Chapter>1</Chapter>
+    <Priority>0</Priority>
+  </Card>
+</DiceCardXmlRoot>

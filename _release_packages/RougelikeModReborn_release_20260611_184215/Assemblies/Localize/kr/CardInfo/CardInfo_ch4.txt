@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+
+
+    <BattleCardDesc ID="401001">
+      <LocalizedName>재단</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401002">
+      <LocalizedName>식사</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401003">
+      <LocalizedName>멋진 실이 나올 거예요</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401004">
+      <LocalizedName>맛있을 거예요?</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401005">
+      <LocalizedName>지령대로</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401006">
+      <LocalizedName>기괴한 타격</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="401007">
+      <LocalizedName>멋진 원단</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="402001">
+      <LocalizedName>한 점만 노리겠어</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402002">
+      <LocalizedName>응사</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402003">
+      <LocalizedName>무차별 사격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402004">
+      <LocalizedName>근접전은 싫어</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402005">
+      <LocalizedName>가까이 오지마</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402006">
+      <LocalizedName>발사</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402007">
+      <LocalizedName>헤드샷</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402008">
+      <LocalizedName>타겟 포착</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402009">
+      <LocalizedName>삶의 마침표</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="402010">
+      <LocalizedName>그림자의 건너편</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="403001">
+      <LocalizedName>새벽녘</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403002">
+      <LocalizedName>여명의 섬광</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403003">
+      <LocalizedName>나비 베기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403004">
+      <LocalizedName>사출</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403005">
+      <LocalizedName>노을빛 검</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403006">
+      <LocalizedName>의뢰 처리</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="403007">
+      <LocalizedName>낙인</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- (Gaze Office)-->
+    <BattleCardDesc ID="404001">
+      <LocalizedName>관측</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404002">
+      <LocalizedName>기회 포착</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404003">
+      <LocalizedName>구속의 팔</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404004">
+      <LocalizedName>성가셔</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404005">
+      <LocalizedName>파지지직</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404006">
+      <LocalizedName>전기 충격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404007">
+      <LocalizedName>구조의 분석</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="404008">
+      <LocalizedName>피할 수 없는 시선</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- Tomerry -->
+    <BattleCardDesc ID="405001">
+      <LocalizedName>희미한 기억</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405002">
+      <LocalizedName>고통의 분노</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- Tomerry enemy only -->
+    <BattleCardDesc ID="405003">
+      <LocalizedName>날카로운 습격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405004">
+      <LocalizedName>육중한 습격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405005">
+      <LocalizedName>예리한 습격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405006">
+      <LocalizedName>날카로운 돌격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405007">
+      <LocalizedName>육중한 돌격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405008">
+      <LocalizedName>예리한 돌격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405009">
+      <LocalizedName>네모가 좋을까?</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405010">
+      <LocalizedName>세모가 좋을 것 같아!</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405011">
+      <LocalizedName>놀자!</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405012">
+      <LocalizedName>모두의 사랑마을</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405013">
+      <LocalizedName>난동</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405014">
+      <LocalizedName>사랑의 채찍</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- Equal to 405001, 405002 -->
+    <BattleCardDesc ID="405015">
+      <LocalizedName>희미한 기억</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="405016">
+      <LocalizedName>고통의 분노</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- Kurokumo clan -->
+    <BattleCardDesc ID="406001">
+      <LocalizedName>먹칠</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406002">
+      <LocalizedName>날카로운 칼날</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406003">
+      <LocalizedName>구름 장벽</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406004">
+      <LocalizedName>쾌청 베기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406005">
+      <LocalizedName>흩어지는 검격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406006">
+      <LocalizedName>고요한 안개</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406007">
+      <LocalizedName>뒷골목의 규칙</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406008">
+      <LocalizedName>뒷처리</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="406009">
+      <LocalizedName>검은 구름</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- Bremen -->
+    <BattleCardDesc ID="407001">
+      <LocalizedName>묵직한 소리</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407002">
+      <LocalizedName>잊을 수 없는 선율</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407003">
+      <LocalizedName>맹연습</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407004">
+      <LocalizedName>음악의 성지</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407005">
+      <LocalizedName>신나는 연주</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407006">
+      <LocalizedName>힘줄의 소리</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="407007">
+      <LocalizedName>붉은 음표</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 쐐기 -->
+    <BattleCardDesc ID="408001">
+      <LocalizedName>꿰뚫기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408002">
+      <LocalizedName>섬광의 창</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408003">
+      <LocalizedName>격돌</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408004">
+      <LocalizedName>창 휩쓸기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408005">
+      <LocalizedName>쾌속 찌르기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408006">
+      <LocalizedName>후회</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="408007">
+      <LocalizedName>타오르는 일격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408008">
+      <LocalizedName>이글거리는 검</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408009">
+      <LocalizedName>맹렬한 돌진</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408010">
+      <LocalizedName>깃털 방패</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408011">
+      <LocalizedName>서글픈 노을</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="408012">
+      <LocalizedName>이글거리는 검</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="408013">
+      <LocalizedName>깃털 방패</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 녹슨 사슬파 -->
+    <BattleCardDesc ID="409001">
+      <LocalizedName>사슬 맛 좀 볼래?</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409002">
+      <LocalizedName>물러터졌구나</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409003">
+      <LocalizedName>정면 회피</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409004">
+      <LocalizedName>우회적 공격</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409005">
+      <LocalizedName>지금이 기회야</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409006">
+      <LocalizedName>정면 승부</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="409007">
+      <LocalizedName>죽어</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 공방 소속 해결사 -->
+    <BattleCardDesc ID="410001">
+      <LocalizedName>무기 손질</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="410002">
+      <LocalizedName>찌르고 터뜨리기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="410003">
+      <LocalizedName>숫질</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="410004">
+      <LocalizedName>제련</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 정사무소 해결사 -->
+    <BattleCardDesc ID="411101">
+      <LocalizedName>밤일낮장</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="411102">
+      <LocalizedName>중계</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="411103">
+      <LocalizedName>판 엎기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="411104">
+      <LocalizedName>손패 섞기</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="411105">
+      <LocalizedName>앵화</LocalizedName>
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>

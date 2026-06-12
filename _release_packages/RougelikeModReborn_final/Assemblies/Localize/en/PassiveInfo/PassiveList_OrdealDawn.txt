@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<PassiveDesc ID="-30001">
+		<Name>Neglet</Name>
+		<Desc>Inflict 1 Fragile at a 50% chance upon losing a clash</Desc>
+	</PassiveDesc>
+	<PassiveDesc ID="-30002">
+		<Name>Liberation</Name>
+		<Desc>Upon defeating an enemy, deal 4-8 Stagger damage and inflict 1 Fragile to all other enemies</Desc>
+	</PassiveDesc>
+  
+</PassiveDescRoot>
+  
+

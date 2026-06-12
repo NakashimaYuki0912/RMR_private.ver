@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+	<PassiveDesc ID="8571001">
+		<Name>내장담기</Name>
+		<Desc>출혈이 부여된 적을 처치하면 추가로 1안과 뜬소문 전투책장 보상 1개를 획득함</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8571003">
+		<Name>유니온 공방</Name>
+		<Desc>막 시작 시 행운 1을 얻음. 책장을 사용할때마다 체력을 1 잃음</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8571004">
+    <Name>금빛 섬광</Name>
+    <Desc>회피 주사위 굴림 시 2번 추가로 굴려 가장 높은 값 적용</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

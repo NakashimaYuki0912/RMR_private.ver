@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MysteryCh2_1Title">一件脏活儿</text>
+             <text id="MysteryCh2_1Frame0Dia0">你发现自己在皮埃尔的大肉派里用餐，尽管今晚似乎没有人收到他们的订单，这让你问服务员——一个穿着屠夫服装、皮肤黝黑、皮肤黝黑的高个子男人，正在品尝红汤——当你到达时，他转过头来，勉强地笑了笑。“是的，那是什么？”
+  
+你解释说，你对迟迟未到的食物感到不安，很快其他人也加入了抱怨的交响乐——当那人用他的切肉刀敲柜台时，他突然安静下来，发出一声低沉的叹息。“啊，不好意思，我不应该那样敲打柜台。关于我们的短缺……嘿，皮埃尔！请到前面来。”他对着身后的厨房喊道，一个女人的声音回应道。
+“什么事，杰克？”一个白发短发女人走到厨房前，围裙上沾满了血迹。尽管她一脸疲惫，她还是热情地走向柜台。“啊，这又是关于等待时间的问题吗？好吧，听着，[mirror]碎片[/color]……”
+“看起来你很急，那为什么不去为我们拿些配料呢？”她狡黠地笑着靠过来。“要么我们现在就把[i]你[/i]变成其中一员~！”一把沾满血迹的菜刀在她手指间舞动。</text>
+             <text id="MysteryCh2_1Frame0Choice0Desc">同意为皮埃尔寻找食材 ([green]获得20~30[/color] [yellow]眼[/color])</text>
+             <text id="MysteryCh2_1Frame0Choice1Desc">礼貌地拒绝并试图离开</text>
+
+             <text id="MysteryCh2_1Frame1Dia0">“好啊！我等着你~”皮埃尔咧嘴一笑。</text>
+             <text id="MysteryCh2_1Frame1Dia1">
+您现在可以通过在战斗后跳过书页奖励来获得“大肉”战斗书页。带上5张“大肉”战斗书页给皮埃尔就可以完成任务。</text>
+             <text id="MysteryCh2_1Frame1Choice0Desc">饿着肚子离开</text>
+
+             <text id="MysteryCh2_1Frame2Dia0">皮埃尔诡异地咧嘴一笑拔出小刀，杰克也拔出了切肉刀。而其他顾客似乎也带了自己的餐具......</text>
+             <text id="MysteryCh2_1Frame2Choice0Desc">杀出去</text>
+
+
+             <text id="MysteryCh2_1_1Title">一件脏活儿——再放送</text>
+             <text id="MysteryCh2_1_1Frame0Dia0">经过长时间的狩猎，你把“配料”还给了皮埃尔，后者急切地把它们收了起来。"非常感谢，[mirror]碎片[/color]~! 这是你的报酬。" 皮埃尔把整理好的账单给了你，然后送你离开。</text>
+             <text id="MysteryCh2_1_1Frame0Choice0Desc">饿着肚子离开 (+{0} [yellow]眼[/color])</text>
+             <text id="MysteryCh2_1_1Frame0Choice1Desc">用饭代替报酬罢 ([green]获得5张战斗书页“肉酱”[/color])</text>
+
+             <text id="MysteryCh2_2Title">措手不及</text>
+ <text id="MysteryCh2_2Frame0Dia0">你听到远处传来强烈的喊声，决定偷偷地分析一下情况。走近时，你会注意到两个收尾人似乎在争吵——一个是穿着大号夹克和白色毛皮大衣的金发小女孩，另一个是一个中等身材的白发男孩，手里拿着一把灰色的巨剑。从表面上看，他们还没有注意到你。
+ 
+“璐璐，我……不能就这样跑掉。这是我们的委托，这可不是一个收尾人会做的事……我妈妈……”
+“住手，马斯！我们会死在这里的！衫已经走了，这还不够糟糕吗？”
+ 
+尽管如此分心，他们仍然挡住了你前进的路，而且沿途拖着的各种设备和物资让你怀疑他们不会让你毫发无损地通过。然而，由于这个隐蔽的位置，你自信可以在战斗开始前地先解决其中一位。</text>
+             
+	     <text id="MysteryCh2_2Frame0Choice0Desc">攻击马斯暴露的侧身</text>
+             <text id="MysteryCh2_2Frame0Choice1Desc">刺向璐璐的喉咙</text>
+
+ <text id="MysteryCh2_2Frame1Dia0">马斯几乎没有时间做出反应，因为你打向他侧身的头，一击便让它塌了下来——他那没有生命的身体发出一声病态的砰砰声，眼睛睁得巨大而空洞。 
+ 
+“马斯？不——！[mirror]碎片[/color]！我要杀了——”露露大声喊着，但她被朋友们拖走，在你挑起战斗之前逃跑了。你有一种感觉，这还没有结束......</text>
+             <text id="MysteryCh2_2Frame1Choice0Desc">搜刮尸体并离开 ([green]获得“马斯之页”[/color])</text>
+
+ <text id="MysteryCh2_2Frame2Dia0">璐璐的尖叫像被一团乱麻，血花四溅——她的身体试图反击，但很快就绊倒在地，抽搐致死。
+
+“等等，不——璐璐！”马斯先是震惊地大叫，然后是愤怒，他被同事们拦住，然后在你还没开始战斗之前就被拖走了。你有一种感觉，这一切还没有结束……</text>
+             <text id="MysteryCh2_2Frame2Choice0Desc">搜刮尸体并离开 ([green]获得“璐璐之页”[/color])</text>
+
+</localize>

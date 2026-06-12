@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PassiveXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <Passive ID="8571001">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Common</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive1_1</Script>
+    <Name>내장 담기</Name>
+    <Desc>출혈이 부여된 적을 처치하면 추가로 1안과 뜬소문 전투책장 보상 1개를 획득함</Desc>
+  </Passive>
+
+  <Passive ID="8571002">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>ShopPassive1_2</Script>
+    <Name>싸구려 의체</Name>
+    <Desc>마비로 인해 감소하는 주사위 최대값이 3에서 2로 감소</Desc>
+  </Passive>
+
+  <Passive ID="8571003">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>2</Cost>
+    <Script>ShopPassive1_3</Script>
+    <Name>유니온 공방</Name>
+    <Desc>막 시작 시 행운 1을 얻음. 책장을 사용할때마다 체력을 1 잃음</Desc>
+  </Passive>
+
+  <Passive ID="8571004">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>4</Cost>
+    <Script>ShopPassive1_4</Script>
+    <Name>금빛 섬광</Name>
+    <Desc>회피 주사위 굴림 시 2번 추가로 굴려 가장 높은 값 적용</Desc>
+  </Passive>
+</PassiveXmlRoot>

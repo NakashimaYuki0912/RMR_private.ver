@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RewardPassivesRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+
+  <ChapterList Chapter="Grade1" Type="Creature" ID="1002">
+    <RewardList ID="15270000" PassiveType="Custom" Rarity="Rare" Script="BloodBath" TargetType="All" RewardType="Creature" ArtWork="Creature_BloodBath"/>
+    <RewardList ID="15270001" PassiveType="Custom" Rarity="Rare" Script="ScorchedGirl" TargetType="All" RewardType="Creature" ArtWork="Creature_ScorchedGirl"/>
+    <RewardList ID="15270002" PassiveType="Custom" Rarity="Rare" Script="ForsakenMurderer" TargetType="All" RewardType="Creature" ArtWork="Creature_ForsakenMurderer"/>
+    <RewardList ID="15270003" PassiveType="Custom" Rarity="Rare" Script="ShyLookToday" TargetType="All" RewardType="Creature" ArtWork="Creature_ShyLookToday"/>
+    <RewardList ID="15270004" PassiveType="Custom" Rarity="Rare" Script="UniverseZogak" TargetType="All" RewardType="Creature" ArtWork="Creature_UniverseZogak"/>
+    <RewardList ID="15270005" PassiveType="Custom" Rarity="Rare" Script="QueenOfHatred" TargetType="All" RewardType="Creature" ArtWork="Creature_QueenOfHatred"/>
+    <RewardList ID="15270006" PassiveType="Custom" Rarity="Rare" Script="Redhood" TargetType="All" RewardType="Creature" ArtWork="Creature_Redhood"/>
+    <RewardList ID="15270007" PassiveType="Custom" Rarity="Rare" Script="ScareCrow" TargetType="All" RewardType="Creature" ArtWork="Creature_ScareCrow"/>
+    <RewardList ID="15270008" PassiveType="Custom" Rarity="Rare" Script="Bigbird" TargetType="All" RewardType="Creature" ArtWork="Creature_Bigbird"/>
+    <RewardList ID="15270009" PassiveType="Custom" Rarity="Rare" Script="Bloodytree" TargetType="All" RewardType="Creature" ArtWork="Creature_Bloodytree"/>
+  </ChapterList>
+
+
+
+  <ChapterList Chapter="Grade2" Type="Creature" ID="2002">
+    <RewardList ID="15270010" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="HeartofAspiration" ArtWork="Creature_HeartofAspiration"/>
+    <RewardList ID="15270011" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="HappyTeddyBear" ArtWork="Creature_HappyTeddyBear"/>
+    <RewardList ID="15270012" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="LittleHelper" ArtWork="Creature_LittleHelper"/>
+    <RewardList ID="15270013" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="RedShoes" ArtWork="Creature_RedShoes"/>
+    <RewardList ID="15270014" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="ChildofGalaxy" ArtWork="Creature_ChildofGalaxy"/>
+    <RewardList ID="15270015" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="KnightOfDespair" ArtWork="Creature_KnightOfDespair"/>
+    <RewardList ID="15270016" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="BigBadWolf" ArtWork="Creature_BigBadWolf"/>
+    <RewardList ID="15270017" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="LumberJack" ArtWork="Creature_LumberJack"/>
+    <RewardList ID="15270018" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="SmallBird" ArtWork="Creature_SmallBird"/>
+    <RewardList ID="15270019" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="Clock" ArtWork="Creature_Clock"/>
+  </ChapterList>
+
+
+
+
+  <ChapterList Chapter="Grade3" Type="Creature" ID="3002">
+    <RewardList ID="15270020" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="Pinocchio" ArtWork="Creature_Pinocchio"/>
+    <RewardList ID="15270021" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="FairyCarnival" ArtWork="Creature_FairyCarnival"/>
+    <RewardList ID="15270022" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="SingingMachine" ArtWork="Creature_SingingMachine"/>
+    <RewardList ID="15270023" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="SpiderBud" ArtWork="Creature_SpiderBud"/>
+    <RewardList ID="15270024" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="Porccubus" ArtWork="Creature_Porccubus"/>
+    <RewardList ID="15270025" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="Greed" ArtWork="Creature_Greed"/>
+    <RewardList ID="15270026" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="Mountain" ArtWork="Creature_Mountain"/>
+    <RewardList ID="15270027" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="House" ArtWork="Creature_House"/>
+    <RewardList ID="15270028" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="LongBird" ArtWork="Creature_LongBird"/>
+    <RewardList ID="15270029" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="BlueStar" ArtWork="Creature_BlueStar"/>
+  </ChapterList>
+
+  <ChapterList Chapter="Grade4" Type="Creature" ID="4002">
+    <RewardList ID="15270030" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="TheSnowQueen" ArtWork="Creature_TheSnowQueen"/>
+    <RewardList ID="15270031" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="QueenBee" ArtWork="Creature_QueenBee"/>
+    <RewardList ID="15270032" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="Butterfly" ArtWork="Creature_Butterfly"/>
+    <RewardList ID="15270033" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="Laetitia" ArtWork="Creature_Laetitia"/>
+    <RewardList ID="15270034" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="Alriune" ArtWork="Creature_Alriune"/>
+    <RewardList ID="15270035" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="Angry" ArtWork="Creature_Angry"/>
+    <RewardList ID="15270036" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="Nosferatu" ArtWork="Creature_Nosferatu"/>
+    <RewardList ID="15270037" PassiveType="Custom" Rarity="Rare" TargetType="All" RewardType="Creature" Script="Ozma" ArtWork="Creature_Ozma"/>
+  </ChapterList>
+
+</RewardPassivesRoot>

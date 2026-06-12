@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="-3000001">
+      <LocalizedName>물음</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="-3000002">
+      <LocalizedName>결론</LocalizedName>
+    </BattleCardDesc>
+
+
+  </cardDescList>
+</BattleCardDescRoot>

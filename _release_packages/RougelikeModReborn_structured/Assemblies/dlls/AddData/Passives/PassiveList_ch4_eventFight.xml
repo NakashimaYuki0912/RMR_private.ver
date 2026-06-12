@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PassiveXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <Passive ID="400011">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Uncommon</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>Mystery4_3_1</Script>
+    <Name>습격</Name>
+    <Desc>일방 공격을 받지 않음. 내 주사위를 모두 소모하면 강제 합 종료. 3막 뒤에 전투가 끝남</Desc>
+  </Passive>
+
+  <Passive ID="400021">
+    <Negative>false</Negative>
+    <IsHide>false</IsHide>
+    <Rarity>Rare</Rarity>
+    <Lock>false</Lock>
+    <CanGivePassive>true</CanGivePassive>
+    <CanReceivePassive>false</CanReceivePassive>
+    <InnerType>-1</InnerType>
+    <Cost>1</Cost>
+    <Script>Mystery4_2_1</Script>
+    <Name>피의 복수</Name>
+    <Desc>모든 주사위 위력 + 1</Desc>
+  </Passive>
+
+
+</PassiveXmlRoot>

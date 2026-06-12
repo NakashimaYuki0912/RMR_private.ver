@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+	<PassiveDesc ID="8573001">
+  <Name>Handling Work</Name>
+    <Desc>[Global] After a random event, gain one Urban Legend Combat Page reward.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8573002">
+    <Name>Importance of Promise</Name>
+    <Desc>[Global] After a normal battle, gain one Urban Legend Combat Page reward.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="8573003">
+    <Name>Molar</Name>
+    <Desc>Gain a copy of the first Page discarded by a Combat Page each Act.</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

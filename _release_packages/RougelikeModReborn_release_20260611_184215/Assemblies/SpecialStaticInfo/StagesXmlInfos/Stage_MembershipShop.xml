@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StagesXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <ChapterList Chapter="DummyGrade">
+    <StageList ID="80000" StageType="Custom" Script="MemberShip" /> 
+    <StageList ID="80001" StageType="Shop" /> 
+    <StageList ID="81001" StageType="Shop" /> 
+    <StageList ID="82001" StageType="Shop" /> 
+    <StageList ID="83001" StageType="Shop" /> 
+  </ChapterList>
+
+
+
+
+</StagesXmlRoot>

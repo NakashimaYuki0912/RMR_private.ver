@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="-103002">
+      <LocalizedName>Y-you Only Live Once!</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="-103004">
+      <LocalizedName>E-endure</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="-104001">
+      <LocalizedName>Overpower</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="-104004">
+      <LocalizedName>Rampage</LocalizedName>
+    </BattleCardDesc>
+	<BattleCardDesc ID="-104006">
+      <LocalizedName>Mutilate</LocalizedName>
+    </BattleCardDesc>
+  </cardDescList>
+</BattleCardDescRoot>

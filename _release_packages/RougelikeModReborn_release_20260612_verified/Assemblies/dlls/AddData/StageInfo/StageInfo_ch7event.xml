@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+  <!-- Impurity Event 1 -->
+  <Stage id="70011">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28370003</Unit>
+    </Wave>
+  </Stage>
+
+  <!-- Impurity Event 2 -->
+  <Stage id="70012">
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28370004</Unit>
+    </Wave>
+  </Stage>
+</StageXmlRoot>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <text id="MachineDawnOrdeal_Title">녹빛 여명의 시련</text>
+             <text id="MachineDawnOrdeal_Name">의문</text>
+             <text id="MachineDawnOrdeal_Desc">어느날 의문이 생겼다. 우리는 어디서 왔는가. 누군가에게 생명을 받고 무책임하게 놓여졌다.</text>      
+             <text id="MachineDawnEndOrdeal_Title">녹빛 여명의 시련</text>
+             <text id="MachineDawnEndOrdeal_Name">의문</text>
+             <text id="MachineDawnEndOrdeal_Desc">살아간다는 것은 고통이었다.</text>   
+
+             <text id="OutterGodDawnOrdeal_Title">자색 여명의 시련</text>
+             <text id="OutterGodDawnOrdeal_Name">이해의 과실</text>
+             <text id="OutterGodDawnOrdeal_Desc">이해를 벗어난 것을 이해하기 위해 바라보며 꿈꾼다.</text>      
+             <text id="OutterGodDawnEndOrdeal_Title">자색 여명의 시련</text>
+             <text id="OutterGodDawnEndOrdeal_Name">이해의 과실</text>
+             <text id="OutterGodDawnEndOrdeal_Desc">이해하기 위해 기울이지 않는다. 그저 행할 뿐이다.</text>          
+
+             <text id="CircusDawnOrdeal_Title">핏빛 여명의 시련</text>
+             <text id="CircusDawnOrdeal_Name">시작의 환호성</text>
+             <text id="CircusDawnOrdeal_Desc">언젠가 끝날 촛불과 같은 삶에 더욱 강한 불을 지피자.</text>      
+             <text id="CircusDawnEndOrdeal_Title">핏빛 여명의 시련</text>
+             <text id="CircusDawnEndOrdeal_Name">시작의 환호성</text>
+             <text id="CircusDawnEndOrdeal_Desc">살아간다는 것은 욕망을 쟁취하기 위한 것.</text>     
+
+             <text id="BugDawnOrdeal_Title">호박색 여명의 시련</text>
+             <text id="BugDawnOrdeal_Name">완전 식품</text>
+             <text id="BugDawnOrdeal_Desc">완전한 음식, 완벽한 대체제</text>      
+             <text id="BugDawnEndOrdeal_Title">호박색 여명의 시련</text>
+             <text id="BugDawnEndOrdeal_Name">완전 식품</text>
+             <text id="BugDawnEndOrdeal_Desc">우리는 살기 위해 끝없이 먹었다. 필연적인 고갈, 쓰레기들...</text>     
+</localize>

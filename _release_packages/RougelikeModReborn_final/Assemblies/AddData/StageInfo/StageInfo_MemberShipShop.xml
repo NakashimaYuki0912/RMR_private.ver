@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+  
+<!--공방 상점 가입 이벤트-->
+
+  <Stage id="80000">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28478001</Unit>
+    </Wave>
+  </Stage>
+
+
+<!--상점 : 로직 아틀리에-->
+
+  <Stage id="80001">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28580001</Unit>
+    </Wave>
+  </Stage>
+
+<!--상점 : 유니온 공방 -->
+
+  <Stage id="81001">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28581001</Unit>
+    </Wave>
+  </Stage>
+
+<!--상점 : 스티그마 공방 -->
+
+  <Stage id="82001">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28582001</Unit>
+    </Wave>
+  </Stage>
+
+<!--상점 : 묵 공방-->
+
+  <Stage id="83001">
+
+    <Wave>
+      <AvailableUnit>5</AvailableUnit>
+      <Formation>1</Formation>
+      <Unit>28583001</Unit>
+    </Wave>
+  </Stage>
+
+</StageXmlRoot>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<PassiveDesc ID="1">
+		<Name>当前拥有的眼</Name>
+		<Desc>???</Desc>
+	</PassiveDesc>
+	
+	<PassiveDesc ID="854">
+		<Name>闪光</Name>
+		<Desc>与我一道，你将走过无尽的，闪闪发光的可能性。</Desc>
+	</PassiveDesc>
+	
+   <PassiveDesc ID="28480004">
+    <Name>后巷深宵</Name>
+    <Desc>第三幕结束后强制结束本舞台</Desc>
+   </PassiveDesc>
+  
+</PassiveDescRoot>
+  
+

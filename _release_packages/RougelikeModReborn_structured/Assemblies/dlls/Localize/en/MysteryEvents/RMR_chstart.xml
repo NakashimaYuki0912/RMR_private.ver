@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<RogueMysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Mystery ID="-100">
+    <Frame ID="0">
+      <Dialog>You find yourself facing a [mirror]sparkling mirror[/color] - it gives you a choice between several mystical artifacts to aid you in your journey.
+
+Which one will you choose?</Dialog>
+      <Choice ID="0">
+        <Desc>Choose [common]Heart of Iron</Desc>
+      </Choice>
+      <Choice ID="1">
+        <Desc>Choose [common]Hunter's Cloak</Desc>
+      </Choice>
+      <Choice ID="2">
+        <Desc>Choose [common]Strange Orb</Desc>
+      </Choice>
+      <Choice ID="3">
+        <Desc>Choose [common]Vicious Glasses</Desc>
+      </Choice>
+	  <Choice ID="4">
+        <Desc>Choose [common]Light's Guidance</Desc>
+      </Choice>
+	  <Choice ID="5">
+        <Desc>Choose [common]Roadless Camelot</Desc>
+      </Choice>
+    </Frame>
+    <Frame ID="1">
+      <Dialog>The [mirror]sparkling mirror[/color] beckons, vibrating as it manifests your chosen artifact. It lands softly in your hands, prompting [mirror]the mirror[/color] and its surroundings to dissipate into thin air.</Dialog>
+      <Choice ID="0">
+        <Desc>End</Desc>
+      </Choice>
+    </Frame>
+    <Title>[mirror]The Sparkling Mirror[/color]</Title>
+  </Mystery>
+</RogueMysteryXmlRoot>

@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+    <BattleCardDesc ID="601001">
+      <LocalizedName>Emotional Turbulence</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601002">
+      <LocalizedName>Inner Ardor</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601003">
+      <LocalizedName>Flow of the Sword</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601004">
+      <LocalizedName>Sturdy Defense</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601005">
+      <LocalizedName>Fleet Edge</LocalizedName> <!-- 속도 + 검-->
+    </BattleCardDesc>
+    <BattleCardDesc ID="601006">
+      <LocalizedName>Rush Down</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601007">
+      <LocalizedName>Frontal Assault</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="601008">
+      <LocalizedName>Forming Storm</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601009">
+      <LocalizedName>Tiěshānkào</LocalizedName> <!-- 鉄山靠 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="601010">
+      <LocalizedName>Gale Kick</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601011">
+      <LocalizedName>High Kick</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601012">
+      <LocalizedName>Iron Wall</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601013">
+      <LocalizedName>All-out War</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="601014">
+      <LocalizedName>Raging Storm: Harm</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="602001">
+      <LocalizedName>Reload</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602002">
+      <LocalizedName>Bayonet Combat</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602003">
+      <LocalizedName>Suppressing Shot</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602004">
+      <LocalizedName>Shock Round</LocalizedName> <!-- '탄환'에 포함되는 카드가 아닙니다-->
+    </BattleCardDesc>
+    <BattleCardDesc ID="602005">
+      <LocalizedName>기습 사격</LocalizedName>
+    </BattleCardDesc>
+   <BattleCardDesc ID="602006">
+      <LocalizedName>Focus Fire</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602007">
+      <LocalizedName>Ferrous Guard</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602008">
+      <LocalizedName>Steel Knuckles</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602009">
+      <LocalizedName>Summary Judgment</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602010">
+      <LocalizedName>Discipline</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602011">
+      <LocalizedName>Le Regole</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602012">
+      <LocalizedName>Class and Respect</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="602020">
+      <LocalizedName>Armor-piercing Ammunition</LocalizedName> <!-- 철갑(徹甲) -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="602021">
+      <LocalizedName>Frost Ammunition</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="602022">
+      <LocalizedName>Flame Ammunition</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="603001">
+      <LocalizedName>Energy Beam</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603002">
+      <LocalizedName>Absorb Impact</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603003">
+      <LocalizedName>A Golden Opportunity!</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603004">
+      <LocalizedName>Devastating Thrash</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603005">
+      <LocalizedName>Ready Up!</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603006">
+      <LocalizedName>Energy Shield</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603007">
+      <LocalizedName>Energy Conversion</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="603008">
+      <LocalizedName>Uncanny Strike</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="604001">
+      <LocalizedName>Vapour</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604002">
+      <LocalizedName>Defense Order</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604003">
+      <LocalizedName>Autonomus Rush</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604004">
+      <LocalizedName>Assault Order</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604005">
+      <LocalizedName>Guidance of the Gears</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="604021">
+      <LocalizedName>Trails of Blue</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604022">
+      <LocalizedName>Preludio</LocalizedName> <!-- 전주 : 前奏 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="604023">
+      <LocalizedName>기다림</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604024">
+      <LocalizedName>Scout</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="604025">
+      <LocalizedName>Tempestuos Danza</LocalizedName>
+    </BattleCardDesc>
+    
+    <BattleCardDesc ID="605001">
+      <LocalizedName>Eradication</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605002">
+      <LocalizedName>Castigation</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605003">
+      <LocalizedName>Decapitation</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605004">
+      <LocalizedName>Somber Procuration</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605005">
+      <LocalizedName>Eliminate</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605006">
+      <LocalizedName>Binding Chains</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605007">
+      <LocalizedName>Multislash</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605008">
+      <LocalizedName>Unlock-Ⅰ</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605009">
+      <LocalizedName>Unlock-Ⅱ</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605010">
+      <LocalizedName>Unlock-Ⅲ</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- Enemy only -->
+    <BattleCardDesc ID="605021">
+      <LocalizedName>Heavy Trace</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="605022">
+      <LocalizedName>Swift Trace</LocalizedName>
+    </BattleCardDesc>
+    
+   
+
+    <BattleCardDesc ID="606001">
+      <LocalizedName>Raging Storm: Love</LocalizedName> <!-- 샤오 카드.  애(愛) -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="606002">
+      <LocalizedName>Flaming Dragon Fist</LocalizedName> <!-- 염룡권(焰龍拳)-->
+    </BattleCardDesc>
+    <BattleCardDesc ID="606003">
+      <LocalizedName>Fervid Emotions</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="606004">
+      <LocalizedName>Fiery Waltz</LocalizedName> <!--윤무(輪舞) -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="606005">
+      <LocalizedName>Violent Flame</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="606006">
+      <LocalizedName>Single-Point Stab</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="606007">
+      <LocalizedName>Burning Flash</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="606008">
+      <LocalizedName>내면의 열정</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- the red mist -->
+    <BattleCardDesc ID="607001">
+      <LocalizedName>Greater Split: Horizontal</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607002">
+      <LocalizedName>Greater Split: Vertical</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607003">
+      <LocalizedName>Upstanding Slash</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607004">
+      <LocalizedName>Spear</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607005">
+      <LocalizedName>Level Slash</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607006">
+      <LocalizedName>Focus Spirit</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607007">
+      <LocalizedName>Onrush</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607008">
+      <LocalizedName>Manifest E.G.O</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607021">
+      <LocalizedName>Greater Split: Horizontal</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607022">
+      <LocalizedName>Greater Split: Vertical</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- binah -->
+    <BattleCardDesc ID="607201">
+      <LocalizedName>Degraded Lock</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607202">
+      <LocalizedName>Degraded Fairy</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607203">
+      <LocalizedName>Degraded Shockwave</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607204">
+      <LocalizedName>Degraded Pillar</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="607205">
+      <LocalizedName>Degraded Chain</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="608001">
+      <LocalizedName>Feral Knives</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608002">
+      <LocalizedName>Mind Crush</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608003">
+      <LocalizedName>Ground Crash</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608004">
+      <LocalizedName>Disposal</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608005">
+      <LocalizedName>Mind Whip</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608006">
+      <LocalizedName>Rhino Ram</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608007">
+      <LocalizedName>Concentrated Fire</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608008">
+      <LocalizedName>Pinpoint Shot</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608009">
+      <LocalizedName>Battle Command</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608010">
+      <LocalizedName>Energy Strike</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608011">
+      <LocalizedName>Bulky Impact</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608012">
+      <LocalizedName>Rapid Gashes</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608013">
+      <LocalizedName>Quick Suppression</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608014">
+      <LocalizedName>Graze the Grass</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608015">
+      <LocalizedName>Concentration</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608016">
+      <LocalizedName>Clone</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="608017">
+      <LocalizedName>Savage Mode</LocalizedName>
+    </BattleCardDesc>
+  
+    <BattleCardDesc ID="609001">
+      <LocalizedName>Serpent Sword Technique</LocalizedName> <!-- 사(巳)검술-->
+    </BattleCardDesc>
+    <BattleCardDesc ID="609002">
+      <LocalizedName>Violet Blade</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609003">
+      <LocalizedName>Snake Slit</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609004">
+      <LocalizedName>Snake's Prey</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609005">
+      <LocalizedName>Laceration</LocalizedName> <!-- 열상(裂傷) -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="609006">
+      <LocalizedName>Venomous Fangs</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609007">
+      <LocalizedName>Strike Down</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609008">
+      <LocalizedName>Great Serpent's Impact</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609009">
+      <LocalizedName>Duel</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609010">
+      <LocalizedName>Serpentine Barrier</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609011">
+      <LocalizedName>Parry</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609012">
+      <LocalizedName>Identify Weakpoint</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609013">
+      <LocalizedName>Mirage Storm</LocalizedName>
+    </BattleCardDesc>
+  
+    <BattleCardDesc ID="609020">
+      <LocalizedName>Slashing Stance</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609021">
+      <LocalizedName>Piercing Stance</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609022">
+      <LocalizedName>Blunting Stance</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="609023">
+      <LocalizedName>Guarding Stance</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 샤오 -->
+    <BattleCardDesc ID="610001">
+      <LocalizedName>Pú Láo</LocalizedName> <!-- 蒲牢 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610002">
+      <LocalizedName>Bì Àn</LocalizedName> <!-- 狴犴 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610003">
+      <LocalizedName>Jiāo Tú</LocalizedName> <!-- 椒圖 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610004">
+      <LocalizedName>Bì Xì</LocalizedName> <!-- 贔屭 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610005">
+      <LocalizedName>Yá Zì</LocalizedName> <!-- 睚眦 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610006">
+      <LocalizedName>Jīn Ní</LocalizedName> <!-- 金猊, 산예(狻猊)라고도 한다 -->
+    </BattleCardDesc>
+    
+    <BattleCardDesc ID="610008">
+      <LocalizedName>Chī Wěn</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="610009">
+      <LocalizedName>Tāo Tiè</LocalizedName>
+    </BattleCardDesc>
+
+    <BattleCardDesc ID="610010">
+      <LocalizedName>Fiery Dragon Slash</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="610011">
+      <LocalizedName>Coordinated Assult</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="610012">
+      <LocalizedName>Reverse Scale</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="610013">
+      <LocalizedName>Reverse Scale</LocalizedName>
+    </BattleCardDesc>
+    
+    <BattleCardDesc ID="610021">
+      <LocalizedName>Yá Zì</LocalizedName> <!-- 睚眦 -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="610022">
+      <LocalizedName>Tāo Tiè</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- yan only card -->
+    <BattleCardDesc ID="611001">
+      <LocalizedName>Distorted Blade</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611002">
+      <LocalizedName>Baleful Brand</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611003">
+      <LocalizedName>Lock</LocalizedName>
+    </BattleCardDesc>
+    <!-- yan player card -->
+    <BattleCardDesc ID="611004">
+      <LocalizedName>Ominous Power</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611005">
+      <LocalizedName>Sword of Volition</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611006">
+      <LocalizedName>Blind Faith</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611007">
+      <LocalizedName>The Will of the City</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- enemy only -->
+    <BattleCardDesc ID="611008">
+      <LocalizedName>Distorted Blade</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- yan hand card -->
+    <BattleCardDesc ID="611021">
+      <LocalizedName>Giant Fist</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611022">
+      <LocalizedName>Compress</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611023">
+      <LocalizedName>Flurry of Fists</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611024">
+      <LocalizedName>Vigil</LocalizedName> <!-- 경계(警戒) -->
+    </BattleCardDesc>
+
+    <!-- yan enemy buf card -->
+    <BattleCardDesc ID="611031">
+      <LocalizedName>Attack</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611032">
+      <LocalizedName>Protect</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611033">
+      <LocalizedName>Vigil</LocalizedName> <!-- 경계(警戒) -->
+    </BattleCardDesc>
+    <BattleCardDesc ID="611034">
+      <LocalizedName>Repair</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611035">
+      <LocalizedName>Endure</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611036">
+      <LocalizedName>Repair All</LocalizedName>
+    </BattleCardDesc>
+  
+    <!-- yan passive card -->
+    <BattleCardDesc ID="611041">
+      <LocalizedName>Prescript-Ⅰ</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611042">
+      <LocalizedName>Prescript-Ⅱ</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611043">
+      <LocalizedName>Prescript-Ⅲ</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="611044">
+      <LocalizedName>Prescript-Ⅳ</LocalizedName>
+    </BattleCardDesc>
+
+
+
+
+
+    <!-- 밤의 송곳 -->
+    <BattleCardDesc ID="612001">
+      <LocalizedName>Gap Attack</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="612002">
+      <LocalizedName>Dagger Press</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="612003">
+      <LocalizedName>Feint</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="612004">
+      <LocalizedName>Seize ya Chance</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="612005">
+      <LocalizedName>Prod the Weakness</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="612006">
+      <LocalizedName>Stiletto</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 우제트 -->
+    <BattleCardDesc ID="613001">
+      <LocalizedName>Harpe</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="613002">
+      <LocalizedName>Sand Split</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="613003">
+      <LocalizedName>Sand Strike</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="613004">
+      <LocalizedName>Furūsiyya</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="613005">
+      <LocalizedName>Jamadhar</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="613006">
+      <LocalizedName>The Udjat</LocalizedName>
+    </BattleCardDesc>
+    
+    <!-- 미래생명 -->
+    <BattleCardDesc ID="614001">
+      <LocalizedName>Switcheroo</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="614002">
+      <LocalizedName>Insurance Coverage</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="614003">
+      <LocalizedName>Equivalent Exchange</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="614004">
+      <LocalizedName>Multi-party Compensation</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="614005">
+      <LocalizedName>Final Stroke</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="614006">
+      <LocalizedName>Life Insurance</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 공방소속 -->
+    <BattleCardDesc ID="615001">
+      <LocalizedName>Test Run</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="615002">
+      <LocalizedName>Smoke Blow</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="615003">
+      <LocalizedName>Smoke Smash</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="615004">
+      <LocalizedName>Smoke Prick</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="615005">
+      <LocalizedName>Field Mods</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="615006">
+      <LocalizedName>Exhale Smoke</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- 베이야드 -->
+    <BattleCardDesc ID="616001">
+      <LocalizedName>Wedging Thorn</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616002">
+      <LocalizedName>Cleave Across</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616003">
+      <LocalizedName>Faultless Strike</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616004">
+      <LocalizedName>Knock Back</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616005">
+      <LocalizedName>Giant Swing</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616006">
+      <LocalizedName>Ready Position</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="616007">
+      <LocalizedName>Pinpoint Breakthrough</LocalizedName>
+    </BattleCardDesc>
+  </cardDescList>
+</BattleCardDescRoot>

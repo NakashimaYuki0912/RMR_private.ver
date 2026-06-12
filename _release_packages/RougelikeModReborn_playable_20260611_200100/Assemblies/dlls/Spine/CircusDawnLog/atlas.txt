@@ -1,0 +1,69 @@
+
+tjzjtm.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 664, 66
+  size: 180, 178
+  orig: 180, 178
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 459, 73
+  size: 203, 171
+  orig: 203, 171
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 241, 8
+  size: 216, 236
+  orig: 216, 236
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 2, 4
+  size: 237, 240
+  orig: 237, 240
+  offset: 0, 0
+  index: -1
+her
+  rotate: false
+  xy: 459, 2
+  size: 70, 69
+  orig: 70, 69
+  offset: 0, 0
+  index: -1
+lh
+  rotate: false
+  xy: 846, 37
+  size: 136, 102
+  orig: 136, 102
+  offset: 0, 0
+  index: -1
+lr
+  rotate: true
+  xy: 531, 20
+  size: 51, 81
+  orig: 51, 81
+  offset: 0, 0
+  index: -1
+rh
+  rotate: false
+  xy: 846, 141
+  size: 136, 103
+  orig: 136, 103
+  offset: 0, 0
+  index: -1
+rr
+  rotate: true
+  xy: 614, 10
+  size: 54, 77
+  orig: 54, 77
+  offset: 0, 0
+  index: -1

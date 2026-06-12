@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PassiveDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<PassiveDesc ID="800001">
+    <Name>恢复</Name>
+    <Desc>使1名司书恢复40%的体力</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="800002">
+    <Name>训练</Name>
+    <Desc>选择并升级战斗书页</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="800003">
+    <Name>防潮处理</Name>
+    <Desc>使1名司书于本章节内的所有伤害抗性提升1级(至多为“抵抗”)</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="800004">
+    <Name>兑换</Name>
+    <Desc>获得15眼</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="800005">
+    <Name>完全恢复</Name>
+    <Desc>使1名司书恢复100%的体力</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="800006">
+    <Name>书页转换</Name>
+    <Desc>选择1张书页移除。从被移除书页的章节等级的上一章节范围内获得1张战斗书页奖励。根据移除的战斗书页的等级您将获得更高等级的战斗书页奖励。若移除的书页为传闻级则您将获得传闻章节最低等级的战斗书页奖励。其他行为不会影响本功能的使用。
+剩余 : {0}</Desc>
+	</PassiveDesc>
+
+</PassiveDescRoot>
+  
+

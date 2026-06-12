@@ -64,6 +64,7 @@
   <text id="ui_CreatureTab">异想体</text>
   <text id="ui_CraftTab">技能</text>
   <text id="ui_AtlasTab">图鉴</text>
+  <text id="ui_Realization">解放战</text>
   <text id="ui_CraftCost">费用</text>
 
   <text id="ui_ExceptionWithLog">已检测到与RogueLike模组冲突的模组。</text>

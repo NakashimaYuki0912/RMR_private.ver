@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EnemyUnitClassRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+  <Enemy ID="10001">
+    <!--잭-->
+    <Name>잭</Name>
+    <NameID>23</NameID>
+    <MinHeight>190</MinHeight>
+    <MaxHeight>190</MaxHeight>
+
+    <BookId>110001</BookId>
+    <DeckId>110001</DeckId>
+
+    <Exp>4</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="1">2001</DropItem>
+      <DropItem Prob="1">2002</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="10002">
+    <!--피에르-->
+    <Name>피에르</Name>
+    <NameID>48</NameID>
+    <MinHeight>165</MinHeight>
+    <MaxHeight>165</MaxHeight>
+
+    <BookId>110002</BookId>
+    <DeckId>110002</DeckId>
+
+    <Exp>5</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="1">2002</DropItem>
+      <DropItem Prob="1">2003</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="10003">
+    <!--마스-->
+    <Name>마스</Name>
+    <NameID>24</NameID>
+    <MinHeight>172</MinHeight>
+    <MaxHeight>172</MaxHeight>
+
+    <BookId>110003</BookId>
+    <DeckId>110003</DeckId>
+
+    <Exp>15</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="1">2001</DropItem>
+      <DropItem Prob="1">2002</DropItem>
+      <DropItem Prob="3">2003</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="10004">
+    <!--루루lv1-->
+    <Name>루루</Name>
+    <NameID>26</NameID>
+    <MinHeight>153</MinHeight>
+    <MaxHeight>153</MaxHeight>
+
+    <BookId>110004</BookId>
+
+    <Exp>4</Exp>
+    <DropTable Level="0">
+      <DropItem Prob="1">2002</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="10005">
+    <!--산lv1-->
+    <Name>산</Name>
+    <NameID>25</NameID>
+    <MinHeight>176</MinHeight>
+    <MaxHeight>176</MaxHeight>
+
+    <BookId>110005</BookId>
+
+    <Exp>4</Exp>
+    <DropTable Level="0">
+      <DropItem Prob="1">2001</DropItem>
+      <DropItem Prob="1">2002</DropItem>
+    </DropTable>
+  </Enemy>
+  
+  <Enemy ID="10006">
+    <!--루루lv2-->
+    <Name>루루</Name>
+    <NameID>26</NameID>
+    <MinHeight>153</MinHeight>
+    <MaxHeight>153</MaxHeight>
+
+    <BookId>110006</BookId>
+
+    <Exp>12</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="1">2002</DropItem>
+      <DropItem Prob="2">2003</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="11003">
+    <!--뒷골목 도축업자1-->
+    <Name>뒷골목 도축업자</Name>
+    <NameID>52</NameID>
+    <MinHeight>170</MinHeight>
+    <MaxHeight>200</MaxHeight>
+
+    <BookId>111003</BookId>
+    <DeckId>111003</DeckId>
+
+    <Exp>3</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="2">2001</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="11004">
+    <!--뒷골목 도축업자2-->
+    <Name>뒷골목 도축업자</Name>
+    <NameID>52</NameID>
+    <MinHeight>170</MinHeight>
+    <MaxHeight>200</MaxHeight>
+
+    <BookId>111004</BookId>
+    <DeckId>111004</DeckId>
+
+    <Exp>3</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="2">2001</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="11005">
+    <!--루루친구1 (2명 중 랜덤)-->
+    <Name>루루의 친구</Name>
+    <NameID>49</NameID>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>180</MaxHeight>
+
+    <BookId>111005</BookId>
+    <BookId>111006</BookId>
+
+    <Exp>3</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="2">2001</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="11006">
+    <!--루루친구 V2 (2명 중 랜덤)-->
+    <Name>루루의 친구</Name>
+    <NameID>49</NameID>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>180</MaxHeight>
+
+    <BookId>111007</BookId>
+    <BookId>111008</BookId>
+
+    <Exp>3</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="2">2001</DropItem>
+    </DropTable>
+  </Enemy>
+
+  <Enemy ID="12001">
+    <!--쥐-->
+    <Name>쥐</Name>
+    <NameID>12001</NameID>
+    <MinHeight>150</MinHeight>
+    <MaxHeight>150</MaxHeight>
+
+    <BookId>112001</BookId>
+    <BookId>112002</BookId>
+    <BookId>112003</BookId>
+
+    <Exp>2</Exp>
+
+    <DropTable Level="0">
+      <DropItem Prob="1">2001</DropItem>
+    </DropTable>
+  </Enemy>
+</EnemyUnitClassRoot>

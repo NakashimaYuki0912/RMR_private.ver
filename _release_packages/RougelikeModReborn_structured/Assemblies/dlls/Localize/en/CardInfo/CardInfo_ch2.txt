@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <cardDescList>
+
+    <BattleCardDesc ID="200001">
+      <LocalizedName>Pound</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="200002">
+      <LocalizedName>Multi-block</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="200003">
+      <LocalizedName>Multi-hit</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="200004">
+      <LocalizedName>Quick Attack</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="200005">
+      <LocalizedName>Strong Strike</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201001">
+      <LocalizedName>Keep It Fresh</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201002">
+      <LocalizedName>Cooking Prep</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201003">
+      <LocalizedName>I Can Cook Anything</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201004">
+      <LocalizedName>Trim the Ingredient</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201005">
+      <LocalizedName>Ingredient Hunt</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201006">
+      <LocalizedName>Cruelty</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="201007">
+      <LocalizedName>Appetite</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202001">
+      <LocalizedName>Deflect</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202002">
+      <LocalizedName>Prepared Mind</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202003">
+      <LocalizedName>Set Fire</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202004">
+      <LocalizedName>Taste My Flaming Bat!</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202005">
+      <LocalizedName>Handling Work</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202006">
+      <LocalizedName>Silent Night</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202007">
+      <LocalizedName>Nonstop Assault</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202008">
+      <LocalizedName>Fleet Footsteps</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202009">
+      <LocalizedName>Gather Intel</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202010">
+      <LocalizedName>Set Fire</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202011">
+      <LocalizedName>Taste My Flaming Bat!</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+    <BattleCardDesc ID="202012">
+      <LocalizedName>Prepared Mind</LocalizedName>
+      <Ability />
+    </BattleCardDesc>
+
+  </cardDescList>
+</BattleCardDescRoot>
