@@ -4,6 +4,32 @@
 
 > 本文件记录的是最终设计约束和工作方法，不保证当前工作树已经完整实现。开始任何任务前，必须以当前源码、Git 状态、静态检查和构建结果重新核验。
 
+## 0. 项目概览
+
+LoR-RMR 是《Library of Ruina》的非官方 Roguelike 模组改造版。项目核心目标是把原版接待流程改造成按章节推进的 Roguelike 路线：玩家在地图节点中经历普通战斗、精英战、Boss、商店、休息室、神秘事件、异想体奖励与楼层解放战，并通过永久图鉴、路线内奖励和解放战门控逐步扩展可用内容。
+
+本仓库同时包含四类运行输入，排查问题时必须把它们分开看：
+
+1. **C# 模组 DLL**：`.csproj` 编译出的 `RogueLike Mod Reborn.dll`，负责 Harmony 补丁、流程状态、奖励队列、UI、存档和运行时加载。
+2. **游戏数据 XML/TXT**：`AddData/`、`SpecialStaticInfo/` 和 `Localize/` 下的 Stage、卡牌、核心书页、掉落、本地化和奖励池。
+3. **美术与运行资源**：`ArtWork/`、`AssetBundle/`、`AudioClip/`、`Spine/`、`StoryInfo/` 等资源目录。
+4. **验证与交接材料**：`RMR_*static_check.ps1`、`docs/HANDOFF.md`、`D:\sketch.txt` 和本文件。
+
+主要功能边界如下：
+
+| 功能域 | 关键文件 | 主要风险 |
+|---|---|---|
+| 模组初始化、章节、路线推进 | `RMR_Core.cs`、`RMR_MapManagers.cs`、`abcdcode_LOGLIKE_MOD/LogLikeMod.cs` | 章节状态错位、黑屏、节点类型错误、旧存档兼容 |
+| 神秘事件与初始入口 | `RMR_MysteryEvents.cs`、`RMR_chstart.xml`、`MysteryModel_*` | 事件 UI 空引用、初始解放战入口被绕过或重复开启 |
+| 楼层解放战 | `RMR_RealizationManager.cs`、`LogRealizationPanel.cs` | Stage ID 包语义错误、路线配置污染、退出后未恢复 |
+| 异想体/E.G.O. 奖励门控 | `RMR_AbnormalityUnlocks.cs`、`RewardPassiveInfos/` | 未解放奖励提前进入池、普通异想体被永久化、Boss 奖励空候选 |
+| 战斗结算奖励 | `RewardingModel.cs`、`PickUpModel_*`、`MysteryModel_CardReward.cs` | 奖励队列死循环、跳过不推进、核心页和战斗书页互相覆盖 |
+| 商店与卡牌升级 | `ShopBase.cs`、`ShopGoods_Card.cs`、`ShopGoods_CardUpgrade.cs`、`LogCardUpgradeManager.cs` | 商品重叠、价格/存档不一致、升级候选非法 |
+| 永久图鉴与存档 | `LogueBookModels.cs`、`LoguePlayDataSaver.cs`、`LogAtlasPanel.cs` | 当前路线和永久记录混淆、卡面缺失、旧存档迁移失败 |
+| 数据与本地化 | `AddData/`、`SpecialStaticInfo/`、`Localize/{cn,en,kr}/` | XML 无法解析、编码污染、中文界面残留英文触发词 |
+
+维护本项目时，始终区分“源码设计意图”“当前工作树实际状态”“Workshop 运行树实际加载内容”和“游戏内实测结果”。`AGENTS.md` 只提供约束和导航，不替代源码阅读、构建、部署哈希核对或游戏日志验证。
+
 ## 1. 启动流程
 
 每次新会话或切换任务时，先完成以下检查，再修改代码：
@@ -39,6 +65,94 @@
 - `ArtWork/Shop_CardUpgrade_Icon.png`：商店升级卡牌专用图标。
 
 不要修改 `_release_packages/`、Workshop 或游戏安装目录来代替修改源码。只有用户明确要求部署或打包时，才同步构建产物与资源。
+
+### 2.1 本机源码树与 Workshop 运行树（2026-06-19）
+
+本机实际源码根目录：
+
+```text
+D:\VS_program\ruina-roguelike-reborn-main\ruina-roguelike-reborn-main\
+├─ RogueLike Mod Reborn.csproj        # Release 构建入口
+├─ RMR_*.cs                           # 模组主流程、奖励、解放战、路由
+├─ abcdcode_LOGLIKE_MOD\              # Roguelike 模型、UI、商店、存档
+├─ abcdcode_Refactored\               # Harmony 补丁与运行时钩子
+├─ AddData\                            # 卡牌、核心书页、敌人、Stage 等游戏数据
+├─ SpecialStaticInfo\                 # 节点、事件、奖励池、掉落权重
+├─ Localize\{cn,en,kr}\               # 实际加载的本地化
+├─ ArtWork\                            # PNG 等图片资源
+├─ AssetBundle\ AudioClip\ Spine\     # 若存在则为运行资源
+├─ StoryInfo\                          # 剧情资源
+├─ RMR_*static_check.ps1              # 静态回归脚本
+├─ docs\HANDOFF.md                    # 新会话交接
+└─ pack_mod.ps1                       # 从 Workshop 运行树打包，不代表源码已同步
+```
+
+Steam Workshop 项目根目录：
+
+```text
+E:\Steam\steamapps\workshop\content\1256670\3503523710\
+├─ StageModInfo.xml
+├─ Data\
+├─ Resource\
+├─ mod infos\
+└─ Assemblies\
+   ├─ dlls\                           # 本模组实际运行根目录
+   │  ├─ RogueLike Mod Reborn.dll    # 每次 DLL 更新必须覆盖到这里
+   │  ├─ AddData\
+   │  ├─ SpecialStaticInfo\
+   │  ├─ Localize\
+   │  ├─ ArtWork\
+   │  ├─ AssetBundle\ AudioClip\ Spine\ StoryInfo\
+   │  └─ RogueLike Mod Reborn.xml
+   ├─ _codex_backups\                 # 部署前 DLL/XML 备份统一放这里
+   ├─ 1FrameworkAssemblies\
+   └─ 0Harmony.dll 等框架依赖
+```
+
+源码到实际运行位置的固定映射：
+
+| 源码/构建产物 | Workshop 实际运行位置 |
+|---|---|
+| Release `RogueLike Mod Reborn.dll` | `...\Assemblies\dlls\RogueLike Mod Reborn.dll` |
+| `AddData\**` | `...\Assemblies\dlls\AddData\**` |
+| `SpecialStaticInfo\**` | `...\Assemblies\dlls\SpecialStaticInfo\**` |
+| `Localize\**` | `...\Assemblies\dlls\Localize\**` |
+| `ArtWork\**` | `...\Assemblies\dlls\ArtWork\**` |
+| `AssetBundle\`、`AudioClip\`、`Spine\`、`StoryInfo\` | `...\Assemblies\dlls\` 下同名目录 |
+
+部署规则：
+
+1. 先确认游戏进程 `LibraryOfRuina` 已退出；运行中不得覆盖 DLL。
+2. Release 构建优先输出到 `%TEMP%` 的独立 `out/obj`，避免仓库 `bin/obj` ACL 问题。
+3. 覆盖前把旧 DLL 和本次涉及的 XML/资源备份到 `...\Assemblies\_codex_backups\`。
+4. 复制 DLL 后必须比较构建产物与 `...\Assemblies\dlls\RogueLike Mod Reborn.dll` 的 SHA-256。
+5. 修改 XML/TXT/PNG 时必须同步对应的 `Assemblies\dlls` 子路径并逐项比较哈希；只同步 DLL 不足以完成部署。
+6. `Assemblies\dlls` 中历史上存在 `.bak` 文件；所有运行时目录扫描必须限制真实扩展名（例如 `GetFiles("*.xml")`），不得把备份文件当配置加载。
+
+运行日志与配置：
+
+- 游戏日志：`C:\Users\13034\AppData\LocalLow\Project Moon\LibraryOfRuina\Player.log`
+- 模组配置：`C:\Users\13034\AppData\LocalLow\Project Moon\LibraryOfRuina\ModConfigs\RMR_Config.xml`
+- 每次 DLL 更新后，先在 `Player.log` 搜索 `[RMR] RogueLike Mod Reborn initializing. Build:`，确认游戏实际加载了本次 `BuildTimestamp`，再判断后续测试结果。
+
+### 2.2 原作者源码基线与故障回归原则
+
+原作者未经当前项目修改的源码基线位于：
+
+```text
+D:\VS_program\ruina-roguelike-reborn-main\original-codes\
+```
+
+该目录包含原作者版本的 `RMR_*.cs`、`abcdcode_LOGLIKE_MOD/`、`abcdcode_Refactored/`、`AddData/`、`SpecialStaticInfo/`、`Localize/`、项目文件及依赖结构。它的用途是**只读对照和严重回归时的恢复基线**，不是当前工作目录，也不能从这里直接构建或部署。
+
+当后续修改出现启动崩溃、奖励流程死循环、主流程黑屏、Stage 路由整体错乱等大问题时：
+
+1. 先停止继续叠加补丁，保存当前 `git status`、相关 diff、`Player.log` 和已部署 DLL 哈希。
+2. 按故障调用链逐文件比较当前源码与 `original-codes` 中的同名文件，先确认原作者的生命周期、队列推进和数据加载方式。
+3. 优先让出问题的函数或模块回归原作者实现，再以最小补丁重新加入已经确认必须保留的新玩法规则。
+4. 不得直接把整个 `original-codes` 覆盖到当前仓库；当前仓库已有解放战、永久图鉴、第七章、商店升级和本地化等新增功能，整仓覆盖会造成更大范围的数据丢失。
+5. 回归后必须重新运行相关静态脚本、Release 构建、XML 解析和 `git diff --check`，再部署到 Workshop。
+6. `original-codes` 与当前源码的差异只用于判断原作者行为，不代表旧实现自动满足当前 `AGENTS.md` 的最终玩法规则；若两者冲突，以用户当前明确要求为准。
 
 ## 3. 不可回退的玩法规则
 
@@ -153,18 +267,47 @@
 修改前先检查现有脚本；修改相关功能时运行直接相关脚本以及基础回归脚本。常见脚本包括：
 
 ```text
+RMR_0614_all_floor_realization_static_check.ps1
+RMR_0614_downward_abno_pool_static_check.ps1
+RMR_0614_realization_reward_static_check.ps1
+RMR_0614_shop_upgrade_static_check.ps1
+RMR_0614_ui_atlas_persistence_static_check.ps1
+RMR_0615_upgrade_atlas_localization_static_check.ps1
+RMR_0615_runtime_regression_static_check.ps1
+RMR_0616_grade6_special_core_pages_static_check.ps1
+RMR_0616_high_chapter_reward_static_check.ps1
+RMR_0617_progression_realization_static_check.ps1
+RMR_0617_realization_session_static_check.ps1
+RMR_0618_codex_review_static_check.ps1
+RMR_0618_reward_event_atlas_static_check.ps1
+RMR_0618_reward_queue_static_check.ps1
+RMR_0618_startup_crash_static_check.ps1
+RMR_0619_card_reward_empty_choice_static_check.ps1
+RMR_0619_debug_chapter_start_static_check.ps1
+RMR_0619_equip_page_loader_static_check.ps1
+RMR_0619_mystery_start_event_static_check.ps1
+RMR_0619_reward_overlay_and_boss_realization_static_check.ps1
+RMR_0619_reward_pool_route_regression_static_check.ps1
+RMR_0620_binah_red_mist_progression_static_check.ps1
+RMR_0620_binah_route_ego_toggle_grade7_static_check.ps1
+RMR_0620_ego_realization_two_pick_static_check.ps1
+RMR_0620_grade6_special_fixed_deck_static_check.ps1
+RMR_0620_red_mist_challenge_static_check.ps1
+RMR_0620_runtime_reward_ego_shop_static_check.ps1
+RMR_0621_followup_runtime_regressions_static_check.ps1
+RMR_0621_reported_runtime_regressions_static_check.ps1
+RMR_abnormality_battle_static_check.ps1
+RMR_abnormality_unlock_static_check.ps1
+RMR_atlas_static_check.ps1
+RMR_atlas_unlock_static_check.ps1
+RMR_atlas_upgrade_static_check.ps1
+RMR_chstart_localization_static_check.ps1
 RMR_issue0613_static_check.ps1
 RMR_realization_static_check.ps1
 RMR_realization_unlock_static_check.ps1
-RMR_0614_realization_reward_static_check.ps1
-RMR_0614_all_floor_realization_static_check.ps1
-RMR_0614_ui_atlas_persistence_static_check.ps1
-RMR_0614_downward_abno_pool_static_check.ps1
-RMR_0614_shop_upgrade_static_check.ps1
-RMR_0615_upgrade_atlas_localization_static_check.ps1
-RMR_0615_runtime_regression_static_check.ps1
-RMR_abnormality_unlock_static_check.ps1
-RMR_chstart_localization_static_check.ps1
+RMR_release_static_check.ps1
+RMR_shop_localization_static_check.ps1
+RMR_stage_density_static_check.ps1
 ```
 
 静态脚本应验证行为约束，而不是依赖容易变化的固定源码文本。脚本失败时先判断是真回归、旧断言还是脚本编码错误，不要为了让过时脚本变绿而回退正确设计。
@@ -226,3 +369,49 @@ dotnet msbuild '.\RogueLike Mod Reborn.csproj' `
 - 尚未进行的游戏内测试和残余风险。
 
 只有当新的用户决定改变了长期玩法规则时，才更新本 `AGENTS.md`；普通代码修改不要把临时进度、机器路径、DLL 哈希或会话过程不断追加到本文件。
+
+## 10. 当前交接快照（2026-06-19，后续验收完成后应删除或更新）
+
+### 10.1 交接材料的含义
+
+- `D:\sketch.txt` 当前是 DeepSeek 对 2026-06-18 至 2026-06-19 工作的**完工总结**，不是待执行提示词；除非用户明确要求，不要覆盖、追加或把它当作新的修改指令。
+- 总结中的 `PASS`、编译成功、已部署等均是外部代理声明。新会话必须重新读取实际源码、脚本输出和运行目录，不能直接据此声称问题已修复。
+- 当前工作树包含大量已有修改和未跟踪文件。不要执行清理、回滚、批量格式化或覆盖用户改动；只核验当前问题涉及的文件。
+
+### 10.2 DeepSeek 声称完成的重点工作
+
+- 启动稳定性：购买/领取流程改为先验证再修改状态；卡图反射加载加固；核心书页加载器限制为 `*.xml`，避免 `.bak` 导致 ID `250001` 重复。
+- 战斗奖励：调整普通战斗和 Boss 奖励队列、跳过按钮、旧选择 UI 销毁顺序、DropBook 去重、空战斗书页候选处理。
+- 解放战奖励：结算前加载解放战进度，按已完成楼层动态生成专属异想体书页与 E.G.O. 候选。
+- 事件与调试入口：事件章节判定改为使用当前进度；Debug 第六章入口不再被 `curstage=855` 覆盖，并同步章节起始 Stage。
+- 图鉴：补充卡面加载，并采用 C 方案的等比纵向缩略图。
+- 初始事件：为 `MysteryBase.SwapFrame`、`FrameObj` 和选项列表增加空值防护。
+- 外部总结声称 Release 编译零错误、13 个静态脚本通过，并已同步部分 DLL/XML/TXT/PNG 到 Workshop；这些状态仍需重新验证。
+
+### 10.3 下一会话必须优先验收
+
+1. 对照 `D:\sketch.txt`，逐项检查实际 diff 和完整调用链，重点文件为：
+   - `abcdcode_LOGLIKE_MOD/RewardingModel.cs`
+   - `abcdcode_LOGLIKE_MOD/MysteryModel_CardReward.cs`
+   - `abcdcode_LOGLIKE_MOD/MysteryModel_Mystery_Ch1_1.cs`
+   - `abcdcode_LOGLIKE_MOD/MysteryBase.cs`
+   - `abcdcode_LOGLIKE_MOD/LogAtlasPanel.cs`
+   - `abcdcode_LOGLIKE_MOD/LogLikeMod.cs`
+   - `abcdcode_Refactored/LogLikePatches.cs`
+   - `RMR_AbnormalityUnlocks.cs`
+   - `RMR_Core.cs`
+2. 重新运行与上述改动直接相关的 13 个静态脚本；记录真实输出，不沿用总结中的 `PASS`。
+3. 重新执行 Release 构建、`git diff --check`，并检查实际 diff 是否存在编码污染、过宽修改或失效断言。
+4. 用户要求部署时，再核对源码构建产物与 Workshop 中实际运行的 DLL、XML、TXT、PNG 哈希；不得只核对 DLL。
+5. 游戏内按顺序复验：
+   - 普通战斗选择战斗书页后，不再重复出现战斗书页或覆盖核心书页选择。
+   - Boss 战结算不出现空选项，跳过可推进；已完成解放战的专属异想体书页和 E.G.O. 奖励进入候选池。
+   - Debug 第六章从休息室跳过后不黑屏，章节等级、步数和起点保持第六章状态。
+   - 图鉴卡面可见且比例正常。
+   - 启动时不再出现核心书页 ID `250001` 重复报错。
+
+在完成上述游戏内实测前，只能报告源码、静态脚本、编译或部署核对等级，不得将 DeepSeek 总结升级为“游戏内已修复”。
+
+## 11. Git 同步要求
+
+每次修改完之后 git init 一下然后 git push，这个文件夹已经绑定了用户 GitHub 的一个仓库。

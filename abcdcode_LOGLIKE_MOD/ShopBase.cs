@@ -297,7 +297,9 @@ namespace abcdcode_LOGLIKE_MOD
                     break;
                 case ChapterGrade.Grade7:
                 default:
-                    data = Singleton<CardDropValueList>.Instance.GetData(new LorId(LogLikeMod.ModId, 16001));
+                    // Grade7 shop tries 17001 first, then falls back to the Grade6 pool.
+                    data = Singleton<CardDropValueList>.Instance.GetData(new LorId(LogLikeMod.ModId, 17001))
+                        ?? Singleton<CardDropValueList>.Instance.GetData(new LorId(LogLikeMod.ModId, 16001));
                     break;
             }
             Singleton<GlobalLogueEffectManager>.Instance.ChangeShopCardList(this, ref data);
@@ -481,10 +483,11 @@ namespace abcdcode_LOGLIKE_MOD
             if (!LoguePlayDataSaver.LoadShop(this))
             {
                 int num = this.ShopGoodCount();
-                // Allocate slots between cards, passives, role books, and abnormality pages
+                // Allocate slots between cards, passives, role books, abnormality pages, and E.G.O. pages.
                 int equipNum = num >= 4 ? 1 : 0;
                 int abnoNum = num >= 6 ? 1 : 0;
-                int passiveNum = num - equipNum - abnoNum;
+                int egoNum = num >= 7 ? 1 : 0;
+                int passiveNum = Math.Max(0, num - equipNum - abnoNum - egoNum);
                 try
                 {
                     this.CreateShop_Card(num);
@@ -518,6 +521,15 @@ namespace abcdcode_LOGLIKE_MOD
                 catch (Exception ex)
                 {
                     Debug.Log($"Shop Create error4 : Abnormality{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+                }
+                try
+                {
+                    if (egoNum > 0)
+                        this.CreateShop_EgoPages(egoNum, passiveNum + equipNum + abnoNum);
+                }
+                catch (Exception ex)
+                {
+                    Debug.Log($"Shop Create error5 : EGO{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace}");
                 }
             }
             this.MoneyChecking();
@@ -623,29 +635,7 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void CreateShop_AbnormalityPages(int num, int startIndex = 0)
         {
             if (num <= 0) return;
-            // Get abnormality pages from the emotion card list / unlock manager
-            List<RewardPassiveInfo> abnoPages = new List<RewardPassiveInfo>();
-            int tier = RMRAbnormalityUnlockManager.GetTierForChapter(LogLikeMod.curchaptergrade);
-            var allCreature = Singleton<RewardPassivesList>.Instance.GetChapterData(
-                ChapterGrade.GradeAll, PassiveRewardListType.Creature, LorId.None, false);
-            foreach (var info in allCreature)
-            {
-                if (info.rewardtype == RewardType.Creature
-                    && RMRAbnormalityUnlockManager.GetTierForScript(info.script) == tier
-                    && !RMRAbnormalityUnlockManager.IsNoAbnormalityFallback(info.id)
-                    && !LogueBookModels.EmotionCardList.Exists(x => x.id == info.id))
-                {
-                    // Exclude realization-exclusive pages unless the floor is completed
-                    if (RMRAbnormalityUnlockManager.IsRealizationExclusive(info)
-                        && !RMRAbnormalityUnlockManager.IsFloorRealizationCompleted(
-                            RMRAbnormalityUnlockManager.GetFloorForScript(info.script)))
-                    {
-                        Debug.Log($"[CreateShop_AbnormalityPages] Skipped realization exclusive: {info.script}");
-                        continue;
-                    }
-                    abnoPages.Add(info);
-                }
-            }
+            List<RewardPassiveInfo> abnoPages = RMRAbnormalityUnlockManager.GetShopEligibleAbnormalityPages(LogLikeMod.curchaptergrade);
             // Shuffle and pick
             ModdingUtils.SuffleList(abnoPages);
             int created = 0;
@@ -655,6 +645,23 @@ namespace abcdcode_LOGLIKE_MOD
                 int slotIndex = startIndex + created;
                 ShopGoods_Passive goods = this.Shop_PassiveCreating(info,
                     this.GetShopShape_Passive(this.ShopGoodCount(), slotIndex), slotIndex);
+                created++;
+            }
+        }
+
+        public virtual void CreateShop_EgoPages(int num, int startIndex = 0)
+        {
+            if (num <= 0) return;
+            List<DiceCardXmlInfo> egoPages = RMRAbnormalityUnlockManager.GetUnlockedRealizationEgoCardsForRewards(LogLikeMod.curchaptergrade);
+            ModdingUtils.SuffleList(egoPages);
+            int created = 0;
+            foreach (DiceCardXmlInfo card in egoPages)
+            {
+                if (created >= num) break;
+                if (card == null || LogueBookModels.HasOwnedCombatPage(card.id))
+                    continue;
+                int slotIndex = startIndex + created;
+                this.Shop_CardCreating(card, 1, this.GetShopShape_Passive(this.ShopGoodCount(), slotIndex), 100 + slotIndex);
                 created++;
             }
         }

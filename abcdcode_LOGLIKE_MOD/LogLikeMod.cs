@@ -59,6 +59,7 @@ namespace abcdcode_LOGLIKE_MOD
         public static Dictionary<string, List<EmotionCardXmlInfo>> PickUpXml_Dummy_Stage;
         public static Dictionary<string, List<EmotionCardXmlInfo>> PickUpXml_Dummy_Passive;
         public static Dictionary<string, List<EmotionEgoXmlInfo>> RewardCardDic_Dummy;
+        public static List<List<LorId>> egoSelectionQueue;
         /// <summary>
         /// Number of Acts the player has gone through this chapter.
         /// </summary>
@@ -130,12 +131,12 @@ namespace abcdcode_LOGLIKE_MOD
         public static Button ChangeEmotinCardBtn;
         public static Button CraftBtn;
         public static Image CraftBtnFrame;
-        public static Button RealizationBtn;
-        public static Image RealizationBtnFrame;
         public static Button CreatureBtn;
         public static Image CreatureBtnFrame;
         public static Button AtlasBtn;
         public static Image AtlasBtnFrame;
+        public static Button RealizationBtn;
+        public static Image RealizationBtnFrame;
         public static Button InvenBtn;
         public static Image InvenBtnFrame;
         /// <summary>
@@ -159,26 +160,6 @@ namespace abcdcode_LOGLIKE_MOD
         public static LogLikeMod.CacheDic<(string, string), Sprite> ModdedArtWorks;
         public static bool itemCatalogActive;
         public static LogLikeHooks logLikeHooks;
-        private static readonly XmlSerializer BattleCardAbilityDescRootSerializer = new XmlSerializer(typeof(BattleCardAbilityDescRoot));
-        private static readonly XmlSerializer CharactersNameRootSerializer = new XmlSerializer(typeof(CharactersNameRoot));
-        private static readonly XmlSerializer BookDescRootSerializer = new XmlSerializer(typeof(BookDescRoot));
-        private static readonly XmlSerializer BattleCardDescRootSerializer = new XmlSerializer(typeof(BattleCardDescRoot));
-        private static readonly XmlSerializer PassiveDescRootSerializer = new XmlSerializer(typeof(PassiveDescRoot));
-        private static readonly XmlSerializer MysteryXmlRootSerializer = new XmlSerializer(typeof(MysteryXmlRoot));
-        private static readonly XmlSerializer RewardPassivesRootSerializer = new XmlSerializer(typeof(RewardPassivesRoot));
-        private static readonly XmlSerializer StagesXmlRootSerializer = new XmlSerializer(typeof(StagesXmlRoot));
-        private static readonly XmlSerializer CardDropValueXmlRootSerializer = new XmlSerializer(typeof(CardDropValueXmlRoot));
-        private static readonly XmlSerializer LogStoryPathRootSerializer = new XmlSerializer(typeof(LogStoryPathRoot));
-        private static readonly XmlSerializer PassiveXmlRootSerializer = new XmlSerializer(typeof(PassiveXmlRoot));
-        private static readonly XmlSerializer DeckXmlRootSerializer = new XmlSerializer(typeof(DeckXmlRoot));
-        private static readonly XmlSerializer BookUseXmlRootSerializer = new XmlSerializer(typeof(BookUseXmlRoot));
-        private static readonly XmlSerializer CardDropTableXmlRootSerializer = new XmlSerializer(typeof(abcdcode_LOGLIKE_MOD_Extension.CardDropTableXmlRoot));
-        private static readonly XmlSerializer DiceCardXmlRootSerializer = new XmlSerializer(typeof(DiceCardXmlRoot));
-        private static readonly XmlSerializer StageXmlRootSerializer = new XmlSerializer(typeof(StageXmlRoot));
-        private static readonly XmlSerializer EnemyUnitClassRootSerializer = new XmlSerializer(typeof(EnemyUnitClassRoot));
-        private static readonly XmlSerializer BookXmlRootSerializer = new XmlSerializer(typeof(BookXmlRoot));
-        private static readonly XmlSerializer FormationXmlRootSerializer = new XmlSerializer(typeof(FormationXmlRoot));
-        private static readonly XmlSerializer LoadListSerializer = new XmlSerializer(typeof(LogLikeMod.LoadList));
 
         public static SaveData CreateChSaveData(ChapterGrade grade)
         {
@@ -734,7 +715,7 @@ namespace abcdcode_LOGLIKE_MOD
             using (StringReader stringReader = new StringReader(File.ReadAllText(path)))
             {
                 
-                BattleCardAbilityDescRoot cardAbilityDescRoot = (BattleCardAbilityDescRoot)BattleCardAbilityDescRootSerializer.Deserialize((TextReader)stringReader);
+                BattleCardAbilityDescRoot cardAbilityDescRoot = (BattleCardAbilityDescRoot)new XmlSerializer(typeof(BattleCardAbilityDescRoot)).Deserialize((TextReader)stringReader);
                 for (int index = 0; index < cardAbilityDescRoot.cardDescList.Count; ++index)
                 {
                     BattleCardAbilityDesc cardDesc = cardAbilityDescRoot.cardDescList[index];
@@ -782,7 +763,7 @@ namespace abcdcode_LOGLIKE_MOD
             using (StringReader stringReader = new StringReader(File.ReadAllText(path)))
             {
                 
-                CharactersNameRoot charactersNameRoot = (CharactersNameRoot)CharactersNameRootSerializer.Deserialize((TextReader)stringReader);
+                CharactersNameRoot charactersNameRoot = (CharactersNameRoot)new XmlSerializer(typeof(CharactersNameRoot)).Deserialize((TextReader)stringReader);
                 List<EnemyUnitClassInfo> all1 = LogLikeMod.GetFieldValue<List<EnemyUnitClassInfo>>(Singleton<EnemyUnitClassInfoList>.Instance, "_list").FindAll((Predicate<EnemyUnitClassInfo>)(x => x.workshopID == modid));
                 foreach (CharacterName name in charactersNameRoot.nameList)
                 {
@@ -802,7 +783,7 @@ namespace abcdcode_LOGLIKE_MOD
             using (StringReader stringReader = new StringReader(File.ReadAllText(path)))
             {
                 
-                BookDescRoot bookDescRoot = (BookDescRoot)BookDescRootSerializer.Deserialize((TextReader)stringReader);
+                BookDescRoot bookDescRoot = (BookDescRoot)new XmlSerializer(typeof(BookDescRoot)).Deserialize((TextReader)stringReader);
                 List<BookXmlInfo> list = Singleton<BookXmlList>.Instance.GetList();
                 foreach (BookDesc bookDesc in bookDescRoot.bookDescList)
                 {
@@ -824,7 +805,7 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 
                 Dictionary<LorId, BattleCardDesc> dictionary = (Dictionary<LorId, BattleCardDesc>)typeof(BattleCardDescXmlList).GetField("_dictionary", AccessTools.all).GetValue(Singleton<BattleCardDescXmlList>.Instance);
-                foreach (BattleCardDesc cardDesc in ((BattleCardDescRoot)BattleCardDescRootSerializer.Deserialize((TextReader)stringReader)).cardDescList)
+                foreach (BattleCardDesc cardDesc in ((BattleCardDescRoot)new XmlSerializer(typeof(BattleCardDescRoot)).Deserialize((TextReader)stringReader)).cardDescList)
                 {
                     LorId lorId = new LorId(modid, cardDesc.cardID);
                     dictionary[lorId] = cardDesc;
@@ -841,7 +822,7 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 
                 Dictionary<LorId, PassiveDesc> dictionary = (Dictionary<LorId, PassiveDesc>)typeof(PassiveDescXmlList).GetField("_dictionary", AccessTools.all).GetValue(Singleton<PassiveDescXmlList>.Instance);
-                foreach (PassiveDesc desc1 in ((PassiveDescRoot)PassiveDescRootSerializer.Deserialize((TextReader)stringReader)).descList)
+                foreach (PassiveDesc desc1 in ((PassiveDescRoot)new XmlSerializer(typeof(PassiveDescRoot)).Deserialize((TextReader)stringReader)).descList)
                 {
                     PassiveDesc desc = desc1;
                     desc.workshopID = modid;
@@ -1109,7 +1090,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             MysteryXmlRoot mysteryXmlRoot;
             using (StringReader stringReader = new StringReader(str))
-                mysteryXmlRoot = (MysteryXmlRoot)MysteryXmlRootSerializer.Deserialize((TextReader)stringReader);
+                mysteryXmlRoot = (MysteryXmlRoot)new XmlSerializer(typeof(MysteryXmlRoot)).Deserialize((TextReader)stringReader);
             foreach (MysteryXmlInfo mystery in mysteryXmlRoot.Mysterys)
             {
                 if (mystery.WorkShopId == string.Empty)
@@ -1122,7 +1103,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             DirectoryInfo directoryInfo1 = new DirectoryInfo(LogLikeMod.path + "/SpecialStaticInfo/MysteryXmlInfos");
             List<MysteryXmlInfo> info = new List<MysteryXmlInfo>();
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles())
+            foreach (FileSystemInfo file in directoryInfo1.GetFiles("*.xml"))
             {
                 MysteryXmlRoot mysteryXmlRoot = LogLikeMod.LoadMysteryInfos(File.ReadAllText(file.FullName), LogLikeMod.ModId);
                 info.AddRange((IEnumerable<MysteryXmlInfo>)mysteryXmlRoot.Mysterys);
@@ -1132,7 +1113,7 @@ namespace abcdcode_LOGLIKE_MOD
                 DirectoryInfo directoryInfo2 = new DirectoryInfo(logMod.GetLogDllPath() + "/SpecialStaticInfo/MysteryXmlInfos");
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (FileSystemInfo file in directoryInfo2.GetFiles())
+                    foreach (FileSystemInfo file in directoryInfo2.GetFiles("*.xml"))
                     {
                         MysteryXmlRoot mysteryXmlRoot = LogLikeMod.LoadMysteryInfos(File.ReadAllText(file.FullName), logMod.invInfo.workshopInfo.uniqueId);
                         info.AddRange((IEnumerable<MysteryXmlInfo>)mysteryXmlRoot.Mysterys);
@@ -1146,7 +1127,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             RewardPassivesRoot rewardPassivesRoot;
             using (StringReader stringReader = new StringReader(str))
-                rewardPassivesRoot = (RewardPassivesRoot)RewardPassivesRootSerializer.Deserialize(stringReader);
+                rewardPassivesRoot = (RewardPassivesRoot)new XmlSerializer(typeof(RewardPassivesRoot)).Deserialize(stringReader);
             foreach (RewardPassivesInfo rewardPassives in rewardPassivesRoot.RewardPassivesList)
             {
                 if (rewardPassives.workshopid == string.Empty)
@@ -1189,7 +1170,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             StagesXmlRoot stagesXmlRoot;
             using (StringReader stringReader = new StringReader(str))
-                stagesXmlRoot = (StagesXmlRoot)StagesXmlRootSerializer.Deserialize((TextReader)stringReader);
+                stagesXmlRoot = (StagesXmlRoot)new XmlSerializer(typeof(StagesXmlRoot)).Deserialize((TextReader)stringReader);
             foreach (StagesXmlInfo dropValueXml in stagesXmlRoot.ChapterList)
             {
                 if (dropValueXml.packageId == string.Empty)
@@ -1207,7 +1188,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             DirectoryInfo directoryInfo1 = new DirectoryInfo(LogLikeMod.path + "/SpecialStaticInfo/StagesXmlInfos");
             List<StagesXmlInfo> info = new List<StagesXmlInfo>();
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles())
+            foreach (FileSystemInfo file in directoryInfo1.GetFiles("*.xml"))
             {
                 StagesXmlRoot stagesXmlRoot = LogLikeMod.LoadStages(File.ReadAllText(file.FullName), LogLikeMod.ModId);
                 info.AddRange(stagesXmlRoot.ChapterList);
@@ -1217,7 +1198,7 @@ namespace abcdcode_LOGLIKE_MOD
                 DirectoryInfo directoryInfo2 = new DirectoryInfo(logMod.GetLogDllPath() + "/SpecialStaticInfo/StagesXmlInfos");
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (FileSystemInfo file in directoryInfo2.GetFiles())
+                    foreach (FileSystemInfo file in directoryInfo2.GetFiles("*.xml"))
                     {
                         StagesXmlRoot stagesXmlRoot = LogLikeMod.LoadStages(File.ReadAllText(file.FullName), logMod.invInfo.workshopInfo.uniqueId);
                         info.AddRange(stagesXmlRoot.ChapterList);
@@ -1231,7 +1212,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             CardDropValueXmlRoot dropValueXmlRoot;
             using (StringReader stringReader = new StringReader(str))
-                dropValueXmlRoot = (CardDropValueXmlRoot)CardDropValueXmlRootSerializer.Deserialize((TextReader)stringReader);
+                dropValueXmlRoot = (CardDropValueXmlRoot)new XmlSerializer(typeof(CardDropValueXmlRoot)).Deserialize((TextReader)stringReader);
             foreach (CardDropValueXmlInfo dropValueXml in dropValueXmlRoot.DropValueXmlList)
             {
                 if (dropValueXml.workshopID == string.Empty)
@@ -1268,7 +1249,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             LogStoryPathRoot logStoryPathRoot;
             using (StringReader stringReader = new StringReader(str))
-                logStoryPathRoot = (LogStoryPathRoot)LogStoryPathRootSerializer.Deserialize((TextReader)stringReader);
+                logStoryPathRoot = (LogStoryPathRoot)new XmlSerializer(typeof(LogStoryPathRoot)).Deserialize((TextReader)stringReader);
             foreach (LogStoryPathInfo logStoryPathInfo in logStoryPathRoot.list)
             {
                 if (logStoryPathInfo.pid == string.Empty)
@@ -1406,7 +1387,7 @@ namespace abcdcode_LOGLIKE_MOD
             LogLikeMod.nextlist = new List<EmotionCardXmlInfo>();
             if (LogLikeMod.curstagetype == StageType.Boss)
             {
-                if (LogLikeMod.curchaptergrade != ChapterGrade.Grade7 && LogueBookModels.RemainStageList.ContainsKey(LogLikeMod.curchaptergrade + 1))
+                if (LogLikeMod.curchaptergrade != ChapterGrade.Grade6 && LogueBookModels.RemainStageList.ContainsKey(LogLikeMod.curchaptergrade + 1))
                     LogLikeMod.nextlist = LogueBookModels.GetNextList(LogLikeMod.curchaptergrade + 1, true);
                 else
                     LogLikeMod.nextlist.Clear();
@@ -1461,7 +1442,7 @@ namespace abcdcode_LOGLIKE_MOD
                 if (File.Exists(path1))
                 {
                     using (StreamReader streamReader = new StreamReader(path1))
-                        passiveXmlInfoList = (PassiveXmlRootSerializer.Deserialize((TextReader)streamReader) as PassiveXmlRoot).list;
+                        passiveXmlInfoList = (new XmlSerializer(typeof(PassiveXmlRoot)).Deserialize((TextReader)streamReader) as PassiveXmlRoot).list;
                 }
                 foreach (PassiveXmlInfo passiveXmlInfo in passiveXmlInfoList)
                     passiveXmlInfo.workshopID = modid;
@@ -1519,7 +1500,7 @@ namespace abcdcode_LOGLIKE_MOD
                 if (File.Exists(path1))
                 {
                     using (StreamReader streamReader = new StreamReader(path1))
-                        deckXmlInfoList = (DeckXmlRootSerializer.Deserialize((TextReader)streamReader) as DeckXmlRoot).deckXmlList;
+                        deckXmlInfoList = (new XmlSerializer(typeof(DeckXmlRoot)).Deserialize((TextReader)streamReader) as DeckXmlRoot).deckXmlList;
                 }
                 foreach (DeckXmlInfo deckXmlInfo in deckXmlInfoList)
                 {
@@ -1586,7 +1567,7 @@ namespace abcdcode_LOGLIKE_MOD
                 {
                     using (StreamReader streamReader = new StreamReader(path1))
                     {
-                        dropBookXmlInfoList = (BookUseXmlRootSerializer.Deserialize((TextReader)streamReader) as BookUseXmlRoot).bookXmlList;
+                        dropBookXmlInfoList = (new XmlSerializer(typeof(BookUseXmlRoot)).Deserialize((TextReader)streamReader) as BookUseXmlRoot).bookXmlList;
                         foreach (DropBookXmlInfo dropBookXmlInfo in dropBookXmlInfoList)
                         {
                             dropBookXmlInfo.workshopID = modid;
@@ -1662,7 +1643,7 @@ namespace abcdcode_LOGLIKE_MOD
                 if (File.Exists(path1))
                 {
                     using (StreamReader streamReader = new StreamReader(path1))
-                        dropTableXmlInfoList = (CardDropTableXmlRootSerializer.Deserialize((TextReader)streamReader) as abcdcode_LOGLIKE_MOD_Extension.CardDropTableXmlRoot).Convert().dropTableXmlList;
+                        dropTableXmlInfoList = (new XmlSerializer(typeof(abcdcode_LOGLIKE_MOD_Extension.CardDropTableXmlRoot)).Deserialize((TextReader)streamReader) as abcdcode_LOGLIKE_MOD_Extension.CardDropTableXmlRoot).Convert().dropTableXmlList;
                 }
                 foreach (CardDropTableXmlInfo dropTableXmlInfo in dropTableXmlInfoList)
                 {
@@ -1727,7 +1708,7 @@ namespace abcdcode_LOGLIKE_MOD
                 {
                     using (StreamReader streamReader = new StreamReader(path1))
                     {
-                        diceCardXmlInfoList = (DiceCardXmlRootSerializer.Deserialize((TextReader)streamReader) as DiceCardXmlRoot).cardXmlList;
+                        diceCardXmlInfoList = (new XmlSerializer(typeof(DiceCardXmlRoot)).Deserialize((TextReader)streamReader) as DiceCardXmlRoot).cardXmlList;
                         foreach (DiceCardXmlInfo diceCardXmlInfo in diceCardXmlInfoList)
                             diceCardXmlInfo.workshopID = modid;
                     }
@@ -1789,7 +1770,7 @@ namespace abcdcode_LOGLIKE_MOD
                 {
                     using (StreamReader streamReader = new StreamReader(path1))
                     {
-                        stageClassInfoList = (StageXmlRootSerializer.Deserialize((TextReader)streamReader) as StageXmlRoot).list;
+                        stageClassInfoList = (new XmlSerializer(typeof(StageXmlRoot)).Deserialize((TextReader)streamReader) as StageXmlRoot).list;
                         foreach (StageClassInfo stageClassInfo in stageClassInfoList)
                         {
                             stageClassInfo.workshopID = modid;
@@ -1859,7 +1840,7 @@ namespace abcdcode_LOGLIKE_MOD
                 {
                     using (StreamReader streamReader = new StreamReader(path1))
                     {
-                        enemyUnitClassInfoList = (EnemyUnitClassRootSerializer.Deserialize((TextReader)streamReader) as EnemyUnitClassRoot).list;
+                        enemyUnitClassInfoList = (new XmlSerializer(typeof(EnemyUnitClassRoot)).Deserialize((TextReader)streamReader) as EnemyUnitClassRoot).list;
                         foreach (EnemyUnitClassInfo enemyUnitClassInfo in enemyUnitClassInfoList)
                         {
                             enemyUnitClassInfo.workshopID = modid;
@@ -1974,7 +1955,7 @@ namespace abcdcode_LOGLIKE_MOD
                 {
                     using (StreamReader streamReader = new StreamReader(path1))
                     {
-                        bookXmlInfoList = (BookXmlRootSerializer.Deserialize((TextReader)streamReader) as BookXmlRoot).bookXmlList;
+                        bookXmlInfoList = (new XmlSerializer(typeof(BookXmlRoot)).Deserialize((TextReader)streamReader) as BookXmlRoot).bookXmlList;
                         foreach (BookXmlInfo bookXmlInfo in bookXmlInfoList)
                         {
                             bookXmlInfo.workshopID = modid;
@@ -2237,7 +2218,7 @@ namespace abcdcode_LOGLIKE_MOD
                 LogLikeMod.spinemotions = new Dictionary<string, Dictionary<ActionDetail, Dictionary<GameObject, SkeletonAnimation>>>();
                 FormationXmlRoot formationXmlRoot;
                 using (StringReader stringReader = new StringReader(File.ReadAllText(LogLikeMod.path + "/AddData/FormationInfo.txt")))
-                    formationXmlRoot = (FormationXmlRoot)FormationXmlRootSerializer.Deserialize((TextReader)stringReader);
+                    formationXmlRoot = (FormationXmlRoot)new XmlSerializer(typeof(FormationXmlRoot)).Deserialize((TextReader)stringReader);
                 ((List<FormationXmlInfo>)typeof(FormationXmlList).GetField("_list", AccessTools.all).GetValue(Singleton<FormationXmlList>.Instance)).AddRange((IEnumerable<FormationXmlInfo>)formationXmlRoot.list);
                 LogLikeMod.CheckExceptionModList = new List<string>()
                 {
@@ -2439,7 +2420,7 @@ namespace abcdcode_LOGLIKE_MOD
                 if (!File.Exists(path + "/AssemList.xml"))
                     return;
                 using (StreamReader streamReader = new StreamReader(path + "/AssemList.xml"))
-                    loadList = LoadListSerializer.Deserialize((TextReader)streamReader) as LogLikeMod.LoadList;
+                    loadList = new XmlSerializer(typeof(LogLikeMod.LoadList)).Deserialize((TextReader)streamReader) as LogLikeMod.LoadList;
                 List<string> stringList = new List<string>();
                 foreach (string str in loadList.ReadDll)
                 {

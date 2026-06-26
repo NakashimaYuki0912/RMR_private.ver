@@ -9,14 +9,10 @@
     <StageList ID="20005" StageType="Boss" /> 
     <StageList ID="20006" StageType="Boss" /> 
     <StageList ID="20007" StageType="Normal" /> 
-    <StageList ID="991102" StageType="Creature" /> 
     <StageList ID="120001" StageType="Mystery" />
     <StageList ID="120002" StageType="Mystery" />
     <StageList ID="120003" StageType="Mystery" />
-    <StageList ID="991001" StageType="Mystery" />
-    <StageList ID="991002" StageType="Mystery" />
-    <StageList ID="991003" StageType="Mystery" />
-    <StageList ID="112001" StageType="Shop" /> 
+    <StageList ID="112001" StageType="Rest" />
     <StageList ID="112001" StageType="Shop" /> 
   </ChapterList>
 

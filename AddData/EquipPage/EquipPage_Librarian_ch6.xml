@@ -566,11 +566,14 @@
       <Passive Pid="@origin">250322</Passive>
 
       <Passive Pid="@origin">10008</Passive>
+      <OnlyCard>607001</OnlyCard>
+      <OnlyCard>607002</OnlyCard>
 		  <OnlyCard>607003</OnlyCard>
       <OnlyCard>607004</OnlyCard>
       <OnlyCard>607005</OnlyCard>
       <OnlyCard>607006</OnlyCard>
       <OnlyCard>607007</OnlyCard>
+      <OnlyCard>607008</OnlyCard>
     </EquipEffect>
     <BookIcon>TheRedMist</BookIcon>
     <Chapter>6</Chapter>

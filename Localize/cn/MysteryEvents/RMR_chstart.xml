@@ -21,7 +21,10 @@
         <Desc>选择[common]指引之光</Desc>
       </Choice>
 	  <Choice ID="5">
-        <Desc>选择[common]无路卡美洛</Desc>
+        <Desc>Choose [common]Roadless Camelot</Desc>
+      </Choice>
+      <Choice ID="6">
+        <Desc>选择[rare]楼层解放战</Desc>
       </Choice>
     </Frame>
     <Frame ID="1">

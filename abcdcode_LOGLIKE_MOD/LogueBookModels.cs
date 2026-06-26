@@ -40,6 +40,8 @@ namespace abcdcode_LOGLIKE_MOD
         public static int nextinstanceid;
         public static HashSet<LorId> AtlasUnlockedRoleBooks;
         public static HashSet<LorId> AtlasUnlockedBattleCards;
+        public static HashSet<LorId> AtlasUnlockedAbnormalityPages;
+        public static HashSet<LorId> AtlasUnlockedEgoPages;
 
         public static BookModel LoadFromSaveData_BookModel(SaveData data)
         {
@@ -69,12 +71,16 @@ namespace abcdcode_LOGLIKE_MOD
             return data;
         }
 
-        private static void EnsureAtlasUnlocks()
+        public static void EnsureAtlasUnlocks()
         {
             if (LogueBookModels.AtlasUnlockedRoleBooks == null)
                 LogueBookModels.AtlasUnlockedRoleBooks = new HashSet<LorId>();
             if (LogueBookModels.AtlasUnlockedBattleCards == null)
                 LogueBookModels.AtlasUnlockedBattleCards = new HashSet<LorId>();
+            if (LogueBookModels.AtlasUnlockedAbnormalityPages == null)
+                LogueBookModels.AtlasUnlockedAbnormalityPages = new HashSet<LorId>();
+            if (LogueBookModels.AtlasUnlockedEgoPages == null)
+                LogueBookModels.AtlasUnlockedEgoPages = new HashSet<LorId>();
         }
 
         public static void RecordAtlasRoleBook(LorId id)
@@ -93,6 +99,25 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.AtlasUnlockedBattleCards.Add(id);
         }
 
+        public static void RecordAtlasAbnormalityPage(LorId id)
+        {
+            if (id == LorId.None)
+                return;
+            RewardPassiveInfo info = Singleton<RewardPassivesList>.Instance.GetPassiveInfo(id);
+            if (info == null || !RMRAbnormalityUnlockManager.IsRealizationExclusive(info))
+                return;
+            LogueBookModels.EnsureAtlasUnlocks();
+            LogueBookModels.AtlasUnlockedAbnormalityPages.Add(id);
+        }
+
+        public static void RecordAtlasEgoPage(LorId id)
+        {
+            if (id == LorId.None || !RMRAbnormalityUnlockManager.IsRealizationEgoCard(id))
+                return;
+            LogueBookModels.EnsureAtlasUnlocks();
+            LogueBookModels.AtlasUnlockedEgoPages.Add(id);
+        }
+
         public static bool IsAtlasRoleBookUnlocked(LorId id)
         {
             LogueBookModels.EnsureAtlasUnlocks();
@@ -103,6 +128,85 @@ namespace abcdcode_LOGLIKE_MOD
         {
             LogueBookModels.EnsureAtlasUnlocks();
             return LogueBookModels.AtlasUnlockedBattleCards.Contains(id);
+        }
+
+        public static bool IsAtlasAbnormalityPageUnlocked(LorId id)
+        {
+            LogueBookModels.EnsureAtlasUnlocks();
+            return LogueBookModels.AtlasUnlockedAbnormalityPages.Contains(id);
+        }
+
+        public static bool IsAtlasEgoPageUnlocked(LorId id)
+        {
+            LogueBookModels.EnsureAtlasUnlocks();
+            return LogueBookModels.AtlasUnlockedEgoPages.Contains(id);
+        }
+
+        public static void SyncCurrentInventoryToPermanentAtlas()
+        {
+            LogueBookModels.EnsureAtlasUnlocks();
+            if (LogueBookModels.cardlist != null)
+            {
+                foreach (DiceCardItemModel card in LogueBookModels.cardlist)
+                    LogueBookModels.AtlasUnlockedBattleCards.Add(card.GetID());
+            }
+            if (LogueBookModels.booklist != null)
+            {
+                foreach (BookModel book in LogueBookModels.booklist)
+                    LogueBookModels.AtlasUnlockedRoleBooks.Add(book.ClassInfo.id);
+            }
+            PruneInvalidPermanentAbnormalityAtlasUnlocks();
+        }
+
+        public static void PruneCorePageExclusiveBattleCardsFromInventoryAndAtlas()
+        {
+            LogueBookModels.EnsureAtlasUnlocks();
+            HashSet<LorId> exclusiveCards = LogueBookModels.GetCorePageExclusiveBattleCardIds();
+            if (exclusiveCards.Count == 0)
+                return;
+            if (LogueBookModels.cardlist != null)
+                LogueBookModels.cardlist.RemoveAll(card => exclusiveCards.Contains(card.GetID()));
+            LogueBookModels.AtlasUnlockedBattleCards.RemoveWhere(id => exclusiveCards.Contains(id));
+        }
+
+        private static HashSet<LorId> GetCorePageExclusiveBattleCardIds()
+        {
+            HashSet<LorId> result = new HashSet<LorId>();
+            List<LorId> roleBookIds = new List<LorId>();
+            if (LogueBookModels.booklist != null)
+                roleBookIds.AddRange(LogueBookModels.booklist.Where(book => book?.ClassInfo != null).Select(book => book.ClassInfo.id));
+            if (LogueBookModels.AtlasUnlockedRoleBooks != null)
+                roleBookIds.AddRange(LogueBookModels.AtlasUnlockedRoleBooks);
+            foreach (LorId roleBookId in roleBookIds)
+            {
+                BookXmlInfo book = Singleton<BookXmlList>.Instance.GetData(roleBookId);
+                if (book?.EquipEffect?.OnlyCard == null || book.EquipEffect.OnlyCard.Count == 0)
+                    continue;
+                foreach (int cardId in book.EquipEffect.OnlyCard)
+                {
+                    DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(new LorId(book.workshopID, cardId), true)
+                        ?? ItemXmlDataList.instance.GetCardItem(cardId, true);
+                    if (card != null)
+                        result.Add(card.id);
+                }
+            }
+            return result;
+        }
+
+        public static void PruneInvalidPermanentAbnormalityAtlasUnlocks()
+        {
+            LogueBookModels.EnsureAtlasUnlocks();
+            LogueBookModels.AtlasUnlockedAbnormalityPages.RemoveWhere(id =>
+            {
+                RewardPassiveInfo info = Singleton<RewardPassivesList>.Instance.GetPassiveInfo(id);
+                return info == null || !RMRAbnormalityUnlockManager.IsRealizationExclusive(info);
+            });
+            LogueBookModels.AtlasUnlockedEgoPages.RemoveWhere(id => !RMRAbnormalityUnlockManager.IsRealizationEgoCard(id));
+        }
+
+        public static void SavePermanentAtlasUnlocks()
+        {
+            LoguePlayDataSaver.SavePlayData_Menu();
         }
 
         private static SaveData SaveAtlasUnlocks(HashSet<LorId> ids)
@@ -388,6 +492,8 @@ namespace abcdcode_LOGLIKE_MOD
             data1.AddData("RMRAbnormalityUnlocks", RMRAbnormalityUnlockManager.SaveRouteUnlocks());
             data1.AddData("atlasRoleBookUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedRoleBooks));
             data1.AddData("atlasBattleCardUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedBattleCards));
+            data1.AddData("atlasAbnormalityPageUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedAbnormalityPages));
+            data1.AddData("atlasEgoPageUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedEgoPages));
             data1.AddData("SubPlayerNum", new SaveData(LogueBookModels.playerModel.Count - 1));
             data1.AddData("nextinstanceid", LogueBookModels.nextinstanceid);
             return data1;
@@ -464,6 +570,8 @@ namespace abcdcode_LOGLIKE_MOD
             data1.AddData("RMRAbnormalityUnlocks", RMRAbnormalityUnlockManager.SaveRouteUnlocks());
             data1.AddData("atlasRoleBookUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedRoleBooks));
             data1.AddData("atlasBattleCardUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedBattleCards));
+            data1.AddData("atlasAbnormalityPageUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedAbnormalityPages));
+            data1.AddData("atlasEgoPageUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedEgoPages));
             data1.AddData("SubPlayerNum", new SaveData(LogueBookModels.playerModel.Count - 1));
             data1.AddData("nextinstanceid", LogueBookModels.nextinstanceid);
             "".Log("LogueInven Save End : " + DateTime.Now.ToString());
@@ -567,12 +675,11 @@ namespace abcdcode_LOGLIKE_MOD
             }
             LogueBookModels.LoadAtlasUnlocks(save.GetData("atlasRoleBookUnlocks"), LogueBookModels.AtlasUnlockedRoleBooks);
             LogueBookModels.LoadAtlasUnlocks(save.GetData("atlasBattleCardUnlocks"), LogueBookModels.AtlasUnlockedBattleCards);
-            // Migration: sync all unlocked cards/books to atlas (handles old saves without atlas data)
-            LogueBookModels.EnsureAtlasUnlocks();
-            foreach (var card in LogueBookModels.cardlist)
-                LogueBookModels.AtlasUnlockedBattleCards.Add(card.GetID());
-            foreach (var book in LogueBookModels.booklist)
-                LogueBookModels.AtlasUnlockedRoleBooks.Add(book.ClassInfo.id);
+            LogueBookModels.LoadAtlasUnlocks(save.GetData("atlasAbnormalityPageUnlocks"), LogueBookModels.AtlasUnlockedAbnormalityPages);
+            LogueBookModels.LoadAtlasUnlocks(save.GetData("atlasEgoPageUnlocks"), LogueBookModels.AtlasUnlockedEgoPages);
+            LogueBookModels.SyncCurrentInventoryToPermanentAtlas();
+            PruneCorePageExclusiveBattleCardsFromInventoryAndAtlas();
+            PruneInvalidPermanentAbnormalityAtlasUnlocks();
             RMRAbnormalityUnlockManager.LoadRouteUnlocks(save.GetData("RMRAbnormalityUnlocks"));
             LogueBookModels.nextinstanceid = save.GetInt("nextinstanceid");
         }
@@ -765,6 +872,70 @@ namespace abcdcode_LOGLIKE_MOD
             bookModel.TryGainUniquePassive();
             LogueBookModels.booklist.Add(bookModel);
             LogueBookModels.RecordAtlasRoleBook(id);
+        }
+
+        public static bool TryAddUniqueRoleBookToInventoryAndAtlas(LorId id)
+        {
+            if (id == LorId.None)
+                return false;
+            BookXmlInfo bookXml = Singleton<BookXmlList>.Instance.GetData(id);
+            if (bookXml == null)
+                return false;
+
+            bool added = false;
+            if (LogueBookModels.booklist == null)
+                LogueBookModels.booklist = new List<BookModel>();
+            if (!LogueBookModels.booklist.Any(book => book?.ClassInfo?.id == id))
+            {
+                BookModel bookModel = new BookModel(bookXml);
+                bookModel.instanceId = LogueBookModels.nextinstanceid++;
+                bookModel.TryGainUniquePassive();
+                LogueBookModels.booklist.Add(bookModel);
+                added = true;
+            }
+
+            LogueBookModels.EnsureAtlasUnlocks();
+            bool recordsPermanently = RMRCore.ShouldRecordRoleBookInPermanentAtlas(bookXml);
+            if (recordsPermanently && !LogueBookModels.AtlasUnlockedRoleBooks.Contains(id))
+            {
+                LogueBookModels.AtlasUnlockedRoleBooks.Add(id);
+                added = true;
+            }
+            return added;
+        }
+
+        public static bool HasGrade6SpecialBuiltInDeck(BookModel model)
+        {
+            return model?.ClassInfo?.EquipEffect?.OnlyCard != null
+                && model.ClassInfo.EquipEffect.OnlyCard.Count > 0;
+        }
+
+        public static bool TryGetGrade6SpecialBuiltInDeckCards(UnitDataModel model, out List<DiceCardXmlInfo> builtInDeck)
+        {
+            builtInDeck = new List<DiceCardXmlInfo>();
+            if (model == null || !HasGrade6SpecialBuiltInDeck(model.bookItem))
+                return false;
+            foreach (int cardId in model.bookItem.ClassInfo.EquipEffect.OnlyCard)
+            {
+                DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(cardId, true);
+                if (card != null)
+                    builtInDeck.Add(card);
+            }
+            return builtInDeck.Count > 0;
+        }
+
+        public static bool TryGetGrade6SpecialBuiltInDeckCards(BookModel model, out List<DiceCardXmlInfo> builtInDeck)
+        {
+            builtInDeck = new List<DiceCardXmlInfo>();
+            if (!HasGrade6SpecialBuiltInDeck(model))
+                return false;
+            foreach (int cardId in model.ClassInfo.EquipEffect.OnlyCard)
+            {
+                DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(cardId, true);
+                if (card != null)
+                    builtInDeck.Add(card);
+            }
+            return builtInDeck.Count > 0;
         }
 
         public static void AddUpgradeCard(LorId cardid, bool callInvenChangeEvent = true) =>
@@ -1018,6 +1189,8 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.booklist = new List<BookModel>();
             LogueBookModels.AtlasUnlockedRoleBooks = new HashSet<LorId>();
             LogueBookModels.AtlasUnlockedBattleCards = new HashSet<LorId>();
+            LogueBookModels.AtlasUnlockedAbnormalityPages = new HashSet<LorId>();
+            LogueBookModels.AtlasUnlockedEgoPages = new HashSet<LorId>();
             LogueBookModels.playerModel = new List<UnitDataModel>();
             UnitDataModel player = new UnitDataModel(new LorId(LogLikeMod.ModId, -854));
             player.bookItem.instanceId = LogueBookModels.nextinstanceid++;
@@ -1127,6 +1300,13 @@ namespace abcdcode_LOGLIKE_MOD
             return diceCardSelfAbility == null || !(diceCardSelfAbility is LogDiceCardSelfAbility) || (diceCardSelfAbility as LogDiceCardSelfAbility).CanAddDeck(model.CopyCurrentDeck(), out CardEquipState _);
         }
 
+        private static void TrySetGrade6SpecialBuiltInDeckSource(UnitDataModel unitData, BookXmlInfo page)
+        {
+            if (unitData == null || page?.EquipEffect?.OnlyCard == null || page.EquipEffect.OnlyCard.Count == 0)
+                return;
+            LogueBookModels.EnsureAtlasUnlocks();
+        }
+
         public static void EquipNewPage(UnitDataModel model, BookXmlInfo page, bool keepSuc = false)
         {
             UnitBattleDataModel model1 = LogueBookModels.playerBattleModel.Find((Predicate<UnitBattleDataModel>)(x => x.unitData == model));
@@ -1190,6 +1370,8 @@ namespace abcdcode_LOGLIKE_MOD
                 else
                     fieldValue.Add(cardItem);
             }
+            TrySetGrade6SpecialBuiltInDeckSource(unitData, page);
+            PruneCorePageExclusiveBattleCardsFromInventoryAndAtlas();
             foreach (DiceCardXmlInfo diceCardXmlInfo in model.unitData.bookItem.GetCardListFromCurrentDeck())
             {
                 if (!LogueBookModels.CanAddCardToCurrentDeck(diceCardXmlInfo.id, model.unitData.bookItem))

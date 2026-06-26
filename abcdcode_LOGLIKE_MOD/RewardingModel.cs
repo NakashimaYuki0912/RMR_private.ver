@@ -19,6 +19,13 @@ namespace abcdcode_LOGLIKE_MOD
     public class RewardingModel
     {
         public static RewardingModel.RewardFlag rewardFlag;
+        private const double BattleCardRewardRetentionRate = 0.7;
+        private static readonly HashSet<LorId> NormalizedDropBookRewardIds = new HashSet<LorId>();
+
+        public static void ResetDropBookRewardNormalization()
+        {
+            NormalizedDropBookRewardIds.Clear();
+        }
 
         public static string GetChapterText(int grade)
         {
@@ -427,7 +434,21 @@ namespace abcdcode_LOGLIKE_MOD
                 if (passive.rewards == null)
                     LogLikeMod.rewards_passive.Remove(passive);
             }
-            if (LogLikeMod.rewardsMystery.Count > 0)
+            EnsureBossBattleCardReward();
+            NormalizeDropBookRewards();
+            if (HasQueuedEgoSelections())
+            {
+                List<EmotionEgoXmlInfo> egoRewards = GetQueuedEgoRewards();
+                if (egoRewards == null || egoRewards.Count == 0)
+                {
+                    LogLikeMod.egoSelectionQueue.RemoveAt(0);
+                    StartPickReward();
+                    return;
+                }
+                RewardingModel.rewardFlag = RewardingModel.RewardFlag.EgoCardReward;
+                SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.InitEgo(1, egoRewards);
+            }
+            else if (LogLikeMod.rewardsMystery.Count > 0)
             {
                 LorId mysteryid = LogLikeMod.rewardsMystery[0];
                 LogLikeMod.rewardsMystery.RemoveAt(0);
@@ -436,7 +457,7 @@ namespace abcdcode_LOGLIKE_MOD
             }
             else
             {
-                if (LogLikeMod.rewards.Count == 0 && LogLikeMod.rewards_passive.Count == 0 && LogLikeMod.nextlist.Count == 0)
+                if (LogLikeMod.rewards.Count == 0 && LogLikeMod.rewards_passive.Count == 0 && LogLikeMod.nextlist.Count == 0 && !HasQueuedEgoSelections() && !HasQueuedMysteryRewards())
                     return;
                 if (LogLikeMod.rewards.Count > 0)
                 {
@@ -468,6 +489,77 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        private static void NormalizeDropBookRewards()
+        {
+            if (LogLikeMod.rewards == null || LogLikeMod.rewards.Count == 0)
+                return;
+            foreach (var group in LogLikeMod.rewards.FindAll(reward => reward != null && reward.id != null)
+                         .GroupBy(reward => reward.id).ToList())
+            {
+                if (NormalizedDropBookRewardIds.Contains(group.Key))
+                    continue;
+                NormalizedDropBookRewardIds.Add(group.Key);
+                int count = group.Count();
+                if (count <= 1)
+                    continue;
+                int keepCount = Math.Max(1, (int)Math.Ceiling(count * BattleCardRewardRetentionRate));
+                int removeCount = count - keepCount;
+                for (int i = LogLikeMod.rewards.Count - 1; i >= 0 && removeCount > 0; i--)
+                {
+                    DropBookXmlInfo reward = LogLikeMod.rewards[i];
+                    if (reward == null || reward.id != group.Key)
+                        continue;
+                    LogLikeMod.rewards.RemoveAt(i);
+                    removeCount--;
+                }
+            }
+        }
+
+        private static void EnsureBossBattleCardReward()
+        {
+            if (LogLikeMod.curstagetype != StageType.Boss)
+                return;
+            if (LogLikeMod.rewards == null)
+                LogLikeMod.rewards = new List<DropBookXmlInfo>();
+            if (LogLikeMod.rewards.FindAll(reward => reward != null).Count > 0)
+                return;
+            int chapterNumber = (int)LogLikeMod.curchaptergrade + 1;
+            DropBookXmlInfo fallback = Singleton<DropBookXmlList>.Instance.GetData(new LorId(LogLikeMod.ModId, chapterNumber * 1000 + 4));
+            if (fallback != null)
+                LogLikeMod.rewards.Add(fallback);
+        }
+
+        public static bool HasQueuedEgoSelections()
+        {
+            return LogLikeMod.egoSelectionQueue != null
+                && LogLikeMod.egoSelectionQueue.Any(choice => choice != null && choice.Count > 0);
+        }
+
+        public static bool HasQueuedMysteryRewards()
+        {
+            return LogLikeMod.rewardsMystery != null && LogLikeMod.rewardsMystery.Count > 0;
+        }
+
+        private static List<EmotionEgoXmlInfo> GetQueuedEgoRewards()
+        {
+            if (!HasQueuedEgoSelections())
+                return new List<EmotionEgoXmlInfo>();
+            List<LorId> ids = LogLikeMod.egoSelectionQueue[0];
+            List<EmotionEgoXmlInfo> result = new List<EmotionEgoXmlInfo>();
+            foreach (LorId id in ids)
+            {
+                if (RMRAbnormalityUnlockManager.IsEgoUnlockedForCurrentRoute(id) || LogueBookModels.IsAtlasEgoPageUnlocked(id))
+                    continue;
+                DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(id, true);
+                if (card == null)
+                    continue;
+                EmotionEgoXmlInfo ego = LogLikeMod.AddEmotionEgoForReward(card);
+                if (ego != null)
+                    result.Add(ego);
+            }
+            return result;
+        }
+
         public static void PickEmotion(List<EmotionCardXmlInfo> emotions)
         {
             RewardingModel.rewardFlag = RewardingModel.RewardFlag.EmtoionChoose;
@@ -481,7 +573,8 @@ namespace abcdcode_LOGLIKE_MOD
             Singleton<GlobalLogueEffectManager>.Instance.RewardClearStageInterrupt();
             if (Singleton<MysteryManager>.Instance.curMystery != null || SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.IsEnabled)
                 return false;
-            if (LogLikeMod.rewards.FindAll(x => x != null).Count == 0 && LogLikeMod.rewards_passive.FindAll(x => x != null).Count == 0 && LogLikeMod.nextlist.FindAll(x => x != null).Count == 0)
+            EnsureBossBattleCardReward();
+            if (LogLikeMod.rewards.FindAll(x => x != null).Count == 0 && LogLikeMod.rewards_passive.FindAll(x => x != null).Count == 0 && LogLikeMod.nextlist.FindAll(x => x != null).Count == 0 && !HasQueuedEgoSelections() && !HasQueuedMysteryRewards())
                 return true;
             if (BattleObjectManager.instance.GetAliveListWithAvailable(Faction.Player).Count == 0)
             {
@@ -627,6 +720,7 @@ namespace abcdcode_LOGLIKE_MOD
             NextStageChoose,
             EmtoionChoose,
             RewardInStage,
+            EgoCardReward,
         }
 
         private static string GetRewardPassiveKey(RewardPassiveInfo info)

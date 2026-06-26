@@ -23,6 +23,9 @@ Which one will you choose?</Dialog>
 	  <Choice ID="5">
         <Desc>Choose [common]Roadless Camelot</Desc>
       </Choice>
+      <Choice ID="6">
+        <Desc>Choose [rare]Floor Realization</Desc>
+      </Choice>
     </Frame>
     <Frame ID="1">
       <Dialog>The [mirror]sparkling mirror[/color] beckons, vibrating as it manifests your chosen artifact. It lands softly in your hands, prompting [mirror]the mirror[/color] and its surroundings to dissipate into thin air.</Dialog>

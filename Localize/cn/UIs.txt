@@ -28,16 +28,16 @@
   <text id="Stage_Normal">普通战斗</text>
   <text id="Stage_Elite">精英战斗</text>
   <text id="Stage_Boss">Boss战斗</text>
-  <text id="Stage_Mystery">随机事件</text>
   <text id="Stage_Creature">异想体战斗</text>
+  <text id="Stage_Mystery">随机事件</text>
   <text id="Stage_Shop">商店</text>
   <text id="Stage_Rest">休息室</text>
 
   <text id="Stage_Normal_Desc">接待一位普通来宾</text>
   <text id="Stage_Elite_Desc">接待一位强力来宾。战斗后获得1个被动能力。</text>
   <text id="Stage_Boss_Desc">接待一位超强的来宾。接待后继续下一章。</text>
+  <text id="Stage_Creature_Desc">挑战异想体战斗。战斗后获得异想体书页奖励。</text>
   <text id="Stage_Mystery_Desc">有什么事情发生了......</text>
-  <text id="Stage_Creature_Desc">接待异常的来宾。胜利后获得更多异想体书页选择。</text>
   <text id="Stage_Shop_Desc">用你的积蓄购买有用的物品。</text>
   <text id="Stage_Rest_Desc">可以让你恢复精力的休息空间。您可以恢复司书的生命值或升级战斗书页。</text>
 
@@ -63,8 +63,6 @@
   <text id="ui_Inventory">商品</text>
   <text id="ui_CreatureTab">异想体</text>
   <text id="ui_CraftTab">技能</text>
-  <text id="ui_AtlasTab">图鉴</text>
-  <text id="ui_Realization">解放战</text>
   <text id="ui_CraftCost">费用</text>
 
   <text id="ui_ExceptionWithLog">已检测到与RogueLike模组冲突的模组。</text>
@@ -75,10 +73,6 @@
   <text id="ui_RMR_ItemNotObtained_Desc">您尚未找到该物品。</text>
   <text id="ui_RMR_ItemNotObtained_Credenza">暂无可用信息。</text>
   <text id="ui_RMR_ItemNoEntry_Credenza">[当前无法进入]</text>
-  <text id="ui_RMR_AtlasRoleBook">角色书页</text>
-  <text id="ui_RMR_AtlasBattleCard">战斗书页</text>
-  <text id="ui_RMR_AtlasAbnormalityPage">异想体书页</text>
-  <text id="ui_RMR_AtlasEgoPage">EGO书页</text>
 
   <text id="ui_RMR_StartNewRun">新路线</text>
   <text id="ui_RMR_StartNewRunDesc">开始新的Roguelike路线。这将会覆盖您正在游玩的路线。</text>

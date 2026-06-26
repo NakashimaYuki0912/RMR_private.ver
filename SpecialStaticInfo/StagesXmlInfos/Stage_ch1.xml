@@ -9,18 +9,14 @@
     <StageList ID="-11530007" StageType="Normal" /> 
     <StageList ID="-11530008" StageType="Normal" /> 
     <StageList ID="-11530009" StageType="Normal" /> 
-    <StageList ID="991101" StageType="Creature" /> 
 
     <StageList ID="110001" StageType="Mystery" /> 
     <StageList ID="110003" StageType="Mystery" />
     <StageList ID="110004" StageType="Mystery" />
     <StageList ID="110005" StageType="Mystery" />
     <StageList ID="110006" StageType="Mystery" />
-    <StageList ID="991001" StageType="Mystery" />
-    <StageList ID="991002" StageType="Mystery" />
-    <StageList ID="991003" StageType="Mystery" />
  
-    <StageList ID="111001" StageType="Shop" /> 
+    <StageList ID="111001" StageType="Rest" />
     <StageList ID="111001" StageType="Shop" /> 
 
   </ChapterList>
