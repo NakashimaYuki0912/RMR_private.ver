@@ -507,6 +507,7 @@
     <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_BossReward8.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Ch2BossLulu.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Ch2BossMars.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Ch6RedMistChallenge.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Ch4Mystery2Add.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Ch5_2EventResult.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\PickUpModel_Ch6_2EventPlayerDie.cs" />

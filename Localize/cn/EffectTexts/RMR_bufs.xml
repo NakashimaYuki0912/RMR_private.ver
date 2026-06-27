@@ -1,189 +1,193 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <BattleEffectTextRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<effectTextList>
 
     <BattleEffectText ID="RMR_CriticalStrike">
-	  <Name>鏆村嚮</Name>
-	  <Desc>杩欎竴骞曞唴鑷韩鐨勬敾鍑绘湁{0}%鐨勬鐜囦娇閫犳垚鐨勪激瀹充笌娣蜂贡浼ゅ+50%</Desc>
+	  <Name>暴击</Name>
+	  <Desc>这一幕内自身的攻击有{0}%的概率使造成的伤害与混乱伤害+50%</Desc>
 	</BattleEffectText>
-	
+
     <BattleEffectText ID="RMR_CriticalStrike_Keyword">
-	  <Name>鏆村嚮 X</Name>
-	  <Desc>杩欎竴骞曞唴鑷韩鐨勬敾鍑绘湁X%鐨勬鐜囦娇閫犳垚鐨勪激瀹充笌娣蜂贡浼ゅ+50%</Desc>
+	  <Name>暴击 X</Name>
+	  <Desc>这一幕内自身的攻击有X%的概率使造成的伤害与混乱伤害+50%</Desc>
 	</BattleEffectText>
-	
+
 	<BattleEffectText ID="RMR_Luck">
-	  <Name>幸运</Name>
-	  <Desc>投掷骰子时额外投掷{0}次，采用最高值，并失去1层幸运。</Desc>
+	  <Name>Luck</Name>
+	  <Desc>When rolling a die, roll {0} more times, apply the highest value and lose 1 Luck.</Desc>
 	</BattleEffectText>
-	
+
     <BattleEffectText ID="RMR_Luck_Keyword">
-	  <Name>幸运 X</Name>
-	  <Desc>投掷骰子时额外投掷X次，采用最高值，并失去1层幸运。</Desc>
+	  <Name>Luck X</Name>
+	  <Desc>When rolling a die, roll X more times, apply the highest value and lose 1 Luck.</Desc>
 	</BattleEffectText>
-	
+
 	<BattleEffectText ID="RMR_Smoke">
-      <Name>烟气</Name>
-      <Desc>造成与承受的伤害+{0}%。至多叠加10层。若拥有9层以上烟气，骰子威力+1。幕结束时烟气层数减半。</Desc>
+      <Name>Smoke</Name>
+      <Desc>Deal and take {0}% more damage. Can stack up to 10. Dice Power +1 if the character has 9+ Smoke. Smoke is halved at the end of the Scene.</Desc>
     </BattleEffectText>
-	 
+
     <BattleEffectText ID="RMR_Smoke_Keyword">
-      <Name>烟气 X</Name>
-      <Desc>提高造成与承受的伤害。9层以上时所有骰子威力+1。至多叠加10层。每幕结束时层数减半。</Desc>
+      <Name>Smoke X</Name>
+      <Desc>Amplifies damage dealt and taken. At 9+ Smoke, all dice gain +1 Power. Stacks up to 10. Smoke is halved at the end of each Scene.</Desc>
     </BattleEffectText>
-	
+
 	<BattleEffectText ID="RMR_Persistence">
-      <Name>坚韧</Name>
-      <Desc>接下来{0}幕内受到致命伤害时，以30点体力复活并移除此状态。</Desc>
+      <Name>Persistent</Name>
+      <Desc>For the next {0} Scenes, upon taking lethal damage, revive with 30 HP and purge this.</Desc>
     </BattleEffectText>
 
     <BattleEffectText ID="RMR_Persistence_Keyword">
-      <Name>坚韧 X</Name>
-      <Desc>接下来X幕内受到致命伤害时，以30点体力复活并移除此状态。</Desc>
+      <Name>Persistent X</Name>
+      <Desc>For the next X Scenes, upon taking lethal damage, revive with 30 HP and purge this.</Desc>
     </BattleEffectText>
-	
+
 	<BattleEffectText ID="RMR_BurnProtection">
-      <Name>鐑т激瀹堟姢</Name>
-      <Desc>杩欎竴骞曚腑鍙楀埌鐨勨€滅儳浼も€濅激瀹?{0}</Desc>
+      <Name>烧伤守护</Name>
+      <Desc>这一幕中受到的“烧伤”伤害-{0}</Desc>
     </BattleEffectText>
 
     <BattleEffectText ID="RMR_BurnProtection_Keyword">
-      <Name>鐑т激瀹堟姢 X</Name>
-      <Desc>杩欎竴骞曚腑鍙楀埌鐨勨€滅儳浼も€濅激瀹?X</Desc>
+      <Name>烧伤守护 X</Name>
+      <Desc>这一幕中受到的“烧伤”伤害-X</Desc>
     </BattleEffectText>
-	
+
 	<BattleEffectText ID="RMR_BleedProtection">
-      <Name>娴佽瀹堟姢</Name>
-      <Desc>杩欎竴骞曚腑鍙楀埌鐨勨€滄祦琛€鈥濅激瀹?{0}</Desc>
+      <Name>流血守护</Name>
+      <Desc>这一幕中受到的“流血”伤害-{0}</Desc>
     </BattleEffectText>
 
     <BattleEffectText ID="RMR_BleedProtection_Keyword">
-      <Name>娴佽瀹堟姢 X</Name>
-      <Desc>杩欎竴骞曚腑鍙楀埌鐨勨€滄祦琛€鈥濅激瀹?{0}</Desc>
+      <Name>流血守护 X</Name>
+      <Desc>这一幕中受到的“流血”伤害-{0}</Desc>
     </BattleEffectText>
-	
+
 	<BattleEffectText ID="RMR_Shield">
-      <Name>鎶ょ浘</Name>
-      <Desc>杩欎竴骞曞唴浣胯嚜韬笅涓€娆″彈鍒扮殑浼ゅ-{0}</Desc>
+      <Name>护盾</Name>
+      <Desc>这一幕内使自身下一次受到的伤害-{0}</Desc>
     </BattleEffectText>
 
     <BattleEffectText ID="RMR_Shield_Keyword">
-      <Name>鎶ょ浘 X</Name>
-      <Desc>杩欎竴骞曞唴浣胯嚜韬笅涓€娆″彈鍒扮殑浼ゅ-X</Desc>
+      <Name>护盾 X</Name>
+      <Desc>这一幕内使自身下一次受到的伤害-X</Desc>
     </BattleEffectText>
 
     <BattleEffectText ID="RMR_StaggerShield">
-      <Name>娣蜂贡鎶ょ浘</Name>
-      <Desc>杩欎竴骞曞唴浣胯嚜韬笅涓€娆″彈鍒扮殑娣蜂贡浼ゅ-{0}</Desc>
+      <Name>混乱护盾</Name>
+      <Desc>这一幕内使自身下一次受到的混乱伤害-{0}</Desc>
     </BattleEffectText>
 
     <BattleEffectText ID="RMR_StaggerShield_Keyword">
-      <Name>娣蜂贡鎶ょ浘 X</Name>
-      <Desc>杩欎竴骞曞唴浣胯嚜韬笅涓€娆″彈鍒扮殑娣蜂贡浼ゅ-X</Desc>
+      <Name>混乱护盾 X</Name>
+      <Desc>这一幕内使自身下一次受到的混乱伤害-X</Desc>
     </BattleEffectText>
-	
+
 	<BattleEffectText ID="RMR_ClashPower">
-      <Name>鎷肩偣濞佸姏鎻愬崌</Name>
-      <Desc>杩欎竴骞曞唴鎵€鏈夐瀛愭嫾鐐规椂濞佸姏+{0}浣嗛€犳垚鐨勪激瀹炽€佹贩涔变激瀹充笌鍙嶉渿浼ゅ-{0}</Desc>
+      <Name>拼点威力提升</Name>
+      <Desc>这一幕内所有骰子拼点时威力+{0}但造成的伤害、混乱伤害与反震伤害-{0}</Desc>
     </BattleEffectText>
-	
+
 	<BattleEffectText ID="RMR_ClashPowerDown">
-      <Name>鎷肩偣濞佸姏涓嬮檷</Name>
-      <Desc>杩欎竴骞曞唴鎵€鏈夐瀛愭嫾鐐规椂濞佸姏-{0}浣嗛€犳垚鐨勪激瀹炽€佹贩涔变激瀹充笌鍙嶉渿浼ゅ+{0}</Desc>
+      <Name>拼点威力下降</Name>
+      <Desc>这一幕内所有骰子拼点时威力-{0}但造成的伤害、混乱伤害与反震伤害+{0}</Desc>
     </BattleEffectText>
 
     <BattleEffectText ID="RMR_ClashPower_Keyword">
-      <Name>鎷肩偣濞佸姏 X</Name>
-      <Desc>杩欎竴骞曞唴鎵€鏈夐瀛愭嫾鐐规椂濞佸姏+X浣嗛€犳垚鐨勪激瀹炽€佹贩涔变激瀹充笌鍙嶉渿浼ゅ-X</Desc>
+      <Name>拼点威力 X</Name>
+      <Desc>这一幕内所有骰子拼点时威力+X但造成的伤害、混乱伤害与反震伤害-X</Desc>
     </BattleEffectText>
-	
+
 	<BattleEffectText ID="RMR_SlashClashPower">
-      <Name>斩击拼点威力</Name>
-      <Desc>本幕中斩击骰子威力+{0}，若该角色受威力增减影响，拼点时造成的伤害、混乱伤害与反弹混乱伤害-{0}。</Desc>
+      <Name>Slash Clash Power</Name>
+      <Desc>For the duration of the Scene, Slash dice gain {0} Power and deal {0} less damage, Stagger damage, and deflect Stagger damage in a clash if this character is affected by Power gain and loss.</Desc>
     </BattleEffectText>
-	
+
 	<BattleEffectText ID="RMR_SlashClashPowerDown">
-      <Name>斩击拼点威力</Name>
-      <Desc>本幕中斩击骰子威力-{0}，若该角色受威力增减影响，拼点时造成的伤害、混乱伤害与反弹混乱伤害+{0}。</Desc>
+      <Name>Slash Clash Power</Name>
+      <Desc>For the duration of the Scene, Slash dice lose {0} Power and deal +{0} damage, Stagger damage, and deflect Stagger damage in a clash if this character is affected by Power gain and loss.</Desc>
     </BattleEffectText>
 
     <BattleEffectText ID="RMR_SlashClashPower_Keyword">
-      <Name>斩击拼点威力 X</Name>
-      <Desc>本幕中斩击骰子威力+X，拼点时造成的伤害、混乱伤害与反弹混乱伤害-X。</Desc>
+      <Name>Slash Clash Power X</Name>
+      <Desc>Slash dice gain X Power and deal X less damage, Stagger damage, and deflect Stagger damage in a clash for the Scene.</Desc>
     </BattleEffectText>
-	
+
 	<BattleEffectText ID="RMR_PierceClashPower">
-      <Name>突刺拼点威力</Name>
-      <Desc>本幕中突刺骰子威力+{0}，若该角色受威力增减影响，拼点时造成的伤害、混乱伤害与反弹混乱伤害-{0}。</Desc>
+      <Name>Pierce Clash Power</Name>
+      <Desc>For the duration of the Scene, Pierce dice gain {0} Power and deal {0} less damage, Stagger damage, and deflect Stagger damage in a clash if this character is affected by Power gain and loss.</Desc>
     </BattleEffectText>
-	
+
 	<BattleEffectText ID="RMR_PierceClashPowerDown">
-      <Name>突刺拼点威力</Name>
-      <Desc>本幕中突刺骰子威力-{0}，若该角色受威力增减影响，拼点时造成的伤害、混乱伤害与反弹混乱伤害+{0}。</Desc>
+      <Name>Pierce Clash Power</Name>
+      <Desc>For the duration of the Scene, Pierce dice lose {0} Power and deal +{0} damage, Stagger damage, and deflect Stagger damage in a clash if this character is affected by Power gain and loss.</Desc>
     </BattleEffectText>
 
     <BattleEffectText ID="RMR_PierceClashPower_Keyword">
-      <Name>突刺拼点威力 X</Name>
-      <Desc>本幕中突刺骰子威力+X，拼点时造成的伤害、混乱伤害与反弹混乱伤害-X。</Desc>
+      <Name>Pierce Clash Power X</Name>
+      <Desc>Pierce dice gain X Power and deal X less damage, Stagger damage, and deflect Stagger damage in a clash for the Scene.</Desc>
     </BattleEffectText>
-	
+
 	<BattleEffectText ID="RMR_BluntClashPower">
-      <Name>打击拼点威力</Name>
-      <Desc>本幕中打击骰子威力+{0}，若该角色受威力增减影响，拼点时造成的伤害、混乱伤害与反弹混乱伤害-{0}。</Desc>
+      <Name>Blunt Clash Power</Name>
+      <Desc>For the duration of the Scene, Blunt dice gain {0} Power and deal {0} less damage, Stagger damage, and deflect Stagger damage in a clash if this character is affected by Power gain and loss.</Desc>
     </BattleEffectText>
-	
+
 	<BattleEffectText ID="RMR_BluntClashPowerDown">
-      <Name>打击拼点威力</Name>
-      <Desc>本幕中打击骰子威力-{0}，若该角色受威力增减影响，拼点时造成的伤害、混乱伤害与反弹混乱伤害+{0}。</Desc>
+      <Name>Blunt Clash Power</Name>
+      <Desc>For the duration of the Scene, Blunt dice lose {0} Power and deal +{0} damage, Stagger damage, and deflect Stagger damage in a clash if this character is affected by Power gain and loss.</Desc>
     </BattleEffectText>
 
     <BattleEffectText ID="RMR_BluntClashPower_Keyword">
-      <Name>打击拼点威力 X</Name>
-      <Desc>本幕中打击骰子威力+X，拼点时造成的伤害、混乱伤害与反弹混乱伤害-X。</Desc>
+      <Name>Blunt Clash Power X</Name>
+      <Desc>Blunt dice gain X Power and deal X less damage, Stagger damage, and deflect Stagger damage in a clash for the Scene.</Desc>
     </BattleEffectText>
-	
-  <BattleEffectText ID="RMR_Prescriptbuf">
+
+	<BattleEffectText ID="RMR_Prescriptbuf">
       <Name>指令</Name>
-      <Desc>自身连续对同一名目标使用战斗书页时造成的伤害与混乱伤害+10%（至多30%）。
-若对其他目标使用战斗书页，则该次行动中造成的伤害与混乱伤害-50%。</Desc>
+      <Desc>自身连续对1名目标使用战斗书页时造成的伤害与混乱伤害+10%(至多30%)
+若对其他目标使用战斗书页则该次行动中造成的伤害与混乱伤害-50%</Desc>
     </BattleEffectText>
-  
-  <BattleEffectText ID="RMR_Zeal_Keyword">
+
+	<BattleEffectText ID="RMR_Zeal_Keyword">
       <Name>狂热</Name>
-      <Desc>开启舞台时，复制本书页并将其置入所有其他友方角色的卡组。</Desc>
+      <Desc>开启舞台时复制本书页并将其置入所有其他友方角色的卡组中</Desc>
     </BattleEffectText>
-  
-  <BattleEffectText ID="RMR_RoadlessCamelotBuf">
+
+	<BattleEffectText ID="RMR_RoadlessCamelotBuf">
       <Name>无路卡美洛</Name>
-      <Desc>每当该角色使用战斗书页时，使所有其他友方手中的一张随机战斗书页暂时强化，持续至本幕结束。</Desc>
+      <Desc>每当该角色使用战斗书页时，其他所有友方会将手中一张随机战斗书页暂时升级至本幕结束。</Desc>
     </BattleEffectText>
-  
-  <BattleEffectText ID="RMR_Adapt_Keyword">
-      <Name>适应</Name>
-      <Desc>改变带有适应效果的骰子位置。</Desc>
+
+	<BattleEffectText ID="RMR_Zeal_Keyword">
+      <Name>Zeal</Name>
+      <Desc>At the start of the Act, add a copy of this page to all other allies' deck.</Desc>
     </BattleEffectText>
-  
-  <BattleEffectText ID="RMR_Restoration">
-      <Name>恢复</Name>
-      <Desc>{1}幕后移除此状态，并使该角色恢复{0}点体力。持有此状态期间受到伤害时，按伤害量的一半提高恢复量。</Desc>
+
+	<BattleEffectText ID="RMR_Adapt_Keyword">
+      <Name>Adapt</Name>
+      <Desc>Change the position of the die with Adapt.</Desc>
     </BattleEffectText>
-  
-  <BattleEffectText ID="RMR_Restoration_Keyword">
-      <Name>恢复 X</Name>
-      <Desc>3幕后移除此状态，并使该角色恢复X点体力。持有此状态期间受到伤害时，按伤害量的一半提高恢复量。</Desc>
+
+	<BattleEffectText ID="RMR_Restoration">
+      <Name>Restoration</Name>
+      <Desc>In {1} Scenes, purge this and this character recovers {0} HP. Increase stack by half of the damage received while this character has this status.</Desc>
     </BattleEffectText>
-  
-  <BattleEffectText ID="RMR_Engarde">
-      <Name>架势</Name>
-      <Desc>对同一目标赢得{0}次拼点后，下幕向其施加1层易损与混乱易损。</Desc>
+
+	<BattleEffectText ID="RMR_Restoration_Keyword">
+      <Name>Restoration X</Name>
+      <Desc>In 3 Scenes, purge this and this character recovers X HP. Increase stack by half of the damage received while this character has this status.</Desc>
     </BattleEffectText>
-	
+
+	<BattleEffectText ID="RMR_Engarde">
+      <Name>En Garde</Name>
+      <Desc>Upon winning {0} clashes against the same target, inflict 1 Fragile and Stagger Fragile to them next Scene.</Desc>
+    </BattleEffectText>
+
 	<!-- base stagger fragile is not localized so this is here to give it localization in case other mods do not do it -->
 	<BattleEffectText ID="Vulnerable_break">
-      <Name>娣蜂贡鏄撴崯</Name>
-      <Desc>杩欎竴骞曚腑琚嚮涓椂鎵€鍙楁贩涔变激瀹?{0}</Desc>
+      <Name>混乱易损</Name>
+      <Desc>这一幕中被击中时所受混乱伤害+{0}</Desc>
     </BattleEffectText>
-	
+
 	</effectTextList>
 </BattleEffectTextRoot>
-

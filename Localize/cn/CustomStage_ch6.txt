@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localize>
+  <text id="Stage_RedMistChallenge">挑战殷红迷雾</text>
+  <text id="Stage_RedMistChallenge_Desc">挑战殷红迷雾。胜利后获得其核心书页与专属战斗书页。</text>
+</localize>

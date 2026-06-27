@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using RogueLike_Mod_Reborn;
 using TMPro;
 using UI;
 using UnityEngine;
@@ -94,6 +95,36 @@ namespace abcdcode_LOGLIKE_MOD
             });
         }
 
+        public void Event6()
+        {
+            if (!RMRRealizationManager.InitialRelicEntryAvailable)
+                return;
+
+            var panel = Singleton<LogRealizationPanel>.Instance;
+            if (panel == null)
+            {
+                GameObject go = new GameObject("LogRealizationPanel");
+                panel = go.AddComponent<LogRealizationPanel>();
+            }
+
+            Transform parent = null;
+            if (this.FrameObj != null && this.FrameObj.ContainsKey("Frame") && this.FrameObj["Frame"] != null)
+                parent = this.FrameObj["Frame"].transform;
+            else
+            {
+                try
+                {
+                    if (LogLikeMod.LogUIObjs != null && LogLikeMod.LogUIObjs[90] != null)
+                        parent = LogLikeMod.LogUIObjs[90].transform;
+                }
+                catch
+                {
+                }
+            }
+
+            panel.Show(parent);
+        }
+
         public void DataInit()
         {
             this.datas = new List<MysteryModel_ChStart.StartBoostData>();
@@ -101,6 +132,7 @@ namespace abcdcode_LOGLIKE_MOD
             this.datas.Add(new MysteryModel_ChStart.StartBoostData(1, new MysteryModel_ChStart.StartBoostData.Effect(this.Event1)));
             this.datas.Add(new MysteryModel_ChStart.StartBoostData(2, new MysteryModel_ChStart.StartBoostData.Effect(this.Event2)));
             this.datas.Add(new MysteryModel_ChStart.StartBoostData(4, new MysteryModel_ChStart.StartBoostData.Effect(this.Event4)));
+            this.datas.Add(new MysteryModel_ChStart.StartBoostData(6, new MysteryModel_ChStart.StartBoostData.Effect(this.Event6)));
         }
 
         public void ListInit()
@@ -109,11 +141,21 @@ namespace abcdcode_LOGLIKE_MOD
                 this.DataInit();
             List<MysteryModel_ChStart.StartBoostData> startBoostDataList = new List<MysteryModel_ChStart.StartBoostData>();
             this.choices = new Dictionary<int, MysteryModel_ChStart.StartBoostData>();
-            this.datas = this.datas.OrderBy<MysteryModel_ChStart.StartBoostData, int>((Func<MysteryModel_ChStart.StartBoostData, int>)(x => Singleton<System.Random>.Instance.Next())).ToList<MysteryModel_ChStart.StartBoostData>();
-            for (int index = 0; index < 4; ++index)
+            var realizationData = this.datas.Find(x => x.id == 6);
+            this.datas = this.datas
+                .Where(x => x.id != 6)
+                .OrderBy<MysteryModel_ChStart.StartBoostData, int>((Func<MysteryModel_ChStart.StartBoostData, int>)(x => Singleton<System.Random>.Instance.Next()))
+                .ToList<MysteryModel_ChStart.StartBoostData>();
+            startBoostDataList.AddRange(this.datas.Take(3));
+            if (RMRRealizationManager.InitialRelicEntryAvailable && realizationData != null)
+                startBoostDataList.Add(realizationData);
+            else if (this.datas.Count > 3)
+                startBoostDataList.Add(this.datas[3]);
+
+            for (int index = 0; index < startBoostDataList.Count; ++index)
             {
-                this.FrameObj["Desc" + index.ToString()].GetComponent<TextMeshProUGUI>().text = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("MysteryChStartChoice" + this.datas[index].id.ToString());
-                this.choices[index] = this.datas[index];
+                this.FrameObj["Desc" + index.ToString()].GetComponent<TextMeshProUGUI>().text = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("MysteryChStartChoice" + startBoostDataList[index].id.ToString());
+                this.choices[index] = startBoostDataList[index];
             }
         }
 
@@ -128,8 +170,12 @@ namespace abcdcode_LOGLIKE_MOD
         public override void OnClickChoice(int choiceid)
         {
             if (this.curFrame.FrameID == 0)
-                this.choices[choiceid].effect();
-            int next = this.curFrame.Getchoice(choiceid).next;
+            {
+                var data = this.choices[choiceid];
+                data.effect();
+                if (data.id == 6)
+                    return;
+            }
             base.OnClickChoice(choiceid);
         }
 

@@ -21,7 +21,7 @@
     <StageList ID="60017" StageType="Normal" /> 
     <StageList ID="60018" StageType="Normal" /> 
     <StageList ID="60019" StageType="Normal" /> 
-    <StageList ID="60020" StageType="Boss" />
+    <StageList ID="60020" StageType="Elite" Script="Ch6RedMistChallenge" />
     <StageList ID="60021" StageType="Boss" /> 
     <StageList ID="60022" StageType="Boss" /> 
     <StageList ID="60023" StageType="Boss" /> 

@@ -8,6 +8,7 @@
              <text id="MysteryChStartChoice2">都市的科技(随机获得9张传闻至都市传说章节的战斗书页)</text>
              <text id="MysteryChStartChoice3">脑啡肽</text>
              <text id="MysteryChStartChoice4">都市的衣服(获得2张核心书页奖励)</text>
+             <text id="MysteryChStartChoice6">楼层解放战(挑战一个原版楼层解放战)</text>
              <text id="StartBoost3Name">脑啡肽</text>
              <text id="StartBoost3Desc">[全局生效]在传闻至都市传说章节内所有司书以1级情感等级开始战斗。</text>
 

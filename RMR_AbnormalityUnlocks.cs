@@ -27,14 +27,29 @@ namespace RogueLike_Mod_Reborn
         private const int NoAbnormalityFallbackBaseId = 15999000;
         private const int RedMistStageId = 60020;
         private const int RedMistCorePageId = 250022;
+        private const int BlackSilenceStageId = 70007;
+        private const int DistortedEnsembleStageId = 70008;
+        private const int BlueReverberationCorePageId = 250013;
 
         private static readonly int[] RedMistBattlePageIds =
         {
+            607001,
+            607002,
             607003,
             607004,
             607005,
             607006,
-            607007
+            607007,
+            607008
+        };
+
+        private static readonly int[] BlueReverberationBattlePageIds =
+        {
+            604021,
+            604022,
+            604023,
+            604024,
+            604025
         };
 
         private static readonly List<LorId> RouteUnlockedPages = new List<LorId>();
@@ -43,6 +58,8 @@ namespace RogueLike_Mod_Reborn
         private static readonly HashSet<SephirahType> CompletedRealizations = new HashSet<SephirahType>();
         private static bool BinahUnlockedForCurrentRoute;
         private static bool RedMistVictoryRewardsGrantedThisBattle;
+        private static bool BlackSilenceClearRecordedThisBattle;
+        private static bool BlueReverberationRewardsGrantedThisBattle;
 
         // Floor → all abnormality script roots on that floor
         // Sourced from vanilla EmotionCard_*.txt <Sephirah> tags
@@ -233,11 +250,29 @@ namespace RogueLike_Mod_Reborn
         public static void ResetRedMistChallengeBattleState()
         {
             RedMistVictoryRewardsGrantedThisBattle = false;
+            BlackSilenceClearRecordedThisBattle = false;
+            BlueReverberationRewardsGrantedThisBattle = false;
         }
 
         private static bool IsRedMistChallengeStage()
         {
             return LogLikeMod.curstageid == new LorId(LogLikeMod.ModId, RedMistStageId);
+        }
+
+        private static bool IsBlackSilenceStage()
+        {
+            return LogLikeMod.curstageid == new LorId(LogLikeMod.ModId, BlackSilenceStageId);
+        }
+
+        private static bool IsDistortedEnsembleStage()
+        {
+            return LogLikeMod.curstageid == new LorId(LogLikeMod.ModId, DistortedEnsembleStageId);
+        }
+
+        private static bool IsCurrentBattleVictory()
+        {
+            return BattleObjectManager.instance.GetAliveListWithAvailable(Faction.Player).Count > 0
+                && BattleObjectManager.instance.GetAliveListWithAvailable(Faction.Enemy).Count == 0;
         }
 
         public static void GrantRedMistChallengeVictoryRewards()
@@ -259,6 +294,36 @@ namespace RogueLike_Mod_Reborn
             Debug.Log($"[RMRAbnormalityUnlockManager] Red Mist challenge victory: core page {redMistBookId} " +
                       $"{(corePageAdded ? "added" : "already owned")}; battle pages " +
                       $"{string.Join(", ", RedMistBattlePageIds.Select(x => x.ToString()).ToArray())} unlocked.");
+        }
+
+        public static void RecordBlackSilenceVictoryUnlock()
+        {
+            if (BlackSilenceClearRecordedThisBattle || !IsBlackSilenceStage())
+                return;
+            if (!IsCurrentBattleVictory())
+                return;
+
+            BlackSilenceClearRecordedThisBattle = true;
+            RMRCore.RecordBlackSilenceStageClear();
+            Debug.Log("[RMRAbnormalityUnlockManager] Black Silence clear recorded; Black Silence core page will be granted on Urban Star entry.");
+        }
+
+        public static void GrantDistortedEnsembleVictoryRewards()
+        {
+            if (BlueReverberationRewardsGrantedThisBattle || !IsDistortedEnsembleStage())
+                return;
+            if (!IsCurrentBattleVictory())
+                return;
+
+            BlueReverberationRewardsGrantedThisBattle = true;
+            LorId blueBookId = new LorId(LogLikeMod.ModId, BlueReverberationCorePageId);
+            bool corePageAdded = LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(blueBookId);
+            foreach (int pageId in BlueReverberationBattlePageIds)
+                LogueBookModels.AddCard(new LorId(LogLikeMod.ModId, pageId), 1, false);
+
+            Debug.Log($"[RMRAbnormalityUnlockManager] Distorted Ensemble victory: core page {blueBookId} " +
+                      $"{(corePageAdded ? "added" : "already owned")}; battle pages " +
+                      $"{string.Join(", ", BlueReverberationBattlePageIds.Select(x => x.ToString()).ToArray())} unlocked.");
         }
 
         /// <summary>

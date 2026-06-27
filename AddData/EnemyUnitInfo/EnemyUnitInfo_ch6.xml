@@ -378,9 +378,6 @@
     <BookId>150022</BookId>
 
     <Exp>100</Exp>
-    <DropTable Level="0">
-      <DropItem Prob="5">6004</DropItem>
-    </DropTable>
   </Enemy>
 
   <!-- 네임드 1차 -->

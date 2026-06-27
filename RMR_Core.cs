@@ -61,10 +61,14 @@ namespace RogueLike_Mod_Reborn
         public const string packageId = "abcdcodecalmmagma.LogueLikeReborn";
         public static CustomMapHandler RMRMapHandler;
 
+        public const string BuildTimestamp = "2026-06-21T16:59+08:00";
+
         public override void OnInitializeMod()
         {
             base.OnInitializeMod();
             RMRCore.RMRMapHandler = CustomMapHandler.GetCMU(packageId);
+
+            Debug.Log($"[RMR] RogueLike Mod Reborn initializing. Build: {BuildTimestamp}. DLL version check: this log confirms the NEW DLL is loaded.");
 
             MakeDirectoriesAndLoadConfig();
             Harmony.CreateAndPatchAll(typeof(RMR_Patches), packageId);
@@ -85,7 +89,8 @@ namespace RogueLike_Mod_Reborn
             LogueEffectXmlList.Instance.Init(TextDataModel.CurrentLanguage);
             LoadSatelliteBattleTexts(TextDataModel.CurrentLanguage);
             LoadSatelliteBattleDialog(TextDataModel.CurrentLanguage);
-            LoadVanillaCardArt();
+            try { LoadVanillaCardArt(); }
+            catch (Exception ex) { Debug.LogError($"[RMRCore] LoadVanillaCardArt failed: {ex.Message}. Continuing initialization without vanilla card artwork."); }
             RogueMysteryXmlList.Instance.Init(TextDataModel.CurrentLanguage);
             SceneManager.sceneLoaded += FindGamemodes;
             CurrentGamemode = new RoguelikeGamemode_RMR_Default();
@@ -354,8 +359,27 @@ namespace RogueLike_Mod_Reborn
             }
         }
 
+        private static FieldInfo _cachedArtworkSpriteField;
+        private static FieldInfo ArtworkSpriteField
+        {
+            get
+            {
+                if (_cachedArtworkSpriteField == null)
+                {
+                    _cachedArtworkSpriteField = typeof(ArtworkCustomizeData).GetField("_sprite", AccessTools.all);
+                    if (_cachedArtworkSpriteField == null)
+                        Debug.LogError("[RMRCore] Cannot find field ArtworkCustomizeData._sprite — vanilla card artwork will not be loaded.");
+                }
+                return _cachedArtworkSpriteField;
+            }
+        }
+
         public static void LoadVanillaCardArt()
         {
+            FieldInfo spriteField = ArtworkSpriteField;
+            if (spriteField == null)
+                return;
+
             List<ArtworkCustomizeData> list = Singleton<CustomizingCardArtworkLoader>.Instance.GetWorkshopArtworkData("LoR.StartUp.LocalizationManager");
             if (list == null) // check for Localization Manager vanilla page loading
             {
@@ -363,22 +387,31 @@ namespace RogueLike_Mod_Reborn
                 if (cardBundle == null)
                     return;
                 Sprite[] array = cardBundle.LoadAllAssets<Sprite>();
-                list = Singleton<CustomizingCardArtworkLoader>.Instance.GetWorkshopArtworkData(RMRCore.packageId);
+                list = Singleton<CustomizingCardArtworkLoader>.Instance.GetWorkshopArtworkData(RMRCore.packageId) ?? new List<ArtworkCustomizeData>();
                 foreach (Sprite sprite in array)
                 {
-                    list.Add(new ArtworkCustomizeData
+                    try
                     {
-                        name = sprite.name,
-                        _sprite = sprite
-                    });
+                        var data = new ArtworkCustomizeData { name = sprite.name };
+                        spriteField.SetValue(data, sprite);
+                        list.Add(data);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogWarning($"[RMRCore] Failed to set _sprite for {sprite?.name ?? "?"}: {ex.Message}. Skipping this sprite.");
+                    }
                 }
                 Singleton<CustomizingCardArtworkLoader>.Instance.AddArtworkData(RMRCore.packageId, list);
             }
             else
             {
                 var listLog = Singleton<CustomizingCardArtworkLoader>.Instance.GetWorkshopArtworkData(RMRCore.packageId);
+                if (listLog == null)
+                {
+                    listLog = new List<ArtworkCustomizeData>();
+                    Singleton<CustomizingCardArtworkLoader>.Instance.AddArtworkData(RMRCore.packageId, listLog);
+                }
                 listLog.AddRange(list);
-                Singleton<CustomizingCardArtworkLoader>.Instance.AddArtworkData(RMRCore.packageId, listLog);
             }
             foreach (ModContentInfo modContentInfo in LogLikeMod.GetLogMods())
             {
@@ -387,10 +420,9 @@ namespace RogueLike_Mod_Reborn
                 if (list2 == null)
                 {
                     list2 = new List<ArtworkCustomizeData>();
-                    
+                    Singleton<CustomizingCardArtworkLoader>.Instance.AddArtworkData(uniqueId, list2);
                 }
                 list2.AddRange(list);
-                Singleton<CustomizingCardArtworkLoader>.Instance.AddArtworkData(uniqueId, list2);
             }
         }
 
@@ -489,6 +521,322 @@ namespace RogueLike_Mod_Reborn
         }
         */
         #endregion
+
+        private const string Grade6SpecialCorePagesGrantedSaveName = "RMR_Grade6SpecialCorePagesGranted";
+        private const string BlackSilenceStageClearedSaveName = "RMR_BlackSilenceStageCleared";
+        private const int RedMistChallengeStageId = 60020;
+
+        /// <summary>
+        /// Tries to locate Black Silence (Roland) and Binah core pages in BookXmlList.
+        /// Returns true only if BOTH are resolved. Outputs detailed reason on failure.
+        /// Uses hardcoded vanilla IDs first, then TextId/CharacterSkin/InnerName fallbacks.
+        /// </summary>
+        private static bool TryResolveGrade6SpecialCorePages(out BookXmlInfo blackSilence, out BookXmlInfo binah, out string reason)
+        {
+            blackSilence = null;
+            binah = null;
+            reason = null;
+
+            var allBooks = Singleton<BookXmlList>.Instance.GetList();
+            if (allBooks == null || allBooks.Count == 0)
+            {
+                reason = "BookXmlList.GetList() returned empty — BookXmlList may not be loaded yet.";
+                return false;
+            }
+
+            // --- Black Silence (Roland) ---
+            // Known vanilla IDs in various mod/patch environments
+            var bsCandidates = allBooks.Where(x => x != null && !x.id.IsWorkshop()).ToList();
+            // Try TextId == 102 first (most reliable)
+            blackSilence = bsCandidates.Find(x => x.TextId == 102);
+            // Fallback: InnerName contains "BlackSilence"
+            if (blackSilence == null)
+                blackSilence = bsCandidates.Find(x => !string.IsNullOrEmpty(x.InnerName) && x.InnerName.IndexOf("BlackSilence", StringComparison.OrdinalIgnoreCase) >= 0);
+            // Fallback: CharacterSkin contains "Black"
+            if (blackSilence == null)
+                blackSilence = bsCandidates.Find(x => x.CharacterSkin != null && x.CharacterSkin.Any(s => s != null && s.IndexOf("Black", StringComparison.OrdinalIgnoreCase) >= 0));
+
+            // --- Binah ---
+            // Known vanilla ID: try to find by TextId or inner name
+            var binahCandidates = allBooks.Where(x => x != null && !x.id.IsWorkshop()).ToList();
+            // Try CharacterSkin
+            foreach (var book in binahCandidates)
+            {
+                if (book.CharacterSkin != null && book.CharacterSkin.Any(s => s != null && s.IndexOf("Binah", StringComparison.OrdinalIgnoreCase) >= 0))
+                {
+                    binah = book;
+                    break;
+                }
+            }
+            // Fallback: _bookIcon
+            if (binah == null)
+            {
+                foreach (var book in binahCandidates)
+                {
+                    if (!string.IsNullOrEmpty(book._bookIcon) && book._bookIcon.IndexOf("Binah", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        binah = book;
+                        break;
+                    }
+                }
+            }
+            // Fallback: InnerName
+            if (binah == null)
+            {
+                foreach (var book in binahCandidates)
+                {
+                    if (!string.IsNullOrEmpty(book.InnerName) && book.InnerName.IndexOf("Binah", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        binah = book;
+                        break;
+                    }
+                }
+            }
+
+            // Build detailed failure reason
+            if (blackSilence == null || binah == null)
+            {
+                var sb = new System.Text.StringBuilder();
+                sb.Append($"Could not resolve both Grade6 special core pages (searched {allBooks.Count} books). ");
+                sb.Append($"BlackSilence={(blackSilence != null ? blackSilence.id.ToString() : "NOT FOUND")}. ");
+                sb.Append($"Binah={(binah != null ? binah.id.ToString() : "NOT FOUND")}. ");
+                sb.Append("BS candidates by TextId=102: ");
+                var byTextId = bsCandidates.FindAll(x => x.TextId == 102);
+                sb.Append(byTextId.Count > 0 ? $"{byTextId.Count} found" : "0 found");
+                sb.Append(". Binah candidates by CharacterSkin: ");
+                var bySkin = binahCandidates.FindAll(x => x.CharacterSkin != null && x.CharacterSkin.Any(s => s != null && s.IndexOf("Binah", StringComparison.OrdinalIgnoreCase) >= 0));
+                sb.Append(bySkin.Count > 0 ? $"{bySkin.Count} found" : "0 found");
+                sb.Append(".");
+                reason = sb.ToString();
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool HasRoleBookInBothAtlasAndBooklist(BookXmlInfo page)
+        {
+            if (page == null)
+                return false;
+
+            LogueBookModels.EnsureAtlasUnlocks();
+            bool inAtlas = LogueBookModels.AtlasUnlockedRoleBooks != null
+                && LogueBookModels.AtlasUnlockedRoleBooks.Contains(page.id);
+            bool inBooklist = LogueBookModels.booklist != null
+                && LogueBookModels.booklist.Any(book => book?.ClassInfo?.id == page.id);
+            return inAtlas && inBooklist;
+        }
+
+        /// <summary>
+        /// Ensures a role book is in the current booklist (route inventory), even if it is already in the permanent atlas.
+        /// This is needed because TryAddUniqueRoleBookToInventoryAndAtlas skips adding to booklist when the id is
+        /// already in AtlasUnlockedRoleBooks — but for Grade6 special core pages, we need them usable immediately.
+        /// </summary>
+        private static bool EnsureRoleBookInCurrentBooklist(LorId id)
+        {
+            if (id == null || id == LorId.None)
+                return false;
+            if (LogueBookModels.booklist != null && LogueBookModels.booklist.Any(b => b.ClassInfo.id == id))
+                return true; // already in booklist
+            BookXmlInfo bookXml = Singleton<BookXmlList>.Instance.GetData(id);
+            if (bookXml == null)
+                return false;
+            BookModel bookModel = new BookModel(bookXml);
+            bookModel.instanceId = LogueBookModels.nextinstanceid++;
+            bookModel.TryGainUniquePassive();
+            LogueBookModels.booklist.Add(bookModel);
+            Debug.Log($"[RMR] EnsureRoleBookInCurrentBooklist: added {id.packageId}:{id.id} ({bookXml.InnerName ?? "?"}) to current booklist.");
+            return true;
+        }
+
+        /// <summary>
+        /// Grants Black Silence at Urban Star entry after the Black Silence stage has been cleared.
+        /// Binah is intentionally excluded:
+        /// she is available temporarily during the Red Mist challenge and remains
+        /// unlocked only for the current route after that challenge is won.
+        /// </summary>
+        public static void EnsureGrade6SpecialCorePagesUnlocked()
+        {
+            if (!IsBlackSilenceUnlockedForUrbanStar())
+            {
+                Debug.Log("[RMR] Urban Star entry: Black Silence is still locked until the Black Silence stage is cleared once.");
+                return;
+            }
+
+            if (!TryResolveGrade6SpecialCorePages(out BookXmlInfo blackSilence, out BookXmlInfo binah, out string resolveReason))
+            {
+                Debug.LogError($"[RMR] EnsureGrade6SpecialCorePagesUnlocked: cannot resolve books — {resolveReason}");
+                return;
+            }
+
+            bool bsInAtlasNow = LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(blackSilence.id);
+            if (bsInAtlasNow)
+                Debug.Log($"[RMR] Grade6 special: granted Black Silence core page {blackSilence.id.packageId}:{blackSilence.id.id} (TextId={blackSilence.TextId}, InnerName={blackSilence.InnerName ?? "?"}).");
+            bool bsInBooklist = EnsureRoleBookInCurrentBooklist(blackSilence.id);
+
+            if (HasRoleBookInBothAtlasAndBooklist(blackSilence))
+            {
+                SaveGrantedFlagInternal();
+                Debug.Log("[RMR] Urban Star entry: Black Silence confirmed in atlas and current route. Binah remains gated by the Red Mist challenge.");
+            }
+            else
+            {
+                Debug.LogError($"[RMR] EnsureGrade6SpecialCorePagesUnlocked: failed to confirm Black Silence. atlasAdded={bsInAtlasNow}, booklist={bsInBooklist}.");
+            }
+        }
+
+        public static bool IsBinahRedMistChallengeUnlocked()
+        {
+            return RMRAbnormalityUnlockManager.IsBinahUnlockedForCurrentRoute();
+        }
+
+        public static bool IsBinahCorePage(BookXmlInfo page)
+        {
+            return page != null
+                && ((!string.IsNullOrEmpty(page.InnerName)
+                        && page.InnerName.IndexOf("Binah", StringComparison.OrdinalIgnoreCase) >= 0)
+                    || (!string.IsNullOrEmpty(page._bookIcon)
+                        && page._bookIcon.IndexOf("Binah", StringComparison.OrdinalIgnoreCase) >= 0)
+                    || (page.CharacterSkin != null
+                        && page.CharacterSkin.Any(skin => !string.IsNullOrEmpty(skin)
+                            && skin.IndexOf("Binah", StringComparison.OrdinalIgnoreCase) >= 0)));
+        }
+
+        public static bool ShouldRecordRoleBookInPermanentAtlas(BookXmlInfo page)
+        {
+            return !IsBinahCorePage(page);
+        }
+
+        public static void PrepareBinahForRedMistChallenge()
+        {
+            if (LogLikeMod.curstageid != new LorId(LogLikeMod.ModId, RedMistChallengeStageId))
+                return;
+            if (!TryResolveGrade6SpecialCorePages(out BookXmlInfo blackSilence, out BookXmlInfo binah, out string reason))
+            {
+                Debug.LogError($"[RMR] PrepareBinahForRedMistChallenge: cannot resolve Binah — {reason}");
+                return;
+            }
+
+            EnsureRoleBookInCurrentBooklist(binah.id);
+            Debug.Log(IsBinahRedMistChallengeUnlocked()
+                ? $"[RMR] Red Mist challenge: route-unlocked Binah page {binah.id} is available."
+                : $"[RMR] Red Mist challenge: Binah page {binah.id} added to the current route temporarily.");
+        }
+
+        public static void UnlockBinahAfterRedMistVictory()
+        {
+            if (!TryResolveGrade6SpecialCorePages(out BookXmlInfo blackSilence, out BookXmlInfo binah, out string reason))
+            {
+                Debug.LogError($"[RMR] UnlockBinahAfterRedMistVictory: cannot resolve Binah — {reason}");
+                return;
+            }
+
+            EnsureRoleBookInCurrentBooklist(binah.id);
+            RMRAbnormalityUnlockManager.UnlockBinahForCurrentRoute();
+            if (LogueBookModels.AtlasUnlockedRoleBooks != null && LogueBookModels.AtlasUnlockedRoleBooks.Remove(binah.id))
+                LogueBookModels.SavePermanentAtlasUnlocks();
+            Debug.Log($"[RMR] Red Mist challenge victory: Binah core page {binah.id} unlocked for the current route.");
+        }
+
+        public static void ApplyBinahRedMistProgressionState()
+        {
+            if (!TryResolveGrade6SpecialCorePages(out BookXmlInfo blackSilence, out BookXmlInfo binah, out string reason))
+            {
+                Debug.LogError($"[RMR] ApplyBinahRedMistProgressionState: cannot resolve Binah — {reason}");
+                return;
+            }
+
+            if (IsBinahRedMistChallengeUnlocked())
+            {
+                EnsureRoleBookInCurrentBooklist(binah.id);
+                if (LogueBookModels.AtlasUnlockedRoleBooks != null && LogueBookModels.AtlasUnlockedRoleBooks.Remove(binah.id))
+                    LogueBookModels.SavePermanentAtlasUnlocks();
+                return;
+            }
+
+            bool atlasChanged = LogueBookModels.AtlasUnlockedRoleBooks != null
+                && LogueBookModels.AtlasUnlockedRoleBooks.Remove(binah.id);
+            if (atlasChanged)
+                LogueBookModels.SavePermanentAtlasUnlocks();
+
+            if (LogLikeMod.curstageid == new LorId(LogLikeMod.ModId, RedMistChallengeStageId))
+            {
+                PrepareBinahForRedMistChallenge();
+                return;
+            }
+
+            ResetPrematureBinahLoadouts(binah.id);
+            if (LogueBookModels.booklist != null)
+                LogueBookModels.booklist.RemoveAll(book => book?.ClassInfo?.id == binah.id);
+            Debug.Log("[RMR] Removed legacy early Binah unlock; it will become temporarily available when the Red Mist challenge is selected.");
+        }
+
+        private static void ResetPrematureBinahLoadouts(LorId binahId)
+        {
+            if (LogueBookModels.playerBattleModel == null)
+                return;
+            for (int index = 0; index < LogueBookModels.playerBattleModel.Count; index++)
+            {
+                UnitBattleDataModel battleModel = LogueBookModels.playerBattleModel[index];
+                if (battleModel?.unitData?.bookItem?.ClassInfo?.id != binahId)
+                    continue;
+                BookXmlInfo defaultPage = Singleton<BookXmlList>.Instance.GetData(
+                    new LorId(LogLikeMod.ModId, -854 - index));
+                if (defaultPage != null)
+                    LogueBookModels.EquipNewPage(battleModel, defaultPage, false);
+            }
+        }
+
+        /// <summary>
+        /// Legacy entry point — delegates to EnsureGrade6SpecialCorePagesUnlocked.
+        /// </summary>
+        public static void GrantGrade6SpecialCorePagesIfNeeded()
+        {
+            EnsureGrade6SpecialCorePagesUnlocked();
+            ApplyBinahRedMistProgressionState();
+        }
+
+        public static bool IsBlackSilenceUnlockedForUrbanStar()
+        {
+            return LoadSimpleFlag(BlackSilenceStageClearedSaveName, "Cleared");
+        }
+
+        public static void RecordBlackSilenceStageClear()
+        {
+            SaveSimpleFlag(BlackSilenceStageClearedSaveName, "Cleared");
+        }
+
+        private static void SaveGrantedFlagInternal()
+        {
+            SaveSimpleFlag(Grade6SpecialCorePagesGrantedSaveName, "Granted");
+        }
+
+        private static void SaveSimpleFlag(string saveName, string key)
+        {
+            try
+            {
+                SaveData data = new SaveData(SaveDataType.Dictionary);
+                data.AddData(key, new SaveData(1));
+                Singleton<LogueSaveManager>.Instance.SaveData(data, saveName);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[RMR] Failed to save flag {saveName}: {e.Message}");
+            }
+        }
+
+        private static bool LoadSimpleFlag(string saveName, string key)
+        {
+            try
+            {
+                SaveData data = Singleton<LogueSaveManager>.Instance.LoadData(saveName);
+                return data != null && data.GetInt(key) > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 
     #region TECHNICAL INFRASTRUCTURE
@@ -500,14 +848,12 @@ namespace RogueLike_Mod_Reborn
         /// </summary>
         public static void PlaySound(this AudioClip audio, Transform transform, float VolumnControl = 1.5f, bool loop = false)
         {
+            if (audio == null)
+                return;
+            if (SingletonBehavior<BattleSoundManager>.Instance == null || SingletonBehavior<BattleSoundManager>.Instance.effectSoundPrefab == null)
+                return;
             BattleEffectSound battleEffectSound = UnityEngine.Object.Instantiate<BattleEffectSound>(SingletonBehavior<BattleSoundManager>.Instance.effectSoundPrefab, transform);
-            float volume = 1f;
-            bool flag = SingletonBehavior<BattleSoundManager>.Instance != null;
-            bool flag2 = flag;
-            if (flag2)
-            {
-                volume = SingletonBehavior<BattleSoundManager>.Instance.VolumeFX * VolumnControl;
-            }
+            float volume = SingletonBehavior<BattleSoundManager>.Instance.VolumeFX * VolumnControl;
             battleEffectSound.Init(audio, volume, loop);
         }
 
@@ -669,7 +1015,12 @@ namespace RogueLike_Mod_Reborn
 
         public static BattleUnitModel GetPatron(this BattleObjectManager manager)
         {
-            return manager.GetAliveList(Faction.Player).SortReturn((BattleUnitModel x, BattleUnitModel y) => x.index - y.index)[0];
+            if (manager == null)
+                return null;
+            var aliveList = manager.GetAliveList(Faction.Player);
+            if (aliveList == null || aliveList.Count == 0)
+                return null;
+            return aliveList.SortReturn((BattleUnitModel x, BattleUnitModel y) => x.index - y.index)[0];
         }
 
         /// <summary>
@@ -2007,12 +2358,18 @@ namespace RogueLike_Mod_Reborn
                 case ChapterGrade.Grade6:
                     Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new CraftEquipChapter6());
                     Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new CraftExclusiveCardChapter6());
+                    RMRCore.GrantGrade6SpecialCorePagesIfNeeded();
                     break;
                 case ChapterGrade.Grade7:
                     Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new CraftEquipChapter7());
                     Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new CraftExclusiveCardChapter7());
                     break;
             }
+            this.LoadCurrentChapterStory();
+        }
+
+        public virtual void LoadCurrentChapterStory()
+        {
             LogStoryPathList.Instance.LoadStoryFile(new LorId(LogLikeMod.ModId, (int)LogLikeMod.curchaptergrade + 1), null, true);
         }
 
@@ -2073,7 +2430,7 @@ namespace RogueLike_Mod_Reborn
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new CraftEquipChapter1());
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new PickUpModel_ShopGood46.SupriseBox());
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new RMREffect_HiddenUpgradeChanceEffect());
-                LogStoryPathList.Instance.LoadStoryFile(new LorId(LogLikeMod.ModId, 1), null, true);
+                this.LoadCurrentChapterStory();
             }
         }
 
@@ -2112,7 +2469,10 @@ namespace RogueLike_Mod_Reborn
             LogLikeMod.curchaptergrade = ChapterGrade.Grade6;
             LogLikeMod.curChStageStep = 0;
             LogLikeMod.curstagetype = abcdcode_LOGLIKE_MOD.StageType.Start;
+            LogLikeMod.curstageid = this.StageStart;
+            this.LoadCurrentChapterStory();
             LogLikeMod.ResetNextStage();
+            RMRCore.GrantGrade6SpecialCorePagesIfNeeded();
         }
 
         public override void OnWaveStartInitialEvent()
@@ -2135,13 +2495,14 @@ namespace RogueLike_Mod_Reborn
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new CraftEquipChapter1());
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new PickUpModel_ShopGood46.SupriseBox());
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new RMREffect_HiddenUpgradeChanceEffect());
-                LogStoryPathList.Instance.LoadStoryFile(new LorId(LogLikeMod.ModId, 1), null, true);
+                this.LoadCurrentChapterStory();
             }
         }
 
         public override void OnWaveStartInitialEvent()
         {
             RMRCore.RMRMapHandler.StartActAsCustomMap<SparklingMirrorMapManager>("SparklingMirrorMapManager");
+            RMRRealizationManager.SetInitialRelicEntryAvailable(true);
             Singleton<MysteryManager>.Instance.StartMystery(Singleton<MysteryXmlList>.Instance.GetData(new LorId(LogLikeMod.ModId, -100)));   
         }
 

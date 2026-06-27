@@ -41,6 +41,18 @@ namespace abcdcode_LOGLIKE_MOD
                 self.egoSlotList[j].gameObject.SetActive(false);
         }
 
+        public static void HideRewardSelectionImmediately(LevelUpUI self)
+        {
+            if (self == null)
+                return;
+
+            self.SetRootCanvas(false);
+            if (LogLikeMod.skipPanel != null)
+                LogLikeMod.skipPanel.gameObject.SetActive(false);
+            if (LogLikeMod.StageRemainPanel != null)
+                LogLikeMod.StageRemainPanel.gameObject.SetActive(false);
+        }
+
         public static IEnumerator TranslateRoutine(bool hide, LevelUpUI self)
         {
             float translateDelay = (float)typeof(LevelUpUI).GetField("translateDelay", AccessTools.all).GetValue(self);
@@ -75,6 +87,99 @@ namespace abcdcode_LOGLIKE_MOD
                 }
                 self.cardSelectionGroup.interactable = true;
             }
+        }
+
+        /// <summary>
+        /// Safely extracts the UITextDataLoader and frame Image from a cloned button,
+        /// without relying on fragile child-index assumptions.
+        /// Returns the loader (or null) and the frame (or null).
+        /// </summary>
+        public static void SafeGetButtonComponents(Button button, out UITextDataLoader loader, out Image frame)
+        {
+            loader = null;
+            frame = null;
+            if (button == null)
+                return;
+            loader = button.GetComponentInChildren<UITextDataLoader>(true);
+            // Frame is typically the first Image child that isn't the button's own targetGraphic.
+            var images = button.GetComponentsInChildren<Image>(true);
+            if (images != null)
+            {
+                foreach (var img in images)
+                {
+                    if (img != null && img != button.targetGraphic)
+                    {
+                        frame = img;
+                        break;
+                    }
+                }
+            }
+        }
+
+        private static string GetRMRText(string key, string fallback)
+        {
+            try
+            {
+                string text = TextDataModel.GetText(key);
+                if (!string.IsNullOrEmpty(text) && text != key)
+                    return text;
+            }
+            catch
+            {
+            }
+            string lang = TextDataModel.CurrentLanguage.ToString().ToLowerInvariant();
+            if (key == "ui_Realization")
+            {
+                if (lang.Contains("en")) return "Realization";
+                if (lang.Contains("kr")) return "\ud574\ubc29\uc804";
+                if (lang.Contains("jp") || lang.Contains("ja")) return "\u89e3\u653e\u6226";
+                return "\u89e3\u653e\u6218";
+            }
+            if (key == "ui_RealizationDesc")
+            {
+                if (lang.Contains("en")) return "Challenge a floor realization. Victory permanently unlocks that floor's abnormality and E.G.O pages in the atlas and reward pools.";
+                if (lang.Contains("kr")) return "\uac01 \uce35\uc758 \ud574\ubc29\uc804\uc5d0 \ub3c4\uc804\ud558\uc138\uc694. \uc2b9\ub9ac \uc2dc \ud574\ub2f9 \uce35\uc758 \ud658\uc0c1\uccb4 \ud398\uc774\uc9c0\uc640 E.G.O \ud398\uc774\uc9c0\uac00 \ub3c4\uac10\uacfc \ubcf4\uc0c1 \ud480\uc5d0 \uc601\uad6c \ud574\uae08\ub429\ub2c8\ub2e4.";
+                if (lang.Contains("jp") || lang.Contains("ja")) return "\u5404\u968e\u306e\u89e3\u653e\u6226\u306b\u6311\u6226\u3059\u308b\u3002\u52dd\u5229\u3059\u308b\u3068\u3001\u305d\u306e\u968e\u306e\u5e7b\u60f3\u4f53\u30da\u30fc\u30b8\u3068E.G.O\u30da\u30fc\u30b8\u304c\u56f3\u9451\u3068\u5831\u916c\u30d7\u30fc\u30eb\u306b\u6c38\u4e45\u89e3\u653e\u3055\u308c\u308b\u3002";
+                return "\u6311\u6218\u5404\u5c42\u89e3\u653e\u6218\u3002\u80dc\u5229\u540e\uff0c\u8be5\u5c42\u5f02\u60f3\u4f53\u4e66\u9875\u4e0eE.G.O\u4e66\u9875\u4f1a\u6c38\u4e45\u89e3\u9501\u5230\u56fe\u9274\u548c\u5956\u52b1\u6c60\u3002";
+            }
+            return fallback;
+        }
+
+        private static TextMeshProUGUI GetOrCreateRealizationButtonLabel(Button button)
+        {
+            if (button == null)
+                return null;
+            Transform existing = button.transform.Find("RMR_RealizationLabel");
+            TextMeshProUGUI label = existing == null ? null : existing.GetComponent<TextMeshProUGUI>();
+            if (label == null)
+            {
+                GameObject go = new GameObject("RMR_RealizationLabel");
+                go.transform.SetParent(button.transform, false);
+                label = go.AddComponent<TextMeshProUGUI>();
+            }
+            RectTransform rect = label.rectTransform;
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = Vector2.zero;
+            rect.sizeDelta = Vector2.zero;
+            label.transform.SetAsLastSibling();
+            label.gameObject.SetActive(true);
+            return label;
+        }
+
+        public static void ApplyRealizationButtonText(Button button)
+        {
+            TextMeshProUGUI label = GetOrCreateRealizationButtonLabel(button);
+            if (label == null)
+                return;
+            label.text = GetRMRText("ui_Realization", "\u89e3\u653e\u6218");
+            label.enableWordWrapping = false;
+            label.fontSize = 32f;
+            label.font = LogLikeMod.DefFont_TMP;
+            label.color = LogLikeMod.DefFontColor;
+            label.alignment = TextAlignmentOptions.Center;
+            label.raycastTarget = false;
         }
 
         public static void OnClickCraftTab(UIBattleSettingEditPanel __instance)
@@ -209,6 +314,73 @@ namespace abcdcode_LOGLIKE_MOD
         private static readonly FieldInfo BattleUnitCardsInHandUIHandStateField = typeof(BattleUnitCardsInHandUI).GetField("_handState", AccessTools.all);
         private static readonly MethodInfo BattleUnitCardsInHandUISetEgoToggleStateMethod = typeof(BattleUnitCardsInHandUI).GetMethod("SetEgoToggleState", AccessTools.all);
 
+        private static void QueueDropBookReward(DropBookXmlInfo reward, LorId sourceId = null)
+        {
+            if (LogLikeMod.rewards == null)
+                LogLikeMod.rewards = new List<DropBookXmlInfo>();
+            LorId detectedId = sourceId ?? reward?.id;
+            if (detectedId != null && (string.IsNullOrEmpty(detectedId.packageId) || detectedId.packageId == "@origin"))
+            {
+                LorId normalizedId = GetCurrentChapterDropValueRewardId();
+                DropBookXmlInfo normalized = Singleton<DropBookXmlList>.Instance.GetData(normalizedId);
+                if (normalized != null)
+                    reward = normalized;
+                else
+                    Debug.LogWarning($"[RMR RewardFlow] Chapter drop book not found for vanilla enemy reward {detectedId}: {normalizedId}.");
+            }
+            if (reward == null)
+                return;
+            LogLikeMod.rewards.Add(reward);
+        }
+
+        private static LorId GetCurrentChapterDropValueRewardId()
+        {
+            int suffix = 1;
+            if (LogLikeMod.curstagetype == StageType.Elite)
+                suffix = 2;
+            else if (LogLikeMod.curstagetype == StageType.Boss)
+                suffix = 4;
+            int chapterNumber = (int)LogLikeMod.curchaptergrade + 1;
+            return new LorId(LogLikeMod.ModId, chapterNumber * 1000 + suffix);
+        }
+
+        private static void SkipCurrentRewardSelection(LevelUpUI self)
+        {
+            if (RewardingModel.rewardFlag == RewardingModel.RewardFlag.CardReward)
+            {
+                List<DiceCardXmlInfo> cardlist = new List<DiceCardXmlInfo>();
+                if (self != null && self.egoSlotList != null)
+                {
+                    foreach (BattleDiceCardUI egoSlot in self.egoSlotList)
+                    {
+                        if (egoSlot != null && egoSlot.CardModel != null && egoSlot.CardModel.XmlData != null)
+                            cardlist.Add(egoSlot.CardModel.XmlData);
+                    }
+                }
+                Singleton<GlobalLogueEffectManager>.Instance.OnSkipCardRewardChoose(cardlist);
+                if (LogLikeMod.rewards != null && LogLikeMod.rewards.Count > 0)
+                    LogLikeMod.rewards.RemoveAt(0);
+            }
+            else if (RewardingModel.rewardFlag == RewardingModel.RewardFlag.EgoCardReward)
+            {
+                if (LogLikeMod.egoSelectionQueue != null && LogLikeMod.egoSelectionQueue.Count > 0)
+                    LogLikeMod.egoSelectionQueue.RemoveAt(0);
+            }
+            else if (RewardingModel.rewardFlag == RewardingModel.RewardFlag.PassiveReward)
+            {
+                if (LogLikeMod.rewards_passive != null && LogLikeMod.rewards_passive.Count > 0)
+                    LogLikeMod.rewards_passive.RemoveAt(0);
+            }
+            else
+            {
+                return;
+            }
+
+            if (self != null)
+                self.SetRootCanvas(false);
+            RewardingModel.StartPickReward();
+        }
+
         /// <summary>
         /// Hook for hijacing Crrying Children's map manager.
         /// </summary>
@@ -241,6 +413,10 @@ namespace abcdcode_LOGLIKE_MOD
         /// </summary>
         public List<DiceCardXmlInfo> UnitDataModel_GetDeckForBattle(Func<UnitDataModel, int, List<DiceCardXmlInfo>> orig, UnitDataModel self, int index)
         {
+            if (LogLikeMod.CheckStage(true)
+                && LogueBookModels.TryGetGrade6SpecialBuiltInDeckCards(self, out List<DiceCardXmlInfo> builtInDeck))
+                return builtInDeck;
+
             if (LogLikeMod.CheckStage(true) && RMRCore.CurrentGamemode.ReplaceBaseDeck)
             {
                 List<DiceCardXmlInfo> list = new List<DiceCardXmlInfo>();
@@ -258,6 +434,30 @@ namespace abcdcode_LOGLIKE_MOD
                 return list;
             }
             return orig(self, index);
+        }
+
+        /// <summary>
+        /// Preserves the vanilla fixed-deck behavior for Black Silence and Binah while
+        /// their source BookXmlInfo is projected onto a Roguelike unit.
+        /// </summary>
+        public bool BookModel_IsFixedDeck(Func<BookModel, bool> orig, BookModel self)
+        {
+            if (LogLikeMod.CheckStage(true) && LogueBookModels.HasGrade6SpecialBuiltInDeck(self))
+                return true;
+            return orig(self);
+        }
+
+        /// <summary>
+        /// Displays the original vanilla fixed deck instead of the Roguelike starter deck.
+        /// </summary>
+        public List<DiceCardXmlInfo> BookModel_GetCardListFromCurrentDeck(
+            Func<BookModel, List<DiceCardXmlInfo>> orig,
+            BookModel self)
+        {
+            if (LogLikeMod.CheckStage(true)
+                && LogueBookModels.TryGetGrade6SpecialBuiltInDeckCards(self, out List<DiceCardXmlInfo> builtInDeck))
+                return builtInDeck;
+            return orig(self);
         }
 
         /// <summary>
@@ -346,8 +546,8 @@ namespace abcdcode_LOGLIKE_MOD
             // attach funny background to object above
             if (!LogLikeMod.CheckStage())
                 return;
-            foreach (UISephirahButton uiSephirahButton in (List<UISephirahButton>)UIBattleSettingPanelSephirahButtonsField.GetValue(self))
-                uiSephirahButton.SetButtonState(UISephirahButton.ButtonState.Close);
+            // Keep Sephirah buttons available in RMR so the selected floor can continue
+            // controlling reception BGM across later acts.
         }
 
         /* UNUSED
@@ -406,8 +606,18 @@ namespace abcdcode_LOGLIKE_MOD
           StageController self,
           float deltaTime)
         {
+            // Realization battles have independent reward handling — skip Roguelike reward chain
+            if (RMRRealizationManager.InRealizationBattle)
+            {
+                orig(self, deltaTime);
+                return;
+            }
+
             if (LogLikeMod.CheckStage(true))
             {
+                RMRAbnormalityUnlockManager.GrantRedMistChallengeVictoryRewards();
+                RMRAbnormalityUnlockManager.RecordBlackSilenceVictoryUnlock();
+                RMRAbnormalityUnlockManager.GrantDistortedEnsembleVictoryRewards();
                 if (!RewardingModel.RewardClearStage(self))
                     return;
                 if (!LogLikeMod.EndBattle)
@@ -428,13 +638,94 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         /// <summary>
+        /// Returns true for Grade4, Grade5, Grade6 — the high chapters that receive an extra EquipPage reward.
+        /// </summary>
+        private static bool IsHighChapterExtraEquipRewardChapter(ChapterGrade grade)
+        {
+            return grade == ChapterGrade.Grade4 || grade == ChapterGrade.Grade5 || grade == ChapterGrade.Grade6;
+        }
+
+        /// <summary>
+        /// Creates an extra EquipPage-only reward by filtering the current chapter's CommonReward pool.
+        /// Returns null if no EquipPage entries exist in the pool.
+        /// </summary>
+        private static RewardInfo CreateExtraEquipPageReward(ChapterGrade grade)
+        {
+            var allRewards = Singleton<RewardPassivesList>.Instance.GetChapterData(grade, PassiveRewardListType.CommonReward, LorId.None);
+            if (allRewards == null)
+                return null;
+            var equipPages = allRewards.Where(x => x != null && x.rewardtype == RewardType.EquipPage).ToList();
+            if (equipPages.Count == 0)
+                return null;
+            return new RewardInfo { grade = grade, rewards = equipPages };
+        }
+
+        /// <summary>
+        /// Adds an extra EquipPage reward to <see cref="LogLikeMod.rewards_passive"/> if the current chapter
+        /// is Grade4/5/6 and the CommonReward pool contains EquipPage entries.
+        /// Call this only after a battle reward (Common/Elite/Boss) has already been added.
+        /// </summary>
+        private static void TryAddExtraEquipPageReward()
+        {
+            if (!IsHighChapterExtraEquipRewardChapter(LogLikeMod.curchaptergrade))
+                return;
+            RewardInfo extraReward = CreateExtraEquipPageReward(LogLikeMod.curchaptergrade);
+            if (extraReward != null)
+                LogLikeMod.rewards_passive.Add(extraReward);
+        }
+
+        /// <summary>
         /// Hook for initializing stage rewards and enabling money UI.
         /// Also runs <see cref="GlobalLogueEffectManager.OnStartBattle"/> (and OnStartBattleAfter).
         /// </summary>
+        private static void ResetBattleEgoSelectionState(StageController controller)
+        {
+            Singleton<SpecialCardListModel>.Instance.Init();
+            StageModel stage = controller?.GetStageModel();
+            if (stage == null)
+                return;
+            foreach (StageLibraryFloorModel floor in stage.GetAvailableFloorList())
+            {
+                ModdingUtils.GetFieldValue<List<EmotionEgoXmlInfo>>("_selectedEgoList", floor)?.Clear();
+                ModdingUtils.GetFieldValue<List<EmotionEgoXmlInfo>>("_selectableEgoList", floor)?.Clear();
+                if (floor.team != null)
+                    floor.team.egoSelectionPoint = 0;
+            }
+        }
+
         public void StageController_StartBattle(Action<StageController> orig, StageController self)
         {
+            // If a realization battle is pending, activate the flag now that the
+            // realization stage is actually loading. This prevents the EndBattle hook
+            // from treating the event-transition EndBattle as a realization end.
+            if (RMRRealizationManager.PendingRealizationBattle)
+            {
+                RMRRealizationManager.ActivatePendingRealization();
+            }
+
+            // Realization battles skip the normal Roguelike reward initialization
+            if (RMRRealizationManager.InRealizationBattle)
+            {
+                orig(self);
+                return;
+            }
+
+            // Purple Tear's half-HP teleport restarts the current floor battle without
+            // ending the reception. Keep librarian emotion, selected abnormality pages,
+            // EGO cards and reward queues intact until the forced transition completes.
+            bool isPurpleTransition = LogLikeMod.CheckStage() && LogLikeMod.purpleexcept;
+            if (isPurpleTransition)
+            {
+                orig(self);
+                LogLikeMod.purpleexcept = false;
+                return;
+            }
+
             if (LogLikeMod.CheckStage())
             {
+                ResetBattleEgoSelectionState(self);
+                RewardingModel.ResetDropBookRewardNormalization();
+                RMRAbnormalityUnlockManager.ResetRedMistChallengeBattleState();
                 LogLikeMod.BattleMoneyUI.Active();
                 LogueBookModels.selectedEmotion = new List<RewardPassiveInfo>();
                 LogueBookModels.EmotionCardList = RMRAbnormalityUnlockManager.GetUnlockedEmotionCardsForBattle();
@@ -445,6 +736,7 @@ namespace abcdcode_LOGLIKE_MOD
                 LogLikeMod.rewards_lastKill = new List<DropBookXmlInfo>();
                 LogLikeMod.rewards_passive = new List<RewardInfo>();
                 LogLikeMod.rewardsMystery = new List<LorId>();
+                LogLikeMod.egoSelectionQueue = new List<List<LorId>>();
                 //if (!LogLikeMod.Debugging)
                 //  ;
                 LogLikeMod.PlayerEquipOrders = new List<EquipChangeOrder>();
@@ -454,6 +746,7 @@ namespace abcdcode_LOGLIKE_MOD
                     {
                         LogLikeMod.rewards_passive.Add(RewardInfo.GetCurChapterCommonReward(LogLikeMod.curchaptergrade));
                         LogLikeMod.NormalRewardCool = 0;
+                        TryAddExtraEquipPageReward();
                     }
                     else
                         --LogLikeMod.NormalRewardCool;
@@ -462,7 +755,10 @@ namespace abcdcode_LOGLIKE_MOD
                 {
                     RewardInfo eliteReward = RewardInfo.GetCurChapterEliteReward(LogLikeMod.curchaptergrade);
                     if (eliteReward != null)
+                    {
                         LogLikeMod.rewards_passive.Add(eliteReward);
+                        TryAddExtraEquipPageReward();
+                    }
                 }
                 if (LogLikeMod.curstagetype == StageType.Creature)
                     LogLikeMod.NormalRewardCool = 0;
@@ -470,7 +766,10 @@ namespace abcdcode_LOGLIKE_MOD
                 {
                     RewardInfo chapterBossReward = RewardInfo.GetCurChapterBossReward(LogLikeMod.curchaptergrade);
                     if (chapterBossReward != null)
+                    {
                         LogLikeMod.rewards_passive.Add(chapterBossReward);
+                        TryAddExtraEquipPageReward();
+                    }
                 }
                 RMRAbnormalityUnlockManager.EnqueueBattleClearRewards();
                 LogLikeMod.ResetNextStage();
@@ -571,8 +870,9 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 LogLikeMod.rewards_lastKill = new List<DropBookXmlInfo>();
                 DropBookXmlInfo data1 = Singleton<DropBookXmlList>.Instance.GetData(data.id);
-                LogLikeMod.rewards.Add(data1);
-                LogLikeMod.rewards_lastKill.Add(data1);
+                QueueDropBookReward(data1, data.id);
+                if (data1 != null)
+                    LogLikeMod.rewards_lastKill.Add(data1);
             }
             else
                 orig(self, data);
@@ -590,6 +890,10 @@ namespace abcdcode_LOGLIKE_MOD
                     && BattleObjectManager.instance.GetAliveListWithAvailable(Faction.Enemy).Count == 0;
                 RMRRealizationManager.OnRealizationBattleEnded(victory);
                 orig(self);
+                // Clear InRealizationBattle AFTER vanilla EndBattle completes,
+                // so that ClearBattle/EndBattlePhase postfixes still see the guard
+                // during the vanilla cleanup sequence.
+                RMRRealizationManager.ClearRealizationFlag();
                 return;
             }
 
@@ -734,29 +1038,11 @@ namespace abcdcode_LOGLIKE_MOD
                 if (LogLikeMod.skipPanel == null)
                 {
                     Button button = ModdingUtils.CreateButton(self.selectablePanel.transform.parent, "AbCardSelection_Skip", new Vector2(1f, 1f), new Vector2(650f, 385f));
-                    Button.ButtonClickedEvent buttonClickedEvent = new Button.ButtonClickedEvent();
-                    buttonClickedEvent.AddListener(() =>
-                    {
-                        if (RewardingModel.rewardFlag == RewardingModel.RewardFlag.CardReward)
-                        {
-                            List<DiceCardXmlInfo> cardlist = new List<DiceCardXmlInfo>();
-                            foreach (BattleDiceCardUI egoSlot in self.egoSlotList)
-                                cardlist.Add(egoSlot.CardModel.XmlData);
-                            Singleton<GlobalLogueEffectManager>.Instance.OnSkipCardRewardChoose(cardlist);
-                            LogLikeMod.rewards.RemoveAt(0);
-                        }
-                        if (RewardingModel.rewardFlag == RewardingModel.RewardFlag.PassiveReward)
-                            LogLikeMod.rewards_passive.RemoveAt(0);
-                        self.StartCoroutine((IEnumerator)typeof(LevelUpUI).GetMethod("DisableRoutine", AccessTools.all).Invoke(self, (object[])null));
-                        self.StartCoroutine((IEnumerator)typeof(LevelUpUI).GetMethod("TranslateRoutine", AccessTools.all).Invoke(self, new object[1]
-                    {
-                     true
-                      }));
-                    });
-                    button.onClick = buttonClickedEvent;
                     LogLikeMod.skipPanel = button;
                     LogLikeMod.skipPanelText = ModdingUtils.CreateText_TMP(button.transform, new Vector2(-10f, 0.0f), (int)textMeshProUgui2.fontSize, new Vector2(0.0f, 0.0f), new Vector2(1f, 1f), new Vector2(0.0f, 0.0f), TextAlignmentOptions.Midline, textMeshProUgui2.color, textMeshProUgui2.font);
                 }
+                LogLikeMod.skipPanel.onClick.RemoveAllListeners();
+                LogLikeMod.skipPanel.onClick.AddListener(() => SkipCurrentRewardSelection(self));
                 if (LogLikeMod.StageRemainText == null)
                 {
                     UILogCustomSelectable BackGround = ModdingUtils.CreateLogSelectable(self.selectablePanel.transform.parent, "AbCardSelection_Skip", new Vector2(1f, 1f), new Vector2(0.0f, 500f));
@@ -768,7 +1054,12 @@ namespace abcdcode_LOGLIKE_MOD
                         foreach (LogueStageInfo info in LogueBookModels.RemainStageList[LogLikeMod.curchaptergrade])
                         {
                             LogueBookModels.CreateStageDesc(info);
-                            AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(LogLikeMod.GetRegisteredPickUpXml(info).Name);
+                            EmotionCardXmlInfo pickUpXml = LogLikeMod.GetRegisteredPickUpXml(info);
+                            if (pickUpXml == null)
+                                continue;
+                            AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(pickUpXml.Name);
+                            if (abnormalityCard == null)
+                                continue;
                             if (!dictionary.ContainsKey(abnormalityCard.cardName))
                                 dictionary[abnormalityCard.cardName] = 1;
                             else
@@ -792,7 +1083,14 @@ namespace abcdcode_LOGLIKE_MOD
                         num = 1;
                         break;
                     case RewardingModel.RewardFlag.PassiveReward:
-                        num = LogLikeMod.rewards_passive[0].rewards[0].rewardtype != RewardType.Creature ? 1 : 0;
+                        RewardPassiveInfo firstPassive = LogLikeMod.rewards_passive != null
+                            && LogLikeMod.rewards_passive.Count > 0
+                            && LogLikeMod.rewards_passive[0] != null
+                            && LogLikeMod.rewards_passive[0].rewards != null
+                            && LogLikeMod.rewards_passive[0].rewards.Count > 0
+                            ? LogLikeMod.rewards_passive[0].rewards[0]
+                            : null;
+                        num = firstPassive != null && firstPassive.rewardtype != RewardType.Creature ? 1 : 0;
                         break;
                     default:
                         num = 0;
@@ -810,15 +1108,19 @@ namespace abcdcode_LOGLIKE_MOD
                     LogLikeMod.StageRemainPanel.gameObject.SetActive(true);
                     TextMeshProUGUI stageRemainText1 = LogLikeMod.StageRemainText;
                     string text1 = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("ui_stageremain");
-                    int count = LogueBookModels.RemainStageList[LogLikeMod.curchaptergrade].Count;
+                    int count = LogueBookModels.RemainStageList.TryGetValue(LogLikeMod.curchaptergrade, out List<LogueStageInfo> curChapterList) && curChapterList != null
+                        ? curChapterList.Count : 0;
                     string str1 = count.ToString();
                     string str2 = text1 + str1;
                     stageRemainText1.text = str2;
-                    if (LogLikeMod.curstagetype == StageType.Boss)
+                    if (LogLikeMod.curstagetype == StageType.Boss && LogLikeMod.curchaptergrade < ChapterGrade.Grade7)
                     {
                         TextMeshProUGUI stageRemainText2 = LogLikeMod.StageRemainText;
                         string text2 = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("ui_stageremain");
-                        count = LogueBookModels.RemainStageList[LogLikeMod.curchaptergrade + 1].Count;
+                        if (LogueBookModels.RemainStageList.TryGetValue(LogLikeMod.curchaptergrade + 1, out List<LogueStageInfo> nextChapterList) && nextChapterList != null)
+                            count = nextChapterList.Count;
+                        else
+                            count = 0;
                         string str3 = count.ToString();
                         string str4 = text2 + str3;
                         stageRemainText2.text = str4;
@@ -837,10 +1139,18 @@ namespace abcdcode_LOGLIKE_MOD
                 {
                     textMeshProUgui1.text = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("BattleEnd_PassiveReward");
                     textMeshProUgui2.text = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("BattleEnd_PassiveReward");
-                    if (!Singleton<TutorialManager>.Instance.IsSeeTuto("tutorial_EquipPage1_1new") && Singleton<RewardPassivesList>.Instance.GetPassiveInfo(new LorId(LogLikeMod.GetPickUpXmlWorkShopId_Passive(self.candidates[0].Card), self.candidates[0].Card.id)).rewardtype == RewardType.EquipPage)
-                        Singleton<TutorialManager>.Instance.LoadTuto("tutorial_EquipPage1_1new");
-                    if (!Singleton<TutorialManager>.Instance.IsSeeTuto("tutorial_EmotionPage1_1") && Singleton<RewardPassivesList>.Instance.GetPassiveInfo(new LorId(LogLikeMod.GetPickUpXmlWorkShopId_Passive(self.candidates[0].Card), self.candidates[0].Card.id)).rewardtype == RewardType.Creature)
-                        Singleton<TutorialManager>.Instance.LoadTuto("tutorial_EmotionPage1_1");
+                    if (self.candidates != null && self.candidates.Length > 0 && self.candidates[0].Card != null)
+                    {
+                        var candidateCard = self.candidates[0].Card;
+                        var passiveInfo = Singleton<RewardPassivesList>.Instance.GetPassiveInfo(new LorId(LogLikeMod.GetPickUpXmlWorkShopId_Passive(candidateCard), candidateCard.id));
+                        if (passiveInfo != null)
+                        {
+                            if (!Singleton<TutorialManager>.Instance.IsSeeTuto("tutorial_EquipPage1_1new") && passiveInfo.rewardtype == RewardType.EquipPage)
+                                Singleton<TutorialManager>.Instance.LoadTuto("tutorial_EquipPage1_1new");
+                            if (!Singleton<TutorialManager>.Instance.IsSeeTuto("tutorial_EmotionPage1_1") && passiveInfo.rewardtype == RewardType.Creature)
+                                Singleton<TutorialManager>.Instance.LoadTuto("tutorial_EmotionPage1_1");
+                        }
+                    }
                 }
                 if (RewardingModel.rewardFlag != RewardingModel.RewardFlag.NextStageChoose)
                     return;
@@ -869,14 +1179,21 @@ namespace abcdcode_LOGLIKE_MOD
           StageLibraryFloorModel self,
           EmotionEgoXmlInfo egoCard)
         {
-            if (LogLikeMod.CheckStage(true))
+            if (LogLikeMod.CheckStage(true)
+                && RewardingModel.rewardFlag == RewardingModel.RewardFlag.EgoCardReward
+                && LogLikeMod.egoSelectionQueue != null
+                && LogLikeMod.egoSelectionQueue.Count > 0)
             {
                 List<DiceCardXmlInfo> cardlist = new List<DiceCardXmlInfo>();
                 foreach (BattleDiceCardUI egoSlot in SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.egoSlotList)
-                    cardlist.Add(egoSlot.CardModel.XmlData);
+                {
+                    if (egoSlot?.CardModel?.XmlData != null)
+                        cardlist.Add(egoSlot.CardModel.XmlData);
+                }
                 Singleton<GlobalLogueEffectManager>.Instance.OnPickCardReward(cardlist, ItemXmlDataList.instance.GetCardItem(egoCard.CardId));
-                LogueBookModels.AddCard(egoCard.CardId);
-                LogLikeMod.rewards.RemoveAt(0);
+                RMRAbnormalityUnlockManager.UnlockEgoForCurrentRoute(egoCard.CardId);
+                LogueBookModels.RecordAtlasEgoPage(egoCard.CardId);
+                LogLikeMod.egoSelectionQueue.RemoveAt(0);
             }
             else
                 orig(self, egoCard);
@@ -930,6 +1247,7 @@ namespace abcdcode_LOGLIKE_MOD
                     }
                 }
                 LogLikeMod.SetNextStage(stage.Id, stage.type);
+                RMRCore.ApplyBinahRedMistProgressionState();
             } else if (RewardingModel.rewardFlag == RewardingModel.RewardFlag.NextStageChoose && stage == null)
             {
                 Debug.Log("NULL STAGE ERROR!!: " + card.Name + " --- " + card.id + " --- Generated PID: " + LogLikeMod.GetPickUpXmlWorkShopId_Stage(card) ?? "NULL");
@@ -937,6 +1255,11 @@ namespace abcdcode_LOGLIKE_MOD
             else if (Singleton<RewardPassivesList>.Instance.GetPassiveInfo(new LorId(LogLikeMod.GetPickUpXmlWorkShopId_Passive(card), card.id)) != null)
             {
                 RewardPassiveInfo pickedRewardInfo = Singleton<RewardPassivesList>.Instance.GetPassiveInfo(new LorId(LogLikeMod.GetPickUpXmlWorkShopId_Passive(card), card.id));
+                if (pickedRewardInfo == null)
+                {
+                    Debug.LogWarning("[StageLibraryFloorModel_OnPickPassiveCard] pickedRewardInfo is null, cannot process reward.");
+                    return;
+                }
                 if (pickedRewardInfo.rewardtype == RewardType.Creature && RewardingModel.rewardFlag == RewardingModel.RewardFlag.PassiveReward)
                 {
                     RMRAbnormalityUnlockManager.OnEmotionPagePicked(card);
@@ -949,11 +1272,16 @@ namespace abcdcode_LOGLIKE_MOD
                     if (RMRAbnormalityUnlockManager.IsNoAbnormalityFallback(card))
                         return;
                 }
+                if (card.Script == null || card.Script.Count == 0)
+                {
+                    Debug.LogError("[StageLibraryFloorModel_OnPickPassiveCard] card.Script is null or empty, cannot resolve PickUp.");
+                    return;
+                }
                 PickUpModelBase pickUp = LogLikeMod.FindPickUp(card.Script[0]);
-                pickUp.rewardinfo = pickedRewardInfo;
-                pickUp.id = new LorId(LogLikeMod.GetPickUpXmlWorkShopId_Passive(card), card.id);
                 if (pickUp != null)
                 {
+                    pickUp.rewardinfo = pickedRewardInfo;
+                    pickUp.id = new LorId(LogLikeMod.GetPickUpXmlWorkShopId_Passive(card), card.id);
                     if (card.TargetType == EmotionTargetType.All || card.TargetType == EmotionTargetType.AllIncludingEnemy)
                     {
                         foreach (BattleUnitModel model in BattleObjectManager.instance.GetList(Faction.Player))
@@ -1014,11 +1342,15 @@ namespace abcdcode_LOGLIKE_MOD
                     Button.ButtonClickedEvent buttonClickedEvent = new Button.ButtonClickedEvent();
                     buttonClickedEvent.AddListener((UnityAction)(() => LogLikeRoutines.OnClickInventory(self)));
                     LogLikeMod.InvenBtn.onClick = buttonClickedEvent;
-                    UITextDataLoader component = LogLikeMod.InvenBtn.transform.GetChild(1).gameObject.GetComponent<UITextDataLoader>();
-                    component.key = "ui_Inventory";
-                    component.SetText();
-                    LogLikeMod.InvenBtnFrame = LogLikeMod.InvenBtn.transform.GetChild(0).gameObject.GetComponent<Image>();
-                    LogLikeMod.InvenBtnFrame.enabled = false;
+                    LogLikeRoutines.SafeGetButtonComponents(LogLikeMod.InvenBtn, out UITextDataLoader component, out Image invenFrame);
+                    if (component != null)
+                    {
+                        component.key = "ui_Inventory";
+                        component.SetText();
+                    }
+                    LogLikeMod.InvenBtnFrame = invenFrame;
+                    if (LogLikeMod.InvenBtnFrame != null)
+                        LogLikeMod.InvenBtnFrame.enabled = false;
                 }
                 if (LogLikeMod.CreatureBtn == null)
                 {
@@ -1028,11 +1360,15 @@ namespace abcdcode_LOGLIKE_MOD
                     Button.ButtonClickedEvent buttonClickedEvent = new Button.ButtonClickedEvent();
                     buttonClickedEvent.AddListener((UnityAction)(() => LogLikeRoutines.OnClickAtlasTab(self)));
                     LogLikeMod.CreatureBtn.onClick = buttonClickedEvent;
-                    UITextDataLoader component = LogLikeMod.CreatureBtn.transform.GetChild(1).gameObject.GetComponent<UITextDataLoader>();
-                    component.key = "ui_AtlasTab";
-                    component.SetText();
-                    LogLikeMod.CreatureBtnFrame = LogLikeMod.CreatureBtn.transform.GetChild(0).gameObject.GetComponent<Image>();
-                    LogLikeMod.CreatureBtnFrame.enabled = false;
+                    LogLikeRoutines.SafeGetButtonComponents(LogLikeMod.CreatureBtn, out UITextDataLoader component, out Image creatureFrame);
+                    if (component != null)
+                    {
+                        component.key = "ui_AtlasTab";
+                        component.SetText();
+                    }
+                    LogLikeMod.CreatureBtnFrame = creatureFrame;
+                    if (LogLikeMod.CreatureBtnFrame != null)
+                        LogLikeMod.CreatureBtnFrame.enabled = false;
                     LogLikeMod.AtlasBtn = LogLikeMod.CreatureBtn;
                     LogLikeMod.AtlasBtnFrame = LogLikeMod.CreatureBtnFrame;
                 }
@@ -1044,11 +1380,15 @@ namespace abcdcode_LOGLIKE_MOD
                     Button.ButtonClickedEvent buttonClickedEvent = new Button.ButtonClickedEvent();
                     buttonClickedEvent.AddListener((UnityAction)(() => LogLikeRoutines.OnClickCraftTab(self)));
                     LogLikeMod.CraftBtn.onClick = buttonClickedEvent;
-                    UITextDataLoader component = LogLikeMod.CraftBtn.transform.GetChild(1).gameObject.GetComponent<UITextDataLoader>();
-                    component.key = "ui_CraftTab";
-                    component.SetText();
-                    LogLikeMod.CraftBtnFrame = LogLikeMod.CraftBtn.transform.GetChild(0).gameObject.GetComponent<Image>();
-                    LogLikeMod.CraftBtnFrame.enabled = false;
+                    LogLikeRoutines.SafeGetButtonComponents(LogLikeMod.CraftBtn, out UITextDataLoader component, out Image craftFrame);
+                    if (component != null)
+                    {
+                        component.key = "ui_CraftTab";
+                        component.SetText();
+                    }
+                    LogLikeMod.CraftBtnFrame = craftFrame;
+                    if (LogLikeMod.CraftBtnFrame != null)
+                        LogLikeMod.CraftBtnFrame.enabled = false;
                 }
                 if (LogLikeMod.AtlasBtn == null && LogLikeMod.CreatureBtn != null)
                 {
@@ -1063,17 +1403,24 @@ namespace abcdcode_LOGLIKE_MOD
                     Button.ButtonClickedEvent btnEvent = new Button.ButtonClickedEvent();
                     btnEvent.AddListener((UnityAction)(() => LogLikeRoutines.OnClickRealization(self)));
                     LogLikeMod.RealizationBtn.onClick = btnEvent;
-                    UITextDataLoader txtLoader = LogLikeMod.RealizationBtn.transform.GetChild(1).gameObject.GetComponent<UITextDataLoader>();
-                    txtLoader.key = "ui_Realization";
-                    txtLoader.SetText();
-                    LogLikeMod.RealizationBtnFrame = LogLikeMod.RealizationBtn.transform.GetChild(0).gameObject.GetComponent<Image>();
-                    LogLikeMod.RealizationBtnFrame.enabled = false;
+                    LogLikeRoutines.SafeGetButtonComponents(LogLikeMod.RealizationBtn, out UITextDataLoader txtLoader, out Image realizationFrame);
+                    if (txtLoader != null)
+                    {
+                        txtLoader.key = "ui_Realization";
+                        txtLoader.SetText();
+                    }
+                    LogLikeRoutines.ApplyRealizationButtonText(LogLikeMod.RealizationBtn);
+                    LogLikeMod.RealizationBtnFrame = realizationFrame;
+                    if (LogLikeMod.RealizationBtnFrame != null)
+                        LogLikeMod.RealizationBtnFrame.enabled = false;
                 }
                 LogLikeMod.InvenBtn.gameObject.SetActive(true);
                 LogLikeMod.CreatureBtn.gameObject.SetActive(true);
                 LogLikeMod.CraftBtn.gameObject.SetActive(true);
                 LogLikeMod.AtlasBtn.gameObject.SetActive(true);
-                LogLikeMod.RealizationBtn.gameObject.SetActive(true);
+                LogLikeRoutines.ApplyRealizationButtonText(LogLikeMod.RealizationBtn);
+                if (LogLikeMod.RealizationBtn != null)
+                    LogLikeMod.RealizationBtn.gameObject.SetActive(RMRRealizationManager.InitialRelicEntryAvailable);
                 Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(false);
                 Singleton<LogCreatureTabPanel>.Instance.SetActive(false);
                 Singleton<LogCraftPanel>.Instance.SetActive(false);
@@ -1187,7 +1534,7 @@ namespace abcdcode_LOGLIKE_MOD
                 else
                     BattleUnitCardsInHandUIHoveredUnitField.SetValue(self, unitModel);
                 BattleUnitCardsInHandUI.EgoToggleState egoToggleState = BattleUnitCardsInHandUI.EgoToggleState.Hide;
-                if (unitModel.personalEgoDetail.ExistsCard())
+                if (unitModel.personalEgoDetail.ExistsCard() || Singleton<SpecialCardListModel>.Instance.ExistEgoCardBySelected())
                     egoToggleState = toggle.isOn ? BattleUnitCardsInHandUI.EgoToggleState.On : BattleUnitCardsInHandUI.EgoToggleState.Off;
                 else
                     BattleUnitCardsInHandUIHandStateField.SetValue(self, BattleUnitCardsInHandUI.HandState.BattleCard);
@@ -1427,7 +1774,8 @@ namespace abcdcode_LOGLIKE_MOD
             y = (float)(self.GetMaxRow() + self.row - 1) * self.slotHeight;
             self.scrollBar.SetScrollRectSize(x2, y);
             self.scrollBar.SetWindowPosition(0f, 0f);
-            self.selectablePanel.ChildSelectable = self.slotList[0].selectable;
+            if (self.slotList != null && self.slotList.Count > 0)
+                self.selectablePanel.ChildSelectable = self.slotList[0].selectable;
             self.SetCardsData(self.GetCurrentPageList());
         }
 
@@ -1929,6 +2277,8 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPrefix, HarmonyPatch(typeof(UIBattleSettingPanel), nameof(UIBattleSettingPanel.OnClickBackButton))]
         public static bool UIBattleSettingPanel_OnClickBackButton()
         {
+            if (LogRealizationPanel.Instance != null && LogRealizationPanel.Instance.TryHandleBack())
+                return false;
             return !LogLikeMod.CheckStage() || !UIPassiveSuccessionPopup.Instance.isActiveAndEnabled;
         }
 
@@ -2697,7 +3047,37 @@ namespace abcdcode_LOGLIKE_MOD
             if (!LogLikeMod.CheckStage(true))
                 return;
             if (__instance.faction == Faction.Enemy && __instance.UnitData.unitData.ExpDrop > 0)
-                PassiveAbility_MoneyCheck.AddMoney(__instance.UnitData.unitData.ExpDrop);
+            {
+                int moneyDrop = __instance.UnitData.unitData.ExpDrop;
+                if (LogLikeMod.curstagetype == StageType.Normal)
+                {
+                    float moneyScale = 1f;
+                    switch (LogLikeMod.curchaptergrade)
+                    {
+                        case ChapterGrade.Grade1:
+                        case ChapterGrade.Grade2:
+                            moneyScale = 1.5f;
+                            break;
+                        case ChapterGrade.Grade3:
+                            moneyScale = 0.9f;
+                            break;
+                        case ChapterGrade.Grade4:
+                            moneyScale = 0.85f;
+                            break;
+                        case ChapterGrade.Grade5:
+                            moneyScale = 0.8f;
+                            break;
+                        case ChapterGrade.Grade6:
+                            moneyScale = 0.75f;
+                            break;
+                        case ChapterGrade.Grade7:
+                            moneyScale = 0.7f;
+                            break;
+                    }
+                    moneyDrop = Mathf.Max(1, Mathf.RoundToInt(moneyDrop * moneyScale));
+                }
+                PassiveAbility_MoneyCheck.AddMoney(moneyDrop);
+            }
             else if (__instance.faction == Faction.Player && LogueBookModels.playerBattleModel.Contains(__instance.UnitData))
                 LogueBookModels.playerBattleModel.Find(x => x == __instance.UnitData).isDead = true;
         }
@@ -3000,7 +3380,7 @@ namespace abcdcode_LOGLIKE_MOD
           UICharacterStatInfoPanel __instance,
           UnitDataModel data)
         {
-            if (LogueBookModels.playerModel == null || !LogueBookModels.playerModel.Contains(data) || LogueBookModels.playersstatadders[data].Count <= 0)
+            if (LogueBookModels.playerModel == null || !LogueBookModels.playerModel.Contains(data) || LogueBookModels.playersstatadders == null || !LogueBookModels.playersstatadders.TryGetValue(data, out var statAdders) || statAdders.Count <= 0)
                 return;
             BookXmlInfo bookXmlInfo = LogueBookModels.CurPlayerEquipInfo(data);
             int hp = bookXmlInfo.EquipEffect.Hp;
@@ -3124,12 +3504,16 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
-        /*
-        [HarmonyPostfix, HarmonyPatch(typeof(StageController), nameof(StageController.GameOver))]
-        public static void StageController_GameOver(bool iswin, bool isbackbutton = false)
+        [HarmonyPrefix, HarmonyPatch(typeof(StageController), nameof(StageController.GameOver))]
+        public static void StageController_GameOver(ref bool iswin, ref bool isbackbutton)
         {
+            if (!RMRRealizationManager.ForceReturnAsDefeatPending)
+                return;
+            iswin = false;
+            isbackbutton = true;
+            RMRRealizationManager.ConsumeForceReturnAsDefeat();
+            Debug.Log("[RMRRealizationManager] Routed realization completion through the vanilla defeat return flow.");
         }
-        */
 
         [HarmonyPostfix, HarmonyPatch(typeof(StageController), nameof(StageController.ActivateStartBattleEffectPhase))]
         public static void StageController_ActivateStartBattleEffectPhase(StageController __instance)
@@ -3153,6 +3537,10 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPostfix, HarmonyPatch(typeof(StageController), nameof(StageController.ClearBattle))]
         public static void StageController_ClearBattle(StageController __instance)
         {
+            // Skip Roguelike clear-battle processing during realization battles
+            if (RMRRealizationManager.InRealizationBattle)
+                return;
+
             if (!LogLikeMod.CheckStage(true) || Environment.StackTrace.Contains("UIBgScreenChangeAnim"))
                 return;
             if (!LogLikeMod.purpleexcept)

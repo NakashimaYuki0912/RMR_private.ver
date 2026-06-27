@@ -139,29 +139,19 @@ namespace RogueLike_Mod_Reborn
 
         public static Rarity ItemRarity = Rarity.Common;
 
-        public override string KeywordId => "RMR_RoadlessCamelot";
-
-        public override string KeywordIconId => "RMR_RoadlessCamelot";
-
         public override string GetEffectName()
         {
-            if (IsChineseLanguage())
-                return "无路卡美洛";
-            return base.GetEffectName();
+            return "无路卡美洛";
         }
 
         public override string GetEffectDesc()
         {
-            if (IsChineseLanguage())
-                return "每一幕开始时，随机1名司书在本幕获得“无路卡美洛”。（无路卡美洛：每当该角色使用战斗书页时，使所有其他友方手中1张随机战斗书页暂时强化，持续至本幕结束。）\n\n没有入口的理想乡所凝结出的结晶。犹如水中月影，其美丽只与脆弱相称。";
-            return base.GetEffectDesc();
+            return "每幕开始时，一名随机司书本幕获得“无路卡美洛”。没有入口的理想乡会在使用战斗书页时，为其他友方暂时升级手中的随机战斗书页。";
         }
 
-        private static bool IsChineseLanguage()
-        {
-            string language = TextDataModel.CurrentLanguage;
-            return language == "cn" || language == "trcn";
-        }
+        public override string KeywordId => "RMR_RoadlessCamelot";
+
+        public override string KeywordIconId => "RMR_RoadlessCamelot";
     }
 
     public class RMREffect_StrangeOrb : GlobalLogueEffectBase
@@ -638,7 +628,7 @@ namespace RogueLike_Mod_Reborn
             foreach (DiceCardItemModel card in LogueBookModels.cardlist.FindAll(x => x.GetRarity() == Rarity.Uncommon && x.ClassInfo.CheckCanUpgrade()))
             {
                 LogueBookModels.AddUpgradeCard(card.GetID(), true);
-                LogueBookModels.DeleteCard(card.GetID());
+                LogueBookModels.RemoveCard(card.GetID());
             }
         }
 
@@ -1161,7 +1151,7 @@ namespace RogueLike_Mod_Reborn
 
         public class Dupe : BattleUnitBuf
         {
-            private readonly List<BattlePlayingCardDataInUnitModel> cards = new List<BattlePlayingCardDataInUnitModel>();
+            List<BattlePlayingCardDataInUnitModel> cards;
             public override void OnRoundStart()
             {
                 base.OnRoundStart();
@@ -1179,7 +1169,7 @@ namespace RogueLike_Mod_Reborn
             public override void OnRoundEnd()
             {
                 base.OnRoundEnd();
-                foreach (BattlePlayingCardDataInUnitModel card in cards.ToArray())
+                foreach (BattlePlayingCardDataInUnitModel card in cards)
                 {
                     List<BattleUnitModel> list = new List<BattleUnitModel>();
                     foreach (BattleUnitModel goober in BattleObjectManager.instance.GetAliveList(_owner.faction))
@@ -2051,11 +2041,9 @@ namespace RogueLike_Mod_Reborn
         public override void ChangeShopCard(ref DiceCardXmlInfo card)
         {
             base.ChangeShopCard(ref card);
-            // Upgrade chance disabled: upgrades are now only obtained via rest upgrades.
-            // Previously: 20% chance to replace with upgraded version.
             if (card.CheckCanUpgrade())
             {
-                if (UnityEngine.Random.value < 0f) // was 0.20f — disabled
+                if (UnityEngine.Random.value < 0.20f)
                 {
                     card = Singleton<LogCardUpgradeManager>.Instance.GetUpgradeCard(card.id);
                 }
@@ -2067,9 +2055,21 @@ namespace RogueLike_Mod_Reborn
             List<DiceCardXmlInfo> list = new List<DiceCardXmlInfo>();
             foreach (DiceCardXmlInfo diceCardXmlInfo in cardlist)
             {
-                // Upgrade chance disabled: upgrades are now only obtained via rest upgrades.
-                // All cards pass through unmodified.
-                list.Add(diceCardXmlInfo);
+                if (!diceCardXmlInfo.CheckCanUpgrade())
+                {
+                    list.Add(diceCardXmlInfo);
+                }
+                else
+                {
+                    if (UnityEngine.Random.value < 0.20f)
+                    {
+                        list.Add(Singleton<LogCardUpgradeManager>.Instance.GetUpgradeCard(diceCardXmlInfo.id));
+                    }
+                    else
+                    {
+                        list.Add(diceCardXmlInfo);
+                    }
+                }
             }
             cardlist = list;
         }

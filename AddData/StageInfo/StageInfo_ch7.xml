@@ -24,66 +24,73 @@
     </Wave>
   </Stage>
 
-  <!-- Impuritas Normal: Philip ensemble layer, based on vanilla stage 70001. -->
+  <!-- Impuritas Normal: Hana Association section 3 patrol. -->
   <Stage id="70002">
     <Wave>
       <Formation>1</Formation>
       <FormationType>AscendingOrder</FormationType>
       <AvailableUnit>5</AvailableUnit>
-      <Unit>1301011</Unit>
+      <Unit>60001</Unit>
+      <Unit>60001</Unit>
+      <Unit>60001</Unit>
+      <Unit>60001</Unit>
+      <Unit>60001</Unit>
     </Wave>
   </Stage>
 
-  <!-- Impuritas Normal: Eileen ensemble layer, based on vanilla stage 70002. -->
+  <!-- Impuritas Normal: Hana Association officers and fixers. -->
   <Stage id="70003">
     <Wave>
-      <Formation>34</Formation>
+      <Formation>1</Formation>
       <FormationType>AscendingOrder</FormationType>
       <AvailableUnit>5</AvailableUnit>
-      <Unit>1302011</Unit>
-      <Unit>1302021</Unit>
-      <Unit>1302021</Unit>
-      <Unit>1302021</Unit>
-      <Unit>1302021</Unit>
+      <Unit>60002</Unit>
+      <Unit>60003</Unit>
+      <Unit>60101</Unit>
+      <Unit>60101</Unit>
+      <Unit>60101</Unit>
     </Wave>
   </Stage>
 
-  <!-- Impuritas Normal: Greta ensemble layer, based on vanilla stage 70003. -->
+  <!-- Impuritas Normal: Hana Association mixed formation. -->
   <Stage id="70004">
     <Wave>
-      <Formation>29</Formation>
+      <Formation>1</Formation>
       <FormationType>AscendingOrder</FormationType>
       <AvailableUnit>5</AvailableUnit>
-      <Unit>1303011</Unit>
-      <Unit>1303021</Unit>
-      <Unit>1303021</Unit>
-      <Unit>1303021</Unit>
+      <Unit>60002</Unit>
+      <Unit>60003</Unit>
+      <Unit>60001</Unit>
+      <Unit>60001</Unit>
+      <Unit>60001</Unit>
     </Wave>
   </Stage>
 
-  <!-- Impuritas Normal: Chesed-floor ensemble cluster, based on vanilla stage 70007. -->
+  <!-- Impuritas Normal: Hana Association reinforced patrol. -->
   <Stage id="70005">
     <Wave>
-      <Formation>34</Formation>
+      <Formation>1</Formation>
       <FormationType>AscendingOrder</FormationType>
       <AvailableUnit>5</AvailableUnit>
-      <Unit>1307011</Unit>
-      <Unit>1307041</Unit>
-      <Unit>1307051</Unit>
-      <Unit>1307021</Unit>
-      <Unit>1307031</Unit>
+      <Unit>60001</Unit>
+      <Unit>60001</Unit>
+      <Unit>60001</Unit>
+      <Unit>60101</Unit>
+      <Unit>60101</Unit>
     </Wave>
   </Stage>
 
-  <!-- Impuritas Normal: middle/lower reverberation mix. -->
+  <!-- Impuritas Normal: Hana Association command group. -->
   <Stage id="70006">
     <Wave>
-      <Formation>36</Formation>
+      <Formation>1</Formation>
       <FormationType>AscendingOrder</FormationType>
       <AvailableUnit>5</AvailableUnit>
-      <Unit>1405011</Unit>
-      <Unit>1406011</Unit>
-      <Unit>1407011</Unit>
+      <Unit>60002</Unit>
+      <Unit>60003</Unit>
+      <Unit>60101</Unit>
+      <Unit>60101</Unit>
+      <Unit>60101</Unit>
     </Wave>
   </Stage>
 

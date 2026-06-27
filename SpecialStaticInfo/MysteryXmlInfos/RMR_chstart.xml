@@ -16,12 +16,6 @@
       <Choice ID="3">
         <Next>1</Next>
       </Choice>
-	  <Choice ID="4">
-        <Next>1</Next>
-      </Choice>
-	  <Choice ID="5">
-        <Next>1</Next>
-      </Choice>
     </Frame>
 
     <Frame ID="1" FrameType="DEFAULT">

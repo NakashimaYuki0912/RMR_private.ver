@@ -1667,8 +1667,8 @@ namespace abcdcode_LOGLIKE_MOD
                 case ChapterGrade.Grade6:
                     stageLimits = new StageLimits
                     {
-                        Normal = 6,
-                        Elite = 0,
+                        Normal = 5,
+                        Elite = 1,
                         Mystery = 2,
                         Shop = 2,
                         Boss = 1,

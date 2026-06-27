@@ -10,7 +10,6 @@
     <StageList ID="70006" StageType="Normal" />
     <StageList ID="70007" StageType="Boss" />
     <StageList ID="70008" StageType="Boss" />
-    <StageList ID="70009" StageType="Boss" />
     <StageList ID="991107" StageType="Creature" />
 
     <StageList ID="70011" StageType="Mystery" />

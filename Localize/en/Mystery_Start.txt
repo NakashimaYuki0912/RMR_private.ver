@@ -8,6 +8,7 @@ She said it won't be easy and she will give you one thing that will help you wit
              <text id="MysteryChStartChoice2">City's Technology(Gain 9 Canard and Urban Myth Chapter's Combat Page randomly.)</text>
              <text id="MysteryChStartChoice3">Enkephalin</text>
              <text id="MysteryChStartChoice4">City's Clothes(Gain 2 EquipPage Reward)</text>
+             <text id="MysteryChStartChoice6">Floor Realization(Challenge a vanilla floor realization)</text>
              <text id="StartBoost3Name">Enkephalin</text>
              <text id="StartBoost3Desc">[Global] During Canard and Urban Myth Chapter, librian's Emotion Level starts at 1.</text>
 
