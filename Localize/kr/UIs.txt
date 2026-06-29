@@ -14,6 +14,7 @@
              <text id="ui_RestLeave">서고 떠나기</text>
              <text id="ui_RestHide">숨기기</text>
              <text id="ui_RestShow">돌아가기</text>
+             <text id="ui_Realization">개방전</text>
 
   <text id="Equip_Slash">참격 내성</text>
   <text id="Equip_Penetrate">관통 내성</text>
@@ -25,6 +26,7 @@
   <text id="Stage_Normal">일반 전투</text>
   <text id="Stage_Elite">정예 전투</text>
   <text id="Stage_Boss">보스 전투</text>
+  <text id="Stage_Creature">환상체 전투</text>
   <text id="Stage_Mystery">무작위 이벤트</text>
   <text id="Stage_Shop">상점</text>
   <text id="Stage_Rest">서고</text>
@@ -41,6 +43,8 @@
   <text id="LogueLike_PlayerName">플레이어</text>
 
   <text id="Shop_EquipPrevious">[지속능력][{0}코스트]</text>
+  <text id="Shop_CardUpgrade_Name">카드 강화</text>
+  <text id="Shop_CardUpgrade_Desc">카드 강화</text>
 
   <text id="CardChoicePopUp_ChooseDesc">전투책장 선택</text>
   <text id="CardChoicePopUp_RemoveDesc">제거할 전투책장 선택</text>
@@ -58,6 +62,7 @@
   <text id="ui_CreatureTab">환상체</text>
   <text id="ui_CraftTab">연성</text>
   <text id="ui_CraftCost">비용</text>
+  <text id="ui_AtlasTab">도감</text>
 
   <text id="ui_ExceptionWithLog">로그라이크 모드와 충돌하는 모드들이 감지되었습니다.</text>
 </localize>

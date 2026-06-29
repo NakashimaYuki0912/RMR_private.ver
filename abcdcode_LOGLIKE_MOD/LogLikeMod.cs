@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using TMPro;
@@ -199,9 +200,25 @@ namespace abcdcode_LOGLIKE_MOD
         public static void SetNextStage(LorId stageid, StageType stagetype = StageType.Custom, NextStageSetType settype = NextStageSetType.Default)
         {
             StageModel stageModel = Singleton<StageController>.Instance.GetStageModel();
-            if (settype == NextStageSetType.BySave)
-                stageModel.Init(Singleton<StageClassInfoList>.Instance.GetData(RMRCore.CurrentGamemode.StageStart), LibraryModel.Instance);
+            StageClassInfo startStage = Singleton<StageClassInfoList>.Instance.GetData(RMRCore.CurrentGamemode.StageStart);
+            if (stageModel == null)
+            {
+                Debug.LogError($"[RMR SetNextStage] StageModel is null. stage={stageid}, type={stagetype}");
+                return;
+            }
+            if ((settype == NextStageSetType.BySave || stageModel.ClassInfo == null) && startStage != null)
+                stageModel.Init(startStage, LibraryModel.Instance);
             StageClassInfo data = Singleton<StageClassInfoList>.Instance.GetData(stageid);
+            if (data == null)
+            {
+                Debug.LogError($"[RMR SetNextStage] Stage not found: StageClassInfoList.GetData returned NULL for stage={stageid}, type={stagetype}");
+                return;
+            }
+            if (data.waveList == null || data.waveList.Count == 0)
+            {
+                Debug.LogError($"[RMR SetNextStage] Stage has no wave data: {stageid}, type={stagetype}");
+                return;
+            }
             StageWaveInfo wave = data.waveList[0];
             StageWaveModel stageWaveModel = new StageWaveModel();
             stageWaveModel.Init(stageModel, wave);
@@ -210,8 +227,20 @@ namespace abcdcode_LOGLIKE_MOD
                 stageWaveModelList[0] = stageWaveModel;
             else
                 stageWaveModelList.Add(stageWaveModel);
-            stageModel.ClassInfo.mapInfo = data.mapInfo;
-            stageModel.SetCurrentMapInfo(0);
+            List<string> mapInfo = data.mapInfo;
+            if ((mapInfo == null || mapInfo.Count == 0) && stageModel.ClassInfo != null && stageModel.ClassInfo.mapInfo != null && stageModel.ClassInfo.mapInfo.Count > 0)
+                mapInfo = stageModel.ClassInfo.mapInfo;
+            if ((mapInfo == null || mapInfo.Count == 0) && startStage != null && startStage.mapInfo != null && startStage.mapInfo.Count > 0)
+                mapInfo = startStage.mapInfo;
+            if (mapInfo != null && mapInfo.Count > 0)
+            {
+                stageModel.ClassInfo.mapInfo = mapInfo;
+                stageModel.SetCurrentMapInfo(0);
+            }
+            else
+            {
+                Debug.LogWarning($"[RMR SetNextStage] Stage {stageid} has no mapInfo and no fallback mapInfo. The game will keep the current map.");
+            }
             if (settype == NextStageSetType.Default || settype == NextStageSetType.Custom)
             {
                 LogLikeMod.nextlist.Clear();
@@ -290,10 +319,21 @@ namespace abcdcode_LOGLIKE_MOD
             get
             {
                 if (LogLikeMod._DefFont_TMP == null)
-                    LogLikeMod._DefFont_TMP = LogLikeMod.GetFieldValue<TMP_FontAsset>(SingletonBehavior<LocalizedFontSetter>.Instance, "font_NotoSans");
+                    LogLikeMod._DefFont_TMP = ResolveLocalizedTmpFont();
                 return LogLikeMod._DefFont_TMP;
             }
-            set => LogLikeMod._DefFont_TMP = value;
+            set
+            {
+                if (value == null)
+                    return;
+                string language = NormalizeTextLanguage(TextDataModel.CurrentLanguage);
+                if (!IsTmpFontCompatibleWithLanguage(value, language))
+                {
+                    Debug.LogWarning($"[RMR Localize] Rejected TMP font '{value.name}' for language '{language}' because it cannot render the required glyphs.");
+                    return;
+                }
+                LogLikeMod._DefFont_TMP = value;
+            }
         }
 
         public static Color DefFontColor
@@ -474,6 +514,7 @@ namespace abcdcode_LOGLIKE_MOD
                 emotionCardXmlInfo.Script[0] = "EquipDefault";
             emotionCardXmlInfo.EmotionLevel = info.level;
             emotionCardXmlInfo.EmotionRate = 0;
+            RMRAbnormalityUnlockManager.ApplyVanillaEmotionPresentation(info, emotionCardXmlInfo);
             LogLikeMod.PickUpXml_Dummy_Passive[packageId].Add(emotionCardXmlInfo);
         }
 
@@ -864,10 +905,179 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        private static FileInfo[] GetLocalizeFilesIfDirectoryExists(string directoryPath, string label)
+        {
+            if (!Directory.Exists(directoryPath))
+            {
+                Debug.LogWarning($"[RMR Localize] Missing {label} localize directory, skipped: {directoryPath}");
+                return Array.Empty<FileInfo>();
+            }
+            return new DirectoryInfo(directoryPath).GetFiles();
+        }
+
+        private static string ResolveInitialTextLanguage()
+        {
+            string optionLanguage = TryReadLanguageFromOptionFile();
+            if (!string.IsNullOrEmpty(optionLanguage))
+                return optionLanguage;
+
+            string current = TextDataModel.CurrentLanguage;
+            if (!string.IsNullOrEmpty(current) && TextDataModel.GetSupportedLangs().Contains(current) && current != "kr")
+                return current;
+
+            switch (Application.systemLanguage)
+            {
+                case SystemLanguage.Chinese:
+                case SystemLanguage.ChineseSimplified:
+                case SystemLanguage.ChineseTraditional:
+                    return "cn";
+                case SystemLanguage.Korean:
+                    return "kr";
+                case SystemLanguage.Japanese:
+                    return "jp";
+                default:
+                    return "en";
+            }
+        }
+
+        private static string NormalizeTextLanguage(string language)
+        {
+            string optionLanguage = TryReadLanguageFromOptionFile();
+            if (!string.IsNullOrEmpty(optionLanguage))
+                return optionLanguage;
+
+            if (string.IsNullOrEmpty(language) || !TextDataModel.GetSupportedLangs().Contains(language))
+                return ResolveInitialTextLanguage();
+
+            return language;
+        }
+
+        private static TMP_FontAsset ResolveLocalizedTmpFont()
+        {
+            string language = ResolveInitialTextLanguage();
+            try
+            {
+                LocalizedFontSetter setter = SingletonBehavior<LocalizedFontSetter>.Instance;
+                if (setter != null)
+                {
+                    foreach (FieldInfo field in setter.GetType().GetFields(AccessTools.all))
+                    {
+                        if (!typeof(TMP_FontAsset).IsAssignableFrom(field.FieldType))
+                            continue;
+                        TMP_FontAsset candidate = field.GetValue(setter) as TMP_FontAsset;
+                        if (IsTmpFontCompatibleWithLanguage(candidate, language))
+                        {
+                            Debug.Log($"[RMR Localize] Selected TMP font '{candidate.name}' from LocalizedFontSetter for language '{language}'.");
+                            return candidate;
+                        }
+                    }
+                }
+
+                TMP_FontAsset defaultFont = TMP_Settings.defaultFontAsset;
+                if (IsTmpFontCompatibleWithLanguage(defaultFont, language))
+                {
+                    Debug.Log($"[RMR Localize] Selected TMP default font '{defaultFont.name}' for language '{language}'.");
+                    return defaultFont;
+                }
+
+                foreach (TMP_FontAsset candidate in Resources.FindObjectsOfTypeAll<TMP_FontAsset>())
+                {
+                    if (IsTmpFontCompatibleWithLanguage(candidate, language))
+                    {
+                        Debug.Log($"[RMR Localize] Selected loaded TMP font '{candidate.name}' for language '{language}'.");
+                        return candidate;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("[RMR Localize] Failed to resolve localized TMP font: " + e);
+            }
+            Debug.LogWarning($"[RMR Localize] Could not find a TMP font that reports support for language '{language}'.");
+            return null;
+        }
+
+        private static bool IsTmpFontCompatibleWithLanguage(TMP_FontAsset font, string language)
+        {
+            if (font == null)
+                return false;
+            char probe = GetFontProbeCharacter(language);
+            if (probe == '\0')
+                return true;
+            return FontHasCharacterRecursive(font, probe, new HashSet<TMP_FontAsset>());
+        }
+
+        private static bool FontHasCharacterRecursive(TMP_FontAsset font, char probe, HashSet<TMP_FontAsset> visited)
+        {
+            if (font == null || visited.Contains(font))
+                return false;
+            visited.Add(font);
+            try
+            {
+                if (font.HasCharacter(probe))
+                    return true;
+                if (font.fallbackFontAssetTable != null)
+                {
+                    foreach (TMP_FontAsset fallback in font.fallbackFontAssetTable)
+                    {
+                        if (FontHasCharacterRecursive(fallback, probe, visited))
+                            return true;
+                    }
+                }
+            }
+            catch
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private static char GetFontProbeCharacter(string language)
+        {
+            string lang = (language ?? string.Empty).ToLowerInvariant();
+            if (lang.Contains("cn") || lang.Contains("trcn"))
+                return '图';
+            if (lang.Contains("kr") || lang.Contains("ko"))
+                return '도';
+            if (lang.Contains("jp") || lang.Contains("ja"))
+                return '日';
+            return '\0';
+        }
+
+        private static string TryReadLanguageFromOptionFile()
+        {
+            try
+            {
+                string optionPath = Path.Combine(Application.persistentDataPath, "option.dat");
+                if (!File.Exists(optionPath))
+                    return string.Empty;
+
+                string raw = Encoding.UTF8.GetString(File.ReadAllBytes(optionPath));
+                int languageIndex = raw.IndexOf("language", StringComparison.OrdinalIgnoreCase);
+                if (languageIndex < 0)
+                    return string.Empty;
+
+                string tail = raw.Substring(languageIndex, Math.Min(64, raw.Length - languageIndex));
+                foreach (string lang in new[] { "trcn", "cn", "en", "kr", "jp" })
+                {
+                    if (tail.IndexOf(lang, StringComparison.OrdinalIgnoreCase) >= 0 && TextDataModel.GetSupportedLangs().Contains(lang))
+                        return lang;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("[RMR Localize] Failed to read option.dat language: " + e);
+            }
+            return string.Empty;
+        }
+
         public static void LoadTextData(string language)
         {
+            language = NormalizeTextLanguage(language);
             string str = "/Localize/" + language;
             abcdcode_LOGLIKE_MOD_Extension.TextDataModel._currentLanguage = language;
+            if (!IsTmpFontCompatibleWithLanguage(LogLikeMod._DefFont_TMP, language))
+                LogLikeMod._DefFont_TMP = null;
             Dictionary<string, string> textDic = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.textDic;
             DirectoryInfo directoryInfo1 = !Directory.Exists(LogLikeMod.path + str) ? new DirectoryInfo(LogLikeMod.path + "/Localize/en") : new DirectoryInfo(LogLikeMod.path + str);
             
@@ -883,7 +1093,7 @@ namespace abcdcode_LOGLIKE_MOD
                         LogLikeMod.LoadLocalizeFile(file.FullName, ref textDic);
                 }
             }
-            foreach (FileSystemInfo file in new DirectoryInfo(directoryInfo1.FullName + "/PassiveInfo").GetFiles())
+            foreach (FileSystemInfo file in GetLocalizeFilesIfDirectoryExists(Path.Combine(directoryInfo1.FullName, "PassiveInfo"), "PassiveInfo"))
                 try
                 {
                     LogLikeMod.LoadPassiveDesc(file.FullName, LogLikeMod.ModId);
@@ -908,7 +1118,7 @@ namespace abcdcode_LOGLIKE_MOD
                         }
                 }
             }
-            foreach (FileSystemInfo file in new DirectoryInfo(directoryInfo1.FullName + "/CardInfo").GetFiles())
+            foreach (FileSystemInfo file in GetLocalizeFilesIfDirectoryExists(Path.Combine(directoryInfo1.FullName, "CardInfo"), "CardInfo"))
                 try { 
                 LogLikeMod.LoadCardDesc(file.FullName, LogLikeMod.ModId);
                 }
@@ -932,7 +1142,7 @@ namespace abcdcode_LOGLIKE_MOD
                         }
                 }
             }
-            foreach (FileSystemInfo file in new DirectoryInfo(directoryInfo1.FullName + "/BookInfo").GetFiles())
+            foreach (FileSystemInfo file in GetLocalizeFilesIfDirectoryExists(Path.Combine(directoryInfo1.FullName, "BookInfo"), "BookInfo"))
                 try { 
                 LogLikeMod.LoadBookDesc(file.FullName, LogLikeMod.ModId);
                 }
@@ -957,7 +1167,7 @@ namespace abcdcode_LOGLIKE_MOD
                         }
                 }
             }
-            foreach (FileSystemInfo file in new DirectoryInfo(directoryInfo1.FullName + "/EnemyNameInfo").GetFiles())
+            foreach (FileSystemInfo file in GetLocalizeFilesIfDirectoryExists(Path.Combine(directoryInfo1.FullName, "EnemyNameInfo"), "EnemyNameInfo"))
                 try { 
                     LogLikeMod.LoadEnemyUnitName(file.FullName, LogLikeMod.ModId);
                 }
@@ -981,7 +1191,7 @@ namespace abcdcode_LOGLIKE_MOD
                         }
                 }
             }
-            foreach (FileSystemInfo file in new DirectoryInfo(directoryInfo1.FullName + "/DropBookInfo").GetFiles())
+            foreach (FileSystemInfo file in GetLocalizeFilesIfDirectoryExists(Path.Combine(directoryInfo1.FullName, "DropBookInfo"), "DropBookInfo"))
                 try { 
                     LogLikeMod.LoadDropBookName(file.FullName, LogLikeMod.ModId);
                 }
@@ -1005,7 +1215,7 @@ namespace abcdcode_LOGLIKE_MOD
                         }
                 }
             }
-            foreach (FileSystemInfo file in new DirectoryInfo(directoryInfo1.FullName + "/DiceAbilityInfo").GetFiles())
+            foreach (FileSystemInfo file in GetLocalizeFilesIfDirectoryExists(Path.Combine(directoryInfo1.FullName, "DiceAbilityInfo"), "DiceAbilityInfo"))
                 try {
                     LogLikeMod.LoadDiceAbilityDesc(file.FullName, LogLikeMod.ModId);
                 }
@@ -1134,7 +1344,9 @@ namespace abcdcode_LOGLIKE_MOD
                     rewardPassives.workshopid = modid;
                 foreach (RewardPassiveInfo rewardPassive in rewardPassives.RewardPassiveList)
                 {
-                    rewardPassive.workshopID = rewardPassives.workshopid;
+                    rewardPassive.workshopID = rewardPassives.workshopid == "@origin"
+                        ? "@origin"
+                        : rewardPassives.workshopid;
                     if (rewardPassive.iconartwork == string.Empty)
                         rewardPassive.iconartwork = rewardPassive.artwork;
                 }
@@ -1775,6 +1987,7 @@ namespace abcdcode_LOGLIKE_MOD
                         {
                             stageClassInfo.workshopID = modid;
                             stageClassInfo.InitializeIds(modid);
+                            RestoreVanillaEnemyIdsForImpurityStage(stageClassInfo);
                             foreach (StageStoryInfo story in stageClassInfo.storyList)
                             {
                                 story.packageId = modid;
@@ -1790,6 +2003,65 @@ namespace abcdcode_LOGLIKE_MOD
                 Singleton<ModContentManager>.Instance.AddErrorLog(ex.Message);
             }
             return stageClassInfoList;
+        }
+
+        private static void RestoreVanillaEnemyIdsForImpurityStage(StageClassInfo stageClassInfo)
+        {
+            if (stageClassInfo?.id == null || stageClassInfo.id.packageId != LogLikeMod.ModId)
+                return;
+            if (stageClassInfo.id.id < 70001 || stageClassInfo.id.id > 70009)
+                return;
+            if (stageClassInfo.waveList == null)
+                return;
+
+            foreach (StageWaveInfo wave in stageClassInfo.waveList)
+                RestoreVanillaLorIdsInObject(wave);
+        }
+
+        private static void RestoreVanillaLorIdsInObject(object target)
+        {
+            if (target == null)
+                return;
+            foreach (FieldInfo field in target.GetType().GetFields(AccessTools.all))
+            {
+                object value = field.GetValue(target);
+                if (value is LorId lorId)
+                {
+                    if (lorId.id > 0)
+                        field.SetValue(target, new LorId("@origin", lorId.id));
+                    continue;
+                }
+                if (value is System.Collections.IList list)
+                {
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        object item = list[i];
+                        if (item is LorId listLorId)
+                        {
+                            if (listLorId.id > 0)
+                                list[i] = new LorId("@origin", listLorId.id);
+                        }
+                        else
+                        {
+                            TrySetLorIdXmlPackageId(item, "@origin");
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void TrySetLorIdXmlPackageId(object item, string packageId)
+        {
+            if (item == null)
+                return;
+            Type type = item.GetType();
+            FieldInfo pidField = type.GetField("pid", AccessTools.all) ?? type.GetField("packageId", AccessTools.all);
+            FieldInfo xmlIdField = type.GetField("xmlId", AccessTools.all) ?? type.GetField("id", AccessTools.all);
+            if (pidField == null || xmlIdField == null)
+                return;
+            object idValue = xmlIdField.GetValue(item);
+            if (idValue is int id && id > 0)
+                pidField.SetValue(item, packageId);
         }
 
         public static void LoadEnemyUnitInfos()
@@ -2192,6 +2464,8 @@ namespace abcdcode_LOGLIKE_MOD
                 // UNUSED // HookHelper.CreateHook(typeof(WorkshopSkinDataSetter), "LateInit", LogLikeMod.logLikeHooks, nameof(LogLikeMod.logLikeHooks.WorkshopSkinDataSetter_LateInit));
                 HookHelper.CreateHook(typeof(BookXmlInfo), "get_DeckId", LogLikeMod.logLikeHooks, nameof(LogLikeMod.logLikeHooks.BookXmlInfo_get_DeckId));
                 HookHelper.CreateHook(typeof(UnitDataModel), "GetDeckForBattle", LogLikeMod.logLikeHooks, nameof(LogLikeMod.logLikeHooks.UnitDataModel_GetDeckForBattle));
+                HookHelper.CreateHook(typeof(BookModel), "IsFixedDeck", LogLikeMod.logLikeHooks, nameof(LogLikeMod.logLikeHooks.BookModel_IsFixedDeck));
+                HookHelper.CreateHook(typeof(BookModel), "GetCardListFromCurrentDeck", LogLikeMod.logLikeHooks, nameof(LogLikeMod.logLikeHooks.BookModel_GetCardListFromCurrentDeck));
 
                 HookHelper.CreateHook(typeof(BattleSceneRoot), "Update", LogLikeMod.logLikeHooks, nameof(LogLikeMod.logLikeHooks.BattleSceneRoot_Update));
                 HookHelper.CreateHook(typeof(UIGetAbnormalityPanel), "PointerClickButton", LogLikeMod.logLikeHooks, nameof(LogLikeMod.logLikeHooks.UIGetAbnormalityPanel_PointerClickButton));
@@ -2214,7 +2488,7 @@ namespace abcdcode_LOGLIKE_MOD
                 LogLikeMod.LoadCardInfos();
                 LogLikeMod.LoadDecks();
                 LogLikeMod.LoadPassives();
-                LogLikeMod.LoadTextData(TextDataModel.CurrentLanguage);
+                LogLikeMod.LoadTextData(ResolveInitialTextLanguage());
                 LogLikeMod.spinemotions = new Dictionary<string, Dictionary<ActionDetail, Dictionary<GameObject, SkeletonAnimation>>>();
                 FormationXmlRoot formationXmlRoot;
                 using (StringReader stringReader = new StringReader(File.ReadAllText(LogLikeMod.path + "/AddData/FormationInfo.txt")))

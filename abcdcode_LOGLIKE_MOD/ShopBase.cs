@@ -22,6 +22,18 @@ namespace abcdcode_LOGLIKE_MOD
 
     public class ShopBase
     {
+        public const int UpgradeCardBasePrice = 20;
+        public const int UpgradeCardPriceStep = 5;
+
+        public enum ShopSection
+        {
+            Passive,
+            EquipPage,
+            AbnormalityPage,
+            EgoPage,
+            CardUpgrade,
+        }
+
         public static Dictionary<int, Vector2[]> CardShape;
         public List<ShopGoods> Goods;
         public Dictionary<string, GameObject> FrameObj = new Dictionary<string, GameObject>();
@@ -124,49 +136,45 @@ namespace abcdcode_LOGLIKE_MOD
         {
             SaveData saveData1 = new SaveData();
             SaveData data1 = new SaveData();
-            int num = 0;
-            while (true)
+            for (int num = 0; num < 200; ++num)
             {
                 if (this.FrameObj.ContainsKey("Goods_Card" + num.ToString()))
                 {
                     if (!this.FrameObj["Goods_Card" + num.ToString()].activeSelf)
-                    {
-                        ++num;
-                    }
+                        continue;
                     else
                     {
                         SaveData saveData2 = this.FrameObj["Goods_Card" + num.ToString()].GetComponent<ShopGoods>().GetSaveData();
                         saveData2.AddData("index", new SaveData(num));
                         data1.AddToList(saveData2);
-                        ++num;
                     }
                 }
-                else
-                    break;
             }
             saveData1.AddData("Cards", data1);
             SaveData data2 = new SaveData();
-            num = 0;
-            while (true)
+            for (int num = 0; num < 200; ++num)
             {
                 if (this.FrameObj.ContainsKey("Goods_Passive" + num.ToString()))
                 {
                     if (!this.FrameObj["Goods_Passive" + num.ToString()].activeSelf)
-                    {
-                        ++num;
-                    }
+                        continue;
                     else
                     {
                         SaveData saveData3 = this.FrameObj["Goods_Passive" + num.ToString()].GetComponent<ShopGoods>().GetSaveData();
                         saveData3.AddData("index", new SaveData(num));
                         data2.AddToList(saveData3);
-                        ++num;
                     }
                 }
-                else
-                    break;
             }
             saveData1.AddData("Passives", data2);
+            SaveData data3 = new SaveData();
+            if (this.FrameObj.ContainsKey("Goods_Upgrade0") && this.FrameObj["Goods_Upgrade0"].activeSelf)
+            {
+                SaveData saveData4 = this.FrameObj["Goods_Upgrade0"].GetComponent<ShopGoods>().GetSaveData();
+                saveData4.AddData("index", new SaveData(0));
+                data3.AddToList(saveData4);
+            }
+            saveData1.AddData("Upgrades", data3);
             return saveData1;
         }
 
@@ -176,6 +184,12 @@ namespace abcdcode_LOGLIKE_MOD
                 this.Shop_CardCreating(ItemXmlDataList.instance.GetCardItem(ExtensionUtils.LogLoadFromSaveData(data1.GetData("Id")), true), 1, new Vector2(0.0f, 0.0f), data1.GetInt("index")).LoadFromSaveData(data1);
             foreach (SaveData data2 in data.GetData("Passives"))
                 this.Shop_PassiveCreating(Singleton<RewardPassivesList>.Instance.GetPassiveInfo(ExtensionUtils.LogLoadFromSaveData(data2.GetData("Id"))), new Vector2(0.0f, 0.0f), data2.GetInt("index")).LoadFromSaveData(data2);
+            SaveData upgrades = data.GetData("Upgrades");
+            if (upgrades != null)
+            {
+                foreach (SaveData upgradeData in upgrades)
+                    this.Shop_CardUpgradeCreating(new Vector2(0.0f, 0.0f), upgradeData.GetInt("index"), upgradeData.GetInt("price")).LoadFromSaveData(upgradeData);
+            }
         }
 
         public static List<RewardPassiveInfo> GetPassiveInList(
@@ -184,6 +198,8 @@ namespace abcdcode_LOGLIKE_MOD
           ShopRewardType type)
         {
             List<RewardPassiveInfo> passiveInList = new List<RewardPassiveInfo>();
+            if (passiveinfos == null || passiveinfos.Count == 0)
+                return passiveInList;
             do
             {
                 RewardPassiveInfo passiveinfo = passiveinfos[UnityEngine.Random.Range(0, passiveinfos.Count)];
@@ -201,7 +217,7 @@ namespace abcdcode_LOGLIKE_MOD
                         else
                             goto label_7;
                     }
-                    while (!pickUp.IsCanPickUp(current.UnitData.unitData) || pickUp.GetShopType() != type || !pickUp.IsCanAddShop());
+                    while (pickUp == null || !pickUp.IsCanPickUp(current.UnitData.unitData) || pickUp.GetShopType() != type || !pickUp.IsCanAddShop());
                 }
                 if (!passiveInList.Contains(passiveinfo))
                     passiveInList.Add(passiveinfo);
@@ -217,6 +233,34 @@ namespace abcdcode_LOGLIKE_MOD
         public Vector2 GetShopShape_Passive(int num, int id)
         {
             return ShopBase.CardShape[num][id] - new Vector2(0.0f, 450f);
+        }
+
+        public Vector2 GetSupplementalSectionBasePosition(ShopSection section)
+        {
+            switch (section)
+            {
+                case ShopSection.EquipPage:
+                    return new Vector2(-730f, 260f);
+                case ShopSection.AbnormalityPage:
+                    return new Vector2(-730f, -200f);
+                case ShopSection.EgoPage:
+                    return new Vector2(560f, 220f);
+                case ShopSection.CardUpgrade:
+                    return new Vector2(730f, -210f);
+                default:
+                    return new Vector2(0.0f, -25f);
+            }
+        }
+
+        public float GetSupplementalSectionStep(ShopSection section)
+        {
+            return section == ShopSection.CardUpgrade ? 0f : -230f;
+        }
+
+        public Vector2 GetSupplementalShopShape(ShopSection section, int id)
+        {
+            Vector2 basePos = this.GetSupplementalSectionBasePosition(section);
+            return new Vector2(basePos.x, basePos.y + id * GetSupplementalSectionStep(section));
         }
 
         public static ShopBase FindShop(string script)
@@ -483,11 +527,10 @@ namespace abcdcode_LOGLIKE_MOD
             if (!LoguePlayDataSaver.LoadShop(this))
             {
                 int num = this.ShopGoodCount();
-                // Allocate slots between cards, passives, role books, abnormality pages, and E.G.O. pages.
-                int equipNum = num >= 4 ? 1 : 0;
-                int abnoNum = num >= 6 ? 1 : 0;
-                int egoNum = num >= 7 ? 1 : 0;
-                int passiveNum = Math.Max(0, num - equipNum - abnoNum - egoNum);
+                int passiveNum = Math.Min(4, Math.Max(2, num / 2));
+                int equipNum = 2;
+                int abnoNum = 2;
+                int egoNum = 2;
                 try
                 {
                     this.CreateShop_Card(num);
@@ -525,11 +568,19 @@ namespace abcdcode_LOGLIKE_MOD
                 try
                 {
                     if (egoNum > 0)
-                        this.CreateShop_EgoPages(egoNum, passiveNum + equipNum + abnoNum);
+                        this.CreateShop_EgoPages(egoNum, num);
                 }
                 catch (Exception ex)
                 {
                     Debug.Log($"Shop Create error5 : EGO{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+                }
+                try
+                {
+                    this.CreateShop_CardUpgrade();
+                }
+                catch (Exception ex)
+                {
+                    Debug.Log($"Shop Create error6 : CardUpgrade{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace}");
                 }
             }
             this.MoneyChecking();
@@ -539,6 +590,7 @@ namespace abcdcode_LOGLIKE_MOD
             button2.onClick.AddListener(new UnityAction(this.LeaveShop));
             string text = TextDataModel.GetText("ui_ShopLeave");
             textTmp2.text = text;
+            button2.transform.SetAsLastSibling();
         }
 
         public virtual void HideShop()
@@ -622,7 +674,7 @@ namespace abcdcode_LOGLIKE_MOD
                 if (created >= num) break;
                 int slotIndex = startIndex + created;
                 ShopGoods_Passive goods = this.Shop_PassiveCreating(info,
-                    this.GetShopShape_Passive(this.ShopGoodCount(), slotIndex), slotIndex);
+                    this.GetSupplementalShopShape(ShopSection.EquipPage, created), slotIndex);
                 // Shop_PassiveCreating expects a valid script; for EquipPage rewards with no script,
                 // ShopGoods_Passive.SetGoods will handle directEquipId
                 created++;
@@ -644,7 +696,7 @@ namespace abcdcode_LOGLIKE_MOD
                 if (created >= num) break;
                 int slotIndex = startIndex + created;
                 ShopGoods_Passive goods = this.Shop_PassiveCreating(info,
-                    this.GetShopShape_Passive(this.ShopGoodCount(), slotIndex), slotIndex);
+                    this.GetSupplementalShopShape(ShopSection.AbnormalityPage, created), slotIndex);
                 created++;
             }
         }
@@ -661,9 +713,38 @@ namespace abcdcode_LOGLIKE_MOD
                 if (card == null || LogueBookModels.HasOwnedCombatPage(card.id))
                     continue;
                 int slotIndex = startIndex + created;
-                this.Shop_CardCreating(card, 1, this.GetShopShape_Passive(this.ShopGoodCount(), slotIndex), 100 + slotIndex);
+                this.Shop_CardCreating(card, 1, this.GetSupplementalShopShape(ShopSection.EgoPage, created), slotIndex);
                 created++;
             }
+        }
+
+        public ShopGoods_CardUpgrade Shop_CardUpgradeCreating(Vector2 position, int id, int price)
+        {
+            GameObject gameObject = new GameObject("");
+            gameObject.transform.SetParent(this.FrameObj["ShopFrame"].transform);
+            gameObject.transform.localScale = new Vector3(1f, 1f);
+            ShopGoods_CardUpgrade shopGoodsCardUpgrade = gameObject.AddComponent<ShopGoods_CardUpgrade>();
+            shopGoodsCardUpgrade.gameObject.transform.localPosition = (Vector3)position;
+            shopGoodsCardUpgrade.SetShop(this);
+            shopGoodsCardUpgrade.SetGoods(price);
+            this.Goods.Add((ShopGoods)shopGoodsCardUpgrade);
+            this.FrameObj.Add("Goods_Upgrade" + id.ToString(), shopGoodsCardUpgrade.gameObject);
+            return shopGoodsCardUpgrade;
+        }
+
+        public virtual void CreateShop_CardUpgrade()
+        {
+            int price = LogueBookModels.shopUpgradeCardPrice > 0 ? LogueBookModels.shopUpgradeCardPrice : UpgradeCardBasePrice;
+            this.Shop_CardUpgradeCreating(this.GetSupplementalShopShape(ShopSection.CardUpgrade, 0), 0, price);
+        }
+
+        public virtual void OnCardUpgradePurchased(ShopGoods_CardUpgrade goods)
+        {
+            if (goods == null)
+                return;
+            LogueBookModels.shopUpgradeCardPrice = goods.price + UpgradeCardPriceStep;
+            goods.SetPrice(LogueBookModels.shopUpgradeCardPrice);
+            this.MoneyChecking();
         }
     }
 }

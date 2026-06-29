@@ -16,6 +16,7 @@
 	 <text id="ui_RestLeave">离开休息室</text>
 	 <text id="ui_RestHide">隐藏</text>
 	 <text id="ui_RestShow">返回</text>
+	 <text id="ui_Realization">解放战</text>
 
 
   <text id="Equip_Slash">斩击伤害抗性</text>
@@ -46,6 +47,8 @@
   <text id="LogueLike_PlayerName">玩家</text>
 
   <text id="Shop_EquipPrevious">[被动能力 (费用: {0})] </text>
+  <text id="Shop_CardUpgrade_Name">卡牌升级</text>
+  <text id="Shop_CardUpgrade_Desc">卡牌升级</text>
 
   <text id="CardChoicePopUp_ChooseDesc">选择战斗书页</text>
   <text id="CardChoicePopUp_RemoveDesc">选择要移除的战斗书页</text>
@@ -67,7 +70,8 @@
 
   <text id="ui_ExceptionWithLog">已检测到与RogueLike模组冲突的模组。</text>
   
-  <text id="ui_RMR_ItemCatalog">商品目录</text>
+	 <text id="ui_RMR_ItemCatalog">商品目录</text>
+	 <text id="ui_AtlasTab">图鉴</text>
   <text id="ui_RMR_ItemObtainCount">您已获得该物品{0}次。</text>
   <text id="ui_RMR_ItemNotObtained_Name">???</text>
   <text id="ui_RMR_ItemNotObtained_Desc">您尚未找到该物品。</text>

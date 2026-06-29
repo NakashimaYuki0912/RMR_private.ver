@@ -16,6 +16,7 @@
 	 <text id="ui_RestLeave">Leave Resting Room</text>
 	 <text id="ui_RestHide">Hide</text>
 	 <text id="ui_RestShow">Return</text>
+	 <text id="ui_Realization">Realization</text>
 
 
   <text id="Equip_Slash">Slash Damage Resistance</text>
@@ -28,6 +29,7 @@
   <text id="Stage_Normal">Normal Battle</text>
   <text id="Stage_Elite">Elite Battle</text>
   <text id="Stage_Boss">Boss Battle</text>
+  <text id="Stage_Creature">Abnormality Battle</text>
   <text id="Stage_Mystery">Random Event</text>
   <text id="Stage_Shop">Shop</text>
   <text id="Stage_Rest">Resting Room</text>
@@ -44,6 +46,8 @@
   <text id="LogueLike_PlayerName">Player</text>
 
   <text id="Shop_EquipPrevious">[Passive Ability (Cost: {0})] </text>
+  <text id="Shop_CardUpgrade_Name">Card Upgrade</text>
+  <text id="Shop_CardUpgrade_Desc">Card Upgrade</text>
 
   <text id="CardChoicePopUp_ChooseDesc">Select Combat Page</text>
   <text id="CardChoicePopUp_RemoveDesc">Select Combat Page to remove</text>
@@ -59,9 +63,6 @@
   <text id="CardCheckPopUp_CannotUpgrade">You have no upgradeable Combat Pages.</text>
 
   <text id="ui_Inventory">Item</text>
-  <text id="ui_CraftTab">Skills</text>
-  <text id="ui_AtlasTab">Atlas</text>
-  <text id="ui_Realization">Realization</text>
   <text id="ui_CreatureTab">Abnormality</text>
   <text id="ui_CraftTab">Craft</text>
   <text id="ui_CraftCost">Cost</text>
@@ -69,6 +70,7 @@
   <text id="ui_ExceptionWithLog">Mods that conflict with the RogueLike mod have been detected.</text>
   
   <text id="ui_RMR_ItemCatalog">Item Catalog</text>
+  <text id="ui_AtlasTab">Atlas</text>
   <text id="ui_RMR_ItemObtainCount">You've obtained this item {0} time(s).</text>
   <text id="ui_RMR_ItemNotObtained_Name">???</text>
   <text id="ui_RMR_ItemNotObtained_Desc">You have yet to find this item.</text>
