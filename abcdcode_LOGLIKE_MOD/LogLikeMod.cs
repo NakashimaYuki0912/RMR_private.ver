@@ -921,7 +921,7 @@ namespace abcdcode_LOGLIKE_MOD
             if (!string.IsNullOrEmpty(optionLanguage))
                 return optionLanguage;
 
-            string current = TextDataModel.CurrentLanguage;
+            string current = CanonicalizeTextLanguage(TextDataModel.CurrentLanguage);
             if (!string.IsNullOrEmpty(current) && TextDataModel.GetSupportedLangs().Contains(current) && current != "kr")
                 return current;
 
@@ -946,10 +946,47 @@ namespace abcdcode_LOGLIKE_MOD
             if (!string.IsNullOrEmpty(optionLanguage))
                 return optionLanguage;
 
+            language = CanonicalizeTextLanguage(language);
             if (string.IsNullOrEmpty(language) || !TextDataModel.GetSupportedLangs().Contains(language))
                 return ResolveInitialTextLanguage();
 
             return language;
+        }
+
+        private static string CanonicalizeTextLanguage(string language)
+        {
+            string lang = (language ?? string.Empty).Trim().ToLowerInvariant();
+            if (string.IsNullOrEmpty(lang))
+                return string.Empty;
+            if (lang.Contains("trcn") || lang.Contains("zh-tw") || lang.Contains("zh_hant") || lang.Contains("traditional"))
+                return "trcn";
+            if (lang.Contains("cn") || lang.Contains("zh-cn") || lang.Contains("zh_hans") || lang.Contains("chinese"))
+                return "cn";
+            if (lang == "ja" || lang.Contains("jp") || lang.Contains("japanese"))
+                return "jp";
+            if (lang == "ko" || lang.Contains("kr") || lang.Contains("korean"))
+                return "kr";
+            if (lang.Contains("en") || lang.Contains("english"))
+                return "en";
+            return lang;
+        }
+
+        private static string ResolveModLocalizeLanguage(string language)
+        {
+            string requested = NormalizeTextLanguage(language);
+            string localizeRoot = Path.Combine(LogLikeMod.path, "Localize");
+            string requestedPath = Path.Combine(localizeRoot, requested);
+            if (Directory.Exists(requestedPath))
+                return requested;
+
+            if (requested == "trcn" && Directory.Exists(Path.Combine(localizeRoot, "cn")))
+                return "cn";
+
+            if (Directory.Exists(Path.Combine(localizeRoot, "en")))
+                return "en";
+            if (Directory.Exists(Path.Combine(localizeRoot, "kr")))
+                return "kr";
+            return requested;
         }
 
         private static TMP_FontAsset ResolveLocalizedTmpFont()
@@ -1001,10 +1038,17 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (font == null)
                 return false;
-            char probe = GetFontProbeCharacter(language);
-            if (probe == '\0')
+            string probes = GetFontProbeCharacters(language);
+            if (string.IsNullOrEmpty(probes))
                 return true;
-            return FontHasCharacterRecursive(font, probe, new HashSet<TMP_FontAsset>());
+            HashSet<TMP_FontAsset> visited = new HashSet<TMP_FontAsset>();
+            foreach (char probe in probes)
+            {
+                visited.Clear();
+                if (!FontHasCharacterRecursive(font, probe, visited))
+                    return false;
+            }
+            return true;
         }
 
         private static bool FontHasCharacterRecursive(TMP_FontAsset font, char probe, HashSet<TMP_FontAsset> visited)
@@ -1032,16 +1076,18 @@ namespace abcdcode_LOGLIKE_MOD
             return false;
         }
 
-        private static char GetFontProbeCharacter(string language)
+        private static string GetFontProbeCharacters(string language)
         {
-            string lang = (language ?? string.Empty).ToLowerInvariant();
-            if (lang.Contains("cn") || lang.Contains("trcn"))
-                return '图';
-            if (lang.Contains("kr") || lang.Contains("ko"))
-                return '도';
-            if (lang.Contains("jp") || lang.Contains("ja"))
-                return '日';
-            return '\0';
+            string lang = CanonicalizeTextLanguage(language);
+            if (lang == "cn")
+                return "\u56fe\u6c49\u8bed\u6d4b\u8bd5";
+            if (lang == "trcn")
+                return "\u5716\u6f22\u8a9e\u6e2c\u8a66";
+            if (lang == "kr")
+                return "\ud55c\uae00\ub3c4";
+            if (lang == "jp")
+                return "\u65e5\u3042\u30a2\u6f22";
+            return string.Empty;
         }
 
         private static string TryReadLanguageFromOptionFile()
@@ -1058,10 +1104,11 @@ namespace abcdcode_LOGLIKE_MOD
                     return string.Empty;
 
                 string tail = raw.Substring(languageIndex, Math.Min(64, raw.Length - languageIndex));
-                foreach (string lang in new[] { "trcn", "cn", "en", "kr", "jp" })
+                foreach (string lang in new[] { "trcn", "cn", "en", "kr", "jp", "ja", "ko", "zh-cn", "zh-tw" })
                 {
-                    if (tail.IndexOf(lang, StringComparison.OrdinalIgnoreCase) >= 0 && TextDataModel.GetSupportedLangs().Contains(lang))
-                        return lang;
+                    string canonical = CanonicalizeTextLanguage(lang);
+                    if (tail.IndexOf(lang, StringComparison.OrdinalIgnoreCase) >= 0 && TextDataModel.GetSupportedLangs().Contains(canonical))
+                        return canonical;
                 }
             }
             catch (Exception e)
@@ -1074,12 +1121,16 @@ namespace abcdcode_LOGLIKE_MOD
         public static void LoadTextData(string language)
         {
             language = NormalizeTextLanguage(language);
-            string str = "/Localize/" + language;
+            string localizeLanguage = ResolveModLocalizeLanguage(language);
+            string str = "/Localize/" + localizeLanguage;
             abcdcode_LOGLIKE_MOD_Extension.TextDataModel._currentLanguage = language;
+            abcdcode_LOGLIKE_MOD_Extension.TextDataModel.textDic.Clear();
+            abcdcode_LOGLIKE_MOD_Extension.TextDataModel._isLoaded = true;
             if (!IsTmpFontCompatibleWithLanguage(LogLikeMod._DefFont_TMP, language))
                 LogLikeMod._DefFont_TMP = null;
             Dictionary<string, string> textDic = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.textDic;
             DirectoryInfo directoryInfo1 = !Directory.Exists(LogLikeMod.path + str) ? new DirectoryInfo(LogLikeMod.path + "/Localize/en") : new DirectoryInfo(LogLikeMod.path + str);
+            Debug.Log($"[RMR Localize] Loading mod text. gameLanguage={language}, modLocalizeLanguage={localizeLanguage}, path={directoryInfo1.FullName}");
             
             foreach (FileSystemInfo file in directoryInfo1.GetFiles())
                 LogLikeMod.LoadLocalizeFile(file.FullName, ref textDic);
@@ -1241,10 +1292,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             try
             {
-                LogueEffectXmlList.Instance.Init(language);
-                RMRCore.LoadSatelliteBattleTexts(language);
-                RMRCore.LoadSatelliteBattleDialog(language);
-                RogueMysteryXmlList.Instance.Init(language);
+                LogueEffectXmlList.Instance.Init(localizeLanguage);
+                RMRCore.LoadSatelliteBattleTexts(localizeLanguage);
+                RMRCore.LoadSatelliteBattleDialog(localizeLanguage);
+                RogueMysteryXmlList.Instance.Init(localizeLanguage);
             }
             catch (Exception e)
             {

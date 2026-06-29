@@ -1,0 +1,28 @@
+$ErrorActionPreference = 'Stop'
+
+$root = Split-Path -Parent $MyInvocation.MyCommand.Path
+function ReadText($rel) { Get-Content -LiteralPath (Join-Path $root $rel) -Raw -Encoding UTF8 }
+function AssertContains($name, $text, $needle) { if ($text -notlike "*$needle*") { throw "$name missing: $needle" } }
+
+$logLike = ReadText 'abcdcode_LOGLIKE_MOD\LogLikeMod.cs'
+$patches = ReadText 'abcdcode_Refactored\LogLikePatches.cs'
+
+AssertContains 'extension text dictionary cleared before localized reload' $logLike 'TextDataModel.textDic.Clear()'
+AssertContains 'extension text model marked loaded to prevent stale vanilla lazy-load' $logLike 'TextDataModel._isLoaded = true'
+AssertContains 'game language separated from mod localization fallback' $logLike 'ResolveModLocalizeLanguage(language)'
+AssertContains 'traditional chinese falls back to simplified mod localize' $logLike 'requested == "trcn"'
+AssertContains 'japanese can fall back without changing game language' $logLike 'modLocalizeLanguage'
+AssertContains 'satellite effect text uses mod localize fallback language' $logLike 'LoadSatelliteBattleTexts(localizeLanguage)'
+AssertContains 'satellite dialog uses mod localize fallback language' $logLike 'LoadSatelliteBattleDialog(localizeLanguage)'
+AssertContains 'mystery localization uses mod localize fallback language' $logLike 'RogueMysteryXmlList.Instance.Init(localizeLanguage)'
+AssertContains 'japanese font probe checks kana not only kanji' $logLike 'return "\u65e5\u3042\u30a2\u6f22";'
+AssertContains 'simplified chinese font probe checks common simplified glyphs' $logLike 'return "\u56fe\u6c49\u8bed\u6d4b\u8bd5";'
+AssertContains 'traditional chinese font probe checks common traditional glyphs' $logLike 'return "\u5716\u6f22\u8a9e\u6e2c\u8a66";'
+AssertContains 'korean font probe remains explicit' $logLike 'return "\ud55c\uae00\ub3c4";'
+AssertContains 'vanilla TextDataModel only overridden by non-empty mod dictionary values' $patches 'if (!(text != string.Empty))'
+
+foreach ($file in @('Localize\cn\UIs.txt', 'Localize\en\UIs.txt', 'Localize\kr\UIs.txt')) {
+    [xml](Get-Content -Raw -Encoding UTF8 (Join-Path $root $file)) | Out-Null
+}
+
+Write-Host 'RMR language sync static check passed.'
