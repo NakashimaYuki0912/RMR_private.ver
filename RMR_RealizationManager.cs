@@ -548,6 +548,11 @@ namespace RogueLike_Mod_Reborn
 
             LogueBookModels.playerModel = teamList;
             LogueBookModels.CreatePlayerBattle();
+            foreach (UnitBattleDataModel battleModel in LogueBookModels.playerBattleModel)
+            {
+                if (battleModel != null)
+                    battleModel.IsAddedBattle = true;
+            }
 
             AtlasOnlyLoadoutActive = true;
             Debug.Log($"[RMRRealizationManager] Applied atlas-only loadout: books={atlasBooks.Count}, cards={atlasCards.Count}, librarians={teamList.Count}");

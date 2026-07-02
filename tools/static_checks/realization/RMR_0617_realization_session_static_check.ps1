@@ -143,6 +143,45 @@ if ($realizationMgr -match 'ApplyAtlasOnlyLoadout' -and $realizationMgr -match '
     $errors += "ApplyAtlasOnlyLoadout does not build team from atlas unlocks"
 }
 
+Write-Host "[4b] Checking realization battle-setting five-librarian context..."
+
+if ($patches -match 'IsRoguelikeBattleSettingContext[\s\S]*LogLikeMod\.CheckStage\(\)[\s\S]*RMRRealizationManager\.IsRealizationPreparationActive') {
+    Write-Host "  [OK] BattleSetting hooks include realization preparation context" -ForegroundColor Green
+} else {
+    $errors += "BattleSetting hooks do not include realization preparation context"
+}
+
+foreach ($methodName in @(
+    'UILibrarianCharacterListPanel_SetLibrarianCharacterListPanel_Battle',
+    'UICharacterListPanel_RefreshBattleUnitDataModel',
+    'UICharacterSlot_SetToggleStateFalse',
+    'UICharacterSlot_SetToggleStateTrue',
+    'UnitDataModel_EquipBookForUI')) {
+    $methodStart = $patches.IndexOf($methodName)
+    if ($methodStart -lt 0) {
+        $errors += "Missing BattleSetting method $methodName"
+        continue
+    }
+    $methodSlice = $patches.Substring($methodStart, [Math]::Min(1200, $patches.Length - $methodStart))
+    if ($methodSlice -match 'IsRoguelikeBattleSettingContext') {
+        Write-Host "  [OK] $methodName uses realization-aware BattleSetting context" -ForegroundColor Green
+    } else {
+        $errors += "$methodName does not use realization-aware BattleSetting context"
+    }
+}
+
+$createBattleStart = $realizationMgr.IndexOf('LogueBookModels.CreatePlayerBattle();')
+if ($createBattleStart -ge 0) {
+    $createBattleSlice = $realizationMgr.Substring($createBattleStart, [Math]::Min(800, $realizationMgr.Length - $createBattleStart))
+    if ($createBattleSlice -match 'IsAddedBattle\s*=\s*true') {
+        Write-Host "  [OK] Realization temporary playerBattleModel marks all librarians as added" -ForegroundColor Green
+    } else {
+        $errors += "Realization temporary playerBattleModel does not explicitly add all librarians to battle"
+    }
+} else {
+    $errors += "ApplyAtlasOnlyLoadout does not recreate playerBattleModel"
+}
+
 # ---------------------------------------------------------------------------
 # 5. Abnormal page permanent atlas separation
 # ---------------------------------------------------------------------------

@@ -203,7 +203,7 @@ namespace abcdcode_LOGLIKE_MOD
         public static void OnClickRealization(UIBattleSettingEditPanel __instance)
         {
             UISoundManager.instance.PlayEffectSound(UISoundType.Ui_Click);
-            if (LogLikeMod.CheckStage())
+            if (LogLikeRoutines.IsRoguelikeBattleSettingContext())
             {
                 // Open the realization selection panel
                 var panel = Singleton<LogRealizationPanel>.Instance;
@@ -230,6 +230,11 @@ namespace abcdcode_LOGLIKE_MOD
             UISettingCardInvenPanel battleCardPanel = LogLikeMod.GetFieldValue<UISettingCardInvenPanel>(panel.EditPanel, "_battleCardPanel");
             if (battleCardPanel != null)
                 battleCardPanel.SetActivePanel(visible);
+        }
+
+        public static bool IsRoguelikeBattleSettingContext()
+        {
+            return LogLikeMod.CheckStage() || RMRRealizationManager.IsRealizationPreparationActive;
         }
 
         public static void InitUIBattleSettingWaveSlot(
@@ -542,7 +547,7 @@ namespace abcdcode_LOGLIKE_MOD
             orig(self);
             // (UI.UIController.Instance.GetUIPanel(UIPanelType.BattleSetting) as UIBattleSettingPanel).cg_NormalFrame
             // attach funny background to object above
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             // Keep Sephirah buttons available in RMR so the selected floor can continue
             // controlling reception BGM across later acts.
@@ -764,7 +769,7 @@ namespace abcdcode_LOGLIKE_MOD
                 return;
             }
 
-            if (LogLikeMod.CheckStage())
+            if (LogLikeRoutines.IsRoguelikeBattleSettingContext())
             {
                 ResetBattleEgoSelectionState(self);
                 RewardingModel.ResetDropBookRewardNormalization();
@@ -834,7 +839,7 @@ namespace abcdcode_LOGLIKE_MOD
                 LogLikeMod.ResetUIs();
             }
             orig(self);
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             Singleton<GlobalLogueEffectManager>.Instance.OnStartBattleAfter();
         }
@@ -1392,7 +1397,7 @@ namespace abcdcode_LOGLIKE_MOD
           UIBattleSettingEditPanel self,
           UIBattleSettingEditTap state)
         {
-            if (LogLikeMod.CheckStage())
+            if (LogLikeRoutines.IsRoguelikeBattleSettingContext())
             {
                 if (LogLikeMod.InvenBtn == null)
                 {
@@ -1510,7 +1515,7 @@ namespace abcdcode_LOGLIKE_MOD
           UIBattleSettingLibrarianInfoPanel self)
         {
             orig(self);
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             Color uiColor = UIColorManager.Manager.GetUIColor(UIColor.Default);
             typeof(UIBattleSettingLibrarianInfoPanel).GetField("isBattlePageLock", AccessTools.all).SetValue(self, false);
@@ -1525,7 +1530,7 @@ namespace abcdcode_LOGLIKE_MOD
           UIBattleSettingLibrarianInfoPanel self)
         {
             orig(self);
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             Color uiColor = UIColorManager.Manager.GetUIColor(UIColor.Default);
             typeof(UIBattleSettingLibrarianInfoPanel).GetField("isEquipPageLock", AccessTools.all).SetValue(self, false);
@@ -1617,7 +1622,7 @@ namespace abcdcode_LOGLIKE_MOD
           DeckModel self,
           LorId cardId)
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return orig(self, cardId);
             if (!((List<DiceCardXmlInfo>)typeof(DeckModel).GetField("_deck", AccessTools.all).GetValue(self)).Remove(ItemXmlDataList.instance.GetCardItem(cardId)))
                 return false;
@@ -1634,7 +1639,7 @@ namespace abcdcode_LOGLIKE_MOD
           LorId cardId)
         {
             CardEquipState cardEquipState;
-            if (LogLikeMod.CheckStage())
+            if (LogLikeRoutines.IsRoguelikeBattleSettingContext())
             {
                 List<DiceCardXmlInfo> diceCardXmlInfoList = (List<DiceCardXmlInfo>)typeof(DeckModel).GetField("_deck", AccessTools.all).GetValue(self);
                 if (diceCardXmlInfoList.Count >= 9)
@@ -1676,7 +1681,7 @@ namespace abcdcode_LOGLIKE_MOD
           List<DiceCardItemModel> cards,
           UnitDataModel unitData)
         {
-            if (LogLikeMod.CheckStage())
+            if (LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 cards = LogueBookModels.GetCardListForInven();
             orig(self, cards, unitData);
         }
@@ -1690,7 +1695,7 @@ namespace abcdcode_LOGLIKE_MOD
           UnitDataModel self,
           LorId cardId)
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return orig(self, cardId);
             return ItemXmlDataList.instance.GetCardItem(cardId) == null ? 
                 CardEquipState.ERROR : 
@@ -1705,7 +1710,7 @@ namespace abcdcode_LOGLIKE_MOD
             BookModel self, 
             LorId cardId)
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return orig(self, cardId);
             if (self.IsFixedDeck())
             {
@@ -1748,7 +1753,7 @@ namespace abcdcode_LOGLIKE_MOD
           Func<BookInventoryModel, List<BookModel>> orig,
           BookInventoryModel self)
         {
-            return LogLikeMod.CheckStage() ? LogueBookModels.booklist : orig(self);
+            return LogLikeRoutines.IsRoguelikeBattleSettingContext() ? LogueBookModels.booklist : orig(self);
         }
 
         /* DEPRECATED, MOVED TO RMRCORE.BOOKSTOADDTOINVENTORY
@@ -1775,7 +1780,7 @@ namespace abcdcode_LOGLIKE_MOD
           Action<UIInvenCardSlot> orig,
           UIInvenCardSlot self)
         {
-            if (LogLikeMod.CheckStage())
+            if (LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             orig(self);
         }
@@ -1785,7 +1790,7 @@ namespace abcdcode_LOGLIKE_MOD
         /// </summary>
         public void UIInvenCardScrollList_ApplyFilterAll(Action<UIInvenCardListScroll> orig, UIInvenCardListScroll self)
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
             {
                 orig(self);
                 return;
@@ -1844,7 +1849,7 @@ namespace abcdcode_LOGLIKE_MOD
         /// </summary>
         public void UIInvenCardSlot_SetSlotState(Action<UIInvenCardSlot> orig, UIInvenCardSlot self)
         {
-            if (LogLikeMod.CheckStage())
+            if (LogLikeRoutines.IsRoguelikeBattleSettingContext())
             {
                 TextMeshProUGUI textMeshProUgui = (TextMeshProUGUI)typeof(UIInvenCardSlot).GetField("txt_deckLimit", AccessTools.all).GetValue(self);
                 GameObject gameObject = (GameObject)typeof(UIInvenCardSlot).GetField("deckLimitRoot", AccessTools.all).GetValue(self);
@@ -2067,7 +2072,7 @@ namespace abcdcode_LOGLIKE_MOD
           Action<UILibrarianCharacterListPanel> orig,
           UILibrarianCharacterListPanel self)
         {
-            if (LogLikeMod.CheckStage())
+            if (LogLikeRoutines.IsRoguelikeBattleSettingContext())
             {
                 UICharacterList uiCharacterList = (UICharacterList)typeof(UILibrarianCharacterListPanel).GetField("CharacterList", AccessTools.all).GetValue(self);
                 List<UnitBattleDataModel> playerBattleModel = LogueBookModels.playerBattleModel;
@@ -2090,7 +2095,7 @@ namespace abcdcode_LOGLIKE_MOD
           UILibrarianCharacterListPanel self,
           List<StageLibraryFloorModel> floors)
         {
-            if (LogLikeMod.CheckStage())
+            if (LogLikeRoutines.IsRoguelikeBattleSettingContext())
             {
                 
                 foreach (UISephirahSelectionButton sephirahSelectionButton in (List<UISephirahSelectionButton>)typeof(UILibrarianCharacterListPanel).GetField("SephirahSelectionButtons", AccessTools.all).GetValue(self))
@@ -2249,7 +2254,7 @@ namespace abcdcode_LOGLIKE_MOD
           UIBattleSettingEditPanel __instance,
           UIBattleSettingEditTap state)
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
             {
                 Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(false);
                 Singleton<LogAtlasPanel>.Instance.SetActive(false);
@@ -2369,13 +2374,13 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (LogRealizationPanel.Instance != null && LogRealizationPanel.Instance.TryHandleBack())
                 return false;
-            return !LogLikeMod.CheckStage() || !UIPassiveSuccessionPopup.Instance.isActiveAndEnabled;
+            return !LogLikeRoutines.IsRoguelikeBattleSettingContext() || !UIPassiveSuccessionPopup.Instance.isActiveAndEnabled;
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(UIPassiveSuccessionPopup), nameof(UIPassiveSuccessionPopup.Open))]
         public static void UIPassiveSuccessionPopup_Open()
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             LogLikeRoutines.SetBattleSettingCardPanelVisible(false);
         }
@@ -2383,7 +2388,7 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPostfix, HarmonyPatch(typeof(UIPassiveSuccessionPopup), nameof(UIPassiveSuccessionPopup.Close))]
         public static void UIPassiveSuccessionPopup_Close()
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             LogLikeRoutines.SetBattleSettingCardPanelVisible(true);
         }
@@ -2391,7 +2396,7 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPostfix, HarmonyPatch(typeof(UIPassiveSuccessionPopup), nameof(UIPassiveSuccessionPopup.CloseDefault))]
         public static void UIPassiveSuccessionPopup_CloseDefault()
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             LogLikeRoutines.SetBattleSettingCardPanelVisible(true);
         }
@@ -2433,7 +2438,7 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPrefix, HarmonyPatch(typeof(UIPopupWindowManager), nameof(UIPopupWindowManager.Update))]
         public static bool UIPopupWindowManager_Update()
         {
-            return !LogLikeMod.CheckStage() || UI.UIController.Instance.CurrentUIPhase != UIPhase.BattleSetting;
+            return !LogLikeRoutines.IsRoguelikeBattleSettingContext() || UI.UIController.Instance.CurrentUIPhase != UIPhase.BattleSetting;
         }
 
 
@@ -2464,7 +2469,7 @@ namespace abcdcode_LOGLIKE_MOD
           UICharacterListPanel __instance,
           UnitDataModel data)
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return true;
             __instance.Log("Refrash Character start");
             UnitBattleDataModel battledata = LogueBookModels.playerBattleModel.Find(x => x.unitData == data);
@@ -2488,7 +2493,7 @@ namespace abcdcode_LOGLIKE_MOD
           bool isEnemySetting = false,
           bool force = false)
         {
-            if (!LogLikeMod.CheckStage() || isEnemySetting)
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext() || isEnemySetting)
                 return true;
             int num = LogueBookModels.playerBattleModel.IndexOf(LogueBookModels.playerBattleModel.Find((Predicate<UnitBattleDataModel>)(x => x.unitData == __instance)));
             if (newBook != null)
@@ -2666,7 +2671,7 @@ namespace abcdcode_LOGLIKE_MOD
           BattleDiceBehavior behavior,
           ref int diceResult)
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             Singleton<GlobalLogueEffectManager>.Instance.ChangeDiceResult(behavior, ref diceResult);
         }
@@ -2835,7 +2840,7 @@ namespace abcdcode_LOGLIKE_MOD
           ref string id,
           string name)
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             if (id.Contains(LogCardUpgradeManager.UpgradeKeyword))
                 id = UpgradeMetadata.UnpackPidUnsafe(id).actualPid;
@@ -2848,7 +2853,7 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPostfix, HarmonyPatch(typeof(BattleUnitBuf), nameof(BattleUnitBuf.Destroy))]
         public static void BattleUnitBuf_Destroy(BattleUnitBuf __instance)
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             BattleUnitModel fieldValue = ModdingUtils.GetFieldValue<BattleUnitModel>("_owner", __instance);
             if (!(__instance is BattleUnitBuf_burn) || fieldValue.passiveDetail.PassiveList.Find(x => x is PassiveAbility_ShopPassiveStigma5) == null)
@@ -2915,7 +2920,7 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPostfix, HarmonyPatch(typeof(EmotionPassiveCardUI), nameof(EmotionPassiveCardUI.SetSprites))]
         public static void EmotionPassiveCardUI_SetSprites(EmotionPassiveCardUI __instance)
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             Image image = (Image)typeof(EmotionPassiveCardUI).GetField("_artwork", AccessTools.all).GetValue(__instance);
             EmotionCardXmlInfo emotionCardXmlInfo = (EmotionCardXmlInfo)typeof(EmotionPassiveCardUI).GetField("_card", AccessTools.all).GetValue(__instance);
@@ -3338,7 +3343,7 @@ namespace abcdcode_LOGLIKE_MOD
           UnitDataModel data)
         {
             __instance.PassiveListSelectable.SubmitEvent.RemoveAllListeners();
-            if (!LogLikeMod.CheckStage() || !LogueBookModels.playerModel.Contains(data))
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext() || !LogueBookModels.playerModel.Contains(data))
                 return;
             __instance.PassiveListSelectable.SubmitEvent.AddListener((UnityAction<BaseEventData>)(e => UIPassiveSuccessionPopup.Instance.SetData(data, (UIPassiveSuccessionPopup.ApplyEvent)(() =>
             {
@@ -3352,7 +3357,7 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPostfix, HarmonyPatch(typeof(UIPassiveSuccessionPopup), nameof(UIPassiveSuccessionPopup.InitReservedData))]
         public static void UIPassiveSuccessionPopup_InitReservedData()
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             foreach (BookModel bookModel in LogueBookModels.booklist)
             {
@@ -3432,7 +3437,7 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPostfix, HarmonyPatch(typeof(LevelUpUI), nameof(LevelUpUI.OnClickTargetUnit))]
         public static void LevelUpUI_OnClickTargetUnit()
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             foreach (BattleUnitModel battleUnitModel in (IEnumerable<BattleUnitModel>)BattleObjectManager.instance.GetList())
             {
@@ -3555,7 +3560,7 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPostfix, HarmonyPatch(typeof(BookModel), nameof(BookModel.GetMaxPassiveCost))]
         public static void BookModel_GetMaxPassiveCost(ref int __result)
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             int num = 6 + Singleton<GlobalLogueEffectManager>.Instance.ChangeSuccCostValue();
             if (num < 0)
@@ -3665,7 +3670,7 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPostfix, HarmonyPatch(typeof(UICharacterSlot), nameof(UICharacterSlot.SetNoToggleState))]
         public static void UICharacterSlot_SetToggleStateFalse(UICharacterSlot __instance)
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             var unit = LogueBookModels.playerBattleModel.Find(x => x.unitData == __instance.unitBattleData.unitData);
             if (unit != null)
@@ -3678,7 +3683,7 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPostfix, HarmonyPatch(typeof(UICharacterSlot), nameof(UICharacterSlot.SetYesToggleState))]
         public static void UICharacterSlot_SetToggleStateTrue(UICharacterSlot __instance)
         {
-            if (!LogLikeMod.CheckStage())
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             var unit = LogueBookModels.playerBattleModel.Find(x => x.unitData == __instance.unitBattleData.unitData);
             if (unit != null)
