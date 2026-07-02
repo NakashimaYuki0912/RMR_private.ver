@@ -8,7 +8,19 @@
              <text id="MysteryChStartChoice2">都市的科技(随机获得9张传闻至都市传说章节的战斗书页)</text>
              <text id="MysteryChStartChoice3">脑啡肽</text>
              <text id="MysteryChStartChoice4">都市的衣服(获得2张核心书页奖励)</text>
+             <text id="MysteryChStartChoice5">无路卡美洛</text>
              <text id="MysteryChStartChoice6">楼层解放战(挑战一个原版楼层解放战)</text>
+             <text id="MysteryChStartChoice7">重置所有永久进度</text>
+             <text id="MysteryChStartChoice8">游戏玩法介绍</text>
+             <text id="MysteryChStartFrame2Dia0">确认要重置所有永久进度吗？
+这会清空图鉴、楼层解放战进度、都市之星特殊 Boss 通关记录，以及后续路线自动解锁的奖励记录。
+当前路线存档也应重新开始。</text>
+             <text id="MysteryChStartFrame2Confirm">确认重置</text>
+             <text id="MysteryChStartFrame2Back">返回</text>
+             <text id="MysteryChStartFrame3Dia0">RMR 会按章节推进路线。普通战斗、精英战、Boss、商店、休息室、神秘事件和异想体战会逐步扩展当前路线。
+图鉴会永久记录已获得的核心书页和战斗书页。进入楼层解放战时，只能从图鉴已解锁内容中准备队伍。
+楼层解放战胜利后会永久开放对应楼层的专属异想体书页和 E.G.O. 奖励池。</text>
+             <text id="MysteryChStartFrame4Dia0">永久进度已重置。请重新开始路线并按当前图鉴内容推进。</text>
              <text id="StartBoost3Name">脑啡肽</text>
              <text id="StartBoost3Desc">[全局生效]在传闻至都市传说章节内所有司书以1级情感等级开始战斗。</text>
 

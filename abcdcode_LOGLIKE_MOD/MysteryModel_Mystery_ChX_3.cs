@@ -13,24 +13,35 @@ namespace abcdcode_LOGLIKE_MOD
 
     public class MysteryModel_Mystery_ChX_3 : MysteryBase
     {
-        public int[] CardValue = new int[6] { 3, 4, 5, 6, 7, 8 };
-        public int[] EquipValue = new int[6] { 1, 1, 2, 2, 3, 3 };
-        public int[] MoneyValue = new int[6]
+        public int[] CardValue = new int[7] { 3, 4, 5, 6, 7, 8, 9 };
+        public int[] EquipValue = new int[7] { 1, 1, 2, 2, 3, 3, 4 };
+        public int[] MoneyValue = new int[7]
         {
             12,
             17,
             22,
             27,
             32,
-            37
+            37,
+            42
         };
+
+        private int GetChapterRewardIndex()
+        {
+            int grade = (int)LogLikeMod.curchaptergrade;
+            if (grade < 0)
+                return 0;
+            if (grade >= this.CardValue.Length)
+                return this.CardValue.Length - 1;
+            return grade;
+        }
 
         public override void SwapFrame(int id)
         {
             base.SwapFrame(id);
             if (id != 0)
                 return;
-            int curchaptergrade = (int)LogLikeMod.curchaptergrade;
+            int curchaptergrade = this.GetChapterRewardIndex();
             this.ReformatButton(0, this.CardValue[curchaptergrade]);
             this.ReformatButton(1, this.EquipValue[curchaptergrade]);
             this.ReformatButton(2, this.MoneyValue[curchaptergrade]);
@@ -40,7 +51,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (this.curFrame.FrameID == 0)
             {
-                int curchaptergrade = (int)LogLikeMod.curchaptergrade;
+                int curchaptergrade = this.GetChapterRewardIndex();
                 if (choiceid == 0)
                 {
                     for (int index = 0; index < this.CardValue[curchaptergrade]; ++index)

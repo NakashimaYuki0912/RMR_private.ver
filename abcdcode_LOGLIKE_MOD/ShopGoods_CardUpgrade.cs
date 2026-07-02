@@ -1,0 +1,140 @@
+﻿using GameSave;
+using LOR_DiceSystem;
+using RogueLike_Mod_Reborn;
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using UI;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+namespace abcdcode_LOGLIKE_MOD
+{
+    public class ShopGoods_CardUpgrade : ShopGoods
+    {
+        public UILogCustomSelectable customSelectable;
+        public TextMeshProUGUI NameText;
+        public TextMeshProUGUI IconText;
+
+        public static List<DiceCardItemModel> GetUpgradeableCards()
+        {
+            List<DiceCardItemModel> cards = LogueBookModels.GetCardList(true, true);
+            if (cards == null)
+                return new List<DiceCardItemModel>();
+            return cards
+                .Where(x => x != null && x.ClassInfo != null && x.ClassInfo.CheckCanUpgrade())
+                .Where(x => Singleton<LogCardUpgradeManager>.Instance.GetAllUpgradesCard(x.GetID()).Count > 0)
+                .ToList();
+        }
+
+        public static bool HasUpgradeableCards()
+        {
+            return GetUpgradeableCards().Count > 0;
+        }
+
+        public void SetGoods(int price)
+        {
+            Sprite sprite = null;
+            if (LogLikeMod.ArtWorks.ContainsKey("Shop_CardUpgrade_Icon"))
+                sprite = LogLikeMod.ArtWorks["Shop_CardUpgrade_Icon"];
+            else if (LogLikeMod.ArtWorks.ContainsKey("Stage_Rest"))
+                sprite = LogLikeMod.ArtWorks["Stage_Rest"];
+            if (sprite != null)
+                this.customSelectable = ModdingUtils.CreateLogSelectable(this.transform, sprite, new Vector2(1f, 1f), new Vector2(0.0f, 0.0f), new Vector2(165f, 220f));
+            else
+                this.customSelectable = ModdingUtils.CreateLogSelectable(this.transform, "Stage_Rest", new Vector2(1f, 1f), new Vector2(0.0f, 0.0f), new Vector2(165f, 220f));
+            Button.ButtonClickedEvent buttonClickedEvent = new Button.ButtonClickedEvent();
+            buttonClickedEvent.AddListener(new UnityAction(this.OnClickGoods));
+            this.customSelectable.onClick = buttonClickedEvent;
+            this.customSelectable.SelectEvent = new UnityEventBasedata();
+            this.customSelectable.SelectEvent.AddListener((UnityAction<BaseEventData>)(e => this.OnPointerEnter()));
+            this.customSelectable.DeselectEvent = new UnityEventBasedata();
+            this.customSelectable.DeselectEvent.AddListener((UnityAction<BaseEventData>)(e => this.OnPointerExit()));
+            Image image = ModdingUtils.CreateImage(this.transform, "MoneyIcon", new Vector2(1f, 1f), new Vector2(-10f, -130f));
+            this.moneyicon = image;
+            this.Money = ModdingUtils.CreateText_TMP(image.transform, new Vector2(40f, 0.0f), 25, new Vector2(0.5f, 0.0f), new Vector2(1f, 1f), new Vector2(0.0f, 0.0f), TextAlignmentOptions.MidlineLeft, LogLikeMod.DefFontColor, LogLikeMod.DefFont_TMP);
+            this.SetPrice(price);
+        }
+
+        public void SetPrice(int newPrice)
+        {
+            this.price = newPrice;
+            if (this.Money != null)
+                this.Money.text = this.price.ToString();
+        }
+
+        public override void LoadFromSaveData(SaveData data)
+        {
+            base.LoadFromSaveData(data);
+            this.SetPrice(this.price);
+        }
+
+        public override bool CanPurchase()
+        {
+            return HasUpgradeableCards() && base.CanPurchase();
+        }
+
+        public override bool CheckEnoughMoney()
+        {
+            bool enough = this.CanPurchase();
+            if (this.Money != null)
+                this.Money.color = enough ? LogLikeMod.DefFontColor : Color.red;
+            return enough;
+        }
+
+        public void OnClickGoods()
+        {
+            if (!this.CanPurchase())
+            {
+                UIAlarmPopup.instance.SetAlarmText(TextDataModel.GetText("CardCheckPopUp_CannotUpgrade"));
+                return;
+            }
+            MysteryModel_CardChoice.PopupCardChoice(GetUpgradeableCards(), new MysteryModel_CardChoice.ChoiceResult(this.OnChoiceCard), MysteryModel_CardChoice.ChoiceDescType.UpgradeDesc);
+        }
+
+        public void OnChoiceCard(MysteryModel_CardChoice mystery, DiceCardItemModel model)
+        {
+            if (model == null)
+                return;
+            MysteryModel_UpgradeCheckPopup.PopupUpgradeCheck(model.GetID(), my => this.ApplyUpgrade(mystery, my, model.GetID()));
+        }
+
+        public void ApplyUpgrade(MysteryModel_CardChoice mystery, MysteryModel_UpgradeCheckPopup popup, LorId cardid)
+        {
+            if (!this.CanPurchase() || popup == null || popup.metadata == null)
+                return;
+            PassiveAbility_MoneyCheck.SubMoney(this.price);
+            LogueBookModels.DeleteCard(cardid);
+            LogueBookModels.AddCard(new LorId(popup.metadata.unparsedPid, cardid.id));
+            UISoundManager.instance.PlayEffectSound(UISoundType.Card_Apply);
+            CardAddVfx.RunCardVfx(popup.slot);
+            if (this.parent != null)
+                this.parent.OnCardUpgradePurchased(this);
+            if (!HasUpgradeableCards())
+                this.gameObject.SetActive(false);
+            Singleton<MysteryManager>.Instance.EndMystery(mystery);
+            Singleton<MysteryManager>.Instance.EndMystery(popup);
+        }
+
+        public override SaveData GetSaveData()
+        {
+            return base.GetSaveData();
+        }
+
+        public void OnPointerEnter()
+        {
+            SingletonBehavior<UIMainOverlayManager>.Instance.SetTooltip(TextDataModel.GetText("Shop_CardUpgrade_Name"), TextDataModel.GetText("Shop_CardUpgrade_Desc"), this.gameObject.transform as RectTransform, Rarity.Rare, UIToolTipPanelType.OnlyContent);
+            var curPos = SingletonBehavior<UIMainOverlayManager>.Instance.tooltipPositionPivot.anchoredPosition;
+            SingletonBehavior<UIMainOverlayManager>.Instance.tooltipPositionPivot.anchoredPosition = new Vector2(curPos.x, curPos.y + 100f);
+        }
+
+        public void OnPointerExit()
+        {
+            SingletonBehavior<UIMainOverlayManager>.Instance.Close();
+        }
+    }
+}
+
+

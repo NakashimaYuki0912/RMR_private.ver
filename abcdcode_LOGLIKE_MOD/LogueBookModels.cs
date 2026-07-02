@@ -240,7 +240,7 @@ namespace abcdcode_LOGLIKE_MOD
 
         private static bool IsRedMistRewardBattleCard(LorId id)
         {
-            return id.id >= 607001 && id.id <= 607008;
+            return id.id >= 607003 && id.id <= 607007;
         }
 
         public static void PruneInvalidPermanentAbnormalityAtlasUnlocks()
@@ -302,11 +302,6 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 LogueBookModels.EnsureAtlasUnlocks();
                 SaveData data = Singleton<LogueSaveManager>.Instance.LoadData(PermanentAtlasSaveName);
-                if (data == null)
-                {
-                    SaveData latest = Singleton<LogueSaveManager>.Instance.LoadData("Lastest");
-                    data = latest?.GetData("LogueBookModel");
-                }
                 if (data == null)
                     return;
 
@@ -788,12 +783,13 @@ namespace abcdcode_LOGLIKE_MOD
                         {
                             if (!string.IsNullOrEmpty(stageInfo.script))
                                 LogLikeMod.FindPickUp(stageInfo.script).LoadFromSaveData(stageInfo);
+                            logueStageInfoList.Add(stageInfo);
                         }
-                        logueStageInfoList.Add(stageInfo);
                     }
                     LogueBookModels.RemainStageList.Add(key, logueStageInfoList);
                 }
             }
+            LogueBookModels.EnsureRemainStageListIntegrity();
             foreach (SaveData saveData in save.GetData("cardlist"))
                 LogueBookModels.AddCard(ExtensionUtils.LogLoadFromSaveData(saveData.GetData("id")), saveData.GetData("num").GetIntSelf(), false);
             foreach (SaveData data3 in save.GetData("booklist"))
@@ -813,10 +809,45 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.nextinstanceid = save.GetInt("nextinstanceid");
         }
 
+        private static void EnsureRemainStageListIntegrity()
+        {
+            if (LogueBookModels.RemainStageList == null)
+                LogueBookModels.RemainStageList = new Dictionary<ChapterGrade, List<LogueStageInfo>>();
+            ChapterGrade[] grades =
+            {
+                ChapterGrade.Grade1,
+                ChapterGrade.Grade2,
+                ChapterGrade.Grade3,
+                ChapterGrade.Grade4,
+                ChapterGrade.Grade5,
+                ChapterGrade.Grade6,
+                ChapterGrade.Grade7
+            };
+            foreach (ChapterGrade grade in grades)
+            {
+                if (!LogueBookModels.RemainStageList.TryGetValue(grade, out List<LogueStageInfo> stages) || stages == null)
+                {
+                    LogueBookModels.RemainStageList[grade] = new List<LogueStageInfo>();
+                    continue;
+                }
+                stages.RemoveAll(stage =>
+                {
+                    StageClassInfo stageClassInfo = stage == null ? null : StageClassInfoList.Instance.GetData(stage.Id);
+                    return stageClassInfo == null || stageClassInfo.waveList == null || stageClassInfo.waveList.Count == 0;
+                });
+            }
+        }
+
         public static void CreateStageDesc(LogueStageInfo info)
         {
+            if (info == null)
+                return;
             EmotionCardXmlInfo registeredPickUpXml = LogLikeMod.GetRegisteredPickUpXml(info);
+            if (registeredPickUpXml == null)
+                return;
             AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(registeredPickUpXml.Name);
+            if (abnormalityCard == null)
+                return;
             abnormalityCard.flavorText = "";
             if (info.type == StageType.Normal)
             {
@@ -1090,6 +1121,8 @@ namespace abcdcode_LOGLIKE_MOD
             sourceId = LorId.None;
             if (!IsGrade6SpecialBuiltInDeckPage(page))
                 return false;
+            if (TryGetKnownVanillaFixedDeckSource(page, out sourceId))
+                return true;
             LorId deckId = page.DeckId;
             if (deckId != LorId.None && DeckXmlList.Instance.GetData(deckId) != null)
             {
@@ -1102,6 +1135,21 @@ namespace abcdcode_LOGLIKE_MOD
                 return true;
             }
             return false;
+        }
+
+        private static bool TryGetKnownVanillaFixedDeckSource(BookXmlInfo page, out LorId sourceId)
+        {
+            sourceId = LorId.None;
+            int deckId = 0;
+            if (RMRCore.IsBinahCorePage(page))
+                deckId = 8;
+            else if (IsBlackSilenceCorePage(page))
+                deckId = 102;
+            if (deckId == 0)
+                return false;
+            LorId fixedDeckId = new LorId(deckId);
+            sourceId = fixedDeckId;
+            return true;
         }
 
         private static bool TryLoadGrade6SpecialBuiltInDeckCards(LorId sourceId, out List<DiceCardXmlInfo> builtInDeck)
@@ -1119,10 +1167,34 @@ namespace abcdcode_LOGLIKE_MOD
                 return builtInDeck.Count > 0;
             }
 
+            if (TryLoadKnownVanillaFixedDeckCards(sourceId, out builtInDeck))
+                return true;
+
             BookXmlInfo sourcePage = Singleton<BookXmlList>.Instance.GetData(sourceId);
             if (!IsGrade6SpecialBuiltInDeckPage(sourcePage))
                 return false;
             return TryLoadBuiltInDeckFromOnlyCards(sourcePage, out builtInDeck);
+        }
+
+        private static bool TryLoadKnownVanillaFixedDeckCards(LorId sourceId, out List<DiceCardXmlInfo> builtInDeck)
+        {
+            builtInDeck = new List<DiceCardXmlInfo>();
+            int[] cardIds = null;
+            if (sourceId.id == 8)
+                cardIds = new[] { 607201, 607202, 607202, 607202, 607203, 607204, 607204, 607205, 607205 };
+            else if (sourceId.id == 102)
+                cardIds = new[] { 702001, 702002, 702003, 702004, 702005, 702006, 702007, 702008, 702009 };
+            if (cardIds == null)
+                return false;
+
+            foreach (int cardId in cardIds)
+            {
+                DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(new LorId(LogLikeMod.ModId, cardId), true)
+                    ?? ItemXmlDataList.instance.GetCardItem(cardId, true);
+                if (card != null)
+                    builtInDeck.Add(card);
+            }
+            return builtInDeck.Count == cardIds.Length;
         }
 
         private static bool HasLoadableBuiltInDeckOnlyCards(BookXmlInfo page)
@@ -1154,7 +1226,6 @@ namespace abcdcode_LOGLIKE_MOD
             bool isBinah = RMRCore.IsBinahCorePage(page);
             return IsDeckFixedBookCategory(page)
                 || IsBlackSilenceCorePage(page)
-                || IsRedMistCorePage(page)
                 || isBinah;
         }
 
@@ -1182,9 +1253,11 @@ namespace abcdcode_LOGLIKE_MOD
                 && (page.TextId == 102
                     || (!string.IsNullOrEmpty(page.InnerName)
                         && page.InnerName.IndexOf("BlackSilence", StringComparison.OrdinalIgnoreCase) >= 0)
+                    || (!string.IsNullOrEmpty(page._bookIcon)
+                        && page._bookIcon.IndexOf("BlackSilence", StringComparison.OrdinalIgnoreCase) >= 0)
                     || (page.CharacterSkin != null
                         && page.CharacterSkin.Any(skin => !string.IsNullOrEmpty(skin)
-                            && skin.IndexOf("Black", StringComparison.OrdinalIgnoreCase) >= 0)));
+                            && skin.IndexOf("BlackSilence", StringComparison.OrdinalIgnoreCase) >= 0)));
         }
 
         private static bool IsRedMistCorePage(BookXmlInfo page)
@@ -1215,8 +1288,8 @@ namespace abcdcode_LOGLIKE_MOD
                 if (sourceData == null)
                     return;
                 LorId sourceId = ExtensionUtils.LogLoadFromSaveData(sourceData);
-                if (sourceId != LorId.None && TryLoadGrade6SpecialBuiltInDeckCards(sourceId, out List<DiceCardXmlInfo> _))
-                    Grade6SpecialBuiltInDeckSource[unitData] = sourceId;
+                if (sourceId != LorId.None)
+                    TryApplyGrade6SpecialBuiltInDeckToUnit(unitData, sourceId);
             }
             catch
             {
@@ -1315,7 +1388,7 @@ namespace abcdcode_LOGLIKE_MOD
                 cardId = Singleton<GlobalLogueEffectManager>.Instance.InvenAddCardChange(cardId);
             if (num <= 0)
                 return;
-            DiceCardXmlInfo cardItem = ItemXmlDataList.instance.GetCardItem(cardId);
+            DiceCardXmlInfo cardItem = ItemXmlDataList.instance.GetCardItem(cardId) ?? ItemXmlDataList.instance.GetCardItem(cardId, true);
             if (cardItem == null || cardItem.optionList.Contains(CardOption.NoInventory) || cardItem.optionList.Contains(CardOption.Basic))
                 return;
             LogueBookModels.RecordAtlasBattleCard(cardId);
@@ -1588,15 +1661,59 @@ namespace abcdcode_LOGLIKE_MOD
             return diceCardSelfAbility == null || !(diceCardSelfAbility is LogDiceCardSelfAbility) || (diceCardSelfAbility as LogDiceCardSelfAbility).CanAddDeck(model.CopyCurrentDeck(), out CardEquipState _);
         }
 
-        private static void TrySetGrade6SpecialBuiltInDeckSource(UnitDataModel unitData, BookXmlInfo page)
+        private static bool TrySetAndApplyGrade6SpecialBuiltInDeckSource(UnitDataModel unitData, BookXmlInfo page)
         {
             if (unitData == null)
-                return;
+                return false;
             EnsureGrade6SpecialBuiltInDeckSource();
             if (TryResolveGrade6SpecialBuiltInDeckSource(page, out LorId sourceId))
-                Grade6SpecialBuiltInDeckSource[unitData] = sourceId;
-            else
+                return TryApplyGrade6SpecialBuiltInDeckToUnit(unitData, sourceId);
+            Grade6SpecialBuiltInDeckSource.Remove(unitData);
+            return false;
+        }
+
+        private static bool TryApplyGrade6SpecialBuiltInDeckToUnit(UnitDataModel unitData, LorId sourceId)
+        {
+            if (unitData?.bookItem == null || sourceId == LorId.None)
+                return false;
+            EnsureGrade6SpecialBuiltInDeckSource();
+            if (!TryLoadGrade6SpecialBuiltInDeckCards(sourceId, out List<DiceCardXmlInfo> builtInDeck) || builtInDeck.Count == 0)
+            {
                 Grade6SpecialBuiltInDeckSource.Remove(unitData);
+                return false;
+            }
+
+            Grade6SpecialBuiltInDeckSource[unitData] = sourceId;
+            if (TryGetActualCurrentDeck(unitData.bookItem, out List<DiceCardXmlInfo> currentDeck))
+            {
+                foreach (DiceCardXmlInfo card in currentDeck.ToList())
+                {
+                    if (card != null)
+                        AddCard(card.id, 1, false);
+                }
+                currentDeck.Clear();
+                currentDeck.AddRange(builtInDeck);
+            }
+
+            Debug.Log($"[RMR] Applied fixed built-in deck source {sourceId} to unit book {unitData.bookItem.BookId}: {string.Join(",", builtInDeck.Select(card => card.id.ToString()).ToArray())}");
+            return true;
+        }
+
+        private static bool TryGetActualCurrentDeck(BookModel book, out List<DiceCardXmlInfo> currentDeck)
+        {
+            currentDeck = null;
+            if (book == null)
+                return false;
+            try
+            {
+                DeckModel deckModel = LogLikeMod.GetFieldValue<DeckModel>(book, "_deck");
+                currentDeck = LogLikeMod.GetFieldValue<List<DiceCardXmlInfo>>(deckModel, "_deck");
+                return currentDeck != null;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public static void EquipNewPage(UnitDataModel model, BookXmlInfo page, bool keepSuc = false)
@@ -1662,8 +1779,10 @@ namespace abcdcode_LOGLIKE_MOD
                 else
                     fieldValue.Add(cardItem);
             }
-            TrySetGrade6SpecialBuiltInDeckSource(unitData, page);
+            bool appliedBuiltInDeck = TrySetAndApplyGrade6SpecialBuiltInDeckSource(unitData, page);
             PruneCorePageExclusiveBattleCardsFromInventoryAndAtlas();
+            if (appliedBuiltInDeck)
+                return;
             foreach (DiceCardXmlInfo diceCardXmlInfo in model.unitData.bookItem.GetCardListFromCurrentDeck())
             {
                 if (!LogueBookModels.CanAddCardToCurrentDeck(diceCardXmlInfo.id, model.unitData.bookItem))
@@ -1976,18 +2095,38 @@ namespace abcdcode_LOGLIKE_MOD
                         Elite = 0,
                         Mystery = 2,
                         Shop = 2,
-                        Boss = 1,
+                        Boss = 3,
                         Rest = 0,
                         Creature = 1,
                         Chapter = chapter
                     };
                     break;
             }
+            LogueBookModels.ApplyGrade6RedMistAppearanceRoll(allReceptions, ref stageLimits, chapter);
             LogueBookModels.HandleLimitPícking(choiceReceptions, allReceptions, stageLimits);
             if (chapter == ChapterGrade.Grade4)
                 choiceReceptions.Add(Singleton<StagesXmlList>.Instance.GetStageInfo(new LorId(LogLikeMod.ModId, 80000)));
             // WORKSHOP CONTRACT EVENT
             return choiceReceptions;
+        }
+
+        private const int RedMistChallengeStageId = 60020;
+        private const float RedMistChallengeAppearanceChance = 0.3f;
+
+        private static void ApplyGrade6RedMistAppearanceRoll(List<LogueStageInfo> allReceptions, ref StageLimits stageLimits, ChapterGrade chapter)
+        {
+            if (chapter != ChapterGrade.Grade6 || allReceptions == null)
+                return;
+            LogueStageInfo redMist = allReceptions.Find(stage => stage != null
+                && stage.Id == new LorId(LogLikeMod.ModId, RedMistChallengeStageId));
+            if (redMist == null)
+                return;
+            if (UnityEngine.Random.value <= RedMistChallengeAppearanceChance)
+                return;
+            allReceptions.Remove(redMist);
+            stageLimits.Elite = 0;
+            stageLimits.Normal += 1;
+            Debug.Log($"[RMR] Grade6 Red Mist challenge skipped by route roll; chance={RedMistChallengeAppearanceChance:0.##}. Replaced its elite slot with a normal node.");
         }
 
         public static void AddingRemainStageList()
@@ -2002,7 +2141,7 @@ namespace abcdcode_LOGLIKE_MOD
                     "".Log($"Chapter {(i + 1).ToString()} StageList");
                     foreach (LogueStageInfo logueStageInfo in list2)
                     {
-                        if (StageClassInfoList.Instance.GetData(logueStageInfo.Id) is var stage && (stage == null || stage.waveList == null))
+                        if (StageClassInfoList.Instance.GetData(logueStageInfo.Id) is var stage && (stage == null || stage.waveList == null || stage.waveList.Count == 0))
                         {
                             list.Remove(logueStageInfo);
                             "".Log($"!WARNING! -- INVALID STAGE REMOVED FROM STAGE LIST ON INITIALIZE");
@@ -2037,7 +2176,7 @@ namespace abcdcode_LOGLIKE_MOD
                 LogueStageInfo info = logueStageInfoList[UnityEngine.Random.Range(0, logueStageInfoList.Count)];
                 EmotionCardXmlInfo thing = LogLikeMod.GetRegisteredPickUpXml(info);
                 logueStageInfoList.Remove(info);
-                string pid = LogLikeMod.GetPickUpXmlWorkShopId_Stage(thing);
+                string pid = thing == null ? null : LogLikeMod.GetPickUpXmlWorkShopId_Stage(thing);
                 if (thing != null)
                 {
                     nextList.Add(thing);

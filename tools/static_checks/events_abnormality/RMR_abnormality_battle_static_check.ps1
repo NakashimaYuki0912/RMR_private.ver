@@ -1,7 +1,16 @@
-$ErrorActionPreference = "Stop"
+﻿$ErrorActionPreference = "Stop"
 
-$root = Split-Path -Parent $MyInvocation.MyCommand.Path
 
+$script:StaticCheckScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$script:RepoRoot = $script:StaticCheckScriptDir
+while ($script:RepoRoot -and -not (Test-Path (Join-Path $script:RepoRoot 'RogueLike Mod Reborn.csproj'))) {
+    $script:RepoRoot = Split-Path -Parent $script:RepoRoot
+}
+if (-not $script:RepoRoot) {
+    throw 'Could not locate repository root for static check.'
+}
+Set-Location $script:RepoRoot
+$root = $script:RepoRoot
 function Read-Text($relativePath) {
     Get-Content -LiteralPath (Join-Path $root $relativePath) -Raw -Encoding UTF8
 }
@@ -66,9 +75,17 @@ Require-Contains $patches "stage.type == StageType.Creature" "creature stage bra
 $core = Read-Text "RogueLike Mod Reborn.csproj"
 Require-Contains $core "RMR_AbnormalityBattleRouter.cs" "router compile include"
 
-$stages = @(
+$earlyStages = @(
     "SpecialStaticInfo\StagesXmlInfos\Stage_ch1.xml",
-    "SpecialStaticInfo\StagesXmlInfos\Stage_ch2.xml",
+    "SpecialStaticInfo\StagesXmlInfos\Stage_ch2.xml"
+)
+foreach ($stageFile in $earlyStages) {
+    $content = Read-Text $stageFile
+    Require-NotContains $content 'StageType="Creature"' "forbidden early-chapter creature card in $stageFile"
+    Require-Contains $content 'StageType="Rest"' "early-chapter rest replacement in $stageFile"
+}
+
+$stages = @(
     "SpecialStaticInfo\StagesXmlInfos\Stage_ch3.xml",
     "SpecialStaticInfo\StagesXmlInfos\Stage_ch4.xml",
     "SpecialStaticInfo\StagesXmlInfos\Stage_ch5.xml",
@@ -80,3 +97,4 @@ foreach ($stageFile in $stages) {
 }
 
 "RMR ABNORMALITY BATTLE STATIC CHECK PASSED"
+

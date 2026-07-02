@@ -413,8 +413,7 @@ namespace abcdcode_LOGLIKE_MOD
         /// </summary>
         public List<DiceCardXmlInfo> UnitDataModel_GetDeckForBattle(Func<UnitDataModel, int, List<DiceCardXmlInfo>> orig, UnitDataModel self, int index)
         {
-            if (LogLikeMod.CheckStage(true)
-                && LogueBookModels.TryGetGrade6SpecialBuiltInDeckCards(self, out List<DiceCardXmlInfo> builtInDeck))
+            if (LogueBookModels.TryGetGrade6SpecialBuiltInDeckCards(self, out List<DiceCardXmlInfo> builtInDeck))
                 return builtInDeck;
 
             if (LogLikeMod.CheckStage(true) && RMRCore.CurrentGamemode.ReplaceBaseDeck)
@@ -442,7 +441,7 @@ namespace abcdcode_LOGLIKE_MOD
         /// </summary>
         public bool BookModel_IsFixedDeck(Func<BookModel, bool> orig, BookModel self)
         {
-            if (LogLikeMod.CheckStage(true) && LogueBookModels.HasGrade6SpecialBuiltInDeck(self))
+            if (LogueBookModels.HasGrade6SpecialBuiltInDeck(self))
                 return true;
             return orig(self);
         }
@@ -454,8 +453,7 @@ namespace abcdcode_LOGLIKE_MOD
             Func<BookModel, List<DiceCardXmlInfo>> orig,
             BookModel self)
         {
-            if (LogLikeMod.CheckStage(true)
-                && LogueBookModels.TryGetGrade6SpecialBuiltInDeckCards(self, out List<DiceCardXmlInfo> builtInDeck))
+            if (LogueBookModels.TryGetGrade6SpecialBuiltInDeckCards(self, out List<DiceCardXmlInfo> builtInDeck))
                 return builtInDeck;
             return orig(self);
         }
@@ -615,6 +613,11 @@ namespace abcdcode_LOGLIKE_MOD
 
             if (LogLikeMod.CheckStage(true))
             {
+                if (LogLikeMod.purpleexcept)
+                {
+                    orig(self, deltaTime);
+                    return;
+                }
                 RMRAbnormalityUnlockManager.GrantRedMistChallengeVictoryRewards();
                 RMRAbnormalityUnlockManager.RecordBlackSilenceVictoryUnlock();
                 RMRAbnormalityUnlockManager.GrantDistortedEnsembleVictoryRewards();
@@ -693,6 +696,44 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        private sealed class PurpleTransitionEmotionState
+        {
+            public int EmotionLevel;
+            public int MaxEmotionLevel;
+        }
+
+        private static Dictionary<UnitDataModel, PurpleTransitionEmotionState> CapturePurpleTransitionEmotionState()
+        {
+            Dictionary<UnitDataModel, PurpleTransitionEmotionState> result = new Dictionary<UnitDataModel, PurpleTransitionEmotionState>();
+            foreach (BattleUnitModel unit in BattleObjectManager.instance.GetList(Faction.Player))
+            {
+                if (unit?.UnitData?.unitData == null || unit.emotionDetail == null)
+                    continue;
+                result[unit.UnitData.unitData] = new PurpleTransitionEmotionState
+                {
+                    EmotionLevel = unit.emotionDetail.EmotionLevel,
+                    MaxEmotionLevel = unit.emotionDetail.MaximumEmotionLevel
+                };
+            }
+            return result;
+        }
+
+        private static void RestorePurpleTransitionEmotionState(Dictionary<UnitDataModel, PurpleTransitionEmotionState> states)
+        {
+            if (states == null || states.Count == 0)
+                return;
+            foreach (BattleUnitModel unit in BattleObjectManager.instance.GetList(Faction.Player))
+            {
+                if (unit?.UnitData?.unitData == null || unit.emotionDetail == null)
+                    continue;
+                if (!states.TryGetValue(unit.UnitData.unitData, out PurpleTransitionEmotionState state))
+                    continue;
+                int maxLevel = Math.Max(state.MaxEmotionLevel, Math.Min((int)(LogLikeMod.curchaptergrade + 1), 5));
+                unit.emotionDetail.SetMaxEmotionLevel(maxLevel);
+                unit.emotionDetail.SetEmotionLevel(Math.Min(state.EmotionLevel, maxLevel));
+            }
+        }
+
         public void StageController_StartBattle(Action<StageController> orig, StageController self)
         {
             // If a realization battle is pending, activate the flag now that the
@@ -716,7 +757,9 @@ namespace abcdcode_LOGLIKE_MOD
             bool isPurpleTransition = LogLikeMod.CheckStage() && LogLikeMod.purpleexcept;
             if (isPurpleTransition)
             {
+                Dictionary<UnitDataModel, PurpleTransitionEmotionState> emotionStates = CapturePurpleTransitionEmotionState();
                 orig(self);
+                RestorePurpleTransitionEmotionState(emotionStates);
                 LogLikeMod.purpleexcept = false;
                 return;
             }
@@ -772,6 +815,7 @@ namespace abcdcode_LOGLIKE_MOD
                     }
                 }
                 RMRAbnormalityUnlockManager.EnqueueBattleClearRewards();
+                RMRAbnormalityUnlockManager.SuppressRedMistChallengeGenericRewards();
                 LogLikeMod.ResetNextStage();
                 if (LogLikeMod.curstagetype == StageType.Boss)
                 {
@@ -803,31 +847,47 @@ namespace abcdcode_LOGLIKE_MOD
           StageController self,
           SephirahType sephirah)
         {
+            if (RMRRealizationManager.InRealizationBattle)
+            {
+                CreateRoguelikeLibrarianUnits(self, sephirah, false);
+                return;
+            }
+
             if (LogLikeMod.CheckStage(true))
             {
-                BattleTeamModel battleTeamModel = (BattleTeamModel)typeof(StageController).GetField("_librarianTeam", AccessTools.all).GetValue(self);
-                int num = 0;
-                foreach (UnitBattleDataModel unitBattleData in LogueBookModels.playerBattleModel.FindAll(x => x.IsAddedBattle))
-                {
-                    StageLibraryFloorModel floor = self.GetStageModel().GetFloor(sephirah);
-                    UnitDataModel unitData = unitBattleData.unitData;
-                    BattleUnitModel defaultUnit = BattleObjectManager.CreateDefaultUnit(Faction.Player);
-                    defaultUnit.index = num;
-                    defaultUnit.grade = unitData.grade;
-                    defaultUnit.formation = floor.GetFormationPosition(defaultUnit.index);
-                    defaultUnit.SetUnitData(unitBattleData);
-                    defaultUnit.OnCreated();
-                    battleTeamModel.AddUnit(defaultUnit);
-                    BattleObjectManager.instance.RegisterUnit(defaultUnit);
-                    defaultUnit.passiveDetail.OnUnitCreated();
-                    defaultUnit.SetDeadSceneBlock(true);
-                    ++num;
-                    Singleton<GlobalLogueEffectManager>.Instance.OnCreateLibrarian(defaultUnit);
-                }
-                Singleton<GlobalLogueEffectManager>.Instance.OnCreateLibrarians();
+                CreateRoguelikeLibrarianUnits(self, sephirah, true);
             }
             else
                 orig(self, sephirah);
+        }
+
+        private static void CreateRoguelikeLibrarianUnits(
+            StageController self,
+            SephirahType sephirah,
+            bool applyLogueEffects)
+        {
+            BattleTeamModel battleTeamModel = (BattleTeamModel)typeof(StageController).GetField("_librarianTeam", AccessTools.all).GetValue(self);
+            int num = 0;
+            foreach (UnitBattleDataModel unitBattleData in LogueBookModels.playerBattleModel.FindAll(x => x.IsAddedBattle))
+            {
+                StageLibraryFloorModel floor = self.GetStageModel().GetFloor(sephirah);
+                UnitDataModel unitData = unitBattleData.unitData;
+                BattleUnitModel defaultUnit = BattleObjectManager.CreateDefaultUnit(Faction.Player);
+                defaultUnit.index = num;
+                defaultUnit.grade = unitData.grade;
+                defaultUnit.formation = floor.GetFormationPosition(defaultUnit.index);
+                defaultUnit.SetUnitData(unitBattleData);
+                defaultUnit.OnCreated();
+                battleTeamModel.AddUnit(defaultUnit);
+                BattleObjectManager.instance.RegisterUnit(defaultUnit);
+                defaultUnit.passiveDetail.OnUnitCreated();
+                defaultUnit.SetDeadSceneBlock(true);
+                ++num;
+                if (applyLogueEffects)
+                    Singleton<GlobalLogueEffectManager>.Instance.OnCreateLibrarian(defaultUnit);
+            }
+            if (applyLogueEffects)
+                Singleton<GlobalLogueEffectManager>.Instance.OnCreateLibrarians();
         }
 
         /// <summary>
@@ -2089,11 +2149,41 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPrefix, HarmonyPatch(typeof(TextDataModel), nameof(TextDataModel.GetText))]
         public static bool TextDataModel_GetText(string id, ref string __result, params object[] args)
         {
+            if (!ShouldOverrideVanillaTextWithRmrText(id))
+                return true;
+
             string text = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText(id, args);
             if (!(text != string.Empty))
                 return true;
             __result = text;
             return false;
+        }
+
+        private static bool ShouldOverrideVanillaTextWithRmrText(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return false;
+
+            if (IsExplicitRmrTextKey(id))
+                return true;
+
+            return LogLikeMod.CheckStage()
+                || RMRRealizationManager.PendingRealizationBattle
+                || RMRRealizationManager.InRealizationBattle;
+        }
+
+        private static bool IsExplicitRmrTextKey(string id)
+        {
+            if (id == "ui_ExceptionWithLog")
+                return true;
+
+            return id.StartsWith("ui_RMR_", StringComparison.Ordinal)
+                || id.StartsWith("RMR_", StringComparison.Ordinal)
+                || id.StartsWith("LogueLike", StringComparison.Ordinal)
+                || id.StartsWith("BossReward", StringComparison.Ordinal)
+                || id.StartsWith("MysteryCh", StringComparison.Ordinal)
+                || id.StartsWith("StartBoost", StringComparison.Ordinal)
+                || id.StartsWith("MemberShip", StringComparison.Ordinal);
         }
 
         [HarmonyPrefix, HarmonyPatch(typeof(StageController), nameof(StageController.RoundStartPhase_System))]

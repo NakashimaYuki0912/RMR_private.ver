@@ -20,11 +20,14 @@ namespace abcdcode_LOGLIKE_MOD
     {
         public static RewardingModel.RewardFlag rewardFlag;
         private const double BattleCardRewardRetentionRate = 0.7;
+        private const double NormalBattleCardRewardRetentionRate = 0.49;
         private static readonly HashSet<LorId> NormalizedDropBookRewardIds = new HashSet<LorId>();
+        private static bool BossFallbackRewardCheckedThisBattle;
 
         public static void ResetDropBookRewardNormalization()
         {
             NormalizedDropBookRewardIds.Clear();
+            BossFallbackRewardCheckedThisBattle = false;
         }
 
         public static string GetChapterText(int grade)
@@ -103,11 +106,20 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static void CreateEquipRewardXmlData(RewardPassiveInfo info)
         {
+            if (info == null)
+                return;
             BookXmlInfo data = Singleton<BookXmlList>.Instance.GetData(info.id);
-            AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(LogLikeMod.GetRegisteredPickUpXml(info).Name);
+            EmotionCardXmlInfo pickUpXml = LogLikeMod.GetRegisteredPickUpXml(info);
+            if (data == null || pickUpXml == null)
+                return;
+            AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(pickUpXml.Name);
+            if (abnormalityCard == null)
+                return;
             abnormalityCard.cardName = data.InnerName;
             abnormalityCard.flavorText = $"{RewardingModel.GetChapterText(data.Chapter)}, {RewardingModel.GetRaritytext(data.Rarity)}";
             abnormalityCard.abilityDesc = RewardingModel.GetAblilityText(data);
+            if (!string.IsNullOrEmpty(data._bookIcon))
+                pickUpXml._artwork = data._bookIcon;
         }
 
         public static RewardPassiveInfo GetReward(List<RewardPassiveInfo> rewards)
@@ -177,11 +189,15 @@ namespace abcdcode_LOGLIKE_MOD
             }
             else if (info.script != string.Empty)
             {
-                AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(info.script);
+                EmotionCardXmlInfo registeredPickUpXml = LogLikeMod.GetRegisteredPickUpXml(info);
+                AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(registeredPickUpXml?.Name ?? info.script);
                 PickUpModelBase pickUp = LogLikeMod.FindPickUp(info.script);
-                abnormalityCard.cardName = pickUp.Name;
-                abnormalityCard.flavorText = pickUp.FlaverText;
-                abnormalityCard.abilityDesc = pickUp.Desc;
+                if (abnormalityCard != null && pickUp != null)
+                {
+                    abnormalityCard.cardName = pickUp.Name;
+                    abnormalityCard.flavorText = pickUp.FlaverText;
+                    abnormalityCard.abilityDesc = pickUp.Desc;
+                }
             }
             return info;
         }
@@ -303,6 +319,11 @@ namespace abcdcode_LOGLIKE_MOD
         public static List<DiceCardXmlInfo> PickUpCards(CardDropValueXmlInfo info)
         {
             List<DiceCardXmlInfo> result = new List<DiceCardXmlInfo>();
+            if (info == null)
+            {
+                Debug.Log("[PickUpCards] Drop value is null");
+                return result;
+            }
 
             // Get the full drop table and build the unowned card pool
             CardDropTableXmlInfo dropTable = Singleton<CardDropTableXmlList>.Instance.GetData(
@@ -489,6 +510,14 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        public static void CompleteInterruptReward()
+        {
+            MysteryBase mystery = Singleton<MysteryManager>.Instance.curMystery;
+            if (mystery != null && mystery.GetType().Name.IndexOf("Reward", StringComparison.OrdinalIgnoreCase) >= 0)
+                Singleton<MysteryManager>.Instance.EndMystery(mystery);
+            StartPickReward();
+        }
+
         private static void NormalizeDropBookRewards()
         {
             if (LogLikeMod.rewards == null || LogLikeMod.rewards.Count == 0)
@@ -502,7 +531,8 @@ namespace abcdcode_LOGLIKE_MOD
                 int count = group.Count();
                 if (count <= 1)
                     continue;
-                int keepCount = Math.Max(1, (int)Math.Ceiling(count * BattleCardRewardRetentionRate));
+                int keepCount = Math.Max(1, (int)Math.Ceiling(count * GetBattleCardRewardRetentionRate()));
+                keepCount = Math.Min(keepCount, GetDropBookRewardSelectionCap());
                 int removeCount = count - keepCount;
                 for (int i = LogLikeMod.rewards.Count - 1; i >= 0 && removeCount > 0; i--)
                 {
@@ -515,14 +545,38 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        private static double GetBattleCardRewardRetentionRate()
+        {
+            return LogLikeMod.curstagetype == StageType.Normal
+                ? NormalBattleCardRewardRetentionRate
+                : BattleCardRewardRetentionRate;
+        }
+
+        private static int GetDropBookRewardSelectionCap()
+        {
+            if (LogLikeMod.curstagetype != StageType.Normal)
+                return int.MaxValue;
+            if (LogLikeMod.curchaptergrade >= ChapterGrade.Grade6)
+                return 2;
+            if (LogLikeMod.curchaptergrade >= ChapterGrade.Grade4)
+                return 3;
+            return int.MaxValue;
+        }
+
         private static void EnsureBossBattleCardReward()
         {
             if (LogLikeMod.curstagetype != StageType.Boss)
                 return;
+            if (BossFallbackRewardCheckedThisBattle)
+                return;
             if (LogLikeMod.rewards == null)
                 LogLikeMod.rewards = new List<DropBookXmlInfo>();
             if (LogLikeMod.rewards.FindAll(reward => reward != null).Count > 0)
+            {
+                BossFallbackRewardCheckedThisBattle = true;
                 return;
+            }
+            BossFallbackRewardCheckedThisBattle = true;
             int chapterNumber = (int)LogLikeMod.curchaptergrade + 1;
             DropBookXmlInfo fallback = Singleton<DropBookXmlList>.Instance.GetData(new LorId(LogLikeMod.ModId, chapterNumber * 1000 + 4));
             if (fallback != null)
@@ -678,9 +732,9 @@ namespace abcdcode_LOGLIKE_MOD
             }
             foreach (EmotionCardXmlInfo emotionCardXmlInfo in infos)
             {
-                AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(emotionCardXmlInfo.Script[0]);
+                AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(emotionCardXmlInfo.Name);
                 PickUpModelBase pickUp = LogLikeMod.FindPickUp(emotionCardXmlInfo.Script[0]);
-                if (pickUp != null)
+                if (abnormalityCard != null && pickUp != null)
                 {
                     abnormalityCard.cardName = pickUp.Name;
                     abnormalityCard.flavorText = pickUp.FlaverText;

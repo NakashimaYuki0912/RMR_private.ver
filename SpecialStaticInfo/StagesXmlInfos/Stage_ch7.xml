@@ -8,8 +8,12 @@
     <StageList ID="70004" StageType="Normal" />
     <StageList ID="70005" StageType="Normal" />
     <StageList ID="70006" StageType="Normal" />
-    <StageList ID="70007" StageType="Boss" />
-    <StageList ID="70008" StageType="Boss" />
+    <StageList ID="70007" StageType="Normal" />
+    <StageList ID="70008" StageType="Normal" />
+    <StageList ID="70009" StageType="Normal" />
+    <StageList ID="70010" StageType="Normal" />
+    <StageList ID="70020" StageType="Boss" />
+    <StageList ID="70021" StageType="Boss" />
     <StageList ID="991107" StageType="Creature" />
 
     <StageList ID="70011" StageType="Mystery" />

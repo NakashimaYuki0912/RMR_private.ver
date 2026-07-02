@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Version>1.1</Version>
   <Stage id="-853"> <!-- Modded Version -->
@@ -107,7 +107,7 @@
     <Unit>854</Unit>
     <Unit>855</Unit>
     </Wave>
-    <Name>RMR Debug Chapter 6</Name>
+    <Name> </Name>
     <FloorNum>0</FloorNum>
     <Invitation Combine="BookRecipe">
      <Book>-6854</Book> 

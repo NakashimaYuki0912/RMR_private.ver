@@ -5,6 +5,8 @@
 // Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
 
 using GameSave;
+using LOR_DiceSystem;
+using LOR_XML;
 using RogueLike_Mod_Reborn;
 using System.Collections.Generic;
 using TMPro;
@@ -21,25 +23,15 @@ namespace abcdcode_LOGLIKE_MOD
     public class ShopGoods_Passive : ShopGoods
     {
         public ShopPickUpModel GoodScript;
+        public RewardPassiveInfo GoodInfo;
         public Sprite GoodSprite;
         public UILogCustomSelectable customSelectable;
-        // Direct equip page purchase support (for role books without PickUpModel scripts)
-        public LorId directEquipId = LorId.None;
-        // Direct abnormality page purchase support
-        public bool isAbnormalityGood;
-        public RewardPassiveInfo storedRewardInfo;
  
         public override SaveData GetSaveData()
         {
             SaveData saveData = base.GetSaveData();
-            LorId saveId = LorId.None;
-            if (this.GoodScript != null)
-                saveId = this.GoodScript.id;
-            else if (this.directEquipId != LorId.None)
-                saveId = this.directEquipId;
-            else if (this.storedRewardInfo != null)
-                saveId = this.storedRewardInfo.id;
-            saveData.AddData("Id", saveId.LogGetSaveData());
+            LorId id = this.GoodInfo != null ? this.GoodInfo.id : this.GoodScript.id;
+            saveData.AddData("Id", id.LogGetSaveData());
             return saveData;
         }
 
@@ -51,9 +43,8 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override bool CanPurchase()
         {
-            // For direct equip/abnormality goods without PickUpModel, just check money
             if (this.GoodScript == null)
-                return base.CanPurchase();
+                return this.GoodInfo != null && !LogueBookModels.HasObtainedReward(this.GoodInfo) && base.CanPurchase();
             using (List<BattleUnitModel>.Enumerator enumerator = BattleObjectManager.instance.GetList(Faction.Player).GetEnumerator())
             {
                 do
@@ -70,6 +61,45 @@ namespace abcdcode_LOGLIKE_MOD
             return base.CanPurchase();
         }
 
+        private static int GetChapterPriceBase()
+        {
+            switch (LogLikeMod.curchaptergrade)
+            {
+                case ChapterGrade.Grade1:
+                    return 9;
+                case ChapterGrade.Grade2:
+                    return 10;
+                case ChapterGrade.Grade3:
+                    return 12;
+                case ChapterGrade.Grade4:
+                    return 14;
+                case ChapterGrade.Grade5:
+                    return 16;
+                case ChapterGrade.Grade6:
+                case ChapterGrade.Grade7:
+                    return 18;
+                default:
+                    return 12;
+            }
+        }
+
+        private static int GetRarityPriceBonus(Rarity rarity)
+        {
+            switch (rarity)
+            {
+                case Rarity.Common:
+                    return -2;
+                case Rarity.Uncommon:
+                    return 0;
+                case Rarity.Rare:
+                    return 3;
+                case Rarity.Unique:
+                    return 7;
+                default:
+                    return 0;
+            }
+        }
+
         public int CalcPrice(RewardPassiveInfo cardinfo)
         {
             int num1;
@@ -77,38 +107,14 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 num1 = cardinfo.price;
             }
-            else if (this.directEquipId != LorId.None)
-            {
-                // Role book pricing: based on book's own rarity and chapter
-                BookXmlInfo book = Singleton<BookXmlList>.Instance.GetData(this.directEquipId);
-                float rarityMult = 1f;
-                if (book != null)
-                {
-                    switch (book.Rarity)
-                    {
-                        case Rarity.Common: rarityMult = 1f; break;
-                        case Rarity.Uncommon: rarityMult = 1.8f; break;
-                        case Rarity.Rare: rarityMult = 3f; break;
-                        case Rarity.Unique: rarityMult = 5f; break;
-                    }
-                }
-                num1 = Mathf.RoundToInt((float)(5.0 + 7.0 * (double)rarityMult) * Random.Range(0.85f, 1.15f));
-            }
-            else if (this.isAbnormalityGood)
-            {
-                // Abnormality page pricing: premium
-                float rarityMult = 1f;
-                switch (cardinfo.passiverarity)
-                {
-                    case Rarity.Common: rarityMult = 2f; break;
-                    case Rarity.Uncommon: rarityMult = 3f; break;
-                    case Rarity.Rare: rarityMult = 5f; break;
-                    case Rarity.Unique: rarityMult = 8f; break;
-                }
-                num1 = Mathf.RoundToInt((float)(10.0 + 8.0 * (double)rarityMult) * Random.Range(0.85f, 1.15f));
-            }
             else
             {
+                if (cardinfo.rewardtype == RewardType.EquipPage || cardinfo.rewardtype == RewardType.Creature)
+                {
+                    int levelBonus = cardinfo.rewardtype == RewardType.Creature ? Mathf.Max(0, cardinfo.level - 1) : 0;
+                    num1 = Mathf.Max(1, Mathf.RoundToInt((GetChapterPriceBase() + GetRarityPriceBonus(cardinfo.passiverarity) + levelBonus) * Random.Range(0.9f, 1.1f)));
+                    return num1;
+                }
                 ShopPickUpModel goodScript = this.GoodScript;
                 if (goodScript == null)
                 {
@@ -146,46 +152,17 @@ namespace abcdcode_LOGLIKE_MOD
 
         public void SetGoods(RewardPassiveInfo goodinfo)
         {
-            this.storedRewardInfo = goodinfo;
+            this.GoodInfo = goodinfo;
             this.GoodScript = LogLikeMod.FindPickUp(goodinfo.script) as ShopPickUpModel;
-            this.directEquipId = LorId.None;
-            this.isAbnormalityGood = false;
-
-            // Handle EquipPage rewards that don't have a ShopPickUpModel script
-            if (this.GoodScript == null && goodinfo.rewardtype == RewardType.EquipPage)
-            {
-                this.directEquipId = goodinfo.id;
-            }
-            // Handle Creature/Abnormality rewards
-            if (goodinfo.rewardtype == RewardType.Creature)
-            {
-                this.isAbnormalityGood = true;
-            }
-            this.GoodSprite = null;
             if (goodinfo.id.packageId == LogLikeMod.ModId)
-            {
-                if (LogLikeMod.ArtWorks.ContainsKey(goodinfo.artwork))
-                    this.GoodSprite = LogLikeMod.ArtWorks[goodinfo.artwork];
-                if (this.GoodSprite == null && !string.IsNullOrEmpty(goodinfo.iconartwork)
-                    && LogLikeMod.ArtWorks.ContainsKey(goodinfo.iconartwork))
-                    this.GoodSprite = LogLikeMod.ArtWorks[goodinfo.iconartwork];
-                if (this.GoodSprite == null && LogLikeMod.ArtWorks.ContainsKey("Stage_Rest"))
-                    this.GoodSprite = LogLikeMod.ArtWorks["Stage_Rest"];
-            }
+                this.GoodSprite = LogLikeMod.ArtWorks[goodinfo.artwork];
             else if (LogLikeMod.ModdedArtWorks.ContainsKey((goodinfo.id.packageId, goodinfo.artwork)))
                 this.GoodSprite = LogLikeMod.ModdedArtWorks[(goodinfo.id.packageId, goodinfo.artwork)];
             customSelectable = null;
-            if (this.GoodSprite != null)
-                customSelectable = ModdingUtils.CreateLogSelectable(this.transform, this.GoodSprite, new Vector2(1f, 1f), new Vector2(0.0f, 0.0f), new Vector2(180f, 180f));
-            else if (goodinfo.id.packageId == LogLikeMod.ModId)
+            if (goodinfo.id.packageId == LogLikeMod.ModId)
                 customSelectable = ModdingUtils.CreateLogSelectable(this.transform, goodinfo.iconartwork, new Vector2(1f, 1f), new Vector2(0.0f, 0.0f), new Vector2(180f, 180f));
             else if (LogLikeMod.ModdedArtWorks.ContainsKey((goodinfo.id.packageId, goodinfo.iconartwork)))
                 customSelectable = ModdingUtils.CreateLogSelectable(this.transform, LogLikeMod.ModdedArtWorks[(goodinfo.id.packageId, goodinfo.iconartwork)], new Vector2(1f, 1f), new Vector2(0.0f, 0.0f), new Vector2(180f, 180f));
-            if (customSelectable == null)
-            {
-                Debug.LogError($"[ShopGoods_Passive] Missing artwork for shop passive good: {goodinfo.id} / {goodinfo.artwork}");
-                return;
-            }
             Button.ButtonClickedEvent buttonClickedEvent = new Button.ButtonClickedEvent();
             buttonClickedEvent.AddListener(() => this.OnClickGoods());
             customSelectable.onClick = buttonClickedEvent;
@@ -209,20 +186,12 @@ namespace abcdcode_LOGLIKE_MOD
                 this.GoodScript.OnPickUpShop((ShopGoods)this);
                 LogueBookModels.shopPick.Add(this.GoodScript.id);
             }
-            else if (this.directEquipId != LorId.None)
+            else if (this.GoodInfo != null)
             {
-                // Direct role book purchase
-                ShopPickUpModel.AddEquipPage(this.directEquipId);
-                LogueBookModels.shopPick.Add(this.directEquipId);
-            }
-            else if (this.isAbnormalityGood && this.storedRewardInfo != null)
-            {
-                // Abnormality page purchase: add to EmotionCardList
-                if (!LogueBookModels.EmotionCardList.Exists(x => x.id == this.storedRewardInfo.id))
-                {
-                    LogueBookModels.EmotionCardList.Add(this.storedRewardInfo);
-                    LogueBookModels.shopPick.Add(this.storedRewardInfo.id);
-                }
+                if (this.GoodInfo.rewardtype == RewardType.EquipPage)
+                    LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(this.GoodInfo.id);
+                else if (this.GoodInfo.rewardtype == RewardType.Creature)
+                    RMRAbnormalityUnlockManager.UnlockShopAbnormalityPage(this.GoodInfo);
             }
             this.gameObject.SetActive(false);
             SingletonBehavior<UIMainOverlayManager>.Instance.Close();
@@ -246,34 +215,9 @@ namespace abcdcode_LOGLIKE_MOD
 
         public void ShowDesc()
         {
-            var instance = SingletonBehavior<UIMainOverlayManager>.Instance;
             if (this.GoodScript == null)
             {
-                // Direct equip page or abnormality page without PickUpModel
-                if (this.directEquipId != LorId.None)
-                {
-                    BookXmlInfo book = Singleton<BookXmlList>.Instance.GetData(this.directEquipId);
-                    if (book != null)
-                    {
-                        string desc = RewardingModel.GetAblilityText(book);
-                        instance.SetTooltip(book.InnerName, desc,
-                            this.gameObject.transform as RectTransform,
-                            book.Rarity, UIToolTipPanelType.OnlyContent);
-                    }
-                }
-                else if (this.isAbnormalityGood && this.storedRewardInfo != null)
-                {
-                    PickUpModelBase pickUp = LogLikeMod.FindPickUp(this.storedRewardInfo.script);
-                    string abnoName = pickUp != null ? pickUp.Name : this.storedRewardInfo.script;
-                    string desc = pickUp != null ? pickUp.Desc : string.Empty;
-                    string flavor = pickUp != null ? pickUp.FlaverText : string.Empty;
-                    string tooltipDesc = string.IsNullOrEmpty(flavor) ? RewardingModel.GetRaritytext(this.storedRewardInfo.passiverarity) : desc + "\n\n" + flavor + "\n" + RewardingModel.GetRaritytext(this.storedRewardInfo.passiverarity);
-                    instance.SetTooltip(abnoName, tooltipDesc,
-                        this.gameObject.transform as RectTransform,
-                        this.storedRewardInfo.passiverarity, UIToolTipPanelType.OnlyContent);
-                }
-                var curPos2 = instance.tooltipPositionPivot.anchoredPosition;
-                instance.tooltipPositionPivot.anchoredPosition = new Vector2(curPos2.x, curPos2.y + 100f);
+                this.ShowRewardInfoDesc();
                 return;
             }
             bool flag = this.GoodScript.IsEquipReward();
@@ -281,24 +225,61 @@ namespace abcdcode_LOGLIKE_MOD
             this.GoodScript.EditName(ref name);
             string desc1 = this.GoodScript.Desc;
             this.GoodScript.EditDesc(ref desc1);
+            var instance = SingletonBehavior<UIMainOverlayManager>.Instance;
             if (flag)
             {
                 string desc2 = $"{TextDataModel.GetText("Shop_EquipPrevious", this.GoodScript.basepassive.cost)}{desc1}";
                 instance.SetTooltip(name, desc2 + "\n" + "\n" + this.GoodScript.FlaverText + "\n"
-                        + "<color=#" + ColorUtility.ToHtmlStringRGB(UIColorManager.Manager.GetEquipRarityColor(this.GoodScript.GetRarity())) + ">" + RewardingModel.GetRaritytext(this.GoodScript.GetRarity()) + "</color>",
+                        + "<color=#" + ColorUtility.ToHtmlStringRGB(UIColorManager.Manager.GetEquipRarityColor(this.GoodScript.GetRarity())) + ">" + this.GoodScript.GetRarity().ToString() + "</color>",
                         this.gameObject.transform as RectTransform,
                         this.GoodScript.GetRarity(),
                         UIToolTipPanelType.OnlyContent);
             }
             else
                 instance.SetTooltip(name, desc1 + "\n" + "\n" + this.GoodScript.FlaverText + "\n"
-                        + "<color=#" + ColorUtility.ToHtmlStringRGB(UIColorManager.Manager.GetEquipRarityColor(this.GoodScript.GetRarity())) + ">" + RewardingModel.GetRaritytext(this.GoodScript.GetRarity()) + "</color>",
+                        + "<color=#" + ColorUtility.ToHtmlStringRGB(UIColorManager.Manager.GetEquipRarityColor(this.GoodScript.GetRarity())) + ">" + this.GoodScript.GetRarity().ToString() + "</color>",
                         this.gameObject.transform as RectTransform,
                         this.GoodScript.GetRarity(),
                         UIToolTipPanelType.OnlyContent);
 
             var curPos = instance.tooltipPositionPivot.anchoredPosition;
             // additional adjustment for better placement specific to shops
+            instance.tooltipPositionPivot.anchoredPosition = new Vector2(curPos.x, curPos.y + 100f);
+        }
+
+        private void ShowRewardInfoDesc()
+        {
+            if (this.GoodInfo == null)
+                return;
+            var instance = SingletonBehavior<UIMainOverlayManager>.Instance;
+            string name = string.Empty;
+            string desc = string.Empty;
+            if (this.GoodInfo.rewardtype == RewardType.EquipPage)
+            {
+                BookXmlInfo book = Singleton<BookXmlList>.Instance.GetData(this.GoodInfo.id);
+                if (book != null)
+                {
+                    name = book.InnerName;
+                    desc = RewardingModel.GetAblilityText(book);
+                }
+            }
+            else if (this.GoodInfo.rewardtype == RewardType.Creature)
+            {
+                EmotionCardXmlInfo card = LogLikeMod.GetRegisteredPickUpXml(this.GoodInfo);
+                if (card != null && card.Script != null && card.Script.Count > 0)
+                {
+                    AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(card.Script[0]);
+                    if (abnormalityCard != null)
+                    {
+                        name = abnormalityCard.cardName;
+                        desc = abnormalityCard.abilityDesc;
+                    }
+                }
+            }
+            if (string.IsNullOrEmpty(name))
+                name = this.GoodInfo.id.ToString();
+            instance.SetTooltip(name, desc, this.gameObject.transform as RectTransform, this.GoodInfo.passiverarity, UIToolTipPanelType.OnlyContent);
+            var curPos = instance.tooltipPositionPivot.anchoredPosition;
             instance.tooltipPositionPivot.anchoredPosition = new Vector2(curPos.x, curPos.y + 100f);
         }
 

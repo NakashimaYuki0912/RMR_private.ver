@@ -1,6 +1,16 @@
-$ErrorActionPreference = "Stop"
+﻿$ErrorActionPreference = "Stop"
 
-$root = "D:\VS_program\ruina-roguelike-reborn-main\ruina-roguelike-reborn-main"
+
+$script:StaticCheckScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$script:RepoRoot = $script:StaticCheckScriptDir
+while ($script:RepoRoot -and -not (Test-Path (Join-Path $script:RepoRoot 'RogueLike Mod Reborn.csproj'))) {
+    $script:RepoRoot = Split-Path -Parent $script:RepoRoot
+}
+if (-not $script:RepoRoot) {
+    throw 'Could not locate repository root for static check.'
+}
+Set-Location $script:RepoRoot
+$root = $script:RepoRoot
 $requiredFiles = @(
   "RMR_AbnormalityUnlocks.cs",
   "RMR_MysteryEvents.cs",
@@ -135,12 +145,23 @@ foreach ($pattern in @(
   }
 }
 
-$stageFiles = @("Stage_ch1.xml", "Stage_ch2.xml", "Stage_ch3.xml", "Stage_ch4.xml", "Stage_ch5.xml", "Stage_ch6.xml")
-foreach ($stageFile in $stageFiles) {
-  $text = Get-Content (Join-Path $root "SpecialStaticInfo\StagesXmlInfos\$stageFile") -Raw
-  if ($text -notmatch 'StageType="Creature"') {
-    throw "$stageFile missing Creature stage"
+$earlyStageFiles = @("Stage_ch1.xml", "Stage_ch2.xml")
+foreach ($stageFile in $earlyStageFiles) {
+  $stageText = Get-Content (Join-Path $root "SpecialStaticInfo\StagesXmlInfos\$stageFile") -Raw
+  if ($stageText -match 'StageType="Creature"') {
+    throw "$stageFile should not contain Creature stage before chapter 3"
+  }
+  if ($stageText -notmatch 'StageType="Rest"') {
+    throw "$stageFile missing Rest replacement stage"
   }
 }
 
+$creatureStageFiles = @("Stage_ch3.xml", "Stage_ch4.xml", "Stage_ch5.xml", "Stage_ch6.xml")
+foreach ($stageFile in $creatureStageFiles) {
+  $stageText = Get-Content (Join-Path $root "SpecialStaticInfo\StagesXmlInfos\$stageFile") -Raw
+  if ($stageText -notmatch 'StageType="Creature"') {
+    throw "$stageFile missing Creature stage"
+  }
+}
 "ABNORMALITY UNLOCK STATIC CHECK PASSED"
+

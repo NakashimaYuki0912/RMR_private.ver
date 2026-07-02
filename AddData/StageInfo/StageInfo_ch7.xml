@@ -2,113 +2,231 @@
 <StageXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Version>1.1</Version>
 
-  <!-- Impuritas Normal: Hana Association section 3, based on vanilla stage 60001. -->
+  <!-- Impuritas normal encounters: vanilla Reverberation Ensemble member battles. -->
   <Stage id="70001">
+    <Name>Malkuth</Name>
     <Wave>
       <Formation>1</Formation>
+      <FormationType>AscendingOrder</FormationType>
       <AvailableUnit>5</AvailableUnit>
-      <Unit>60001</Unit>
-      <Unit>60001</Unit>
-      <Unit>60001</Unit>
-      <Unit>60001</Unit>
-      <Unit>60001</Unit>
+      <Unit>1301011</Unit>
     </Wave>
-    <Wave>
-      <Formation>1</Formation>
-      <AvailableUnit>5</AvailableUnit>
-      <Unit>60002</Unit>
-      <Unit>60003</Unit>
-      <Unit>60101</Unit>
-      <Unit>60101</Unit>
-      <Unit>60101</Unit>
-    </Wave>
+    <FloorNum>1</FloorNum>
+    <Chapter>7</Chapter>
+    <FloorOnly>Malkuth</FloorOnly>
+    <StoryType>TheBlueReverberationPrimarySep</StoryType>
+    <RewardItems Type="Equip">260006</RewardItems>
+    <RewardItems Type="Card">704008</RewardItems>
   </Stage>
 
-  <!-- Impuritas Normal: Hana Association section 3 patrol. -->
   <Stage id="70002">
+    <Name>Yesod</Name>
     <Wave>
-      <Formation>1</Formation>
+      <Formation>34</Formation>
       <FormationType>AscendingOrder</FormationType>
       <AvailableUnit>5</AvailableUnit>
-      <Unit>60001</Unit>
-      <Unit>60001</Unit>
-      <Unit>60001</Unit>
-      <Unit>60001</Unit>
-      <Unit>60001</Unit>
+      <Unit>1302011</Unit>
+      <Unit>1302021</Unit>
+      <Unit>1302021</Unit>
+      <Unit>1302021</Unit>
+      <Unit>1302021</Unit>
     </Wave>
+    <FloorNum>1</FloorNum>
+    <Chapter>7</Chapter>
+    <FloorOnly>Yesod</FloorOnly>
+    <StoryType>TheBlueReverberationPrimarySep</StoryType>
+    <RewardItems Type="Equip">260007</RewardItems>
+    <RewardItems Type="Card">704003</RewardItems>
+    <RewardItems Type="Card">704003</RewardItems>
+    <RewardItems Type="Card">704003</RewardItems>
   </Stage>
 
-  <!-- Impuritas Normal: Hana Association officers and fixers. -->
   <Stage id="70003">
+    <Name>Hod</Name>
     <Wave>
-      <Formation>1</Formation>
+      <Formation>29</Formation>
       <FormationType>AscendingOrder</FormationType>
       <AvailableUnit>5</AvailableUnit>
-      <Unit>60002</Unit>
-      <Unit>60003</Unit>
-      <Unit>60101</Unit>
-      <Unit>60101</Unit>
-      <Unit>60101</Unit>
+      <Unit>1303011</Unit>
+      <Unit>1303021</Unit>
+      <Unit>1303021</Unit>
+      <Unit>1303021</Unit>
     </Wave>
+    <FloorNum>1</FloorNum>
+    <Chapter>7</Chapter>
+    <FloorOnly>Hod</FloorOnly>
+    <StoryType>TheBlueReverberationPrimarySep</StoryType>
+    <RewardItems Type="Equip">260008</RewardItems>
+    <RewardItems Type="Card">704002</RewardItems>
+    <RewardItems Type="Card">704002</RewardItems>
+    <RewardItems Type="Card">704002</RewardItems>
   </Stage>
 
-  <!-- Impuritas Normal: Hana Association mixed formation. -->
   <Stage id="70004">
+    <Name>Netzach</Name>
     <Wave>
-      <Formation>1</Formation>
+      <Formation>24</Formation>
       <FormationType>AscendingOrder</FormationType>
       <AvailableUnit>5</AvailableUnit>
-      <Unit>60002</Unit>
-      <Unit>60003</Unit>
-      <Unit>60001</Unit>
-      <Unit>60001</Unit>
-      <Unit>60001</Unit>
+      <Unit>1304011</Unit>
+      <Unit>1304031</Unit>
+      <Unit>1304021</Unit>
+      <Unit>50014</Unit>
+      <Unit>1304021</Unit>
     </Wave>
+    <FloorNum>1</FloorNum>
+    <Chapter>7</Chapter>
+    <FloorOnly>Netzach</FloorOnly>
+    <StoryType>TheBlueReverberationPrimarySep</StoryType>
+    <RewardItems Type="Equip">260009</RewardItems>
+    <RewardItems Type="Card">704010</RewardItems>
+    <RewardItems Type="Card">704018</RewardItems>
+    <RewardItems Type="Card">704018</RewardItems>
+    <RewardItems Type="Card">704018</RewardItems>
   </Stage>
 
-  <!-- Impuritas Normal: Hana Association reinforced patrol. -->
   <Stage id="70005">
+    <Name>Tiphereth</Name>
     <Wave>
-      <Formation>1</Formation>
+      <Formation>35</Formation>
       <FormationType>AscendingOrder</FormationType>
       <AvailableUnit>5</AvailableUnit>
-      <Unit>60001</Unit>
-      <Unit>60001</Unit>
-      <Unit>60001</Unit>
-      <Unit>60101</Unit>
-      <Unit>60101</Unit>
+      <Unit>1305011</Unit>
+      <Unit>1305021</Unit>
+      <Unit>1305031</Unit>
     </Wave>
+    <FloorNum>1</FloorNum>
+    <Chapter>7</Chapter>
+    <FloorOnly>Tiphereth</FloorOnly>
+    <StoryType>TheBlueReverberationPrimarySep</StoryType>
+    <RewardItems Type="Equip">260010</RewardItems>
+    <RewardItems Type="Card">704005</RewardItems>
   </Stage>
 
-  <!-- Impuritas Normal: Hana Association command group. -->
   <Stage id="70006">
+    <Name>Gebura</Name>
     <Wave>
       <Formation>1</Formation>
-      <FormationType>AscendingOrder</FormationType>
       <AvailableUnit>5</AvailableUnit>
-      <Unit>60002</Unit>
-      <Unit>60003</Unit>
-      <Unit>60101</Unit>
-      <Unit>60101</Unit>
-      <Unit>60101</Unit>
+      <Unit>1306011</Unit>
     </Wave>
+    <FloorNum>1</FloorNum>
+    <Chapter>7</Chapter>
+    <FloorOnly>Gebura</FloorOnly>
+    <StoryType>TheBlueReverberationPrimarySep</StoryType>
+    <RewardItems Type="Equip">260011</RewardItems>
+    <RewardItems Type="Card">704009</RewardItems>
+    <RewardItems Type="Card">704016</RewardItems>
+    <RewardItems Type="Card">704016</RewardItems>
+    <RewardItems Type="Card">704016</RewardItems>
   </Stage>
 
-  <!-- Impuritas Boss: Black Silence, based on vanilla stage 60003. -->
   <Stage id="70007">
+    <Name>Chesed</Name>
+    <Wave>
+      <Formation>34</Formation>
+      <FormationType>AscendingOrder</FormationType>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>1307011</Unit>
+      <Unit>1307041</Unit>
+      <Unit>1307051</Unit>
+      <Unit>1307021</Unit>
+      <Unit>1307031</Unit>
+    </Wave>
+    <FloorNum>1</FloorNum>
+    <Chapter>7</Chapter>
+    <FloorOnly>Chesed</FloorOnly>
+    <StoryType>TheBlueReverberationPrimarySep</StoryType>
+    <RewardItems Type="Equip">260012</RewardItems>
+    <RewardItems Type="Card">704006</RewardItems>
+    <RewardItems Type="Card">704006</RewardItems>
+    <RewardItems Type="Card">704006</RewardItems>
+  </Stage>
+
+  <Stage id="70008">
+    <Name>Binah</Name>
+    <Wave>
+      <Formation>5</Formation>
+      <FormationType>AscendingOrder</FormationType>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>1308011</Unit>
+      <Unit>1308021</Unit>
+    </Wave>
+    <FloorNum>1</FloorNum>
+    <Chapter>7</Chapter>
+    <FloorOnly>Binah</FloorOnly>
+    <StoryType>TheBlueReverberationPrimarySep</StoryType>
+    <RewardItems Type="Equip">260013</RewardItems>
+    <RewardItems Type="Card">704007</RewardItems>
+    <RewardItems Type="Card">704015</RewardItems>
+    <RewardItems Type="Card">704015</RewardItems>
+    <RewardItems Type="Card">704015</RewardItems>
+  </Stage>
+
+  <Stage id="70009">
+    <Name>Hokma</Name>
+    <Wave>
+      <Formation>34</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>1309011</Unit>
+    </Wave>
+    <FloorNum>1</FloorNum>
+    <Chapter>7</Chapter>
+    <FloorOnly>Hokma</FloorOnly>
+    <StoryType>TheBlueReverberationPrimarySep</StoryType>
+    <RewardItems Type="Equip">260014</RewardItems>
+    <RewardItems Type="Card">704004</RewardItems>
+    <RewardItems Type="Card">704004</RewardItems>
+    <RewardItems Type="Card">704004</RewardItems>
+  </Stage>
+
+  <Stage id="70010">
+    <Name>Keter</Name>
+    <Wave>
+      <Formation>1</Formation>
+      <AvailableUnit>5</AvailableUnit>
+      <Unit>1310011</Unit>
+    </Wave>
+    <FloorNum>1</FloorNum>
+    <Chapter>7</Chapter>
+    <FloorOnly>Keter</FloorOnly>
+    <StoryType>TheBlueReverberationPrimarySep</StoryType>
+    <Story Condition="End">7_4_12</Story>
+    <RewardItems Type="Equip">260005</RewardItems>
+    <RewardItems Type="Card">704001</RewardItems>
+    <RewardItems Type="Card">704011</RewardItems>
+    <RewardItems Type="Card">704011</RewardItems>
+    <RewardItems Type="Card">704011</RewardItems>
+    <RewardItems Type="Card">704012</RewardItems>
+    <RewardItems Type="Card">704012</RewardItems>
+    <RewardItems Type="Card">704012</RewardItems>
+    <RewardItems Type="Card">704013</RewardItems>
+    <RewardItems Type="Card">704014</RewardItems>
+  </Stage>
+
+  <!-- Impuritas boss candidate: full vanilla Black Silence flow. -->
+  <Stage id="70020">
+    <Name>Black Silence</Name>
     <Wave>
       <Formation>1</Formation>
       <AvailableUnit>5</AvailableUnit>
       <ManagerScript>BlackSilence</ManagerScript>
       <Unit>60005</Unit>
     </Wave>
+    <FloorNum>3</FloorNum>
+    <Chapter>7</Chapter>
+    <ExceptFloor>Keter</ExceptFloor>
     <MapInfo>BlackSilence2</MapInfo>
     <MapInfo>BlackSilence3</MapInfo>
     <MapInfo>BlackSilence4</MapInfo>
+    <StoryType>BlackSilence</StoryType>
+    <Story Condition="Start">7_5_1</Story>
+    <Story Condition="End">7_5_2</Story>
   </Stage>
 
-  <!-- Impuritas Boss: Twisted Reverberation Band, condensed from vanilla stage 60004. -->
-  <Stage id="70008">
+  <!-- Impuritas boss candidate: full three-wave vanilla Distorted Reverberation Ensemble flow. -->
+  <Stage id="70021">
+    <Name>Distorted Reverberation Ensemble</Name>
     <Wave>
       <Formation>37</Formation>
       <AvailableUnit>5</AvailableUnit>
@@ -120,38 +238,32 @@
     </Wave>
     <Wave>
       <Formation>38</Formation>
-      <FormationType>AscendingOrder</FormationType>
       <AvailableUnit>5</AvailableUnit>
       <ManagerScript>TwistedReverberationBand_Middle</ManagerScript>
+      <FormationType>AscendingOrder</FormationType>
       <Unit>1405011</Unit>
       <Unit>1406011</Unit>
       <Unit>1407011</Unit>
     </Wave>
     <Wave>
       <Formation>39</Formation>
-      <FormationType>AscendingOrder</FormationType>
       <AvailableUnit>5</AvailableUnit>
       <ManagerScript>TwistedReverberationBand</ManagerScript>
+      <FormationType>AscendingOrder</FormationType>
       <Unit>1410011</Unit>
       <Unit>1409011</Unit>
       <Unit>1408011</Unit>
     </Wave>
+    <ExceptFloor>Keter</ExceptFloor>
+    <FloorNum>5</FloorNum>
+    <Chapter>7</Chapter>
     <MapInfo>ReverberationBand1</MapInfo>
     <MapInfo>ReverberationBand2</MapInfo>
     <MapInfo>ReverberationBand3</MapInfo>
     <MapInfo>ReverberationBand4</MapInfo>
-  </Stage>
-
-  <!-- Impuritas Boss: Head encounter, based on vanilla stage 60007. -->
-  <Stage id="70009">
-    <Wave>
-      <Formation>5</Formation>
-      <FormationType>AscendingOrder</FormationType>
-      <AvailableUnit>5</AvailableUnit>
-      <ManagerScript>FinalFinal</ManagerScript>
-      <Unit>80001</Unit>
-      <Unit>80002</Unit>
-    </Wave>
+    <StoryType>TwistedBlue</StoryType>
+    <Story Condition="Start">7_6_1</Story>
+    <Story Condition="End">7_6_2</Story>
   </Stage>
 
 </StageXmlRoot>

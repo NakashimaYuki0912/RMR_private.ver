@@ -7,39 +7,31 @@ namespace RogueLike_Mod_Reborn
 {
     public static class RMRAbnormalityBattleRouter
     {
-        private static readonly int[] LowTierStageIds =
+        private static readonly int[] RegularAbnormalityStageIds =
         {
             201001, 201002, 201003, 201004,
             202001, 202002, 202003, 202004,
             203001, 203002, 203003, 203004,
-            204001, 204002, 204003, 204004
-        };
-
-        private static readonly int[] MidTierStageIds =
-        {
+            204001, 204002, 204003, 204004,
             205001, 205002, 205003, 205004,
             206001, 206002, 206003, 206004,
-            207001, 207002, 207003, 207004
-        };
-
-        private static readonly int[] HighTierStageIds =
-        {
-            210001, 210002, 210003, 210004,
+            207001, 207002, 207003, 207004,
             208001, 208002, 208003,
-            209001, 209002, 209003
+            209001, 209002, 209003,
+            210001, 210002, 210003, 210004
         };
 
         public static IReadOnlyList<int> GetCandidateStageIds(ChapterGrade grade)
         {
-            if (grade == ChapterGrade.Grade4 || grade == ChapterGrade.Grade5)
-                return MidTierStageIds;
-            if (grade >= ChapterGrade.Grade6)
-                return HighTierStageIds;
-            return LowTierStageIds;
+            int maxLibrarians = GetMaxLibrariansForChapter(grade);
+            return RegularAbnormalityStageIds
+                .Where(id => GetRequiredLibrarianCount(id) <= maxLibrarians)
+                .ToList();
         }
 
         public static StageClassInfo PickStageForChapter(ChapterGrade grade)
         {
+            int maxLibrarians = GetMaxLibrariansForChapter(grade);
             List<StageClassInfo> candidates = GetCandidateStageIds(grade)
                 .Select(id => {
                     StageClassInfo info = GetVanillaStage(id);
@@ -50,7 +42,7 @@ namespace RogueLike_Mod_Reborn
                 .Where(IsUsableCreatureStage)
                 .ToList();
 
-            Debug.Log($"[RMR AbnoRoute] chapter={grade}, candidateCount={candidates.Count}");
+            Debug.Log($"[RMR AbnoRoute] chapter={grade}, maxLibrarians={maxLibrarians}, candidateCount={candidates.Count}");
 
             if (candidates.Count == 0)
             {
@@ -63,11 +55,37 @@ namespace RogueLike_Mod_Reborn
             return picked;
         }
 
+        private static int GetMaxLibrariansForChapter(ChapterGrade grade)
+        {
+            switch (grade)
+            {
+                case ChapterGrade.Grade1:
+                    return 1;
+                case ChapterGrade.Grade2:
+                    return 2;
+                case ChapterGrade.Grade3:
+                    return 3;
+                case ChapterGrade.Grade4:
+                    return 4;
+                default:
+                    return 5;
+            }
+        }
+
+        private static int GetRequiredLibrarianCount(int stageId)
+        {
+            int suffix = stageId % 1000;
+            if (suffix >= 1 && suffix <= 4)
+                return suffix;
+            return 5;
+        }
+
         private static bool IsUsableCreatureStage(StageClassInfo stage)
         {
             return stage != null
                 && stage.waveList != null
                 && stage.waveList.Count > 0
+                && stage.mapInfo != null
                 && stage.stageType == StageType.Creature;
         }
 

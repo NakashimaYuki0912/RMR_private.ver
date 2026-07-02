@@ -26,11 +26,46 @@
       <Choice ID="6">
         <Desc>选择[rare]楼层解放战</Desc>
       </Choice>
+      <Choice ID="7">
+        <Desc>重置所有永久进度</Desc>
+      </Choice>
+      <Choice ID="8">
+        <Desc>游戏玩法介绍</Desc>
+      </Choice>
     </Frame>
     <Frame ID="1">
       <Dialog>[mirror]闪光之镜[/color]轻轻振动着，召唤出了你选择的遗物。它轻轻地落在你手里，然后[mirror]镜子[/color]便逐渐隐匿与环境之中。</Dialog>
       <Choice ID="0">
         <Desc>离开</Desc>
+      </Choice>
+    </Frame>
+    <Frame ID="2">
+      <Dialog>这会清空永久图鉴、楼层解放完成记录、殷红迷雾挑战记录、漆黑静默首通记录和扭曲残响乐团首通记录。
+
+当前路线中的临时内容不会重新写入永久图鉴。确认要重置吗？</Dialog>
+      <Choice ID="0">
+        <Desc>确认重置</Desc>
+      </Choice>
+      <Choice ID="1">
+        <Desc>返回</Desc>
+      </Choice>
+    </Frame>
+    <Frame ID="3">
+      <Dialog>RMR 会按章节生成路线。普通战、精英战、Boss、商店、休息室、神秘事件、异想体战和楼层解放战会交替出现。
+
+图鉴记录你永久解锁过的核心书页和战斗书页。后续路线、商店和部分特殊流程会优先读取图鉴内容。
+
+楼层解放战连接原版楼层解放流程。完成解放后，对应楼层的专属异想体书页和 E.G.O. 会进入永久奖励池。
+
+部分特殊 Boss 有首通奖励：漆黑静默首通后，以后达到都市之星会自动解锁漆黑静默核心书页；扭曲残响乐团首通后，以后达到都市之星会自动解锁扭曲苍蓝残响核心书页和其战斗书页。</Dialog>
+      <Choice ID="0">
+        <Desc>返回</Desc>
+      </Choice>
+    </Frame>
+    <Frame ID="4">
+      <Dialog>永久图鉴与解放战进度已重置。</Dialog>
+      <Choice ID="0">
+        <Desc>返回</Desc>
       </Choice>
     </Frame>
     <Title>[mirror]闪光之镜[/color]</Title>

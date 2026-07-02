@@ -13,7 +13,7 @@ LoR-RMR 是《Library of Ruina》的非官方 Roguelike 模组改造版。项目
 1. **C# 模组 DLL**：`.csproj` 编译出的 `RogueLike Mod Reborn.dll`，负责 Harmony 补丁、流程状态、奖励队列、UI、存档和运行时加载。
 2. **游戏数据 XML/TXT**：`AddData/`、`SpecialStaticInfo/` 和 `Localize/` 下的 Stage、卡牌、核心书页、掉落、本地化和奖励池。
 3. **美术与运行资源**：`ArtWork/`、`AssetBundle/`、`AudioClip/`、`Spine/`、`StoryInfo/` 等资源目录。
-4. **验证与交接材料**：`RMR_*static_check.ps1`、`docs/HANDOFF.md`、`D:\sketch.txt` 和本文件。
+4. **验证与交接材料**：`tools/static_checks/`、`docs/HANDOFF.md`、`D:\sketch.txt` 和本文件。
 
 主要功能边界如下：
 
@@ -82,9 +82,11 @@ D:\VS_program\ruina-roguelike-reborn-main\ruina-roguelike-reborn-main\
 ├─ ArtWork\                            # PNG 等图片资源
 ├─ AssetBundle\ AudioClip\ Spine\     # 若存在则为运行资源
 ├─ StoryInfo\                          # 剧情资源
-├─ RMR_*static_check.ps1              # 静态回归脚本
+├─ tools\
+│  ├─ static_checks\                  # 静态回归脚本，按领域分类
+│  └─ packaging\pack_mod.ps1          # 从 Workshop 运行树打包，不代表源码已同步
 ├─ docs\HANDOFF.md                    # 新会话交接
-└─ pack_mod.ps1                       # 从 Workshop 运行树打包，不代表源码已同步
+└─ _release_packages\archives\        # 历史 zip 包和新打包输出
 ```
 
 Steam Workshop 项目根目录：
@@ -264,51 +266,25 @@ D:\VS_program\ruina-roguelike-reborn-main\original-codes\
 
 ## 7. 验证流程
 
-修改前先检查现有脚本；修改相关功能时运行直接相关脚本以及基础回归脚本。常见脚本包括：
+修改前先检查现有脚本；修改相关功能时运行直接相关脚本以及基础回归脚本。历史上根目录堆积了大量 `RMR_*static_check.ps1`，它们是历次 bug 修复产生的静态回归探针，不是游戏运行输入。2026-07-01 起统一归档到 `tools/static_checks/`，脚本内部会向上查找 `RogueLike Mod Reborn.csproj` 作为仓库根。
+
+脚本分类：
 
 ```text
-RMR_0614_all_floor_realization_static_check.ps1
-RMR_0614_downward_abno_pool_static_check.ps1
-RMR_0614_realization_reward_static_check.ps1
-RMR_0614_shop_upgrade_static_check.ps1
-RMR_0614_ui_atlas_persistence_static_check.ps1
-RMR_0615_upgrade_atlas_localization_static_check.ps1
-RMR_0615_runtime_regression_static_check.ps1
-RMR_0616_grade6_special_core_pages_static_check.ps1
-RMR_0616_high_chapter_reward_static_check.ps1
-RMR_0617_progression_realization_static_check.ps1
-RMR_0617_realization_session_static_check.ps1
-RMR_0618_codex_review_static_check.ps1
-RMR_0618_reward_event_atlas_static_check.ps1
-RMR_0618_reward_queue_static_check.ps1
-RMR_0618_startup_crash_static_check.ps1
-RMR_0619_card_reward_empty_choice_static_check.ps1
-RMR_0619_debug_chapter_start_static_check.ps1
-RMR_0619_equip_page_loader_static_check.ps1
-RMR_0619_mystery_start_event_static_check.ps1
-RMR_0619_reward_overlay_and_boss_realization_static_check.ps1
-RMR_0619_reward_pool_route_regression_static_check.ps1
-RMR_0620_binah_red_mist_progression_static_check.ps1
-RMR_0620_binah_route_ego_toggle_grade7_static_check.ps1
-RMR_0620_ego_realization_two_pick_static_check.ps1
-RMR_0620_grade6_special_fixed_deck_static_check.ps1
-RMR_0620_red_mist_challenge_static_check.ps1
-RMR_0620_runtime_reward_ego_shop_static_check.ps1
-RMR_0621_followup_runtime_regressions_static_check.ps1
-RMR_0621_reported_runtime_regressions_static_check.ps1
-RMR_abnormality_battle_static_check.ps1
-RMR_abnormality_unlock_static_check.ps1
-RMR_atlas_static_check.ps1
-RMR_atlas_unlock_static_check.ps1
-RMR_atlas_upgrade_static_check.ps1
-RMR_chstart_localization_static_check.ps1
-RMR_issue0613_static_check.ps1
-RMR_realization_static_check.ps1
-RMR_realization_unlock_static_check.ps1
-RMR_release_static_check.ps1
-RMR_shop_localization_static_check.ps1
-RMR_stage_density_static_check.ps1
+tools/static_checks/realization/        # 解放战、Binah/Red Mist/Black Silence、特殊固定牌组
+tools/static_checks/rewards/            # 战斗奖励、E.G.O.、Boss 奖励池、用户反馈奖励回归
+tools/static_checks/shop_atlas/         # 商店、升级、图鉴、商店/图鉴本地化
+tools/static_checks/events_abnormality/ # 初始事件、神秘事件、异想体战、章节入口本地化
+tools/static_checks/runtime_release/    # 启动/运行时、打包同步、语言同步、Stage 密度、装备页加载
 ```
+
+运行示例：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\static_checks\realization\RMR_0620_grade6_special_fixed_deck_static_check.ps1
+```
+
+历史 zip 包不属于源码输入，统一放在 `_release_packages/archives/`。新的打包脚本位于 `tools/packaging/pack_mod.ps1`，它从 Workshop 运行树打包，输出也进入 `_release_packages/archives/`；打包前仍必须先验证源码、构建产物和 Workshop 文件同步。
 
 静态脚本应验证行为约束，而不是依赖容易变化的固定源码文本。脚本失败时先判断是真回归、旧断言还是脚本编码错误，不要为了让过时脚本变绿而回退正确设计。
 

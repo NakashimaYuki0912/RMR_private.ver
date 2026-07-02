@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using abcdcode_LOGLIKE_MOD;
+using UnityEngine;
 
 namespace RogueLike_Mod_Reborn
 {
@@ -55,9 +56,38 @@ namespace RogueLike_Mod_Reborn
                     case 5:
                         Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new RMREffect_RoadlessCamelot());
                         break;
+                    case 6:
+                        ShowRealizationPanel();
+                        return;
+                    case 7:
+                        this.SwapFrame(2);
+                        return;
+                    case 8:
+                        this.SwapFrame(3);
+                        return;
                     default:
                         break;
                 }
+                RMRRealizationManager.SetInitialRelicEntryAvailable(false);
+            }
+            else if (this.curFrame.FrameID == 2)
+            {
+                if (choiceid == 0)
+                {
+                    RMRCore.ResetAllArchiveProgress();
+                    this.SwapFrame(4);
+                    return;
+                }
+                if (choiceid == 1)
+                {
+                    this.SwapFrame(0);
+                    return;
+                }
+            }
+            else if ((this.curFrame.FrameID == 3 || this.curFrame.FrameID == 4) && choiceid == 0)
+            {
+                this.SwapFrame(0);
+                return;
             }
             base.OnClickChoice(choiceid);
         }
@@ -91,6 +121,24 @@ namespace RogueLike_Mod_Reborn
                 }
             }
             base.OnEnterChoice(choiceid);
+        }
+
+        private void ShowRealizationPanel()
+        {
+            if (!RMRRealizationManager.InitialRelicEntryAvailable)
+                return;
+            LogRealizationPanel panel = Singleton<LogRealizationPanel>.Instance;
+            if (panel == null)
+            {
+                GameObject go = new GameObject("LogRealizationPanel");
+                panel = go.AddComponent<LogRealizationPanel>();
+            }
+            Transform parent = null;
+            if (this.FrameObj != null && this.FrameObj.ContainsKey("Frame") && this.FrameObj["Frame"] != null)
+                parent = this.FrameObj["Frame"].transform;
+            else if (LogLikeMod.LogUIObjs != null && LogLikeMod.LogUIObjs.ContainsKey(90) && LogLikeMod.LogUIObjs[90] != null)
+                parent = LogLikeMod.LogUIObjs[90].transform;
+            panel.Show(parent);
         }
 
         public override void OnExitChoice(int choiceid)

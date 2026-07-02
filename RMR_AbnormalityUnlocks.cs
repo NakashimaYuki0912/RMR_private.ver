@@ -24,23 +24,22 @@ namespace RogueLike_Mod_Reborn
 
         private const string ProgressSaveName = "RMR_AbnormalityProgress";
         private const string RealizationSaveName = "RMR_FloorRealizations";
+        private const string RedMistVictorySaveName = "RMR_RedMistChallengeCleared";
         private const int NoAbnormalityFallbackBaseId = 15999000;
         private const int RedMistStageId = 60020;
         private const int RedMistCorePageId = 250022;
-        private const int BlackSilenceStageId = 70007;
-        private const int DistortedEnsembleStageId = 70008;
+        private const int BlackSilenceStageId = 70020;
+        private const int DistortedEnsembleStageId = 70021;
+        private const int DistortedEnsembleLastStageId = 70021;
         private const int BlueReverberationCorePageId = 250013;
 
         private static readonly int[] RedMistBattlePageIds =
         {
-            607001,
-            607002,
             607003,
             607004,
             607005,
             607006,
-            607007,
-            607008
+            607007
         };
 
         private static readonly int[] BlueReverberationBattlePageIds =
@@ -92,6 +91,12 @@ namespace RogueLike_Mod_Reborn
             { SephirahType.Hokma, new[] { "whitenight", "plaguedoctor", "onebadmanygood" } },
             { SephirahType.Keter, new[] { "quietKid" } },
         };
+
+        // Boss clear rewards use the completed floor's full vanilla abnormality pool.
+        // This is intentionally wider than RealizationRewardScriptsByFloor: Binah, for
+        // example, must be able to roll Bigbird/SmallBird/LongBird pages after her
+        // realization, not only the final bossbird entries.
+        private static readonly Dictionary<SephirahType, string[]> BossRealizationRewardScriptsByFloor = FloorAbnormalityScripts;
 
         public static readonly HashSet<string> RealizationExclusiveScripts = new HashSet<string>(
             RealizationRewardScriptsByFloor.SelectMany(x => x.Value), StringComparer.OrdinalIgnoreCase);
@@ -148,7 +153,20 @@ namespace RogueLike_Mod_Reborn
             RouteUnlockedEgoPages.Clear();
             BinahUnlockedForCurrentRoute = false;
             PermanentlyUnlockedTiers.Clear();
-            RemoveLegacyProgressFile();
+            DeleteSaveFile(ProgressSaveName);
+        }
+
+        public static void ResetAllPermanentProgress()
+        {
+            RouteUnlockedPages.Clear();
+            RouteUnlockedEgoPages.Clear();
+            BinahUnlockedForCurrentRoute = false;
+            PermanentlyUnlockedTiers.Clear();
+            CompletedRealizations.Clear();
+            ResetRedMistChallengeBattleState();
+            DeleteSaveFile(ProgressSaveName);
+            DeleteSaveFile(RealizationSaveName);
+            DeleteSaveFile(RedMistVictorySaveName);
         }
 
         public static SaveData SaveRouteUnlocks()
@@ -266,13 +284,105 @@ namespace RogueLike_Mod_Reborn
 
         private static bool IsDistortedEnsembleStage()
         {
-            return LogLikeMod.curstageid == new LorId(LogLikeMod.ModId, DistortedEnsembleStageId);
+            return LogLikeMod.curstageid != null
+                && LogLikeMod.curstageid.packageId == LogLikeMod.ModId
+                && LogLikeMod.curstageid.id >= DistortedEnsembleStageId
+                && LogLikeMod.curstageid.id <= DistortedEnsembleLastStageId;
         }
 
         private static bool IsCurrentBattleVictory()
         {
             return BattleObjectManager.instance.GetAliveListWithAvailable(Faction.Player).Count > 0
                 && BattleObjectManager.instance.GetAliveListWithAvailable(Faction.Enemy).Count == 0;
+        }
+
+        public static void SuppressRedMistChallengeGenericRewards()
+        {
+            if (!IsRedMistChallengeStage())
+                return;
+            LogLikeMod.rewards?.Clear();
+            LogLikeMod.rewards_lastKill?.Clear();
+            LogLikeMod.rewards_passive?.Clear();
+            LogLikeMod.rewards_InStage?.Clear();
+            LogLikeMod.rewardsMystery?.Clear();
+            LogLikeMod.egoSelectionQueue?.Clear();
+        }
+
+        public static bool IsRedMistChallengeVictoryRecorded()
+        {
+            try
+            {
+                SaveData data = Singleton<LogueSaveManager>.Instance.LoadData(RedMistVictorySaveName);
+                return data != null && data.GetInt("Cleared") > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static void RecordRedMistChallengeVictory()
+        {
+            try
+            {
+                SaveData data = new SaveData(SaveDataType.Dictionary);
+                data.AddData("Cleared", new SaveData(1));
+                Singleton<LogueSaveManager>.Instance.SaveData(data, RedMistVictorySaveName);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[RMRAbnormalityUnlockManager] Failed to save Red Mist challenge clear flag: {e.Message}");
+            }
+        }
+
+        public static void PrunePrematureRedMistChallengeRewards()
+        {
+            if (IsRedMistChallengeVictoryRecorded())
+                return;
+
+            bool changed = false;
+            LorId redMistBookId = new LorId(LogLikeMod.ModId, RedMistCorePageId);
+            ResetPrematureRedMistLoadouts(redMistBookId);
+
+            if (LogueBookModels.booklist != null)
+                changed |= LogueBookModels.booklist.RemoveAll(book => book?.ClassInfo?.id == redMistBookId) > 0;
+            if (LogueBookModels.cardlist != null)
+            {
+                HashSet<LorId> redMistCards = GetRedMistBattleCardLorIds();
+                changed |= LogueBookModels.cardlist.RemoveAll(card => card != null && redMistCards.Contains(card.GetID())) > 0;
+            }
+
+            LogueBookModels.EnsureAtlasUnlocks();
+            changed |= LogueBookModels.AtlasUnlockedRoleBooks.Remove(redMistBookId);
+            foreach (LorId cardId in GetRedMistBattleCardLorIds())
+                changed |= LogueBookModels.AtlasUnlockedBattleCards.Remove(cardId);
+
+            if (!changed)
+                return;
+
+            LogueBookModels.SavePermanentAtlasUnlocks();
+            Debug.Log("[RMRAbnormalityUnlockManager] Removed premature Red Mist core/battle pages; rewards require clearing the Red Mist challenge.");
+        }
+
+        private static HashSet<LorId> GetRedMistBattleCardLorIds()
+        {
+            return new HashSet<LorId>(RedMistBattlePageIds.Select(id => new LorId(LogLikeMod.ModId, id)));
+        }
+
+        private static void ResetPrematureRedMistLoadouts(LorId redMistBookId)
+        {
+            if (LogueBookModels.playerBattleModel == null)
+                return;
+            for (int index = 0; index < LogueBookModels.playerBattleModel.Count; index++)
+            {
+                UnitBattleDataModel battleModel = LogueBookModels.playerBattleModel[index];
+                if (battleModel?.unitData?.bookItem?.ClassInfo?.id != redMistBookId)
+                    continue;
+                BookXmlInfo defaultPage = Singleton<BookXmlList>.Instance.GetData(
+                    new LorId(LogLikeMod.ModId, -854 - index));
+                if (defaultPage != null)
+                    LogueBookModels.EquipNewPage(battleModel, defaultPage, false);
+            }
         }
 
         public static void GrantRedMistChallengeVictoryRewards()
@@ -285,6 +395,8 @@ namespace RogueLike_Mod_Reborn
                 return;
 
             RedMistVictoryRewardsGrantedThisBattle = true;
+            RecordRedMistChallengeVictory();
+            SuppressRedMistChallengeGenericRewards();
             LorId redMistBookId = new LorId(LogLikeMod.ModId, RedMistCorePageId);
             bool corePageAdded = LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(redMistBookId);
             foreach (int pageId in RedMistBattlePageIds)
@@ -316,20 +428,22 @@ namespace RogueLike_Mod_Reborn
                 return;
 
             BlueReverberationRewardsGrantedThisBattle = true;
+            RMRCore.RecordDistortedEnsembleStageClear();
             LorId blueBookId = new LorId(LogLikeMod.ModId, BlueReverberationCorePageId);
             bool corePageAdded = LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(blueBookId);
             foreach (int pageId in BlueReverberationBattlePageIds)
                 LogueBookModels.AddCard(new LorId(LogLikeMod.ModId, pageId), 1, false);
+            LogueBookModels.SavePermanentAtlasUnlocks();
 
             Debug.Log($"[RMRAbnormalityUnlockManager] Distorted Ensemble victory: core page {blueBookId} " +
                       $"{(corePageAdded ? "added" : "already owned")}; battle pages " +
-                      $"{string.Join(", ", BlueReverberationBattlePageIds.Select(x => x.ToString()).ToArray())} unlocked.");
+                      $"{string.Join(", ", BlueReverberationBattlePageIds.Select(x => x.ToString()).ToArray())} unlocked; future Urban Star routes will grant these rewards automatically.");
         }
 
         /// <summary>
         /// Enqueues realization-victory-tier abnormality page and EGO card rewards
-        /// for BOSS stage completions. The count depends on chapter grade, and the
-        /// candidate floors are completed realizations in the current chapter tier.
+        /// for BOSS stage completions. The count and candidate floors follow the
+        /// route grade bands, then filter down to completed realizations.
         /// If the player has not completed any matching floor realization, no realization reward
         /// is queued so the reward UI cannot open an empty selection.
         /// </summary>
@@ -384,9 +498,18 @@ namespace RogueLike_Mod_Reborn
 
         private static HashSet<SephirahType> GetCompletedRealizationFloorsForBossTier(ChapterGrade grade)
         {
-            HashSet<SephirahType> floors = GetFloorsForChapter(grade);
+            HashSet<SephirahType> floors = GetBossRealizationRewardFloorsForChapter(grade);
             floors.IntersectWith(CompletedRealizations);
             return floors;
+        }
+
+        private static HashSet<SephirahType> GetBossRealizationRewardFloorsForChapter(ChapterGrade grade)
+        {
+            if (grade <= ChapterGrade.Grade3)
+                return new HashSet<SephirahType> { SephirahType.Malkuth, SephirahType.Yesod, SephirahType.Hod, SephirahType.Netzach };
+            if (grade <= ChapterGrade.Grade5)
+                return new HashSet<SephirahType> { SephirahType.Tiphereth, SephirahType.Gebura, SephirahType.Chesed };
+            return new HashSet<SephirahType> { SephirahType.Binah, SephirahType.Hokma, SephirahType.Chesed };
         }
 
         /// <summary>
@@ -403,8 +526,8 @@ namespace RogueLike_Mod_Reborn
                     continue;
                 if (IsNoAbnormalityFallback(info.id))
                     continue;
-                // Only include realization-exclusive abnormality pages
-                SephirahType floor = GetRealizationFloorForScript(info.script);
+                // Boss rewards roll from the full pool of completed realization floors.
+                SephirahType floor = GetBossRealizationRewardFloorForScript(info.script);
                 if (floor == SephirahType.None || !floors.Contains(floor))
                     continue;
                 // Skip already-unlocked in current route
@@ -576,6 +699,15 @@ namespace RogueLike_Mod_Reborn
             return RouteUnlockedPages.Exists(x => x == id);
         }
 
+        public static void UnlockShopAbnormalityPage(RewardPassiveInfo info)
+        {
+            if (info == null || info.rewardtype != RewardType.Creature)
+                return;
+            UnlockPage(info.id);
+            if (IsRealizationExclusive(info))
+                LogueBookModels.RecordAtlasAbnormalityPage(info.id);
+        }
+
         /// <summary>
         /// Returns a copy of the current route's unlocked abnormality page IDs.
         /// Used by atlas sync to record pages obtained during the run into the permanent atlas.
@@ -622,6 +754,11 @@ namespace RogueLike_Mod_Reborn
             return CompletedRealizations.Contains(floor);
         }
 
+        public static void RefreshRealizationProgress()
+        {
+            LoadRealizationProgress();
+        }
+
         public static bool IsRealizationRewardAvailable(RewardPassiveInfo info)
         {
             if (!IsRealizationExclusive(info))
@@ -633,6 +770,19 @@ namespace RogueLike_Mod_Reborn
         public static SephirahType GetRealizationFloorForScript(string script)
         {
             foreach (var kvp in RealizationRewardScriptsByFloor)
+            {
+                foreach (string configuredScript in kvp.Value)
+                {
+                    if (ScriptMatchesRealizationEntry(script, configuredScript))
+                        return kvp.Key;
+                }
+            }
+            return SephirahType.None;
+        }
+
+        private static SephirahType GetBossRealizationRewardFloorForScript(string script)
+        {
+            foreach (var kvp in BossRealizationRewardScriptsByFloor)
             {
                 foreach (string configuredScript in kvp.Value)
                 {
@@ -719,9 +869,11 @@ namespace RogueLike_Mod_Reborn
 
         public static void ApplyVanillaEmotionPresentation(RewardPassiveInfo info, EmotionCardXmlInfo virtualCard)
         {
-            if (info == null || virtualCard == null || !IsRealizationExclusive(info))
+            if (info == null || virtualCard == null || info.rewardtype != RewardType.Creature)
                 return;
             SephirahType floor = GetRealizationFloorForScript(info.script);
+            if (floor == SephirahType.None)
+                floor = GetFloorForScript(info.script);
             if (floor == SephirahType.None)
                 return;
 
@@ -990,11 +1142,11 @@ namespace RogueLike_Mod_Reborn
             Singleton<LogueSaveManager>.Instance.SaveData(data, RealizationSaveName);
         }
 
-        private static void RemoveLegacyProgressFile()
+        private static void DeleteSaveFile(string saveName)
         {
             try
             {
-                string path = Path.Combine(LogueSaveManager.Saveroot, ProgressSaveName);
+                string path = Path.Combine(LogueSaveManager.Saveroot, saveName);
                 if (File.Exists(path))
                     File.Delete(path);
             }

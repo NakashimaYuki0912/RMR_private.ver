@@ -8,7 +8,19 @@ She said it won't be easy and she will give you one thing that will help you wit
              <text id="MysteryChStartChoice2">City's Technology(Gain 9 Canard and Urban Myth Chapter's Combat Page randomly.)</text>
              <text id="MysteryChStartChoice3">Enkephalin</text>
              <text id="MysteryChStartChoice4">City's Clothes(Gain 2 EquipPage Reward)</text>
+             <text id="MysteryChStartChoice5">Roadless Camelot</text>
              <text id="MysteryChStartChoice6">Floor Realization(Challenge a vanilla floor realization)</text>
+             <text id="MysteryChStartChoice7">Reset all permanent progress</text>
+             <text id="MysteryChStartChoice8">Gameplay guide</text>
+             <text id="MysteryChStartFrame2Dia0">Reset all permanent progress?
+This clears atlas unlocks, floor realization progress, Urban Star special boss clears, and future-route auto unlock records.
+The current route should be restarted afterwards.</text>
+             <text id="MysteryChStartFrame2Confirm">Confirm reset</text>
+             <text id="MysteryChStartFrame2Back">Back</text>
+             <text id="MysteryChStartFrame3Dia0">RMR advances through chapters as a roguelike route. Normal battles, elite battles, bosses, shops, rest sites, mystery events, and abnormality battles expand the current run.
+The atlas permanently records obtained core pages and combat pages. Floor realization preparation can only use atlas-unlocked content.
+Winning a floor realization permanently opens that floor's exclusive abnormality pages and E.G.O. reward pool.</text>
+             <text id="MysteryChStartFrame4Dia0">Permanent progress has been reset. Start a fresh route and progress from the current atlas.</text>
              <text id="StartBoost3Name">Enkephalin</text>
              <text id="StartBoost3Desc">[Global] During Canard and Urban Myth Chapter, librian's Emotion Level starts at 1.</text>
 

@@ -1,6 +1,16 @@
-$ErrorActionPreference = "Stop"
+﻿$ErrorActionPreference = "Stop"
 
-$root = Split-Path -Parent $MyInvocation.MyCommand.Path
+
+$script:StaticCheckScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$script:RepoRoot = $script:StaticCheckScriptDir
+while ($script:RepoRoot -and -not (Test-Path (Join-Path $script:RepoRoot 'RogueLike Mod Reborn.csproj'))) {
+    $script:RepoRoot = Split-Path -Parent $script:RepoRoot
+}
+if (-not $script:RepoRoot) {
+    throw 'Could not locate repository root for static check.'
+}
+Set-Location $script:RepoRoot
+$root = $script:RepoRoot
 $path = Join-Path $root "Localize\cn\LogueEffectText\GlobalEffect.xml"
 $cn = Get-Content -LiteralPath $path -Raw -Encoding UTF8
 
@@ -66,3 +76,4 @@ foreach ($id in @(
 }
 
 "RMR SHOP LOCALIZATION CHECK PASSED"
+

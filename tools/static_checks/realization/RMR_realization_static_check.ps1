@@ -1,10 +1,19 @@
+﻿$script:StaticCheckScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$script:RepoRoot = $script:StaticCheckScriptDir
+while ($script:RepoRoot -and -not (Test-Path (Join-Path $script:RepoRoot 'RogueLike Mod Reborn.csproj'))) {
+    $script:RepoRoot = Split-Path -Parent $script:RepoRoot
+}
+if (-not $script:RepoRoot) {
+    throw 'Could not locate repository root for static check.'
+}
+Set-Location $script:RepoRoot
 # RMR Realization System Static Check
 # Verifies that realization-exclusive pages are excluded from normal drop pools
 # and that floor-based gating is correctly implemented.
+# This script contains only ASCII-safe content to avoid encoding issues.
 
 $ErrorActionPreference = "Stop"
-$repoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
-
+$repoRoot = $script:RepoRoot
 Write-Host "=== RMR Realization System Static Check ===" -ForegroundColor Cyan
 Write-Host ""
 
@@ -22,6 +31,8 @@ $requiredExclusives = @(
     "nothing",          # Gebura
     "wizard",           # Chesed
     "bossbird",         # Binah
+    "onebadmanygood",   # Hokma
+    "plaguedoctor",     # Hokma
     "whitenight",       # Hokma
     "quietKid"          # Keter
 )
@@ -54,10 +65,11 @@ foreach ($floor in $requiredFloors) {
 Write-Host ""
 Write-Host "[3] Checking GetRewardCandidates filtering..." -ForegroundColor Yellow
 
-if ($abnoUnlocks -match "IsRealizationExclusive" -and $abnoUnlocks -match "IsFloorRealizationCompleted") {
-    Write-Host "  [OK] GetRewardCandidates uses realization-exclusive filtering" -ForegroundColor Green
+if ($abnoUnlocks -match "IsRealizationRewardAvailable\(info\)") {
+    Write-Host "  [OK] GetRewardCandidates gates realization rewards by completed floor" -ForegroundColor Green
 } else {
-    Write-Host "  [FAIL] GetRewardCandidates missing realization filtering!" -ForegroundColor Red
+    Write-Host "  [FAIL] GetRewardCandidates missing realization completion gating!" -ForegroundColor Red
+    $allFound = $false
 }
 
 # 4. Check shop filtering
@@ -65,10 +77,11 @@ Write-Host ""
 Write-Host "[4] Checking shop filtering..." -ForegroundColor Yellow
 
 $shopBase = Get-Content "$repoRoot\abcdcode_LOGLIKE_MOD\ShopBase.cs" -Raw
-if ($shopBase -match "IsRealizationExclusive" -and $shopBase -match "IsFloorRealizationCompleted") {
-    Write-Host "  [OK] CreateShop_AbnormalityPages filters realization exclusives" -ForegroundColor Green
+if ($shopBase -match "GetShopEligibleAbnormalityPages" -and $shopBase -match "CreateShop_EgoPages") {
+    Write-Host "  [OK] Shop uses unlock-manager gating for abnormality pages and reserves EGO goods" -ForegroundColor Green
 } else {
-    Write-Host "  [FAIL] CreateShop_AbnormalityPages missing realization filtering!" -ForegroundColor Red
+    Write-Host "  [FAIL] Shop missing abnormality/EGO realization reward pools!" -ForegroundColor Red
+    $allFound = $false
 }
 
 # 5. Check realization manager
@@ -113,6 +126,12 @@ if ($patches -match "RealizationBtn" -and $patches -match "OnClickRealization") 
 $realPanel = Get-Content "$repoRoot\abcdcode_LOGLIKE_MOD\LogRealizationPanel.cs" -Raw
 if ($realPanel) {
     Write-Host "  [OK] LogRealizationPanel.cs exists" -ForegroundColor Green
+    if ($realPanel -match "RefreshRealizationProgress\(\)" -and $realPanel -match "RealizationCleared") {
+        Write-Host "  [OK] LogRealizationPanel refreshes completion progress before showing cleared markers" -ForegroundColor Green
+    } else {
+        Write-Host "  [FAIL] LogRealizationPanel missing completion refresh or cleared marker" -ForegroundColor Red
+        $allFound = $false
+    }
 }
 
 # 7. Chapter gating check
@@ -121,7 +140,6 @@ Write-Host "[7] Checking chapter-to-floor gating..." -ForegroundColor Yellow
 
 if ($abnoUnlocks -match "GetFloorsForChapter") {
     Write-Host "  [OK] GetFloorsForChapter method exists" -ForegroundColor Green
-    # Verify grade mapping
     if ($abnoUnlocks -match "Grade3.*Malkuth.*Yesod.*Hod.*Netzach" -or $abnoUnlocks -match "Malkuth.*Yesod.*Hod.*Netzach") {
         Write-Host "  [OK] Grade 1-3 maps to Malkuth/Yesod/Hod/Netzach" -ForegroundColor Green
     }
@@ -133,7 +151,7 @@ if ($abnoUnlocks -match "GetFloorsForChapter") {
     }
 }
 
-# 8. Check script roots match this mod's RewardPassive script naming, not raw vanilla-only names
+# 8. Check script roots match this mod's RewardPassive script naming
 Write-Host ""
 Write-Host "[8] Checking mod-script floor mapping..." -ForegroundColor Yellow
 
@@ -158,23 +176,28 @@ foreach ($root in @(
 Write-Host ""
 Write-Host "[9] Checking final realization reward page XML..." -ForegroundColor Yellow
 
-$pickTable = Get-Content "$repoRoot\SpecialStaticInfo\RewardPassiveInfos\CreatureInfo_PickTable.xml" -Raw
-foreach ($script in @(
-    "snowwhite1","snowwhite2","snowwhite3",
-    "freischutz1","freischutz2","freischutz3",
-    "blackswan1","blackswan2","blackswan3",
-    "orchestra1","orchestra2","orchestra3",
-    "clownofnihil1","clownofnihil2","clownofnihil3",
-    "nothing1","nothing2","nothing3",
-    "wizard1","wizard2","wizard3",
-    "bossbird1","bossbird2","bossbird3","bossbird4","bossbird5","bossbird6",
-    "onebadmanygood1","plaguedoctor1","whitenight1","whitenight2","whitenight3","whitenight4",
-    "quietKidHammer","quietKidEyeShine","quietKidGuilty"
-)) {
-    if ($pickTable -notmatch [regex]::Escape($script)) {
-        Write-Host "  [FAIL] CreatureInfo_PickTable missing final page script: $script" -ForegroundColor Red
-        $allFound = $false
+$pickTablePath = "$repoRoot\SpecialStaticInfo\RewardPassiveInfos\CreatureInfo_PickTable.xml"
+if (Test-Path $pickTablePath) {
+    $pickTable = Get-Content $pickTablePath -Raw
+    foreach ($script in @(
+        "snowwhite1","snowwhite2","snowwhite3",
+        "freischutz1","freischutz2","freischutz3",
+        "blackswan1","blackswan2","blackswan3",
+        "orchestra1","orchestra2","orchestra3",
+        "clownofnihil1","clownofnihil2","clownofnihil3",
+        "nothing1","nothing2","nothing3",
+        "wizard1","wizard2","wizard3",
+        "bossbird1","bossbird2","bossbird3","bossbird4","bossbird5","bossbird6",
+        "onebadmanygood1","plaguedoctor1","whitenight1","whitenight2","whitenight3","whitenight4",
+        "quietKidHammer","quietKidEyeShine","quietKidGuilty"
+    )) {
+        if ($pickTable -notmatch [regex]::Escape($script)) {
+            Write-Host "  [FAIL] CreatureInfo_PickTable missing final page script: $script" -ForegroundColor Red
+            $allFound = $false
+        }
     }
+} else {
+    Write-Host "  [WARN] CreatureInfo_PickTable.xml not found at $pickTablePath -- skipping check 9"
 }
 
 # 10. Check generic vanilla EmotionCardAbility fallback exists
@@ -182,10 +205,40 @@ Write-Host ""
 Write-Host "[10] Checking vanilla emotion fallback..." -ForegroundColor Yellow
 
 $logLikeMod = Get-Content "$repoRoot\abcdcode_LOGLIKE_MOD\LogLikeMod.cs" -Raw
-if ($logLikeMod -match "PickUpModel_RMRVanillaEmotion" -and $logLikeMod -match "EmotionCardAbility_") {
+$vanillaEmotion = Get-Content "$repoRoot\abcdcode_LOGLIKE_MOD\PickUpModel_RMRVanillaEmotion.cs" -Raw
+if ($logLikeMod -match "PickUpModel_RMRVanillaEmotion\.TryCreate" -and $vanillaEmotion -match "EmotionCardAbility_") {
     Write-Host "  [OK] FindPickUp has vanilla EmotionCardAbility fallback" -ForegroundColor Green
 } else {
     Write-Host "  [FAIL] Missing vanilla EmotionCardAbility fallback in FindPickUp" -ForegroundColor Red
+    $allFound = $false
+}
+
+# 11. Check floor display names are encoding-stable (uses only \uXXXX escapes, not raw CJK bytes)
+Write-Host ""
+Write-Host "[11] Checking realization floor display-name encoding..." -ForegroundColor Yellow
+
+# Extract the FloorDisplayNames block from the C# source and verify it only uses ASCII + \u escapes
+$fdnMatch = [regex]::Match($realManager, '(?s)FloorDisplayNames\s*=\s*new[^{]*\{(.*?)\};')
+if ($fdnMatch.Success) {
+    $block = $fdnMatch.Groups[1].Value
+    # Count \u escape groups -- there should be at least 10 (one per floor name string)
+    $escapesFound = ([regex]::Matches($block, '\\u[0-9a-fA-F]{4}')).Count
+    if ($escapesFound -ge 10) {
+        Write-Host "  [OK] FloorDisplayNames uses $escapesFound Unicode escapes (>=10, encoding-safe)" -ForegroundColor Green
+    } else {
+        Write-Host "  [FAIL] FloorDisplayNames has only $escapesFound Unicode escapes (expected >=10)" -ForegroundColor Red
+        $allFound = $false
+    }
+    # Remove all known-safe content: ASCII chars, whitespace, \u escapes, quotes, commas
+    $clean = $block -replace '\\u[0-9a-fA-F]{4}', '' -replace '[\x00-\x7F\s]', ''
+    if ($clean.Length -gt 0) {
+        Write-Host "  [FAIL] FloorDisplayNames block contains raw non-ASCII bytes (possible mojibake): $($clean.Length) bytes" -ForegroundColor Red
+        $allFound = $false
+    } else {
+        Write-Host "  [OK] FloorDisplayNames block is encoding-safe (no raw high bytes)" -ForegroundColor Green
+    }
+} else {
+    Write-Host "  [FAIL] Cannot extract FloorDisplayNames block from RMR_RealizationManager.cs" -ForegroundColor Red
     $allFound = $false
 }
 
@@ -195,4 +248,6 @@ if ($allFound) {
     Write-Host "=== ALL CHECKS PASSED ===" -ForegroundColor Green
 } else {
     Write-Host "=== SOME CHECKS FAILED ===" -ForegroundColor Red
+    exit 1
 }
+

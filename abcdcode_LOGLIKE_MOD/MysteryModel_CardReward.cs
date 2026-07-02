@@ -203,6 +203,11 @@ namespace abcdcode_LOGLIKE_MOD
                     textTmp3.text = TextDataModel.GetText("ui_selectskip");
                     textTmp3.transform.Rotate(0.0f, 0.0f, 2.5f);
                     List<DiceCardXmlInfo> diceCardXmlInfoList = RewardingModel.PickUpCards(Singleton<CardDropValueList>.Instance.GetData(this.curRewardid));
+                    if (diceCardXmlInfoList == null || diceCardXmlInfoList.Count == 0)
+                    {
+                        this.HandleEmptyCardChoices();
+                        return;
+                    }
                     int count = diceCardXmlInfoList.Count;
                     this.choicelist = new List<DiceCardXmlInfo>();
                     for (int index = 0; index < count; ++index)
@@ -224,6 +229,21 @@ namespace abcdcode_LOGLIKE_MOD
                     }
                 }
             }
+        }
+
+        private void HandleEmptyCardChoices()
+        {
+            Debug.Log($"[RMR CardReward] Drop book produced no card choices: {this.curRewardid.packageId}:{this.curRewardid.id}");
+            this.CompleteRewardFlow();
+        }
+
+        private void CompleteRewardFlow()
+        {
+            if (LogLikeMod.UILogBattleDiceCardUI.Instance != null)
+                LogLikeMod.UILogBattleDiceCardUI.Instance.gameObject.SetActive(false);
+            this.RemoveCurFrame();
+            this.curState = MysteryModel_CardReward.State.CardList;
+            this.SwapFrame(0);
         }
 
         public void OnClickDropCard(LorId id)

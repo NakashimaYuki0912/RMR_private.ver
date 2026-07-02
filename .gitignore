@@ -373,7 +373,16 @@ Saves/
 # Local Codex / editor scratch files
 .codex/
 .codex-cache/
+.claude/
+.superpowers/
+LoR-RMR-repository-memory-pack/
+docs/superpowers/
+skills-lock.json
 *.code-workspace
+
+# Local release-package snapshots are generated from the Workshop tree.
+# Keep historical tracked files untouched, but do not add new package contents.
+_release_packages/
 
 # Windows metadata
 Thumbs.db

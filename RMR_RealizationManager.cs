@@ -49,6 +49,8 @@ namespace RogueLike_Mod_Reborn
         public static bool PendingRealizationBattle { get; private set; }
         public static bool ForceReturnAsDefeatPending { get; private set; }
 
+        public static bool IsRealizationPreparationActive => PendingRealizationBattle && !InRealizationBattle;
+
         /// <summary>
         /// Clears the realization battle flag. Called from StageController_EndBattle
         /// AFTER the vanilla EndBattle completes, so that postfix hooks still see
@@ -190,20 +192,122 @@ namespace RogueLike_Mod_Reborn
             // Only now that we've confirmed a valid stage, consume the flag.
             InitialRelicEntryAvailable = false;
             ForceReturnAsDefeatPending = false;
-            ApplyAtlasOnlyLoadout();
-            // Set PendingRealizationBattle instead of InRealizationBattle.
+            // Set PendingRealizationBattle before opening BattleSetting so RMR UI hooks
+            // render the atlas-only temporary party instead of the vanilla floor limit.
+            PendingRealizationBattle = true;
+            CurrentRealizationFloor = floor;
+            if (!ApplyAtlasOnlyLoadout())
+            {
+                PendingRealizationBattle = false;
+                InitialRelicEntryAvailable = true;
+                return;
+            }
+            // Keep PendingRealizationBattle instead of InRealizationBattle.
             // InRealizationBattle is only activated in StageController_StartBattle
             // when the realization stage actually loads. This prevents the EndBattle
             // hook from treating the event transition as a realization battle end.
-            PendingRealizationBattle = true;
-            CurrentRealizationFloor = floor;
             LogLikeMod.rewards.Clear();
             LogLikeMod.rewards_passive.Clear();
 
-            // Realization stages use Creature type but are guarded from normal reward chains.
-            LogLikeMod.SetNextStage(stageId, abcdcode_LOGLIKE_MOD.StageType.Creature, NextStageSetType.Custom);
-            FinishCurrentEventForRealizationTransition();
-            Debug.Log($"[RMRRealizationManager] Queued realization battle: {floor} (stage {stageId.id}) via package {stageId.packageId}");
+            if (!TryStartVanillaRealizationStage(floor, stageId, stageClassInfo))
+            {
+                PendingRealizationBattle = false;
+                RestoreRouteLoadout();
+                InitialRelicEntryAvailable = true;
+                Debug.LogError($"[RMRRealizationManager] Failed to start vanilla realization stage: {stageId.packageId}:{stageId.id}");
+                return;
+            }
+            Debug.Log($"[RMRRealizationManager] Started vanilla realization battle: {floor} (stage {stageId.id}) via package {stageId.packageId}");
+        }
+
+        private static bool TryStartVanillaRealizationStage(
+            SephirahType floor,
+            LorId stageId,
+            StageClassInfo stageClassInfo)
+        {
+            if (stageClassInfo == null)
+                return false;
+            ForceRealizationAvailableUnits(stageClassInfo, 5);
+
+            try
+            {
+                Singleton<MysteryManager>.Instance.EndMystery();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMRRealizationManager] Realization transition mystery finish failed: " + ex.Message);
+            }
+
+            try
+            {
+                StageController controller = Singleton<StageController>.Instance;
+                if (controller == null)
+                    return false;
+
+                // Match vanilla creature/realization stage binding, but stop at
+                // BattleSetting so the atlas-only temporary team can be configured.
+                controller.SetCurrentSephirah(floor);
+                controller.InitStageByCreature(stageClassInfo, false);
+                StageModel stageModel = controller.GetStageModel();
+                ForceRealizationAvailableUnits(stageModel?.ClassInfo, 5);
+                LorId currentId = stageModel?.ClassInfo?.id ?? LorId.None;
+                if (currentId != stageClassInfo.id)
+                {
+                    Debug.LogError($"[RMRRealizationManager] Vanilla realization StageModel mismatch. current={currentId.packageId}:{currentId.id}, expected={stageClassInfo.id.packageId}:{stageClassInfo.id.id}");
+                    return false;
+                }
+
+                LogLikeMod.curstageid = stageId;
+                LogLikeMod.curstagetype = abcdcode_LOGLIKE_MOD.StageType.Creature;
+                UI.UIController.Instance.OpenBattlePrepare();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("[RMRRealizationManager] Failed to start vanilla realization stage: " + ex);
+                return false;
+            }
+        }
+
+        private static void ForceRealizationAvailableUnits(StageClassInfo stageClassInfo, int count)
+        {
+            if (stageClassInfo?.waveList == null)
+                return;
+            foreach (StageWaveInfo wave in stageClassInfo.waveList)
+                ForceWaveAvailableUnits(wave, count);
+        }
+
+        private static void ForceWaveAvailableUnits(StageWaveInfo wave, int count)
+        {
+            if (wave == null)
+                return;
+            Type type = wave.GetType();
+            foreach (string fieldName in new[] { "availableUnit", "_availableUnit", "AvailableUnit" })
+            {
+                try
+                {
+                    var field = type.GetField(fieldName, AccessTools.all);
+                    if (field != null && field.FieldType == typeof(int))
+                    {
+                        field.SetValue(wave, count);
+                        return;
+                    }
+                }
+                catch { }
+            }
+            foreach (string propertyName in new[] { "AvailableUnit", "availableUnit" })
+            {
+                try
+                {
+                    var property = type.GetProperty(propertyName, AccessTools.all);
+                    if (property != null && property.CanWrite && property.PropertyType == typeof(int))
+                    {
+                        property.SetValue(wave, count, null);
+                        return;
+                    }
+                }
+                catch { }
+            }
         }
 
         public static void OnRealizationBattleEnded(bool victory)
@@ -249,38 +353,42 @@ namespace RogueLike_Mod_Reborn
             Debug.Log("[RMRRealizationManager] ReturnToMainAfterRealization called — vanilla EndBattle flow handles UI transition.");
         }
 
-
-        private static void FinishCurrentEventForRealizationTransition()
+        private static void EnsureDefaultRealizationAtlasUnlocks()
         {
-            try
+            LogueBookModels.EnsureAtlasUnlocks();
+            bool changed = false;
+
+            for (int id = -854; id >= -858; id--)
             {
-                Singleton<StageController>.Instance.GetStageModel().GetWave(Singleton<StageController>.Instance.CurrentWave).Defeat();
-                Singleton<StageController>.Instance.EndBattle();
-            }
-            catch (Exception ex)
-            {
-                Debug.LogWarning("[RMRRealizationManager] Realization transition battle finish failed: " + ex.Message);
+                LorId bookId = new LorId(LogLikeMod.ModId, id);
+                if (Singleton<BookXmlList>.Instance.GetData(bookId) != null)
+                    changed |= LogueBookModels.AtlasUnlockedRoleBooks.Add(bookId);
             }
 
-            try
+            for (int id = -10; id >= -14; id--)
             {
-                Singleton<MysteryManager>.Instance.EndMystery();
+                LorId cardId = new LorId(LogLikeMod.ModId, id);
+                if (ItemXmlDataList.instance.GetCardItem(cardId, true) != null)
+                    changed |= LogueBookModels.AtlasUnlockedBattleCards.Add(cardId);
             }
-            catch (Exception ex)
-            {
-                Debug.LogWarning("[RMRRealizationManager] Realization transition mystery finish failed: " + ex.Message);
-            }
+
+            if (changed)
+                // Save only the fallback atlas entries; the broader save path would
+                // also sync the current route inventory into the permanent atlas.
+                LogueBookModels.SavePermanentAtlasData();
         }
 
-        private static void ApplyAtlasOnlyLoadout()
+
+        private static bool ApplyAtlasOnlyLoadout()
         {
             if (AtlasOnlyLoadoutActive)
-                return;
+                return true;
             LogueBookModels.EnsureAtlasUnlocks();
             if (LogueBookModels.AtlasUnlockedRoleBooks == null)
                 LogueBookModels.AtlasUnlockedRoleBooks = new HashSet<LorId>();
             if (LogueBookModels.AtlasUnlockedBattleCards == null)
                 LogueBookModels.AtlasUnlockedBattleCards = new HashSet<LorId>();
+            EnsureDefaultRealizationAtlasUnlocks();
 
             // --- Save full route state ---
             RouteBookSnapshot = LogueBookModels.booklist == null ? new List<BookModel>() : new List<BookModel>(LogueBookModels.booklist);
@@ -333,18 +441,19 @@ namespace RogueLike_Mod_Reborn
                 atlasBooks.Add(model);
             }
             if (atlasBooks.Count == 0)
-                atlasBooks.AddRange(RouteBookSnapshot);
+            {
+                Debug.LogError("[RMRRealizationManager] Atlas-only realization loadout has no unlocked core pages, including starter fallback.");
+                return false;
+            }
 
             List<DiceCardItemModel> atlasCards = new List<DiceCardItemModel>();
             foreach (LorId id in LogueBookModels.AtlasUnlockedBattleCards)
             {
                 DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(id, true);
-                if (card == null || card.optionList.Contains(CardOption.NoInventory) || card.optionList.Contains(CardOption.Basic))
+                if (card == null || card.optionList.Contains(CardOption.NoInventory))
                     continue;
                 atlasCards.Add(new DiceCardItemModel(card) { num = LogueBookModels.UNLOCKED_CARD_COUNT });
             }
-            if (atlasCards.Count == 0)
-                atlasCards.AddRange(RouteCardSnapshot);
 
             LogueBookModels.booklist = atlasBooks;
             LogueBookModels.cardlist = atlasCards;
@@ -354,13 +463,23 @@ namespace RogueLike_Mod_Reborn
 
             // Start with the route player list (will be mutated by EquipNewPage)
             var teamList = new List<UnitDataModel>(RoutePlayerModelSnapshot ?? new List<UnitDataModel>());
+            LogueBookModels.playerModel = teamList;
+            LogueBookModels.playerBattleModel = new List<UnitBattleDataModel>();
+            LogueBookModels.playersPick = new Dictionary<UnitDataModel, List<LorId>>();
+            LogueBookModels.playersperpassives = new Dictionary<UnitDataModel, List<LorId>>();
+            LogueBookModels.playersstatadders = new Dictionary<UnitDataModel, List<LogStatAdder>>();
+            foreach (UnitDataModel unit in teamList)
+            {
+                if (unit == null)
+                    continue;
+                LogueBookModels.playersPick[unit] = new List<LorId>();
+                LogueBookModels.playersperpassives[unit] = new List<LorId>();
+                LogueBookModels.playersstatadders[unit] = new List<LogStatAdder>();
+            }
 
             // If we have fewer than 5, pad using AddSubPlayer
             while (teamList.Count < targetCount)
             {
-                // Temporarily set playerModel so AddSubPlayer can read the current floor
-                var prevModel = LogueBookModels.playerModel;
-                LogueBookModels.playerModel = teamList;
                 try
                 {
                     LogueBookModels.AddSubPlayer();
@@ -432,6 +551,7 @@ namespace RogueLike_Mod_Reborn
 
             AtlasOnlyLoadoutActive = true;
             Debug.Log($"[RMRRealizationManager] Applied atlas-only loadout: books={atlasBooks.Count}, cards={atlasCards.Count}, librarians={teamList.Count}");
+            return true;
         }
 
         private static void RestoreRouteLoadout()

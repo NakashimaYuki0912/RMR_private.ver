@@ -21,6 +21,8 @@ namespace abcdcode_LOGLIKE_MOD
         public override void SwapFrame(int id)
         {
             base.SwapFrame(id);
+            if (this.droplist == null)
+                this.droplist = new List<LorId>();
             if (PassiveAbility_MoneyCheck.GetMoney() >= 10 || id != 0)
                 return;
             this.FrameObj["choice_btn0"].GetComponent<Image>().sprite = LogLikeMod.ArtWorks["disabledButton"];
@@ -31,8 +33,17 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (choiceid == 0 && PassiveAbility_MoneyCheck.GetMoney() >= 10)
             {
+                if (this.droplist == null)
+                    this.droplist = new List<LorId>();
+                List<RewardPassiveInfo> all = Singleton<RewardPassivesList>.Instance.GetChapterData(ChapterGrade.GradeAll, PassiveRewardListType.Shop, new LorId(-1))?.FindAll((Predicate<RewardPassiveInfo>)(x => x != null && x.shoptype == ShopRewardType.Once)) ?? new List<RewardPassiveInfo>();
+                all.RemoveAll(x => x.id != null && this.droplist.Contains(x.id));
+                if (all.Count == 0)
+                {
+                    UnityEngine.Debug.LogWarning("[RMR Mystery_ChX_4] No one-time shop rewards available.");
+                    base.OnClickChoice(choiceid);
+                    return;
+                }
                 LogueBookModels.SubMoney(10);
-                List<RewardPassiveInfo> all = Singleton<RewardPassivesList>.Instance.GetChapterData(ChapterGrade.GradeAll, PassiveRewardListType.Shop, new LorId(-1)).FindAll((Predicate<RewardPassiveInfo>)(x => x.shoptype == ShopRewardType.Once));
                 ModdingUtils.SuffleList<RewardPassiveInfo>(all);
                 MysteryModel_ShopItemReward.PopupShopReward(new List<RewardPassiveInfo>()
       {

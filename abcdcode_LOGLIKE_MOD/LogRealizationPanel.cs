@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using LOR_DiceSystem;
 using RogueLike_Mod_Reborn;
@@ -20,6 +20,7 @@ namespace abcdcode_LOGLIKE_MOD
 
         private GameObject _rootObject;
         private bool _isVisible;
+        public bool IsVisible => _isVisible;
 
         void Awake()
         {
@@ -28,11 +29,18 @@ namespace abcdcode_LOGLIKE_MOD
 
         public void Show(UIBattleSettingEditPanel parentPanel)
         {
-            if (_isVisible) return;
+            if (parentPanel == null)
+                return;
+            Show(parentPanel.transform);
+        }
+
+        public void Show(Transform parentRoot)
+        {
+            if (_isVisible || parentRoot == null) return;
             _isVisible = true;
 
             // Build UI
-            BuildPanel(parentPanel);
+            BuildPanel(parentRoot);
         }
 
         public void Hide()
@@ -45,10 +53,37 @@ namespace abcdcode_LOGLIKE_MOD
             _rootObject = null;
         }
 
-        private void BuildPanel(UIBattleSettingEditPanel parentPanel)
+        public bool TryHandleBack()
         {
+            if (!_isVisible)
+                return false;
+            Hide();
+            return true;
+        }
+
+        private static string GetPanelText(string key, string zh, string en, string jp, string kr)
+        {
+            try
+            {
+                string text = TextDataModel.GetText(key);
+                if (!string.IsNullOrEmpty(text) && text != key)
+                    return text;
+            }
+            catch
+            {
+            }
+            string lang = TextDataModel.CurrentLanguage.ToString().ToLowerInvariant();
+            if (lang.Contains("en")) return en;
+            if (lang.Contains("kr") || lang.Contains("ko")) return kr;
+            if (lang.Contains("jp") || lang.Contains("ja")) return jp;
+            return zh;
+        }
+        private void BuildPanel(Transform parentRoot)
+        {
+            RMRAbnormalityUnlockManager.RefreshRealizationProgress();
+
             _rootObject = new GameObject("RealizationPanel");
-            _rootObject.transform.SetParent(parentPanel.transform, false);
+            _rootObject.transform.SetParent(parentRoot, false);
 
             // Background overlay
             var bg = ModdingUtils.CreateImage(_rootObject.transform, "MysteryPanel_transparent",
@@ -56,21 +91,21 @@ namespace abcdcode_LOGLIKE_MOD
 
             // Title
             var title = ModdingUtils.CreateText_TMP(_rootObject.transform,
-                new Vector2(0f, 400f), 48,
+                new Vector2(0f, 310f), 38,
                 new Vector2(0.5f, 0.5f), new Vector2(1f, 1f),
                 new Vector2(0f, 0f),
                 TextAlignmentOptions.Center,
                 LogLikeMod.DefFontColor, LogLikeMod.DefFont_TMP);
-            title.text = "Floor Realization Battles";
+            title.text = GetPanelText("ui_RMR_RealizationTitle", "\u89e3\u653e\u6218", "Floor Realization Battles", "\u89e3\u653e\u6226", "\ud574\ubc29\uc804");
 
             // Subtitle
             var subtitle = ModdingUtils.CreateText_TMP(_rootObject.transform,
-                new Vector2(0f, 350f), 28,
+                new Vector2(0f, 265f), 22,
                 new Vector2(0.5f, 0.5f), new Vector2(1f, 1f),
                 new Vector2(0f, 0f),
                 TextAlignmentOptions.Center,
                 LogLikeMod.DefFontColor, LogLikeMod.DefFont_TMP);
-            subtitle.text = "Complete a floor's realization battle to permanently unlock its exclusive pages.";
+            subtitle.text = GetPanelText("ui_RMR_RealizationDesc", "\u80dc\u5229\u540e\u6c38\u4e45\u89e3\u9501\u8be5\u5c42\u5f02\u60f3\u4f53\u4e66\u9875\u4e0eE.G.O\u4e66\u9875\u3002", "Victory permanently unlocks that floor's abnormality and E.G.O pages.", "\u52dd\u5229\u3059\u308b\u3068\u3001\u305d\u306e\u968e\u306e\u5e7b\u60f3\u4f53\u30da\u30fc\u30b8\u3068E.G.O\u30da\u30fc\u30b8\u3092\u6c38\u4e45\u89e3\u653e\u3059\u308b\u3002", "\uc2b9\ub9ac \uc2dc \ud574\ub2f9 \uce35\uc758 \ud658\uc0c1\uccb4 \ucc45\uc7a5\uacfc E.G.O \ucc45\uc7a5\uc744 \uc601\uad6c \ud574\uae08\ud569\ub2c8\ub2e4.");
 
             // Create floor buttons in a 2-column grid (5 rows x 2 cols)
             var floors = new List<SephirahType>
@@ -81,7 +116,7 @@ namespace abcdcode_LOGLIKE_MOD
             };
 
             float startX = -350f;
-            float startY = 250f;
+            float startY = 185f;
             float spacingX = 700f;
             float spacingY = -90f;
 
@@ -103,7 +138,7 @@ namespace abcdcode_LOGLIKE_MOD
                 Vector2.zero, 24, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f),
                 Vector2.zero, TextAlignmentOptions.Center,
                 LogLikeMod.DefFontColor, LogLikeMod.DefFont_TMP);
-            closeTxt.text = "Close";
+            closeTxt.text = GetPanelText("ui_RMR_RealizationClose", "\u5173\u95ed", "Close", "\u9589\u3058\u308b", "\ub2eb\uae30");
             closeBtn.onClick.AddListener(() => Hide());
         }
 
@@ -112,7 +147,9 @@ namespace abcdcode_LOGLIKE_MOD
             bool completed = RMRAbnormalityUnlockManager.IsFloorRealizationCompleted(floor);
             string displayName = RMRRealizationManager.FloorDisplayNames.TryGetValue(floor, out string name)
                 ? name : floor.ToString();
-            string statusText = completed ? "[CLEARED]" : "[CHALLENGE]";
+            string statusText = completed
+                ? GetPanelText("ui_RMR_RealizationCleared", "[\u5df2\u5b8c\u6210]", "[CLEARED]", "[\u5b8c\u4e86]", "[\uc644\ub8cc]")
+                : GetPanelText("ui_RMR_RealizationChallenge", "[\u6311\u6218]", "[CHALLENGE]", "[\u6311\u6226]", "[\ub3c4\uc804]");
             string fullText = $"{statusText}  {displayName}";
 
             var btnGo = new GameObject("FloorBtn_" + floor.ToString());

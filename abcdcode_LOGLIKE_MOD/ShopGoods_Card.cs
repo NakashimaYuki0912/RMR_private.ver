@@ -20,6 +20,7 @@ namespace abcdcode_LOGLIKE_MOD
     public class ShopGoods_Card : ShopGoods
     {
         public LogLikeMod.UILogCardSlot CardSlot;
+        public bool IsEgoPage;
 
         public static int CalcPrice(DiceCardXmlInfo cardinfo)
         {
@@ -85,25 +86,31 @@ namespace abcdcode_LOGLIKE_MOD
             base.LoadFromSaveData(data);
             this.Money.text = this.price.ToString();
             this.count = data.GetInt("num");
-            this.CardSlot.txt_cardNumbers.text = this.count.ToString();
+            if (this.CardSlot != null && this.CardSlot.txt_cardNumbers != null)
+            {
+                this.CardSlot.txt_cardNumbers.text = string.Empty;
+                this.CardSlot.txt_cardNumbers.gameObject.SetActive(false);
+            }
         }
 
         public void SetGoods(DiceCardXmlInfo cardinfo, int goods_count = 2, int price = -1)
         {
             LogLikeMod.UILogCardSlot CardSlot = LogLikeMod.UILogCardSlot.SlotCopyingByOrig();
             CardSlot.transform.SetParent(this.transform);
-            CardSlot.transform.localScale = new Vector3(1.0f, 1.0f);
+            CardSlot.transform.localScale = new Vector3(1.2f, 1.2f);
             CardSlot.transform.localPosition = new Vector3(0.0f, 0.0f);
             CardSlot.SetData(new DiceCardItemModel(cardinfo));
+            this.IsEgoPage = RMRAbnormalityUnlockManager.IsRealizationEgoCard(cardinfo.id);
             CardSlot.selectable.SubmitEvent.RemoveAllListeners();
             CardSlot.selectable.SubmitEvent.AddListener((UnityAction<BaseEventData>)(e => this.OnClickCard()));
             CardSlot.selectable.SelectEvent.RemoveAllListeners();
             CardSlot.selectable.SelectEvent.AddListener((UnityAction<BaseEventData>)(e => this.OnPointerEnter(e)));
             CardSlot.selectable.DeselectEvent.RemoveAllListeners();
             CardSlot.selectable.DeselectEvent.AddListener((UnityAction<BaseEventData>)(e => CardSlot.OnPointerExit(e)));
-            CardSlot.txt_cardNumbers.text = goods_count.ToString();
+            CardSlot.txt_cardNumbers.text = string.Empty;
+            CardSlot.txt_cardNumbers.gameObject.SetActive(false);
             this.parent.FrameObj.Add($"CardSlot{cardinfo.id.packageId}{cardinfo.id.id.ToString()}", CardSlot.gameObject);
-            this.count = goods_count;
+            this.count = 1;
             this.CardSlot = CardSlot;
             Image image = ModdingUtils.CreateImage(this.transform, "MoneyIcon", new Vector2(1f, 1f), new Vector2(-10f, -100f));
             this.parent.FrameObj.Add($"moneyicon{cardinfo.id.packageId}{cardinfo.id.id.ToString()}", CardSlot.gameObject);
@@ -118,6 +125,8 @@ namespace abcdcode_LOGLIKE_MOD
         public void OnPointerEnter(BaseEventData e)
         {
             this.CardSlot.OnPointerEnter(e);
+            float previewX = IsEgoPage ? -250f : 250f;
+            LogLikeMod.UILogBattleDiceCardUI.Instance.transform.localPosition = new Vector3(previewX, -100f, -1f);
             this.gameObject.transform.SetAsLastSibling();
         }
 
@@ -126,13 +135,9 @@ namespace abcdcode_LOGLIKE_MOD
             base.Purchase();
             LogueBookModels.AddCard(this.CardSlot._cardModel.GetID());
             CardAddVfx.RunCardVfx(this.CardSlot);
-            --this.count;
-            this.CardSlot.txt_cardNumbers.text = this.count.ToString();
-            if (this.count <= 0)
-            {
-                this.gameObject.SetActive(false);
-                LogLikeMod.UILogBattleDiceCardUI.Instance.gameObject.SetActive(false);
-            }
+            this.count = 0;
+            this.gameObject.SetActive(false);
+            LogLikeMod.UILogBattleDiceCardUI.Instance.gameObject.SetActive(false);
             SingletonBehavior<BattleSoundManager>.Instance.PlaySound(EffectSoundType.CARD_APPLY, this.transform.position);
         }
 

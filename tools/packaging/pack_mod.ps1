@@ -1,8 +1,16 @@
 # RogueLike Mod Reborn - Pack Script (v2: preserve Workshop structure 1:1)
-# Usage: .\pack_mod.ps1
-# Output: RougelikeModReborn_YYYYMMDD_HHmmss.zip in project root
+# Usage: powershell -File .\tools\packaging\pack_mod.ps1
+# Output: RougelikeModReborn_YYYYMMDD_HHmmss.zip under _release_packages\archives
 
 $ErrorActionPreference = "Stop"
+
+$projectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+while ($projectRoot -and -not (Test-Path (Join-Path $projectRoot "RogueLike Mod Reborn.csproj"))) {
+    $projectRoot = Split-Path -Parent $projectRoot
+}
+if (-not $projectRoot) {
+    throw "Could not locate repository root for packaging."
+}
 
 $workshop = "E:\Steam\steamapps\workshop\content\1256670\3503523710"
 if (-not (Test-Path $workshop)) {
@@ -10,8 +18,9 @@ if (-not (Test-Path $workshop)) {
     exit 1
 }
 
-$projectRoot = $PSScriptRoot
 $tmpDir = "$projectRoot\_release_packages\RougelikeModReborn"
+$archiveDir = "$projectRoot\_release_packages\archives"
+New-Item -ItemType Directory -Force -Path $archiveDir | Out-Null
 
 # Clean + copy everything 1:1
 if (Test-Path $tmpDir) { Remove-Item -Recurse -Force $tmpDir }
@@ -35,6 +44,10 @@ if (Test-Path "$tmpDlls\DevNuggets") {
     Remove-Item -Recurse -Force "$tmpDlls\DevNuggets"
     Write-Host "  Removed DevNuggets\"
 }
+if (Test-Path "$tmpAsm\_codex_backups") {
+    Remove-Item -Recurse -Force "$tmpAsm\_codex_backups"
+    Write-Host "  Removed _codex_backups\"
+}
 
 # Remove Workshop metadata (not needed for Mods)
 @("$tmpDir\desc.txt", "$tmpDir\preview.jpg.png", "$tmpDir\old changelogs.txt", "$tmpDir\mod infos") | ForEach-Object {
@@ -50,23 +63,11 @@ if (-not (Test-Path $fiDir)) {
     Write-Host "  Created FormationInfo\FormationInfo.txt"
 }
 
-# ====== Remove Korean locale ======
-Write-Host "Removing Korean locale..."
-if (Test-Path "$tmpDlls\Localize\kr") {
-    Remove-Item -Recurse -Force "$tmpDlls\Localize\kr"
-    Write-Host "  Removed Localize\kr\"
-}
-$krStory = "$tmpDlls\StoryInfo\Localize\kr-story.zip"
-if (Test-Path $krStory) {
-    Remove-Item -Force $krStory
-    Write-Host "  Removed kr-story.zip"
-}
-
 # ====== Zip ======
 Write-Host "Creating zip..."
 $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
 $zipName = "RougelikeModReborn_v$timestamp.zip"
-$zipPath = Join-Path $projectRoot $zipName
+$zipPath = Join-Path $archiveDir $zipName
 if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
 
 Compress-Archive -Path "$tmpDir\*" -DestinationPath $zipPath -Force

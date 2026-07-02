@@ -86,7 +86,7 @@
 	<PassiveDesc ID="8570021">
     <Name>行动 - 返场</Name>
     <Desc>当您已购买所有“行动”系列物品后出现
-在第1至第5幕依次重复威力+1至+5的效果。</Desc>
+Repeats the effect of Power +1 to +5 in Scene 1-5.</Desc>
 	</PassiveDesc>
 
 	<PassiveDesc ID="8570022">

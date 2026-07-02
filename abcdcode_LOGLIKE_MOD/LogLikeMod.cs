@@ -219,14 +219,26 @@ namespace abcdcode_LOGLIKE_MOD
                 Debug.LogError($"[RMR SetNextStage] Stage has no wave data: {stageid}, type={stagetype}");
                 return;
             }
-            StageWaveInfo wave = data.waveList[0];
-            StageWaveModel stageWaveModel = new StageWaveModel();
-            stageWaveModel.Init(stageModel, wave);
-            List<StageWaveModel> stageWaveModelList = (List<StageWaveModel>)typeof(StageModel).GetField("_waveList", AccessTools.all).GetValue(stageModel);
-            if (settype == NextStageSetType.BySave)
-                stageWaveModelList[0] = stageWaveModel;
-            else
-                stageWaveModelList.Add(stageWaveModel);
+            RestoreVanillaEnemyIdsForImpurityStage(data);
+            FieldInfo waveListField = typeof(StageModel).GetField("_waveList", AccessTools.all);
+            List<StageWaveModel> stageWaveModelList = waveListField?.GetValue(stageModel) as List<StageWaveModel>;
+            if (stageWaveModelList == null)
+            {
+                stageWaveModelList = new List<StageWaveModel>();
+                waveListField?.SetValue(stageModel, stageWaveModelList);
+            }
+            for (int i = 0; i < data.waveList.Count; i++)
+            {
+                StageWaveInfo wave = data.waveList[i];
+                if (IsImpurityRouteStage(data))
+                    Debug.Log($"[RMR SetNextStage] Grade7 impurity wave normalized: stage={stageid}, wave={i + 1}/{data.waveList.Count}, enemies={DescribeWaveEnemyIds(wave)}");
+                StageWaveModel stageWaveModel = new StageWaveModel();
+                stageWaveModel.Init(stageModel, wave);
+                if (settype == NextStageSetType.BySave && i == 0 && stageWaveModelList.Count > 0)
+                    stageWaveModelList[0] = stageWaveModel;
+                else
+                    stageWaveModelList.Add(stageWaveModel);
+            }
             List<string> mapInfo = data.mapInfo;
             if ((mapInfo == null || mapInfo.Count == 0) && stageModel.ClassInfo != null && stageModel.ClassInfo.mapInfo != null && stageModel.ClassInfo.mapInfo.Count > 0)
                 mapInfo = stageModel.ClassInfo.mapInfo;
@@ -234,8 +246,15 @@ namespace abcdcode_LOGLIKE_MOD
                 mapInfo = startStage.mapInfo;
             if (mapInfo != null && mapInfo.Count > 0)
             {
-                stageModel.ClassInfo.mapInfo = mapInfo;
-                stageModel.SetCurrentMapInfo(0);
+                if (stageModel.ClassInfo != null)
+                {
+                    stageModel.ClassInfo.mapInfo = mapInfo;
+                    stageModel.SetCurrentMapInfo(0);
+                }
+                else
+                {
+                    Debug.LogWarning($"[RMR SetNextStage] Stage {stageid} resolved mapInfo but current StageModel.ClassInfo is null.");
+                }
             }
             else
             {
@@ -448,7 +467,14 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static string GetPickUpXmlWorkShopId_Stage(EmotionCardXmlInfo info)
         {
-            return LogLikeMod.PickUpXml_Dummy_Stage == null ? null : LogLikeMod.PickUpXml_Dummy_Stage.ToList().Find(x => x.Value.Find(y => y == info) != null).Key;
+            if (info == null || LogLikeMod.PickUpXml_Dummy_Stage == null)
+                return null;
+            foreach (var entry in LogLikeMod.PickUpXml_Dummy_Stage)
+            {
+                if (entry.Value != null && entry.Value.Contains(info))
+                    return entry.Key;
+            }
+            return null;
         }
 
         public static string GetPickUpXmlWorkShopId_Passive(EmotionCardXmlInfo info)
@@ -458,12 +484,27 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static EmotionCardXmlInfo GetRegisteredPickUpXml(LogueStageInfo info)
         {
-            return LogLikeMod.PickUpXml_Dummy_Stage == null ? null : LogLikeMod.PickUpXml_Dummy_Stage[info.workshopid].Find(x => x.id == info.stageid);
+            if (info == null || LogLikeMod.PickUpXml_Dummy_Stage == null)
+                return null;
+            if (!LogLikeMod.PickUpXml_Dummy_Stage.TryGetValue(info.workshopid, out List<EmotionCardXmlInfo> list) || list == null)
+                return null;
+            return list.Find(x => x.id == info.stageid);
         }
 
         public static EmotionCardXmlInfo GetRegisteredPickUpXml(RewardPassiveInfo info)
         {
-            return LogLikeMod.PickUpXml_Dummy_Passive == null ? null : LogLikeMod.PickUpXml_Dummy_Passive[info.workshopID].Find(x => x.id == info.passiveid);
+            if (info == null || LogLikeMod.PickUpXml_Dummy_Passive == null)
+                return null;
+            string packageId = info.id != null ? info.id.packageId : info.workshopID;
+            if (!string.IsNullOrEmpty(packageId)
+                && LogLikeMod.PickUpXml_Dummy_Passive.TryGetValue(packageId, out List<EmotionCardXmlInfo> packageList)
+                && packageList != null)
+                return packageList.Find(x => x.id == info.passiveid);
+            if (!string.IsNullOrEmpty(info.workshopID)
+                && LogLikeMod.PickUpXml_Dummy_Passive.TryGetValue(info.workshopID, out List<EmotionCardXmlInfo> workshopList)
+                && workshopList != null)
+                return workshopList.Find(x => x.id == info.passiveid);
+            return null;
         }
 
         public static void RegisterPickUpXml(LogueStageInfo info)
@@ -516,6 +557,8 @@ namespace abcdcode_LOGLIKE_MOD
             emotionCardXmlInfo.EmotionRate = 0;
             RMRAbnormalityUnlockManager.ApplyVanillaEmotionPresentation(info, emotionCardXmlInfo);
             LogLikeMod.PickUpXml_Dummy_Passive[packageId].Add(emotionCardXmlInfo);
+            if (info.rewardtype == RewardType.EquipPage)
+                RewardingModel.CreateEquipRewardXmlData(info);
         }
 
         public static void LoadSpineAssets()
@@ -1615,6 +1658,9 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static bool CheckStage(bool OnBattle = false)
         {
+            if (!OnBattle && RMRRealizationManager.IsRealizationPreparationActive)
+                return true;
+
             try
             {
                 UIPhase currentUiPhase = UI.UIController.Instance.CurrentUIPhase;
@@ -2058,15 +2104,34 @@ namespace abcdcode_LOGLIKE_MOD
 
         private static void RestoreVanillaEnemyIdsForImpurityStage(StageClassInfo stageClassInfo)
         {
-            if (stageClassInfo?.id == null || stageClassInfo.id.packageId != LogLikeMod.ModId)
-                return;
-            if (stageClassInfo.id.id < 70001 || stageClassInfo.id.id > 70009)
+            if (!IsImpurityRouteStage(stageClassInfo))
                 return;
             if (stageClassInfo.waveList == null)
                 return;
 
             foreach (StageWaveInfo wave in stageClassInfo.waveList)
                 RestoreVanillaLorIdsInObject(wave);
+        }
+
+        private static bool IsImpurityRouteStage(StageClassInfo stageClassInfo)
+        {
+            return stageClassInfo?.id != null
+                && stageClassInfo.id.packageId == LogLikeMod.ModId
+                && IsVanillaImpurityBattleStage(stageClassInfo.id.id);
+        }
+
+        private static bool IsVanillaImpurityBattleStage(int stageId)
+        {
+            return (stageId >= 70001 && stageId <= 70010)
+                || stageId == 70020
+                || stageId == 70021;
+        }
+
+        private static string DescribeWaveEnemyIds(StageWaveInfo wave)
+        {
+            if (wave?.enemyUnitIdList == null || wave.enemyUnitIdList.Count == 0)
+                return "(none)";
+            return string.Join(", ", wave.enemyUnitIdList.Select(id => id?.ToString() ?? "NULL").ToArray());
         }
 
         private static void RestoreVanillaLorIdsInObject(object target)
@@ -2079,7 +2144,7 @@ namespace abcdcode_LOGLIKE_MOD
                 if (value is LorId lorId)
                 {
                     if (lorId.id > 0)
-                        field.SetValue(target, new LorId("@origin", lorId.id));
+                        field.SetValue(target, new LorId(lorId.id));
                     continue;
                 }
                 if (value is System.Collections.IList list)
@@ -2090,11 +2155,11 @@ namespace abcdcode_LOGLIKE_MOD
                         if (item is LorId listLorId)
                         {
                             if (listLorId.id > 0)
-                                list[i] = new LorId("@origin", listLorId.id);
+                                list[i] = new LorId(listLorId.id);
                         }
                         else
                         {
-                            TrySetLorIdXmlPackageId(item, "@origin");
+                            TrySetLorIdXmlPackageId(item, string.Empty);
                         }
                     }
                 }
@@ -2108,11 +2173,18 @@ namespace abcdcode_LOGLIKE_MOD
             Type type = item.GetType();
             FieldInfo pidField = type.GetField("pid", AccessTools.all) ?? type.GetField("packageId", AccessTools.all);
             FieldInfo xmlIdField = type.GetField("xmlId", AccessTools.all) ?? type.GetField("id", AccessTools.all);
-            if (pidField == null || xmlIdField == null)
-                return;
-            object idValue = xmlIdField.GetValue(item);
+            PropertyInfo pidProperty = type.GetProperty("pid", AccessTools.all) ?? type.GetProperty("packageId", AccessTools.all);
+            PropertyInfo xmlIdProperty = type.GetProperty("xmlId", AccessTools.all) ?? type.GetProperty("id", AccessTools.all);
+            object idValue = xmlIdField != null
+                ? xmlIdField.GetValue(item)
+                : xmlIdProperty?.GetValue(item, null);
             if (idValue is int id && id > 0)
-                pidField.SetValue(item, packageId);
+            {
+                if (pidField != null)
+                    pidField.SetValue(item, packageId);
+                else if (pidProperty != null && pidProperty.CanWrite)
+                    pidProperty.SetValue(item, packageId, null);
+            }
         }
 
         public static void LoadEnemyUnitInfos()
@@ -2234,7 +2306,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             DirectoryInfo directoryInfo1 = new DirectoryInfo(LogLikeMod.path + "/AddData/EquipPage");
             List<BookXmlInfo> list1 = new List<BookXmlInfo>();
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles())
+            foreach (FileSystemInfo file in directoryInfo1.GetFiles("*.xml"))
             {
                 try {
                     List<BookXmlInfo> collection = LogLikeMod.LoadEquipPage(file.FullName, LogLikeMod.ModId);
@@ -2253,7 +2325,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (System.IO.FileInfo file in directoryInfo2.GetFiles())
+                    foreach (System.IO.FileInfo file in directoryInfo2.GetFiles("*.xml"))
                     {
                         try {
                             list2.AddRange(LogLikeMod.LoadEquipPage(file.FullName, uniqueId));

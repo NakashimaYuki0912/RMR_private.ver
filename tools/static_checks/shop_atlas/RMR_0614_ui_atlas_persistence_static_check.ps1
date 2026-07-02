@@ -1,5 +1,15 @@
 ﻿$ErrorActionPreference = 'Stop'
-$root = Split-Path -Parent $MyInvocation.MyCommand.Path
+
+$script:StaticCheckScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$script:RepoRoot = $script:StaticCheckScriptDir
+while ($script:RepoRoot -and -not (Test-Path (Join-Path $script:RepoRoot 'RogueLike Mod Reborn.csproj'))) {
+    $script:RepoRoot = Split-Path -Parent $script:RepoRoot
+}
+if (-not $script:RepoRoot) {
+    throw 'Could not locate repository root for static check.'
+}
+Set-Location $script:RepoRoot
+$root = $script:RepoRoot
 function ReadText($rel) { Get-Content -LiteralPath (Join-Path $root $rel) -Raw -Encoding UTF8 }
 function AssertContains($name, $text, $needle) { if ($text -notlike "*$needle*") { throw "$name missing: $needle" } }
 function AssertNotContains($name, $text, $needle) { if ($text -like "*$needle*") { throw "$name should not contain: $needle" } }
@@ -59,4 +69,5 @@ AssertContains 'shop ego right sidebar point' $shop 'return new Vector2(560f, 22
 AssertContains 'shop upgrade right sidebar point' $shop 'return new Vector2(730f, -210f);'
 
 Write-Host 'RMR UI/atlas persistence static check passed.'
+
 

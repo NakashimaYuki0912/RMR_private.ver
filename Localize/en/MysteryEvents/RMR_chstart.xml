@@ -26,11 +26,46 @@ Which one will you choose?</Dialog>
       <Choice ID="6">
         <Desc>Choose [rare]Floor Realization</Desc>
       </Choice>
+      <Choice ID="7">
+        <Desc>Reset all permanent progress</Desc>
+      </Choice>
+      <Choice ID="8">
+        <Desc>Gameplay guide</Desc>
+      </Choice>
     </Frame>
     <Frame ID="1">
       <Dialog>The [mirror]sparkling mirror[/color] beckons, vibrating as it manifests your chosen artifact. It lands softly in your hands, prompting [mirror]the mirror[/color] and its surroundings to dissipate into thin air.</Dialog>
       <Choice ID="0">
         <Desc>End</Desc>
+      </Choice>
+    </Frame>
+    <Frame ID="2">
+      <Dialog>This will clear the permanent atlas, completed floor realizations, Red Mist challenge progress, Black Silence first-clear progress, and Distorted Ensemble first-clear progress.
+
+Temporary pages in the current route will not be written back into the permanent atlas. Reset now?</Dialog>
+      <Choice ID="0">
+        <Desc>Confirm reset</Desc>
+      </Choice>
+      <Choice ID="1">
+        <Desc>Back</Desc>
+      </Choice>
+    </Frame>
+    <Frame ID="3">
+      <Dialog>RMR generates a chapter route with normal fights, elite fights, bosses, shops, rest sites, mystery events, abnormality battles, and floor realizations.
+
+The atlas records core pages and combat pages you have permanently unlocked. Later routes, shops, and some special flows read from that atlas.
+
+Floor realizations connect to the vanilla realization flow. After clearing one, that floor's exclusive abnormality pages and E.G.O. pages can enter the permanent reward pool.
+
+Some special bosses have first-clear rewards. After clearing Black Silence once, reaching Urban Star in later routes automatically unlocks the Black Silence core page. After clearing Distorted Ensemble once, reaching Urban Star automatically unlocks the Distorted Blue Reverberation core page and combat pages.</Dialog>
+      <Choice ID="0">
+        <Desc>Back</Desc>
+      </Choice>
+    </Frame>
+    <Frame ID="4">
+      <Dialog>Permanent atlas and realization progress have been reset.</Dialog>
+      <Choice ID="0">
+        <Desc>Back</Desc>
       </Choice>
     </Frame>
     <Title>[mirror]The Sparkling Mirror[/color]</Title>

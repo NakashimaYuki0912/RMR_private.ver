@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BookUseXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+
+  <BookUse ID="7001">
+    <Name>불순물의 책 - 일반</Name>
+    <TextId>LogueLikeBook_Ch7_1</TextId>
+    <Chapter>7</Chapter>
+  </BookUse>
+
+  <BookUse ID="7002">
+    <Name>불순물의 책 - 고급</Name>
+    <TextId>LogueLikeBook_Ch7_2</TextId>
+    <Chapter>7</Chapter>
+  </BookUse>
+
+  <BookUse ID="7003">
+    <Name>불순물의 책 - 한정</Name>
+    <TextId>LogueLikeBook_Ch7_3</TextId>
+    <Chapter>7</Chapter>
+  </BookUse>
+
+  <BookUse ID="7004">
+    <Name>불순물의 책 - 예술</Name>
+    <TextId>LogueLikeBook_Ch7_4</TextId>
+    <Chapter>7</Chapter>
+  </BookUse>
+</BookUseXmlRoot>

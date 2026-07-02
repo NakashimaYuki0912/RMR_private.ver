@@ -24,7 +24,7 @@ namespace abcdcode_LOGLIKE_MOD
         public override void OnEnterChoice(int choiceid)
         {
             base.OnEnterChoice(choiceid);
-            if (this.curFrame.FrameID != 0 || this.choices[choiceid].id != 3)
+            if (this.curFrame.FrameID != 0 || this.choices == null || !this.choices.ContainsKey(choiceid) || this.choices[choiceid].id != 3)
                 return;
             SingletonBehavior<UIBattleOverlayManager>.Instance.EnableBufOverlay(abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("StartBoost3Name"), abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("StartBoost3Desc"), LogLikeMod.ArtWorks["Reward_StartBoost_3"], this.FrameObj["choice_btn" + choiceid.ToString()]);
         }
@@ -95,6 +95,11 @@ namespace abcdcode_LOGLIKE_MOD
             });
         }
 
+        public void Event5()
+        {
+            Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new RMREffect_RoadlessCamelot());
+        }
+
         public void Event6()
         {
             if (!RMRRealizationManager.InitialRelicEntryAvailable)
@@ -125,14 +130,28 @@ namespace abcdcode_LOGLIKE_MOD
             panel.Show(parent);
         }
 
+        public void Event7()
+        {
+            this.SwapFrame(2);
+        }
+
+        public void Event8()
+        {
+            this.SwapFrame(3);
+        }
+
         public void DataInit()
         {
             this.datas = new List<MysteryModel_ChStart.StartBoostData>();
             this.datas.Add(new MysteryModel_ChStart.StartBoostData(0, new MysteryModel_ChStart.StartBoostData.Effect(this.Event0)));
             this.datas.Add(new MysteryModel_ChStart.StartBoostData(1, new MysteryModel_ChStart.StartBoostData.Effect(this.Event1)));
             this.datas.Add(new MysteryModel_ChStart.StartBoostData(2, new MysteryModel_ChStart.StartBoostData.Effect(this.Event2)));
+            this.datas.Add(new MysteryModel_ChStart.StartBoostData(3, new MysteryModel_ChStart.StartBoostData.Effect(this.Event3)));
             this.datas.Add(new MysteryModel_ChStart.StartBoostData(4, new MysteryModel_ChStart.StartBoostData.Effect(this.Event4)));
+            this.datas.Add(new MysteryModel_ChStart.StartBoostData(5, new MysteryModel_ChStart.StartBoostData.Effect(this.Event5)));
             this.datas.Add(new MysteryModel_ChStart.StartBoostData(6, new MysteryModel_ChStart.StartBoostData.Effect(this.Event6)));
+            this.datas.Add(new MysteryModel_ChStart.StartBoostData(7, new MysteryModel_ChStart.StartBoostData.Effect(this.Event7)));
+            this.datas.Add(new MysteryModel_ChStart.StartBoostData(8, new MysteryModel_ChStart.StartBoostData.Effect(this.Event8)));
         }
 
         public void ListInit()
@@ -142,18 +161,21 @@ namespace abcdcode_LOGLIKE_MOD
             List<MysteryModel_ChStart.StartBoostData> startBoostDataList = new List<MysteryModel_ChStart.StartBoostData>();
             this.choices = new Dictionary<int, MysteryModel_ChStart.StartBoostData>();
             var realizationData = this.datas.Find(x => x.id == 6);
-            this.datas = this.datas
+            var relics = this.datas
                 .Where(x => x.id != 6)
-                .OrderBy<MysteryModel_ChStart.StartBoostData, int>((Func<MysteryModel_ChStart.StartBoostData, int>)(x => Singleton<System.Random>.Instance.Next()))
+                .OrderBy(x => x.id)
                 .ToList<MysteryModel_ChStart.StartBoostData>();
-            startBoostDataList.AddRange(this.datas.Take(3));
+            startBoostDataList.AddRange(relics);
             if (RMRRealizationManager.InitialRelicEntryAvailable && realizationData != null)
                 startBoostDataList.Add(realizationData);
-            else if (this.datas.Count > 3)
-                startBoostDataList.Add(this.datas[3]);
 
-            for (int index = 0; index < startBoostDataList.Count; ++index)
+            for (int index = 0; index < this.curFrame.choices.Count; ++index)
             {
+                bool active = index < startBoostDataList.Count;
+                if (this.FrameObj.ContainsKey("choice_btn" + index.ToString()))
+                    this.FrameObj["choice_btn" + index.ToString()].SetActive(active);
+                if (!active)
+                    continue;
                 this.FrameObj["Desc" + index.ToString()].GetComponent<TextMeshProUGUI>().text = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("MysteryChStartChoice" + startBoostDataList[index].id.ToString());
                 this.choices[index] = startBoostDataList[index];
             }
@@ -171,10 +193,32 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (this.curFrame.FrameID == 0)
             {
+                if (this.choices == null || !this.choices.ContainsKey(choiceid))
+                    return;
                 var data = this.choices[choiceid];
                 data.effect();
-                if (data.id == 6)
+                if (data.id == 6 || data.id == 7 || data.id == 8)
                     return;
+                RMRRealizationManager.SetInitialRelicEntryAvailable(false);
+            }
+            else if (this.curFrame.FrameID == 2)
+            {
+                if (choiceid == 0)
+                {
+                    RMRCore.ResetAllArchiveProgress();
+                    this.SwapFrame(4);
+                    return;
+                }
+                if (choiceid == 1)
+                {
+                    this.SwapFrame(0);
+                    return;
+                }
+            }
+            else if ((this.curFrame.FrameID == 3 || this.curFrame.FrameID == 4) && choiceid == 0)
+            {
+                this.SwapFrame(0);
+                return;
             }
             base.OnClickChoice(choiceid);
         }

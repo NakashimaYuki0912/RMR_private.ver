@@ -25,11 +25,4 @@
              <text id="MysteryChX_4Frame0Dia0">一台破旧的自动售货机，玻璃太浑浊使你看不清楚它的内部。尽管机器状态不佳，但它似乎仍然可以工作，不过您将收到什么产品可就难说喽。</text>
              <text id="MysteryChX_4Frame0Choice0Desc">塞钱进去 ([red]消费10[/color] [yellow]眼[/color]，[green]获得随机消耗品[/color])</text>
              <text id="MysteryChX_4Frame0Choice1Desc">无视</text>
-             <text id="RMR_AbnoEvent_BlackForestTitle">黑森林</text>
-             <text id="RMR_AbnoEvent_BlackForestFrame0Dia0">你在不知不觉间踏进了黑森林。树影如同合拢的眼睑，枝杈间传来沉重的呼吸声。某种古老的凝视落在你身上，要求你从光里带走一页。</text>
-             <text id="RMR_AbnoEvent_WellTitle">井中之眼</text>
-             <text id="RMR_AbnoEvent_WellFrame0Dia0">你窥探了一口没有倒影的井。绿色的漩涡在井底旋转，像一只仍未闭合的眼。它没有开口，却把三段陌生的记忆推到你面前。</text>
-             <text id="RMR_AbnoEvent_HandsOfLightTitle">光中的手</text>
-             <text id="RMR_AbnoEvent_HandsOfLightFrame0Dia0">白光忽然炸开，几只手从光芒边缘伸来，像是在邀请，又像是在索取。你看不清它们的主人，只能从那片灼目的光里选择一个回响。</text>
-             <text id="RMR_AbnoEvent_ChoosePage">触碰其中一页 ([green]选择1张异想体书页[/color])</text>
 </localize>

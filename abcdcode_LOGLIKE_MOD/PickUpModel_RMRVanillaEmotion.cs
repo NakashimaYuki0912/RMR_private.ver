@@ -1,4 +1,6 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using LOR_XML;
 using UnityEngine;
@@ -90,11 +92,15 @@ namespace abcdcode_LOGLIKE_MOD
                 return null;
 
             string typeName = "EmotionCardAbility_" + script.Trim();
-            foreach (Assembly assembly in LogLikeMod.GetAssemList())
+            IEnumerable<Assembly> assemblies = LogLikeMod.GetAssemList()
+                .Concat(new[] { typeof(EmotionCardAbilityBase).Assembly })
+                .Distinct();
+            foreach (Assembly assembly in assemblies)
             {
                 foreach (Type type in assembly.GetTypes())
                 {
-                    if (type.Name == typeName && typeof(EmotionCardAbilityBase).IsAssignableFrom(type))
+                    if (string.Equals(type.Name, typeName, StringComparison.OrdinalIgnoreCase)
+                        && typeof(EmotionCardAbilityBase).IsAssignableFrom(type))
                         return type;
                 }
             }

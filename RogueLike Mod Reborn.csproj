@@ -642,6 +642,7 @@
     <Compile Include="abcdcode_LOGLIKE_MOD\ShopBase.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\ShopGoods.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\ShopGoods_Card.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\ShopGoods_CardUpgrade.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\ShopGoods_Passive.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\ShopManager.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\ShopModel_Default.cs" />

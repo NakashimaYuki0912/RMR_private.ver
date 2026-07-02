@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	 
 	 <text id="LogueLikeBook_Ch1_1">传闻之书 - 平装</text>
@@ -34,5 +34,4 @@
 	<text id="LogueLikeBook_Ch0_1_Modded">Roguelike Mod+</text>
 	<text id="LogueLikeBook_Ch0_1">Roguelike Mod</text>
     	<text id="LogueLikeBook_Ch0_2">Roguelike Mod - 已保存的记录</text>
-	<text id="LogueLikeBook_Ch6_Debug">RMR Debug Chapter 6</text>
 </localize>

@@ -109,6 +109,9 @@ namespace abcdcode_LOGLIKE_MOD
             LogLikeMod.saveloading = true;
             LogueBookModels.LoadFromSaveData(data.GetData("LogueBookModel"));
             LogLikeMod.LoadFromSaveData(data.GetData("LogLikeMod"));
+            if (LogLikeMod.curchaptergrade >= ChapterGrade.Grade6)
+                RMRCore.EnsureGrade6SpecialCorePagesUnlocked();
+            RMRCore.ApplyBinahRedMistProgressionState();
             Singleton<GlobalLogueEffectManager>.Instance.LoadFromSaveData(data.GetData("GlobalEffect"));
             LogLikeMod.saveloading = false;
         }

@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using LOR_DiceSystem;
 using LOR_XML;
 using RogueLike_Mod_Reborn;
@@ -82,6 +82,13 @@ namespace abcdcode_LOGLIKE_MOD
         private AtlasCategory currentCategory = AtlasCategory.RoleBook;
         private bool showUpgradedBattleCards;
 
+        // Detail panel fields
+        private GameObject detailPanelRoot;
+        private Image detailArtwork;
+        private TextMeshProUGUI detailTitle;
+        private TextMeshProUGUI detailDescription;
+        private AtlasEntry currentDetailEntry;
+
         public static GameObject GetLogUIObj(int index)
         {
             GameObject source = (UI.UIController.Instance.GetUIPanel(UIPanelType.BattleSetting) as UIBattleSettingPanel).EditPanel.BattleCardPanel.gameObject;
@@ -119,7 +126,294 @@ namespace abcdcode_LOGLIKE_MOD
                     tiles.Add(image.gameObject.AddComponent<LogAtlasTile>());
                 }
             }
+            CreateDetailPanel();
             root.SetActive(true);
+        }
+
+        private void CreateDetailPanel()
+        {
+            // Detail panel on the right side of the tile grid
+            detailPanelRoot = ModdingUtils.CreateImage(root.transform, "ShopGoodRewardFrame", Vector2.one, new Vector2(590f, 120f), new Vector2(280f, 460f)).gameObject;
+
+            // Title text at top of detail panel
+            detailTitle = ModdingUtils.CreateText_TMP(detailPanelRoot.transform, new Vector2(0f, 200f), 22, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, Color.white, LogLikeMod.DefFont_TMP);
+            detailTitle.alignment = TextAlignmentOptions.Center;
+            detailTitle.text = "";
+
+            // Artwork in the middle
+            detailArtwork = ModdingUtils.CreateImage(detailPanelRoot.transform, (Sprite)null, Vector2.one, new Vector2(0f, 80f), new Vector2(180f, 180f));
+            detailArtwork.preserveAspect = true;
+
+            // Description text below artwork
+            detailDescription = ModdingUtils.CreateText_TMP(detailPanelRoot.transform, new Vector2(0f, -160f), 16, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.TopLeft, Color.white, LogLikeMod.DefFont_TMP);
+            detailDescription.alignment = TextAlignmentOptions.TopLeft;
+            detailDescription.text = "";
+
+            detailPanelRoot.SetActive(true);
+        }
+
+        /// <summary>
+        /// Populates the detail panel with information for the given atlas entry.
+        /// </summary>
+        public void ShowDetail(AtlasEntry entry)
+        {
+            currentDetailEntry = entry;
+            if (entry == null || detailPanelRoot == null || detailTitle == null || detailArtwork == null || detailDescription == null)
+                return;
+
+            try
+            {
+                if (!entry.Unlocked)
+                {
+                    detailTitle.text = "???";
+                    detailArtwork.sprite = LogLikeMod.ArtWorks.ContainsKey("ItemNotFoundIcon") ? LogLikeMod.ArtWorks["ItemNotFoundIcon"] : null;
+                    detailArtwork.enabled = detailArtwork.sprite != null;
+                    ApplyArtworkLayout(detailArtwork, AtlasCategory.RoleBook, true);
+                    detailDescription.text = "尚未解锁。";
+                    return;
+                }
+
+                detailTitle.text = entry.Title ?? "?";
+                Sprite art = entry.Artwork;
+                if (art == null && LogLikeMod.ArtWorks.ContainsKey("ItemNotFoundIcon"))
+                    art = LogLikeMod.ArtWorks["ItemNotFoundIcon"];
+                detailArtwork.sprite = art;
+                detailArtwork.enabled = art != null;
+                ApplyArtworkLayout(detailArtwork, entry.Category, true);
+                detailDescription.text = entry.Description ?? "";
+
+                // Enrich detail with category-specific extra info
+                try
+                {
+                    string extraInfo = BuildDetailExtraInfo(entry);
+                    if (!string.IsNullOrEmpty(extraInfo))
+                        detailDescription.text = extraInfo;
+                }
+                catch { /* detail enrichment is optional */ }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[RMR Atlas] ShowDetail error: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Builds enriched detail text for the detail panel, based on category.
+        /// </summary>
+        private static string BuildDetailExtraInfo(AtlasEntry entry)
+        {
+            if (entry == null || !entry.Unlocked)
+                return null;
+
+            switch (entry.Category)
+            {
+                case AtlasCategory.RoleBook:
+                    return BuildRoleBookDetail(entry.Id);
+                case AtlasCategory.BattleCard:
+                    return BuildBattleCardDetail(entry.Id, entry.Title);
+                case AtlasCategory.AbnormalityPage:
+                    return BuildAbnormalityPageDetail(entry.Id);
+                case AtlasCategory.EgoPage:
+                    return BuildEgoPageDetail(entry.Id);
+                default:
+                    return null;
+            }
+        }
+
+        private static string BuildRoleBookDetail(LorId id)
+        {
+            try
+            {
+                BookXmlInfo book = Singleton<BookXmlList>.Instance.GetData(id);
+                if (book == null)
+                    return null;
+                var lines = new List<string>();
+                string displayName = book.InnerName;
+                if (string.IsNullOrEmpty(displayName) && book.CharacterSkin != null && book.CharacterSkin.Count > 0)
+                    displayName = book.CharacterSkin[0];
+                if (string.IsNullOrEmpty(displayName))
+                    displayName = id.ToString();
+                lines.Add("名称: " + displayName);
+                lines.Add("HP: " + book.EquipEffect.Hp.ToString());
+                lines.Add("速度: " + book.EquipEffect.SpeedMin.ToString() + "-" + book.EquipEffect.Speed.ToString());
+                lines.Add("速度骰子: " + book.EquipEffect.SpeedDiceNum.ToString());
+                lines.Add("耐性: 斩" + ResToText(book.EquipEffect.SResist) + " 突" + ResToText(book.EquipEffect.PResist) + " 打" + ResToText(book.EquipEffect.HResist));
+                lines.Add("混乱耐性: 斩" + ResToText(book.EquipEffect.SBResist) + " 突" + ResToText(book.EquipEffect.PBResist) + " 打" + ResToText(book.EquipEffect.HBResist));
+                if (book.EquipEffect.PassiveList != null && book.EquipEffect.PassiveList.Count > 0)
+                {
+                    lines.Add("被动:");
+                    foreach (LorId pid in book.EquipEffect.PassiveList)
+                    {
+                        string pName = Singleton<PassiveDescXmlList>.Instance.GetName(pid);
+                        string pDesc = Singleton<PassiveDescXmlList>.Instance.GetDesc(pid);
+                        if (!string.IsNullOrEmpty(pName))
+                            lines.Add("  • " + pName + ": " + (pDesc ?? ""));
+                        else
+                            lines.Add("  • " + pid.ToString());
+                    }
+                }
+                lines.Add("ID: " + id.ToString());
+                return string.Join("\n", lines.ToArray());
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private static string BuildBattleCardDetail(LorId id, string title)
+        {
+            try
+            {
+                DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(id, true);
+                if (card == null)
+                    return null;
+                var lines = new List<string>();
+                lines.Add("卡名: " + title);
+                lines.Add("费用: " + card.Spec.Cost.ToString());
+                lines.Add("章节: " + card.Chapter.ToString());
+                // Rarity is implicit from chapter; skip explicit rarity lookup
+                if (!string.IsNullOrEmpty(card.Script))
+                    lines.Add("能力: " + card.Script);
+                if (card.DiceBehaviourList != null && card.DiceBehaviourList.Count > 0)
+                {
+                    lines.Add("骰子:");
+                    for (int i = 0; i < card.DiceBehaviourList.Count; i++)
+                    {
+                        DiceBehaviour dice = card.DiceBehaviourList[i];
+                        string script = string.IsNullOrEmpty(dice.Script) ? "" : " / " + dice.Script;
+                        lines.Add("  " + (i + 1).ToString() + ". " + GetDiceDetailText(dice.Detail) + " " + dice.Min.ToString() + "-" + dice.Dice.ToString() + script);
+                    }
+                }
+                lines.Add("ID: " + id.ToString());
+                return string.Join("\n", lines.ToArray());
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private static string BuildAbnormalityPageDetail(LorId id)
+        {
+            try
+            {
+                RewardPassiveInfo info = Singleton<RewardPassivesList>.Instance.GetPassiveInfo(id);
+                if (info == null)
+                    return null;
+                EmotionCardXmlInfo card = LogLikeMod.GetRegisteredPickUpXml(info);
+                AbnormalityCard desc = GetAbnormalityCardDesc(card, info);
+                var lines = new List<string>();
+                string name = (desc != null && !string.IsNullOrEmpty(desc.cardName)) ? desc.cardName : info.script;
+                string ability = desc != null ? desc.abilityDesc : (info.script ?? "");
+                string flavor = desc != null ? desc.flavorText : "";
+                SephirahType floor = RMRAbnormalityUnlockManager.GetFloorForScript(info.script);
+                bool atlasUnlocked = LogueBookModels.IsAtlasAbnormalityPageUnlocked(id);
+
+                lines.Add("名称: " + name);
+                if (!string.IsNullOrEmpty(ability))
+                    lines.Add("能力: " + ability);
+                if (!string.IsNullOrEmpty(flavor))
+                    lines.Add("描述: " + flavor);
+                lines.Add("楼层: " + (RMRRealizationManager.FloorDisplayNames.TryGetValue(floor, out string floorName) ? floorName : floor.ToString()));
+                if (atlasUnlocked)
+                    lines.Add("图鉴: 已解锁");
+                else
+                    lines.Add("图鉴: 未解锁");
+                lines.Add("ID: " + id.ToString());
+                return string.Join("\n", lines.ToArray());
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private static string BuildEgoPageDetail(LorId id)
+        {
+            // E.G.O. pages are battle cards, so reuse battle card detail
+            return BuildBattleCardDetail(id, "");
+        }
+
+        private static string ResToText(AtkResist res)
+        {
+            switch (res)
+            {
+                case AtkResist.Weak: return "耐性";     // 耐性
+                case AtkResist.Normal: return "一般";    // 一般
+                case AtkResist.Endure: return "耐受";    // 耐受
+                case AtkResist.Immune: return "免疫";    // 免疫
+                case AtkResist.Vulnerable: return "脆弱"; // 脆弱
+                default: return res.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Gets the card artwork sprite for a battle card or E.G.O. card.
+        /// Vanilla cards use AssetBundleManagerRemake; mod cards use CustomizingCardArtworkLoader.
+        /// </summary>
+        public static Sprite GetCardArtwork(DiceCardXmlInfo card)
+        {
+            if (card == null)
+                return null;
+            try
+            {
+                string packageId = !string.IsNullOrEmpty(card.workshopID) ? card.workshopID : card.id.packageId;
+                string[] artworkKeys = new string[2]
+                {
+                    card.Artwork,
+                    card.id.id.ToString()
+                };
+
+                if (!string.IsNullOrEmpty(packageId) && LorId.IsModId(packageId))
+                {
+                    foreach (string artworkKey in artworkKeys)
+                    {
+                        if (string.IsNullOrEmpty(artworkKey))
+                            continue;
+                        try
+                        {
+                            Sprite sprite = Singleton<CustomizingCardArtworkLoader>.Instance.GetSpecificArtworkSprite(packageId, artworkKey);
+                            if (sprite != null)
+                                return sprite;
+                        }
+                        catch { }
+                    }
+                }
+
+                foreach (string artworkKey in artworkKeys)
+                {
+                    if (string.IsNullOrEmpty(artworkKey))
+                        continue;
+                    try
+                    {
+                        Sprite sprite = Singleton<AssetBundleManagerRemake>.Instance.LoadCardSprite(artworkKey);
+                        if (sprite != null)
+                            return sprite;
+                    }
+                    catch { }
+                }
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static Sprite GetCardArtworkById(LorId id)
+        {
+            if (id == LorId.None)
+                return null;
+            try
+            {
+                DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(id, true);
+                return GetCardArtwork(card);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public void SetActive(bool value)
@@ -127,7 +421,10 @@ namespace abcdcode_LOGLIKE_MOD
             if (value)
             {
                 Init();
+                LogueBookModels.EnsureAtlasUnlocks();
+                LogueBookModels.SyncCurrentInventoryToPermanentAtlas();
                 UpdateTiles();
+                Debug.Log($"[RMR Atlas] Opened. Unlocked: RoleBooks={LogueBookModels.AtlasUnlockedRoleBooks?.Count ?? 0}, BattleCards={LogueBookModels.AtlasUnlockedBattleCards?.Count ?? 0}, AbnoPages={LogueBookModels.AtlasUnlockedAbnormalityPages?.Count ?? 0}, EgoPages={LogueBookModels.AtlasUnlockedEgoPages?.Count ?? 0}. Total entries built={BuildEntries().Count}.");
             }
             else if (root != null)
             {
@@ -224,11 +521,14 @@ namespace abcdcode_LOGLIKE_MOD
 
         private static IEnumerable<AtlasEntry> BuildRoleBookEntries()
         {
-            foreach (object obj in ExtractObjects(Singleton<BookXmlList>.Instance, typeof(BookXmlInfo)).Take(260))
+            HashSet<LorId> yielded = new HashSet<LorId>();
+
+            // 1. Yield entries from the full BookXmlList (no artificial .Take limit)
+            foreach (object obj in ExtractObjects(Singleton<BookXmlList>.Instance, typeof(BookXmlInfo)))
             {
                 BookXmlInfo info = obj as BookXmlInfo;
                 LorId id = GetLorId(info, "id");
-                if (id == LorId.None)
+                if (id == LorId.None || !yielded.Add(id))
                     continue;
                 yield return new AtlasEntry
                 {
@@ -242,18 +542,47 @@ namespace abcdcode_LOGLIKE_MOD
                     Floor = SephirahType.None
                 };
             }
+
+            // 2. Merge in any unlocked atlas IDs not covered by the BookXmlList enumeration
+            LogueBookModels.EnsureAtlasUnlocks();
+            if (LogueBookModels.AtlasUnlockedRoleBooks != null)
+            {
+                foreach (LorId atlasId in LogueBookModels.AtlasUnlockedRoleBooks)
+                {
+                    if (atlasId == null || atlasId == LorId.None || !yielded.Add(atlasId))
+                        continue;
+                    BookXmlInfo info = Singleton<BookXmlList>.Instance.GetData(atlasId);
+                    if (info == null)
+                        continue;
+                    yield return new AtlasEntry
+                    {
+                        Id = atlasId,
+                        Title = GetDisplayName(info, atlasId),
+                        Description = atlasId.ToString(),
+                        Artwork = GetBookArtwork(info),
+                        Unlocked = true,
+                        Category = AtlasCategory.RoleBook,
+                        Section = SectionFromChapter(GetIntMember(info, "Chapter", 1)),
+                        Floor = SephirahType.None
+                    };
+                }
+            }
         }
 
         private static IEnumerable<AtlasEntry> BuildBattleCardEntries(bool showUpgraded)
         {
+            HashSet<LorId> yielded = new HashSet<LorId>();
+
+            // 1. Yield entries from the full ItemXmlDataList (no artificial .Take limit)
             List<DiceCardXmlInfo> sourceCards = ExtractObjects(ItemXmlDataList.instance, typeof(DiceCardXmlInfo))
                 .OfType<DiceCardXmlInfo>()
-                .Take(420)
                 .ToList();
             foreach (DiceCardXmlInfo info in sourceCards)
             {
                 LorId id = GetLorId(info, "id");
-                if (id == LorId.None)
+                if (id == LorId.None || !yielded.Add(id))
+                    continue;
+                if (RMRAbnormalityUnlockManager.IsRealizationEgoCard(id))
                     continue;
                 if (info.CheckUpgradeCard())
                     continue;
@@ -263,12 +592,42 @@ namespace abcdcode_LOGLIKE_MOD
                     Id = id,
                     Title = GetDisplayName(displayInfo, id),
                     Description = BuildBattleCardDescription(displayInfo, id, showUpgraded),
-                    Artwork = null,
+                    Artwork = GetCardArtwork(displayInfo),
                     Unlocked = IsBattleCardUnlocked(id),
                     Category = AtlasCategory.BattleCard,
                     Section = SectionFromChapter(GetIntMember(info, "Chapter", 1)),
                     Floor = SephirahType.None
                 };
+            }
+
+            // 2. Merge in any unlocked atlas battle card IDs not covered by the ItemXmlDataList enumeration
+            LogueBookModels.EnsureAtlasUnlocks();
+            if (LogueBookModels.AtlasUnlockedBattleCards != null)
+            {
+                foreach (LorId atlasId in LogueBookModels.AtlasUnlockedBattleCards)
+                {
+                    if (atlasId == null || atlasId == LorId.None || !yielded.Add(atlasId))
+                        continue;
+                    if (RMRAbnormalityUnlockManager.IsRealizationEgoCard(atlasId))
+                        continue;
+                    DiceCardXmlInfo info = ItemXmlDataList.instance.GetCardItem(atlasId, true);
+                    if (info == null)
+                        continue;
+                    if (info.CheckUpgradeCard())
+                        continue;
+                    DiceCardXmlInfo displayInfo = GetDisplayCardInfo(info, showUpgraded);
+                    yield return new AtlasEntry
+                    {
+                        Id = atlasId,
+                        Title = GetDisplayName(displayInfo, atlasId),
+                        Description = BuildBattleCardDescription(displayInfo, atlasId, showUpgraded),
+                        Artwork = GetCardArtwork(displayInfo),
+                        Unlocked = true,
+                        Category = AtlasCategory.BattleCard,
+                        Section = SectionFromChapter(GetIntMember(info, "Chapter", 1)),
+                        Floor = SephirahType.None
+                    };
+                }
             }
         }
 
@@ -370,25 +729,54 @@ namespace abcdcode_LOGLIKE_MOD
 
         private static IEnumerable<AtlasEntry> BuildEgoEntries()
         {
-            if (LogLikeMod.RewardCardDic_Dummy == null)
-                yield break;
-            foreach (KeyValuePair<string, List<EmotionEgoXmlInfo>> pair in LogLikeMod.RewardCardDic_Dummy)
+            HashSet<LorId> yielded = new HashSet<LorId>();
+
+            // 1. EGO from RewardCardDic_Dummy (mod-defined EGO cards)
+            if (LogLikeMod.RewardCardDic_Dummy != null)
             {
-                foreach (EmotionEgoXmlInfo ego in pair.Value)
+                foreach (KeyValuePair<string, List<EmotionEgoXmlInfo>> pair in LogLikeMod.RewardCardDic_Dummy)
                 {
-                    DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(ego.CardId);
+                    foreach (EmotionEgoXmlInfo ego in pair.Value)
+                    {
+                        DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(ego.CardId);
+                        if (card == null || !yielded.Add(ego.CardId))
+                            continue;
+                        SephirahType floor = GetSephirah(ego);
+                        yield return new AtlasEntry
+                        {
+                            Id = ego.CardId,
+                            Title = GetDisplayName(card, ego.CardId),
+                            Description = floor.ToString(),
+                            Artwork = GetCardArtwork(card),
+                            Unlocked = LogueBookModels.IsAtlasEgoPageUnlocked(ego.CardId),
+                            Category = AtlasCategory.EgoPage,
+                            Section = SectionFromTier(TierFromFloor(floor)),
+                            Floor = floor
+                        };
+                    }
+                }
+            }
+
+            // 2. Realization EGO cards (910001-910090) — always included regardless of RewardCardDic_Dummy
+            foreach (var kvp in RMRAbnormalityUnlockManager.RealizationEgoCardsByFloor)
+            {
+                SephirahType floor = kvp.Key;
+                foreach (LorId egoId in kvp.Value)
+                {
+                    if (!yielded.Add(egoId))
+                        continue;
+                    DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(egoId, true);
                     if (card == null)
                         continue;
-                    SephirahType floor = GetSephirah(ego);
                     yield return new AtlasEntry
                     {
-                        Id = ego.CardId,
-                        Title = GetDisplayName(card, ego.CardId),
+                        Id = egoId,
+                        Title = GetDisplayName(card, egoId),
                         Description = floor.ToString(),
-                        Artwork = null,
-                        Unlocked = IsBattleCardUnlocked(ego.CardId),
+                        Artwork = GetCardArtwork(card),
+                        Unlocked = LogueBookModels.IsAtlasEgoPageUnlocked(egoId),
                         Category = AtlasCategory.EgoPage,
-                        Section = SectionFromTier(TierFromFloor(floor)),
+                        Section = SectionFromTier(RMRAbnormalityUnlockManager.GetTierForFloor(floor)),
                         Floor = floor
                     };
                 }
@@ -451,7 +839,8 @@ namespace abcdcode_LOGLIKE_MOD
 
         private static bool IsAbnormalityUnlocked(RewardPassiveInfo info)
         {
-            return LogueBookModels.selectedEmotion != null && LogueBookModels.selectedEmotion.Exists(x => x.id == info.id)
+            return LogueBookModels.IsAtlasAbnormalityPageUnlocked(info.id)
+                || LogueBookModels.selectedEmotion != null && LogueBookModels.selectedEmotion.Exists(x => x.id == info.id)
                 || RMRAbnormalityUnlockManager.GetUnlockedEmotionCardsForBattle().Exists(x => x.id == info.id);
         }
 
@@ -474,6 +863,20 @@ namespace abcdcode_LOGLIKE_MOD
         {
             try { return info.GetThumbSprite(); }
             catch { return null; }
+        }
+
+        private static void ApplyArtworkLayout(Image target, AtlasCategory category, bool detail)
+        {
+            if (target == null)
+                return;
+            bool portrait = category == AtlasCategory.BattleCard || category == AtlasCategory.EgoPage;
+            target.preserveAspect = true;
+            target.rectTransform.sizeDelta = portrait
+                ? (detail ? new Vector2(150f, 214f) : new Vector2(50f, 70f))
+                : (detail ? new Vector2(180f, 180f) : new Vector2(64f, 64f));
+            target.rectTransform.anchoredPosition = detail
+                ? new Vector2(0f, portrait ? 76f : 80f)
+                : new Vector2(0f, portrait ? 14f : 10f);
         }
 
         private static LorId GetLorId(object obj, string name)
@@ -611,30 +1014,37 @@ namespace abcdcode_LOGLIKE_MOD
                 image.sprite = LogLikeMod.ArtWorks["ShopGoodRewardFrame"];
                 image.color = entry.Unlocked ? UIColorManager.Manager.GetUIColor(UIColor.Default) : new Color(0.35f, 0.35f, 0.35f, 1f);
                 if (artwork == null)
+                {
                     artwork = ModdingUtils.CreateImage(transform, (Sprite)null, Vector2.one, new Vector2(0f, 10f), new Vector2(64f, 64f));
+                    artwork.preserveAspect = true;
+                }
                 if (title == null)
                     title = ModdingUtils.CreateText_TMP(transform, new Vector2(0f, -36f), 19, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, Color.white, LogLikeMod.DefFont_TMP);
                 artwork.sprite = entry.Unlocked ? entry.Artwork : LogLikeMod.ArtWorks["ItemNotFoundIcon"];
                 artwork.enabled = artwork.sprite != null;
+                ApplyArtworkLayout(artwork, entry.Unlocked ? entry.Category : AtlasCategory.RoleBook, false);
                 title.text = entry.Unlocked ? entry.Title : LockedTitle;
                 if (selectable == null)
                 {
                     selectable = gameObject.AddComponent<UILogCustomSelectable>();
                     selectable.targetGraphic = image;
                     selectable.SelectEvent = new UnityEventBasedata();
-                    selectable.SelectEvent.AddListener((UnityAction<BaseEventData>)(e => OnEnter()));
+                    // OnEnter shows tooltip AND populates detail panel
+                    selectable.SelectEvent.AddListener((UnityAction<BaseEventData>)(e => OnSelect()));
                     selectable.DeselectEvent = new UnityEventBasedata();
                     selectable.DeselectEvent.AddListener((UnityAction<BaseEventData>)(e => OnExit()));
                 }
             }
 
-            private void OnEnter()
+            private void OnSelect()
             {
                 if (entry == null)
                     return;
                 string name = entry.Unlocked ? entry.Title : LockedTitle;
                 string desc = entry.Unlocked ? entry.Description : "尚未解锁。";
                 SingletonBehavior<UIMainOverlayManager>.Instance.SetTooltip(name, desc, transform as RectTransform, Rarity.Special, UIToolTipPanelType.OnlyContent);
+                // Populate detail panel safely
+                try { Singleton<LogAtlasPanel>.Instance.ShowDetail(entry); } catch { }
             }
 
             private void OnExit()

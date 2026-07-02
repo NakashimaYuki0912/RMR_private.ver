@@ -61,7 +61,7 @@ namespace RogueLike_Mod_Reborn
         public const string packageId = "abcdcodecalmmagma.LogueLikeReborn";
         public static CustomMapHandler RMRMapHandler;
 
-        public const string BuildTimestamp = "2026-06-29T23:50+08:00";
+        public const string BuildTimestamp = "2026-07-02T13:34+08:00";
 
         public override void OnInitializeMod()
         {
@@ -524,94 +524,105 @@ namespace RogueLike_Mod_Reborn
 
         private const string Grade6SpecialCorePagesGrantedSaveName = "RMR_Grade6SpecialCorePagesGranted";
         private const string BlackSilenceStageClearedSaveName = "RMR_BlackSilenceStageCleared";
+        private const string DistortedEnsembleStageClearedSaveName = "RMR_DistortedEnsembleStageCleared";
         private const int RedMistChallengeStageId = 60020;
-
-        /// <summary>
-        /// Tries to locate Black Silence (Roland) and Binah core pages in BookXmlList.
-        /// Returns true only if BOTH are resolved. Outputs detailed reason on failure.
-        /// Uses hardcoded vanilla IDs first, then TextId/CharacterSkin/InnerName fallbacks.
-        /// </summary>
-        private static bool TryResolveGrade6SpecialCorePages(out BookXmlInfo blackSilence, out BookXmlInfo binah, out string reason)
+        private const int BlueReverberationCorePageId = 250013;
+        private static readonly int[] BlueReverberationBattlePageIds =
         {
-            blackSilence = null;
-            binah = null;
+            604021,
+            604022,
+            604023,
+            604024,
+            604025
+        };
+
+        private static List<BookXmlInfo> GetVanillaCorePageCandidates(out string reason)
+        {
             reason = null;
 
             var allBooks = Singleton<BookXmlList>.Instance.GetList();
             if (allBooks == null || allBooks.Count == 0)
             {
                 reason = "BookXmlList.GetList() returned empty — BookXmlList may not be loaded yet.";
+                return new List<BookXmlInfo>();
+            }
+
+            return allBooks.Where(x => x != null && !x.id.IsWorkshop()).ToList();
+        }
+
+        private static bool TryResolveBlackSilenceCorePage(out BookXmlInfo blackSilence, out string reason)
+        {
+            blackSilence = null;
+            var candidates = GetVanillaCorePageCandidates(out reason);
+            if (candidates.Count == 0)
                 return false;
-            }
 
-            // --- Black Silence (Roland) ---
-            // Known vanilla IDs in various mod/patch environments
-            var bsCandidates = allBooks.Where(x => x != null && !x.id.IsWorkshop()).ToList();
-            // Try TextId == 102 first (most reliable)
-            blackSilence = bsCandidates.Find(x => x.TextId == 102);
-            // Fallback: InnerName contains "BlackSilence"
+            blackSilence = candidates.Find(x => x.TextId == 102);
             if (blackSilence == null)
-                blackSilence = bsCandidates.Find(x => !string.IsNullOrEmpty(x.InnerName) && x.InnerName.IndexOf("BlackSilence", StringComparison.OrdinalIgnoreCase) >= 0);
-            // Fallback: CharacterSkin contains "Black"
+                blackSilence = candidates.Find(x => !string.IsNullOrEmpty(x.InnerName)
+                    && x.InnerName.IndexOf("BlackSilence", StringComparison.OrdinalIgnoreCase) >= 0);
             if (blackSilence == null)
-                blackSilence = bsCandidates.Find(x => x.CharacterSkin != null && x.CharacterSkin.Any(s => s != null && s.IndexOf("Black", StringComparison.OrdinalIgnoreCase) >= 0));
+                blackSilence = candidates.Find(x => !string.IsNullOrEmpty(x._bookIcon)
+                    && x._bookIcon.IndexOf("BlackSilence", StringComparison.OrdinalIgnoreCase) >= 0);
+            if (blackSilence == null)
+                blackSilence = candidates.Find(x => x.CharacterSkin != null
+                    && x.CharacterSkin.Any(s => !string.IsNullOrEmpty(s)
+                        && s.IndexOf("Black", StringComparison.OrdinalIgnoreCase) >= 0));
 
-            // --- Binah ---
-            // Known vanilla ID: try to find by TextId or inner name
-            var binahCandidates = allBooks.Where(x => x != null && !x.id.IsWorkshop()).ToList();
-            // Try CharacterSkin
-            foreach (var book in binahCandidates)
+            if (blackSilence != null)
             {
-                if (book.CharacterSkin != null && book.CharacterSkin.Any(s => s != null && s.IndexOf("Binah", StringComparison.OrdinalIgnoreCase) >= 0))
-                {
-                    binah = book;
-                    break;
-                }
-            }
-            // Fallback: _bookIcon
-            if (binah == null)
-            {
-                foreach (var book in binahCandidates)
-                {
-                    if (!string.IsNullOrEmpty(book._bookIcon) && book._bookIcon.IndexOf("Binah", StringComparison.OrdinalIgnoreCase) >= 0)
-                    {
-                        binah = book;
-                        break;
-                    }
-                }
-            }
-            // Fallback: InnerName
-            if (binah == null)
-            {
-                foreach (var book in binahCandidates)
-                {
-                    if (!string.IsNullOrEmpty(book.InnerName) && book.InnerName.IndexOf("Binah", StringComparison.OrdinalIgnoreCase) >= 0)
-                    {
-                        binah = book;
-                        break;
-                    }
-                }
+                reason = null;
+                return true;
             }
 
-            // Build detailed failure reason
-            if (blackSilence == null || binah == null)
-            {
-                var sb = new System.Text.StringBuilder();
-                sb.Append($"Could not resolve both Grade6 special core pages (searched {allBooks.Count} books). ");
-                sb.Append($"BlackSilence={(blackSilence != null ? blackSilence.id.ToString() : "NOT FOUND")}. ");
-                sb.Append($"Binah={(binah != null ? binah.id.ToString() : "NOT FOUND")}. ");
-                sb.Append("BS candidates by TextId=102: ");
-                var byTextId = bsCandidates.FindAll(x => x.TextId == 102);
-                sb.Append(byTextId.Count > 0 ? $"{byTextId.Count} found" : "0 found");
-                sb.Append(". Binah candidates by CharacterSkin: ");
-                var bySkin = binahCandidates.FindAll(x => x.CharacterSkin != null && x.CharacterSkin.Any(s => s != null && s.IndexOf("Binah", StringComparison.OrdinalIgnoreCase) >= 0));
-                sb.Append(bySkin.Count > 0 ? $"{bySkin.Count} found" : "0 found");
-                sb.Append(".");
-                reason = sb.ToString();
+            int textIdMatches = candidates.Count(x => x.TextId == 102);
+            reason = $"Black Silence core page not found. candidates={candidates.Count}, TextId102={textIdMatches}.";
+            return false;
+        }
+
+        private static bool TryResolveBinahCorePage(out BookXmlInfo binah, out string reason)
+        {
+            binah = null;
+            var candidates = GetVanillaCorePageCandidates(out reason);
+            if (candidates.Count == 0)
                 return false;
+
+            binah = candidates.Find(x => x.CharacterSkin != null
+                && x.CharacterSkin.Any(s => !string.IsNullOrEmpty(s)
+                    && s.IndexOf("Binah", StringComparison.OrdinalIgnoreCase) >= 0));
+            if (binah == null)
+                binah = candidates.Find(x => !string.IsNullOrEmpty(x._bookIcon)
+                    && x._bookIcon.IndexOf("Binah", StringComparison.OrdinalIgnoreCase) >= 0);
+            if (binah == null)
+                binah = candidates.Find(x => !string.IsNullOrEmpty(x.InnerName)
+                    && x.InnerName.IndexOf("Binah", StringComparison.OrdinalIgnoreCase) >= 0);
+
+            if (binah != null)
+            {
+                reason = null;
+                return true;
             }
 
-            return true;
+            int skinMatches = candidates.Count(x => x.CharacterSkin != null
+                && x.CharacterSkin.Any(s => !string.IsNullOrEmpty(s)
+                    && s.IndexOf("Binah", StringComparison.OrdinalIgnoreCase) >= 0));
+            reason = $"Binah core page not found. candidates={candidates.Count}, skinMatches={skinMatches}.";
+            return false;
+        }
+
+        /// <summary>
+        /// Tries to locate Black Silence (Roland) and Binah core pages in BookXmlList.
+        /// Keep this legacy combined resolver for older checks, but runtime grant paths
+        /// resolve each page independently so one missing page does not block the other.
+        /// </summary>
+        private static bool TryResolveGrade6SpecialCorePages(out BookXmlInfo blackSilence, out BookXmlInfo binah, out string reason)
+        {
+            bool foundBlackSilence = TryResolveBlackSilenceCorePage(out blackSilence, out string blackSilenceReason);
+            bool foundBinah = TryResolveBinahCorePage(out binah, out string binahReason);
+            reason = foundBlackSilence && foundBinah
+                ? null
+                : $"BlackSilence={(foundBlackSilence ? blackSilence.id.ToString() : blackSilenceReason)}. Binah={(foundBinah ? binah.id.ToString() : binahReason)}.";
+            return foundBlackSilence && foundBinah;
         }
 
         private static bool HasRoleBookInBothAtlasAndBooklist(BookXmlInfo page)
@@ -636,7 +647,9 @@ namespace RogueLike_Mod_Reborn
         {
             if (id == null || id == LorId.None)
                 return false;
-            if (LogueBookModels.booklist != null && LogueBookModels.booklist.Any(b => b.ClassInfo.id == id))
+            if (LogueBookModels.booklist == null)
+                LogueBookModels.booklist = new List<BookModel>();
+            if (LogueBookModels.booklist.Any(b => b?.ClassInfo?.id == id))
                 return true; // already in booklist
             BookXmlInfo bookXml = Singleton<BookXmlList>.Instance.GetData(id);
             if (bookXml == null)
@@ -651,24 +664,41 @@ namespace RogueLike_Mod_Reborn
 
         /// <summary>
         /// Grants Black Silence at Urban Star entry after the Black Silence stage has been cleared.
+        /// Grants Blue Reverberation after the Distorted Ensemble stage has been cleared.
         /// Binah is intentionally excluded:
         /// she is available temporarily during the Red Mist challenge and remains
         /// unlocked only for the current route after that challenge is won.
         /// </summary>
         public static void EnsureGrade6SpecialCorePagesUnlocked()
         {
-            if (!IsBlackSilenceUnlockedForUrbanStar())
-            {
+            RMRAbnormalityUnlockManager.PrunePrematureRedMistChallengeRewards();
+
+            bool grantedAny = false;
+
+            if (IsBlackSilenceUnlockedForUrbanStar())
+                grantedAny |= EnsureBlackSilenceCorePageForUrbanStar();
+            else
                 Debug.Log("[RMR] Urban Star entry: Black Silence is still locked until the Black Silence stage is cleared once.");
-                return;
-            }
 
-            if (!TryResolveGrade6SpecialCorePages(out BookXmlInfo blackSilence, out BookXmlInfo binah, out string resolveReason))
+            if (IsDistortedEnsembleUnlockedForUrbanStar())
+                grantedAny |= EnsureBlueReverberationRewardsForUrbanStar();
+            else
+                Debug.Log("[RMR] Urban Star entry: Blue Reverberation is still locked until the Distorted Ensemble stage is cleared once.");
+
+            if (grantedAny)
             {
-                Debug.LogError($"[RMR] EnsureGrade6SpecialCorePagesUnlocked: cannot resolve books — {resolveReason}");
-                return;
+                SaveGrantedFlagInternal();
+                LogueBookModels.SavePermanentAtlasData();
             }
+        }
 
+        private static bool EnsureBlackSilenceCorePageForUrbanStar()
+        {
+            if (!TryResolveBlackSilenceCorePage(out BookXmlInfo blackSilence, out string resolveReason))
+            {
+                Debug.LogError($"[RMR] EnsureBlackSilenceCorePageForUrbanStar: cannot resolve Black Silence — {resolveReason}");
+                return false;
+            }
             bool bsInAtlasNow = LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(blackSilence.id);
             if (bsInAtlasNow)
                 Debug.Log($"[RMR] Grade6 special: granted Black Silence core page {blackSilence.id.packageId}:{blackSilence.id.id} (TextId={blackSilence.TextId}, InnerName={blackSilence.InnerName ?? "?"}).");
@@ -676,13 +706,51 @@ namespace RogueLike_Mod_Reborn
 
             if (HasRoleBookInBothAtlasAndBooklist(blackSilence))
             {
-                SaveGrantedFlagInternal();
                 Debug.Log("[RMR] Urban Star entry: Black Silence confirmed in atlas and current route. Binah remains gated by the Red Mist challenge.");
+                return bsInAtlasNow || bsInBooklist;
             }
-            else
+
+            Debug.LogError($"[RMR] EnsureBlackSilenceCorePageForUrbanStar: failed to confirm Black Silence. atlasAdded={bsInAtlasNow}, booklist={bsInBooklist}.");
+            return false;
+        }
+
+        private static bool EnsureBlueReverberationRewardsForUrbanStar()
+        {
+            LorId blueBookId = new LorId(LogLikeMod.ModId, BlueReverberationCorePageId);
+            BookXmlInfo blueBook = Singleton<BookXmlList>.Instance.GetData(blueBookId);
+            if (blueBook == null)
             {
-                Debug.LogError($"[RMR] EnsureGrade6SpecialCorePagesUnlocked: failed to confirm Black Silence. atlasAdded={bsInAtlasNow}, booklist={bsInBooklist}.");
+                Debug.LogError($"[RMR] EnsureBlueReverberationRewardsForUrbanStar: cannot resolve Blue Reverberation core page {blueBookId}.");
+                return false;
             }
+
+            bool changed = LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(blueBookId);
+            bool inBooklist = EnsureRoleBookInCurrentBooklist(blueBookId);
+            if (LogueBookModels.cardlist == null)
+                LogueBookModels.cardlist = new List<DiceCardItemModel>();
+            foreach (int pageId in BlueReverberationBattlePageIds)
+            {
+                LorId cardId = new LorId(LogLikeMod.ModId, pageId);
+                bool alreadyUnlocked = LogueBookModels.AtlasUnlockedBattleCards != null
+                    && LogueBookModels.AtlasUnlockedBattleCards.Contains(cardId);
+                LogueBookModels.AddCard(cardId, 1, false);
+                changed |= !alreadyUnlocked;
+            }
+
+            LogueBookModels.EnsureAtlasUnlocks();
+            bool confirmedCore = LogueBookModels.AtlasUnlockedRoleBooks.Contains(blueBookId)
+                && LogueBookModels.booklist != null
+                && LogueBookModels.booklist.Any(book => book?.ClassInfo?.id == blueBookId);
+            bool confirmedCards = BlueReverberationBattlePageIds.All(pageId =>
+                LogueBookModels.AtlasUnlockedBattleCards.Contains(new LorId(LogLikeMod.ModId, pageId)));
+            if (confirmedCore && confirmedCards)
+            {
+                Debug.Log($"[RMR] Urban Star entry: Blue Reverberation confirmed in atlas/current route; battle pages {string.Join(", ", BlueReverberationBattlePageIds.Select(x => x.ToString()).ToArray())} unlocked.");
+                return changed || inBooklist;
+            }
+
+            Debug.LogError($"[RMR] EnsureBlueReverberationRewardsForUrbanStar: failed to confirm rewards. core={confirmedCore}, cards={confirmedCards}, booklist={inBooklist}.");
+            return false;
         }
 
         public static bool IsBinahRedMistChallengeUnlocked()
@@ -711,7 +779,7 @@ namespace RogueLike_Mod_Reborn
         {
             if (LogLikeMod.curstageid != new LorId(LogLikeMod.ModId, RedMistChallengeStageId))
                 return;
-            if (!TryResolveGrade6SpecialCorePages(out BookXmlInfo blackSilence, out BookXmlInfo binah, out string reason))
+            if (!TryResolveBinahCorePage(out BookXmlInfo binah, out string reason))
             {
                 Debug.LogError($"[RMR] PrepareBinahForRedMistChallenge: cannot resolve Binah — {reason}");
                 return;
@@ -725,7 +793,7 @@ namespace RogueLike_Mod_Reborn
 
         public static void UnlockBinahAfterRedMistVictory()
         {
-            if (!TryResolveGrade6SpecialCorePages(out BookXmlInfo blackSilence, out BookXmlInfo binah, out string reason))
+            if (!TryResolveBinahCorePage(out BookXmlInfo binah, out string reason))
             {
                 Debug.LogError($"[RMR] UnlockBinahAfterRedMistVictory: cannot resolve Binah — {reason}");
                 return;
@@ -740,7 +808,9 @@ namespace RogueLike_Mod_Reborn
 
         public static void ApplyBinahRedMistProgressionState()
         {
-            if (!TryResolveGrade6SpecialCorePages(out BookXmlInfo blackSilence, out BookXmlInfo binah, out string reason))
+            RMRAbnormalityUnlockManager.PrunePrematureRedMistChallengeRewards();
+
+            if (!TryResolveBinahCorePage(out BookXmlInfo binah, out string reason))
             {
                 Debug.LogError($"[RMR] ApplyBinahRedMistProgressionState: cannot resolve Binah — {reason}");
                 return;
@@ -806,6 +876,39 @@ namespace RogueLike_Mod_Reborn
             SaveSimpleFlag(BlackSilenceStageClearedSaveName, "Cleared");
         }
 
+        public static bool IsDistortedEnsembleUnlockedForUrbanStar()
+        {
+            return LoadSimpleFlag(DistortedEnsembleStageClearedSaveName, "Cleared");
+        }
+
+        public static void RecordDistortedEnsembleStageClear()
+        {
+            SaveSimpleFlag(DistortedEnsembleStageClearedSaveName, "Cleared");
+        }
+
+        public static void ResetAllArchiveProgress()
+        {
+            try
+            {
+                RMRAbnormalityUnlockManager.ResetAllPermanentProgress();
+                ClearSimpleFlag(BlackSilenceStageClearedSaveName, "Cleared");
+                ClearSimpleFlag(DistortedEnsembleStageClearedSaveName, "Cleared");
+                ClearSimpleFlag(Grade6SpecialCorePagesGrantedSaveName, "Granted");
+
+                LogueBookModels.EnsureAtlasUnlocks();
+                LogueBookModels.AtlasUnlockedRoleBooks.Clear();
+                LogueBookModels.AtlasUnlockedBattleCards.Clear();
+                LogueBookModels.AtlasUnlockedAbnormalityPages.Clear();
+                LogueBookModels.AtlasUnlockedEgoPages.Clear();
+                LogueBookModels.SavePermanentAtlasData();
+                Debug.Log("[RMR] Reset all archive progress: permanent atlas, realization clears, and special clear flags were cleared.");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[RMR] ResetAllArchiveProgress failed: {e}");
+            }
+        }
+
         private static void SaveGrantedFlagInternal()
         {
             SaveSimpleFlag(Grade6SpecialCorePagesGrantedSaveName, "Granted");
@@ -835,6 +938,20 @@ namespace RogueLike_Mod_Reborn
             catch
             {
                 return false;
+            }
+        }
+
+        private static void ClearSimpleFlag(string saveName, string key)
+        {
+            try
+            {
+                SaveData data = new SaveData(SaveDataType.Dictionary);
+                data.AddData(key, new SaveData(0));
+                Singleton<LogueSaveManager>.Instance.SaveData(data, saveName);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[RMR] Failed to clear flag {saveName}: {e.Message}");
             }
         }
     }
@@ -2436,6 +2553,7 @@ namespace RogueLike_Mod_Reborn
 
         public override void OnWaveStartInitialEvent()
         {
+            RMRRealizationManager.SetInitialRelicEntryAvailable(true);
             Singleton<MysteryManager>.Instance.StartMystery(Singleton<MysteryXmlList>.Instance.GetData(new LorId(LogLikeMod.ModId, -1)));
         }
 

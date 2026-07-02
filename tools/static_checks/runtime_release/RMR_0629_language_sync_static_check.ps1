@@ -1,6 +1,16 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 
-$root = Split-Path -Parent $MyInvocation.MyCommand.Path
+
+$script:StaticCheckScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$script:RepoRoot = $script:StaticCheckScriptDir
+while ($script:RepoRoot -and -not (Test-Path (Join-Path $script:RepoRoot 'RogueLike Mod Reborn.csproj'))) {
+    $script:RepoRoot = Split-Path -Parent $script:RepoRoot
+}
+if (-not $script:RepoRoot) {
+    throw 'Could not locate repository root for static check.'
+}
+Set-Location $script:RepoRoot
+$root = $script:RepoRoot
 function ReadText($rel) { Get-Content -LiteralPath (Join-Path $root $rel) -Raw -Encoding UTF8 }
 function AssertContains($name, $text, $needle) { if ($text -notlike "*$needle*") { throw "$name missing: $needle" } }
 
@@ -19,6 +29,9 @@ AssertContains 'japanese font probe checks kana not only kanji' $logLike 'return
 AssertContains 'simplified chinese font probe checks common simplified glyphs' $logLike 'return "\u56fe\u6c49\u8bed\u6d4b\u8bd5";'
 AssertContains 'traditional chinese font probe checks common traditional glyphs' $logLike 'return "\u5716\u6f22\u8a9e\u6e2c\u8a66";'
 AssertContains 'korean font probe remains explicit' $logLike 'return "\ud55c\uae00\ub3c4";'
+AssertContains 'vanilla TextDataModel override is gated before reading mod text' $patches 'ShouldOverrideVanillaTextWithRmrText(id)'
+AssertContains 'generic mod text only overrides while RMR is active' $patches 'LogLikeMod.CheckStage()'
+AssertContains 'main menu RMR text remains available outside RMR stage' $patches 'id.StartsWith("ui_RMR_", StringComparison.Ordinal)'
 AssertContains 'vanilla TextDataModel only overridden by non-empty mod dictionary values' $patches 'if (!(text != string.Empty))'
 
 foreach ($file in @('Localize\cn\UIs.txt', 'Localize\en\UIs.txt', 'Localize\kr\UIs.txt')) {
@@ -26,3 +39,4 @@ foreach ($file in @('Localize\cn\UIs.txt', 'Localize\en\UIs.txt', 'Localize\kr\U
 }
 
 Write-Host 'RMR language sync static check passed.'
+

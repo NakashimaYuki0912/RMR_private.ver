@@ -1,7 +1,16 @@
-$ErrorActionPreference = "Stop"
+﻿$ErrorActionPreference = "Stop"
 
-$root = Split-Path -Parent $MyInvocation.MyCommand.Path
 
+$script:StaticCheckScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$script:RepoRoot = $script:StaticCheckScriptDir
+while ($script:RepoRoot -and -not (Test-Path (Join-Path $script:RepoRoot 'RogueLike Mod Reborn.csproj'))) {
+    $script:RepoRoot = Split-Path -Parent $script:RepoRoot
+}
+if (-not $script:RepoRoot) {
+    throw 'Could not locate repository root for static check.'
+}
+Set-Location $script:RepoRoot
+$root = $script:RepoRoot
 function Read-Text($relativePath) {
     Get-Content -LiteralPath (Join-Path $root $relativePath) -Raw -Encoding UTF8
 }
@@ -102,3 +111,4 @@ foreach ($file in @(($mysteryArtwork1 + ".png"), ($mysteryArtwork2 + ".png"), ($
 }
 
 "RMR ATLAS STATIC CHECK PASSED"
+
