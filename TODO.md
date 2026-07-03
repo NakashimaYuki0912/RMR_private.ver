@@ -332,3 +332,64 @@
   - 右侧详情卡的骰子行为描述是否仍出现 `口口口`。
   - 异想体书页、核心页、战斗书页说明里是否还有未命中的 UI。
 - 若仍有 `口口口`，下一步不要继续盲目加字体补丁，应拿用户截图定位具体 UI 类；已知还存在另一类数据问题：`Localize/cn` 和 `AddData` 中有少量原始韩文/假名文本，需要和字体问题分开处理。
+
+---
+
+## 2026-07-03 第六轮修复记录
+
+### 本轮反馈
+
+- 部署 `Build: 2026-07-03T13:45+08:00` 后，游戏内仍有 `口口口`。
+- 用户要求查看 `Player.log`，必要时只对照 `original-codes` 相关部分，不要把现有玩法改回原作者版本。
+
+### 已确认的问题来源
+
+- `Player.log` 已确认实际加载到 `Build: 2026-07-03T13:45+08:00`，没有再出现 `LogLikeMod Init error` 或 `PatchAll` 报错。
+- `Player.log` 显示语言为 `cn`，Mod 加载的是 `Localize\cn`。
+- 扫描源码和数据目录未发现文本本身包含 `口口/□□/�`，所以不是整批本地化文件编码污染。
+- 对照 `original-codes` 相关部分发现关键差异：
+  - 原作者 `LogLikeMod.DefFont_TMP.get` 在为空时直接取 `LocalizedFontSetter.font_NotoSans`。
+  - 当前版本改成扫描兼容字体，并且 `UIOptionWindow.Open` 与 `BattleMoneyUI.Create` 会把选项窗口下拉框字体写入 `DefFont_TMP`。
+  - 游戏程序集里的 `LocalizedFontSetter` 实际存在 `cnFont_notoSansCJKsc`、`cnFont_notoSerifCJKsc`、`font_NotoSans` 等字段；中文界面应优先使用原生 CJK 字体，而不是任意下拉框字体。
+
+### 已修改文件
+
+- `abcdcode_LOGLIKE_MOD/LogLikeMod.cs`
+  - 新增 `ResolvePreferredLocalizedTmpFont()`，按语言优先选择游戏原生字体字段。
+  - `cn/trcn` 优先使用 `cnFont_notoSansCJKsc`，其次 `cnFont_notoSerifCJKsc`，再回退通用 Noto 字体。
+  - `DefFont_TMP` getter/setter 会优先使用当前语言的 preferred 字体，阻止选项窗口下拉框字体覆盖中文 CJK 字体。
+  - 增加一次性日志：`[RMR Localize] Using preferred TMP font ...`，方便下一次从 `Player.log` 验证真实字体来源。
+- `tools/static_checks/runtime_release/RMR_0629_language_sync_static_check.ps1`
+  - 增加中文原生 CJK TMP 字体字段、preferred 字体解析和日志断言。
+- `RMR_Core.cs`
+  - 构建时间戳更新为 `2026-07-03T14:08+08:00`。
+
+### 已验证
+
+- 修改前红/绿探针为红：
+  - 缺少 `cnFont_notoSansCJKsc`
+  - 缺少 `ResolvePreferredLocalizedTmpFont`
+  - 缺少 `Using preferred TMP font`
+- 修改后红/绿探针为绿。
+- 静态检查通过：
+  - `tools/static_checks/runtime_release/RMR_0629_language_sync_static_check.ps1`
+- `git diff --check`：无空白错误；仅有仓库既有 LF/CRLF 提示。
+- Release 编译通过：
+  - 输出 DLL：`C:\Users\13034\AppData\Local\Temp\rmr_build_out\RogueLike Mod Reborn.dll`
+  - 仅有既有 warning：`RMREffect_Duplicator.Dupe.cards` 未赋值。
+- 已部署到 Workshop：
+  - DLL：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\dlls\RogueLike Mod Reborn.dll`
+  - 备份：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\_codex_backups\RogueLike Mod Reborn.dll.0703_preferred_cjk_font_20260703_140528.bak`
+  - DLL SHA-256：`81DDA1B8FEF711C4F85883B565A5AB60CEB83C4196B8FBCDF89E561E208C2667`
+
+### 还没做 / 下一次优先验证
+
+- 尚未启动游戏做视觉实测。需要在 `Player.log` 确认加载到 `Build: 2026-07-03T14:08+08:00`。
+- 启动后需要在 `Player.log` 搜索：
+  - `[RMR Localize] Using preferred TMP font`
+  - 期望字体名来自 `cnFont_notoSansCJKsc` 或同等中文 CJK 字体。
+- 游戏内继续检查：
+  - 异想体书页描述是否还出现 `口口口`。
+  - 核心书页描述是否还出现 `口口口`。
+  - 战斗书页目录和右侧详情卡是否还出现 `口口口`。
+- 如果仍有 `口口口`，下一步应按最新截图定位未命中的具体 UI 类，而不是继续扩大字体逻辑；本轮只修字体来源，不改玩法。
