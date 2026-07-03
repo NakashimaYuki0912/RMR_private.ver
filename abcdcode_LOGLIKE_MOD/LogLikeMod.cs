@@ -116,7 +116,6 @@ namespace abcdcode_LOGLIKE_MOD
         public static LorId curstageid;
         public static Font DefFont;
         public static TMP_FontAsset _DefFont_TMP;
-        private static string _lastPreferredTmpFontLogKey;
         public static Color _DefFontColor = new Color(0.9372549f, 0.7607843f, 0.5058824f, 1f);
         public const string ModId = "abcdcodecalmmagma.LogueLikeReborn";
         public static string path;
@@ -338,14 +337,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             get
             {
-                string language = NormalizeTextLanguage(TextDataModel.CurrentLanguage);
-                TMP_FontAsset preferredFont = ResolvePreferredLocalizedTmpFont(language);
-                if (preferredFont != null && !ReferenceEquals(LogLikeMod._DefFont_TMP, preferredFont))
-                {
-                    LogLikeMod._DefFont_TMP = preferredFont;
-                    LogPreferredTmpFont(preferredFont, language);
-                }
-                else if (LogLikeMod._DefFont_TMP == null)
+                if (LogLikeMod._DefFont_TMP == null)
                     LogLikeMod._DefFont_TMP = ResolveLocalizedTmpFont();
                 return LogLikeMod._DefFont_TMP;
             }
@@ -354,16 +346,6 @@ namespace abcdcode_LOGLIKE_MOD
                 if (value == null)
                     return;
                 string language = NormalizeTextLanguage(TextDataModel.CurrentLanguage);
-                TMP_FontAsset preferredFont = ResolvePreferredLocalizedTmpFont(language);
-                if (preferredFont != null)
-                {
-                    if (!ReferenceEquals(LogLikeMod._DefFont_TMP, preferredFont))
-                    {
-                        LogLikeMod._DefFont_TMP = preferredFont;
-                        LogPreferredTmpFont(preferredFont, language);
-                    }
-                    return;
-                }
                 if (!IsTmpFontCompatibleWithLanguage(value, language))
                 {
                     Debug.LogWarning($"[RMR Localize] Rejected TMP font '{value.name}' for language '{language}' because it cannot render the required glyphs.");
@@ -1050,57 +1032,6 @@ namespace abcdcode_LOGLIKE_MOD
             return requested;
         }
 
-        private static TMP_FontAsset ResolvePreferredLocalizedTmpFont(string language)
-        {
-            string[] preferredFieldNames = GetPreferredLocalizedTmpFontFieldNames(language);
-            if (preferredFieldNames.Length == 0)
-                return null;
-
-            try
-            {
-                LocalizedFontSetter setter = SingletonBehavior<LocalizedFontSetter>.Instance;
-                if (setter == null)
-                    return null;
-
-                Type setterType = setter.GetType();
-                foreach (string fieldName in preferredFieldNames)
-                {
-                    FieldInfo field = setterType.GetField(fieldName, AccessTools.all);
-                    TMP_FontAsset candidate = field?.GetValue(setter) as TMP_FontAsset;
-                    if (IsTmpFontCompatibleWithLanguage(candidate, language))
-                        return candidate;
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning("[RMR Localize] Failed to resolve preferred TMP font: " + e);
-            }
-            return null;
-        }
-
-        private static string[] GetPreferredLocalizedTmpFontFieldNames(string language)
-        {
-            string lang = CanonicalizeTextLanguage(language);
-            if (lang == "cn" || lang == "trcn")
-                return new[] { "cnFont_notoSansCJKsc", "cnFont_notoSerifCJKsc", "font_NotoSans", "font_NotoSerif" };
-            if (lang == "jp")
-                return new[] { "jpFont_logoTypeGothic", "jpFont_ShipporiMincho", "font_NotoSans", "font_NotoSerif" };
-            if (lang == "kr")
-                return new[] { "krFont_Namsan", "krFont_Arita", "font_NotoSans", "font_NotoSerif" };
-            return new[] { "font_NotoSans", "font_NotoSerif" };
-        }
-
-        private static void LogPreferredTmpFont(TMP_FontAsset font, string language)
-        {
-            if (font == null)
-                return;
-            string key = language + ":" + font.name;
-            if (_lastPreferredTmpFontLogKey == key)
-                return;
-            _lastPreferredTmpFontLogKey = key;
-            Debug.Log($"[RMR Localize] Using preferred TMP font '{font.name}' for language '{language}'.");
-        }
-
         private static TMP_FontAsset ResolveLocalizedTmpFont()
         {
             string language = ResolveInitialTextLanguage();
@@ -1186,38 +1117,6 @@ namespace abcdcode_LOGLIKE_MOD
                 return true;
             }
             return false;
-        }
-
-        public static bool CanTmpFontRenderText(TMP_FontAsset font, string text)
-        {
-            if (font == null)
-                return false;
-            if (string.IsNullOrEmpty(text))
-                return true;
-
-            HashSet<TMP_FontAsset> visited = new HashSet<TMP_FontAsset>();
-            bool inRichTextTag = false;
-            foreach (char character in text)
-            {
-                if (character == '<')
-                {
-                    inRichTextTag = true;
-                    continue;
-                }
-                if (inRichTextTag)
-                {
-                    if (character == '>')
-                        inRichTextTag = false;
-                    continue;
-                }
-                if (char.IsControl(character) || char.IsWhiteSpace(character))
-                    continue;
-
-                visited.Clear();
-                if (!FontHasCharacterRecursive(font, character, visited))
-                    return false;
-            }
-            return true;
         }
 
         private static string GetFontProbeCharacters(string language)
@@ -3204,7 +3103,6 @@ namespace abcdcode_LOGLIKE_MOD
                     if (this.IconGlow != null)
                         this.IconGlow.sprite = this.bookInfo.bookIconGlow;
                     this.SetHighlighted(false);
-                    LogLikeRoutines.ApplyRmrTmpFont(this.gameObject);
                     if (!(this.bookNumRoot != null))
                         return;
                     if (!this.bookNumRoot.activeSelf)
@@ -3233,7 +3131,6 @@ namespace abcdcode_LOGLIKE_MOD
                 GameObject bookNumRoot = this.bookNumRoot;
                 if (bookNumRoot != null)
                     bookNumRoot.SetActive(false);
-                LogLikeRoutines.ApplyRmrTmpFont(this.gameObject);
                 if (!this.ob_tutorialhighlight.activeSelf)
                     return;
                 this.ob_tutorialhighlight.SetActive(false);
@@ -3422,7 +3319,6 @@ namespace abcdcode_LOGLIKE_MOD
             public override void SetData(BookModel book)
             {
                 base.SetData(book);
-                LogLikeRoutines.ApplyRmrTmpFont(this.gameObject);
                 this.SetActiveSlot(true);
                 this.cg_equiproot.alpha = 0.0f;
                 if (this._bookDataModel.owner != null)
@@ -4422,7 +4318,6 @@ namespace abcdcode_LOGLIKE_MOD
                     this.txt_cardName.text = RewardingModel.SanitizeDisplayText(cardModel.XmlData.workshopName);
                 else
                     this.txt_cardName.text = RewardingModel.SanitizeDisplayText(Singleton<BattleCardDescXmlList>.Instance.GetCardName(cardModel.GetTextId()));
-                LogLikeRoutines.ApplyRmrTmpFont(this.gameObject);
                 this.SetDefaultPreviewResistText();
                 this._cost = this._cardModel.GetCost();
                 this._originCost = this._cardModel.GetOriginCost();
@@ -4451,7 +4346,6 @@ namespace abcdcode_LOGLIKE_MOD
                 {
                     this.selfAbilityArea.SetActive(true);
                     this.txt_selfAbility.text = RewardingModel.SanitizeDisplayText(TextUtil.TransformConditionKeyword(text));
-                    LogLikeRoutines.ApplyRmrTmpFont(this.selfAbilityArea);
                     float preferredHeight = this.txt_selfAbility.preferredHeight;
                     int num = Mathf.Min((double)preferredHeight >= 260.0 ? ((double)preferredHeight >= 480.0 ? ((double)preferredHeight >= 700.0 ? 3 : 2) : 1) : 0, b);
                     RectTransform component = this.selfAbilityArea.GetComponent<RectTransform>();
@@ -5319,7 +5213,6 @@ namespace abcdcode_LOGLIKE_MOD
                         this.txt_cardName.text = RewardingModel.SanitizeDisplayText(this._cardModel.GetName());
                     else
                         this.txt_cardName.text = RewardingModel.SanitizeDisplayText(Singleton<BattleCardDescXmlList>.Instance.GetCardName(this._cardModel.GetTextId()));
-                    LogLikeRoutines.ApplyRmrTmpFont(this.gameObject);
                     this.costNumbers.SetOneValue(this._cardModel.GetSpec().Cost, UISpriteDataManager.instance._cardCostNumberSprites);
                     this.img_RangeIcon.sprite = UISpriteDataManager.instance.GetRangeIconSprite(this._cardModel.GetSpec().Ranged);
                     this.SetRangeIconHsv(UIColorManager.Manager.CardRangeHsvValue[(int)this._cardModel.GetRarity()]);
@@ -5387,7 +5280,6 @@ namespace abcdcode_LOGLIKE_MOD
                         {
                             this.ob_selfAbility.SetActive(true);
                             this.txt_selfAbility.text = RewardingModel.SanitizeDisplayText(TextUtil.TransformConditionKeyword(text));
-                            LogLikeRoutines.ApplyRmrTmpFont(this.ob_selfAbility);
                             float preferredHeight = this.txt_selfAbility.preferredHeight;
                             int num = Mathf.Min((double)preferredHeight >= 26.0 ? ((double)preferredHeight >= 48.0 ? ((double)preferredHeight >= 70.0 ? 3 : 2) : 1) : 0, b);
                             RectTransform component = this.ob_selfAbility.GetComponent<RectTransform>();
@@ -5697,7 +5589,6 @@ namespace abcdcode_LOGLIKE_MOD
                         this.txt_cardName.text = RewardingModel.SanitizeDisplayText(this._cardModel.GetName());
                     else
                         this.txt_cardName.text = RewardingModel.SanitizeDisplayText(Singleton<BattleCardDescXmlList>.Instance.GetCardName(this._cardModel.GetTextId()));
-                    LogLikeRoutines.ApplyRmrTmpFont(this.gameObject);
                     this.costNumbers.SetOneValue(this._cardModel.GetSpec().Cost, UISpriteDataManager.instance._cardCostNumberSprites);
                     this.img_RangeIcon.sprite = UISpriteDataManager.instance.GetRangeIconSprite(this._cardModel.GetSpec().Ranged);
                     this.SetRangeIconHsv(UIColorManager.Manager.CardRangeHsvValue[(int)this._cardModel.GetRarity()]);

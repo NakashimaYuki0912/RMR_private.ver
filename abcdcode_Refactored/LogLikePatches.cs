@@ -24,31 +24,6 @@ namespace abcdcode_LOGLIKE_MOD
 {
     public static class LogLikeRoutines
     {
-        public static void ApplyRmrTmpFont(GameObject root)
-        {
-            if (root == null)
-                return;
-            TMP_FontAsset font = LogLikeMod.DefFont_TMP;
-            foreach (TextMeshProUGUI text in root.GetComponentsInChildren<TextMeshProUGUI>(true))
-            {
-                if (text == null)
-                    continue;
-                string sanitizedText = RewardingModel.SanitizeDisplayText(text.text);
-                text.text = sanitizedText;
-                if (ShouldUseRmrTmpFont(text.font, font, sanitizedText))
-                    text.font = font;
-            }
-        }
-
-        private static bool ShouldUseRmrTmpFont(TMP_FontAsset currentFont, TMP_FontAsset candidateFont, string text)
-        {
-            if (candidateFont == null || ReferenceEquals(currentFont, candidateFont))
-                return false;
-            if (!LogLikeMod.CanTmpFontRenderText(candidateFont, text))
-                return false;
-            return currentFont == null || !LogLikeMod.CanTmpFontRenderText(currentFont, text);
-        }
-
         public static IEnumerator DisableRoutine(LevelUpUI self)
         {
             self.cardHidingGroup.alpha = 0.0f;
@@ -1931,7 +1906,6 @@ namespace abcdcode_LOGLIKE_MOD
                         break;
                 }
                 self.RefreshNumbersData();
-                LogLikeRoutines.ApplyRmrTmpFont(self.gameObject);
             }
             else
                 orig(self);
@@ -2416,7 +2390,6 @@ namespace abcdcode_LOGLIKE_MOD
             if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             LogLikeRoutines.SetBattleSettingCardPanelVisible(false);
-            LogLikeRoutines.ApplyRmrTmpFont(UIPassiveSuccessionPopup.Instance?.gameObject);
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(UIPassiveSuccessionPopup), nameof(UIPassiveSuccessionPopup.Close))]
@@ -2956,7 +2929,6 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
-            LogLikeRoutines.ApplyRmrTmpFont(__instance.gameObject);
             Image image = (Image)typeof(EmotionPassiveCardUI).GetField("_artwork", AccessTools.all).GetValue(__instance);
             EmotionCardXmlInfo emotionCardXmlInfo = (EmotionCardXmlInfo)typeof(EmotionPassiveCardUI).GetField("_card", AccessTools.all).GetValue(__instance);
             if (image == null || emotionCardXmlInfo == null)
@@ -3026,44 +2998,11 @@ namespace abcdcode_LOGLIKE_MOD
         }
         */
 
-        [HarmonyPostfix, HarmonyPatch(typeof(BattleDiceCardUI), nameof(BattleDiceCardUI.SetCard), new Type[] { typeof(BattleDiceCardModel), typeof(BattleDiceCardUI.Option[]) })]
-        public static void BattleDiceCardUI_SetCard_RmrFont(BattleDiceCardUI __instance)
-        {
-            if (!LogLikeMod.CheckStage() && !LogLikeRoutines.IsRoguelikeBattleSettingContext())
-                return;
-            LogLikeRoutines.ApplyRmrTmpFont(__instance?.gameObject);
-        }
-
-        [HarmonyPostfix, HarmonyPatch(typeof(UIOriginCardSlot), nameof(UIOriginCardSlot.SetData), new Type[] { typeof(DiceCardItemModel) })]
-        public static void UIOriginCardSlot_SetData_RmrFont(UIOriginCardSlot __instance)
-        {
-            if (!LogLikeMod.CheckStage() && !LogLikeRoutines.IsRoguelikeBattleSettingContext())
-                return;
-            LogLikeRoutines.ApplyRmrTmpFont(__instance?.gameObject);
-        }
-
-        [HarmonyPostfix, HarmonyPatch(typeof(BattleDiceCard_BehaviourDescUI), nameof(BattleDiceCard_BehaviourDescUI.SetBehaviourInfo), new Type[] { typeof(DiceBehaviour), typeof(LorId), typeof(List<DiceBehaviour>), typeof(bool) })]
-        public static void BattleDiceCard_BehaviourDescUI_SetBehaviourInfo_RmrFont(BattleDiceCard_BehaviourDescUI __instance)
-        {
-            if (!LogLikeMod.CheckStage() && !LogLikeRoutines.IsRoguelikeBattleSettingContext())
-                return;
-            LogLikeRoutines.ApplyRmrTmpFont(__instance?.gameObject);
-        }
-
-        [HarmonyPostfix, HarmonyPatch(typeof(UIDetailCardDescSlot), nameof(UIDetailCardDescSlot.SetBehaviourInfo), new Type[] { typeof(DiceBehaviour), typeof(LorId), typeof(List<DiceBehaviour>), typeof(bool) })]
-        public static void UIDetailCardDescSlot_SetBehaviourInfo_RmrFont(UIDetailCardDescSlot __instance)
-        {
-            if (!LogLikeMod.CheckStage() && !LogLikeRoutines.IsRoguelikeBattleSettingContext())
-                return;
-            LogLikeRoutines.ApplyRmrTmpFont(__instance?.gameObject);
-        }
-
         [HarmonyPostfix, HarmonyPatch(typeof(EmotionPassiveCardUI), nameof(EmotionPassiveCardUI.Init))]
         public static void EmotionPassiveCardUI_Init(EmotionPassiveCardUI __instance)
         {
             if (!LogLikeMod.CheckStage())
                 return;
-            LogLikeRoutines.ApplyRmrTmpFont(__instance.gameObject);
             bool fieldValue = LogLikeMod.GetFieldValue<bool>(__instance, "_isForceOpen");
             if (LogLikeMod.ChangeEmotinCardBtn == null)
             {
@@ -3414,7 +3353,6 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (!LogLikeMod.CheckStage())
                 return;
-            LogLikeRoutines.ApplyRmrTmpFont(__instance.gameObject);
             LogLikeMod.GetFieldValue<Image>(__instance, "_artwork").sprite = LogLikeMod.ArtWorks[__instance.Card.Artwork];
         }
 
@@ -3457,7 +3395,6 @@ namespace abcdcode_LOGLIKE_MOD
                 foreach (PassiveModel passiveModel in bookItem.GetPassiveModelList())
                     passiveModel.InitReservedData();
             }
-            LogLikeRoutines.ApplyRmrTmpFont(UIPassiveSuccessionPopup.Instance?.gameObject);
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(StageWaveModel), nameof(StageWaveModel.GetUnitBattleDataListByFormation))]

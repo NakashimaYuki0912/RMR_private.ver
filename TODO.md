@@ -447,3 +447,78 @@
   - 异想体书页介绍是否恢复正常。
   - 核心书页说明和战斗书页说明是否恢复正常。
 - 如果仍然有 `口口口`，下一步应抓具体截图中的页面类型和卡/页 ID，再检查对应 UI 的实际 TMP 字体名；不要继续扩大玩法逻辑或奖励逻辑。
+
+---
+
+## 2026-07-04 第八轮修复记录
+
+### 本轮反馈
+
+- 用户反馈 2026-07-04 01:26 左右截图中仍然存在 `口口口`。
+- 用户指出昨天之前版本没有这个问题，怀疑是 2026-07-03 多轮修改时上下文过多导致继续修改出错。
+
+### 已确认的问题来源
+
+- `Player.log` 确认游戏实际加载了上一轮部署 DLL：
+  - `Build: 2026-07-03T21:32+08:00`
+  - 本地化加载路径为 `...\Assemblies\dlls\Localize\cn`
+  - `option.dat` 中游戏语言为 `cn`
+- 因此这次不是简单的“没有部署”。
+- 从 `e998173`（2026-07-02 基线）到当前 HEAD 的差异看，问题相关变更集中在：
+  - `abcdcode_LOGLIKE_MOD/LogLikeMod.cs`
+  - `abcdcode_Refactored/LogLikePatches.cs`
+- 2026-07-03 新增了 `ApplyRmrTmpFont()`，并把它挂到卡牌、异想体页、核心页、Tooltip 和被动转移等 UI。原作者基线和 2026-07-02 基线都没有这条递归强制处理整棵 UI 子树 TMP 字体的逻辑。
+- `Player.log` 没有出现 `Using preferred TMP font` / `Selected TMP font`，说明上一轮 preferred-font 实验没有在实测日志里形成可验证的字体选择证据。
+- 最可能根因：递归 TMP 字体刷新链覆盖了原版 UI 本来可用的字体，导致卡牌、异想体页、核心页等原版文本显示路径出现方框。
+
+### 已修改文件
+
+- `abcdcode_Refactored/LogLikePatches.cs`
+  - 移除 `ApplyRmrTmpFont()` 和 `ShouldUseRmrTmpFont()`。
+  - 移除卡牌、异想体、核心页、Tooltip 等 UI 上的递归 TMP 字体刷新调用。
+  - 移除 font-only Harmony postfix：
+    - `BattleDiceCardUI_SetCard_RmrFont`
+    - `UIOriginCardSlot_SetData_RmrFont`
+    - `BattleDiceCard_BehaviourDescUI_SetBehaviourInfo_RmrFont`
+    - `UIDetailCardDescSlot_SetBehaviourInfo_RmrFont`
+- `abcdcode_LOGLIKE_MOD/LogLikeMod.cs`
+  - 回退 2026-07-03 新增的 preferred TMP 字体选择实验。
+  - 移除 `ResolvePreferredLocalizedTmpFont()`、`CanTmpFontRenderText()` 等只服务于递归字体替换链的代码。
+  - 保留 2026-07-02 已有的语言同步、文本字典清理和多字符 CJK 字体探针。
+  - 移除卡牌/核心页 UI 里新增的递归字体刷新调用，保留文本本地化/展示名兜底。
+- `RMR_Core.cs`
+  - 构建时间戳更新为 `2026-07-04T01:52+08:00`。
+  - 移除 Tooltip 上的递归 TMP 字体刷新调用。
+- `tools/static_checks/runtime_release/RMR_0629_language_sync_static_check.ps1`
+  - 更新静态检查：要求保留 2026-07-02 的语言同步规则，同时禁止重新引入递归 `ApplyRmrTmpFont` 和 font-only 卡牌/骰子描述 postfix。
+
+### 已验证
+
+- 静态检查通过：
+  - `tools/static_checks/runtime_release/RMR_0629_language_sync_static_check.ps1`
+  - `tools/static_checks/realization/RMR_0620_grade6_special_fixed_deck_static_check.ps1`
+  - `tools/static_checks/rewards/RMR_0628_user_reported_rewards_static_check.ps1`
+- 额外源码扫描通过：
+  - 未发现 `ApplyRmrTmpFont`
+  - 未发现 `BattleDiceCardUI_SetCard_RmrFont`
+  - 未发现 `UIOriginCardSlot_SetData_RmrFont`
+  - 未发现 `SetBehaviourInfo_RmrFont`
+  - 未发现 `ResolvePreferredLocalizedTmpFont`
+- `git diff --check`：无空白错误；仅有仓库既有 LF/CRLF 提示。
+- Release 编译通过：
+  - 输出 DLL：`C:\Users\13034\AppData\Local\Temp\rmr_build_out_font_revert\RogueLike Mod Reborn.dll`
+  - 仅有既有 warning：`RMREffect_Duplicator.Dupe.cards` 未赋值。
+- 已部署到 Workshop：
+  - DLL：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\dlls\RogueLike Mod Reborn.dll`
+  - 备份目录：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\_codex_backups\0704_revert_recursive_font_patch_20260704_013358`
+  - DLL SHA-256：`8093CDDE06BBA93112F1D84146D65255C536F88F7079B38E761111F4538C7291`
+
+### 还没做 / 下一次优先验证
+
+- 尚未启动游戏做视觉实测。需要在 `Player.log` 确认加载到：
+  - `Build: 2026-07-04T01:52+08:00`
+- 游戏内优先验证：
+  - 杂质层战斗书页奖励封面是否恢复。
+  - 异想体书页介绍是否恢复。
+  - 核心书页说明和战斗书页说明是否恢复。
+- 如果仍有 `口口口`，下一步不要再改字体链，应按具体卡/页 ID 检查其本地化 ID 和描述来源。

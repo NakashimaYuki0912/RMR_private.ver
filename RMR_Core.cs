@@ -61,7 +61,7 @@ namespace RogueLike_Mod_Reborn
         public const string packageId = "abcdcodecalmmagma.LogueLikeReborn";
         public static CustomMapHandler RMRMapHandler;
 
-        public const string BuildTimestamp = "2026-07-03T21:32+08:00";
+        public const string BuildTimestamp = "2026-07-04T01:52+08:00";
 
         public override void OnInitializeMod()
         {
@@ -3355,8 +3355,6 @@ namespace RogueLike_Mod_Reborn
             __instance.tooltipName.color = toolColor;
             __instance.setter_tooltipname.underlayColor = toolColor;
             __instance.tooltipDesc.text = content;
-            LogLikeRoutines.ApplyRmrTmpFont(__instance.tooltipName?.gameObject);
-            LogLikeRoutines.ApplyRmrTmpFont(__instance.tooltipDesc?.gameObject);
             __instance.SetTooltipOverlayBoxSize(panelType);
             if (!LogLikeMod.IsBattleState())
                 __instance.SetFixedTooltipOverlayBoxPosition(camera, rectTransform); // used fixed transform in menus
