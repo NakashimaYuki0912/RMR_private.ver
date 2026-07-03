@@ -225,3 +225,54 @@
   - 普通固定卡组核心页如 Binah、漆黑静默是否仍保持固定专属牌组，不被本轮改动放开。
   - 异想体书页、核心页、战斗书页描述中的 `口口口` 是否消失；如果仍有，需要继续定位具体 UI 类或实际缺字字体。
   - 解放战准备界面可用角色仍需用户继续反馈；本轮没有继续修改解放战人数逻辑。
+
+---
+
+## 2026-07-03 第四轮修复记录
+
+### 本轮反馈
+
+- 游戏启动时弹出 `LogLikeMod Init error : Patching exception in method null`。
+- `Player.log` 确认加载的是上一轮 DLL：`Build: 2026-07-03T09:11+08:00`，随后在 `Harmony.CreateAndPatchAll(typeof(LogLikePatches))` 阶段失败。
+
+### 根因
+
+- 上一轮新增的 `BattleDiceCardUI.SetCard` 字体刷新 HarmonyPatch 写成了单参数签名：
+  - 错误：`SetCard(BattleDiceCardModel)`
+  - 游戏实际签名：`SetCard(BattleDiceCardModel, BattleDiceCardUI.Option[])`
+- Harmony 在运行时找不到目标方法，因此以 `method null` 形式中断整个 Mod 初始化。
+
+### 已修改文件
+
+- `abcdcode_Refactored/LogLikePatches.cs`
+  - 将 `BattleDiceCardUI.SetCard` patch 签名修正为 `BattleDiceCardModel + BattleDiceCardUI.Option[]`。
+- `tools/static_checks/runtime_release/RMR_0629_language_sync_static_check.ps1`
+  - 增加 `BattleDiceCardUI.SetCard` 双参数签名断言。
+  - 将 `AssertContains` 从 `-like` 通配符匹配改为 `.Contains()`，避免 `Option[]` 中的 `[]` 被 PowerShell 当通配符解析。
+- `RMR_Core.cs`
+  - 构建时间戳更新为 `2026-07-03T13:33+08:00`。
+
+### 已验证
+
+- `Player.log` 已确认上一轮故障 DLL 被实际加载，错误发生在 `PatchAll`。
+- 通过反射检查游戏程序集：
+  - `BattleDiceCardUI.SetCard(BattleDiceCardModel cardModel, BattleDiceCardUI+Option[] options)`
+  - `UI.UIOriginCardSlot.SetData(DiceCardItemModel cardmodel)`
+- `git diff --check`：无空白错误；仅有仓库既有 LF/CRLF 提示。
+- 静态检查通过：
+  - `tools/static_checks/runtime_release/RMR_0629_language_sync_static_check.ps1`
+  - `tools/static_checks/realization/RMR_0620_grade6_special_fixed_deck_static_check.ps1`
+- Release 编译通过：
+  - 输出 DLL：`C:\Users\13034\AppData\Local\Temp\rmr_build_out\RogueLike Mod Reborn.dll`
+  - 仅有既有 warning：`RMREffect_Duplicator.Dupe.cards` 未赋值。
+- 已部署到 Workshop：
+  - DLL：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\dlls\RogueLike Mod Reborn.dll`
+  - DLL SHA-256：`2C4EBBA6807075228C66D9349947B5073A33D99442DC0FCF5A9AFD2E378CCB24`
+
+### 还没做 / 下一次优先验证
+
+- 尚未重新启动游戏验证 `PatchAll` 错误消失。需要在 `Player.log` 确认加载到 `Build: 2026-07-03T13:33+08:00`，且不再出现 `LogLikeMod Init error : Patching exception in method null`。
+- 启动通过后再继续验证上一轮目标：
+  - 阿尔加利亚核心页卡组是否可编辑。
+  - 阿尔加利亚专属战斗书页是否可加入/移出卡组。
+  - `口口口` 是否仍出现在具体哪些 UI 上。

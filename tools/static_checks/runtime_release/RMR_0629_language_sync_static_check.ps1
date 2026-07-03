@@ -12,7 +12,7 @@ if (-not $script:RepoRoot) {
 Set-Location $script:RepoRoot
 $root = $script:RepoRoot
 function ReadText($rel) { Get-Content -LiteralPath (Join-Path $root $rel) -Raw -Encoding UTF8 }
-function AssertContains($name, $text, $needle) { if ($text -notlike "*$needle*") { throw "$name missing: $needle" } }
+function AssertContains($name, $text, $needle) { if (-not $text.Contains($needle)) { throw "$name missing: $needle" } }
 
 $logLike = ReadText 'abcdcode_LOGLIKE_MOD\LogLikeMod.cs'
 $patches = ReadText 'abcdcode_Refactored\LogLikePatches.cs'
@@ -35,6 +35,7 @@ AssertContains 'main menu RMR text remains available outside RMR stage' $patches
 AssertContains 'vanilla TextDataModel only overridden by non-empty mod dictionary values' $patches 'if (!(text != string.Empty))'
 AssertContains 'RMR TMP font sanitizer rewrites existing UI text' $patches 'text.text = RewardingModel.SanitizeDisplayText(text.text)'
 AssertContains 'battle card UI refreshes RMR TMP font after SetCard' $patches 'BattleDiceCardUI_SetCard_RmrFont'
+AssertContains 'battle card UI SetCard patch uses the runtime two-argument signature' $patches 'typeof(BattleDiceCardModel), typeof(BattleDiceCardUI.Option[])'
 AssertContains 'origin card slot refreshes RMR TMP font after SetData' $patches 'UIOriginCardSlot_SetData_RmrFont'
 AssertContains 'inventory card slot refreshes RMR TMP font after state update' $patches 'LogLikeRoutines.ApplyRmrTmpFont(self.gameObject)'
 AssertContains 'passive succession popup refreshes RMR TMP font after open' $patches 'LogLikeRoutines.ApplyRmrTmpFont(UIPassiveSuccessionPopup.Instance?.gameObject)'

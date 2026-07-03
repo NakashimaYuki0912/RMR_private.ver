@@ -3016,7 +3016,7 @@ namespace abcdcode_LOGLIKE_MOD
         }
         */
 
-        [HarmonyPostfix, HarmonyPatch(typeof(BattleDiceCardUI), nameof(BattleDiceCardUI.SetCard), new Type[] { typeof(BattleDiceCardModel) })]
+        [HarmonyPostfix, HarmonyPatch(typeof(BattleDiceCardUI), nameof(BattleDiceCardUI.SetCard), new Type[] { typeof(BattleDiceCardModel), typeof(BattleDiceCardUI.Option[]) })]
         public static void BattleDiceCardUI_SetCard_RmrFont(BattleDiceCardUI __instance)
         {
             if (!LogLikeMod.CheckStage() && !LogLikeRoutines.IsRoguelikeBattleSettingContext())
