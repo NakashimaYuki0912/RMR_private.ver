@@ -37,11 +37,13 @@ Must $combatPagePoolIsExact 'Impurity combat-page pool must contain exactly Reve
 
 [xml]$equipRewardXml = $equipRewards
 $keyPageIds = @($equipRewardXml.RewardPassivesRoot.ChapterList.RewardList | ForEach-Object { [int]$_.ID })
-$expectedKeyPageIds = @(260005, 260006, 260007, 260008, 260009, 260010, 260011, 260012, 260013, 260014)
+$expectedKeyPageIds = @(260001, 260002, 260003, 260004)
+$modNeededCandidateIds = @(260005, 260006, 260007, 260008, 260009, 260010, 260011, 260012, 260013, 260014)
 $keyPagePoolIsExact = $equipRewardXml.RewardPassivesRoot.ChapterList.WorkShopID -eq '@origin' -and
     $keyPageIds.Count -eq $expectedKeyPageIds.Count -and
     @($expectedKeyPageIds | Where-Object { $_ -notin $keyPageIds }).Count -eq 0
-Must $keyPagePoolIsExact 'Impurity key-page pool must contain exactly the ten Reverberation Ensemble core pages.'
+Must $keyPagePoolIsExact 'Impurity key-page pool must contain exactly verified vanilla core pages 260001-260004.'
+Must (@($modNeededCandidateIds | Where-Object { $_ -in $keyPageIds }).Count -eq 0) 'Impurity key-page pool must not contain 260005-260014 Mod Needed candidates.'
 
 [xml]$stageRoot = Get-Content -Raw -Encoding UTF8 'SpecialStaticInfo\StagesXmlInfos\Stage_ch7.xml'
 $bossIds = @($stageRoot.StagesXmlRoot.ChapterList.StageList | Where-Object StageType -eq 'Boss' | ForEach-Object { [int]$_.ID })

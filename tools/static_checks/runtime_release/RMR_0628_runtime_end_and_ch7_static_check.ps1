@@ -124,10 +124,12 @@ foreach ($bookId in @("7001", "7002", "7003", "7004")) {
 }
 Require-True ($equipRewardCh7.RewardPassivesRoot.ChapterList.Chapter -eq "Grade7") "Grade7 equip reward chapter is missing."
 $grade7EquipIds = @($equipRewardCh7.RewardPassivesRoot.ChapterList.RewardList | ForEach-Object { [string]$_.ID })
-foreach ($equipId in @("260005", "260006", "260007", "260008", "260009", "260010", "260011", "260012", "260013", "260014")) {
-    Require-True ($grade7EquipIds -contains $equipId) "Grade7 equip rewards must include Reverberation Ensemble core page $equipId."
+foreach ($equipId in @("260001", "260002", "260003", "260004")) {
+    Require-True ($grade7EquipIds -contains $equipId) "Grade7 equip rewards must include verified vanilla impurity core page $equipId."
 }
-Require-True (-not ($grade7EquipIds -contains "260001")) "Grade7 equip rewards must not remain limited to Hana Association core pages."
+foreach ($equipId in @("260005", "260006", "260007", "260008", "260009", "260010", "260011", "260012", "260013", "260014")) {
+    Require-True (-not ($grade7EquipIds -contains $equipId)) "Grade7 equip rewards must not include Mod Needed candidate $equipId."
+}
 foreach ($mysteryId in @("70011", "70012")) {
     Require-True ($mysteryCh7.MysteryXmlRoot.Mystery | Where-Object { $_.ID -eq $mysteryId }) "Grade7 mystery $mysteryId must have real MysteryXmlInfo so it is not an empty event."
 }

@@ -15,6 +15,11 @@
              <text id="ui_RestHide">숨기기</text>
              <text id="ui_RestShow">돌아가기</text>
              <text id="ui_Realization">개방전</text>
+             <text id="ui_RMR_RealizationTitle">개방전</text>
+             <text id="ui_RMR_RealizationDesc">층 개방전에 도전합니다. 승리하면 해당 층의 전용 환상체 책장과 E.G.O 책장이 도감과 보상 풀에 영구 해금됩니다.</text>
+             <text id="ui_RMR_RealizationChallenge">도전</text>
+             <text id="ui_RMR_RealizationCleared">완료</text>
+             <text id="ui_RMR_RealizationClose">닫기</text>
 
   <text id="Equip_Slash">참격 내성</text>
   <text id="Equip_Penetrate">관통 내성</text>

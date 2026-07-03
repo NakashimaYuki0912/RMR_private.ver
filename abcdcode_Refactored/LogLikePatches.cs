@@ -421,7 +421,8 @@ namespace abcdcode_LOGLIKE_MOD
             if (LogueBookModels.TryGetGrade6SpecialBuiltInDeckCards(self, out List<DiceCardXmlInfo> builtInDeck))
                 return builtInDeck;
 
-            if (LogLikeMod.CheckStage(true) && RMRCore.CurrentGamemode.ReplaceBaseDeck)
+            if ((LogLikeMod.CheckStage(true) || RMRRealizationManager.InRealizationBattle)
+                && RMRCore.CurrentGamemode.ReplaceBaseDeck)
             {
                 List<DiceCardXmlInfo> list = new List<DiceCardXmlInfo>();
                 list.AddRange(self.GetCardList(index));

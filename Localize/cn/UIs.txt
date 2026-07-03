@@ -17,6 +17,11 @@
 	 <text id="ui_RestHide">隐藏</text>
 	 <text id="ui_RestShow">返回</text>
 	 <text id="ui_Realization">解放战</text>
+	 <text id="ui_RMR_RealizationTitle">解放战</text>
+	 <text id="ui_RMR_RealizationDesc">挑战楼层解放战。胜利后，该楼层的专属异想体书页与 E.G.O 书页会永久进入图鉴和奖励池。</text>
+	 <text id="ui_RMR_RealizationChallenge">挑战</text>
+	 <text id="ui_RMR_RealizationCleared">已完成</text>
+	 <text id="ui_RMR_RealizationClose">关闭</text>
 
 
   <text id="Equip_Slash">斩击伤害抗性</text>

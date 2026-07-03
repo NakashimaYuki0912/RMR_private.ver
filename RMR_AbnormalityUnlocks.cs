@@ -31,7 +31,6 @@ namespace RogueLike_Mod_Reborn
         private const int BlackSilenceStageId = 70020;
         private const int DistortedEnsembleStageId = 70021;
         private const int DistortedEnsembleLastStageId = 70021;
-        private const int BlueReverberationCorePageId = 250013;
 
         private static readonly int[] RedMistBattlePageIds =
         {
@@ -431,8 +430,9 @@ namespace RogueLike_Mod_Reborn
 
             BlueReverberationRewardsGrantedThisBattle = true;
             RMRCore.RecordDistortedEnsembleStageClear();
-            LorId blueBookId = new LorId(LogLikeMod.ModId, BlueReverberationCorePageId);
-            bool corePageAdded = LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(blueBookId);
+            LorId blueBookId = RMRCore.GetBlueReverberationCorePageLorId();
+            bool corePageAdded = RMRCore.PruneLegacyBlueReverberationCorePageUnlocks();
+            corePageAdded |= LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(blueBookId);
             foreach (int pageId in BlueReverberationBattlePageIds)
                 LogueBookModels.AddCard(new LorId(pageId), 1, false);
             LogueBookModels.SavePermanentAtlasUnlocks();

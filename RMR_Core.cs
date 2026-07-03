@@ -61,7 +61,7 @@ namespace RogueLike_Mod_Reborn
         public const string packageId = "abcdcodecalmmagma.LogueLikeReborn";
         public static CustomMapHandler RMRMapHandler;
 
-        public const string BuildTimestamp = "2026-07-04T01:52+08:00";
+        public const string BuildTimestamp = "2026-07-04T02:06+08:00";
 
         public override void OnInitializeMod()
         {
@@ -538,6 +538,22 @@ namespace RogueLike_Mod_Reborn
             705011
         };
 
+        public static LorId GetBlueReverberationCorePageLorId()
+        {
+            return new LorId(BlueReverberationCorePageId);
+        }
+
+        public static bool PruneLegacyBlueReverberationCorePageUnlocks()
+        {
+            bool changed = false;
+            LorId legacyId = new LorId(LogLikeMod.ModId, BlueReverberationCorePageId);
+            if (LogueBookModels.AtlasUnlockedRoleBooks != null)
+                changed |= LogueBookModels.AtlasUnlockedRoleBooks.Remove(legacyId);
+            if (LogueBookModels.booklist != null)
+                changed |= LogueBookModels.booklist.RemoveAll(book => book?.ClassInfo?.id == legacyId) > 0;
+            return changed;
+        }
+
         private static List<BookXmlInfo> GetVanillaCorePageCandidates(out string reason)
         {
             reason = null;
@@ -653,7 +669,7 @@ namespace RogueLike_Mod_Reborn
                 LogueBookModels.booklist = new List<BookModel>();
             if (LogueBookModels.booklist.Any(b => b?.ClassInfo?.id == id))
                 return true; // already in booklist
-            BookXmlInfo bookXml = Singleton<BookXmlList>.Instance.GetData(id);
+            BookXmlInfo bookXml = RewardingModel.GetBookDataOriginAware(id);
             if (bookXml == null)
                 return false;
             BookModel bookModel = new BookModel(bookXml);
@@ -718,15 +734,16 @@ namespace RogueLike_Mod_Reborn
 
         private static bool EnsureBlueReverberationRewardsForUrbanStar()
         {
-            LorId blueBookId = new LorId(LogLikeMod.ModId, BlueReverberationCorePageId);
-            BookXmlInfo blueBook = Singleton<BookXmlList>.Instance.GetData(blueBookId);
+            LorId blueBookId = GetBlueReverberationCorePageLorId();
+            BookXmlInfo blueBook = RewardingModel.GetBookDataOriginAware(blueBookId);
             if (blueBook == null)
             {
                 Debug.LogError($"[RMR] EnsureBlueReverberationRewardsForUrbanStar: cannot resolve Blue Reverberation core page {blueBookId}.");
                 return false;
             }
 
-            bool changed = LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(blueBookId);
+            bool changed = PruneLegacyBlueReverberationCorePageUnlocks();
+            changed |= LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(blueBookId);
             bool inBooklist = EnsureRoleBookInCurrentBooklist(blueBookId);
             if (LogueBookModels.cardlist == null)
                 LogueBookModels.cardlist = new List<DiceCardItemModel>();
@@ -3603,14 +3620,21 @@ namespace RogueLike_Mod_Reborn
         [HarmonyPostfix, HarmonyPatch(typeof(BookModel), nameof(BookModel.SetXmlInfo))]
         public static void BookModel_SetXmlInfo_Post(BookModel __instance, BookXmlInfo ____classInfo, ref List<DiceCardXmlInfo> ____onlyCards)
         {
+            if (__instance == null || ____onlyCards == null)
+                return;
             var mod = LogLikeMod.GetLogMods().Find(x => x.invInfo.workshopInfo.uniqueId == __instance.BookId.packageId);
-            if (__instance.BookId.packageId == LogLikeMod.ModId || mod != null)
+            if (____classInfo?.EquipEffect?.OnlyCard != null
+                && (__instance.BookId.packageId == LogLikeMod.ModId || mod != null))
             {
-                ____onlyCards.RemoveAll(x => x.id.IsBasic());
+                ____onlyCards.RemoveAll(x => x == null || x.id.IsBasic());
                 foreach (int id in ____classInfo.EquipEffect.OnlyCard)
                 {
-                    DiceCardXmlInfo cardItem = ItemXmlDataList.instance.GetCardItem(new LorId(__instance.BookId.packageId, id), false);
-                    ____onlyCards.Add(cardItem);
+                    DiceCardXmlInfo cardItem = RewardingModel.GetCardItemOriginAware(new LorId(__instance.BookId.packageId, id))
+                        ?? RewardingModel.GetCardItemOriginAware(new LorId(id))
+                        ?? ItemXmlDataList.instance.GetCardItem(new LorId(__instance.BookId.packageId, id), false)
+                        ?? ItemXmlDataList.instance.GetCardItem(id, false);
+                    if (cardItem != null)
+                        ____onlyCards.Add(cardItem);
                 }
             } 
         }

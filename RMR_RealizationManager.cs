@@ -528,14 +528,16 @@ namespace RogueLike_Mod_Reborn
                 if (unit != null && book != null)
                 {
                     LogueBookModels.EquipNewPage(unit, book.ClassInfo, false);
-                    // Skip auto-fill for books with built-in / OnlyCard decks
-                    // (e.g. Black Silence, Binah, Red Mist).
+                    // Skip auto-fill only for true built-in decks (e.g. Black Silence, Binah).
+                    // OnlyCard pages still need atlas cards filled, otherwise realization
+                    // battles can start with empty hands after temporary atlas projection.
                     bool hasBuiltInDeck = false;
                     try
                     {
-                        hasBuiltInDeck = unit.bookItem?.IsFixedDeck() == true
-                            || unit.bookItem?.IsLockByBluePrimary() == true
-                            || (book.ClassInfo?.EquipEffect?.OnlyCard?.Count ?? 0) > 0;
+                        bool editableBlue = LogueBookModels.IsEditableBlueReverberationDeck(unit.bookItem);
+                        hasBuiltInDeck = !editableBlue
+                            && (unit.bookItem?.IsFixedDeck() == true
+                                || unit.bookItem?.IsLockByBluePrimary() == true);
                     }
                     catch { }
                     if (!hasBuiltInDeck)

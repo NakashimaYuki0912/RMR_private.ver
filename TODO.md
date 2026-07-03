@@ -522,3 +522,85 @@
   - 异想体书页介绍是否恢复。
   - 核心书页说明和战斗书页说明是否恢复。
 - 如果仍有 `口口口`，下一步不要再改字体链，应按具体卡/页 ID 检查其本地化 ID 和描述来源。
+---
+
+## 2026-07-04 02:15 本轮修复记录：杂质 Mod Needed、阿尔加利亚原版核心页、解放战空牌组
+
+### 用户最新反馈
+
+- 杂质核心页奖励仍出现 `Mod Needed`；如果不是原版可用内容就删除。
+- 阿尔加利亚奖励给到的是当前模组包装的敌对/都市之星口径核心页，不是原版通关扭曲残响乐团后的阿尔加利亚之页。
+- 阿尔加利亚战斗书页已出现，但进入战斗表现仍像敌方阿尔加利亚。
+- 解放战胜利后仍需确认完成状态；解放战准备阶段配置好战斗书页后，进入战斗可能没有可用战斗书页。
+- 杂质战斗书页奖励封面 `口口口` 可能与语言切换/缓存有关，用户切换语言再切回后可恢复。
+
+### 已核查结论
+
+- `SpecialStaticInfo/RewardPassiveInfos/EquipReward_ch7.xml` 中 `260005-260014` 在当前源码和 `original-codes` 的本地化表里都没有对应玩家核心页名称，且用户实测显示 `Mod Needed`，本轮不再把它们视为有效杂质核心页池。
+- 当前仓库新增了 `AddData/EquipPage/EquipPage_Librarian_ch6.xml:250013` 模组包装页；原作者基线没有这个玩家侧包装页。奖励路径原先写 `new LorId(LogLikeMod.ModId, 250013)`，会授予模组包装页而不是原版包语义的阿尔加利亚之页。
+- `ApplyAtlasOnlyLoadout()` 原先只要核心页有 `OnlyCard` 就跳过自动填牌；这会让可编辑专属核心页在解放战临时图鉴配队中空牌组开战。
+- `Player.log` 有 `ui_RMR_RealizationTitle/Desc/Challenge/Cleared/Close` 缺键记录，`Localize/{cn,en,kr}/UIs.txt` 确实缺这些键。
+
+### 已修改文件
+
+- `SpecialStaticInfo/RewardPassiveInfos/EquipReward_ch7.xml`
+  - 杂质核心页奖励池删除 `260005-260014`，保留当前已验证可显示的 `260001-260004`。
+- `RMR_Core.cs`
+  - BuildTimestamp 更新为 `2026-07-04T02:06+08:00`。
+  - 新增 `GetBlueReverberationCorePageLorId()`，阿尔加利亚奖励使用原版 `new LorId(250013)`。
+  - 新增 `PruneLegacyBlueReverberationCorePageUnlocks()`，进入都市之星自动奖励时清理旧存档/当前路线中的模组包装 `LogLikeMod.ModId:250013`。
+  - `EnsureRoleBookInCurrentBooklist()` 改用 origin-aware 解析，避免原版包 ID 入库失败。
+  - `BookModel.SetXmlInfo` 后缀的 OnlyCard 解析增加原版兜底和 null guard，避免模组核心页绑定原版专属战斗书页时加载空项。
+- `RMR_AbnormalityUnlocks.cs`
+  - 扭曲残响乐团胜利奖励改为授予 `RMRCore.GetBlueReverberationCorePageLorId()`，并同步清理旧模组包装阿尔加利亚页。
+- `RMR_RealizationManager.cs`
+  - 解放战临时图鉴配队不再把所有 `OnlyCard` 核心页当固定牌组；只有真正固定/锁定牌组才跳过自动填牌。
+- `abcdcode_Refactored/LogLikePatches.cs`
+  - `UnitDataModel.GetDeckForBattle` 的默认牌组补足扩展到解放战战斗阶段，降低空牌组进入战斗的风险。
+- `Localize/cn/UIs.txt`、`Localize/en/UIs.txt`、`Localize/kr/UIs.txt`
+  - 补齐 `ui_RMR_RealizationTitle/Desc/Challenge/Cleared/Close`。
+- 静态检查脚本：
+  - `tools/static_checks/realization/RMR_0617_realization_session_static_check.ps1`
+  - `tools/static_checks/rewards/RMR_0621_reported_runtime_regressions_static_check.ps1`
+  - `tools/static_checks/rewards/RMR_0628_user_reported_rewards_static_check.ps1`
+  - `tools/static_checks/runtime_release/RMR_0628_runtime_end_and_ch7_static_check.ps1`
+  - 更新断言：`260005-260014` 是本轮确认的 `Mod Needed` 候选，应禁止出现在杂质核心页池；OnlyCard 不应阻止解放战临时配队自动填牌。
+
+### 已验证
+
+- 红/绿静态核查已从失败转为通过：
+  - 杂质核心池不含 `260005-260014`。
+  - 阿尔加利亚授予路径不再使用模组包 `250013`。
+  - 解放战临时配队不再因 generic `OnlyCard` 跳过填牌。
+  - 三个语言的解放战 UI 键齐全。
+- XML 解析通过：
+  - `SpecialStaticInfo/RewardPassiveInfos/EquipReward_ch7.xml`
+  - `Localize/cn/UIs.txt`
+  - `Localize/en/UIs.txt`
+  - `Localize/kr/UIs.txt`
+- 静态脚本通过：
+  - `RMR_0620_grade6_special_fixed_deck_static_check.ps1`
+  - `RMR_0617_realization_session_static_check.ps1`
+  - `RMR_0628_user_reported_rewards_static_check.ps1`
+  - `RMR_0628_runtime_end_and_ch7_static_check.ps1`
+  - `RMR_0621_reported_runtime_regressions_static_check.ps1`
+  - `RMR_0629_language_sync_static_check.ps1`
+- `git diff --check` 无空白错误；只有 Git 的 LF/CRLF 提示。
+- Release 编译通过，输出到 `%TEMP%\rmr_build_out\RogueLike Mod Reborn.dll`；仅有既有 CS0649 警告。
+- 已部署到 Workshop 运行树并逐项哈希核对：
+  - `RogueLike Mod Reborn.dll` SHA-256 `93D8A4645E4E6B5B8F6E272F990CA7B23E4ED7B4FC1D669BA2A0E8E2279032AC`
+  - `SpecialStaticInfo/RewardPassiveInfos/EquipReward_ch7.xml` SHA-256 `575A64CEE5D35BCB126CE67426A33BF1C4CF20205B98693967F4744BE18594AF`
+  - `Localize/cn/UIs.txt` SHA-256 `70A6D7D4745562BE5F6CE62C35428FAAE7E69B426517E1166745FBD5B0DC9365`
+  - `Localize/en/UIs.txt` SHA-256 `DB3E0C79B71E2D259A1DD1983C0D90620BEBA059279316F1CE904A30ED016A51`
+  - `Localize/kr/UIs.txt` SHA-256 `2027FA90770407F389D020CEF846B3938BBD5CCC20705A8DFB4EC7737A9FE149`
+  - 部署前备份目录：`E:/Steam/steamapps/workshop/content/1256670/3503523710/Assemblies/_codex_backups/deploy_20260704_021641`
+
+### 下一步还没做
+
+- 部署后需要用户游戏内验证：
+  - 杂质核心页奖励是否不再出现 `Mod Needed`。
+  - 旧存档里已获得的模组包装阿尔加利亚是否在下次都市之星奖励/扭曲残响胜利奖励后被替换为原版 `@origin:250013`。
+  - 阿尔加利亚核心页装备后是否使用原版阿尔加利亚核心页行为，并且可配置/使用正确专属战斗书页。
+  - 解放战准备配置好牌组后，进入战斗是否仍会空牌组。
+  - 解放战胜利后完成状态是否在面板和后续奖励池中一致。
+  - 若杂质战斗书页封面仍有 `口口口`，下一轮应抓具体卡牌 ID 和页面类型，不再继续扩大字体补丁。

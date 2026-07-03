@@ -17,6 +17,11 @@
 	 <text id="ui_RestHide">Hide</text>
 	 <text id="ui_RestShow">Return</text>
 	 <text id="ui_Realization">Realization</text>
+	 <text id="ui_RMR_RealizationTitle">Realization</text>
+	 <text id="ui_RMR_RealizationDesc">Challenge a floor realization. Victory permanently unlocks that floor's exclusive abnormality and E.G.O pages in the atlas and reward pools.</text>
+	 <text id="ui_RMR_RealizationChallenge">Challenge</text>
+	 <text id="ui_RMR_RealizationCleared">Cleared</text>
+	 <text id="ui_RMR_RealizationClose">Close</text>
 
 
   <text id="Equip_Slash">Slash Damage Resistance</text>

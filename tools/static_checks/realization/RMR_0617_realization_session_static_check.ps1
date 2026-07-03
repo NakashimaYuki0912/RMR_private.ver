@@ -358,15 +358,15 @@ if ($abnoUnlocks -match 'GrantRealizationEgoReward') {
 }
 
 # ---------------------------------------------------------------------------
-# 12. OnlyCard-based auto-fill skip check
+# 12. Editable OnlyCard auto-fill check
 # ---------------------------------------------------------------------------
-Write-Host "[12] Checking ApplyAtlasOnlyLoadout skips auto-fill for OnlyCard books..."
+Write-Host "[12] Checking ApplyAtlasOnlyLoadout fills editable OnlyCard books..."
 
 $realizationMgr = Get-Content -Raw -Encoding UTF8 ".\RMR_RealizationManager.cs"
-if ($realizationMgr -match 'OnlyCard.*Count.*>.*0|EquipEffect.*OnlyCard') {
-    Write-Host "  [OK] ApplyAtlasOnlyLoadout checks OnlyCard non-empty (not just IsFixedDeck)" -ForegroundColor Green
+if ($realizationMgr -notmatch 'OnlyCard.*Count.*>.*0|EquipEffect.*OnlyCard\?\.Count|OnlyCard\?\.Count') {
+    Write-Host "  [OK] ApplyAtlasOnlyLoadout no longer treats generic OnlyCard pages as fixed decks" -ForegroundColor Green
 } else {
-    $errors += "ApplyAtlasOnlyLoadout does not check OnlyCard for auto-fill skip"
+    $errors += "ApplyAtlasOnlyLoadout still treats generic OnlyCard pages as fixed decks, which can leave realization decks empty"
 }
 
 # ---------------------------------------------------------------------------
