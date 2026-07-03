@@ -276,3 +276,59 @@
   - 阿尔加利亚核心页卡组是否可编辑。
   - 阿尔加利亚专属战斗书页是否可加入/移出卡组。
   - `口口口` 是否仍出现在具体哪些 UI 上。
+
+---
+
+## 2026-07-03 第五轮修复记录
+
+### 本轮反馈
+
+- `口口口` 问题仍未解决。
+- 用户要求先一步一步查，确认问题之后再修改。
+
+### 已确认的问题来源
+
+- 不是 `Localize/cn`、`AddData`、`SpecialStaticInfo` 整体 UTF-8 损坏：扫描未发现这些目录存在 UTF-8 replacement char 污染。
+- `Player.log` 显示游戏语言为 `cn`，Mod 也加载 `Localize\cn`。
+- 已确认前几轮只给卡牌名、能力文本、部分核心页/异想体页 UI 套用了 RMR TMP 字体，但战斗书页的骰子行为描述 UI 仍在 `SetBehaviourInfo` 后由原版逻辑重新写入文本，没有重新套用 RMR TMP 字体。
+- 通过反射确认运行时真实签名：
+  - `BattleDiceCard_BehaviourDescUI.SetBehaviourInfo(DiceBehaviour, LorId, List<DiceBehaviour>, bool)`
+  - `UI.UIDetailCardDescSlot.SetBehaviourInfo(DiceBehaviour, LorId, List<DiceBehaviour>, bool)`
+
+### 已修改文件
+
+- `abcdcode_Refactored/LogLikePatches.cs`
+  - 新增 `BattleDiceCard_BehaviourDescUI.SetBehaviourInfo` 后置补丁，在 RMR 战斗/准备上下文中递归刷新 RMR TMP 字体。
+  - 新增 `UI.UIDetailCardDescSlot.SetBehaviourInfo` 后置补丁，在详情卡骰子描述刷新后递归刷新 RMR TMP 字体。
+- `tools/static_checks/runtime_release/RMR_0629_language_sync_static_check.ps1`
+  - 增加两个骰子行为描述字体补丁断言。
+  - 增加四参数 `SetBehaviourInfo` 运行时签名断言，避免再次写错 Harmony Patch 目标。
+- `RMR_Core.cs`
+  - 构建时间戳更新为 `2026-07-03T13:45+08:00`。
+
+### 已验证
+
+- 修改前静态探针为红：
+  - 缺少 `BattleDiceCard_BehaviourDescUI_SetBehaviourInfo_RmrFont`
+  - 缺少 `UIDetailCardDescSlot_SetBehaviourInfo_RmrFont`
+- 修改后静态探针为绿：
+  - 两个骰子行为描述字体补丁均存在。
+- 静态检查通过：
+  - `tools/static_checks/runtime_release/RMR_0629_language_sync_static_check.ps1`
+- `git diff --check`：无空白错误；仅有仓库既有 LF/CRLF 提示。
+- Release 编译通过：
+  - 输出 DLL：`C:\Users\13034\AppData\Local\Temp\rmr_build_out\RogueLike Mod Reborn.dll`
+  - 仅有既有 warning：`RMREffect_Duplicator.Dupe.cards` 未赋值。
+- 已部署到 Workshop：
+  - DLL：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\dlls\RogueLike Mod Reborn.dll`
+  - 备份：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\_codex_backups\RogueLike Mod Reborn.dll.0703_text_desc_20260703_134812.bak`
+  - DLL SHA-256：`0920EA2450ECFD1B06D55E82ACF927FAA88D5C8907688B44E259AC650D1F6041`
+
+### 还没做 / 下一次优先验证
+
+- 尚未启动游戏做视觉实测。需要在 `Player.log` 确认加载到 `Build: 2026-07-03T13:45+08:00`。
+- 游戏内优先检查：
+  - 战斗书页目录中骰子行为描述是否仍出现 `口口口`。
+  - 右侧详情卡的骰子行为描述是否仍出现 `口口口`。
+  - 异想体书页、核心页、战斗书页说明里是否还有未命中的 UI。
+- 若仍有 `口口口`，下一步不要继续盲目加字体补丁，应拿用户截图定位具体 UI 类；已知还存在另一类数据问题：`Localize/cn` 和 `AddData` 中有少量原始韩文/假名文本，需要和字体问题分开处理。

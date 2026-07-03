@@ -37,6 +37,9 @@ AssertContains 'RMR TMP font sanitizer rewrites existing UI text' $patches 'text
 AssertContains 'battle card UI refreshes RMR TMP font after SetCard' $patches 'BattleDiceCardUI_SetCard_RmrFont'
 AssertContains 'battle card UI SetCard patch uses the runtime two-argument signature' $patches 'typeof(BattleDiceCardModel), typeof(BattleDiceCardUI.Option[])'
 AssertContains 'origin card slot refreshes RMR TMP font after SetData' $patches 'UIOriginCardSlot_SetData_RmrFont'
+AssertContains 'battle dice behaviour description refreshes RMR TMP font after SetBehaviourInfo' $patches 'BattleDiceCard_BehaviourDescUI_SetBehaviourInfo_RmrFont'
+AssertContains 'detail card dice description refreshes RMR TMP font after SetBehaviourInfo' $patches 'UIDetailCardDescSlot_SetBehaviourInfo_RmrFont'
+AssertContains 'dice behaviour description patch uses the runtime four-argument signature' $patches 'typeof(DiceBehaviour), typeof(LorId), typeof(List<DiceBehaviour>), typeof(bool)'
 AssertContains 'inventory card slot refreshes RMR TMP font after state update' $patches 'LogLikeRoutines.ApplyRmrTmpFont(self.gameObject)'
 AssertContains 'passive succession popup refreshes RMR TMP font after open' $patches 'LogLikeRoutines.ApplyRmrTmpFont(UIPassiveSuccessionPopup.Instance?.gameObject)'
 
