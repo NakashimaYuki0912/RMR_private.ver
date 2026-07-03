@@ -1188,6 +1188,38 @@ namespace abcdcode_LOGLIKE_MOD
             return false;
         }
 
+        public static bool CanTmpFontRenderText(TMP_FontAsset font, string text)
+        {
+            if (font == null)
+                return false;
+            if (string.IsNullOrEmpty(text))
+                return true;
+
+            HashSet<TMP_FontAsset> visited = new HashSet<TMP_FontAsset>();
+            bool inRichTextTag = false;
+            foreach (char character in text)
+            {
+                if (character == '<')
+                {
+                    inRichTextTag = true;
+                    continue;
+                }
+                if (inRichTextTag)
+                {
+                    if (character == '>')
+                        inRichTextTag = false;
+                    continue;
+                }
+                if (char.IsControl(character) || char.IsWhiteSpace(character))
+                    continue;
+
+                visited.Clear();
+                if (!FontHasCharacterRecursive(font, character, visited))
+                    return false;
+            }
+            return true;
+        }
+
         private static string GetFontProbeCharacters(string language)
         {
             string lang = CanonicalizeTextLanguage(language);

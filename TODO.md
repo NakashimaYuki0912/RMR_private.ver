@@ -393,3 +393,57 @@
   - 核心书页描述是否还出现 `口口口`。
   - 战斗书页目录和右侧详情卡是否还出现 `口口口`。
 - 如果仍有 `口口口`，下一步应按最新截图定位未命中的具体 UI 类，而不是继续扩大字体逻辑；本轮只修字体来源，不改玩法。
+
+---
+
+## 2026-07-03 第七轮修复记录
+
+### 本轮反馈
+
+- `口口口` 仍然存在；用户指出问题重点不是 `し协会`、`하나协会` 这种日韩字符，而是杂质层战斗书页奖励封面、异想体书页介绍、部分战斗书页介绍和核心书页说明显示为方框。
+- 用户怀疑不是没部署，而是之前某次修改导致的显示回归。
+
+### 已确认的问题来源
+
+- `git status` 修改前为干净状态。
+- `Player.log` 已确认上一轮 DLL 实际加载到 `Build: 2026-07-03T14:08+08:00`，并加载 `Localize\cn`，所以不是简单的未部署。
+- `Player.log` 没有出现 `[RMR Localize] Using preferred TMP font ...` 日志，说明实际运行中不能确认已经切到中文 CJK TMP 字体。
+- 对照 `original-codes` 后确认：原作者版本没有 `ApplyRmrTmpFont()` 这种递归强制替换整个 UI 子树 TMP 字体的逻辑。
+- 当前版本的 `ApplyRmrTmpFont()` 会无条件执行 `text.font = LogLikeMod.DefFont_TMP`。如果 `DefFont_TMP` 是选项下拉框字体或覆盖不完整的字体，就会把原本能正常显示的原版 UI 文字打成方框。这个行为正好覆盖卡牌、异想体页、核心页和 Tooltip 等用户反馈区域。
+
+### 已修改文件
+
+- `abcdcode_LOGLIKE_MOD/LogLikeMod.cs`
+  - 新增 `CanTmpFontRenderText()`，用 TMP 字体和 fallback 字体递归检查当前文本是否可渲染。
+  - 检查时跳过富文本标签和空白/控制字符，避免 `<color>` 等标记误判。
+- `abcdcode_Refactored/LogLikePatches.cs`
+  - 修改 `ApplyRmrTmpFont()`：先执行 `SanitizeDisplayText()` 清理文本，再只在“当前字体无法渲染且候选 RMR 字体可以渲染”时替换 TMP 字体。
+  - 不再无条件覆盖原版卡牌、异想体、核心页 UI 已有字体。
+- `tools/static_checks/runtime_release/RMR_0629_language_sync_static_check.ps1`
+  - 增加 `CanTmpFontRenderText()`、`ShouldUseRmrTmpFont()` 和“保留可渲染原版字体”的断言。
+  - 更新旧的直写 `text.text = RewardingModel.SanitizeDisplayText(text.text)` 断言为新的 `sanitizedText` 流程。
+- `RMR_Core.cs`
+  - 构建时间戳更新为 `2026-07-03T21:32+08:00`。
+
+### 已验证
+
+- 静态检查通过：
+  - `tools/static_checks/runtime_release/RMR_0629_language_sync_static_check.ps1`
+  - `tools/static_checks/realization/RMR_0620_grade6_special_fixed_deck_static_check.ps1`
+- `git diff --check`：无空白错误；仅有仓库既有 LF/CRLF 提示。
+- Release 编译通过：
+  - 输出 DLL：`C:\Users\13034\AppData\Local\Temp\rmr_build_out_textfont_guard\RogueLike Mod Reborn.dll`
+  - 仅有既有 warning：`RMREffect_Duplicator.Dupe.cards` 未赋值。
+- 已部署到 Workshop：
+  - DLL：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\dlls\RogueLike Mod Reborn.dll`
+  - 备份目录：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\_codex_backups\0703_textfont_guard_20260703_211221`
+  - DLL SHA-256：`7E0741370F9EE05975AE1DF40ED1E53D7E68302909A858F60840A9ACF3D7E508`
+
+### 还没做 / 下一次优先验证
+
+- 尚未启动游戏做视觉实测。需要在 `Player.log` 确认加载到 `Build: 2026-07-03T21:32+08:00`。
+- 游戏内优先检查：
+  - 杂质层战斗书页奖励封面是否不再显示 `口口口`。
+  - 异想体书页介绍是否恢复正常。
+  - 核心书页说明和战斗书页说明是否恢复正常。
+- 如果仍然有 `口口口`，下一步应抓具体截图中的页面类型和卡/页 ID，再检查对应 UI 的实际 TMP 字体名；不要继续扩大玩法逻辑或奖励逻辑。

@@ -33,10 +33,20 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 if (text == null)
                     continue;
-                if (font != null)
+                string sanitizedText = RewardingModel.SanitizeDisplayText(text.text);
+                text.text = sanitizedText;
+                if (ShouldUseRmrTmpFont(text.font, font, sanitizedText))
                     text.font = font;
-                text.text = RewardingModel.SanitizeDisplayText(text.text);
             }
+        }
+
+        private static bool ShouldUseRmrTmpFont(TMP_FontAsset currentFont, TMP_FontAsset candidateFont, string text)
+        {
+            if (candidateFont == null || ReferenceEquals(currentFont, candidateFont))
+                return false;
+            if (!LogLikeMod.CanTmpFontRenderText(candidateFont, text))
+                return false;
+            return currentFont == null || !LogLikeMod.CanTmpFontRenderText(currentFont, text);
         }
 
         public static IEnumerator DisableRoutine(LevelUpUI self)
