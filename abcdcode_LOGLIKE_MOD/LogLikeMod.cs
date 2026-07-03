@@ -4313,9 +4313,10 @@ namespace abcdcode_LOGLIKE_MOD
                 foreach (GameObject obEgoFrame in this.ob_EgoFrames)
                     obEgoFrame.SetActive(flag);
                 if (LorId.IsModId(cardModel.XmlData.workshopID))
-                    this.txt_cardName.text = cardModel.XmlData.workshopName;
+                    this.txt_cardName.text = RewardingModel.SanitizeDisplayText(cardModel.XmlData.workshopName);
                 else
-                    this.txt_cardName.text = Singleton<BattleCardDescXmlList>.Instance.GetCardName(cardModel.GetTextId());
+                    this.txt_cardName.text = RewardingModel.SanitizeDisplayText(Singleton<BattleCardDescXmlList>.Instance.GetCardName(cardModel.GetTextId()));
+                LogLikeRoutines.ApplyRmrTmpFont(this.gameObject);
                 this.SetDefaultPreviewResistText();
                 this._cost = this._cardModel.GetCost();
                 this._originCost = this._cardModel.GetOriginCost();
@@ -4343,7 +4344,8 @@ namespace abcdcode_LOGLIKE_MOD
                 if (!string.IsNullOrEmpty(text))
                 {
                     this.selfAbilityArea.SetActive(true);
-                    this.txt_selfAbility.text = TextUtil.TransformConditionKeyword(text);
+                    this.txt_selfAbility.text = RewardingModel.SanitizeDisplayText(TextUtil.TransformConditionKeyword(text));
+                    LogLikeRoutines.ApplyRmrTmpFont(this.selfAbilityArea);
                     float preferredHeight = this.txt_selfAbility.preferredHeight;
                     int num = Mathf.Min((double)preferredHeight >= 260.0 ? ((double)preferredHeight >= 480.0 ? ((double)preferredHeight >= 700.0 ? 3 : 2) : 1) : 0, b);
                     RectTransform component = this.selfAbilityArea.GetComponent<RectTransform>();
@@ -5208,9 +5210,10 @@ namespace abcdcode_LOGLIKE_MOD
                     if (!this.ob_NormalFrame.activeSelf)
                         this.ob_NormalFrame.gameObject.SetActive(true);
                     if (LorId.IsModId(this._cardModel.ClassInfo.workshopID))
-                        this.txt_cardName.text = this._cardModel.GetName();
+                        this.txt_cardName.text = RewardingModel.SanitizeDisplayText(this._cardModel.GetName());
                     else
-                        this.txt_cardName.text = Singleton<BattleCardDescXmlList>.Instance.GetCardName(this._cardModel.GetTextId());
+                        this.txt_cardName.text = RewardingModel.SanitizeDisplayText(Singleton<BattleCardDescXmlList>.Instance.GetCardName(this._cardModel.GetTextId()));
+                    LogLikeRoutines.ApplyRmrTmpFont(this.gameObject);
                     this.costNumbers.SetOneValue(this._cardModel.GetSpec().Cost, UISpriteDataManager.instance._cardCostNumberSprites);
                     this.img_RangeIcon.sprite = UISpriteDataManager.instance.GetRangeIconSprite(this._cardModel.GetSpec().Ranged);
                     this.SetRangeIconHsv(UIColorManager.Manager.CardRangeHsvValue[(int)this._cardModel.GetRarity()]);
@@ -5277,7 +5280,8 @@ namespace abcdcode_LOGLIKE_MOD
                         if (!string.IsNullOrEmpty(text))
                         {
                             this.ob_selfAbility.SetActive(true);
-                            this.txt_selfAbility.text = TextUtil.TransformConditionKeyword(text);
+                            this.txt_selfAbility.text = RewardingModel.SanitizeDisplayText(TextUtil.TransformConditionKeyword(text));
+                            LogLikeRoutines.ApplyRmrTmpFont(this.ob_selfAbility);
                             float preferredHeight = this.txt_selfAbility.preferredHeight;
                             int num = Mathf.Min((double)preferredHeight >= 26.0 ? ((double)preferredHeight >= 48.0 ? ((double)preferredHeight >= 70.0 ? 3 : 2) : 1) : 0, b);
                             RectTransform component = this.ob_selfAbility.GetComponent<RectTransform>();
@@ -5584,9 +5588,10 @@ namespace abcdcode_LOGLIKE_MOD
                     if (!this.ob_NormalFrame.activeSelf)
                         this.ob_NormalFrame.gameObject.SetActive(true);
                     if (LorId.IsModId(this._cardModel.ClassInfo.workshopID))
-                        this.txt_cardName.text = this._cardModel.GetName();
+                        this.txt_cardName.text = RewardingModel.SanitizeDisplayText(this._cardModel.GetName());
                     else
-                        this.txt_cardName.text = Singleton<BattleCardDescXmlList>.Instance.GetCardName(this._cardModel.GetTextId());
+                        this.txt_cardName.text = RewardingModel.SanitizeDisplayText(Singleton<BattleCardDescXmlList>.Instance.GetCardName(this._cardModel.GetTextId()));
+                    LogLikeRoutines.ApplyRmrTmpFont(this.gameObject);
                     this.costNumbers.SetOneValue(this._cardModel.GetSpec().Cost, UISpriteDataManager.instance._cardCostNumberSprites);
                     this.img_RangeIcon.sprite = UISpriteDataManager.instance.GetRangeIconSprite(this._cardModel.GetSpec().Ranged);
                     this.SetRangeIconHsv(UIColorManager.Manager.CardRangeHsvValue[(int)this._cardModel.GetRarity()]);

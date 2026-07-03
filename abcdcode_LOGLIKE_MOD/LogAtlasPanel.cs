@@ -228,7 +228,7 @@ namespace abcdcode_LOGLIKE_MOD
                 if (book == null)
                     return null;
                 var lines = new List<string>();
-                string displayName = book.InnerName;
+                string displayName = RewardingModel.GetLocalizedBookName(book);
                 if (string.IsNullOrEmpty(displayName) && book.CharacterSkin != null && book.CharacterSkin.Count > 0)
                     displayName = book.CharacterSkin[0];
                 if (string.IsNullOrEmpty(displayName))
@@ -244,8 +244,8 @@ namespace abcdcode_LOGLIKE_MOD
                     lines.Add("被动:");
                     foreach (LorId pid in book.EquipEffect.PassiveList)
                     {
-                        string pName = Singleton<PassiveDescXmlList>.Instance.GetName(pid);
-                        string pDesc = Singleton<PassiveDescXmlList>.Instance.GetDesc(pid);
+                        string pName = RewardingModel.GetPassiveName(pid);
+                        string pDesc = RewardingModel.SanitizeDisplayText(Singleton<PassiveDescXmlList>.Instance.GetDesc(pid));
                         if (!string.IsNullOrEmpty(pName))
                             lines.Add("  • " + pName + ": " + (pDesc ?? ""));
                         else

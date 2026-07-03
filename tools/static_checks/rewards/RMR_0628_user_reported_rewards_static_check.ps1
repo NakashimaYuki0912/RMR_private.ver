@@ -91,13 +91,10 @@ if ($combatCards -contains '701001') {
 
 $equipReward = [xml](Get-Content -Raw -Encoding UTF8 '.\SpecialStaticInfo\RewardPassiveInfos\EquipReward_ch7.xml')
 $equipIds = @($equipReward.RewardPassivesRoot.ChapterList.RewardList | ForEach-Object { $_.ID })
-foreach ($equipId in '260005','260006','260007','260008','260009','260010','260011','260012','260013','260014') {
+foreach ($equipId in '260001','260002','260003','260004','260005','260006','260007','260008','260009','260010','260011','260012','260013','260014') {
     if ($equipIds -notcontains $equipId) {
-        $failures.Add("chapter 7 Reverberation Ensemble core-page pool missing $equipId")
+        $failures.Add("chapter 7 impurity core-page pool missing $equipId")
     }
-}
-if ($equipIds -contains '260001') {
-    $failures.Add('chapter 7 core-page pool should not remain Hana-only')
 }
 
 if ($failures.Count -gt 0) {

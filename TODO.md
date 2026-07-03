@@ -91,3 +91,81 @@
   - 核心页奖励三选一是否不再白图。
   - 苍蓝残响核心页装备后是否显示并使用 `704001, 704011, 704012, 704013, 704014, 705011, 705012`。
   - 若普通战斗书页描述仍出现口口口，需要继续查 `BattleCardDescXmlList` / `CardInfo` 本地化加载链；本轮主要修的是核心页奖励和原版 ID 解析链。
+
+---
+
+## 2026-07-03 第二轮修复记录
+
+### sub-agent / 分模块结论
+
+- impurity_core_reward_agent：完成只读调查。`260005-260014` 本身是原版杂质/残响乐团核心页，但第七章没有进入额外核心页奖励通道；`@origin` 解析在展示、商店候选、领取入库之间不统一。若要覆盖用户说的 Hana 协会，需要把 `260001-260004` 加入第七章核心页池。
+- localization_box_agent：完成只读调查。`Player.log` 显示加载 `Localize\cn` 和 CJK TMP 字体，但部分复用原版 UI 只写 `.text` 没换 TMP 字体；部分原版数据本身仍含韩文名称。建议加递归 TMP 字体兜底和少量已知文本替换。
+- argalia_special_page_agent：完成只读调查。阿尔加利亚战斗书页已被授予，但 `PruneCorePageExclusiveBattleCardsFromInventoryAndAtlas()` 会删除核心页 OnlyCard；固定牌组识别也没包含 Blue Reverberation，因此装备后仍会回落默认牌组。原版阿尔加利亚核心页 `OnlyCard` 是 `704001,704011,704012,704013,704014,705010,705011`。
+
+### 已修改文件
+
+- `SpecialStaticInfo/RewardPassiveInfos/EquipReward_ch7.xml`
+  - 第七章核心页奖励池加入 `260001-260004` Hana 协会/协会线核心页，并保留 `260005-260014` 残响乐团核心页。
+- `RMR_Core.cs`
+  - 构建时间戳更新为 `2026-07-03T08:56+08:00`。
+  - 苍蓝残响自动解锁战斗书页改为原版阿尔加利亚核心页口径：`704001,704011,704012,704013,704014,705010,705011`。
+  - 新增 Blue Reverberation 核心页识别，并给 tooltip 套用 RMR TMP 字体。
+- `RMR_AbnormalityUnlocks.cs`
+  - 扭曲残响乐团胜利奖励同步改为上述 7 张阿尔加利亚专属战斗书页。
+- `AddData/EquipPage/EquipPage_Librarian_ch6.xml`
+  - 苍蓝残响核心页 `OnlyCard` 从 `705012` 改为原版 `705010`。
+- `abcdcode_LOGLIKE_MOD/LogueBookModels.cs`
+  - 专属卡 prune 增加阿尔加利亚白名单，避免永久图鉴/库存里的专属战斗书页被删。
+  - Blue Reverberation 进入特殊固定牌组识别，装备后按 OnlyCard 生成专属牌组。
+  - 核心页入库、永久图鉴清理、已有核心页判断改用 origin-aware 路径。
+- `abcdcode_LOGLIKE_MOD/RewardingModel.cs`
+  - 增加已知杂质核心页中文名兜底和残响/Hana 韩文片段替换。
+  - 核心页、被动、奖励说明输出统一经过 `SanitizeDisplayText()`。
+- `abcdcode_LOGLIKE_MOD/LogLikeMod.cs`
+  - 战斗书页目录/详情卡名与能力描述套用 `SanitizeDisplayText()` 和 RMR TMP 字体。
+- `abcdcode_Refactored/LogLikePatches.cs`
+  - 新增 `ApplyRmrTmpFont()`；异想体页 UI、奖励页 UI、文本覆盖、被动名/描述走字体和文本兜底。
+  - 第七章也进入额外核心页奖励通道。
+- `abcdcode_LOGLIKE_MOD/PickUpModel_EquipDefault.cs`
+  - 核心页奖励领取入库改用 origin-aware 解析。
+- `abcdcode_LOGLIKE_MOD/ShopBase.cs`
+  - 商店核心页候选改用 origin-aware 解析和拥有过滤。
+- `abcdcode_LOGLIKE_MOD/LogAtlasPanel.cs`
+  - 图鉴核心页详情名和被动描述改用本地化/文本兜底。
+- `tools/static_checks/events_abnormality/RMR_0701_progression_reset_abno_rules_static_check.ps1`
+  - 更新苍蓝残响专属战斗书页期望。
+- `tools/static_checks/rewards/RMR_0628_user_reported_rewards_static_check.ps1`
+  - 第七章核心页奖励池期望改为 `260001-260014`。
+
+### 已验证
+
+- XML 解析通过：
+  - `SpecialStaticInfo/RewardPassiveInfos/EquipReward_ch7.xml`
+  - `AddData/EquipPage/EquipPage_Librarian_ch6.xml`
+- `git diff --check`：无空白错误；仅有仓库既有 LF/CRLF 提示。
+- Release 编译通过：
+  - 输出 DLL：`C:\Users\13034\AppData\Local\Temp\rmr_build_out_0703_0856\RogueLike Mod Reborn.dll`
+  - 仅有既有 warning：`RMREffect_Duplicator.Dupe.cards` 未赋值。
+- 静态检查通过：
+  - `tools/static_checks/events_abnormality/RMR_0701_progression_reset_abno_rules_static_check.ps1`
+  - `tools/static_checks/rewards/RMR_0628_user_reported_rewards_static_check.ps1`
+  - `tools/static_checks/realization/RMR_0620_grade6_special_fixed_deck_static_check.ps1`
+- 已部署到 Workshop：
+  - DLL：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\dlls\RogueLike Mod Reborn.dll`
+  - XML：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\dlls\AddData\EquipPage\EquipPage_Librarian_ch6.xml`
+  - XML：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\dlls\SpecialStaticInfo\RewardPassiveInfos\EquipReward_ch7.xml`
+  - 备份目录：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\_codex_backups\0703_argalia_impurity_text_20260703_085621`
+  - DLL 二次部署备份目录：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\_codex_backups\0703_argalia_impurity_text_dll_redeploy_20260703_085748`
+  - DLL SHA-256：`4C385DC1354CE3A7CD406FCEF46D125C096971D9ACED79160A39CD4D16321079`
+  - `EquipPage_Librarian_ch6.xml` SHA-256：`98266F467615FBC8513B808E446487D5C82B72EA74C3BCF8B4F13BB9241C9F00`
+  - `EquipReward_ch7.xml` SHA-256：`5A43568CEC74AC7AF6E1D438A2A841D8A6C07AAAF577AFD9B225BAF19EA930D2`
+
+### 还没做 / 下一次优先验证
+
+- 尚未完成部署后的游戏内实测。部署后需要在 `Player.log` 确认加载到 `Build: 2026-07-03T08:56+08:00`。
+- 游戏内重点验证：
+  - 第七章核心页奖励是否出现 Hana 协会和残响乐团核心页，不再显示 `Mod Needed`。
+  - 阿尔加利亚核心页装备后是否显示/使用 `704001,704011,704012,704013,704014,705010,705011`。
+  - 阿尔加利亚专属战斗书页是否不再从图鉴/库存被 prune 删除。
+  - 异想体书页、核心页、战斗书页描述中的 `口口口` 是否明显减少或消失。
+  - 解放战准备界面 5 人问题仍需游戏内再次验收；本轮没有继续改解放战人数逻辑。

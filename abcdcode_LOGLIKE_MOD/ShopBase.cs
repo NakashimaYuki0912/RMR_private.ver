@@ -657,11 +657,11 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 if (info.rewardtype == RewardType.EquipPage)
                 {
-                    BookXmlInfo book = Singleton<BookXmlList>.Instance.GetData(info.id);
+                    BookXmlInfo book = RewardingModel.GetBookDataOriginAware(info.id);
                     if (book != null && book.Chapter <= (int)LogLikeMod.curchaptergrade + 1)
                     {
                         // Don't sell books the player already owns (unique pages)
-                        if (!LogueBookModels.booklist.Exists(x => x.ClassInfo.id == info.id))
+                        if (!LogueBookModels.HasOwnedBookPage(info.id) && !LogueBookModels.HasOwnedBookPage(book.id))
                             equipPages.Add(info);
                     }
                 }

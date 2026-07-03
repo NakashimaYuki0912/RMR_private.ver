@@ -197,7 +197,7 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EnsureAtlasUnlocks();
             LogueBookModels.AtlasUnlockedRoleBooks.RemoveWhere(id =>
             {
-                BookXmlInfo bookXml = Singleton<BookXmlList>.Instance.GetData(id);
+                BookXmlInfo bookXml = RewardingModel.GetBookDataOriginAware(id);
                 return !RMRCore.ShouldRecordRoleBookInPermanentAtlas(bookXml);
             });
         }
@@ -207,6 +207,7 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EnsureAtlasUnlocks();
             HashSet<LorId> exclusiveCards = LogueBookModels.GetCorePageExclusiveBattleCardIds();
             exclusiveCards.RemoveWhere(IsRedMistRewardBattleCard);
+            exclusiveCards.RemoveWhere(IsBlueReverberationRewardBattleCard);
             if (exclusiveCards.Count == 0)
                 return;
             if (LogueBookModels.cardlist != null)
@@ -224,7 +225,7 @@ namespace abcdcode_LOGLIKE_MOD
                 roleBookIds.AddRange(LogueBookModels.AtlasUnlockedRoleBooks);
             foreach (LorId roleBookId in roleBookIds)
             {
-                BookXmlInfo book = Singleton<BookXmlList>.Instance.GetData(roleBookId);
+                BookXmlInfo book = RewardingModel.GetBookDataOriginAware(roleBookId);
                 if (book?.EquipEffect?.OnlyCard == null || book.EquipEffect.OnlyCard.Count == 0)
                     continue;
                 foreach (int cardId in book.EquipEffect.OnlyCard)
@@ -241,6 +242,15 @@ namespace abcdcode_LOGLIKE_MOD
         private static bool IsRedMistRewardBattleCard(LorId id)
         {
             return id.id >= 607003 && id.id <= 607007;
+        }
+
+        private static bool IsBlueReverberationRewardBattleCard(LorId id)
+        {
+            return id != null
+                && (id.id == 704001
+                    || (id.id >= 704011 && id.id <= 704014)
+                    || id.id == 705010
+                    || id.id == 705011);
         }
 
         public static void PruneInvalidPermanentAbnormalityAtlasUnlocks()
@@ -1038,7 +1048,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (id == LorId.None)
                 return false;
-            BookXmlInfo bookXml = Singleton<BookXmlList>.Instance.GetData(id);
+            BookXmlInfo bookXml = RewardingModel.GetBookDataOriginAware(id);
             if (bookXml == null)
                 return false;
 
@@ -1226,7 +1236,15 @@ namespace abcdcode_LOGLIKE_MOD
             bool isBinah = RMRCore.IsBinahCorePage(page);
             return IsDeckFixedBookCategory(page)
                 || IsBlackSilenceCorePage(page)
+                || RMRCore.IsBlueReverberationCorePage(page)
                 || isBinah;
+        }
+
+        private static BookXmlInfo ResolveFreshSpecialBuiltInDeckPage(BookXmlInfo page)
+        {
+            if (page == null || !IsGrade6SpecialBuiltInDeckPage(page))
+                return page;
+            return RewardingModel.GetBookDataOriginAware(page.id) ?? page;
         }
 
         private static bool IsDeckFixedBookCategory(BookXmlInfo page)
@@ -1329,6 +1347,8 @@ namespace abcdcode_LOGLIKE_MOD
         /// </summary>
         public static string NormalizeCardKey(LorId id)
         {
+            if (id == null || id == LorId.None)
+                return "None:0";
             LorId baseId = id.GetOriginalId();
             string pkg = baseId.packageId ?? "";
             if (string.IsNullOrEmpty(pkg) || pkg == "@origin")
@@ -1354,7 +1374,10 @@ namespace abcdcode_LOGLIKE_MOD
         public static bool HasOwnedBookPage(LorId id)
         {
             if (LogueBookModels.booklist == null) return false;
-            return LogueBookModels.booklist.Any(x => x.ClassInfo.id == id);
+            if (id == null || id == LorId.None) return false;
+            string key = NormalizeCardKey(id);
+            return LogueBookModels.booklist.Any(x =>
+                x?.ClassInfo?.id == id || NormalizeCardKey(x?.ClassInfo?.id) == key);
         }
 
         /// <summary>
@@ -1726,6 +1749,9 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static void EquipNewPage(UnitBattleDataModel model, BookXmlInfo page, bool keepSuc = false)
         {
+            if (model == null || page == null)
+                return;
+            page = ResolveFreshSpecialBuiltInDeckPage(page);
             UnitDataModel unitData = model.unitData;
             float num = model.hp / (float)model.MaxHp;
             double hpReductionMod = model.hp;

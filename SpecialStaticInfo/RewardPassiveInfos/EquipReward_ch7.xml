@@ -2,6 +2,10 @@
 <RewardPassivesRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <ChapterList Chapter="Grade7" Type="CommonReward" ID="7000" WorkShopID="@origin">
+    <RewardList ID="260001" PassiveType="Nolimit" Rarity="Rare" TargetType="All" RewardType="EquipPage" ArtWork="260001" />
+    <RewardList ID="260002" PassiveType="Nolimit" Rarity="Unique" TargetType="All" RewardType="EquipPage" ArtWork="260002" />
+    <RewardList ID="260003" PassiveType="Nolimit" Rarity="Unique" TargetType="All" RewardType="EquipPage" ArtWork="260003" />
+    <RewardList ID="260004" PassiveType="Nolimit" Rarity="Unique" TargetType="All" RewardType="EquipPage" ArtWork="260004" />
     <RewardList ID="260005" PassiveType="Nolimit" Rarity="Unique" TargetType="All" RewardType="EquipPage" ArtWork="260005" />
     <RewardList ID="260006" PassiveType="Nolimit" Rarity="Unique" TargetType="All" RewardType="EquipPage" ArtWork="260006" />
     <RewardList ID="260007" PassiveType="Nolimit" Rarity="Unique" TargetType="All" RewardType="EquipPage" ArtWork="260007" />

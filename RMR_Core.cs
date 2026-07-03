@@ -61,7 +61,7 @@ namespace RogueLike_Mod_Reborn
         public const string packageId = "abcdcodecalmmagma.LogueLikeReborn";
         public static CustomMapHandler RMRMapHandler;
 
-        public const string BuildTimestamp = "2026-07-03T01:31+08:00";
+        public const string BuildTimestamp = "2026-07-03T08:56+08:00";
 
         public override void OnInitializeMod()
         {
@@ -534,8 +534,8 @@ namespace RogueLike_Mod_Reborn
             704012,
             704013,
             704014,
-            705011,
-            705012
+            705010,
+            705011
         };
 
         private static List<BookXmlInfo> GetVanillaCorePageCandidates(out string reason)
@@ -770,6 +770,22 @@ namespace RogueLike_Mod_Reborn
                     || (page.CharacterSkin != null
                         && page.CharacterSkin.Any(skin => !string.IsNullOrEmpty(skin)
                             && skin.IndexOf("Binah", StringComparison.OrdinalIgnoreCase) >= 0)));
+        }
+
+        public static bool IsBlueReverberationCorePage(BookXmlInfo page)
+        {
+            return page != null
+                && (page.id?.id == BlueReverberationCorePageId
+                    || page.TextId == BlueReverberationCorePageId
+                    || (!string.IsNullOrEmpty(page.InnerName)
+                        && (page.InnerName.IndexOf("Argalia", StringComparison.OrdinalIgnoreCase) >= 0
+                            || page.InnerName.IndexOf("BlueReverberation", StringComparison.OrdinalIgnoreCase) >= 0
+                            || page.InnerName.IndexOf("Blue Reverberation", StringComparison.OrdinalIgnoreCase) >= 0))
+                    || (!string.IsNullOrEmpty(page._bookIcon)
+                        && page._bookIcon.IndexOf("BlueReverberation", StringComparison.OrdinalIgnoreCase) >= 0)
+                    || (page.CharacterSkin != null
+                        && page.CharacterSkin.Any(skin => !string.IsNullOrEmpty(skin)
+                            && skin.IndexOf("Argalia", StringComparison.OrdinalIgnoreCase) >= 0)));
         }
 
         public static bool ShouldRecordRoleBookInPermanentAtlas(BookXmlInfo page)
@@ -3339,6 +3355,8 @@ namespace RogueLike_Mod_Reborn
             __instance.tooltipName.color = toolColor;
             __instance.setter_tooltipname.underlayColor = toolColor;
             __instance.tooltipDesc.text = content;
+            LogLikeRoutines.ApplyRmrTmpFont(__instance.tooltipName?.gameObject);
+            LogLikeRoutines.ApplyRmrTmpFont(__instance.tooltipDesc?.gameObject);
             __instance.SetTooltipOverlayBoxSize(panelType);
             if (!LogLikeMod.IsBattleState())
                 __instance.SetFixedTooltipOverlayBoxPosition(camera, rectTransform); // used fixed transform in menus

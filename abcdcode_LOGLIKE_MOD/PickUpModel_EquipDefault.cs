@@ -51,7 +51,10 @@ namespace abcdcode_LOGLIKE_MOD
         public override void OnPickUp()
         {
             base.OnPickUp();
-            BookModel bookModel = new BookModel(Singleton<BookXmlList>.Instance.GetData(this.id));
+            BookXmlInfo bookXml = RewardingModel.GetBookDataOriginAware(this.id);
+            if (bookXml == null)
+                return;
+            BookModel bookModel = new BookModel(bookXml);
             bookModel.instanceId = LogueBookModels.nextinstanceid++;
             bookModel.TryGainUniquePassive();
             LogueBookModels.booklist.Add(bookModel);

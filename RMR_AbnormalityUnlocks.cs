@@ -49,8 +49,8 @@ namespace RogueLike_Mod_Reborn
             704012,
             704013,
             704014,
-            705011,
-            705012
+            705010,
+            705011
         };
 
         private static readonly List<LorId> RouteUnlockedPages = new List<LorId>();

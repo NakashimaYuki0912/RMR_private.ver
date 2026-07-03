@@ -23,6 +23,33 @@ namespace abcdcode_LOGLIKE_MOD
         private const double NormalBattleCardRewardRetentionRate = 0.49;
         private static readonly HashSet<LorId> NormalizedDropBookRewardIds = new HashSet<LorId>();
         private static bool BossFallbackRewardCheckedThisBattle;
+        private static readonly Dictionary<int, string> KnownBookNameOverrides = new Dictionary<int, string>
+        {
+            { 260001, "Hana\u534f\u4f1a3\u79d1\u6536\u5c3e\u4eba\u4e4b\u9875" },
+            { 260002, "\u7f8e\u91cc\u5948\u4e4b\u9875" },
+            { 260003, "\u54c8\u7f57\u5fb7\u4e4b\u9875" },
+            { 260004, "\u5965\u5229\u7ef4\u8036\u4e4b\u9875" },
+            { 250013, "\u963f\u5c14\u52a0\u5229\u4e9a\u4e4b\u9875" },
+            { 1301011, "\u83f2\u5229\u666e\u4e4b\u9875" },
+            { 1302011, "\u827e\u7433\u4e4b\u9875" },
+            { 1303011, "\u683c\u857e\u5854\u4e4b\u9875" },
+            { 1304011, "\u4e0d\u6765\u6885\u4e4b\u9875" },
+            { 1305011, "\u5965\u65af\u74e6\u5c14\u5fb7\u4e4b\u9875" },
+            { 1306011, "\u5854\u5c3c\u5a05\u4e4b\u9875" },
+            { 1307011, "\u5728\u5baa\u4e4b\u9875" },
+            { 1308011, "\u4f0a\u83b2\u5a1c\u4e4b\u9875" },
+            { 1309011, "\u666e\u9c81\u6258\u4e4b\u9875" },
+        };
+        private static readonly Dictionary<string, string> KnownTextReplacements = new Dictionary<string, string>
+        {
+            { "\ud558\ub098\u534f\u4f1a", "Hana\u534f\u4f1a" },
+            { "\ud558\ub098 \ud574\uacb0\uc0ac", "Hana\u534f\u4f1a\u6536\u5c3e\u4eba" },
+            { "\ud558\ub098", "Hana" },
+            { "\uacf5\uba85 \uc870\uc808", "\u5171\u632f\u8c03\u8282" },
+            { "\uc544\ub974\uac08\ub9ac\uc544 \ub09c\ubb34 \uad11\uc5ed", "Crescendo" },
+            { "\uc544\ub974\uac08\ub9ac\uc544 \ub300\ub2e8\uc6d0", "\u843d\u5e55\u7ec8\u66f2" },
+            { "\uc544\ub974\uac08\ub9ac\uc544", "\u963f\u5c14\u52a0\u5229\u4e9a" },
+        };
 
         public static void ResetDropBookRewardNormalization()
         {
@@ -84,7 +111,26 @@ namespace abcdcode_LOGLIKE_MOD
                 if (index < bookinfo.EquipEffect.PassiveList.Count - 1)
                     empty += ", ";
             }
-            return $"{str}{abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("Equip_Passive")}: {empty}";
+            return SanitizeDisplayText($"{str}{abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("Equip_Passive")}: {empty}");
+        }
+
+        public static string SanitizeDisplayText(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return text;
+            foreach (KeyValuePair<string, string> replacement in KnownTextReplacements)
+                text = text.Replace(replacement.Key, replacement.Value);
+            return text;
+        }
+
+        private static bool TryGetKnownBookName(BookXmlInfo book, out string name)
+        {
+            name = null;
+            if (book == null)
+                return false;
+            if (book.id != null && KnownBookNameOverrides.TryGetValue(book.id.id, out name))
+                return true;
+            return book.TextId > 0 && KnownBookNameOverrides.TryGetValue(book.TextId, out name);
         }
 
         private static bool IsOriginPackage(string packageId)
@@ -148,19 +194,27 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (book == null)
                 return string.Empty;
+            if (TryGetKnownBookName(book, out string knownName))
+                return knownName;
             foreach (LorId candidate in GetOriginAwareIds(book.id))
             {
                 string name = Singleton<BookDescXmlList>.Instance.GetBookName(candidate);
                 if (!string.IsNullOrEmpty(name))
-                    return name;
+                    return SanitizeDisplayText(name);
                 if (IsOriginPackage(candidate.packageId))
                 {
                     name = Singleton<BookDescXmlList>.Instance.GetBookName(new LorId(candidate.id));
                     if (!string.IsNullOrEmpty(name))
-                        return name;
+                        return SanitizeDisplayText(name);
                 }
             }
-            return book.InnerName ?? string.Empty;
+            if (book.TextId > 0)
+            {
+                string name = Singleton<BookDescXmlList>.Instance.GetBookName(new LorId(book.TextId));
+                if (!string.IsNullOrEmpty(name))
+                    return SanitizeDisplayText(name);
+            }
+            return SanitizeDisplayText(book.InnerName ?? string.Empty);
         }
 
         public static string GetPassiveName(LorId passiveId)
@@ -169,12 +223,12 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 string name = Singleton<PassiveDescXmlList>.Instance.GetName(candidate);
                 if (!string.IsNullOrEmpty(name))
-                    return name;
+                    return SanitizeDisplayText(name);
                 if (IsOriginPackage(candidate.packageId))
                 {
                     name = Singleton<PassiveDescXmlList>.Instance.GetName(candidate.id);
                     if (!string.IsNullOrEmpty(name))
-                        return name;
+                        return SanitizeDisplayText(name);
                 }
             }
             return passiveId?.ToString() ?? string.Empty;

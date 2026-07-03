@@ -24,6 +24,17 @@ namespace abcdcode_LOGLIKE_MOD
 {
     public static class LogLikeRoutines
     {
+        public static void ApplyRmrTmpFont(GameObject root)
+        {
+            if (root == null || LogLikeMod.DefFont_TMP == null)
+                return;
+            foreach (TextMeshProUGUI text in root.GetComponentsInChildren<TextMeshProUGUI>(true))
+            {
+                if (text != null)
+                    text.font = LogLikeMod.DefFont_TMP;
+            }
+        }
+
         public static IEnumerator DisableRoutine(LevelUpUI self)
         {
             self.cardHidingGroup.alpha = 0.0f;
@@ -646,11 +657,14 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         /// <summary>
-        /// Returns true for Grade4, Grade5, Grade6 — the high chapters that receive an extra EquipPage reward.
+        /// Returns true for Grade4+ — the high chapters that receive an extra EquipPage reward.
         /// </summary>
         private static bool IsHighChapterExtraEquipRewardChapter(ChapterGrade grade)
         {
-            return grade == ChapterGrade.Grade4 || grade == ChapterGrade.Grade5 || grade == ChapterGrade.Grade6;
+            return grade == ChapterGrade.Grade4
+                || grade == ChapterGrade.Grade5
+                || grade == ChapterGrade.Grade6
+                || grade == ChapterGrade.Grade7;
         }
 
         /// <summary>
@@ -2160,7 +2174,7 @@ namespace abcdcode_LOGLIKE_MOD
             string text = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText(id, args);
             if (!(text != string.Empty))
                 return true;
-            __result = text;
+            __result = RewardingModel.SanitizeDisplayText(text);
             return false;
         }
 
@@ -2699,7 +2713,7 @@ namespace abcdcode_LOGLIKE_MOD
             string name = Singleton<PassiveDescXmlList>.Instance.GetName(__instance.passive.id);
             if (!(name != string.Empty))
                 return true;
-            __result = name;
+            __result = RewardingModel.SanitizeDisplayText(name);
             return false;
         }
 
@@ -2709,7 +2723,7 @@ namespace abcdcode_LOGLIKE_MOD
             string desc = Singleton<PassiveDescXmlList>.Instance.GetDesc(__instance.passive.id);
             if (desc == string.Empty)
                 return true;
-            __result = desc;
+            __result = RewardingModel.SanitizeDisplayText(desc);
             return false;
         }
 
@@ -2922,6 +2936,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
+            LogLikeRoutines.ApplyRmrTmpFont(__instance.gameObject);
             Image image = (Image)typeof(EmotionPassiveCardUI).GetField("_artwork", AccessTools.all).GetValue(__instance);
             EmotionCardXmlInfo emotionCardXmlInfo = (EmotionCardXmlInfo)typeof(EmotionPassiveCardUI).GetField("_card", AccessTools.all).GetValue(__instance);
             if (image == null || emotionCardXmlInfo == null)
@@ -2996,6 +3011,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (!LogLikeMod.CheckStage())
                 return;
+            LogLikeRoutines.ApplyRmrTmpFont(__instance.gameObject);
             bool fieldValue = LogLikeMod.GetFieldValue<bool>(__instance, "_isForceOpen");
             if (LogLikeMod.ChangeEmotinCardBtn == null)
             {
@@ -3346,6 +3362,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (!LogLikeMod.CheckStage())
                 return;
+            LogLikeRoutines.ApplyRmrTmpFont(__instance.gameObject);
             LogLikeMod.GetFieldValue<Image>(__instance, "_artwork").sprite = LogLikeMod.ArtWorks[__instance.Card.Artwork];
         }
 
