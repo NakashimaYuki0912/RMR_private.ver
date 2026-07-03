@@ -383,11 +383,13 @@
       <Passive Pid="@origin">250013</Passive>
       <Passive Pid="@origin">250113</Passive>
 
-      <OnlyCard>604021</OnlyCard>
-      <OnlyCard>604022</OnlyCard>
-      <OnlyCard>604023</OnlyCard>
-      <OnlyCard>604024</OnlyCard>
-      <OnlyCard>604025</OnlyCard>
+      <OnlyCard>704001</OnlyCard>
+      <OnlyCard>704011</OnlyCard>
+      <OnlyCard>704012</OnlyCard>
+      <OnlyCard>704013</OnlyCard>
+      <OnlyCard>704014</OnlyCard>
+      <OnlyCard>705011</OnlyCard>
+      <OnlyCard>705012</OnlyCard>
     </EquipEffect>
     <BookIcon>TheBlueReverberation</BookIcon>
     <Chapter>6</Chapter>

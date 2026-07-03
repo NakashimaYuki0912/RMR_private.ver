@@ -80,11 +80,124 @@ namespace abcdcode_LOGLIKE_MOD
             string empty = string.Empty;
             for (int index = 0; index < bookinfo.EquipEffect.PassiveList.Count; ++index)
             {
-                empty += Singleton<PassiveDescXmlList>.Instance.GetName(bookinfo.EquipEffect.PassiveList[index]);
+                empty += RewardingModel.GetPassiveName(bookinfo.EquipEffect.PassiveList[index]);
                 if (index < bookinfo.EquipEffect.PassiveList.Count - 1)
                     empty += ", ";
             }
             return $"{str}{abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("Equip_Passive")}: {empty}";
+        }
+
+        private static bool IsOriginPackage(string packageId)
+        {
+            return string.IsNullOrEmpty(packageId) || packageId == "@origin";
+        }
+
+        private static List<LorId> GetOriginAwareIds(LorId id)
+        {
+            var result = new List<LorId>();
+            if (id == null || id == LorId.None)
+                return result;
+            result.Add(id);
+            if (IsOriginPackage(id.packageId))
+            {
+                LorId originId = new LorId(id.id);
+                if (!result.Contains(originId))
+                    result.Add(originId);
+                LorId emptyPackageId = new LorId(string.Empty, id.id);
+                if (!result.Contains(emptyPackageId))
+                    result.Add(emptyPackageId);
+            }
+            return result;
+        }
+
+        public static BookXmlInfo GetBookDataOriginAware(LorId id)
+        {
+            foreach (LorId candidate in GetOriginAwareIds(id))
+            {
+                BookXmlInfo book = Singleton<BookXmlList>.Instance.GetData(candidate, false);
+                if (book != null)
+                    return book;
+                if (IsOriginPackage(candidate.packageId))
+                {
+                    book = Singleton<BookXmlList>.Instance.GetData(candidate.id);
+                    if (book != null)
+                        return book;
+                }
+            }
+            return null;
+        }
+
+        public static DiceCardXmlInfo GetCardItemOriginAware(LorId id)
+        {
+            foreach (LorId candidate in GetOriginAwareIds(id))
+            {
+                DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(candidate, false);
+                if (card != null)
+                    return card;
+                if (IsOriginPackage(candidate.packageId))
+                {
+                    card = ItemXmlDataList.instance.GetCardItem(candidate.id, false);
+                    if (card != null)
+                        return card;
+                }
+            }
+            return null;
+        }
+
+        public static string GetLocalizedBookName(BookXmlInfo book)
+        {
+            if (book == null)
+                return string.Empty;
+            foreach (LorId candidate in GetOriginAwareIds(book.id))
+            {
+                string name = Singleton<BookDescXmlList>.Instance.GetBookName(candidate);
+                if (!string.IsNullOrEmpty(name))
+                    return name;
+                if (IsOriginPackage(candidate.packageId))
+                {
+                    name = Singleton<BookDescXmlList>.Instance.GetBookName(new LorId(candidate.id));
+                    if (!string.IsNullOrEmpty(name))
+                        return name;
+                }
+            }
+            return book.InnerName ?? string.Empty;
+        }
+
+        public static string GetPassiveName(LorId passiveId)
+        {
+            foreach (LorId candidate in GetOriginAwareIds(passiveId))
+            {
+                string name = Singleton<PassiveDescXmlList>.Instance.GetName(candidate);
+                if (!string.IsNullOrEmpty(name))
+                    return name;
+                if (IsOriginPackage(candidate.packageId))
+                {
+                    name = Singleton<PassiveDescXmlList>.Instance.GetName(candidate.id);
+                    if (!string.IsNullOrEmpty(name))
+                        return name;
+                }
+            }
+            return passiveId?.ToString() ?? string.Empty;
+        }
+
+        public static RewardPassiveInfo FindRewardInfo(EmotionCardXmlInfo card)
+        {
+            if (card == null || Singleton<RewardPassivesList>.Instance?.infos == null)
+                return null;
+            foreach (RewardPassivesInfo infoGroup in Singleton<RewardPassivesList>.Instance.infos)
+            {
+                if (infoGroup?.RewardPassiveList == null)
+                    continue;
+                foreach (RewardPassiveInfo info in infoGroup.RewardPassiveList)
+                {
+                    if (info == null || info.passiveid != card.id)
+                        continue;
+                    EmotionCardXmlInfo registered = LogLikeMod.GetRegisteredPickUpXml(info);
+                    if (registered == card)
+                        return info;
+                }
+            }
+            return null;
         }
 
         public static string GetRaritytext(Rarity rarity)
@@ -108,14 +221,14 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (info == null)
                 return;
-            BookXmlInfo data = Singleton<BookXmlList>.Instance.GetData(info.id);
+            BookXmlInfo data = RewardingModel.GetBookDataOriginAware(info.id);
             EmotionCardXmlInfo pickUpXml = LogLikeMod.GetRegisteredPickUpXml(info);
             if (data == null || pickUpXml == null)
                 return;
             AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(pickUpXml.Name);
             if (abnormalityCard == null)
                 return;
-            abnormalityCard.cardName = data.InnerName;
+            abnormalityCard.cardName = RewardingModel.GetLocalizedBookName(data);
             abnormalityCard.flavorText = $"{RewardingModel.GetChapterText(data.Chapter)}, {RewardingModel.GetRaritytext(data.Rarity)}";
             abnormalityCard.abilityDesc = RewardingModel.GetAblilityText(data);
             if (!string.IsNullOrEmpty(data._bookIcon))
@@ -218,7 +331,7 @@ namespace abcdcode_LOGLIKE_MOD
                 return (DiceCardXmlInfo)null;
             foreach (LorId cardId in data.cardIdList)
             {
-                DiceCardXmlInfo cardItem = ItemXmlDataList.instance.GetCardItem(cardId, true);
+                DiceCardXmlInfo cardItem = RewardingModel.GetCardItemOriginAware(cardId);
                 if (cardItem == null)
                     cardItem.Log($"PickUpCardNull : {cardId.packageId} _ {cardId.id.ToString()}");
                 else if (cardItem != null)
@@ -262,6 +375,8 @@ namespace abcdcode_LOGLIKE_MOD
                 for (int index = 0; index < info.UniqueValue; ++index)
                     rarityList.Add(Rarity.Unique);
             }
+            if (rarityList.Count == 0)
+                return null;
             Rarity rarity = rarityList[UnityEngine.Random.Range(0, rarityList.Count)];
             if (rarity == Rarity.Common)
                 diceCardXmlInfoList5 = diceCardXmlInfoList1;
@@ -338,7 +453,7 @@ namespace abcdcode_LOGLIKE_MOD
             var allCards = new List<DiceCardXmlInfo>();
             foreach (LorId cardId in dropTable.cardIdList)
             {
-                DiceCardXmlInfo cardItem = ItemXmlDataList.instance.GetCardItem(cardId, true);
+                DiceCardXmlInfo cardItem = RewardingModel.GetCardItemOriginAware(cardId);
                 if (cardItem != null)
                     allCards.Add(cardItem);
             }

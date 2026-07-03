@@ -250,6 +250,7 @@ namespace RogueLike_Mod_Reborn
                 controller.InitStageByCreature(stageClassInfo, false);
                 StageModel stageModel = controller.GetStageModel();
                 ForceRealizationAvailableUnits(stageModel?.ClassInfo, 5);
+                ForceRealizationStageModelAvailableUnits(stageModel, 5);
                 LorId currentId = stageModel?.ClassInfo?.id ?? LorId.None;
                 if (currentId != stageClassInfo.id)
                 {
@@ -277,12 +278,20 @@ namespace RogueLike_Mod_Reborn
                 ForceWaveAvailableUnits(wave, count);
         }
 
+        private static void ForceRealizationStageModelAvailableUnits(StageModel stageModel, int count)
+        {
+            if (stageModel?.waveList == null)
+                return;
+            foreach (StageWaveModel wave in stageModel.waveList)
+                ForceStageWaveModelAvailableUnits(wave, count);
+        }
+
         private static void ForceWaveAvailableUnits(StageWaveInfo wave, int count)
         {
             if (wave == null)
                 return;
             Type type = wave.GetType();
-            foreach (string fieldName in new[] { "availableUnit", "_availableUnit", "AvailableUnit" })
+            foreach (string fieldName in new[] { "availableNumber", "availableUnit", "_availableUnit", "AvailableUnit" })
             {
                 try
                 {
@@ -308,6 +317,19 @@ namespace RogueLike_Mod_Reborn
                 }
                 catch { }
             }
+        }
+
+        private static void ForceStageWaveModelAvailableUnits(StageWaveModel wave, int count)
+        {
+            if (wave == null)
+                return;
+            try
+            {
+                var field = wave.GetType().GetField("_availableUnitNumber", AccessTools.all);
+                if (field != null && field.FieldType == typeof(int))
+                    field.SetValue(wave, count);
+            }
+            catch { }
         }
 
         public static void OnRealizationBattleEnded(bool victory)

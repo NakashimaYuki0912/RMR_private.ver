@@ -2924,6 +2924,22 @@ namespace abcdcode_LOGLIKE_MOD
                 return;
             Image image = (Image)typeof(EmotionPassiveCardUI).GetField("_artwork", AccessTools.all).GetValue(__instance);
             EmotionCardXmlInfo emotionCardXmlInfo = (EmotionCardXmlInfo)typeof(EmotionPassiveCardUI).GetField("_card", AccessTools.all).GetValue(__instance);
+            if (image == null || emotionCardXmlInfo == null)
+                return;
+            RewardPassiveInfo rewardInfo = RewardingModel.FindRewardInfo(emotionCardXmlInfo);
+            if (rewardInfo != null && rewardInfo.rewardtype == RewardType.EquipPage)
+            {
+                BookXmlInfo book = RewardingModel.GetBookDataOriginAware(rewardInfo.id);
+                if (book != null)
+                {
+                    Sprite thumb = new BookModel(book).GetThumbSprite();
+                    if (thumb != null)
+                    {
+                        image.sprite = thumb;
+                        return;
+                    }
+                }
+            }
             if (LogLikeMod.ArtWorks.ContainsKey(emotionCardXmlInfo.Artwork))
                 image.sprite = LogLikeMod.ArtWorks[emotionCardXmlInfo.Artwork];
         }

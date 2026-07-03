@@ -58,7 +58,7 @@ Require-Contains $core "RecordDistortedEnsembleStageClear" "Distorted Ensemble f
 Require-Contains $core "IsDistortedEnsembleUnlockedForUrbanStar" "Distorted Ensemble Urban Star gate"
 Require-Contains $core "EnsureBlueReverberationRewardsForUrbanStar" "Blue Reverberation Urban Star grant"
 Require-Contains $core "BlueReverberationCorePageId = 250013" "Blue Reverberation core id"
-foreach ($cardId in @("604021", "604022", "604023", "604024", "604025")) {
+foreach ($cardId in @("704001", "704011", "704012", "704013", "704014", "705011", "705012")) {
     Require-Contains $core $cardId "Blue Reverberation battle page $cardId"
 }
 Require-Contains $core "ResetAllArchiveProgress" "initial-event reset entry"

@@ -44,11 +44,13 @@ namespace RogueLike_Mod_Reborn
 
         private static readonly int[] BlueReverberationBattlePageIds =
         {
-            604021,
-            604022,
-            604023,
-            604024,
-            604025
+            704001,
+            704011,
+            704012,
+            704013,
+            704014,
+            705011,
+            705012
         };
 
         private static readonly List<LorId> RouteUnlockedPages = new List<LorId>();
@@ -432,7 +434,7 @@ namespace RogueLike_Mod_Reborn
             LorId blueBookId = new LorId(LogLikeMod.ModId, BlueReverberationCorePageId);
             bool corePageAdded = LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(blueBookId);
             foreach (int pageId in BlueReverberationBattlePageIds)
-                LogueBookModels.AddCard(new LorId(LogLikeMod.ModId, pageId), 1, false);
+                LogueBookModels.AddCard(new LorId(pageId), 1, false);
             LogueBookModels.SavePermanentAtlasUnlocks();
 
             Debug.Log($"[RMRAbnormalityUnlockManager] Distorted Ensemble victory: core page {blueBookId} " +

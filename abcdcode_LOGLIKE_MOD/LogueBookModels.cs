@@ -1773,7 +1773,8 @@ namespace abcdcode_LOGLIKE_MOD
             fieldValue.Clear();
             foreach (int id in page.EquipEffect.OnlyCard)
             {
-                DiceCardXmlInfo cardItem = ItemXmlDataList.instance.GetCardItem(new LorId(page.workshopID, id), true);
+                DiceCardXmlInfo cardItem = ItemXmlDataList.instance.GetCardItem(new LorId(page.workshopID, id), true)
+                    ?? ItemXmlDataList.instance.GetCardItem(id, true);
                 if (cardItem == null)
                     "".Log("Error : No Limit Card Data");
                 else

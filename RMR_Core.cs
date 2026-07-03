@@ -61,7 +61,7 @@ namespace RogueLike_Mod_Reborn
         public const string packageId = "abcdcodecalmmagma.LogueLikeReborn";
         public static CustomMapHandler RMRMapHandler;
 
-        public const string BuildTimestamp = "2026-07-02T13:57+08:00";
+        public const string BuildTimestamp = "2026-07-03T01:31+08:00";
 
         public override void OnInitializeMod()
         {
@@ -529,11 +529,13 @@ namespace RogueLike_Mod_Reborn
         private const int BlueReverberationCorePageId = 250013;
         private static readonly int[] BlueReverberationBattlePageIds =
         {
-            604021,
-            604022,
-            604023,
-            604024,
-            604025
+            704001,
+            704011,
+            704012,
+            704013,
+            704014,
+            705011,
+            705012
         };
 
         private static List<BookXmlInfo> GetVanillaCorePageCandidates(out string reason)
@@ -730,7 +732,7 @@ namespace RogueLike_Mod_Reborn
                 LogueBookModels.cardlist = new List<DiceCardItemModel>();
             foreach (int pageId in BlueReverberationBattlePageIds)
             {
-                LorId cardId = new LorId(LogLikeMod.ModId, pageId);
+                LorId cardId = new LorId(pageId);
                 bool alreadyUnlocked = LogueBookModels.AtlasUnlockedBattleCards != null
                     && LogueBookModels.AtlasUnlockedBattleCards.Contains(cardId);
                 LogueBookModels.AddCard(cardId, 1, false);
@@ -742,7 +744,7 @@ namespace RogueLike_Mod_Reborn
                 && LogueBookModels.booklist != null
                 && LogueBookModels.booklist.Any(book => book?.ClassInfo?.id == blueBookId);
             bool confirmedCards = BlueReverberationBattlePageIds.All(pageId =>
-                LogueBookModels.AtlasUnlockedBattleCards.Contains(new LorId(LogLikeMod.ModId, pageId)));
+                LogueBookModels.AtlasUnlockedBattleCards.Contains(new LorId(pageId)));
             if (confirmedCore && confirmedCards)
             {
                 Debug.Log($"[RMR] Urban Star entry: Blue Reverberation confirmed in atlas/current route; battle pages {string.Join(", ", BlueReverberationBattlePageIds.Select(x => x.ToString()).ToArray())} unlocked.");

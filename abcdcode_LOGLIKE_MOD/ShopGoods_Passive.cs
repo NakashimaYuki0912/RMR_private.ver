@@ -163,6 +163,14 @@ namespace abcdcode_LOGLIKE_MOD
                 customSelectable = ModdingUtils.CreateLogSelectable(this.transform, goodinfo.iconartwork, new Vector2(1f, 1f), new Vector2(0.0f, 0.0f), new Vector2(180f, 180f));
             else if (LogLikeMod.ModdedArtWorks.ContainsKey((goodinfo.id.packageId, goodinfo.iconartwork)))
                 customSelectable = ModdingUtils.CreateLogSelectable(this.transform, LogLikeMod.ModdedArtWorks[(goodinfo.id.packageId, goodinfo.iconartwork)], new Vector2(1f, 1f), new Vector2(0.0f, 0.0f), new Vector2(180f, 180f));
+            else if (goodinfo.rewardtype == RewardType.EquipPage)
+            {
+                BookXmlInfo book = RewardingModel.GetBookDataOriginAware(goodinfo.id);
+                if (book != null)
+                    customSelectable = ModdingUtils.CreateLogSelectable(this.transform, new BookModel(book).GetThumbSprite(), new Vector2(1f, 1f), new Vector2(0.0f, 0.0f), new Vector2(180f, 180f));
+            }
+            if (customSelectable == null)
+                customSelectable = ModdingUtils.CreateLogSelectable(this.transform, goodinfo.iconartwork, new Vector2(1f, 1f), new Vector2(0.0f, 0.0f), new Vector2(180f, 180f));
             Button.ButtonClickedEvent buttonClickedEvent = new Button.ButtonClickedEvent();
             buttonClickedEvent.AddListener(() => this.OnClickGoods());
             customSelectable.onClick = buttonClickedEvent;
@@ -256,10 +264,10 @@ namespace abcdcode_LOGLIKE_MOD
             string desc = string.Empty;
             if (this.GoodInfo.rewardtype == RewardType.EquipPage)
             {
-                BookXmlInfo book = Singleton<BookXmlList>.Instance.GetData(this.GoodInfo.id);
+                BookXmlInfo book = RewardingModel.GetBookDataOriginAware(this.GoodInfo.id);
                 if (book != null)
                 {
-                    name = book.InnerName;
+                    name = RewardingModel.GetLocalizedBookName(book);
                     desc = RewardingModel.GetAblilityText(book);
                 }
             }
