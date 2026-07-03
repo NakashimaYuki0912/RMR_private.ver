@@ -3096,12 +3096,14 @@ namespace abcdcode_LOGLIKE_MOD
                 else
                 {
                     this.SetActivatedSlot(true);
-                    this.BookName.text = this.bookInfo.Name;
+                    if (this.BookName != null)
+                        this.BookName.text = RewardingModel.SanitizeDisplayText(this.bookInfo.Name);
                     if (this.Icon != null)
                         this.Icon.sprite = this.bookInfo.bookIcon;
                     if (this.IconGlow != null)
                         this.IconGlow.sprite = this.bookInfo.bookIconGlow;
                     this.SetHighlighted(false);
+                    LogLikeRoutines.ApplyRmrTmpFont(this.gameObject);
                     if (!(this.bookNumRoot != null))
                         return;
                     if (!this.bookNumRoot.activeSelf)
@@ -3112,7 +3114,8 @@ namespace abcdcode_LOGLIKE_MOD
 
             public void SetEmptyViewSlot()
             {
-                this.BookName.text = TextDataModel.GetText("ui_book_bookname_emptybook");
+                if (this.BookName != null)
+                    this.BookName.text = TextDataModel.GetText("ui_book_bookname_emptybook");
                 if (this.Icon != null)
                 {
                     Image icon = this.Icon;
@@ -3129,6 +3132,7 @@ namespace abcdcode_LOGLIKE_MOD
                 GameObject bookNumRoot = this.bookNumRoot;
                 if (bookNumRoot != null)
                     bookNumRoot.SetActive(false);
+                LogLikeRoutines.ApplyRmrTmpFont(this.gameObject);
                 if (!this.ob_tutorialhighlight.activeSelf)
                     return;
                 this.ob_tutorialhighlight.SetActive(false);
@@ -3317,6 +3321,7 @@ namespace abcdcode_LOGLIKE_MOD
             public override void SetData(BookModel book)
             {
                 base.SetData(book);
+                LogLikeRoutines.ApplyRmrTmpFont(this.gameObject);
                 this.SetActiveSlot(true);
                 this.cg_equiproot.alpha = 0.0f;
                 if (this._bookDataModel.owner != null)

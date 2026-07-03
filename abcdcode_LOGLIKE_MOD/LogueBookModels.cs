@@ -509,7 +509,9 @@ namespace abcdcode_LOGLIKE_MOD
             var data10 = model.unitData.name;
             data1.AddData("nuggetName", data10);
             EnsureGrade6SpecialBuiltInDeckSource();
-            if (Grade6SpecialBuiltInDeckSource.TryGetValue(model.unitData, out LorId sourceId) && sourceId != LorId.None)
+            if (Grade6SpecialBuiltInDeckSource.TryGetValue(model.unitData, out LorId sourceId) && sourceId != LorId.None
+                && !RMRCore.IsBlueReverberationCorePage(classInfo)
+                && !IsBlueReverberationDeckSource(sourceId))
                 data1.AddData("Grade6SpecialBuiltInDeckSource", Grade6SpecialBuiltInDeckSource[model.unitData].LogGetSaveData());
             return data1;
         }
@@ -1079,6 +1081,11 @@ namespace abcdcode_LOGLIKE_MOD
             return TryGetGrade6SpecialBuiltInDeckSource(model, out LorId _);
         }
 
+        public static bool IsEditableBlueReverberationDeck(BookModel model)
+        {
+            return model != null && RMRCore.IsBlueReverberationCorePage(model.ClassInfo);
+        }
+
         public static bool TryGetGrade6SpecialBuiltInDeckCards(UnitDataModel model, out List<DiceCardXmlInfo> builtInDeck)
         {
             if (model == null || !TryGetGrade6SpecialBuiltInDeckSource(model, out LorId sourceId))
@@ -1111,8 +1118,18 @@ namespace abcdcode_LOGLIKE_MOD
             if (model == null)
                 return false;
             EnsureGrade6SpecialBuiltInDeckSource();
+            if (RMRCore.IsBlueReverberationCorePage(model.bookItem?.ClassInfo))
+            {
+                Grade6SpecialBuiltInDeckSource.Remove(model);
+                return false;
+            }
             if (Grade6SpecialBuiltInDeckSource.TryGetValue(model, out sourceId) && sourceId != LorId.None)
-                return true;
+            {
+                if (!IsBlueReverberationDeckSource(sourceId))
+                    return true;
+                Grade6SpecialBuiltInDeckSource.Remove(model);
+                sourceId = LorId.None;
+            }
             return TryResolveGrade6SpecialBuiltInDeckSource(model.bookItem?.ClassInfo, out sourceId);
         }
 
@@ -1236,15 +1253,21 @@ namespace abcdcode_LOGLIKE_MOD
             bool isBinah = RMRCore.IsBinahCorePage(page);
             return IsDeckFixedBookCategory(page)
                 || IsBlackSilenceCorePage(page)
-                || RMRCore.IsBlueReverberationCorePage(page)
                 || isBinah;
         }
 
-        private static BookXmlInfo ResolveFreshSpecialBuiltInDeckPage(BookXmlInfo page)
+        private static BookXmlInfo ResolveFreshEquipPage(BookXmlInfo page)
         {
-            if (page == null || !IsGrade6SpecialBuiltInDeckPage(page))
+            if (page == null || (!IsGrade6SpecialBuiltInDeckPage(page) && !RMRCore.IsBlueReverberationCorePage(page)))
                 return page;
             return RewardingModel.GetBookDataOriginAware(page.id) ?? page;
+        }
+
+        private static bool IsBlueReverberationDeckSource(LorId sourceId)
+        {
+            if (sourceId == null || sourceId == LorId.None)
+                return false;
+            return RMRCore.IsBlueReverberationCorePage(RewardingModel.GetBookDataOriginAware(sourceId));
         }
 
         private static bool IsDeckFixedBookCategory(BookXmlInfo page)
@@ -1300,12 +1323,22 @@ namespace abcdcode_LOGLIKE_MOD
             if (unitData == null || data == null)
                 return;
             EnsureGrade6SpecialBuiltInDeckSource();
+            if (RMRCore.IsBlueReverberationCorePage(unitData.bookItem?.ClassInfo))
+            {
+                Grade6SpecialBuiltInDeckSource.Remove(unitData);
+                return;
+            }
             try
             {
                 SaveData sourceData = data.GetData("Grade6SpecialBuiltInDeckSource");
                 if (sourceData == null)
                     return;
                 LorId sourceId = ExtensionUtils.LogLoadFromSaveData(sourceData);
+                if (IsBlueReverberationDeckSource(sourceId))
+                {
+                    Grade6SpecialBuiltInDeckSource.Remove(unitData);
+                    return;
+                }
                 if (sourceId != LorId.None)
                     TryApplyGrade6SpecialBuiltInDeckToUnit(unitData, sourceId);
             }
@@ -1663,9 +1696,14 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static bool CanAddCardToCurrentDeck(LorId cardId, BookModel model)
         {
-            if (model.IsFixedDeck() || model.IsLockByBluePrimary())
+            if (model == null)
                 return false;
-            DiceCardXmlInfo cardXmlInfo = ItemXmlDataList.instance.GetCardItem(cardId);
+            bool editableBlue = IsEditableBlueReverberationDeck(model);
+            if (model.IsFixedDeck() && !editableBlue)
+                return false;
+            if (model.IsLockByBluePrimary() && !editableBlue)
+                return false;
+            DiceCardXmlInfo cardXmlInfo = RewardingModel.GetCardItemOriginAware(cardId);
             if (cardXmlInfo == null)
                 return false;
             if (cardXmlInfo.optionList.Contains(CardOption.OnlyPage))
@@ -1680,7 +1718,7 @@ namespace abcdcode_LOGLIKE_MOD
             }
             else if (model.ClassInfo.RangeType == EquipRangeType.Range && cardXmlInfo.Spec.Ranged == CardRange.Near)
                 return false;
-            DiceCardSelfAbilityBase diceCardSelfAbility = Singleton<AssemblyManager>.Instance.CreateInstance_DiceCardSelfAbility(ItemXmlDataList.instance.GetCardItem(cardId).Script);
+            DiceCardSelfAbilityBase diceCardSelfAbility = Singleton<AssemblyManager>.Instance.CreateInstance_DiceCardSelfAbility(cardXmlInfo.Script);
             return diceCardSelfAbility == null || !(diceCardSelfAbility is LogDiceCardSelfAbility) || (diceCardSelfAbility as LogDiceCardSelfAbility).CanAddDeck(model.CopyCurrentDeck(), out CardEquipState _);
         }
 
@@ -1751,7 +1789,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (model == null || page == null)
                 return;
-            page = ResolveFreshSpecialBuiltInDeckPage(page);
+            page = ResolveFreshEquipPage(page);
             UnitDataModel unitData = model.unitData;
             float num = model.hp / (float)model.MaxHp;
             double hpReductionMod = model.hp;

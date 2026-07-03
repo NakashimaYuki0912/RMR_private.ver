@@ -169,3 +169,59 @@
   - 阿尔加利亚专属战斗书页是否不再从图鉴/库存被 prune 删除。
   - 异想体书页、核心页、战斗书页描述中的 `口口口` 是否明显减少或消失。
   - 解放战准备界面 5 人问题仍需游戏内再次验收；本轮没有继续改解放战人数逻辑。
+
+---
+
+## 2026-07-03 第三轮修复记录
+
+### 本轮反馈
+
+- 阿尔加利亚专属战斗书页已经出现，但阿尔加利亚核心页仍被设定为不可修改战斗卡组。
+- 异想体书页、核心书页、战斗书页描述中的 `口口口` 仍未解决。
+
+### 已修改文件
+
+- `abcdcode_LOGLIKE_MOD/LogueBookModels.cs`
+  - 阿尔加利亚/苍蓝残响从 `IsGrade6SpecialBuiltInDeckPage()` 固定卡组识别中移除，保留专属 `OnlyCard` 绑定但不再强制固定牌组。
+  - 新增 `IsEditableBlueReverberationDeck()`，允许 RMR 准备界面中阿尔加利亚绕过原版 `IsLockByBluePrimary()` 卡组锁。
+  - 读档、保存、查询固定卡组来源时清理旧路线里残留的阿尔加利亚固定卡组来源，避免旧存档继续锁卡组。
+  - 装备核心页时仍对阿尔加利亚使用 origin-aware 版本刷新核心页数据，保证 `OnlyCard` 可绑定原版专属战斗书页。
+- `abcdcode_Refactored/LogLikePatches.cs`
+  - `BookModel.IsFixedDeck` 补丁中让 RMR 上下文里的阿尔加利亚返回可编辑。
+  - `BookModel.AddCardFromInventoryToCurrentDeck` 补丁中让阿尔加利亚绕过蓝残响原版锁，并使用 origin-aware 卡牌查询。
+  - 扩展 `ApplyRmrTmpFont()`：即使字体为空也会清理文本；字体存在时递归替换子节点 TMP 字体并执行 `SanitizeDisplayText()`。
+  - 新增 `BattleDiceCardUI.SetCard`、`UIOriginCardSlot.SetData` 字体刷新钩子，并补到库存卡槽、被动转移弹窗。
+- `abcdcode_LOGLIKE_MOD/LogLikeMod.cs`
+  - 核心页/掉落书页槽在设置名称后执行文本清理和 RMR TMP 字体刷新。
+- `RMR_Core.cs`
+  - 构建时间戳更新为 `2026-07-03T09:11+08:00`。
+- `tools/static_checks/realization/RMR_0620_grade6_special_fixed_deck_static_check.ps1`
+  - 增加阿尔加利亚不是固定卡组、旧固定来源会被清理、蓝残响锁可绕过的断言。
+- `tools/static_checks/runtime_release/RMR_0629_language_sync_static_check.ps1`
+  - 增加卡牌/书页 UI 递归 TMP 字体刷新和文本清理断言。
+
+### 已验证
+
+- `git diff --check`：无空白错误；仅有仓库既有 LF/CRLF 提示。
+- 静态检查通过：
+  - `tools/static_checks/realization/RMR_0620_grade6_special_fixed_deck_static_check.ps1`
+  - `tools/static_checks/runtime_release/RMR_0629_language_sync_static_check.ps1`
+- Release 编译通过：
+  - 输出 DLL：`C:\Users\13034\AppData\Local\Temp\rmr_build_out\RogueLike Mod Reborn.dll`
+  - 仅有既有 warning：`RMREffect_Duplicator.Dupe.cards` 未赋值。
+- 已部署到 Workshop：
+  - DLL：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\dlls\RogueLike Mod Reborn.dll`
+  - DLL SHA-256：`6CAEB0D665036FD953C6496109BFC6B419B8F7852740C4918050793EA3F41DF2`
+- Git：
+  - 本地提交已完成，提交信息为 `Fix Argalia deck editing and RMR text fonts`；精确哈希以 `git log -1 --oneline` 为准。
+  - `git push` 未完成：远端 `https://github.com/izasaraba/RougelikeModReborn_private-version.git` 返回 `Repository not found`。
+
+### 还没做 / 下一次优先验证
+
+- 尚未启动游戏做实测。需要在 `Player.log` 确认加载到 `Build: 2026-07-03T09:11+08:00`。
+- 游戏内重点验证：
+  - 阿尔加利亚核心页装备后卡组是否可编辑。
+  - 阿尔加利亚专属战斗书页是否仍在目录中，并可加入/移出卡组。
+  - 普通固定卡组核心页如 Binah、漆黑静默是否仍保持固定专属牌组，不被本轮改动放开。
+  - 异想体书页、核心页、战斗书页描述中的 `口口口` 是否消失；如果仍有，需要继续定位具体 UI 类或实际缺字字体。
+  - 解放战准备界面可用角色仍需用户继续反馈；本轮没有继续修改解放战人数逻辑。

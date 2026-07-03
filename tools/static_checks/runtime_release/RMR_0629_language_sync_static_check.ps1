@@ -33,6 +33,11 @@ AssertContains 'vanilla TextDataModel override is gated before reading mod text'
 AssertContains 'generic mod text only overrides while RMR is active' $patches 'LogLikeMod.CheckStage()'
 AssertContains 'main menu RMR text remains available outside RMR stage' $patches 'id.StartsWith("ui_RMR_", StringComparison.Ordinal)'
 AssertContains 'vanilla TextDataModel only overridden by non-empty mod dictionary values' $patches 'if (!(text != string.Empty))'
+AssertContains 'RMR TMP font sanitizer rewrites existing UI text' $patches 'text.text = RewardingModel.SanitizeDisplayText(text.text)'
+AssertContains 'battle card UI refreshes RMR TMP font after SetCard' $patches 'BattleDiceCardUI_SetCard_RmrFont'
+AssertContains 'origin card slot refreshes RMR TMP font after SetData' $patches 'UIOriginCardSlot_SetData_RmrFont'
+AssertContains 'inventory card slot refreshes RMR TMP font after state update' $patches 'LogLikeRoutines.ApplyRmrTmpFont(self.gameObject)'
+AssertContains 'passive succession popup refreshes RMR TMP font after open' $patches 'LogLikeRoutines.ApplyRmrTmpFont(UIPassiveSuccessionPopup.Instance?.gameObject)'
 
 foreach ($file in @('Localize\cn\UIs.txt', 'Localize\en\UIs.txt', 'Localize\kr\UIs.txt')) {
     [xml](Get-Content -Raw -Encoding UTF8 (Join-Path $root $file)) | Out-Null

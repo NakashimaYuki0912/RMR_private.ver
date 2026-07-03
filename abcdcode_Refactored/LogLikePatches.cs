@@ -26,12 +26,16 @@ namespace abcdcode_LOGLIKE_MOD
     {
         public static void ApplyRmrTmpFont(GameObject root)
         {
-            if (root == null || LogLikeMod.DefFont_TMP == null)
+            if (root == null)
                 return;
+            TMP_FontAsset font = LogLikeMod.DefFont_TMP;
             foreach (TextMeshProUGUI text in root.GetComponentsInChildren<TextMeshProUGUI>(true))
             {
-                if (text != null)
-                    text.font = LogLikeMod.DefFont_TMP;
+                if (text == null)
+                    continue;
+                if (font != null)
+                    text.font = font;
+                text.text = RewardingModel.SanitizeDisplayText(text.text);
             }
         }
 
@@ -457,6 +461,8 @@ namespace abcdcode_LOGLIKE_MOD
         /// </summary>
         public bool BookModel_IsFixedDeck(Func<BookModel, bool> orig, BookModel self)
         {
+            if (LogLikeRoutines.IsRoguelikeBattleSettingContext() && LogueBookModels.IsEditableBlueReverberationDeck(self))
+                return false;
             if (LogueBookModels.HasGrade6SpecialBuiltInDeck(self))
                 return true;
             return orig(self);
@@ -1726,15 +1732,17 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return orig(self, cardId);
-            if (self.IsFixedDeck())
+            bool editableBlue = LogueBookModels.IsEditableBlueReverberationDeck(self);
+            if (self.IsFixedDeck() && !editableBlue)
             {
                 return CardEquipState.ERROR;
             }
-            if (self.IsLockByBluePrimary())
+            if (self.IsLockByBluePrimary() && !editableBlue)
             {
                 return CardEquipState.ERROR;
             }
-            DiceCardXmlInfo cardXmlInfo = ItemXmlDataList.instance.GetCardItem(cardId, false);
+            DiceCardXmlInfo cardXmlInfo = RewardingModel.GetCardItemOriginAware(cardId)
+                ?? ItemXmlDataList.instance.GetCardItem(cardId, false);
             if (cardXmlInfo == null)
             {
                 return CardEquipState.ERROR;
@@ -1913,6 +1921,7 @@ namespace abcdcode_LOGLIKE_MOD
                         break;
                 }
                 self.RefreshNumbersData();
+                LogLikeRoutines.ApplyRmrTmpFont(self.gameObject);
             }
             else
                 orig(self);
@@ -2397,6 +2406,7 @@ namespace abcdcode_LOGLIKE_MOD
             if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             LogLikeRoutines.SetBattleSettingCardPanelVisible(false);
+            LogLikeRoutines.ApplyRmrTmpFont(UIPassiveSuccessionPopup.Instance?.gameObject);
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(UIPassiveSuccessionPopup), nameof(UIPassiveSuccessionPopup.Close))]
@@ -3006,6 +3016,22 @@ namespace abcdcode_LOGLIKE_MOD
         }
         */
 
+        [HarmonyPostfix, HarmonyPatch(typeof(BattleDiceCardUI), nameof(BattleDiceCardUI.SetCard), new Type[] { typeof(BattleDiceCardModel) })]
+        public static void BattleDiceCardUI_SetCard_RmrFont(BattleDiceCardUI __instance)
+        {
+            if (!LogLikeMod.CheckStage() && !LogLikeRoutines.IsRoguelikeBattleSettingContext())
+                return;
+            LogLikeRoutines.ApplyRmrTmpFont(__instance?.gameObject);
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(UIOriginCardSlot), nameof(UIOriginCardSlot.SetData), new Type[] { typeof(DiceCardItemModel) })]
+        public static void UIOriginCardSlot_SetData_RmrFont(UIOriginCardSlot __instance)
+        {
+            if (!LogLikeMod.CheckStage() && !LogLikeRoutines.IsRoguelikeBattleSettingContext())
+                return;
+            LogLikeRoutines.ApplyRmrTmpFont(__instance?.gameObject);
+        }
+
         [HarmonyPostfix, HarmonyPatch(typeof(EmotionPassiveCardUI), nameof(EmotionPassiveCardUI.Init))]
         public static void EmotionPassiveCardUI_Init(EmotionPassiveCardUI __instance)
         {
@@ -3405,6 +3431,7 @@ namespace abcdcode_LOGLIKE_MOD
                 foreach (PassiveModel passiveModel in bookItem.GetPassiveModelList())
                     passiveModel.InitReservedData();
             }
+            LogLikeRoutines.ApplyRmrTmpFont(UIPassiveSuccessionPopup.Instance?.gameObject);
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(StageWaveModel), nameof(StageWaveModel.GetUnitBattleDataListByFormation))]
