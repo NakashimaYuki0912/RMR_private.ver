@@ -519,6 +519,14 @@ namespace RogueLike_Mod_Reborn
             while (teamList.Count > targetCount)
                 teamList.RemoveAt(teamList.Count - 1);
 
+            LogueBookModels.playerModel = teamList;
+            LogueBookModels.CreatePlayerBattle();
+            foreach (UnitBattleDataModel battleModel in LogueBookModels.playerBattleModel)
+            {
+                if (battleModel != null)
+                    battleModel.IsAddedBattle = true;
+            }
+
             // Equip each librarian with an atlas book
             for (int i = 0; i < teamList.Count; i++)
             {
@@ -568,14 +576,6 @@ namespace RogueLike_Mod_Reborn
                         Debug.Log($"[RMRRealizationManager] Skipped atlas auto-fill for built-in-deck book: {book.ClassInfo.id.id}");
                     }
                 }
-            }
-
-            LogueBookModels.playerModel = teamList;
-            LogueBookModels.CreatePlayerBattle();
-            foreach (UnitBattleDataModel battleModel in LogueBookModels.playerBattleModel)
-            {
-                if (battleModel != null)
-                    battleModel.IsAddedBattle = true;
             }
 
             AtlasOnlyLoadoutActive = true;

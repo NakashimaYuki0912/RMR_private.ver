@@ -48,7 +48,14 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static BookModel LoadFromSaveData_BookModel(SaveData data)
         {
-            BookModel bookModel = new BookModel(Singleton<BookXmlList>.Instance.GetData(ExtensionUtils.LogLoadFromSaveData(data.GetData("id"))));
+            LorId savedId = RMRCore.NormalizeLegacyBlueReverberationCorePageId(ExtensionUtils.LogLoadFromSaveData(data.GetData("id")));
+            BookXmlInfo bookXml = RewardingModel.GetBookDataOriginAware(savedId) ?? Singleton<BookXmlList>.Instance.GetData(savedId);
+            if (bookXml == null)
+            {
+                Debug.LogWarning($"[RMR Atlas] Missing saved core page {savedId}; falling back to starter page.");
+                bookXml = LogueBookModels.BaseXmlInfo;
+            }
+            BookModel bookModel = new BookModel(bookXml);
             int index = data.GetInt("index");
             if (index != -1)
                 bookModel.owner = LogueBookModels.playerModel[index];
@@ -348,7 +355,7 @@ namespace abcdcode_LOGLIKE_MOD
             if (data == null || target == null)
                 return;
             foreach (SaveData savedId in data)
-                target.Add(ExtensionUtils.LogLoadFromSaveData(savedId));
+                target.Add(RMRCore.NormalizeLegacyBlueReverberationCorePageId(ExtensionUtils.LogLoadFromSaveData(savedId)));
         }
 
         public static void LoadFromSaveData_UnitBattleDataModel(SaveData data, UnitBattleDataModel model)
@@ -1048,6 +1055,7 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static bool TryAddUniqueRoleBookToInventoryAndAtlas(LorId id)
         {
+            id = RMRCore.NormalizeLegacyBlueReverberationCorePageId(id);
             if (id == LorId.None)
                 return false;
             BookXmlInfo bookXml = RewardingModel.GetBookDataOriginAware(id);
@@ -1137,6 +1145,8 @@ namespace abcdcode_LOGLIKE_MOD
         {
             sourceId = LorId.None;
             if (model == null)
+                return false;
+            if (RMRCore.IsBlueReverberationCorePage(model.ClassInfo))
                 return false;
             if (model.owner != null && TryGetGrade6SpecialBuiltInDeckSource(model.owner, out sourceId))
                 return true;
@@ -1250,6 +1260,8 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (page == null)
                 return false;
+            if (RMRCore.IsBlueReverberationCorePage(page))
+                return false;
             bool isBinah = RMRCore.IsBinahCorePage(page);
             return IsDeckFixedBookCategory(page)
                 || IsBlackSilenceCorePage(page)
@@ -1267,6 +1279,9 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (sourceId == null || sourceId == LorId.None)
                 return false;
+            sourceId = RMRCore.NormalizeLegacyBlueReverberationCorePageId(sourceId);
+            if (sourceId == RMRCore.GetBlueReverberationCorePageLorId())
+                return true;
             return RMRCore.IsBlueReverberationCorePage(RewardingModel.GetBookDataOriginAware(sourceId));
         }
 
@@ -1333,7 +1348,7 @@ namespace abcdcode_LOGLIKE_MOD
                 SaveData sourceData = data.GetData("Grade6SpecialBuiltInDeckSource");
                 if (sourceData == null)
                     return;
-                LorId sourceId = ExtensionUtils.LogLoadFromSaveData(sourceData);
+                LorId sourceId = RMRCore.NormalizeLegacyBlueReverberationCorePageId(ExtensionUtils.LogLoadFromSaveData(sourceData));
                 if (IsBlueReverberationDeckSource(sourceId))
                 {
                     Grade6SpecialBuiltInDeckSource.Remove(unitData);

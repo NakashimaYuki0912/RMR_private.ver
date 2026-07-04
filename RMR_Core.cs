@@ -61,7 +61,7 @@ namespace RogueLike_Mod_Reborn
         public const string packageId = "abcdcodecalmmagma.LogueLikeReborn";
         public static CustomMapHandler RMRMapHandler;
 
-        public const string BuildTimestamp = "2026-07-04T02:06+08:00";
+        public const string BuildTimestamp = "2026-07-04T16:30+08:00";
 
         public override void OnInitializeMod()
         {
@@ -543,12 +543,30 @@ namespace RogueLike_Mod_Reborn
             return new LorId(BlueReverberationCorePageId);
         }
 
+        public static bool IsLegacyBlueReverberationCorePageId(LorId id)
+        {
+            return id != null
+                && id.id == BlueReverberationCorePageId
+                && id.packageId == LogLikeMod.ModId;
+        }
+
+        public static LorId NormalizeLegacyBlueReverberationCorePageId(LorId id)
+        {
+            return IsLegacyBlueReverberationCorePageId(id) ? GetBlueReverberationCorePageLorId() : id;
+        }
+
         public static bool PruneLegacyBlueReverberationCorePageUnlocks()
         {
             bool changed = false;
             LorId legacyId = new LorId(LogLikeMod.ModId, BlueReverberationCorePageId);
             if (LogueBookModels.AtlasUnlockedRoleBooks != null)
-                changed |= LogueBookModels.AtlasUnlockedRoleBooks.Remove(legacyId);
+            {
+                if (LogueBookModels.AtlasUnlockedRoleBooks.Remove(legacyId))
+                {
+                    LogueBookModels.AtlasUnlockedRoleBooks.Add(GetBlueReverberationCorePageLorId());
+                    changed = true;
+                }
+            }
             if (LogueBookModels.booklist != null)
                 changed |= LogueBookModels.booklist.RemoveAll(book => book?.ClassInfo?.id == legacyId) > 0;
             return changed;

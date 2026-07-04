@@ -182,6 +182,34 @@ if ($createBattleStart -ge 0) {
     $errors += "ApplyAtlasOnlyLoadout does not recreate playerBattleModel"
 }
 
+$applyStart = $realizationMgr.IndexOf('private static bool ApplyAtlasOnlyLoadout')
+$applyEnd = $realizationMgr.IndexOf('private static void RestoreRouteLoadout', $applyStart)
+if ($applyStart -lt 0 -or $applyEnd -lt 0) {
+    $errors += "Could not parse ApplyAtlasOnlyLoadout block"
+} else {
+    $applyBlock = $realizationMgr.Substring($applyStart, $applyEnd - $applyStart)
+    $createIndex = $applyBlock.IndexOf('LogueBookModels.CreatePlayerBattle();')
+    $equipIndex = $applyBlock.IndexOf('LogueBookModels.EquipNewPage(unit')
+    if ($createIndex -ge 0 -and $equipIndex -ge 0 -and $createIndex -lt $equipIndex) {
+        Write-Host "  [OK] Realization creates playerBattleModel before equipping atlas pages" -ForegroundColor Green
+    } else {
+        $errors += "ApplyAtlasOnlyLoadout must call CreatePlayerBattle before EquipNewPage(UnitDataModel, ...)"
+    }
+    $createCount = [regex]::Matches($applyBlock, 'LogueBookModels\.CreatePlayerBattle\(\);').Count
+    if ($createCount -eq 1) {
+        Write-Host "  [OK] Realization does not recreate playerBattleModel after deck fill" -ForegroundColor Green
+    } else {
+        $errors += "ApplyAtlasOnlyLoadout should recreate playerBattleModel exactly once; found $createCount"
+    }
+}
+
+$librarianCh6Equip = Get-Content -Raw -Encoding UTF8 ".\AddData\EquipPage\EquipPage_Librarian_ch6.xml"
+if ($librarianCh6Equip -notmatch '<Book\s+ID="250013"') {
+    Write-Host "  [OK] Player-side AddData no longer registers a modded Argalia page over vanilla 250013" -ForegroundColor Green
+} else {
+    $errors += "EquipPage_Librarian_ch6.xml must not define a player-side Book ID 250013; use vanilla Argalia page instead"
+}
+
 # ---------------------------------------------------------------------------
 # 5. Abnormal page permanent atlas separation
 # ---------------------------------------------------------------------------

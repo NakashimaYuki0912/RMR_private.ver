@@ -44,9 +44,10 @@ Assert-Match 'Binah fixed deck falls back to vanilla deck 8' $models 'deckId\s*=
 Assert-Match 'Black Silence fixed deck falls back to vanilla deck 102' $models 'deckId\s*=\s*102'
 Assert-NoMatch 'Red Mist is not treated as a fixed built-in deck page' ([regex]::Match($models, 'IsGrade6SpecialBuiltInDeckPage\(BookXmlInfo page\)(?<body>[\s\S]*?)private static bool IsDeckFixedBookCategory').Groups['body'].Value) 'IsRedMistCorePage'
 $fixedDeckBody = [regex]::Match($models, 'IsGrade6SpecialBuiltInDeckPage\(BookXmlInfo page\)(?<body>[\s\S]*?)private static BookXmlInfo ResolveFreshEquipPage').Groups['body'].Value
-Assert-NoMatch 'Blue Reverberation remains editable, not fixed deck' $fixedDeckBody 'IsBlueReverberationCorePage'
+Assert-Match 'Blue Reverberation is explicitly excluded from fixed-deck pages' $fixedDeckBody 'IsBlueReverberationCorePage\(page\)[\s\S]*return false'
 Assert-Match 'Blue Reverberation editable deck helper exists' $models 'IsEditableBlueReverberationDeck'
 Assert-Match 'stale Blue Reverberation fixed deck source is cleared' $models 'RMRCore\.IsBlueReverberationCorePage\(model\.bookItem\?\.ClassInfo\)[\s\S]*Grade6SpecialBuiltInDeckSource\.Remove\(model\)'
+Assert-Match 'legacy Blue Reverberation fixed deck source is normalized' $models 'NormalizeLegacyBlueReverberationCorePageId\(sourceId\)'
 Assert-Match 'Blue Reverberation can bypass vanilla blue primary deck lock in RMR' $models 'IsLockByBluePrimary\(\)\s*&&\s*!editableBlue'
 Assert-Match 'special deck source is tracked per unit' $models 'Dictionary<UnitDataModel,\s*LorId>.*BuiltInDeck'
 Assert-Match 'special deck is loaded from source page id' $models 'DeckXmlList.*GetData\(sourceId\)'

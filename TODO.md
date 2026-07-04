@@ -118,6 +118,68 @@
   - 专属卡 prune 增加阿尔加利亚白名单，避免永久图鉴/库存里的专属战斗书页被删。
   - Blue Reverberation 进入特殊固定牌组识别，装备后按 OnlyCard 生成专属牌组。
   - 核心页入库、永久图鉴清理、已有核心页判断改用 origin-aware 路径。
+
+---
+
+## 2026-07-04 本轮修复记录
+
+### 已调查结论
+
+- 阿尔加利亚之页仍然不对的主要原因是玩家侧 `AddData/EquipPage/EquipPage_Librarian_ch6.xml` 注册了本模组包内的 `Book ID="250013"`，与原版阿尔加利亚之页 ID 冲突，奖励/图鉴会解析到这个错误包装页。
+- 解放战 5 人准备后进战斗只有第一个司书有牌组，是因为 `RMR_RealizationManager.ApplyAtlasOnlyLoadout()` 先调用 `EquipNewPage(UnitDataModel, ...)`，后调用 `CreatePlayerBattle()`；而 `EquipNewPage(UnitDataModel, ...)` 依赖已经存在的 `playerBattleModel`，因此装备和填牌组静默失败。
+- 原版异想体书页描述启动后出现口口口、切换语言后恢复，原因更接近原版 `LocalizedTextLoader.LoadOthers(language)` 中的异想体文本表未在模组启动后重新刷新，而不是 `Localize/cn` 文件整体编码损坏。
+
+### 已修改文件
+
+- `AddData/EquipPage/EquipPage_Librarian_ch6.xml`
+  - 删除玩家侧本模组 `Book ID="250013"` 阿尔加利亚包装页，改为只通过原版 `new LorId(250013)` 使用原版阿尔加利亚之页。
+- `RMR_Core.cs`
+  - 构建时间戳更新为 `2026-07-04T16:30+08:00`。
+  - 增加旧本模组阿尔加利亚 ID 识别和归一化，旧存档里的 `abcdcodecalmmagma.LogueLikeReborn:250013` 会迁移为原版 `250013`。
+- `abcdcode_LOGLIKE_MOD/LogueBookModels.cs`
+  - 读取核心页存档、读取永久图鉴、核心页入库时归一化旧阿尔加利亚 ID。
+  - 明确排除 Blue Reverberation 进入 Grade6 特殊固定牌组逻辑，旧固定牌组来源也会归一化后清理，避免阿尔加利亚继续被锁牌组。
+- `RMR_RealizationManager.cs`
+  - 解放战临时 5 人队伍先 `CreatePlayerBattle()` 并标记 `IsAddedBattle=true`，再逐个装备图鉴核心页和填充牌组，避免 2-5 号司书空牌组。
+- `abcdcode_LOGLIKE_MOD/LogLikeMod.cs`
+  - 启动时在模组本地化加载后调用原版 `LoadAbnormalityCardDescriptions()` 和 `LoadAbnormalityAbilityDescription()`，模拟切语言后的原版异想体文本刷新。
+- `tools/static_checks/realization/RMR_0617_realization_session_static_check.ps1`
+  - 增加解放战配队顺序检查和玩家侧不再注册本地 `250013` 检查。
+- `tools/static_checks/realization/RMR_0620_grade6_special_fixed_deck_static_check.ps1`
+  - 增加 Blue Reverberation 显式排除固定牌组和旧来源归一化检查。
+- `tools/static_checks/runtime_release/RMR_0629_language_sync_static_check.ps1`
+  - 增加启动刷新原版异想体文本表检查。
+
+### 已验证
+
+- XML 解析通过：
+  - `AddData/EquipPage/EquipPage_Librarian_ch6.xml`
+  - `Localize/cn/UIs.txt`
+- 静态检查通过：
+  - `tools/static_checks/realization/RMR_0617_realization_session_static_check.ps1`
+  - `tools/static_checks/realization/RMR_0620_grade6_special_fixed_deck_static_check.ps1`
+  - `tools/static_checks/runtime_release/RMR_0629_language_sync_static_check.ps1`
+  - `tools/static_checks/runtime_release/RMR_0628_runtime_end_and_ch7_static_check.ps1`
+- `git diff --check`：无空白错误；仅有仓库既有 LF/CRLF 提示。
+- Release 编译通过：
+  - 输出 DLL：`C:\Users\13034\AppData\Local\Temp\rmr_build_out_0704_1630\RogueLike Mod Reborn.dll`
+  - 仅有既有 warning：`RMREffect_Duplicator.Dupe.cards` 未赋值。
+- 已部署到 Workshop：
+  - DLL：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\dlls\RogueLike Mod Reborn.dll`
+  - XML：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\dlls\AddData\EquipPage\EquipPage_Librarian_ch6.xml`
+  - 备份目录：`E:\Steam\steamapps\workshop\content\1256670\3503523710\Assemblies\_codex_backups\0704_argalia_realization_language_20260704_163203`
+  - DLL SHA-256：`817DACF50ED9CC729850DAB1E79913768D8DA468351E42E1BB37A72F51F27B1F`
+  - XML SHA-256：`0968B5C8EC6C94DC489174FF94EB38DA88B9E47E79E2034FE0E520FCFD43EB43`
+
+### 还没做 / 下一次优先验证
+
+- 尚未启动游戏进行游戏内实测。进入游戏后先在 `Player.log` 确认加载到 `Build: 2026-07-04T16:30+08:00`。
+- 游戏内重点验证：
+  - 阿尔加利亚核心页是否显示为原版阿尔加利亚之页，而不是本模组包装页或都市之星敌对版本。
+  - 阿尔加利亚战斗书页是否可编辑，且不再被固定牌组逻辑锁死。
+  - 解放战准备配置 5 人后，进入战斗 5 名司书是否都有有效牌组。
+  - 启动后不切语言时，原版异想体书页名称和描述是否仍出现口口口。
+  - 若仍有战斗书页/核心书页口口口，需要继续查 `BattleCardDescXmlList` / `BookDesc` / 对应 UI TMP 字体，而不是只查 `Localize/cn` 文件编码。
 - `abcdcode_LOGLIKE_MOD/RewardingModel.cs`
   - 增加已知杂质核心页中文名兜底和残响/Hana 韩文片段替换。
   - 核心页、被动、奖励说明输出统一经过 `SanitizeDisplayText()`。

@@ -365,40 +365,6 @@
     <SpeedDiceNum>1</SpeedDiceNum>
   </Book>
 
-  <Book ID="250013">
-    <Name>아르갈리아의 책장</Name>
-    <TextId>250013</TextId>
-    <EquipEffect>
-      <HP>105</HP>
-      <Break>55</Break>
-      <SpeedMin>2</SpeedMin>
-      <Speed>6</Speed>
-      <SResist>Normal</SResist>
-      <PResist>Normal</PResist>
-      <HResist>Normal</HResist>
-      <SBResist>Normal</SBResist>
-      <PBResist>Normal</PBResist>
-      <HBResist>Endure</HBResist>
-
-      <Passive Pid="@origin">250013</Passive>
-      <Passive Pid="@origin">250113</Passive>
-
-      <OnlyCard>704001</OnlyCard>
-      <OnlyCard>704011</OnlyCard>
-      <OnlyCard>704012</OnlyCard>
-      <OnlyCard>704013</OnlyCard>
-      <OnlyCard>704014</OnlyCard>
-      <OnlyCard>705010</OnlyCard>
-      <OnlyCard>705011</OnlyCard>
-    </EquipEffect>
-    <BookIcon>TheBlueReverberation</BookIcon>
-    <Chapter>6</Chapter>
-    <Episode>50006</Episode>
-    <Rarity>Unique</Rarity>
-    <CharacterSkin>Argalia</CharacterSkin>
-    <SpeedDiceNum>1</SpeedDiceNum>
-  </Book>
-
   <Book ID="250014">
     <Name>톱니 신도</Name>
     <TextId>250014</TextId>

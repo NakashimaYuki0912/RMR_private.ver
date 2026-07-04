@@ -125,6 +125,7 @@ namespace abcdcode_LOGLIKE_MOD
         public static LogLikeMod.CacheDic<string, UnityEngine.Object> AssetBundles;
         public static LogLikeMod.CacheDic<string, Sprite> ArtWorks;
         public static bool CreatedShopEquipPages = false;
+        private static bool RefreshingVanillaAbnormalityTextData;
 
         public static bool Temp = true;
         public static UILogCustomSelectable LogOpenButton;
@@ -1390,6 +1391,34 @@ namespace abcdcode_LOGLIKE_MOD
             };
         }
 
+        public static void RefreshVanillaAbnormalityTextData(string language, string reason)
+        {
+            if (RefreshingVanillaAbnormalityTextData)
+                return;
+            language = NormalizeTextLanguage(language);
+            try
+            {
+                RefreshingVanillaAbnormalityTextData = true;
+                LocalizedTextLoader loader = Singleton<LocalizedTextLoader>.Instance;
+                if (loader == null)
+                {
+                    Debug.LogWarning("[RMR Localize] Cannot refresh vanilla abnormality text because LocalizedTextLoader is null.");
+                    return;
+                }
+                loader.LoadAbnormalityCardDescriptions(language);
+                loader.LoadAbnormalityAbilityDescription(language);
+                Debug.Log($"[RMR Localize] Refreshed vanilla abnormality text for language={language}, reason={reason}.");
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("[RMR Localize] Failed to refresh vanilla abnormality text: " + e);
+            }
+            finally
+            {
+                RefreshingVanillaAbnormalityTextData = false;
+            }
+        }
+
         public static MysteryXmlRoot LoadMysteryInfos(string str, string modid)
         {
             MysteryXmlRoot mysteryXmlRoot;
@@ -2611,7 +2640,9 @@ namespace abcdcode_LOGLIKE_MOD
                 LogLikeMod.LoadCardInfos();
                 LogLikeMod.LoadDecks();
                 LogLikeMod.LoadPassives();
-                LogLikeMod.LoadTextData(ResolveInitialTextLanguage());
+                string initialLanguage = ResolveInitialTextLanguage();
+                LogLikeMod.LoadTextData(initialLanguage);
+                LogLikeMod.RefreshVanillaAbnormalityTextData(initialLanguage, "LogLikeMod init");
                 LogLikeMod.spinemotions = new Dictionary<string, Dictionary<ActionDetail, Dictionary<GameObject, SkeletonAnimation>>>();
                 FormationXmlRoot formationXmlRoot;
                 using (StringReader stringReader = new StringReader(File.ReadAllText(LogLikeMod.path + "/AddData/FormationInfo.txt")))
