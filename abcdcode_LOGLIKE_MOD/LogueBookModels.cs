@@ -116,8 +116,12 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (id == LorId.None)
                 return;
+            if (RMRAbnormalityUnlockManager.IsNoAbnormalityFallback(id))
+                return;
             RewardPassiveInfo info = Singleton<RewardPassivesList>.Instance.GetPassiveInfo(id);
-            if (info == null || !RMRAbnormalityUnlockManager.IsRealizationExclusive(info))
+            // Normal and realization-exclusive abnormality pages both go into the permanent atlas
+            // so realization battles can offer abnormality selection from unlocked history.
+            if (info == null || info.rewardtype != RewardType.Creature)
                 return;
             LogueBookModels.EnsureAtlasUnlocks();
             LogueBookModels.AtlasUnlockedAbnormalityPages.Add(id);
@@ -172,6 +176,17 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
             LogueBookModels.SyncPlayerLoadoutToPermanentAtlas();
+            // Route-unlocked abnormality pages (normal + exclusive already picked) → permanent atlas
+            foreach (LorId pageId in RMRAbnormalityUnlockManager.GetRouteUnlockedPageIds())
+                LogueBookModels.RecordAtlasAbnormalityPage(pageId);
+            if (LogueBookModels.EmotionCardList != null)
+            {
+                foreach (RewardPassiveInfo info in LogueBookModels.EmotionCardList)
+                {
+                    if (info != null)
+                        LogueBookModels.RecordAtlasAbnormalityPage(info.id);
+                }
+            }
             PruneInvalidPermanentRoleBookAtlasUnlocks();
             PruneInvalidPermanentAbnormalityAtlasUnlocks();
         }
@@ -265,9 +280,15 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EnsureAtlasUnlocks();
             LogueBookModels.AtlasUnlockedAbnormalityPages.RemoveWhere(id =>
             {
-                RewardPassiveInfo info = Singleton<RewardPassivesList>.Instance.GetPassiveInfo(id);
-                if (info == null || !RMRAbnormalityUnlockManager.IsRealizationExclusive(info))
+                if (RMRAbnormalityUnlockManager.IsNoAbnormalityFallback(id))
                     return true;
+                RewardPassiveInfo info = Singleton<RewardPassivesList>.Instance.GetPassiveInfo(id);
+                if (info == null || info.rewardtype != RewardType.Creature)
+                    return true;
+                // Normal pages stay once recorded.
+                if (!RMRAbnormalityUnlockManager.IsRealizationExclusive(info))
+                    return false;
+                // Exclusive pages require the floor realization to be completed.
                 SephirahType floor = RMRAbnormalityUnlockManager.GetRealizationFloorForScript(info.script);
                 return floor == SephirahType.None || !RMRAbnormalityUnlockManager.IsFloorRealizationCompleted(floor);
             });

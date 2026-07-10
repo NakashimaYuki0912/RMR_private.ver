@@ -22,9 +22,6 @@
       <Choice ID="5">
         <Next>1</Next>
       </Choice>
-      <Choice ID="6">
-        <Next>1</Next>
-      </Choice>
       <Choice ID="7">
         <Next>2</Next>
       </Choice>

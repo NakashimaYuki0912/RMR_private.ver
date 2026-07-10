@@ -160,14 +160,12 @@ namespace abcdcode_LOGLIKE_MOD
                 this.DataInit();
             List<MysteryModel_ChStart.StartBoostData> startBoostDataList = new List<MysteryModel_ChStart.StartBoostData>();
             this.choices = new Dictionary<int, MysteryModel_ChStart.StartBoostData>();
-            var realizationData = this.datas.Find(x => x.id == 6);
+            // Realization entry is only on the start hub — never inject id 6 here.
             var relics = this.datas
                 .Where(x => x.id != 6)
                 .OrderBy(x => x.id)
                 .ToList<MysteryModel_ChStart.StartBoostData>();
             startBoostDataList.AddRange(relics);
-            if (RMRRealizationManager.InitialRelicEntryAvailable && realizationData != null)
-                startBoostDataList.Add(realizationData);
 
             for (int index = 0; index < this.curFrame.choices.Count; ++index)
             {

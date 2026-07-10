@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>开局主菜单 UI 示意</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #1a1a1e; color: #f0e6d0; margin: 0; padding: 1.5rem; }
+    h1 { font-size: 1.2rem; font-weight: 600; margin: 0 0 0.3rem; }
+    .sub { color: #9a9080; margin-bottom: 1.2rem; font-size: 0.9rem; }
+    .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 1100px; }
+    .panel { background: #25252c; border: 1px solid #3a3530; border-radius: 12px; overflow: hidden; }
+    .panel h2 { font-size: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase; color: #9a9080; margin: 0; padding: 0.6rem 0.9rem; border-bottom: 1px solid #3a3530; }
+    .screen { position: relative; height: 420px; background: radial-gradient(ellipse at center, #2a2830 0%, #16161a 70%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem; }
+    .title { font-size: 1.35rem; margin-bottom: 0.3rem; color: #efc27a; }
+    .desc { font-size: 0.8rem; color: #9a9080; margin-bottom: 1.2rem; text-align: center; max-width: 320px; }
+    .btn { width: 280px; padding: 0.7rem 1rem; margin: 0.35rem 0; border: 1px solid #6a5a40; background: linear-gradient(180deg, #3a3428, #2a241c); color: #f0e6d0; border-radius: 6px; text-align: center; font-size: 0.95rem; cursor: default; }
+    .btn.primary { border-color: #c9a04a; color: #efc27a; }
+    .btn.danger { border-color: #6a4040; color: #d0a0a0; }
+    .btn.dim { opacity: 0.55; }
+    .floors { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; width: 90%; max-width: 480px; }
+    .floor { padding: 0.55rem 0.7rem; border: 1px solid #5a5040; border-radius: 6px; font-size: 0.85rem; background: #2a261e; display: flex; justify-content: space-between; }
+    .floor.done { border-color: #3a5a40; color: #a0c0a0; }
+    .tag { font-size: 0.7rem; opacity: 0.85; }
+    .handbook { display: flex; width: 92%; height: 85%; border: 1px solid #5a5040; border-radius: 8px; overflow: hidden; background: #1e1e24; }
+    .nav { width: 34%; border-right: 1px solid #3a3530; padding: 0.5rem; font-size: 0.8rem; }
+    .nav div { padding: 0.45rem 0.5rem; margin: 0.15rem 0; border-radius: 4px; color: #b0a890; }
+    .nav div.active { background: #3a3428; color: #efc27a; }
+    .body { flex: 1; padding: 0.8rem; font-size: 0.82rem; color: #c8c0b0; line-height: 1.55; }
+    .modal { position: absolute; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; }
+    .dialog { width: 320px; background: #2a2830; border: 1px solid #6a5a40; border-radius: 10px; padding: 1.1rem; text-align: center; }
+    .dialog p { font-size: 0.88rem; margin: 0 0 1rem; color: #d0c8b8; }
+    .row { display: flex; gap: 0.5rem; justify-content: center; }
+    .row .btn { width: auto; min-width: 100px; margin: 0; }
+    .note { max-width: 1100px; margin-top: 1rem; color: #9a9080; font-size: 0.85rem; }
+    @media (max-width: 900px) { .stage { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>设计 §2 — 界面结构示意（非最终美术）</h1>
+  <p class="sub">主菜单 / 解放层选择 / 手册 / 退出确认。实现会沿用现有模组 UI 工具风格（TMP 文字 + 半透明底），不是像素级定稿。</p>
+
+  <div class="stage">
+    <div class="panel">
+      <h2>主菜单 RMRStartHubPanel</h2>
+      <div class="screen">
+        <div class="title">Roguelike 开局</div>
+        <div class="desc">选择开始方式。解放战用于永久解锁楼层专属书页与 E.G.O.。</div>
+        <div class="btn primary">正常游玩</div>
+        <div class="btn">挑战解放战</div>
+        <div class="btn">玩法介绍</div>
+        <div class="btn danger">退出</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>解放战楼层（复用 LogRealizationPanel）</h2>
+      <div class="screen">
+        <div class="title" style="font-size:1.1rem">楼层解放战</div>
+        <div class="desc" style="margin-bottom:0.8rem">首次胜利永久解锁；已通关可再挑战但不给奖励。</div>
+        <div class="floors">
+          <div class="floor done"><span>历史层</span><span class="tag">已完成 · 可再战</span></div>
+          <div class="floor"><span>科技层</span><span class="tag">可挑战</span></div>
+          <div class="floor"><span>文学层</span><span class="tag">可挑战</span></div>
+          <div class="floor done"><span>艺术层</span><span class="tag">已完成 · 可再战</span></div>
+          <div class="floor"><span>… 其余楼层</span><span class="tag">…</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>玩法介绍手册</h2>
+      <div class="screen">
+        <div class="handbook">
+          <div class="nav">
+            <div class="active">总览</div>
+            <div>路线与章节</div>
+            <div>商店与升级</div>
+            <div>解放战与图鉴</div>
+            <div>异想体 / E.G.O.</div>
+            <div class="dim" style="margin-top:0.8rem;opacity:0.7">← 关闭回主菜单</div>
+          </div>
+          <div class="body">
+            <b style="color:#efc27a">总览</b><br><br>
+            本模组将接待改为按章节推进的 Roguelike 路线。开局可先完成楼层解放以永久解锁奖励，再进入正常游玩。<br><br>
+            （正文用本地化键，cn/en/kr。）
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>退出确认</h2>
+      <div class="screen">
+        <div class="btn primary" style="opacity:0.35">正常游玩</div>
+        <div class="btn" style="opacity:0.35">挑战解放战</div>
+        <div class="btn" style="opacity:0.35">玩法介绍</div>
+        <div class="btn danger" style="opacity:0.35">退出</div>
+        <div class="modal">
+          <div class="dialog">
+            <p>是否返回图书馆？<br>不会保留本次开局状态。</p>
+            <div class="row">
+              <div class="btn danger">确认退出</div>
+              <div class="btn">取消</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="note">按钮文案占位见对话中的 §2 文案表。若布局要改成 2×2 宫格或底部横排，在回复里说明即可。</p>
+</body>
+</html>

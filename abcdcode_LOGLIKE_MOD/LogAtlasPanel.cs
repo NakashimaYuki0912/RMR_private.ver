@@ -498,10 +498,21 @@ namespace abcdcode_LOGLIKE_MOD
                 categoryLabels[i].color = Categories[i] == currentCategory ? UIColorManager.Manager.GetUIColor(UIColor.Highlighted) : LogLikeMod.DefFontColor;
             SetBattleCardUpgradeToggleVisible(currentCategory == AtlasCategory.BattleCard);
 
+            // Abnormality / E.G.O. pages: flat list (no urban-chapter section filter).
+            bool flatCategory = currentCategory == AtlasCategory.AbnormalityPage
+                || currentCategory == AtlasCategory.EgoPage;
+            for (int i = 0; i < sectionLabels.Count; i++)
+            {
+                if (sectionLabels[i] != null)
+                    sectionLabels[i].gameObject.SetActive(!flatCategory);
+            }
+
             List<AtlasEntry> entries = BuildEntries(showUpgradedBattleCards)
-                .Where(x => x.Section == currentSection && x.Category == currentCategory)
+                .Where(x => x.Category == currentCategory)
+                .Where(x => flatCategory || x.Section == currentSection)
                 .OrderByDescending(x => x.Unlocked)
-                .ThenBy(x => x.Category == AtlasCategory.EgoPage ? (int)x.Floor : 0)
+                .ThenBy(x => (x.Category == AtlasCategory.EgoPage || x.Category == AtlasCategory.AbnormalityPage)
+                    ? (int)x.Floor : 0)
                 .ThenBy(x => x.Title)
                 .ToList();
 

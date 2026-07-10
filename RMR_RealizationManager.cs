@@ -48,6 +48,14 @@ namespace RogueLike_Mod_Reborn
         /// </summary>
         public static bool PendingRealizationBattle { get; private set; }
         public static bool ForceReturnAsDefeatPending { get; private set; }
+        /// <summary>After realization ends, reopen the start hub (when still in hub session).</summary>
+        public static bool PendingReturnToHub { get; private set; }
+
+        /// <summary>
+        /// True only after the first combat round of a realization fight has started.
+        /// EndBattle before this is a transition glitch and must NOT open the start hub.
+        /// </summary>
+        public static bool RealizationCombatLive { get; private set; }
 
         public static bool IsRealizationPreparationActive => PendingRealizationBattle && !InRealizationBattle;
 
@@ -59,6 +67,7 @@ namespace RogueLike_Mod_Reborn
         public static void ClearRealizationFlag()
         {
             InRealizationBattle = false;
+            RealizationCombatLive = false;
         }
 
         public static void ConsumeForceReturnAsDefeat()
@@ -76,15 +85,96 @@ namespace RogueLike_Mod_Reborn
             {
                 InRealizationBattle = true;
                 PendingRealizationBattle = false;
+                RealizationCombatLive = false;
                 Debug.Log($"[RMRRealizationManager] Activated realization battle: {CurrentRealizationFloor}");
             }
         }
-        public static SephirahType CurrentRealizationFloor { get; private set; }
-        public static bool InitialRelicEntryAvailable { get; private set; }
 
+        /// <summary>Call on first round start while in realization combat.</summary>
+        public static void MarkRealizationCombatLive()
+        {
+            if (!InRealizationBattle || RealizationCombatLive)
+                return;
+            RealizationCombatLive = true;
+            Debug.Log($"[RMRRealizationManager] Realization combat is live: {CurrentRealizationFloor}");
+        }
+
+        /// <summary>
+        /// True when EndBattle should run full realization cleanup + hub return.
+        /// False during prepare / scene transition (StartBattle then immediate EndBattle).
+        /// </summary>
+        public static bool ShouldHandleRealizationBattleEnd()
+        {
+            return InRealizationBattle && RealizationCombatLive;
+        }
+        public static SephirahType CurrentRealizationFloor { get; private set; }
+
+        /// <summary>True while the start-hub session can offer realization (before normal play).</summary>
+        public static bool HubSessionActive { get; private set; }
+
+        /// <summary>True after the player chooses normal play from the hub; blocks realization for this run.</summary>
+        public static bool NormalPlayStarted { get; private set; }
+
+        /// <summary>
+        /// Durable launch intent (survives hub Hide). Set from invitation hub; consumed in HandlePostInvitationLaunch.
+        /// </summary>
+        public static RMRLaunchIntent PendingLaunchIntent { get; set; }
+
+        /// <summary>
+        /// Floor chosen on the invitation-time realization panel, before ConfirmSendInvitation.
+        /// When set, post-invitation launch starts this floor's boss prepare immediately (no initial mystery).
+        /// </summary>
+        public static SephirahType? PendingRealizationFloor { get; set; }
+
+        /// <summary>
+        /// True after choosing Realization at invitation until a floor is selected or cancelled.
+        /// Blocks fighting the dummy start-stage unit 854.
+        /// </summary>
+        public static bool AwaitingRealizationFloorPick { get; set; }
+
+        public static void ClearPendingRealizationFloor()
+        {
+            PendingRealizationFloor = null;
+        }
+
+        /// <summary>
+        /// Legacy name: realization is allowed only from the start hub before normal play.
+        /// Prefer <see cref="CanEnterRealizationFromHub"/> in new code.
+        /// </summary>
+        public static bool InitialRelicEntryAvailable => CanEnterRealizationFromHub();
+
+        public static bool CanEnterRealizationFromHub()
+        {
+            return HubSessionActive && !NormalPlayStarted;
+        }
+
+        public static void BeginHubSession()
+        {
+            HubSessionActive = true;
+            NormalPlayStarted = false;
+        }
+
+        public static void StartNormalPlayFromHub()
+        {
+            NormalPlayStarted = true;
+            HubSessionActive = false;
+        }
+
+        public static void EndHubSessionToLibrary()
+        {
+            HubSessionActive = false;
+            NormalPlayStarted = false;
+        }
+
+        /// <summary>
+        /// Legacy bridge: true opens a hub session; false marks normal play (closes realization entry).
+        /// </summary>
         public static void SetInitialRelicEntryAvailable(bool available)
         {
-            InitialRelicEntryAvailable = available;
+            if (available)
+                BeginHubSession();
+            else
+                StartNormalPlayFromHub();
         }
 
         private static bool AtlasOnlyLoadoutActive;
@@ -176,48 +266,121 @@ namespace RogueLike_Mod_Reborn
 
         public static void StartRealizationBattle(SephirahType floor)
         {
-            if (!InitialRelicEntryAvailable)
+            if (!CanEnterRealizationFromHub())
             {
-                Debug.LogWarning("[RMRRealizationManager] Realization battles can only be started from the first initial relic event.");
+                Debug.LogWarning("[RMRRealizationManager] Realization battles can only be started from the start hub before normal play.");
                 return;
             }
 
-            // Resolve and validate against StageClassInfoList BEFORE consuming the entry flag.
+            // Resolve and validate against StageClassInfoList before mutating loadout state.
             if (!TryResolveRealizationStage(floor, out LorId stageId, out StageClassInfo stageClassInfo, out string reason))
             {
                 Debug.LogError($"[RMRRealizationManager] Cannot start realization battle: {reason}");
                 return;
             }
 
-            // Only now that we've confirmed a valid stage, consume the flag.
-            InitialRelicEntryAvailable = false;
+            // Do NOT close hub entry here — multi-floor challenges from the hub must remain available.
             ForceReturnAsDefeatPending = false;
+            PendingReturnToHub = false;
+            RealizationCombatLive = false;
+            AwaitingRealizationFloorPick = false;
+            LogLikeMod.PauseBool = false;
             // Set PendingRealizationBattle before opening BattleSetting so RMR UI hooks
             // render the atlas-only temporary party instead of the vanilla floor limit.
             PendingRealizationBattle = true;
             CurrentRealizationFloor = floor;
+
+            // Hide hub chrome so it cannot reappear on top of battle prepare.
+            try
+            {
+                if (RMRStartHubPanel.Instance != null && RMRStartHubPanel.Instance.IsVisible)
+                    RMRStartHubPanel.Instance.Hide();
+                if (LogRealizationPanel.Instance != null && LogRealizationPanel.Instance.IsVisible)
+                    LogRealizationPanel.Instance.Hide();
+            }
+            catch { }
+
             if (!ApplyAtlasOnlyLoadout())
             {
                 PendingRealizationBattle = false;
-                InitialRelicEntryAvailable = true;
                 return;
             }
-            // Keep PendingRealizationBattle instead of InRealizationBattle.
-            // InRealizationBattle is only activated in StageController_StartBattle
-            // when the realization stage actually loads. This prevents the EndBattle
-            // hook from treating the event transition as a realization battle end.
-            LogLikeMod.rewards.Clear();
-            LogLikeMod.rewards_passive.Clear();
+
+            // Suppress Roguelike next-stage / reward queues so a second "pick reception" UI cannot appear.
+            SuppressRoguelikeSelectionUi();
 
             if (!TryStartVanillaRealizationStage(floor, stageId, stageClassInfo))
             {
                 PendingRealizationBattle = false;
                 RestoreRouteLoadout();
-                InitialRelicEntryAvailable = true;
                 Debug.LogError($"[RMRRealizationManager] Failed to start vanilla realization stage: {stageId.packageId}:{stageId.id}");
                 return;
             }
             Debug.Log($"[RMRRealizationManager] Started vanilla realization battle: {floor} (stage {stageId.id}) via package {stageId.packageId}");
+        }
+
+        /// <summary>
+        /// Clear next-stage / reward selection state and hide LevelUpUI so realization entry
+        /// does not show an extra Roguelike reception picker.
+        /// </summary>
+        public static void SuppressRoguelikeSelectionUi()
+        {
+            try
+            {
+                if (LogLikeMod.nextlist != null)
+                    LogLikeMod.nextlist.Clear();
+                else
+                    LogLikeMod.nextlist = new List<EmotionCardXmlInfo>();
+                if (LogLikeMod.rewards != null) LogLikeMod.rewards.Clear();
+                if (LogLikeMod.rewards_passive != null) LogLikeMod.rewards_passive.Clear();
+                if (LogLikeMod.rewards_InStage != null) LogLikeMod.rewards_InStage.Clear();
+                if (LogLikeMod.rewardsMystery != null) LogLikeMod.rewardsMystery.Clear();
+                if (LogLikeMod.egoSelectionQueue != null) LogLikeMod.egoSelectionQueue.Clear();
+                RewardingModel.rewardFlag = default(RewardingModel.RewardFlag);
+                LogLikeRoutines.HideRewardSelectionImmediately(
+                    SingletonBehavior<BattleManagerUI>.Instance != null
+                        ? SingletonBehavior<BattleManagerUI>.Instance.ui_levelup
+                        : null);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMRRealizationManager] SuppressRoguelikeSelectionUi: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Back out of battle prepare without starting the fight; restore route and reopen hub.
+        /// </summary>
+        public static void CancelRealizationPreparation()
+        {
+            if (!PendingRealizationBattle && !IsRealizationPreparationActive)
+                return;
+            if (InRealizationBattle)
+                return;
+
+            Debug.Log("[RMRRealizationManager] Cancelling realization preparation (back/exit).");
+            PendingRealizationBattle = false;
+            ForceReturnAsDefeatPending = false;
+            PendingReturnToHub = false;
+            try { RestoreRouteLoadout(); }
+            catch (Exception ex) { Debug.LogWarning("[RMRRealizationManager] Cancel restore failed: " + ex.Message); }
+            SuppressRoguelikeSelectionUi();
+
+            // Cancel prepare → return to library main (no in-run mode menu).
+            AwaitingRealizationFloorPick = false;
+            LogLikeMod.PauseBool = false;
+            EndHubSessionToLibrary();
+            RMRStartHubPanel.ClearLaunchIntent();
+            try
+            {
+                StageController controller = Singleton<StageController>.Instance;
+                if (controller != null)
+                    controller.GameOver(false, true);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMRRealizationManager] Cancel GameOver failed: " + ex.Message);
+            }
         }
 
         private static bool TryStartVanillaRealizationStage(
@@ -337,42 +500,56 @@ namespace RogueLike_Mod_Reborn
             if (!InRealizationBattle)
                 return;
 
+            // Spurious EndBattle before any combat round (transition after StartBattle) — ignore.
+            if (!RealizationCombatLive)
+            {
+                Debug.LogWarning("[RMRRealizationManager] Ignoring EndBattle before realization combat went live (no hub return).");
+                return;
+            }
+
+            // First clear only records floor + exclusive atlas pages (CompleteFloorRealization is idempotent).
+            // Re-clears still clear reward queues so no pick UI appears.
             if (victory)
             {
                 RMRAbnormalityUnlockManager.CompleteFloorRealization(CurrentRealizationFloor);
-                Debug.Log($"[RMRRealizationManager] Floor realization completed: {CurrentRealizationFloor}");
+                Debug.Log($"[RMRRealizationManager] Floor realization victory: {CurrentRealizationFloor}");
             }
 
-            // Clear any rewards that may have been queued during the battle to prevent
-            // the Roguelike reward chain from running after realization ends.
+            // Always clear roguelike reward queues (no pick UI on re-clear either).
             LogLikeMod.rewards?.Clear();
             LogLikeMod.rewards_passive?.Clear();
             LogLikeMod.rewards_InStage?.Clear();
             LogLikeMod.nextlist?.Clear();
+            SuppressRoguelikeSelectionUi();
 
             RestoreRouteLoadout();
             ForceReturnAsDefeatPending = true;
+            // Return to library main page via vanilla defeat/back flow — do NOT re-open mode select hub.
+            PendingReturnToHub = false;
+            EndHubSessionToLibrary();
+            RMRStartHubPanel.ClearLaunchIntent();
+            RealizationCombatLive = false;
             // NOTE: InRealizationBattle is cleared in the StageController_EndBattle hook
             // AFTER orig(self) completes, ensuring ClearBattle/EndBattlePhase postfixes
             // still see the flag during vanilla cleanup.
             CurrentRealizationFloor = SephirahType.Keter;
 
-            // After realization, the vanilla StageController.EndBattle flow will naturally
-            // return to the main menu / battle setting screen. No next-stage reward UI
-            // will appear because CheckStage() returns false for vanilla realization stages.
-            Debug.Log($"[RMRRealizationManager] Realization battle ended. Victory={victory}. State restored; defeat-style return queued.");
+            Debug.Log($"[RMRRealizationManager] Realization battle ended. Victory={victory}. Returning to library main (no hub).");
         }
 
         /// <summary>
-        /// Returns the player to the main menu after a realization battle.
-        /// Called after the vanilla EndBattle completes to ensure clean transition.
+        /// After vanilla EndBattle: hub is invitation-time only. No re-open here.
         /// </summary>
         public static void ReturnToMainAfterRealization()
         {
-            // After realization, the vanilla StageController.EndBattle flow naturally
-            // returns to the main menu. This method is a no-op hook for future use
-            // if explicit UI transition is needed.
-            Debug.Log("[RMRRealizationManager] ReturnToMainAfterRealization called — vanilla EndBattle flow handles UI transition.");
+            PendingReturnToHub = false;
+            try
+            {
+                if (RMRStartHubPanel.Instance != null && RMRStartHubPanel.Instance.IsVisible)
+                    RMRStartHubPanel.Instance.Hide();
+            }
+            catch { }
+            Debug.Log("[RMRRealizationManager] ReturnToMainAfterRealization — library main via vanilla flow.");
         }
 
         private static void EnsureDefaultRealizationAtlasUnlocks()

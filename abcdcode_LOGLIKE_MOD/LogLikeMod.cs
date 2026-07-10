@@ -338,21 +338,170 @@ namespace abcdcode_LOGLIKE_MOD
         {
             get
             {
+                // Original-codes used LocalizedFontSetter.font_NotoSans only.
+                // On some installs that field holds CJKkr while UI language is cn → Chinese tofu.
+                // Prefer a face whose name matches the active language (sc/kr/jp).
                 if (LogLikeMod._DefFont_TMP == null)
-                    LogLikeMod._DefFont_TMP = ResolveLocalizedTmpFont();
+                {
+                    LogLikeMod._DefFont_TMP = GetLanguageMatchedNotoFont(ResolveInitialTextLanguage());
+                    if (LogLikeMod._DefFont_TMP == null)
+                        LogLikeMod._DefFont_TMP = ResolveLocalizedTmpFont();
+                    if (LogLikeMod._DefFont_TMP != null)
+                    {
+                        Debug.Log($"[RMR Localize] DefFont_TMP = '{LogLikeMod._DefFont_TMP.name}' for lang={ResolveInitialTextLanguage()}.");
+                        // Vanilla story / UI read LocalizedFontSetter.font_NotoSans, not DefFont_TMP.
+                        // If that field stays on CJKkr while language=cn, dialogue becomes tofu boxes.
+                        ApplyMatchedFontToLocalizedSetter(LogLikeMod._DefFont_TMP);
+                    }
+                    else
+                        Debug.LogWarning("[RMR Localize] DefFont_TMP still null.");
+                }
                 return LogLikeMod._DefFont_TMP;
             }
             set
             {
-                if (value == null)
-                    return;
-                string language = NormalizeTextLanguage(TextDataModel.CurrentLanguage);
-                if (!IsTmpFontCompatibleWithLanguage(value, language))
+                if (value != null)
+                    LogLikeMod._DefFont_TMP = value;
+            }
+        }
+
+        /// <summary>
+        /// Pick Noto CJK TMP face matching cn/kr/jp. Logs previously showed font_NotoSans = CJKkr while language=cn.
+        /// </summary>
+        private static TMP_FontAsset GetLanguageMatchedNotoFont(string language)
+        {
+            string lang = CanonicalizeTextLanguage(language);
+            string[] prefer;
+            if (lang == "cn" || lang == "trcn")
+                prefer = new[] { "CJKsc", "sc-Regular", "sc-Bold", "Hans", "Chinese", "SourceHanSansSC", "NotoSansSC" };
+            else if (lang == "kr")
+                prefer = new[] { "CJKkr", "kr-Regular", "kr-Bold", "Korean", "SourceHanSansKR", "NotoSansKR" };
+            else if (lang == "jp")
+                prefer = new[] { "CJKjp", "jp-Regular", "jp-Bold", "Japanese", "SourceHanSansJP", "NotoSansJP" };
+            else
+                prefer = new[] { "NotoSans", "Noto" };
+
+            TMP_FontAsset fieldNoto = null;
+            try
+            {
+                var setter = SingletonBehavior<LocalizedFontSetter>.Instance;
+                if (setter != null)
                 {
-                    Debug.LogWarning($"[RMR Localize] Rejected TMP font '{value.name}' for language '{language}' because it cannot render the required glyphs.");
-                    return;
+                    foreach (FieldInfo field in setter.GetType().GetFields(AccessTools.all))
+                    {
+                        if (!typeof(TMP_FontAsset).IsAssignableFrom(field.FieldType))
+                            continue;
+                        TMP_FontAsset asset = field.GetValue(setter) as TMP_FontAsset;
+                        if (asset == null)
+                            continue;
+                        if (field.Name == "font_NotoSans")
+                            fieldNoto = asset;
+                        string name = asset.name ?? "";
+                        foreach (string token in prefer)
+                        {
+                            if (name.IndexOf(token, StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                Debug.Log($"[RMR Localize] Matched setter font '{name}' via token '{token}'.");
+                                return asset;
+                            }
+                        }
+                    }
                 }
-                LogLikeMod._DefFont_TMP = value;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR Localize] LocalizedFontSetter scan failed: " + ex.Message);
+            }
+
+            try
+            {
+                foreach (TMP_FontAsset asset in Resources.FindObjectsOfTypeAll<TMP_FontAsset>())
+                {
+                    if (asset == null)
+                        continue;
+                    string name = asset.name ?? "";
+                    foreach (string token in prefer)
+                    {
+                        if (name.IndexOf(token, StringComparison.OrdinalIgnoreCase) >= 0)
+                        {
+                            Debug.Log($"[RMR Localize] Matched loaded font '{name}' via token '{token}'.");
+                            return asset;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR Localize] FindObjectsOfTypeAll TMP scan failed: " + ex.Message);
+            }
+
+            // Last resort: original field (may be wrong script for language).
+            if (fieldNoto != null)
+                Debug.LogWarning($"[RMR Localize] Falling back to font_NotoSans='{fieldNoto.name}' (may mismatch language {lang}).");
+            return fieldNoto;
+        }
+
+        /// <summary>
+        /// Push the language-matched face into LocalizedFontSetter so vanilla story TMP uses it too.
+        /// </summary>
+        private static void ApplyMatchedFontToLocalizedSetter(TMP_FontAsset matched)
+        {
+            if (matched == null)
+                return;
+            try
+            {
+                var setter = SingletonBehavior<LocalizedFontSetter>.Instance;
+                if (setter == null)
+                    return;
+
+                FieldInfo notoField = null;
+                TMP_FontAsset previous = null;
+                foreach (FieldInfo field in setter.GetType().GetFields(AccessTools.all))
+                {
+                    if (!typeof(TMP_FontAsset).IsAssignableFrom(field.FieldType))
+                        continue;
+                    if (field.Name == "font_NotoSans" || field.Name.IndexOf("NotoSans", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        notoField = field;
+                        previous = field.GetValue(setter) as TMP_FontAsset;
+                        break;
+                    }
+                }
+                if (notoField == null)
+                    return;
+
+                if (previous != null && object.ReferenceEquals(previous, matched))
+                    return;
+
+                string prevName = previous != null ? previous.name : "null";
+                // Only overwrite when the previous face is a clear language mismatch for cn/kr/jp.
+                string lang = ResolveInitialTextLanguage();
+                bool shouldReplace = previous == null;
+                if (!shouldReplace && (lang == "cn" || lang == "trcn"))
+                {
+                    bool prevIsSc = prevName.IndexOf("sc", StringComparison.OrdinalIgnoreCase) >= 0
+                        || prevName.IndexOf("Hans", StringComparison.OrdinalIgnoreCase) >= 0
+                        || prevName.IndexOf("Chinese", StringComparison.OrdinalIgnoreCase) >= 0;
+                    shouldReplace = !prevIsSc;
+                }
+                else if (!shouldReplace && lang == "kr")
+                {
+                    shouldReplace = prevName.IndexOf("kr", StringComparison.OrdinalIgnoreCase) < 0;
+                }
+                else if (!shouldReplace && lang == "jp")
+                {
+                    shouldReplace = prevName.IndexOf("jp", StringComparison.OrdinalIgnoreCase) < 0;
+                }
+
+                if (!shouldReplace)
+                    return;
+
+                notoField.SetValue(setter, matched);
+                Debug.Log($"[RMR Localize] Overwrote LocalizedFontSetter.{notoField.Name}: '{prevName}' → '{matched.name}' (lang={lang}).");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR Localize] ApplyMatchedFontToLocalizedSetter failed: " + ex.Message);
             }
         }
 
@@ -797,7 +946,7 @@ namespace abcdcode_LOGLIKE_MOD
         public static void LoadDiceAbilityDesc(string path, string modid)
         {
             Dictionary<string, BattleCardAbilityDesc> fieldValue = LogLikeMod.GetFieldValue<Dictionary<string, BattleCardAbilityDesc>>(Singleton<BattleCardAbilityDescXmlList>.Instance, "_dictionary");
-            using (StringReader stringReader = new StringReader(File.ReadAllText(path)))
+            using (StringReader stringReader = new StringReader(ReadLocalizeTextFile(path)))
             {
                 
                 BattleCardAbilityDescRoot cardAbilityDescRoot = (BattleCardAbilityDescRoot)new XmlSerializer(typeof(BattleCardAbilityDescRoot)).Deserialize((TextReader)stringReader);
@@ -811,7 +960,7 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static void LoadDropBookName(string path, string modid)
         {
-            string xml = File.ReadAllText(path);
+            string xml = ReadLocalizeTextFile(path);
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.LoadXml(xml);
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
@@ -845,7 +994,7 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static void LoadEnemyUnitName(string path, string modid)
         {
-            using (StringReader stringReader = new StringReader(File.ReadAllText(path)))
+            using (StringReader stringReader = new StringReader(ReadLocalizeTextFile(path)))
             {
                 
                 CharactersNameRoot charactersNameRoot = (CharactersNameRoot)new XmlSerializer(typeof(CharactersNameRoot)).Deserialize((TextReader)stringReader);
@@ -865,7 +1014,7 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static void LoadBookDesc(string path, string modid)
         {
-            using (StringReader stringReader = new StringReader(File.ReadAllText(path)))
+            using (StringReader stringReader = new StringReader(ReadLocalizeTextFile(path)))
             {
                 
                 BookDescRoot bookDescRoot = (BookDescRoot)new XmlSerializer(typeof(BookDescRoot)).Deserialize((TextReader)stringReader);
@@ -886,7 +1035,7 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static void LoadCardDesc(string path, string modid)
         {
-            using (StringReader stringReader = new StringReader(File.ReadAllText(path)))
+            using (StringReader stringReader = new StringReader(ReadLocalizeTextFile(path)))
             {
                 
                 Dictionary<LorId, BattleCardDesc> dictionary = (Dictionary<LorId, BattleCardDesc>)typeof(BattleCardDescXmlList).GetField("_dictionary", AccessTools.all).GetValue(Singleton<BattleCardDescXmlList>.Instance);
@@ -903,7 +1052,7 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static void LoadPassiveDesc(string path, string modid)
         {
-            using (StringReader stringReader = new StringReader(File.ReadAllText(path)))
+            using (StringReader stringReader = new StringReader(ReadLocalizeTextFile(path)))
             {
                 
                 Dictionary<LorId, PassiveDesc> dictionary = (Dictionary<LorId, PassiveDesc>)typeof(PassiveDescXmlList).GetField("_dictionary", AccessTools.all).GetValue(Singleton<PassiveDescXmlList>.Instance);
@@ -919,9 +1068,17 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        /// <summary>Read localize/XML text as UTF-8 (files are UTF-8; system default GBK corrupts Chinese).</summary>
+        public static string ReadLocalizeTextFile(string path)
+        {
+            // detectEncodingFromByteOrderMarks: honor BOM if present; default body UTF-8.
+            using (var reader = new StreamReader(path, Encoding.UTF8, detectEncodingFromByteOrderMarks: true))
+                return reader.ReadToEnd();
+        }
+
         public static void LoadLocalizeFile(string path, ref Dictionary<string, string> dic)
         {
-            string xml = File.ReadAllText(path);
+            string xml = ReadLocalizeTextFile(path);
             XmlDocument xmlDocument = new XmlDocument();
             try
             {
@@ -1033,6 +1190,15 @@ namespace abcdcode_LOGLIKE_MOD
             return requested;
         }
 
+        /// <summary>
+        /// Drop the cached TMP font so the next <see cref="DefFont_TMP"/> access re-resolves
+        /// (e.g. after LocalizedFontSetter becomes available, or after language changes).
+        /// </summary>
+        public static void InvalidateTmpFontCache()
+        {
+            LogLikeMod._DefFont_TMP = null;
+        }
+
         private static TMP_FontAsset ResolveLocalizedTmpFont()
         {
             string language = ResolveInitialTextLanguage();
@@ -1054,6 +1220,25 @@ namespace abcdcode_LOGLIKE_MOD
                     }
                 }
 
+                // Prefer fonts already used by live UI (often the correct CJK face after language init).
+                try
+                {
+                    foreach (TextMeshProUGUI tmp in UnityEngine.Object.FindObjectsOfType<TextMeshProUGUI>())
+                    {
+                        if (tmp == null || tmp.font == null)
+                            continue;
+                        if (IsTmpFontCompatibleWithLanguage(tmp.font, language))
+                        {
+                            Debug.Log($"[RMR Localize] Selected TMP font '{tmp.font.name}' from scene TextMeshProUGUI for language '{language}'.");
+                            return tmp.font;
+                        }
+                    }
+                }
+                catch (Exception sceneEx)
+                {
+                    Debug.LogWarning("[RMR Localize] Scene TMP scan failed: " + sceneEx.Message);
+                }
+
                 TMP_FontAsset defaultFont = TMP_Settings.defaultFontAsset;
                 if (IsTmpFontCompatibleWithLanguage(defaultFont, language))
                 {
@@ -1069,6 +1254,13 @@ namespace abcdcode_LOGLIKE_MOD
                         return candidate;
                     }
                 }
+
+                TMP_FontAsset osFont = TryCreateOsTmpFontAsset(language);
+                if (osFont != null)
+                {
+                    Debug.Log($"[RMR Localize] Created OS-backed TMP font '{osFont.name}' for language '{language}'.");
+                    return osFont;
+                }
             }
             catch (Exception e)
             {
@@ -1076,6 +1268,61 @@ namespace abcdcode_LOGLIKE_MOD
             }
             Debug.LogWarning($"[RMR Localize] Could not find a TMP font that reports support for language '{language}'.");
             return null;
+        }
+
+        private static TMP_FontAsset TryCreateOsTmpFontAsset(string language)
+        {
+            string lang = CanonicalizeTextLanguage(language);
+            string[] fontNames;
+            if (lang == "cn" || lang == "trcn")
+            {
+                fontNames = new[]
+                {
+                    "Microsoft YaHei", "Microsoft YaHei UI", "\u5fae\u8f6f\u96c5\u9ed1",
+                    "SimHei", "\u9ed1\u4f53", "SimSun", "\u5b8b\u4f53",
+                    "Noto Sans CJK SC", "Source Han Sans SC", "Arial Unicode MS"
+                };
+            }
+            else if (lang == "kr")
+            {
+                fontNames = new[]
+                {
+                    "Malgun Gothic", "\ub9d1\uc740 \uace0\ub515",
+                    "Noto Sans CJK KR", "Source Han Sans KR", "Arial Unicode MS"
+                };
+            }
+            else if (lang == "jp")
+            {
+                fontNames = new[]
+                {
+                    "Yu Gothic UI", "Yu Gothic", "Meiryo UI", "Meiryo",
+                    "Noto Sans CJK JP", "Source Han Sans JP", "Arial Unicode MS"
+                };
+            }
+            else
+            {
+                fontNames = new[] { "Segoe UI", "Arial Unicode MS", "Arial" };
+            }
+
+            try
+            {
+                Font osFont = Font.CreateDynamicFontFromOSFont(fontNames, 36);
+                if (osFont == null)
+                    return null;
+                // TextMeshPro dynamic atlas from OS font — supports CJK when game SDF faces are late/missing.
+                TMP_FontAsset asset = TMP_FontAsset.CreateFontAsset(osFont);
+                if (asset != null && !IsTmpFontCompatibleWithLanguage(asset, language))
+                {
+                    // Still return it: HasCharacter probes can be unreliable on fresh dynamic atlases.
+                    Debug.LogWarning($"[RMR Localize] OS TMP font '{asset.name}' failed glyph probe; using it anyway for language '{language}'.");
+                }
+                return asset;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("[RMR Localize] OS TMP font creation failed: " + e.Message);
+                return null;
+            }
         }
 
         private static bool IsTmpFontCompatibleWithLanguage(TMP_FontAsset font, string language)
@@ -1170,8 +1417,8 @@ namespace abcdcode_LOGLIKE_MOD
             abcdcode_LOGLIKE_MOD_Extension.TextDataModel._currentLanguage = language;
             abcdcode_LOGLIKE_MOD_Extension.TextDataModel.textDic.Clear();
             abcdcode_LOGLIKE_MOD_Extension.TextDataModel._isLoaded = true;
-            if (!IsTmpFontCompatibleWithLanguage(LogLikeMod._DefFont_TMP, language))
-                LogLikeMod._DefFont_TMP = null;
+            // Language switch (e.g. EN → CN) must drop Latin-only faces so CJK re-resolves.
+            LogLikeMod._DefFont_TMP = null;
             Dictionary<string, string> textDic = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.textDic;
             DirectoryInfo directoryInfo1 = !Directory.Exists(LogLikeMod.path + str) ? new DirectoryInfo(LogLikeMod.path + "/Localize/en") : new DirectoryInfo(LogLikeMod.path + str);
             Debug.Log($"[RMR Localize] Loading mod text. gameLanguage={language}, modLocalizeLanguage={localizeLanguage}, path={directoryInfo1.FullName}");
@@ -1687,8 +1934,13 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static bool CheckStage(bool OnBattle = false)
         {
-            if (!OnBattle && RMRRealizationManager.IsRealizationPreparationActive)
-                return true;
+            // Realization prep/battle must NOT be treated as a full Roguelike reception.
+            // Doing so re-enters next-stage pick UI (BattleEnd_NextStage) and breaks floor entry.
+            // Battle-prepare chrome for realization uses IsRoguelikeBattleSettingContext instead.
+            if (RMRRealizationManager.InRealizationBattle
+                || RMRRealizationManager.IsRealizationPreparationActive
+                || RMRRealizationManager.PendingRealizationBattle)
+                return false;
 
             try
             {

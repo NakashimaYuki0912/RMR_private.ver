@@ -61,7 +61,141 @@ namespace RogueLike_Mod_Reborn
         public const string packageId = "abcdcodecalmmagma.LogueLikeReborn";
         public static CustomMapHandler RMRMapHandler;
 
-        public const string BuildTimestamp = "2026-07-04T16:30+08:00";
+        public const string BuildTimestamp = "2026-07-10Tdirect-realize+08:00";
+
+        /// <summary>
+        /// After invitation is sent: run the intent chosen on the invitation-time hub.
+        /// Never re-opens mode select mid-run.
+        /// Realization: floor is chosen on invitation UI first, then starts boss prepare only (no initial mystery).
+        /// </summary>
+        /// <summary>Guards against PassiveAbility_ChStart firing OnWaveStart more than once per reception.</summary>
+        private static bool _postInvitationLaunchConsumed;
+
+        public static void ResetPostInvitationLaunchGate()
+        {
+            _postInvitationLaunchConsumed = false;
+        }
+
+        /// <summary>True when this reception should skip chapter intro story and initial mystery.</summary>
+        public static bool IsRealizationLaunchPending()
+        {
+            if (RMRRealizationManager.PendingLaunchIntent == RMRLaunchIntent.Realization)
+                return true;
+            if (RMRStartHubPanel.LaunchIntent == RMRLaunchIntent.Realization)
+                return true;
+            if (RMRRealizationManager.PendingRealizationFloor.HasValue)
+                return true;
+            if (RMRRealizationManager.PendingRealizationBattle || RMRRealizationManager.InRealizationBattle)
+                return true;
+            return false;
+        }
+
+        public static void HandlePostInvitationLaunch()
+        {
+            // Prefer durable intent on manager (hub Hide must not lose it).
+            RMRLaunchIntent intent = RMRRealizationManager.PendingLaunchIntent;
+            if (intent == RMRLaunchIntent.None)
+                intent = RMRStartHubPanel.LaunchIntent;
+
+            SephirahType? preselectedFloor = RMRRealizationManager.PendingRealizationFloor;
+            Debug.Log($"[RMR] HandlePostInvitationLaunch intent={intent} consumed={_postInvitationLaunchConsumed} awaitFloor={RMRRealizationManager.AwaitingRealizationFloorPick} preFloor={(preselectedFloor.HasValue ? preselectedFloor.Value.ToString() : "none")}");
+
+            // PassiveAbility_ChStart can fire OnWaveStart multiple times (wave restart / StartBattle loop).
+            // Second call used to have intent=None and incorrectly StartMystery → NRE + broken start UI.
+            if (_postInvitationLaunchConsumed
+                || RMRRealizationManager.AwaitingRealizationFloorPick
+                || RMRRealizationManager.PendingRealizationBattle
+                || RMRRealizationManager.InRealizationBattle)
+            {
+                Debug.LogWarning("[RMR] HandlePostInvitationLaunch ignored (already launched / realization in progress).");
+                if (RMRRealizationManager.AwaitingRealizationFloorPick)
+                {
+                    try { RMRRealizationLaunchHost.EnsureFloorPanelVisible(); } catch { }
+                    LogLikeMod.PauseBool = true;
+                }
+                return;
+            }
+
+            RMRStartHubPanel.ClearLaunchIntent();
+            _postInvitationLaunchConsumed = true;
+
+            if (intent == RMRLaunchIntent.Realization)
+            {
+                RMRRealizationManager.BeginHubSession();
+                // Floor already chosen on invitation UI → go straight to realization boss prepare.
+                // Never open initial relic mystery (-100) on this path.
+                if (preselectedFloor.HasValue)
+                {
+                    SephirahType floor = preselectedFloor.Value;
+                    RMRRealizationManager.ClearPendingRealizationFloor();
+                    RMRRealizationManager.AwaitingRealizationFloorPick = false;
+                    LogLikeMod.PauseBool = false;
+                    try
+                    {
+                        // End any accidental mystery; skip dummy 854 fight.
+                        try { Singleton<MysteryManager>.Instance.EndMystery(); } catch { }
+                        RMRRealizationManager.StartRealizationBattle(floor);
+                        Debug.Log($"[RMR] Realization launch direct → floor {floor} (no initial mystery).");
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError("[RMR] Direct realization start failed: " + ex);
+                        RMRRealizationManager.AwaitingRealizationFloorPick = true;
+                        LogLikeMod.PauseBool = true;
+                        RMRRealizationLaunchHost.EnsureFloorPanelVisible();
+                    }
+                    return;
+                }
+
+                // Fallback: floor not pre-selected — open floor panel only (still no mystery).
+                RMRRealizationManager.AwaitingRealizationFloorPick = true;
+                LogLikeMod.PauseBool = true;
+                try
+                {
+                    RMRRealizationLaunchHost.EnsureFloorPanelVisible();
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError("[RMR] Failed to schedule realization floor panel: " + ex);
+                }
+                return;
+            }
+
+            if (intent != RMRLaunchIntent.NormalPlay)
+            {
+                // No hub choice (e.g. unexpected path) — do not invent a broken mystery start.
+                Debug.LogWarning($"[RMR] HandlePostInvitationLaunch: unexpected intent={intent}, no auto mystery.");
+                return;
+            }
+
+            // Normal play only: initial relic mystery.
+            RMRRealizationManager.ClearPendingRealizationFloor();
+            RMRRealizationManager.StartNormalPlayFromHub();
+            try
+            {
+                LogLikeMod.InvalidateTmpFontCache();
+                var _ = LogLikeMod.DefFont_TMP;
+
+                MysteryXmlList list = Singleton<MysteryXmlList>.Instance;
+                if (list == null)
+                {
+                    Debug.LogError("[RMR] MysteryXmlList missing on launch.");
+                    return;
+                }
+                MysteryXmlInfo info = list.GetData(new LorId(LogLikeMod.ModId, -100))
+                    ?? list.GetData(new LorId(LogLikeMod.ModId, -1))
+                    ?? list.GetData(new LorId(string.Empty, -100))
+                    ?? list.GetData(new LorId(RMRCore.packageId, -100));
+                if (info != null)
+                    Singleton<MysteryManager>.Instance.StartMystery(info);
+                else
+                    Debug.LogError("[RMR] Initial mystery -100/-1 not found.");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("[RMR] Start initial mystery failed: " + ex);
+            }
+        }
 
         public override void OnInitializeMod()
         {
@@ -2600,14 +2734,17 @@ namespace RogueLike_Mod_Reborn
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new CraftEquipChapter1());
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new PickUpModel_ShopGood46.SupriseBox());
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new RMREffect_HiddenUpgradeChanceEffect());
-                this.LoadCurrentChapterStory();
+                // Realization launch must never play chapter intro / initial mystery story.
+                if (!RMRCore.IsRealizationLaunchPending())
+                    this.LoadCurrentChapterStory();
+                else
+                    Debug.Log("[RMR] Skipped chapter intro story (realization launch).");
             }
         }
 
         public override void OnWaveStartInitialEvent()
         {
-            RMRRealizationManager.SetInitialRelicEntryAvailable(true);
-            Singleton<MysteryManager>.Instance.StartMystery(Singleton<MysteryXmlList>.Instance.GetData(new LorId(LogLikeMod.ModId, -1)));
+            RMRCore.HandlePostInvitationLaunch();
         }
 
         public override string GetContentScopePackageId => RMRCore.packageId;
@@ -2641,13 +2778,19 @@ namespace RogueLike_Mod_Reborn
             LogLikeMod.curChStageStep = 0;
             LogLikeMod.curstagetype = abcdcode_LOGLIKE_MOD.StageType.Start;
             LogLikeMod.curstageid = this.StageStart;
-            this.LoadCurrentChapterStory();
+            if (!RMRCore.IsRealizationLaunchPending())
+                this.LoadCurrentChapterStory();
             LogLikeMod.ResetNextStage();
             RMRCore.GrantGrade6SpecialCorePagesIfNeeded();
         }
 
         public override void OnWaveStartInitialEvent()
         {
+            if (RMRCore.IsRealizationLaunchPending())
+            {
+                RMRCore.HandlePostInvitationLaunch();
+                return;
+            }
             RMRCore.RMRMapHandler.StartActAsCustomMap<SparklingMirrorMapManager>("SparklingMirrorMapManager");
             LogLikeMod.nextlist = LogueBookModels.GetNextList(ChapterGrade.Grade6, true);
             Singleton<StageController>.Instance.GetStageModel().GetWave(Singleton<StageController>.Instance.CurrentWave).Defeat();
@@ -2666,15 +2809,24 @@ namespace RogueLike_Mod_Reborn
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new CraftEquipChapter1());
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new PickUpModel_ShopGood46.SupriseBox());
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new RMREffect_HiddenUpgradeChanceEffect());
-                this.LoadCurrentChapterStory();
+                // Realization: no chapter intro story (that UI was showing tofu / wrong flow).
+                if (!RMRCore.IsRealizationLaunchPending())
+                    this.LoadCurrentChapterStory();
+                else
+                    Debug.Log("[RMR] Skipped chapter intro story (realization launch).");
             }
         }
 
         public override void OnWaveStartInitialEvent()
         {
+            // Realization goes straight to floor boss prepare — do not start SparklingMirror dummy map.
+            if (RMRCore.IsRealizationLaunchPending())
+            {
+                RMRCore.HandlePostInvitationLaunch();
+                return;
+            }
             RMRCore.RMRMapHandler.StartActAsCustomMap<SparklingMirrorMapManager>("SparklingMirrorMapManager");
-            RMRRealizationManager.SetInitialRelicEntryAvailable(true);
-            Singleton<MysteryManager>.Instance.StartMystery(Singleton<MysteryXmlList>.Instance.GetData(new LorId(LogLikeMod.ModId, -100)));   
+            RMRCore.HandlePostInvitationLaunch();
         }
 
         public override bool ReplaceBaseDeck => true;

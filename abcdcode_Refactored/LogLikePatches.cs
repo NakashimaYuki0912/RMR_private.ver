@@ -747,6 +747,25 @@ namespace abcdcode_LOGLIKE_MOD
 
         public void StageController_StartBattle(Action<StageController> orig, StageController self)
         {
+            // Waiting for floor pick: never start the dummy -853/unit-854 fight.
+            // Clicking "开始舞台" must only re-show floor panel, not re-enter combat loop.
+            if (RMRRealizationManager.AwaitingRealizationFloorPick
+                && !RMRRealizationManager.PendingRealizationBattle
+                && !RMRRealizationManager.InRealizationBattle)
+            {
+                LogLikeMod.PauseBool = true;
+                Debug.LogWarning("[RMR] StartBattle aborted — pick a realization floor first (no dummy combat).");
+                try
+                {
+                    if (UI.UIController.Instance != null)
+                        UI.UIController.Instance.OpenBattlePrepare();
+                }
+                catch { }
+                RMRRealizationLaunchHost.EnsureFloorPanelVisible();
+                // Do NOT call orig(self) — that starts unit 854 and loops prepare/battle.
+                return;
+            }
+
             // If a realization battle is pending, activate the flag now that the
             // realization stage is actually loading. This prevents the EndBattle hook
             // from treating the event-transition EndBattle as a realization end.
@@ -954,17 +973,32 @@ namespace abcdcode_LOGLIKE_MOD
         /// </summary>
         public void StageController_EndBattle(Action<StageController> orig, StageController self)
         {
-            // Handle realization battle end
+            // Handle realization battle end ONLY after combat actually went live.
+            // StartBattle→EndBattle transitions (before round 1) must not open the start hub.
             if (RMRRealizationManager.InRealizationBattle && self.Phase != StageController.StagePhase.EndBattle)
             {
-                bool victory = BattleObjectManager.instance.GetAliveListWithAvailable(Faction.Player).Count > 0
-                    && BattleObjectManager.instance.GetAliveListWithAvailable(Faction.Enemy).Count == 0;
+                if (!RMRRealizationManager.ShouldHandleRealizationBattleEnd())
+                {
+                    Debug.Log("[RMRRealizationManager] Spurious EndBattle during realization transition — forwarding vanilla only.");
+                    orig(self);
+                    return;
+                }
+
+                bool victory = false;
+                try
+                {
+                    victory = BattleObjectManager.instance.GetAliveListWithAvailable(Faction.Player).Count > 0
+                        && BattleObjectManager.instance.GetAliveListWithAvailable(Faction.Enemy).Count == 0;
+                }
+                catch { }
+
                 RMRRealizationManager.OnRealizationBattleEnded(victory);
                 orig(self);
                 // Clear InRealizationBattle AFTER vanilla EndBattle completes,
                 // so that ClearBattle/EndBattlePhase postfixes still see the guard
                 // during the vanilla cleanup sequence.
                 RMRRealizationManager.ClearRealizationFlag();
+                RMRRealizationManager.ReturnToMainAfterRealization();
                 return;
             }
 
@@ -1490,8 +1524,9 @@ namespace abcdcode_LOGLIKE_MOD
                 LogLikeMod.CraftBtn.gameObject.SetActive(true);
                 LogLikeMod.AtlasBtn.gameObject.SetActive(true);
                 LogLikeRoutines.ApplyRealizationButtonText(LogLikeMod.RealizationBtn);
+                // Realization entry is only on the start hub — keep prepare-panel button hidden.
                 if (LogLikeMod.RealizationBtn != null)
-                    LogLikeMod.RealizationBtn.gameObject.SetActive(RMRRealizationManager.InitialRelicEntryAvailable);
+                    LogLikeMod.RealizationBtn.gameObject.SetActive(false);
                 Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(false);
                 Singleton<LogCreatureTabPanel>.Instance.SetActive(false);
                 Singleton<LogCraftPanel>.Instance.SetActive(false);
@@ -2202,6 +2237,10 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPrefix, HarmonyPatch(typeof(StageController), nameof(StageController.RoundStartPhase_System))]
         public static bool StageController_RoundStartPhase_System(StageController __instance)
         {
+            // First combat round of a realization fight — allow EndBattle cleanup afterward.
+            if (RMRRealizationManager.InRealizationBattle)
+                RMRRealizationManager.MarkRealizationCombatLive();
+
             if (!LogLikeMod.GetFieldValue<bool>(__instance, "_bCalledRoundStart_system") && LogLikeMod.CheckStage())
                 Singleton<GlobalLogueEffectManager>.Instance.OnRoundStart(__instance);
             return true;
@@ -2380,8 +2419,33 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPrefix, HarmonyPatch(typeof(UIBattleSettingPanel), nameof(UIBattleSettingPanel.OnClickBackButton))]
         public static bool UIBattleSettingPanel_OnClickBackButton()
         {
+            // Close overlays first.
+            if (RMRHelpHandbookPanel.Instance != null)
+            {
+                try
+                {
+                    if (RMRHelpHandbookPanel.Instance.IsVisible)
+                    {
+                        RMRHelpHandbookPanel.Instance.Hide();
+                        return false;
+                    }
+                }
+                catch { }
+            }
             if (LogRealizationPanel.Instance != null && LogRealizationPanel.Instance.TryHandleBack())
                 return false;
+            if (RMRStartHubPanel.Instance != null && RMRStartHubPanel.Instance.IsVisible
+                && RMRStartHubPanel.Instance.TryHandleBack())
+                return false;
+
+            // Realization battle-prepare: back must CANCEL prep, never start the fight.
+            if (RMRRealizationManager.PendingRealizationBattle
+                || RMRRealizationManager.IsRealizationPreparationActive)
+            {
+                RMRRealizationManager.CancelRealizationPreparation();
+                return false;
+            }
+
             return !LogLikeRoutines.IsRoguelikeBattleSettingContext() || !UIPassiveSuccessionPopup.Instance.isActiveAndEnabled;
         }
 
@@ -2955,11 +3019,17 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPostfix, HarmonyPatch(typeof(UIOptionWindow), nameof(UIOptionWindow.Open))]
         public static void UIOptionWindow_Open(UIOptionWindow __instance)
         {
-            if (!(LogLikeMod.DefFont == null))
-                return;
-            LogLikeMod.DefFont = UnityEngine.Resources.GetBuiltinResource<Font>("Arial.ttf");
-            LogLikeMod.DefFontColor = UIColorManager.Manager.GetUIColor(UIColor.Default);
-            LogLikeMod.DefFont_TMP = __instance.displayDropdown.itemText.font;
+            if (LogLikeMod.DefFont == null)
+            {
+                LogLikeMod.DefFont = UnityEngine.Resources.GetBuiltinResource<Font>("Arial.ttf");
+                LogLikeMod.DefFontColor = UIColorManager.Manager.GetUIColor(UIColor.Default);
+            }
+            // Prefer language-aware TMP resolve (Noto CJK). Dropdown faces are often Latin-only
+            // and would paint Chinese as tofu if forced into DefFont_TMP.
+            LogLikeMod.InvalidateTmpFontCache();
+            TMP_FontAsset resolved = LogLikeMod.DefFont_TMP;
+            if (resolved == null && __instance?.displayDropdown?.itemText?.font != null)
+                LogLikeMod.DefFont_TMP = __instance.displayDropdown.itemText.font;
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(UIBattleSettingEditPanel), nameof(UIBattleSettingEditPanel.Close))]
@@ -3227,60 +3297,37 @@ namespace abcdcode_LOGLIKE_MOD
                 Button.ButtonClickedEvent buttonClickedEvent = new Button.ButtonClickedEvent();
                 buttonClickedEvent.AddListener(() =>
                 {
+                    // Mode select FIRST (normal / realization / help / exit), then invitation is sent.
                     SingletonBehavior<UIMainOverlayManager>.Instance.Close();
                     List<string> ExceptModNames;
-                    if (LoguePlayDataSaver.CheckPlayerData()) { 
-                        UIAlarmPopup.instance.SetChoiceAlarmText(
-                        TextDataModel.GetText("ui_RMR_ConfirmStartNewRun"),
-                        (bool yes) => {
-                            if (yes)
-                            {
-                                if (LogLikeMod.CheckExceptionModExist(out ExceptModNames))
-                                {
-                                    string text = TextDataModel.GetText("ui_ExceptionWithLog") + Environment.NewLine;
-                                    foreach (string str in ExceptModNames)
-                                        text = $"{text}-{str}{Environment.NewLine}";
-                                    UIAlarmPopup.instance.SetAlarmText(text);
-                                }
-                                else
-                                {
-                                    bool flag = true;
-                                    __instance.SetCustomInvToggle(true);
-                                    foreach (UIInvitationBookSlot invitationbookSlot in __instance.invitationbookSlots)
-                                    {
-                                        if (flag)
-                                            invitationbookSlot.ApplySlotid(new LorId(LogLikeMod.ModId, -853), true);
-                                        else
-                                            invitationbookSlot.SetEmptySlot();
-                                        flag = false;
-                                    }
-                                    __instance.ConfirmSendInvitation();
-                                }
-                            } 
-                        });
-                    } else
+                    if (LogLikeMod.CheckExceptionModExist(out ExceptModNames))
                     {
-                        if (LogLikeMod.CheckExceptionModExist(out ExceptModNames))
-                        {
-                            string text = TextDataModel.GetText("ui_ExceptionWithLog") + Environment.NewLine;
-                            foreach (string str in ExceptModNames)
-                                text = $"{text}-{str}{Environment.NewLine}";
-                            UIAlarmPopup.instance.SetAlarmText(text);
-                        }
-                        else
-                        {
-                            bool flag = true;
-                            __instance.SetCustomInvToggle(true);
-                            foreach (UIInvitationBookSlot invitationbookSlot in __instance.invitationbookSlots)
+                        string text = TextDataModel.GetText("ui_ExceptionWithLog") + Environment.NewLine;
+                        foreach (string str in ExceptModNames)
+                            text = $"{text}-{str}{Environment.NewLine}";
+                        UIAlarmPopup.instance.SetAlarmText(text);
+                        return;
+                    }
+
+                    System.Action openHub = () =>
+                    {
+                        RMRStartHubPanel.ClearLaunchIntent();
+                        RMRStartHubPanel.ShowOnInvitation(__instance);
+                    };
+
+                    if (LoguePlayDataSaver.CheckPlayerData())
+                    {
+                        UIAlarmPopup.instance.SetChoiceAlarmText(
+                            TextDataModel.GetText("ui_RMR_ConfirmStartNewRun"),
+                            (bool yes) =>
                             {
-                                if (flag)
-                                    invitationbookSlot.ApplySlotid(new LorId(LogLikeMod.ModId, -853), true);
-                                else
-                                    invitationbookSlot.SetEmptySlot();
-                                flag = false;
-                            }
-                            __instance.ConfirmSendInvitation();
-                        }
+                                if (yes)
+                                    openHub();
+                            });
+                    }
+                    else
+                    {
+                        openHub();
                     }
                 });
                 LogLikeMod.LogOpenButton.onClick = buttonClickedEvent;
@@ -3647,6 +3694,14 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPostfix, HarmonyPatch(typeof(StageController), nameof(StageController.OnFixedUpdateLate))]
         public static void StageController_OnFixedUpdateLate()
         {
+            // Hold pause while waiting for floor pick / realization prepare (do not clear each frame).
+            if (RMRRealizationManager.AwaitingRealizationFloorPick
+                || RMRRealizationManager.IsRealizationPreparationActive)
+            {
+                LogLikeMod.PauseBool = true;
+                return;
+            }
+
             if (LogLikeMod.CheckStage())
                 LogLikeMod.PauseBool = RewardingModel.RewardInStage();
             else

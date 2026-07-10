@@ -21,7 +21,28 @@
 	 <text id="ui_RMR_RealizationDesc">Challenge a floor realization. Victory permanently unlocks that floor's exclusive abnormality and E.G.O pages in the atlas and reward pools.</text>
 	 <text id="ui_RMR_RealizationChallenge">Challenge</text>
 	 <text id="ui_RMR_RealizationCleared">Cleared</text>
+	 <text id="ui_RMR_RealizationReplay">Cleared · Replay</text>
 	 <text id="ui_RMR_RealizationClose">Close</text>
+	 <text id="ui_RMR_HubTitle">Roguelike Start</text>
+	 <text id="ui_RMR_HubDesc">Challenge realization for permanent unlocks, or start a normal run.</text>
+	 <text id="ui_RMR_Hub_Play">Normal Play</text>
+	 <text id="ui_RMR_Hub_Realization">Realization</text>
+	 <text id="ui_RMR_Hub_Help">How to Play</text>
+	 <text id="ui_RMR_Hub_Exit">Exit</text>
+	 <text id="ui_RMR_Hub_ExitConfirm">Return to the Library? This start session will not be kept.</text>
+	 <text id="ui_RMR_Hub_ExitYes">Confirm</text>
+	 <text id="ui_RMR_Hub_ExitNo">Cancel</text>
+	 <text id="ui_RMR_Help_Close">Close</text>
+	 <text id="ui_RMR_Help_Nav_Overview">Overview</text>
+	 <text id="ui_RMR_Help_Nav_Route">Route &amp; Chapters</text>
+	 <text id="ui_RMR_Help_Nav_Shop">Shop &amp; Upgrades</text>
+	 <text id="ui_RMR_Help_Nav_Realization">Realization &amp; Atlas</text>
+	 <text id="ui_RMR_Help_Nav_AbnoEgo">Abnormality / E.G.O.</text>
+	 <text id="ui_RMR_Help_Body_Overview">This mod turns receptions into a chapter-based Roguelike route. From the start hub you can clear floor realizations for permanent unlocks before a normal run.</text>
+	 <text id="ui_RMR_Help_Body_Route">Each chapter uses map nodes: normal, elite, boss, shop, rest, and mystery events. Clearing a boss advances the chapter and expands the party.</text>
+	 <text id="ui_RMR_Help_Body_Shop">Shops sell key pages, combat pages, passives, abnormalities, and E.G.O. Combat pages unlock by type; you can upgrade pages in the shop.</text>
+	 <text id="ui_RMR_Help_Body_Realization">Realization is only entered from the start hub. First clear permanently unlocks that floor's exclusive pages; cleared floors can be replayed without new rewards. Loadouts and in-battle picks use the permanent atlas.</text>
+	 <text id="ui_RMR_Help_Body_AbnoEgo">Normal-run abnormality pages are also saved to the permanent atlas for realization picks. Abnormality and E.G.O. atlas tabs are flat lists without urban-chapter sections.</text>
 
 
   <text id="Equip_Slash">Slash Damage Resistance</text>

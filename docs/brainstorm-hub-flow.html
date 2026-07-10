@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>开局主菜单流程选择</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; line-height: 1.55; color: #1d1d1f; background: #f5f5f7; }
+    h1 { font-size: 1.4rem; }
+    .sub { color: #666; margin-bottom: 1.5rem; }
+    .opt { background: #fff; border: 2px solid #ddd; border-radius: 12px; padding: 1rem 1.2rem; margin: 0.8rem 0; cursor: pointer; }
+    .opt:hover { border-color: #0071e3; }
+    .opt.selected { border-color: #0071e3; background: #e8f4fd; }
+    .opt h2 { font-size: 1.05rem; margin: 0 0 0.4rem; }
+    .letter { display: inline-block; width: 1.6rem; height: 1.6rem; line-height: 1.6rem; text-align: center; border-radius: 50%; background: #0071e3; color: #fff; font-weight: 700; margin-right: 0.4rem; font-size: 0.85rem; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+    .card { background: #fff; border-radius: 10px; padding: 1rem; border: 1px solid #ddd; font-size: 0.92rem; }
+    .card h3 { margin-top: 0; font-size: 0.95rem; color: #666; }
+    #pick { margin-top: 1rem; padding: 0.8rem 1rem; background: #fff; border-radius: 8px; border: 1px solid #ddd; }
+    @media (max-width: 700px) { .split { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>开局主菜单应插在哪一步？</h1>
+  <p class="sub">当前解放战和初始遗物挤在同一事件里。新界面要把它们拆开——点选你想要的流程，然后在对话里告诉我 A/B/C。</p>
+
+  <div class="opt" data-c="A" onclick="sel(this)">
+    <h2><span class="letter">A</span>主菜单 → 再进初始遗物（推荐）</h2>
+    <ul>
+      <li><b>正常游玩</b> → 关闭主菜单 → 初始遗物选择 → 章节路线</li>
+      <li><b>挑战解放战</b> → 楼层选择 → 打完回主菜单</li>
+      <li><b>玩法介绍</b> → 说明页 → 回主菜单</li>
+      <li><b>退出</b> → 回图书馆</li>
+    </ul>
+    <p>遗物选择里<strong>不再</strong>出现解放战按钮。</p>
+  </div>
+
+  <div class="opt" data-c="B" onclick="sel(this)">
+    <h2><span class="letter">B</span>主菜单直接开跑（跳过独立遗物事件）</h2>
+    <ul>
+      <li>点「正常游玩」后不再弹初始遗物，或把遗物并进后续步骤</li>
+      <li>直接进入第一章节点选择</li>
+    </ul>
+    <p>改动更大，会动到开局节奏。</p>
+  </div>
+
+  <div class="opt" data-c="C" onclick="sel(this)">
+    <h2><span class="letter">C</span>主菜单只做解放/介绍壳</h2>
+    <p>「正常游玩」打开现有初始事件（含遗物），但事件内不放解放战；解放战只从主菜单进。和 A 接近，主要差在是否复用旧事件 UI 外壳。</p>
+  </div>
+
+  <div id="pick">当前选择：<b>（未选）</b> — 选完后请在对话里回复 A / B / C</div>
+
+  <div class="split">
+    <div class="card">
+      <h3>现在</h3>
+      邀请开局<br>→ 初始遗物事件<br>
+      &nbsp;&nbsp;├ 选遗物 A–F<br>
+      &nbsp;&nbsp;├ <b>解放战（混在里面）</b><br>
+      &nbsp;&nbsp;└ 其它选项<br>
+      → 进入路线
+    </div>
+    <div class="card">
+      <h3>目标（方案 A）</h3>
+      邀请开局<br>→ <b>四按钮主菜单</b><br>
+      &nbsp;&nbsp;├ 正常游玩 → 遗物 → 路线<br>
+      &nbsp;&nbsp;├ 解放战 → 楼层 → 回菜单<br>
+      &nbsp;&nbsp;├ 玩法介绍 → 回菜单<br>
+      &nbsp;&nbsp;└ 退出
+    </div>
+  </div>
+
+  <script>
+    function sel(el) {
+      document.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('pick').innerHTML = '当前选择：<b>' + el.dataset.c + '</b> — 请在对话里回复这个字母';
+    }
+  </script>
+</body>
+</html>

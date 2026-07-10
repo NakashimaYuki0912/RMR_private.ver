@@ -218,6 +218,17 @@ namespace RogueLike_Mod_Reborn
 
         public static List<RewardPassiveInfo> GetUnlockedEmotionCardsForBattle()
         {
+            // Realization: permanent atlas pool (normal + exclusive pages already recorded).
+            if (RMRRealizationManager.InRealizationBattle
+                || RMRRealizationManager.IsRealizationPreparationActive)
+            {
+                LogueBookModels.EnsureAtlasUnlocks();
+                return LogueBookModels.AtlasUnlockedAbnormalityPages
+                    .Select(id => Singleton<RewardPassivesList>.Instance.GetPassiveInfo(id))
+                    .Where(info => info != null && info.rewardtype == RewardType.Creature && !IsNoAbnormalityFallback(info.id))
+                    .ToList();
+            }
+
             return RouteUnlockedPages
                 .Select(id => Singleton<RewardPassivesList>.Instance.GetPassiveInfo(id))
                 .Where(info => info != null && info.rewardtype == RewardType.Creature && !IsNoAbnormalityFallback(info.id))
@@ -637,12 +648,12 @@ namespace RogueLike_Mod_Reborn
             if (RewardingModel.rewardFlag == RewardingModel.RewardFlag.PassiveReward)
             {
                 UnlockPage(info.id);
-                if (IsRealizationExclusive(info))
-                    LogueBookModels.RecordAtlasAbnormalityPage(info.id);
+                LogueBookModels.RecordAtlasAbnormalityPage(info.id);
             }
             else if (RewardingModel.rewardFlag == RewardingModel.RewardFlag.EmtoionChoose && !LogueBookModels.selectedEmotion.Contains(info))
             {
                 LogueBookModels.selectedEmotion.Add(info);
+                LogueBookModels.RecordAtlasAbnormalityPage(info.id);
             }
             return true;
         }
@@ -706,8 +717,7 @@ namespace RogueLike_Mod_Reborn
             if (info == null || info.rewardtype != RewardType.Creature)
                 return;
             UnlockPage(info.id);
-            if (IsRealizationExclusive(info))
-                LogueBookModels.RecordAtlasAbnormalityPage(info.id);
+            LogueBookModels.RecordAtlasAbnormalityPage(info.id);
         }
 
         /// <summary>
@@ -842,6 +852,10 @@ namespace RogueLike_Mod_Reborn
                 : ModdingUtils.GetFieldValue<List<EmotionEgoXmlInfo>>("_selectedEgoList", floor) ?? new List<EmotionEgoXmlInfo>();
             HashSet<LorId> selectedIds = new HashSet<LorId>(selected.Where(x => x != null).Select(x => x.CardId));
             List<EmotionEgoXmlInfo> candidates = new List<EmotionEgoXmlInfo>();
+            bool usePermanentAtlas = RMRRealizationManager.InRealizationBattle
+                || RMRRealizationManager.IsRealizationPreparationActive;
+            if (usePermanentAtlas)
+                LogueBookModels.EnsureAtlasUnlocks();
 
             foreach (var pair in RealizationEgoCardsByFloor)
             {
@@ -852,7 +866,10 @@ namespace RogueLike_Mod_Reborn
                 {
                     if (ego == null || !pair.Value.Contains(ego.CardId))
                         continue;
-                    if (!RouteUnlockedEgoPages.Contains(ego.CardId) || selectedIds.Contains(ego.CardId))
+                    bool unlocked = usePermanentAtlas
+                        ? LogueBookModels.IsAtlasEgoPageUnlocked(ego.CardId)
+                        : RouteUnlockedEgoPages.Contains(ego.CardId);
+                    if (!unlocked || selectedIds.Contains(ego.CardId))
                         continue;
                     if (!candidates.Any(x => x.CardId == ego.CardId))
                         candidates.Add(ego);
@@ -902,17 +919,34 @@ namespace RogueLike_Mod_Reborn
             virtualCard.State = vanillaCard.State;
         }
         /// <summary>
-        /// Mark a floor realization as completed. This unlocks the floor's realization
-        /// reward pool for future shop and battle reward rolls, but does not grant pages
-        /// directly to the current route.
+        /// Mark a floor realization as completed (first clear only). Unlocks the floor's
+        /// realization reward pool and records exclusive abnormality + E.G.O. pages into
+        /// the permanent atlas. Does not grant pages to the current route inventory.
         /// </summary>
         public static void CompleteFloorRealization(SephirahType floor)
         {
-            if (CompletedRealizations.Add(floor))
+            if (!CompletedRealizations.Add(floor))
+                return;
+
+            SaveRealizationProgress();
+
+            foreach (RewardPassiveInfo info in GetAllCreatureRewardPages())
             {
-                Debug.Log($"[RMRAbnormalityUnlockManager] Floor realization completed: {floor}");
-                SaveRealizationProgress();
+                if (info == null || !IsRealizationExclusive(info))
+                    continue;
+                if (GetRealizationFloorForScript(info.script) != floor)
+                    continue;
+                LogueBookModels.RecordAtlasAbnormalityPage(info.id);
             }
+
+            if (RealizationEgoCardsByFloor.TryGetValue(floor, out LorId[] egos) && egos != null)
+            {
+                foreach (LorId egoId in egos)
+                    LogueBookModels.RecordAtlasEgoPage(egoId);
+            }
+
+            LogueBookModels.SavePermanentAtlasData();
+            Debug.Log($"[RMRAbnormalityUnlockManager] Floor realization first clear recorded to atlas: {floor}");
         }
 
         /// <summary>
