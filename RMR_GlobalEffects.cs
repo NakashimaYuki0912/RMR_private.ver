@@ -2087,18 +2087,49 @@ namespace RogueLike_Mod_Reborn
         public override void OnStartBattleAfter()
         {
             base.OnStartBattleAfter();
-            foreach (var unit in BattleObjectManager.instance.GetAliveList())
+            try
             {
-                foreach (var page in unit.allyCardDetail.GetDeck())
+                if (BattleObjectManager.instance == null)
+                    return;
+                var scriptField = AccessTools.Field(typeof(BattleDiceCardModel), "_script");
+                foreach (var unit in BattleObjectManager.instance.GetAliveList())
                 {
-                    var script = page._script;
-                    if (script != null & script is RMRCardSelfAbilityBase)
+                    if (unit?.allyCardDetail == null)
+                        continue;
+                    List<BattleDiceCardModel> deck = null;
+                    try { deck = unit.allyCardDetail.GetDeck(); } catch { continue; }
+                    if (deck == null)
+                        continue;
+                    foreach (var page in deck)
                     {
-                        (script as RMRCardSelfAbilityBase).OnWaveStart(page, unit);
+                        if (page == null)
+                            continue;
+                        object scriptObj = null;
+                        try
+                        {
+                            scriptObj = scriptField != null ? scriptField.GetValue(page) : null;
+                        }
+                        catch
+                        {
+                            continue;
+                        }
+                        if (scriptObj is RMRCardSelfAbilityBase rmr)
+                        {
+                            try { rmr.OnWaveStart(page, unit); }
+                            catch (Exception ex)
+                            {
+                                Debug.LogWarning("[RMR] OnWaveStart card script failed: " + ex.Message);
+                            }
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] RMREffect_ExtendedFunctionalityEffect.OnStartBattleAfter: " + ex.Message);
             }
         }
     }
 }
+
 

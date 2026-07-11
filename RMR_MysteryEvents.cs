@@ -56,16 +56,8 @@ namespace RogueLike_Mod_Reborn
                     case 5:
                         Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new RMREffect_RoadlessCamelot());
                         break;
-                    case 6:
-                        // Realization entry moved to start hub; ignore legacy choice.
-                        return;
-                    case 7:
-                        this.SwapFrame(2);
-                        return;
-                    case 8:
-                        this.SwapFrame(3);
-                        return;
                     default:
+                        // Guide / permanent-reset moved to the start hub (not mirror choices).
                         break;
                 }
                 // Normal play already closed hub entry via StartNormalPlayFromHub.

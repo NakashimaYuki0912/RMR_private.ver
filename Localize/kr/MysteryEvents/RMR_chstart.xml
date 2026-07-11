@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <RogueMysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Mystery ID="-100">
     <Frame ID="0">
@@ -9,10 +9,10 @@
         <Desc>선택 [common]강철의 심장</Desc>
       </Choice>
       <Choice ID="1">
-        <Desc>선택 [common]사냥꾼 망토</Desc>
+        <Desc>선택 [common]사냥꾼의 망토</Desc>
       </Choice>
       <Choice ID="2">
-        <Desc>선택 [common]불안정한 구체</Desc>
+        <Desc>선택 [common]이상한 구체</Desc>
       </Choice>
       <Choice ID="3">
         <Desc>선택 [common]광포한 안경</Desc>
@@ -23,26 +23,17 @@
       <Choice ID="5">
         <Desc>선택 [common]길 없는 카멜롯</Desc>
       </Choice>
-      <Choice ID="6">
-        <Desc>선택 [rare]층 개방전</Desc>
-      </Choice>
-      <Choice ID="7">
-        <Desc>모든 영구 진행 초기화</Desc>
-      </Choice>
-      <Choice ID="8">
-        <Desc>게임 플레이 안내</Desc>
-      </Choice>
     </Frame>
     <Frame ID="1">
-      <Dialog>[mirror]반짝이는 거울[/color]이 흔들리며 당신이 선택한 유물을 불러냅니다. 유물은 손안에 조용히 내려앉고, [mirror]거울[/color]과 주변 풍경은 서서히 사라집니다.</Dialog>
+      <Dialog>[mirror]반짝이는 거울[/color]이 미세하게 진동하며 당신이 고른 유물을 불러냅니다. 유물이 손 위에 가볍게 내려앉고, [mirror]거울[/color]과 그 주변은 서서히 사라집니다.</Dialog>
       <Choice ID="0">
-        <Desc>끝내기</Desc>
+        <Desc>떠나기</Desc>
       </Choice>
     </Frame>
     <Frame ID="2">
-      <Dialog>영구 도감, 완료한 층 개방전 기록, 붉은 안개 도전 기록, 검은 침묵 첫 클리어 기록, 뒤틀린 잔향악단 첫 클리어 기록을 모두 지웁니다.
+      <Dialog>영구 도감, 층 개방전 완료 기록, 진홍의 안개 도전 기록, 칠흑의 침묵 첫 클리어 기록, 왜곡된 잔향 오케스트라 첫 클리어 기록이 삭제됩니다.
 
-현재 루트의 임시 보유 책장들은 영구 도감에 다시 기록되지 않습니다. 초기화하시겠습니까?</Dialog>
+현재 루트의 임시 내용은 영구 도감에 다시 쓰이지 않습니다. 초기화할까요?</Dialog>
       <Choice ID="0">
         <Desc>초기화 확인</Desc>
       </Choice>
@@ -51,19 +42,13 @@
       </Choice>
     </Frame>
     <Frame ID="3">
-      <Dialog>RMR은 챕터별 루트를 생성합니다. 일반전, 정예전, 보스전, 상점, 휴식, 신비한 사건, 환상체전, 층 개방전이 번갈아 등장합니다.
-
-도감은 영구 해금한 핵심 책장과 전투 책장을 기록합니다. 이후 루트, 상점, 일부 특수 흐름은 이 도감 내용을 우선 사용합니다.
-
-층 개방전은 원본 층 개방 흐름으로 연결됩니다. 클리어한 뒤에는 해당 층의 전용 환상체 책장과 E.G.O. 책장이 영구 보상 풀에 들어갑니다.
-
-일부 특수 보스는 첫 클리어 보상이 있습니다. 검은 침묵을 처음 클리어하면 이후 도시의 별에 도달할 때 검은 침묵 핵심 책장이 자동 해금됩니다. 뒤틀린 잔향악단을 처음 클리어하면 이후 도시의 별에 도달할 때 뒤틀린 푸른잔향 핵심 책장과 전투 책장이 자동 해금됩니다.</Dialog>
+      <Dialog>(시작 메뉴의 「플레이 소개」로 이동했습니다.)</Dialog>
       <Choice ID="0">
         <Desc>돌아가기</Desc>
       </Choice>
     </Frame>
     <Frame ID="4">
-      <Dialog>영구 도감과 층 개방 진행도가 초기화되었습니다.</Dialog>
+      <Dialog>영구 도감과 개방전 진행이 초기화되었습니다.</Dialog>
       <Choice ID="0">
         <Desc>돌아가기</Desc>
       </Choice>

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <RogueMysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Mystery ID="-100">
     <Frame ID="0">
@@ -17,20 +17,11 @@
       <Choice ID="3">
         <Desc>选择[common]狂暴目镜</Desc>
       </Choice>
-	  <Choice ID="4">
+      <Choice ID="4">
         <Desc>选择[common]指引之光</Desc>
       </Choice>
-	  <Choice ID="5">
+      <Choice ID="5">
         <Desc>选择[common]无路卡美洛</Desc>
-      </Choice>
-      <Choice ID="6">
-        <Desc>选择[rare]楼层解放战</Desc>
-      </Choice>
-      <Choice ID="7">
-        <Desc>重置所有永久进度</Desc>
-      </Choice>
-      <Choice ID="8">
-        <Desc>游戏玩法介绍</Desc>
       </Choice>
     </Frame>
     <Frame ID="1">
@@ -51,13 +42,7 @@
       </Choice>
     </Frame>
     <Frame ID="3">
-      <Dialog>RMR 会按章节生成路线。普通战、精英战、Boss、商店、休息室、神秘事件、异想体战和楼层解放战会交替出现。
-
-图鉴记录你永久解锁过的核心书页和战斗书页。后续路线、商店和部分特殊流程会优先读取图鉴内容。
-
-楼层解放战连接原版楼层解放流程。完成解放后，对应楼层的专属异想体书页和 E.G.O. 会进入永久奖励池。
-
-部分特殊 Boss 有首通奖励：漆黑静默首通后，以后达到都市之星会自动解锁漆黑静默核心书页；扭曲残响乐团首通后，以后达到都市之星会自动解锁扭曲苍蓝残响核心书页和其战斗书页。</Dialog>
+      <Dialog>（已移至开局菜单的「玩法介绍」。）</Dialog>
       <Choice ID="0">
         <Desc>返回</Desc>
       </Choice>

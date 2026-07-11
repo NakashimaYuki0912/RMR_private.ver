@@ -41,27 +41,51 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static void LogAddModCard(this ItemXmlDataList datalist, DiceCardXmlInfo cardinfo)
         {
-            string workshopId = cardinfo.id.packageId;
-            if (datalist._workshopDict == null)
-            {
-                datalist._workshopDict = new Dictionary<string, List<DiceCardXmlInfo>>();
-            }
+            if (datalist == null || cardinfo == null)
+                return;
 
-            if (!datalist._workshopDict.ContainsKey(workshopId))
+            // Private fields on ItemXmlDataList must use reflection under MonoMod
+            // (FieldAccessException on _workshopDict / _cardInfoTable otherwise).
+            string workshopId = cardinfo.id.packageId ?? string.Empty;
+            try
             {
-                datalist._workshopDict[workshopId] = new List<DiceCardXmlInfo>();
-            }
-            if (!datalist._workshopDict[workshopId].Exists(x => x.id == cardinfo.id))
-            {
-                datalist._workshopDict[workshopId].Add(cardinfo);
-            }
+                var workshopDict = GetOrCreateWorkshopDict(datalist);
+                if (workshopDict == null)
+                    return;
 
-            if (!datalist._cardInfoTable.ContainsKey(cardinfo.id))
-            {
-                datalist._cardInfoList.Add(cardinfo);
-                datalist._cardInfoTable.Add(cardinfo.id, cardinfo);
-            }
+                if (!workshopDict.ContainsKey(workshopId))
+                    workshopDict[workshopId] = new List<DiceCardXmlInfo>();
+                if (!workshopDict[workshopId].Exists(x => x != null && x.id == cardinfo.id))
+                    workshopDict[workshopId].Add(cardinfo);
 
+                var cardTable = AccessTools.Field(typeof(ItemXmlDataList), "_cardInfoTable")?.GetValue(datalist)
+                    as Dictionary<LorId, DiceCardXmlInfo>;
+                var cardList = AccessTools.Field(typeof(ItemXmlDataList), "_cardInfoList")?.GetValue(datalist)
+                    as List<DiceCardXmlInfo>;
+                if (cardTable != null && !cardTable.ContainsKey(cardinfo.id))
+                {
+                    cardList?.Add(cardinfo);
+                    cardTable.Add(cardinfo.id, cardinfo);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] LogAddModCard failed (non-fatal): " + ex.Message);
+            }
+        }
+
+        private static Dictionary<string, List<DiceCardXmlInfo>> GetOrCreateWorkshopDict(ItemXmlDataList datalist)
+        {
+            var field = AccessTools.Field(typeof(ItemXmlDataList), "_workshopDict");
+            if (field == null)
+                return null;
+            var dict = field.GetValue(datalist) as Dictionary<string, List<DiceCardXmlInfo>>;
+            if (dict == null)
+            {
+                dict = new Dictionary<string, List<DiceCardXmlInfo>>();
+                field.SetValue(datalist, dict);
+            }
+            return dict;
         }
 
         public static void SetLayerAll(this GameObject obj, int layer)
@@ -229,8 +253,24 @@ namespace abcdcode_LOGLIKE_MOD
         {
             var originalTable = instance.GetData(original);
             var newTable = instance.GetData(newId);
+            if (originalTable == null || newTable == null)
+                return;
             originalTable.cardIdList.AddRange(newTable.cardIdList);
-            instance._workshopDict[original.packageId].Find(x => x.id == original).cardIdList = originalTable.cardIdList;
+            try
+            {
+                var field = AccessTools.Field(typeof(CardDropTableXmlList), "_workshopDict");
+                var dict = field?.GetValue(instance) as Dictionary<string, List<CardDropTableXmlInfo>>;
+                if (dict != null && dict.TryGetValue(original.packageId ?? string.Empty, out var list) && list != null)
+                {
+                    var entry = list.Find(x => x != null && x.id == original);
+                    if (entry != null)
+                        entry.cardIdList = originalTable.cardIdList;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] MergeDropTables workshopDict update failed: " + ex.Message);
+            }
         }
 
         public static string GetLogArtWorkPath(this ModContentInfo info)
@@ -311,41 +351,149 @@ namespace abcdcode_LOGLIKE_MOD
             return new LorId(data.GetString("workshopId"), id);
         }
 
-        public static void SetChoiceAlarmText(this UIAlarmPopup alarm, string text = "", ConfirmEvent confirmFunc = null)
+        /// <summary>
+        /// Yes/No confirm dialog with custom text. Never touches UIAlarmPopup fields directly —
+        /// MonoMod throws FieldAccessException on Assembly-CSharp member access from mods.
+        /// ButtonRoots is a List&lt;GameObject&gt; (not array). YesNo enum value is 1.
+        /// Returns true only when dialog was opened with Yes/No + confirm callback wired.
+        /// Callers must handle false (do not assume user can confirm).
+        /// </summary>
+        public static bool SetChoiceAlarmText(this UIAlarmPopup alarm, string text = "", ConfirmEvent confirmFunc = null)
         {
-            if (alarm.IsOpened())
+            if (alarm == null)
             {
-                alarm.Close();
+                Debug.LogError("[RMR] SetChoiceAlarmText: alarm is null.");
+                return false;
             }
-            if (alarm.ob_blue.activeSelf)
+            try
             {
-                alarm.ob_blue.gameObject.SetActive(false);
+                if (alarm.IsOpened())
+                    alarm.Close();
+
+                SetAlarmGoActive(alarm, "ob_blue", false);
+                SetAlarmGoActive(alarm, "ob_normal", true);
+                SetAlarmGoActive(alarm, "ob_Reward", false);
+                SetAlarmGoActive(alarm, "ob_BlackBg", false);
+
+                SetAlarmField(alarm, "currentAnimState", UIAlarmPopup.UIAlarmAnimState.Normal);
+                SetAlarmField(alarm, "currentmode", AnimatorUpdateMode.UnscaledTime);
+                SetAlarmField(alarm, "currentAlarmType", UIAlarmType.Default);
+
+                // ButtonRoots is List<GameObject> in the real game assembly.
+                var buttonRootsObj = AccessTools.Field(typeof(UIAlarmPopup), "ButtonRoots")?.GetValue(alarm);
+                var buttonRoots = buttonRootsObj as System.Collections.IList;
+                if (buttonRoots == null)
+                {
+                    Debug.LogError("[RMR] SetChoiceAlarmText: ButtonRoots missing/unreadable.");
+                    return false;
+                }
+
+                for (int i = 0; i < buttonRoots.Count; i++)
+                {
+                    if (buttonRoots[i] is GameObject go && go != null)
+                        go.SetActive(false);
+                }
+
+                object txtObj = AccessTools.Field(typeof(UIAlarmPopup), "txt_alarm")?.GetValue(alarm);
+                if (txtObj == null)
+                {
+                    Debug.LogError("[RMR] SetChoiceAlarmText: txt_alarm missing.");
+                    return false;
+                }
+                SetTmpOrUiText(txtObj, text);
+
+                SetAlarmField(alarm, "_confirmEvent", confirmFunc);
+                // Verify confirm was stored — OnYesButton reads this field.
+                object storedConfirm = AccessTools.Field(typeof(UIAlarmPopup), "_confirmEvent")?.GetValue(alarm);
+                if (confirmFunc != null && storedConfirm == null)
+                {
+                    Debug.LogError("[RMR] SetChoiceAlarmText: failed to store _confirmEvent.");
+                    return false;
+                }
+
+                // Vanilla also tracks which button layout is active.
+                UIAlarmButtonType index = UIAlarmButtonType.YesNo; // = 1
+                SetAlarmField(alarm, "buttonNumberType", index);
+
+                if ((int)index < 0 || (int)index >= buttonRoots.Count
+                    || !(buttonRoots[(int)index] is GameObject yesNoRoot) || yesNoRoot == null)
+                {
+                    Debug.LogError($"[RMR] SetChoiceAlarmText: YesNo root missing (index={(int)index}, count={buttonRoots.Count}).");
+                    return false;
+                }
+                yesNoRoot.SetActive(true);
+
+                alarm.Open();
+
+                try
+                {
+                    object yesObj = AccessTools.Property(typeof(UIAlarmPopup), "YesButton")?.GetValue(alarm, null);
+                    if (yesObj == null)
+                        yesObj = AccessTools.Field(typeof(UIAlarmPopup), "yesButton")?.GetValue(alarm);
+                    if (yesObj != null && UIControlManager.Instance != null)
+                    {
+                        var method = AccessTools.Method(typeof(UIControlManager), "SelectSelectableForcely");
+                        if (method != null)
+                            method.Invoke(UIControlManager.Instance, new object[] { yesObj, false });
+                    }
+                }
+                catch (Exception exSel)
+                {
+                    Debug.LogWarning("[RMR] SetChoiceAlarmText select-yes failed (non-fatal): " + exSel.Message);
+                }
+
+                Debug.Log("[RMR] SetChoiceAlarmText opened Yes/No confirm.");
+                return true;
             }
-            if (!alarm.ob_normal.activeSelf)
+            catch (Exception ex)
             {
-                alarm.ob_normal.gameObject.SetActive(true);
+                Debug.LogError("[RMR] SetChoiceAlarmText failed: " + ex);
+                // Do NOT fall back to SetAlarmText(string): that is OK-only and drops confirmFunc,
+                // leaving the user with a dead dialog. Caller must handle false.
+                return false;
             }
-            if (alarm.ob_Reward.activeSelf)
+        }
+
+        private static void SetAlarmField(UIAlarmPopup alarm, string fieldName, object value)
+        {
+            try
             {
-                alarm.ob_Reward.SetActive(false);
+                AccessTools.Field(typeof(UIAlarmPopup), fieldName)?.SetValue(alarm, value);
             }
-            alarm.currentAnimState = UIAlarmPopup.UIAlarmAnimState.Normal;
-            alarm.currentmode = AnimatorUpdateMode.UnscaledTime;
-            foreach (GameObject gameObject in alarm.ButtonRoots)
+            catch (Exception ex)
             {
-                gameObject.gameObject.SetActive(false);
+                Debug.LogWarning($"[RMR] SetAlarmField {fieldName} failed: {ex.Message}");
             }
-            if (alarm.ob_BlackBg.activeSelf)
+        }
+
+        private static void SetTmpOrUiText(object textObj, string text)
+        {
+            if (textObj == null)
+                return;
+            try
             {
-                alarm.ob_BlackBg.SetActive(false);
+                // Avoid `is TextMeshProUGUI` identity issues across TMP assemblies.
+                var prop = textObj.GetType().GetProperty("text", AccessTools.all);
+                if (prop != null && prop.CanWrite)
+                    prop.SetValue(textObj, text, null);
             }
-            alarm.currentAlarmType = UIAlarmType.Default;
-            UIAlarmButtonType index = UIAlarmButtonType.YesNo;
-            alarm.txt_alarm.text = text;
-            alarm._confirmEvent = confirmFunc;
-            alarm.ButtonRoots[(int)index].gameObject.SetActive(true);
-            alarm.Open();
-            UIControlManager.Instance.SelectSelectableForcely(alarm.YesButton, false);
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] SetTmpOrUiText failed: " + ex.Message);
+            }
+        }
+
+        private static void SetAlarmGoActive(UIAlarmPopup alarm, string fieldName, bool active)
+        {
+            try
+            {
+                var go = AccessTools.Field(typeof(UIAlarmPopup), fieldName)?.GetValue(alarm) as GameObject;
+                if (go == null)
+                    return;
+                if (go.activeSelf != active)
+                    go.SetActive(active);
+            }
+            catch { }
         }
     
     }

@@ -6,10 +6,9 @@
       <AvailableUnit>5</AvailableUnit>
       <Formation>1</Formation>
       <Unit>854</Unit>
-    </Wave> 
-	<MapInfo>SparklingMirrorMapManager</MapInfo>
+    </Wave>
     <Name>Roguelike Reborn</Name>
-    <FloorNum>0</FloorNum>
+    <FloorNum>10</FloorNum>
     <Invitation Combine="BookRecipe">
     <Book>-853</Book> 
       
@@ -25,7 +24,7 @@
     </Wave> 
 
     <Name>Roguelike Classic</Name>
-    <FloorNum>0</FloorNum>
+    <FloorNum>10</FloorNum>
     <Invitation Combine="BookRecipe">
      <Book>-854</Book> 
       
@@ -39,7 +38,7 @@
      <Unit>854</Unit>
     </Wave>
     <Name>Roguelike</Name>
-    <FloorNum>0</FloorNum>
+    <FloorNum>10</FloorNum>
     <Invitation Combine="BookRecipe">
      <Book>-855</Book> 
       
@@ -53,7 +52,7 @@
      <Unit>854</Unit>
     </Wave>
     <Name> </Name>
-    <FloorNum>0</FloorNum>
+    <FloorNum>10</FloorNum>
     <Invitation Combine="BookRecipe">
      <Book>-2854</Book> 
       
@@ -66,7 +65,7 @@
      <Unit>854</Unit>
     </Wave>
     <Name> </Name>
-    <FloorNum>0</FloorNum>
+    <FloorNum>10</FloorNum>
     <Invitation Combine="BookRecipe">
      <Book>-3854</Book> 
       
@@ -79,7 +78,7 @@
      <Unit>854</Unit>
     </Wave>
     <Name> </Name>
-    <FloorNum>0</FloorNum>
+    <FloorNum>10</FloorNum>
     <Invitation Combine="BookRecipe">
      <Book>-4854</Book> 
       
@@ -93,7 +92,7 @@
     <Unit>855</Unit>
     </Wave>
     <Name> </Name>
-    <FloorNum>0</FloorNum>
+    <FloorNum>10</FloorNum>
     <Invitation Combine="BookRecipe">
      <Book>-5854</Book> 
       
@@ -108,7 +107,7 @@
     <Unit>855</Unit>
     </Wave>
     <Name> </Name>
-    <FloorNum>0</FloorNum>
+    <FloorNum>10</FloorNum>
     <Invitation Combine="BookRecipe">
      <Book>-6854</Book> 
       
@@ -123,7 +122,7 @@
     <Unit>855</Unit>
     </Wave>
     <Name> </Name>
-    <FloorNum>0</FloorNum>
+    <FloorNum>10</FloorNum>
     <Invitation Combine="BookRecipe">
      <Book>-7854</Book> 
       

@@ -103,15 +103,85 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static string GetAblilityText(BookXmlInfo bookinfo)
         {
+            if (bookinfo?.EquipEffect == null)
+                return string.Empty;
             string str = $"{$"{$"{$"{$"{$"{$"{string.Empty}{TextDataModel.GetText("ui_ability_hp")}: {bookinfo.EquipEffect.Hp.ToString()}{Environment.NewLine}"}{TextDataModel.GetText("ui_ability_break")}: {bookinfo.EquipEffect.Break.ToString()}{Environment.NewLine}"}{abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("Equip_Light")}: {bookinfo.EquipEffect.StartPlayPoint.ToString()}{Environment.NewLine}"}{abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("Equip_SpeedArea")}: {bookinfo.EquipEffect.SpeedMin.ToString()}~{bookinfo.EquipEffect.Speed.ToString()}{Environment.NewLine}"}{abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("Equip_Slash")}: {RewardingModel.GetResistText(bookinfo.EquipEffect.SResist)}/{RewardingModel.GetResistText(bookinfo.EquipEffect.SBResist)}{Environment.NewLine}"}{abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("Equip_Penetrate")}: {RewardingModel.GetResistText(bookinfo.EquipEffect.PResist)}/{RewardingModel.GetResistText(bookinfo.EquipEffect.PBResist)}{Environment.NewLine}"}{abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("Equip_Hit")}: {RewardingModel.GetResistText(bookinfo.EquipEffect.HResist)}/{RewardingModel.GetResistText(bookinfo.EquipEffect.HBResist)}{Environment.NewLine}";
-            string empty = string.Empty;
-            for (int index = 0; index < bookinfo.EquipEffect.PassiveList.Count; ++index)
+            // One passive per line with full desc (not a Hangul/empty comma list).
+            var passiveLines = new List<string>();
+            if (bookinfo.EquipEffect.PassiveList != null)
             {
-                empty += RewardingModel.GetPassiveName(bookinfo.EquipEffect.PassiveList[index]);
-                if (index < bookinfo.EquipEffect.PassiveList.Count - 1)
-                    empty += ", ";
+                for (int index = 0; index < bookinfo.EquipEffect.PassiveList.Count; ++index)
+                {
+                    LorId pid = bookinfo.EquipEffect.PassiveList[index];
+                    string passiveName = RewardingModel.GetPassiveName(pid);
+                    if (string.IsNullOrEmpty(passiveName) || IsPoorDisplayName(passiveName))
+                        continue;
+                    string passiveDesc = RewardingModel.GetPassiveDesc(pid);
+                    if (!string.IsNullOrEmpty(passiveDesc) && !IsPoorDisplayName(passiveDesc))
+                        passiveLines.Add($"· {passiveName}：{passiveDesc}");
+                    else
+                        passiveLines.Add($"· {passiveName}");
+                }
             }
-            return SanitizeDisplayText($"{str}{abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("Equip_Passive")}: {empty}");
+            string passiveBlock = passiveLines.Count > 0
+                ? string.Join(Environment.NewLine, passiveLines)
+                : string.Empty;
+            string header = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("Equip_Passive");
+            // Reward / equip-page pick UI: stats + passives only.
+            // Do NOT append vanilla Books.txt story paragraphs (library "书籍故事") —
+            // players pick key pages for combat stats, not lore dump.
+            string body = string.IsNullOrEmpty(passiveBlock)
+                ? $"{str}{header}:"
+                : $"{str}{header}:{Environment.NewLine}{passiveBlock}";
+            return SanitizeDisplayText(body);
+        }
+
+        /// <summary>
+        /// Origin-aware book story paragraphs from BookDescXmlList.GetBookText.
+        /// Kept for atlas/detail callers that explicitly want lore; reward ability text must not use this.
+        /// </summary>
+        public static string GetLocalizedBookStory(BookXmlInfo book)
+        {
+            if (book == null)
+                return string.Empty;
+            BookDescXmlList list = Singleton<BookDescXmlList>.Instance;
+            if (list == null)
+                return string.Empty;
+
+            List<string> paragraphs = null;
+            void Try(LorId id)
+            {
+                if (paragraphs != null && paragraphs.Count > 0)
+                    return;
+                if (id == null || id == LorId.None)
+                    return;
+                try { paragraphs = list.GetBookText(id); } catch { /* ignore */ }
+            }
+
+            if (book.id != null)
+            {
+                foreach (LorId candidate in GetOriginAwareIds(book.id))
+                    Try(candidate);
+                Try(new LorId(book.id.id));
+            }
+            if (book.TextId > 0)
+            {
+                Try(new LorId(book.TextId));
+                if (book.id != null && !IsOriginPackage(book.id.packageId))
+                    Try(new LorId(book.id.packageId, book.TextId));
+            }
+
+            if (paragraphs == null || paragraphs.Count == 0)
+                return string.Empty;
+            // Prefer non-Hangul paragraphs for CN display.
+            var lines = new List<string>();
+            foreach (string p in paragraphs)
+            {
+                if (string.IsNullOrEmpty(p) || IsPoorDisplayName(p))
+                    continue;
+                lines.Add(p.Trim());
+            }
+            return lines.Count == 0 ? string.Empty : string.Join(Environment.NewLine, lines);
         }
 
         public static string SanitizeDisplayText(string text)
@@ -144,94 +214,398 @@ namespace abcdcode_LOGLIKE_MOD
             if (id == null || id == LorId.None)
                 return result;
             result.Add(id);
-            if (IsOriginPackage(id.packageId))
+            // Always try bare / empty-package variants. BookXmlList.GetData never returns null —
+            // missing entries become isError "ModNeeded" stubs — so callers must walk candidates.
+            LorId bareId = new LorId(id.id);
+            if (!result.Contains(bareId))
+                result.Add(bareId);
+            LorId emptyPackageId = new LorId(string.Empty, id.id);
+            if (!result.Contains(emptyPackageId))
+                result.Add(emptyPackageId);
+            if (!IsOriginPackage(id.packageId))
             {
-                LorId originId = new LorId(id.id);
-                if (!result.Contains(originId))
-                    result.Add(originId);
-                LorId emptyPackageId = new LorId(string.Empty, id.id);
-                if (!result.Contains(emptyPackageId))
-                    result.Add(emptyPackageId);
+                LorId originTagged = new LorId("@origin", id.id);
+                if (!result.Contains(originTagged))
+                    result.Add(originTagged);
             }
             return result;
         }
 
+        /// <summary>
+        /// BookXmlList.GetData fabricates a zero-stat stub (InnerName="ModNeeded", isError=true)
+        /// when the LorId is missing. Treat those as missing data.
+        /// </summary>
+        public static bool IsValidBookData(BookXmlInfo book)
+        {
+            if (book == null || book.isError)
+                return false;
+            if (string.Equals(book.InnerName, "ModNeeded", StringComparison.OrdinalIgnoreCase))
+                return false;
+            // Real key pages always have HP. Default EquipEffect also uses StartPlayPoint=3 with Hp=0.
+            if (book.EquipEffect == null || book.EquipEffect.Hp <= 0)
+                return false;
+            return true;
+        }
+
+        public static bool IsValidCardData(DiceCardXmlInfo card)
+        {
+            return card != null && !card.isError;
+        }
+
         public static BookXmlInfo GetBookDataOriginAware(LorId id)
         {
+            if (id == null || id == LorId.None)
+                return null;
+
+            BookXmlList list = Singleton<BookXmlList>.Instance;
+            if (list == null)
+                return null;
+
             foreach (LorId candidate in GetOriginAwareIds(id))
             {
-                BookXmlInfo book = Singleton<BookXmlList>.Instance.GetData(candidate, false);
-                if (book != null)
+                // Prefer dictionary lookup; reject ModNeeded stubs so later candidates can win.
+                BookXmlInfo book = list.GetData(candidate, false);
+                if (IsValidBookData(book))
                     return book;
                 if (IsOriginPackage(candidate.packageId))
                 {
-                    book = Singleton<BookXmlList>.Instance.GetData(candidate.id);
-                    if (book != null)
+                    book = list.GetData(candidate.id);
+                    if (IsValidBookData(book))
                         return book;
                 }
+            }
+
+            // Last resort: scan full list by numeric id (package mismatch / workshop merge).
+            try
+            {
+                List<BookXmlInfo> all = list.GetList();
+                if (all != null)
+                {
+                    BookXmlInfo match = all.Find(b =>
+                        IsValidBookData(b)
+                        && b.id != null
+                        && b.id.id == id.id
+                        && (IsOriginPackage(id.packageId) || IsOriginPackage(b.id.packageId) || b.id.packageId == id.packageId));
+                    if (match != null)
+                        return match;
+                    // If caller asked for @origin, any valid vanilla-or-workshop page with that id is fine.
+                    if (IsOriginPackage(id.packageId))
+                    {
+                        match = all.Find(b => IsValidBookData(b) && b.id != null && b.id.id == id.id);
+                        if (match != null)
+                            return match;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] GetBookDataOriginAware scan failed: " + ex.Message);
             }
             return null;
         }
 
         public static DiceCardXmlInfo GetCardItemOriginAware(LorId id)
         {
+            if (id == null || id == LorId.None || ItemXmlDataList.instance == null)
+                return null;
+
             foreach (LorId candidate in GetOriginAwareIds(id))
             {
-                DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(candidate, false);
-                if (card != null)
+                // error:false fabricates a dummy 1-4 dice card — use true so missing → null.
+                DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(candidate, true);
+                if (IsValidCardData(card))
                     return card;
                 if (IsOriginPackage(candidate.packageId))
                 {
-                    card = ItemXmlDataList.instance.GetCardItem(candidate.id, false);
-                    if (card != null)
+                    card = ItemXmlDataList.instance.GetCardItem(candidate.id, true);
+                    if (IsValidCardData(card))
                         return card;
                 }
             }
             return null;
         }
 
+        public static string GetLocalizedCardName(DiceCardXmlInfo card)
+        {
+            if (card == null)
+                return string.Empty;
+            if (LorId.IsModId(card.workshopID) && !string.IsNullOrEmpty(card.workshopName))
+                return SanitizeDisplayText(card.workshopName);
+            foreach (LorId candidate in GetOriginAwareIds(card.id))
+            {
+                string name = Singleton<BattleCardDescXmlList>.Instance.GetCardName(candidate);
+                if (!string.IsNullOrEmpty(name) && !string.Equals(name, "Not Found", StringComparison.OrdinalIgnoreCase))
+                    return SanitizeDisplayText(name);
+                if (IsOriginPackage(candidate.packageId))
+                {
+                    name = Singleton<BattleCardDescXmlList>.Instance.GetCardName(new LorId(candidate.id));
+                    if (!string.IsNullOrEmpty(name) && !string.Equals(name, "Not Found", StringComparison.OrdinalIgnoreCase))
+                        return SanitizeDisplayText(name);
+                }
+            }
+            if (card.TextId != null && card.TextId != LorId.None)
+            {
+                string name = Singleton<BattleCardDescXmlList>.Instance.GetCardName(card.TextId);
+                if (!string.IsNullOrEmpty(name) && !string.Equals(name, "Not Found", StringComparison.OrdinalIgnoreCase))
+                    return SanitizeDisplayText(name);
+                name = Singleton<BattleCardDescXmlList>.Instance.GetCardName(new LorId(card.TextId.id));
+                if (!string.IsNullOrEmpty(name) && !string.Equals(name, "Not Found", StringComparison.OrdinalIgnoreCase))
+                    return SanitizeDisplayText(name);
+            }
+            return SanitizeDisplayText(card.workshopName ?? card.Name ?? string.Empty);
+        }
+
+        public static string GetLocalizedCardAbilityDesc(DiceCardXmlInfo card)
+        {
+            if (card == null)
+                return string.Empty;
+            foreach (LorId candidate in GetOriginAwareIds(card.id))
+            {
+                string text = Singleton<BattleCardDescXmlList>.Instance.GetAbilityDesc(candidate);
+                if (!string.IsNullOrEmpty(text))
+                    return SanitizeDisplayText(text);
+                if (IsOriginPackage(candidate.packageId))
+                {
+                    text = Singleton<BattleCardDescXmlList>.Instance.GetAbilityDesc(new LorId(candidate.id));
+                    if (!string.IsNullOrEmpty(text))
+                        return SanitizeDisplayText(text);
+                }
+            }
+            List<string> abilityDesc = Singleton<BattleCardAbilityDescXmlList>.Instance.GetAbilityDesc(card);
+            if (abilityDesc != null && abilityDesc.Count > 0)
+                return SanitizeDisplayText(string.Join("\n", abilityDesc));
+            return string.Empty;
+        }
+
         public static string GetLocalizedBookName(BookXmlInfo book)
         {
             if (book == null)
                 return string.Empty;
-            if (TryGetKnownBookName(book, out string knownName))
+            if (TryGetKnownBookName(book, out string knownName) && !IsPoorDisplayName(knownName))
                 return knownName;
-            foreach (LorId candidate in GetOriginAwareIds(book.id))
+
+            List<string> candidates = new List<string>();
+            void Consider(string name)
             {
-                string name = Singleton<BookDescXmlList>.Instance.GetBookName(candidate);
-                if (!string.IsNullOrEmpty(name))
-                    return SanitizeDisplayText(name);
-                if (IsOriginPackage(candidate.packageId))
-                {
-                    name = Singleton<BookDescXmlList>.Instance.GetBookName(new LorId(candidate.id));
-                    if (!string.IsNullOrEmpty(name))
-                        return SanitizeDisplayText(name);
-                }
+                if (!string.IsNullOrEmpty(name)
+                    && !string.Equals(name, "ModNeeded", StringComparison.OrdinalIgnoreCase)
+                    && !string.Equals(name, "Not Found", StringComparison.OrdinalIgnoreCase)
+                    && !string.Equals(name, "Not found", StringComparison.OrdinalIgnoreCase))
+                    candidates.Add(name);
             }
+
+            if (book.id != null)
+            {
+                foreach (LorId candidate in GetOriginAwareIds(book.id))
+                {
+                    Consider(Singleton<BookDescXmlList>.Instance.GetBookName(candidate));
+                    if (IsOriginPackage(candidate.packageId))
+                        Consider(Singleton<BookDescXmlList>.Instance.GetBookName(new LorId(candidate.id)));
+                }
+                // Bare numeric id (origin dictionary) — shared vanilla keypages.
+                Consider(Singleton<BookDescXmlList>.Instance.GetBookName(new LorId(book.id.id)));
+            }
+
+            // TextId is often the real Books.txt key (e.g. book 211003 → TextId 23).
             if (book.TextId > 0)
             {
-                string name = Singleton<BookDescXmlList>.Instance.GetBookName(new LorId(book.TextId));
-                if (!string.IsNullOrEmpty(name))
-                    return SanitizeDisplayText(name);
+                Consider(Singleton<BookDescXmlList>.Instance.GetBookName(new LorId(book.TextId)));
+                if (book.id != null && !IsOriginPackage(book.id.packageId))
+                    Consider(Singleton<BookDescXmlList>.Instance.GetBookName(new LorId(book.id.packageId, book.TextId)));
             }
+
+            if (!string.IsNullOrEmpty(book.InnerName)
+                && !string.Equals(book.InnerName, "ModNeeded", StringComparison.OrdinalIgnoreCase)
+                && !book.isError)
+                Consider(book.InnerName);
+
+            string best = PickBestDisplayName(candidates);
+            if (!string.IsNullOrEmpty(best))
+                return SanitizeDisplayText(best);
+
+            if (string.Equals(book.InnerName, "ModNeeded", StringComparison.OrdinalIgnoreCase) || book.isError)
+                return string.Empty;
             return SanitizeDisplayText(book.InnerName ?? string.Empty);
         }
 
         public static string GetPassiveName(LorId passiveId)
         {
+            if (passiveId == null || passiveId == LorId.None)
+                return string.Empty;
+
+            // Placeholder / garbage passives (e.g. 1000000000) have no desc — hide them.
+            if (passiveId.id <= 0 || passiveId.id >= 1000000000)
+                return string.Empty;
+
+            List<string> candidates = new List<string>();
+            void Consider(string name)
+            {
+                if (!string.IsNullOrEmpty(name))
+                    candidates.Add(name);
+            }
+
+            PassiveDescXmlList list = Singleton<PassiveDescXmlList>.Instance;
             foreach (LorId candidate in GetOriginAwareIds(passiveId))
             {
-                string name = Singleton<PassiveDescXmlList>.Instance.GetName(candidate);
-                if (!string.IsNullOrEmpty(name))
-                    return SanitizeDisplayText(name);
-                if (IsOriginPackage(candidate.packageId))
+                if (list != null)
                 {
-                    name = Singleton<PassiveDescXmlList>.Instance.GetName(candidate.id);
-                    if (!string.IsNullOrEmpty(name))
-                        return SanitizeDisplayText(name);
+                    Consider(list.GetName(candidate));
+                    if (IsOriginPackage(candidate.packageId))
+                        Consider(list.GetName(candidate.id));
+                }
+                // Workshop BookPassiveInfo reads PassiveXmlInfo fields — stamp path lives there.
+                try
+                {
+                    PassiveXmlInfo pxi = Singleton<PassiveXmlList>.Instance?.GetData(candidate)
+                        ?? Singleton<PassiveXmlList>.Instance?.GetData(new LorId(candidate.id));
+                    if (pxi != null && !string.IsNullOrEmpty(pxi.name))
+                        Consider(pxi.name);
+                }
+                catch { /* ignore */ }
+            }
+            // Always try bare origin id — mod books often wrap vanilla passives with Pid=@origin
+            // but InitializeLorIds can still leave a workshop package on some entries.
+            if (list != null)
+            {
+                Consider(list.GetName(passiveId.id));
+                Consider(list.GetName(new LorId(passiveId.id)));
+            }
+            try
+            {
+                PassiveXmlInfo bare = Singleton<PassiveXmlList>.Instance?.GetData(new LorId(passiveId.id));
+                if (bare != null && !string.IsNullOrEmpty(bare.name))
+                    Consider(bare.name);
+            }
+            catch { /* ignore */ }
+
+            string best = PickBestDisplayName(candidates);
+            if (!string.IsNullOrEmpty(best))
+                return SanitizeDisplayText(best);
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Origin-aware passive description (mirrors GetPassiveName).
+        /// Mod package ids often hide the vanilla CN PassiveDesc entry.
+        /// </summary>
+        public static string GetPassiveDesc(LorId passiveId)
+        {
+            if (passiveId == null || passiveId == LorId.None)
+                return string.Empty;
+            if (passiveId.id <= 0 || passiveId.id >= 1000000000)
+                return string.Empty;
+
+            List<string> candidates = new List<string>();
+            void Consider(string desc)
+            {
+                if (!string.IsNullOrEmpty(desc))
+                    candidates.Add(desc);
+            }
+
+            PassiveDescXmlList list = Singleton<PassiveDescXmlList>.Instance;
+            if (list == null)
+                return string.Empty;
+
+            foreach (LorId candidate in GetOriginAwareIds(passiveId))
+            {
+                Consider(list.GetDesc(candidate));
+                if (IsOriginPackage(candidate.packageId))
+                    Consider(list.GetDesc(candidate.id));
+                try
+                {
+                    PassiveXmlInfo pxi = Singleton<PassiveXmlList>.Instance?.GetData(candidate)
+                        ?? Singleton<PassiveXmlList>.Instance?.GetData(new LorId(candidate.id));
+                    if (pxi != null && !string.IsNullOrEmpty(pxi.desc))
+                        Consider(pxi.desc);
+                }
+                catch { /* ignore */ }
+            }
+            Consider(list.GetDesc(passiveId.id));
+            Consider(list.GetDesc(new LorId(passiveId.id)));
+            try
+            {
+                PassiveXmlInfo bare = Singleton<PassiveXmlList>.Instance?.GetData(new LorId(passiveId.id));
+                if (bare != null && !string.IsNullOrEmpty(bare.desc))
+                    Consider(bare.desc);
+            }
+            catch { /* ignore */ }
+
+            string best = PickBestDisplayName(candidates);
+            if (!string.IsNullOrEmpty(best))
+                return SanitizeDisplayText(best);
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Prefer CJK / Latin display names over Hangul leftovers that render as tofu
+        /// when the active TMP face is a Chinese-only CJK font.
+        /// </summary>
+        private static string PickBestDisplayName(List<string> candidates)
+        {
+            if (candidates == null || candidates.Count == 0)
+                return null;
+            string best = null;
+            int bestScore = int.MinValue;
+            foreach (string c in candidates)
+            {
+                if (string.IsNullOrEmpty(c))
+                    continue;
+                int score = ScoreDisplayName(c);
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    best = c;
                 }
             }
-            return passiveId?.ToString() ?? string.Empty;
+            return best;
+        }
+
+        private static int ScoreDisplayName(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return int.MinValue;
+            int score = 0;
+            int hangul = 0;
+            int han = 0;
+            int tofu = 0;
+            int other = 0;
+            foreach (char ch in text)
+            {
+                if (ch >= 0xAC00 && ch <= 0xD7A3)
+                    hangul++;
+                else if (ch >= 0x4E00 && ch <= 0x9FFF)
+                {
+                    // 口 (U+53E3) often appears as repeated tofu placeholders when glyphs fail.
+                    if (ch == '\u53E3' || ch == '\u25A1' || ch == '\uFFFD' || ch == '?')
+                        tofu++;
+                    else
+                        han++;
+                }
+                else if (ch == '\u25A1' || ch == '\uFFFD' || ch == '\u2610')
+                    tofu++;
+                else if (!char.IsWhiteSpace(ch))
+                    other++;
+            }
+            // Strongly prefer Han (Chinese) names over Hangul (Korean tofu risk).
+            score += han * 8;
+            score += other;
+            score -= hangul * 12;
+            score -= tofu * 20;
+            if (hangul > 0 && han == 0)
+                score -= 50;
+            // Mostly tofu boxes → unusable
+            if (tofu > 0 && tofu >= Math.Max(1, (han + hangul + other) / 2))
+                score -= 100;
+            return score;
+        }
+
+        public static bool IsPoorDisplayNamePublic(string text) => IsPoorDisplayName(text);
+
+        private static bool IsPoorDisplayName(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return true;
+            return ScoreDisplayName(text) < 0;
         }
 
         public static RewardPassiveInfo FindRewardInfo(EmotionCardXmlInfo card)
@@ -279,14 +653,53 @@ namespace abcdcode_LOGLIKE_MOD
             EmotionCardXmlInfo pickUpXml = LogLikeMod.GetRegisteredPickUpXml(info);
             if (data == null || pickUpXml == null)
                 return;
-            AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(pickUpXml.Name);
+            // Must be dictionary-backed (GetAbnormalityCard may return a transient "Not found" stub).
+            AbnormalityCard abnormalityCard = PickUpModel_RMRVanillaEmotion.EnsureDescEntry(pickUpXml.Name);
             if (abnormalityCard == null)
                 return;
-            abnormalityCard.cardName = RewardingModel.GetLocalizedBookName(data);
+            string bookName = RewardingModel.GetLocalizedBookName(data);
+            // Avoid permanently stamping Hangul InnerName / empty into the pick UI cache.
+            if (!string.IsNullOrEmpty(bookName) && !IsPoorDisplayName(bookName))
+                abnormalityCard.cardName = bookName;
+            else if (PickUpModel_RMRVanillaEmotion.IsMissingText(abnormalityCard.cardName)
+                     || IsPoorDisplayName(abnormalityCard.cardName))
+                abnormalityCard.cardName = bookName ?? string.Empty;
             abnormalityCard.flavorText = $"{RewardingModel.GetChapterText(data.Chapter)}, {RewardingModel.GetRaritytext(data.Rarity)}";
             abnormalityCard.abilityDesc = RewardingModel.GetAblilityText(data);
             if (!string.IsNullOrEmpty(data._bookIcon))
                 pickUpXml._artwork = data._bookIcon;
+        }
+
+        /// <summary>
+        /// Re-inject equip reward names/descs after book localization loads (or language changes).
+        /// RegisterPickUpXml runs before LoadTextData/LoadEquipPages, so first-pass injection
+        /// often captures Hangul InnerName / empty BookDesc results.
+        /// </summary>
+        public static void RefreshAllEquipRewardXmlData()
+        {
+            try
+            {
+                if (Singleton<RewardPassivesList>.Instance?.infos == null)
+                    return;
+                int count = 0;
+                foreach (RewardPassivesInfo group in Singleton<RewardPassivesList>.Instance.infos)
+                {
+                    if (group?.RewardPassiveList == null)
+                        continue;
+                    foreach (RewardPassiveInfo info in group.RewardPassiveList)
+                    {
+                        if (info == null || info.rewardtype != RewardType.EquipPage)
+                            continue;
+                        CreateEquipRewardXmlData(info);
+                        count++;
+                    }
+                }
+                Debug.Log($"[RMR Localize] Refreshed equip reward display text for {count} entries.");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR Localize] RefreshAllEquipRewardXmlData failed: " + ex.Message);
+            }
         }
 
         public static RewardPassiveInfo GetReward(List<RewardPassiveInfo> rewards)
@@ -352,18 +765,27 @@ namespace abcdcode_LOGLIKE_MOD
             if (info.rewardtype == RewardType.EquipPage)
             {
                 RewardingModel.CreateEquipRewardXmlData(info);
-                LogLikeMod.GetRegisteredPickUpXml(info).TargetType = EmotionTargetType.All;
+                EmotionCardXmlInfo equipXml = LogLikeMod.GetRegisteredPickUpXml(info);
+                if (equipXml != null)
+                    equipXml.TargetType = EmotionTargetType.All;
             }
             else if (info.script != string.Empty)
             {
+                // Inject under the registered Name key (vanilla Name like SnowWhite_Vine after
+                // ApplyVanillaEmotionPresentation). Never stamp "Not found" over good vanilla text.
                 EmotionCardXmlInfo registeredPickUpXml = LogLikeMod.GetRegisteredPickUpXml(info);
-                AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(registeredPickUpXml?.Name ?? info.script);
                 PickUpModelBase pickUp = LogLikeMod.FindPickUp(info.script);
-                if (abnormalityCard != null && pickUp != null)
+                if (registeredPickUpXml != null)
+                    PickUpModel_RMRVanillaEmotion.InjectResolvedDesc(registeredPickUpXml, pickUp);
+                else
                 {
-                    abnormalityCard.cardName = pickUp.Name;
-                    abnormalityCard.flavorText = pickUp.FlaverText;
-                    abnormalityCard.abilityDesc = pickUp.Desc;
+                    AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(info.script);
+                    if (abnormalityCard != null && pickUp != null && !PickUpModel_RMRVanillaEmotion.IsMissingText(pickUp.Name))
+                    {
+                        abnormalityCard.cardName = pickUp.Name;
+                        abnormalityCard.flavorText = pickUp.FlaverText;
+                        abnormalityCard.abilityDesc = pickUp.Desc;
+                    }
                 }
             }
             return info;
@@ -647,8 +1069,15 @@ namespace abcdcode_LOGLIKE_MOD
             }
             else
             {
-                if (LogLikeMod.rewards.Count == 0 && LogLikeMod.rewards_passive.Count == 0 && LogLikeMod.nextlist.Count == 0 && !HasQueuedEgoSelections() && !HasQueuedMysteryRewards())
+                int rewardCount = LogLikeMod.rewards != null ? LogLikeMod.rewards.FindAll(x => x != null).Count : 0;
+                int passiveCount = LogLikeMod.rewards_passive != null ? LogLikeMod.rewards_passive.FindAll(x => x != null).Count : 0;
+                int nextCount = LogLikeMod.nextlist != null ? LogLikeMod.nextlist.FindAll(x => x != null).Count : 0;
+                if (rewardCount == 0 && passiveCount == 0 && nextCount == 0 && !HasQueuedEgoSelections() && !HasQueuedMysteryRewards())
+                {
+                    // Final-chapter boss (杂质) or any terminal clear: no next-stage UI — finish battle.
+                    TryEndRunAfterAllRewards();
                     return;
+                }
                 if (LogLikeMod.rewards.Count > 0)
                 {
                     Singleton<MysteryManager>.Instance.StartMystery(new LorId(LogLikeMod.ModId, -4));
@@ -670,12 +1099,50 @@ namespace abcdcode_LOGLIKE_MOD
                 }
                 else
                 {
-                    if (LogLikeMod.nextlist.Count <= 0)
+                    if (LogLikeMod.nextlist == null || LogLikeMod.nextlist.FindAll(x => x != null).Count <= 0)
+                    {
+                        TryEndRunAfterAllRewards();
                         return;
+                    }
                     List<EmotionCardXmlInfo> nextlist = LogLikeMod.nextlist;
                     RewardingModel.rewardFlag = RewardingModel.RewardFlag.NextStageChoose;
                     SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.Init(1, nextlist);
                 }
+            }
+        }
+
+        /// <summary>
+        /// When every reward queue is empty and there is no next-stage pick (esp. Grade7 boss),
+        /// close reward UI and EndBattle so the run can finish instead of hanging or reopening picks.
+        /// </summary>
+        public static void TryEndRunAfterAllRewards()
+        {
+            try
+            {
+                if (LogLikeMod.EndBattle)
+                    return;
+                StageController sc = Singleton<StageController>.Instance;
+                if (sc == null)
+                    return;
+                // Still have a queued wave → another fight in this reception, not run end.
+                try
+                {
+                    StageModel stageModel = sc.GetStageModel();
+                    if (stageModel != null && stageModel.GetFrontAvailableWave() != null)
+                        return;
+                }
+                catch { /* ignore */ }
+
+                if (SingletonBehavior<BattleManagerUI>.Instance?.ui_levelup != null)
+                    SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.SetRootCanvas(false);
+                sc.EndBattle();
+                Singleton<GlobalLogueEffectManager>.Instance.OnEndBattle();
+                LogLikeMod.EndBattle = true;
+                Debug.Log($"[RMR] TryEndRunAfterAllRewards EndBattle grade={LogLikeMod.curchaptergrade} type={LogLikeMod.curstagetype}.");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] TryEndRunAfterAllRewards failed: " + ex.Message);
             }
         }
 
@@ -732,30 +1199,150 @@ namespace abcdcode_LOGLIKE_MOD
             return int.MaxValue;
         }
 
+        /// <summary>
+        /// Previously injected a single Art-grade combat-page drop book when boss rewards were empty.
+        /// Disabled: player request — no free art combat page on boss (pre/post reward path).
+        /// </summary>
         private static void EnsureBossBattleCardReward()
         {
             if (LogLikeMod.curstagetype != StageType.Boss)
                 return;
             if (BossFallbackRewardCheckedThisBattle)
                 return;
-            if (LogLikeMod.rewards == null)
-                LogLikeMod.rewards = new List<DropBookXmlInfo>();
-            if (LogLikeMod.rewards.FindAll(reward => reward != null).Count > 0)
-            {
-                BossFallbackRewardCheckedThisBattle = true;
-                return;
-            }
             BossFallbackRewardCheckedThisBattle = true;
-            int chapterNumber = (int)LogLikeMod.curchaptergrade + 1;
-            DropBookXmlInfo fallback = Singleton<DropBookXmlList>.Instance.GetData(new LorId(LogLikeMod.ModId, chapterNumber * 1000 + 4));
-            if (fallback != null)
-                LogLikeMod.rewards.Add(fallback);
+            // Do not add fallback drop books for boss stages.
         }
 
         public static bool HasQueuedEgoSelections()
         {
             return LogLikeMod.egoSelectionQueue != null
                 && LogLikeMod.egoSelectionQueue.Any(choice => choice != null && choice.Count > 0);
+        }
+
+        // --- Mid-battle E.G.O. selection (vanilla: after abno at team emotion 3 / 4 / 5) ---
+        private static int _pendingMidBattleEgoEmotionLevel;
+        private static readonly HashSet<int> _midBattleEgoDoneAtLevel = new HashSet<int>();
+        private static readonly HashSet<int> _midBattleSelectedEgoCardIds = new HashSet<int>();
+        /// <summary>True while LevelUpUI is showing a mid-battle EGO 3-pick (not post-battle queue).</summary>
+        public static bool IsMidBattleEgoSelectionActive { get; private set; }
+
+        public static void ResetMidBattleEgoSelectionState()
+        {
+            _pendingMidBattleEgoEmotionLevel = 0;
+            _midBattleEgoDoneAtLevel.Clear();
+            _midBattleSelectedEgoCardIds.Clear();
+            IsMidBattleEgoSelectionActive = false;
+        }
+
+        public static void NoteMidBattleEgoPicked(LorId id)
+        {
+            if (id != null && id != LorId.None)
+                _midBattleSelectedEgoCardIds.Add(id.id);
+            IsMidBattleEgoSelectionActive = false;
+        }
+
+        /// <summary>
+        /// After an abnormality pick at emotion 3/4/5, arm a mid-battle EGO offer (opened next
+        /// EmotionChoice once LevelUpUI closes).
+        /// </summary>
+        public static void ArmMidBattleEgoAfterEmotionIfNeeded()
+        {
+            int lv = LogLikeMod.curemotion;
+            if (lv < 3 || lv > 5)
+                return;
+            if (_midBattleEgoDoneAtLevel.Contains(lv))
+                return;
+            if (!RogueLike_Mod_Reborn.RMRAbnormalityUnlockManager.HasCompletedAnyRealization()
+                && (LogLikeMod.egoSelectionQueue == null || LogLikeMod.egoSelectionQueue.Count == 0))
+            {
+                // Still arm if route has any unlocked EGO (shop/reward) so mid-battle pick can run.
+                bool anyRouteEgo = false;
+                try
+                {
+                    anyRouteEgo = RogueLike_Mod_Reborn.RMRAbnormalityUnlockManager
+                        .EnumerateRouteUnlockedEgoPages()?.Any() == true;
+                }
+                catch { anyRouteEgo = false; }
+                if (!anyRouteEgo)
+                    return;
+            }
+            _pendingMidBattleEgoEmotionLevel = lv;
+            Debug.Log($"[RMR] Armed mid-battle EGO selection after emotion abno pick level={lv}.");
+        }
+
+        /// <summary>
+        /// Open mid-battle EGO 3-pick if armed and LevelUpUI is free. Returns true if UI was opened
+        /// (caller should keep RoundEnd emotion phase waiting).
+        /// </summary>
+        public static bool TryOpenPendingMidBattleEgoSelection()
+        {
+            if (_pendingMidBattleEgoEmotionLevel < 3)
+                return false;
+            try
+            {
+                if (SingletonBehavior<BattleManagerUI>.Instance?.ui_levelup != null
+                    && SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.IsEnabled)
+                    return false; // wait for abno UI to finish closing
+            }
+            catch { /* continue */ }
+
+            int lv = _pendingMidBattleEgoEmotionLevel;
+            _pendingMidBattleEgoEmotionLevel = 0;
+            if (_midBattleEgoDoneAtLevel.Contains(lv))
+                return false;
+
+            List<LorId> choiceIds = RogueLike_Mod_Reborn.RMRAbnormalityUnlockManager
+                .RollMidBattleEgoChoiceSet(_midBattleSelectedEgoCardIds);
+            if (choiceIds == null || choiceIds.Count == 0)
+            {
+                _midBattleEgoDoneAtLevel.Add(lv);
+                Debug.Log($"[RMR] Mid-battle EGO at emotion {lv}: empty pool — skip.");
+                return false;
+            }
+
+            List<EmotionEgoXmlInfo> offers = new List<EmotionEgoXmlInfo>();
+            foreach (LorId id in choiceIds)
+            {
+                DiceCardXmlInfo card = GetCardItemOriginAware(id)
+                    ?? ItemXmlDataList.instance?.GetCardItem(id, true)
+                    ?? ItemXmlDataList.instance?.GetCardItem(id.id, true);
+                if (card == null)
+                    continue;
+                EmotionEgoXmlInfo ego = LogLikeMod.AddEmotionEgoForReward(card);
+                if (ego != null)
+                    offers.Add(ego);
+            }
+            if (offers.Count == 0)
+            {
+                _midBattleEgoDoneAtLevel.Add(lv);
+                Debug.LogWarning($"[RMR] Mid-battle EGO at emotion {lv}: offers failed to build.");
+                return false;
+            }
+
+            if (LogLikeMod.egoSelectionQueue == null)
+                LogLikeMod.egoSelectionQueue = new List<List<LorId>>();
+            // Front of queue so OnPickEgoCard / skip dequeue the mid-battle offer first.
+            LogLikeMod.egoSelectionQueue.Insert(0, choiceIds);
+
+            _midBattleEgoDoneAtLevel.Add(lv);
+            IsMidBattleEgoSelectionActive = true;
+            rewardFlag = RewardFlag.EgoCardReward;
+            try
+            {
+                SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.SetRootCanvas(true);
+                SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.InitEgo(1, offers);
+            }
+            catch (Exception ex)
+            {
+                IsMidBattleEgoSelectionActive = false;
+                if (LogLikeMod.egoSelectionQueue.Count > 0)
+                    LogLikeMod.egoSelectionQueue.RemoveAt(0);
+                Debug.LogWarning("[RMR] Mid-battle InitEgo failed: " + ex.Message);
+                return false;
+            }
+
+            Debug.Log($"[RMR] Mid-battle EGO selection opened at emotion {lv}, offers={offers.Count} ids=[{string.Join(",", choiceIds.Select(x => x.id.ToString()).ToArray())}]");
+            return true;
         }
 
         public static bool HasQueuedMysteryRewards()
@@ -771,11 +1358,17 @@ namespace abcdcode_LOGLIKE_MOD
             List<EmotionEgoXmlInfo> result = new List<EmotionEgoXmlInfo>();
             foreach (LorId id in ids)
             {
-                if (RMRAbnormalityUnlockManager.IsEgoUnlockedForCurrentRoute(id) || LogueBookModels.IsAtlasEgoPageUnlocked(id))
+                // Atlas unlock = pool eligibility only. Skip only if this run already owns the EGO.
+                if (RMRAbnormalityUnlockManager.IsEgoOwnedOnCurrentRoute(id))
                     continue;
-                DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(id, true);
+                DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(id, true)
+                    ?? ItemXmlDataList.instance.GetCardItem(id.id, true)
+                    ?? ItemXmlDataList.instance.GetCardItem(new LorId(string.Empty, id.id), true);
                 if (card == null)
+                {
+                    Debug.LogWarning($"[GetQueuedEgoRewards] card missing for EGO id={id}");
                     continue;
+                }
                 EmotionEgoXmlInfo ego = LogLikeMod.AddEmotionEgoForReward(card);
                 if (ego != null)
                     result.Add(ego);
@@ -786,6 +1379,8 @@ namespace abcdcode_LOGLIKE_MOD
         public static void PickEmotion(List<EmotionCardXmlInfo> emotions)
         {
             RewardingModel.rewardFlag = RewardingModel.RewardFlag.EmtoionChoose;
+            // Vanilla: at team emotion 3/4/5, after abno pick comes floor E.G.O. selection.
+            ArmMidBattleEgoAfterEmotionIfNeeded();
             SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.Init(emotions.Count, emotions);
         }
 
@@ -797,11 +1392,21 @@ namespace abcdcode_LOGLIKE_MOD
             if (Singleton<MysteryManager>.Instance.curMystery != null || SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.IsEnabled)
                 return false;
             EnsureBossBattleCardReward();
-            if (LogLikeMod.rewards.FindAll(x => x != null).Count == 0 && LogLikeMod.rewards_passive.FindAll(x => x != null).Count == 0 && LogLikeMod.nextlist.FindAll(x => x != null).Count == 0 && !HasQueuedEgoSelections() && !HasQueuedMysteryRewards())
-                return true;
+            // Total party wipe = defeat. Do NOT open reward/next-stage UI just because nextlist was
+            // pre-filled at StartBattle — that would let a lost fight continue the run.
             if (BattleObjectManager.instance.GetAliveListWithAvailable(Faction.Player).Count == 0)
             {
                 SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.SetRootCanvas(false);
+                Debug.Log("[RMR RewardClearStage] no living players → defeat / end reception.");
+                return true;
+            }
+            EnsureNextListIfNeeded();
+            int rewardCount = LogLikeMod.rewards != null ? LogLikeMod.rewards.FindAll(x => x != null).Count : 0;
+            int passiveCount = LogLikeMod.rewards_passive != null ? LogLikeMod.rewards_passive.FindAll(x => x != null).Count : 0;
+            int nextCount = LogLikeMod.nextlist != null ? LogLikeMod.nextlist.FindAll(x => x != null).Count : 0;
+            if (rewardCount == 0 && passiveCount == 0 && nextCount == 0 && !HasQueuedEgoSelections() && !HasQueuedMysteryRewards())
+            {
+                Debug.Log($"[RMR RewardClearStage] queues empty → allow EndBattle (grade={LogLikeMod.curchaptergrade}, type={LogLikeMod.curstagetype}, step={LogLikeMod.curChStageStep}).");
                 return true;
             }
             if (Singleton<MysteryManager>.Instance.curMystery == null)
@@ -809,41 +1414,109 @@ namespace abcdcode_LOGLIKE_MOD
             if (RogueLike_Mod_Reborn.RMRCore.provideAdditionalLogging)
             {
                 Debug.Log("REWARDS");
-                foreach (var reward in LogLikeMod.rewards)
+                if (LogLikeMod.rewards != null)
                 {
-                    if (reward == null)
-                        Debug.Log("NULL REWARD!!");
-                    else
-                        Debug.Log(reward.id.packageId + " --- " + reward.id.id.ToString());
+                    foreach (var reward in LogLikeMod.rewards)
+                    {
+                        if (reward == null)
+                            Debug.Log("NULL REWARD!!");
+                        else
+                            Debug.Log(reward.id.packageId + " --- " + reward.id.id.ToString());
+                    }
                 }
                 Debug.Log("REWARDS PASSIVE");
-                for (int i = 0; i < LogLikeMod.rewards_passive.Count; i++)
+                if (LogLikeMod.rewards_passive != null)
                 {
-                    if (LogLikeMod.rewards_passive[i].rewards == null)
-                        Debug.Log("NULL REWARD LIST!!");
-                    else
+                    for (int i = 0; i < LogLikeMod.rewards_passive.Count; i++)
                     {
-                        Debug.Log($"REWARDS PASSIVE LIST {i}");
-                        foreach (var reward in LogLikeMod.rewards_passive[i].rewards)
+                        if (LogLikeMod.rewards_passive[i] == null || LogLikeMod.rewards_passive[i].rewards == null)
+                            Debug.Log("NULL REWARD LIST!!");
+                        else
                         {
-                            if (reward == null)
-                                Debug.Log("NULL REWARD LIST!!");
-                            else
-                                Debug.Log(reward.id.packageId + " --- " + reward.id.id.ToString());
+                            Debug.Log($"REWARDS PASSIVE LIST {i}");
+                            foreach (var reward in LogLikeMod.rewards_passive[i].rewards)
+                            {
+                                if (reward == null)
+                                    Debug.Log("NULL REWARD LIST!!");
+                                else
+                                    Debug.Log(reward.id.packageId + " --- " + reward.id.id.ToString());
+                            }
                         }
                     }
                 }
                 Debug.Log("NEXTLIST");
-                foreach (var reward in LogLikeMod.nextlist)
+                if (LogLikeMod.nextlist != null)
                 {
-                    if (reward == null)
-                        Debug.Log("NULL REWARD!!");
-                    else
-                        Debug.Log(reward.Name + " --- " + reward.id.ToString());
+                    foreach (var reward in LogLikeMod.nextlist)
+                    {
+                        if (reward == null)
+                            Debug.Log("NULL REWARD!!");
+                        else
+                            Debug.Log(reward.Name + " --- " + reward.id.ToString());
+                    }
                 }
             }
             RewardingModel.StartPickReward();
             return false;
+        }
+
+        /// <summary>
+        /// If next-stage options were cleared (shop leave / bad save) but the chapter still has
+        /// remaining nodes AND no next wave is already queued, rebuild nextlist so the run does not
+        /// FinalEnd with no choices.
+        /// Do NOT rebuild after the player already picked a stage (SetNextStage adds waves first).
+        /// Do NOT rebuild after Impurity (Grade7) boss — that is the end of the run even if
+        /// RemainStageList still has leftover nodes.
+        /// </summary>
+        public static void EnsureNextListIfNeeded()
+        {
+            try
+            {
+                if (LogLikeMod.nextlist == null)
+                    LogLikeMod.nextlist = new List<EmotionCardXmlInfo>();
+                if (LogLikeMod.nextlist.FindAll(x => x != null).Count > 0)
+                    return;
+
+                // Impurity boss is the final fight. ResetNextStage already cleared nextlist;
+                // rebuilding from remaining Grade7 nodes would incorrectly continue the run
+                // (seen after Distorted Ensemble / 扭曲乐团 with "剩余接待: 8").
+                if (LogLikeMod.curstagetype == StageType.Boss
+                    && LogLikeMod.curchaptergrade >= ChapterGrade.Grade7)
+                {
+                    LogLikeMod.nextlist.Clear();
+                    Debug.Log("[RMR] EnsureNextListIfNeeded: Grade7 boss is final — nextlist stays empty (run should end after rewards).");
+                    return;
+                }
+
+                // Player already chose next stage → waves are queued; empty nextlist is intentional.
+                try
+                {
+                    StageModel stageModel = Singleton<StageController>.Instance?.GetStageModel();
+                    if (stageModel != null && stageModel.GetFrontAvailableWave() != null)
+                        return;
+                }
+                catch { /* ignore */ }
+
+                if (LogueBookModels.RemainStageList == null)
+                    return;
+                ChapterGrade grade = LogLikeMod.curchaptergrade;
+                // After Urban Star (Grade6) boss, options come from Grade7 (杂质).
+                if (LogLikeMod.curstagetype == StageType.Boss
+                    && LogLikeMod.curchaptergrade < ChapterGrade.Grade7)
+                {
+                    grade = LogLikeMod.curchaptergrade + 1;
+                }
+                if (!LogueBookModels.EnsureChapterRemainStages(grade))
+                    return;
+                bool stepOne = LogLikeMod.curstagetype == StageType.Start
+                    || LogLikeMod.curstagetype == StageType.Boss;
+                LogLikeMod.nextlist = LogueBookModels.GetNextList(grade, stepOne);
+                Debug.Log($"[RMR] EnsureNextListIfNeeded rebuilt nextlist count={LogLikeMod.nextlist?.Count ?? 0} grade={grade} type={LogLikeMod.curstagetype}.");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] EnsureNextListIfNeeded failed: " + ex.Message);
+            }
         }
 
         public static List<EmotionCardXmlInfo> GetCurEmotion()
@@ -863,24 +1536,38 @@ namespace abcdcode_LOGLIKE_MOD
             if (num2 == 0 || num3 / num2 < num1)
                 return null;
             ++LogLikeMod.curemotion;
+            int teamEmotionLevel = LogLikeMod.curemotion; // 1..5 after increment
+            int needTier = RMRAbnormalityUnlockManager.GetRequiredAbnoTierForTeamEmotion(teamEmotionLevel);
+
             if (LogueBookModels.EmotionCardList == null || LogueBookModels.EmotionCardList.Count == 0)
             {
-                EmotionCardXmlInfo fallback = RMRAbnormalityUnlockManager.GetNoAbnormalityFallback(LogLikeMod.curemotion);
+                Debug.Log($"[RMR] GetCurEmotion teamLv={teamEmotionLevel} tier={needTier}: empty owned pool → fallback.");
+                EmotionCardXmlInfo fallback = RMRAbnormalityUnlockManager.GetNoAbnormalityFallback(teamEmotionLevel);
                 if (fallback != null)
                     infos.Add(fallback);
                 return infos;
             }
-            int level = LogLikeMod.curemotion;
-            List<RewardPassiveInfo> rewardPassiveInfoList = new List<RewardPassiveInfo>(LogueBookModels.EmotionCardList);
+
+            // Already-selected this reception (cannot pick the same page twice).
             HashSet<string> selectedEmotionIds = new HashSet<string>();
-            foreach (RewardPassiveInfo selected in LogueBookModels.selectedEmotion)
+            if (LogueBookModels.selectedEmotion != null)
             {
-                if (selected != null)
-                    selectedEmotionIds.Add(RewardingModel.GetRewardPassiveKey(selected));
+                foreach (RewardPassiveInfo selected in LogueBookModels.selectedEmotion)
+                {
+                    if (selected != null)
+                        selectedEmotionIds.Add(RewardingModel.GetRewardPassiveKey(selected));
+                }
             }
-            rewardPassiveInfoList.RemoveAll(x => x.level != level || selectedEmotionIds.Contains(RewardingModel.GetRewardPassiveKey(x)));
+
+            // Vanilla: tier I at emo 1–2, tier II at 3–4, tier III at 5.
+            // Pool = route-owned pages only (set at battle start), filtered by vanilla EmotionLevel.
+            List<RewardPassiveInfo> eligible = RMRAbnormalityUnlockManager.FilterOwnedPagesForTeamEmotion(
+                LogueBookModels.EmotionCardList,
+                teamEmotionLevel,
+                selectedEmotionIds);
+
             HashSet<string> emotionCardKeys = new HashSet<string>();
-            foreach (RewardPassiveInfo info in rewardPassiveInfoList)
+            foreach (RewardPassiveInfo info in eligible)
             {
                 EmotionCardXmlInfo card = LogLikeMod.GetRegisteredPickUpXml(info);
                 if (card == null)
@@ -889,32 +1576,32 @@ namespace abcdcode_LOGLIKE_MOD
                 if (emotionCardKeys.Add(key))
                     infos.Add(card);
             }
-            while (true)
+
+            // Random 3-pick from eligible owned pages.
+            while (infos.Count > 3)
             {
-                if (infos.Count > 3)
-                {
-                    int index = UnityEngine.Random.Range(0, infos.Count);
-                    infos.RemoveAt(index);
-                }
-                else
-                    break;
+                int index = UnityEngine.Random.Range(0, infos.Count);
+                infos.RemoveAt(index);
             }
+
             foreach (EmotionCardXmlInfo emotionCardXmlInfo in infos)
             {
-                AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(emotionCardXmlInfo.Name);
-                PickUpModelBase pickUp = LogLikeMod.FindPickUp(emotionCardXmlInfo.Script[0]);
-                if (abnormalityCard != null && pickUp != null)
-                {
-                    abnormalityCard.cardName = pickUp.Name;
-                    abnormalityCard.flavorText = pickUp.FlaverText;
-                    abnormalityCard.abilityDesc = pickUp.Desc;
-                }
+                PickUpModelBase pickUp = (emotionCardXmlInfo.Script != null && emotionCardXmlInfo.Script.Count > 0)
+                    ? LogLikeMod.FindPickUp(emotionCardXmlInfo.Script[0])
+                    : null;
+                PickUpModel_RMRVanillaEmotion.InjectResolvedDesc(emotionCardXmlInfo, pickUp);
             }
+
             if (infos.Count == 0)
             {
-                EmotionCardXmlInfo fallback = RMRAbnormalityUnlockManager.GetNoAbnormalityFallback(level);
+                Debug.Log($"[RMR] GetCurEmotion teamLv={teamEmotionLevel} tier={needTier}: no eligible owned page → fallback.");
+                EmotionCardXmlInfo fallback = RMRAbnormalityUnlockManager.GetNoAbnormalityFallback(teamEmotionLevel);
                 if (fallback != null)
                     infos.Add(fallback);
+            }
+            else
+            {
+                Debug.Log($"[RMR] GetCurEmotion teamLv={teamEmotionLevel} tier={needTier}: offering {infos.Count} owned abno page(s).");
             }
             return infos;
         }
@@ -923,6 +1610,11 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.IsEnabled)
                 return false;
+
+            // After abno UI closes at emotion 3/4/5, open E.G.O. 3-pick before resuming combat.
+            if (TryOpenPendingMidBattleEgoSelection())
+                return false;
+
             List<EmotionCardXmlInfo> curEmotion = RewardingModel.GetCurEmotion();
             if (curEmotion == null || curEmotion.Count == 0)
                 return true;

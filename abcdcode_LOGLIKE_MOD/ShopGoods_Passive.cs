@@ -166,7 +166,7 @@ namespace abcdcode_LOGLIKE_MOD
             else if (goodinfo.rewardtype == RewardType.EquipPage)
             {
                 BookXmlInfo book = RewardingModel.GetBookDataOriginAware(goodinfo.id);
-                if (book != null)
+                if (RewardingModel.IsValidBookData(book))
                     customSelectable = ModdingUtils.CreateLogSelectable(this.transform, new BookModel(book).GetThumbSprite(), new Vector2(1f, 1f), new Vector2(0.0f, 0.0f), new Vector2(180f, 180f));
             }
             if (customSelectable == null)
@@ -250,9 +250,23 @@ namespace abcdcode_LOGLIKE_MOD
                         this.GoodScript.GetRarity(),
                         UIToolTipPanelType.OnlyContent);
 
-            var curPos = instance.tooltipPositionPivot.anchoredPosition;
-            // additional adjustment for better placement specific to shops
-            instance.tooltipPositionPivot.anchoredPosition = new Vector2(curPos.x, curPos.y + 100f);
+            NudgeShopTooltip(instance);
+        }
+
+        private static void NudgeShopTooltip(UIMainOverlayManager instance)
+        {
+            if (instance == null)
+                return;
+            try
+            {
+                var pivot = HarmonyLib.AccessTools.Field(typeof(UIMainOverlayManager), "tooltipPositionPivot")
+                    ?.GetValue(instance) as RectTransform;
+                if (pivot == null)
+                    return;
+                var curPos = pivot.anchoredPosition;
+                pivot.anchoredPosition = new Vector2(curPos.x, curPos.y + 100f);
+            }
+            catch { }
         }
 
         private void ShowRewardInfoDesc()
@@ -265,30 +279,81 @@ namespace abcdcode_LOGLIKE_MOD
             if (this.GoodInfo.rewardtype == RewardType.EquipPage)
             {
                 BookXmlInfo book = RewardingModel.GetBookDataOriginAware(this.GoodInfo.id);
-                if (book != null)
+                if (RewardingModel.IsValidBookData(book))
                 {
                     name = RewardingModel.GetLocalizedBookName(book);
                     desc = RewardingModel.GetAblilityText(book);
                 }
+                else
+                {
+                    // Should be filtered out of the shop pool; keep a safe tooltip fallback.
+                    name = book != null ? RewardingModel.GetLocalizedBookName(book) : string.Empty;
+                    if (string.IsNullOrEmpty(name) || string.Equals(name, "ModNeeded", System.StringComparison.OrdinalIgnoreCase))
+                        name = this.GoodInfo.id.ToString();
+                    desc = string.Empty;
+                }
             }
             else if (this.GoodInfo.rewardtype == RewardType.Creature)
             {
+                // Vanilla AbnormalityCards.xml is keyed by EmotionCard.Name (SnowWhite_Vine),
+                // not script (snowwhite1). Looking up Script alone always yields "Not found".
                 EmotionCardXmlInfo card = LogLikeMod.GetRegisteredPickUpXml(this.GoodInfo);
+                string script = null;
                 if (card != null && card.Script != null && card.Script.Count > 0)
+                    script = card.Script[0];
+                if (string.IsNullOrEmpty(script))
+                    script = this.GoodInfo.script;
+
+                PickUpModelBase pickUp = null;
+                if (!string.IsNullOrEmpty(script))
                 {
-                    AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(card.Script[0]);
-                    if (abnormalityCard != null)
-                    {
-                        name = abnormalityCard.cardName;
-                        desc = abnormalityCard.abilityDesc;
-                    }
+                    pickUp = LogLikeMod.FindPickUp(script);
+                    if (pickUp == null)
+                        pickUp = PickUpModel_RMRVanillaEmotion.TryCreate(script);
+                }
+
+                if (card != null)
+                    PickUpModel_RMRVanillaEmotion.InjectResolvedDesc(card, pickUp);
+
+                AbnormalityCard abnormalityCard = null;
+                if (!string.IsNullOrEmpty(script))
+                    abnormalityCard = PickUpModel_RMRVanillaEmotion.ResolveAbnormalityDesc(script);
+
+                // Prefer dictionary entry under vanilla Name (after presentation apply).
+                if ((abnormalityCard == null || PickUpModel_RMRVanillaEmotion.IsMissingDesc(abnormalityCard))
+                    && card != null && !string.IsNullOrEmpty(card.Name))
+                {
+                    AbnormalityCard byName = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(card.Name);
+                    if (byName != null && !PickUpModel_RMRVanillaEmotion.IsMissingDesc(byName))
+                        abnormalityCard = byName;
+                }
+
+                if (abnormalityCard != null && !PickUpModel_RMRVanillaEmotion.IsMissingDesc(abnormalityCard))
+                {
+                    name = abnormalityCard.cardName;
+                    desc = string.IsNullOrEmpty(abnormalityCard.abilityDesc)
+                        ? abnormalityCard.flavorText
+                        : abnormalityCard.abilityDesc;
+                    if (!string.IsNullOrEmpty(abnormalityCard.flavorText)
+                        && !string.IsNullOrEmpty(abnormalityCard.abilityDesc)
+                        && desc.IndexOf(abnormalityCard.flavorText, System.StringComparison.Ordinal) < 0)
+                        desc = abnormalityCard.abilityDesc + "\n\n" + abnormalityCard.flavorText;
+                }
+                else if (pickUp != null && !PickUpModel_RMRVanillaEmotion.IsMissingText(pickUp.Name))
+                {
+                    name = pickUp.Name;
+                    desc = pickUp.Desc ?? string.Empty;
+                    if (!string.IsNullOrEmpty(pickUp.FlaverText))
+                        desc = string.IsNullOrEmpty(desc) ? pickUp.FlaverText : desc + "\n\n" + pickUp.FlaverText;
                 }
             }
-            if (string.IsNullOrEmpty(name))
-                name = this.GoodInfo.id.ToString();
+            if (string.IsNullOrEmpty(name)
+                || string.Equals(name, "Not found", System.StringComparison.OrdinalIgnoreCase))
+                name = !string.IsNullOrEmpty(this.GoodInfo.script) ? this.GoodInfo.script : this.GoodInfo.id.ToString();
+            if (string.Equals(desc, "Not found", System.StringComparison.OrdinalIgnoreCase))
+                desc = string.Empty;
             instance.SetTooltip(name, desc, this.gameObject.transform as RectTransform, this.GoodInfo.passiverarity, UIToolTipPanelType.OnlyContent);
-            var curPos = instance.tooltipPositionPivot.anchoredPosition;
-            instance.tooltipPositionPivot.anchoredPosition = new Vector2(curPos.x, curPos.y + 100f);
+            NudgeShopTooltip(instance);
         }
 
         public void OnPointerExit()

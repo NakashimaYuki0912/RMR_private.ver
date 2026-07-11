@@ -352,9 +352,37 @@ namespace RogueLike_Mod_Reborn
         public SoundEffectPlayer _loopWhisperSound;
     }
 
+    /// <summary>
+    /// Start-stage custom map. Pull camera back slightly so units are not oversized / hard to click
+    /// on the first reception (user report: first scene zoom too close).
+    /// </summary>
     public class SparklingMirrorMapManager : CustomMapManager
     {
-
+        public override void InitializeMap()
+        {
+            base.InitializeMap();
+            try
+            {
+                // CustomMapUtility maps often sit too close; pull main battle camera back if present.
+                var cam = SingletonBehavior<BattleCamManager>.Instance;
+                if (cam != null)
+                {
+                    // Prefer public API if any; otherwise nudge transform.
+                    var t = cam.transform;
+                    if (t != null)
+                    {
+                        // Move camera away along its forward axis (reduce zoom-in feel).
+                        t.position = t.position - t.forward * 2.5f;
+                        Debug.Log("[RMR] SparklingMirrorMapManager: pulled battle camera back for start stage.");
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogWarning("[RMR] SparklingMirror camera adjust failed: " + ex.Message);
+            }
+        }
     }
 
 }
+

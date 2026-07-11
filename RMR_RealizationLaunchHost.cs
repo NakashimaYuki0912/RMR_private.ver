@@ -2,26 +2,92 @@ using System.Collections;
 using abcdcode_LOGLIKE_MOD;
 using UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace RogueLike_Mod_Reborn
 {
     /// <summary>
-    /// Opens the realization floor panel after battle UI is ready.
-    /// Singleton-style: only one open attempt at a time; can re-show panel without new combat.
+    /// Opens a dedicated full-screen floor-pick UI on an RMR overlay canvas.
+    /// Never leaves the player on vanilla BattleSetting / prepare with a panel on top.
     /// </summary>
     public class RMRRealizationLaunchHost : MonoBehaviour
     {
         private static RMRRealizationLaunchHost _running;
+        private static GameObject _overlayRoot;
+
+        /// <summary>
+        /// High sorting-order Screen Space Overlay used only for RMR exclusive UIs
+        /// (floor pick). Survives scene changes until ForceDestroy.
+        /// </summary>
+        public static Transform GetOrCreateOverlayRoot()
+        {
+            if (_overlayRoot != null)
+                return _overlayRoot.transform;
+
+            _overlayRoot = new GameObject("RMR_OverlayCanvas");
+            Object.DontDestroyOnLoad(_overlayRoot);
+            var canvas = _overlayRoot.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 8000;
+            var scaler = _overlayRoot.AddComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1920f, 1080f);
+            scaler.matchWidthOrHeight = 0.5f;
+            _overlayRoot.AddComponent<GraphicRaycaster>();
+
+            var rt = _overlayRoot.GetComponent<RectTransform>();
+            if (rt != null)
+            {
+                rt.anchorMin = Vector2.zero;
+                rt.anchorMax = Vector2.one;
+                rt.offsetMin = Vector2.zero;
+                rt.offsetMax = Vector2.zero;
+            }
+            return _overlayRoot.transform;
+        }
+
+        public static void DestroyOverlayIfEmpty()
+        {
+            try
+            {
+                if (_overlayRoot == null)
+                    return;
+                // Keep while exclusive RMR UIs still need the overlay canvas.
+                if (LogRealizationPanel.Instance != null && LogRealizationPanel.Instance.IsVisible)
+                    return;
+                if (RMRStartHubPanel.Instance != null && RMRStartHubPanel.Instance.IsVisible)
+                    return;
+                if (RMRHelpHandbookPanel.Instance != null && RMRHelpHandbookPanel.Instance.IsVisible)
+                    return;
+                Object.Destroy(_overlayRoot);
+                _overlayRoot = null;
+            }
+            catch { _overlayRoot = null; }
+        }
+
+        /// <summary>Always destroy overlay (call when leaving RMR UI / returning to library).</summary>
+        public static void DestroyOverlayCompletely()
+        {
+            try
+            {
+                if (_overlayRoot != null)
+                {
+                    Object.Destroy(_overlayRoot);
+                    _overlayRoot = null;
+                }
+            }
+            catch { _overlayRoot = null; }
+        }
 
         public static void EnsureFloorPanelVisible()
         {
-            // If panel already up, just bring to front.
             if (LogRealizationPanel.Instance != null && LogRealizationPanel.Instance.IsVisible)
             {
                 try
                 {
-                    if (LogRealizationPanel.Instance.transform != null)
-                        LogRealizationPanel.Instance.transform.SetAsLastSibling();
+                    LogRealizationPanel.Instance.transform.SetAsLastSibling();
+                    if (_overlayRoot != null)
+                        _overlayRoot.transform.SetAsLastSibling();
                 }
                 catch { }
                 LogLikeMod.PauseBool = true;
@@ -36,6 +102,60 @@ namespace RogueLike_Mod_Reborn
             _running.Begin();
         }
 
+        /// <summary>
+        /// Open floor pick immediately on dedicated overlay (invitation hub path).
+        /// Does not send invitation; callback does that after a floor is chosen.
+        /// </summary>
+        public static void ShowDedicatedFloorPick(System.Action<SephirahType> onFloorPicked)
+        {
+            try
+            {
+                LogLikeMod.InvalidateTmpFontCache();
+                var _ = LogLikeMod.DefFont_TMP;
+            }
+            catch { }
+
+            // CRITICAL: do NOT call LogRealizationPanel.ForceCloseStatic() here.
+            // ForceCloseStatic destroys the entire RMR_OverlayCanvas; if we create the overlay
+            // first (or parent into it), the floor UI is built then wiped the same frame —
+            // log says "opened" but the player sees no change (hub still visible).
+            try
+            {
+                if (LogRealizationPanel.Instance != null)
+                    LogRealizationPanel.Instance.ForceDestroyUi();
+            }
+            catch { }
+
+            Transform overlay = GetOrCreateOverlayRoot();
+            if (_overlayRoot != null)
+            {
+                try { _overlayRoot.transform.SetAsLastSibling(); } catch { }
+                // Ensure raycasts work even if something stripped the component.
+                if (_overlayRoot.GetComponent<GraphicRaycaster>() == null)
+                    _overlayRoot.AddComponent<GraphicRaycaster>();
+            }
+
+            LogRealizationPanel panel = LogRealizationPanel.Instance;
+            if (panel == null || panel.gameObject == null)
+            {
+                GameObject go = new GameObject("LogRealizationPanel");
+                panel = go.AddComponent<LogRealizationPanel>();
+            }
+            // Invitation-time: pick floor first, then send invite.
+            panel.ShowForInvitationPick(overlay, onFloorPicked);
+            try
+            {
+                panel.transform.SetAsLastSibling();
+                if (_overlayRoot != null)
+                    _overlayRoot.transform.SetAsLastSibling();
+            }
+            catch { }
+
+            int childCount = 0;
+            try { childCount = panel != null ? panel.transform.childCount : -1; } catch { }
+            Debug.Log($"[RMR] Dedicated realization floor UI opened (overlay, not vanilla prepare). panelChildren={childCount} overlay={( _overlayRoot != null ? _overlayRoot.name : "null")}");
+        }
+
         public void Begin()
         {
             DontDestroyOnLoad(gameObject);
@@ -44,22 +164,7 @@ namespace RogueLike_Mod_Reborn
 
         private IEnumerator OpenWhenReady()
         {
-            Transform parent = null;
-            for (int i = 0; i < 60; i++)
-            {
-                parent = ResolveParent();
-                if (parent != null)
-                    break;
-                yield return null;
-            }
-
-            if (parent == null)
-            {
-                Debug.LogError("[RMR] Realization floor panel: no UI parent after wait.");
-                Cleanup();
-                yield break;
-            }
-
+            // One frame so any transition UI settles; we still use overlay, not BattlePrepare.
             yield return null;
 
             try
@@ -69,31 +174,39 @@ namespace RogueLike_Mod_Reborn
                 LogLikeMod.PauseBool = true;
                 RMRRealizationManager.AwaitingRealizationFloorPick = true;
 
+                // Do NOT OpenBattlePrepare — user must not stay on vanilla team UI.
+                // Do NOT ForceCloseStatic (destroys overlay). Only clear prior panel content.
                 try
                 {
-                    if (UI.UIController.Instance != null)
-                        UI.UIController.Instance.OpenBattlePrepare();
+                    if (LogRealizationPanel.Instance != null)
+                        LogRealizationPanel.Instance.ForceDestroyUi();
                 }
                 catch { }
 
-                // Prefer parenting under prepare root so the panel covers the start button.
-                Transform showParent = parent;
-                try
+                Transform overlay = GetOrCreateOverlayRoot();
+                if (_overlayRoot != null)
                 {
-                    var bsp = UI.UIController.Instance?.GetUIPanel(UIPanelType.BattleSetting) as UIBattleSettingPanel;
-                    if (bsp != null)
-                        showParent = bsp.transform;
+                    try { _overlayRoot.transform.SetAsLastSibling(); } catch { }
+                    if (_overlayRoot.GetComponent<GraphicRaycaster>() == null)
+                        _overlayRoot.AddComponent<GraphicRaycaster>();
                 }
-                catch { }
 
                 LogRealizationPanel panel = LogRealizationPanel.Instance;
-                if (panel == null)
+                if (panel == null || panel.gameObject == null)
                 {
                     GameObject go = new GameObject("LogRealizationPanel");
                     panel = go.AddComponent<LogRealizationPanel>();
                 }
-                panel.Show(showParent);
-                Debug.Log("[RMR] Realization floor panel opened (awaiting floor pick, dummy combat blocked).");
+                // Post-invite fallback: no invitation callback — floor click starts battle.
+                panel.Show(overlay);
+                try
+                {
+                    panel.transform.SetAsLastSibling();
+                    if (_overlayRoot != null)
+                        _overlayRoot.transform.SetAsLastSibling();
+                }
+                catch { }
+                Debug.Log("[RMR] Realization floor panel opened on dedicated overlay (awaiting floor pick).");
             }
             catch (System.Exception ex)
             {
@@ -108,33 +221,6 @@ namespace RogueLike_Mod_Reborn
             if (_running == this)
                 _running = null;
             Destroy(gameObject);
-        }
-
-        private static Transform ResolveParent()
-        {
-            try
-            {
-                if (LogLikeMod.LogUIObjs != null && LogLikeMod.LogUIObjs.ContainsKey(90) && LogLikeMod.LogUIObjs[90] != null)
-                    return LogLikeMod.LogUIObjs[90].transform;
-            }
-            catch { }
-
-            try
-            {
-                var panel = UI.UIController.Instance?.GetUIPanel(UIPanelType.BattleSetting) as UIBattleSettingPanel;
-                if (panel != null)
-                    return panel.transform;
-            }
-            catch { }
-
-            try
-            {
-                if (UI.UIController.Instance != null)
-                    return UI.UIController.Instance.transform;
-            }
-            catch { }
-
-            return null;
         }
     }
 }

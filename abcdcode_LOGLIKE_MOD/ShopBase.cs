@@ -228,25 +228,73 @@ namespace abcdcode_LOGLIKE_MOD
             return passiveInList;
         }
 
-        public Vector2 GetShopShape_Card(int num, int id) => ShopBase.CardShape[num][id];
+        public Vector2 GetShopShape_Card(int num, int id)
+        {
+            Vector2[] row = ResolveCardShapeRow(num);
+            int idx = Mathf.Clamp(id, 0, row.Length - 1);
+            return row[idx];
+        }
 
         public Vector2 GetShopShape_Passive(int num, int id)
         {
-            return ShopBase.CardShape[num][id] - new Vector2(0.0f, 450f);
+            Vector2[] row = ResolveCardShapeRow(num);
+            int idx = Mathf.Clamp(id, 0, row.Length - 1);
+            // Passive row sits below combat pages.
+            return row[idx] - new Vector2(0.0f, 450f);
+        }
+
+        /// <summary>
+        /// CardShape only has keys 3–10. Shop may request passiveNum=2 when card count is 4.
+        /// Fall back to nearest available layout instead of KeyNotFoundException.
+        /// </summary>
+        private static Vector2[] ResolveCardShapeRow(int num)
+        {
+            if (ShopBase.CardShape == null)
+            {
+                // Defensive: constructor always fills this, but keep a tiny fallback.
+                return new[]
+                {
+                    new Vector2(280f, 425f),
+                    new Vector2(0f, 425f),
+                    new Vector2(-280f, 425f),
+                };
+            }
+            if (ShopBase.CardShape.TryGetValue(num, out Vector2[] exact) && exact != null && exact.Length > 0)
+                return exact;
+            // Prefer larger key first so extra slots still have positions.
+            for (int k = num; k <= 10; k++)
+            {
+                if (ShopBase.CardShape.TryGetValue(k, out Vector2[] up) && up != null && up.Length > 0)
+                    return up;
+            }
+            for (int k = num; k >= 3; k--)
+            {
+                if (ShopBase.CardShape.TryGetValue(k, out Vector2[] down) && down != null && down.Length > 0)
+                    return down;
+            }
+            // Last resort: synthesize evenly spaced row.
+            int n = Math.Max(1, num);
+            var synth = new Vector2[n];
+            float step = n <= 1 ? 0f : 700f / (n - 1);
+            for (int i = 0; i < n; i++)
+                synth[i] = new Vector2(350f - i * step, 425f);
+            return synth;
         }
 
         public Vector2 GetSupplementalSectionBasePosition(ShopSection section)
         {
             switch (section)
             {
+                // Left column sits outside the combat-card row (±350) so hover previews
+                // in the board center cannot cover equip / abnormality goods.
                 case ShopSection.EquipPage:
-                    return new Vector2(-730f, 260f);
+                    return new Vector2(-700f, 280f);
                 case ShopSection.AbnormalityPage:
-                    return new Vector2(-730f, -200f);
+                    return new Vector2(-700f, -160f);
                 case ShopSection.EgoPage:
-                    return new Vector2(560f, 220f);
+                    return new Vector2(700f, 280f);
                 case ShopSection.CardUpgrade:
-                    return new Vector2(730f, -210f);
+                    return new Vector2(700f, -200f);
                 default:
                     return new Vector2(0.0f, -25f);
             }
@@ -254,7 +302,8 @@ namespace abcdcode_LOGLIKE_MOD
 
         public float GetSupplementalSectionStep(ShopSection section)
         {
-            return section == ShopSection.CardUpgrade ? 0f : -230f;
+            // Tighter vertical gap keeps both abno slots above the bottom UI strip.
+            return section == ShopSection.CardUpgrade ? 0f : -210f;
         }
 
         public Vector2 GetSupplementalShopShape(ShopSection section, int id)
@@ -346,7 +395,24 @@ namespace abcdcode_LOGLIKE_MOD
                         ?? Singleton<CardDropValueList>.Instance.GetData(new LorId(LogLikeMod.ModId, 16001));
                     break;
             }
+            // Fallbacks if chapter pool missing (e.g. drop-value files failed to load as .txt).
+            if (data == null)
+            {
+                data = Singleton<CardDropValueList>.Instance.GetData(new LorId(LogLikeMod.ModId, 11001))
+                    ?? Singleton<CardDropValueList>.Instance.GetData(new LorId(LogLikeMod.ModId, 12001))
+                    ?? Singleton<CardDropValueList>.Instance.GetData(new LorId(LogLikeMod.ModId, 13001));
+            }
+            if (data == null)
+            {
+                Debug.LogError("[CreateShop_Card] No CardDropValue data for any chapter — combat pages cannot spawn. Check SpecialStaticInfo/DropValueXmlInfos (*.txt).");
+                return;
+            }
             Singleton<GlobalLogueEffectManager>.Instance.ChangeShopCardList(this, ref data);
+            if (data == null)
+            {
+                Debug.LogError("[CreateShop_Card] ChangeShopCardList cleared drop data.");
+                return;
+            }
             // Build unowned card pool — skip cards the player already owns
             CardDropTableXmlInfo dropTable = Singleton<CardDropTableXmlList>.Instance.GetData(
                 new LorId(data.workshopID, data.DropTableId));
@@ -359,6 +425,10 @@ namespace abcdcode_LOGLIKE_MOD
                     if (cardItem != null)
                         allCards.Add(cardItem);
                 }
+            }
+            else
+            {
+                Debug.LogWarning($"[CreateShop_Card] DropTable missing for {data.workshopID}:{data.DropTableId}");
             }
             var unowned = allCards.Where(c => !LogueBookModels.HasOwnedCombatPage(c.id)).ToList();
             Debug.Log($"[CreateShop_Card] All:{allCards.Count} Unowned:{unowned.Count} Need:{num}");
@@ -400,8 +470,10 @@ namespace abcdcode_LOGLIKE_MOD
 
             Debug.Log($"[CreateShop_Card] Selected {selected.Count}/{num} cards for shop");
             selected.Sort(new Comparison<DiceCardXmlInfo>(ShopBase.CompareCardRarity));
+            // Layout by actual selected count (not requested num) so CardShape keys always match.
+            int layoutNum = selected.Count > 0 ? selected.Count : num;
             for (int index = 0; index < selected.Count; ++index)
-                this.Shop_CardCreating(selected[index], this.ShopCardCount(selected[index].Rarity), this.GetShopShape_Card(num, index), index);
+                this.Shop_CardCreating(selected[index], this.ShopCardCount(selected[index].Rarity), this.GetShopShape_Card(layoutNum, index), index);
             Singleton<GlobalLogueEffectManager>.Instance.OnShopCardListCreate(this);
         }
 
@@ -455,8 +527,9 @@ namespace abcdcode_LOGLIKE_MOD
             rewardPassiveInfoList.AddRange(ShopBase.GetPassiveInList(chapterData1, count1, ShopRewardType.Once));
             List<RewardPassiveInfo> chapterData2 = Singleton<RewardPassivesList>.Instance.GetChapterData(ChapterGrade.GradeAll, PassiveRewardListType.Shop, new LorId(LogLikeMod.ModId, 90000));
             rewardPassiveInfoList.AddRange(ShopBase.GetPassiveInList(chapterData2, count2, ShopRewardType.Eternal));
+            int layoutNum = rewardPassiveInfoList.Count > 0 ? rewardPassiveInfoList.Count : num;
             for (int index = 0; index < rewardPassiveInfoList.Count; ++index)
-                this.Shop_PassiveCreating(rewardPassiveInfoList[index], this.GetShopShape_Passive(num, index), index);
+                this.Shop_PassiveCreating(rewardPassiveInfoList[index], this.GetShopShape_Passive(layoutNum, index), index);
         }
 
         public virtual int ShopCardCount(Rarity rare)
@@ -509,13 +582,24 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void CreateShop()
         {
             this.RemoveShop();
-            this.FrameObj.Add("ShopFrame", ModdingUtils.CreateImage(SingletonBehavior<BattleManagerUI>.Instance.ui_unitListInfoSummary.transform, "ShopFrame", new Vector2(1f, 1f), new Vector2(0.0f, -100f)).gameObject);
-            // Give the ShopFrame a well-defined container size so child items don't drift
-            RectTransform frameRect = this.FrameObj["ShopFrame"].GetComponent<RectTransform>();
+            // Full-bleed shop board (stretch to parent UI so the green frame covers the stage).
+            Image shopFrameImg = ModdingUtils.CreateImage(
+                SingletonBehavior<BattleManagerUI>.Instance.ui_unitListInfoSummary.transform,
+                "ShopFrame", new Vector2(1f, 1f), new Vector2(0.0f, 0.0f));
+            this.FrameObj.Add("ShopFrame", shopFrameImg.gameObject);
+            RectTransform frameRect = shopFrameImg.GetComponent<RectTransform>();
             if (frameRect != null)
             {
-                frameRect.sizeDelta = new Vector2(900f, 700f);
+                // Stretch across the battle UI summary area instead of a small centered square.
+                frameRect.anchorMin = new Vector2(0.08f, 0.08f);
+                frameRect.anchorMax = new Vector2(0.92f, 0.92f);
+                frameRect.offsetMin = Vector2.zero;
+                frameRect.offsetMax = Vector2.zero;
+                frameRect.anchoredPosition = Vector2.zero;
+                frameRect.localScale = Vector3.one;
             }
+            // Keep aspect of the artwork via preserveAspect if Image supports it.
+            try { shopFrameImg.preserveAspect = false; } catch { }
             Button button1 = ModdingUtils.CreateButton(SingletonBehavior<BattleManagerUI>.Instance.ui_unitListInfoSummary.transform, "AbCardSelection_Skip", new Vector2(1f, 1f), new Vector2(-590f, -480f));
             button1.onClick.AddListener(new UnityAction(this.HideShop));
             this.FrameObj.Add("ShopHide", button1.gameObject);
@@ -620,7 +704,11 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void LeaveShop()
         {
             this.RemoveShop();
+            // Defeat current shop wave first. EnsureNextListIfNeeded skips rebuild while a wave is
+            // still available (treats it as "already picked next stage"), so it must run after Defeat.
             Singleton<StageController>.Instance.GetStageModel().GetWave(Singleton<StageController>.Instance.CurrentWave).Defeat();
+            try { RewardingModel.EnsureNextListIfNeeded(); }
+            catch (Exception ex) { Debug.LogWarning("[RMR] LeaveShop EnsureNextListIfNeeded: " + ex.Message); }
             Singleton<StageController>.Instance.EndBattle();
             Singleton<ShopManager>.Instance.CloseShop();
             Singleton<GlobalLogueEffectManager>.Instance.OnLeaveShop(this);
@@ -644,27 +732,33 @@ namespace abcdcode_LOGLIKE_MOD
             // Get equip page rewards for the current chapter
             List<RewardPassiveInfo> equipPages = new List<RewardPassiveInfo>();
             var allCommon = Singleton<RewardPassivesList>.Instance.GetChapterData(
-                LogLikeMod.curchaptergrade, PassiveRewardListType.CommonReward, new LorId(-1), true);
+                LogLikeMod.curchaptergrade, PassiveRewardListType.CommonReward, new LorId(-1), true)
+                ?? new List<RewardPassiveInfo>();
             // Also include next chapter's for variety
             if (LogLikeMod.curchaptergrade < ChapterGrade.Grade7)
             {
                 var nextChapter = Singleton<RewardPassivesList>.Instance.GetChapterData(
                     LogLikeMod.curchaptergrade + 1, PassiveRewardListType.CommonReward, new LorId(-1), true);
-                allCommon.AddRange(nextChapter);
+                if (nextChapter != null)
+                    allCommon.AddRange(nextChapter);
             }
-            // Filter to EquipPage rewards only
+            // Filter to EquipPage rewards only — reject ModNeeded / zero-stat stubs.
             foreach (var info in allCommon)
             {
-                if (info.rewardtype == RewardType.EquipPage)
+                if (info == null || info.rewardtype != RewardType.EquipPage)
+                    continue;
+                BookXmlInfo book = RewardingModel.GetBookDataOriginAware(info.id);
+                if (!RewardingModel.IsValidBookData(book))
                 {
-                    BookXmlInfo book = RewardingModel.GetBookDataOriginAware(info.id);
-                    if (book != null && book.Chapter <= (int)LogLikeMod.curchaptergrade + 1)
-                    {
-                        // Don't sell books the player already owns (unique pages)
-                        if (!LogueBookModels.HasOwnedBookPage(info.id) && !LogueBookModels.HasOwnedBookPage(book.id))
-                            equipPages.Add(info);
-                    }
+                    Debug.LogWarning($"[CreateShop_EquipPages] skip invalid book {info.workshopID}:{info.passiveid}");
+                    continue;
                 }
+                if (book.Chapter > (int)LogLikeMod.curchaptergrade + 1)
+                    continue;
+                // Don't sell books the player already owns (unique pages)
+                if (LogueBookModels.HasOwnedBookPage(info.id) || LogueBookModels.HasOwnedBookPage(book.id))
+                    continue;
+                equipPages.Add(info);
             }
             // Shuffle and pick
             ModdingUtils.SuffleList(equipPages);

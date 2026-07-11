@@ -27,18 +27,21 @@ namespace abcdcode_LOGLIKE_MOD
             string path1 = Path.Combine(Singleton<ModContentManager>.Instance.GetModPath(LogLikeMod.ModId), "Assemblies", "dlls");
             if (Directory.Exists(Path.Combine(path1, path2, "LogueEffectText")))
             {
-                foreach (FileInfo file in new DirectoryInfo(Path.Combine(path1, path2, "LogueEffectText")).GetFiles())
+                foreach (FileInfo file in LogLikeMod.EnumerateXmlFiles(Path.Combine(path1, path2, "LogueEffectText")))
                 {
                     try
                     {
-                        foreach (LogueEffectXmlInfo logueEffect in (new XmlSerializer(typeof(LogueEffectXmlRoot)).Deserialize((Stream)file.OpenRead()) as LogueEffectXmlRoot).LogueEffectList)
+                        using (Stream stream = file.OpenRead())
                         {
-                            if (!this.effectDict.ContainsKey(LogLikeMod.ModId))
-                                this.effectDict.Add(LogLikeMod.ModId, new Dictionary<string, LogueEffectXmlInfo>());
-                            if (!this.effectDict[LogLikeMod.ModId].ContainsKey(logueEffect.Id) && logueEffect != null)
-                                this.effectDict[LogLikeMod.ModId].Add(logueEffect.Id, logueEffect);
-                            else if (logueEffect != null)
-                                this.effectDict[LogLikeMod.ModId][logueEffect.Id] = logueEffect;
+                            foreach (LogueEffectXmlInfo logueEffect in (new XmlSerializer(typeof(LogueEffectXmlRoot)).Deserialize(stream) as LogueEffectXmlRoot).LogueEffectList)
+                            {
+                                if (!this.effectDict.ContainsKey(LogLikeMod.ModId))
+                                    this.effectDict.Add(LogLikeMod.ModId, new Dictionary<string, LogueEffectXmlInfo>());
+                                if (!this.effectDict[LogLikeMod.ModId].ContainsKey(logueEffect.Id) && logueEffect != null)
+                                    this.effectDict[LogLikeMod.ModId].Add(logueEffect.Id, logueEffect);
+                                else if (logueEffect != null)
+                                    this.effectDict[LogLikeMod.ModId][logueEffect.Id] = logueEffect;
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -52,18 +55,21 @@ namespace abcdcode_LOGLIKE_MOD
                 string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(Path.Combine(logMod.GetLogDllPath(), path2, "LogueEffectText")))
                 {
-                    foreach (FileInfo file in new DirectoryInfo(Path.Combine(logMod.GetLogDllPath(), path2, "LogueEffectText")).GetFiles())
+                    foreach (FileInfo file in LogLikeMod.EnumerateXmlFiles(Path.Combine(logMod.GetLogDllPath(), path2, "LogueEffectText")))
                     {
                         try
                         {
-                            foreach (LogueEffectXmlInfo logueEffect in (new XmlSerializer(typeof(LogueEffectXmlRoot)).Deserialize((Stream)file.OpenRead()) as LogueEffectXmlRoot).LogueEffectList)
+                            using (Stream stream = file.OpenRead())
                             {
-                                if (!this.effectDict.ContainsKey(uniqueId))
-                                    this.effectDict.Add(uniqueId, new Dictionary<string, LogueEffectXmlInfo>());
-                                if (!this.effectDict[uniqueId].ContainsKey(logueEffect.Id))
-                                    this.effectDict[uniqueId].Add(logueEffect.Id, logueEffect);
-                                else
-                                    this.effectDict[uniqueId][logueEffect.Id] = logueEffect;
+                                foreach (LogueEffectXmlInfo logueEffect in (new XmlSerializer(typeof(LogueEffectXmlRoot)).Deserialize(stream) as LogueEffectXmlRoot).LogueEffectList)
+                                {
+                                    if (!this.effectDict.ContainsKey(uniqueId))
+                                        this.effectDict.Add(uniqueId, new Dictionary<string, LogueEffectXmlInfo>());
+                                    if (!this.effectDict[uniqueId].ContainsKey(logueEffect.Id))
+                                        this.effectDict[uniqueId].Add(logueEffect.Id, logueEffect);
+                                    else
+                                        this.effectDict[uniqueId][logueEffect.Id] = logueEffect;
+                                }
                             }
                         }
                         catch (Exception ex)

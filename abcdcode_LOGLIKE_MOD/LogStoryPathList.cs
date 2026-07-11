@@ -4,12 +4,14 @@
 // MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
 // Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
 
+using HarmonyLib;
 using LOR_XML;
 using Mod;
 using StoryScene;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
 using UI;
@@ -101,16 +103,20 @@ namespace abcdcode_LOGLIKE_MOD
             else if (langKey == "en" || langKey.StartsWith("en"))
                 lang = "en";
 
-            string[] candidates =
+            // Prefer language-specific paths. Only fall back to StoryInfo/cn for Chinese
+            // (or as last-chance when lang is already cn). Never feed cn into kr/jp sessions.
+            var candidates = new List<string>
             {
                 Path.Combine(storyRoot, "Localize", lang, fileName),
                 Path.Combine(storyRoot, lang, fileName),
-                // Chinese install often has only StoryInfo/cn + Localize/en|kr
-                Path.Combine(storyRoot, "cn", fileName),
-                Path.Combine(storyRoot, "Localize", "cn", fileName),
-                Path.Combine(storyRoot, "Localize", "en", fileName),
-                Path.Combine(storyRoot, "en", fileName),
             };
+            if (lang == "cn")
+            {
+                candidates.Add(Path.Combine(storyRoot, "cn", fileName));
+                candidates.Add(Path.Combine(storyRoot, "Localize", "cn", fileName));
+            }
+            candidates.Add(Path.Combine(storyRoot, "Localize", "en", fileName));
+            candidates.Add(Path.Combine(storyRoot, "en", fileName));
 
             foreach (string path in candidates)
             {
@@ -122,19 +128,78 @@ namespace abcdcode_LOGLIKE_MOD
 
         public void ActivateStoryScene(StoryRoot.OnEndStoryFunc func)
         {
-            var phase = UI.UIController.Instance.CurrentUIPhase;
-            if (phase == UIPhase.BattleSetting || phase == UIPhase.Invitation || phase == UIPhase.Story) // regular cutscene
+            try
             {
-                GameSceneManager.Instance.uIController.gameObject.SetActive(false);
-                GameSceneManager.Instance.storyRoot.gameObject.SetActive(true);
-                SingletonBehavior<UIPopupWindowManager>.Instance.AllClose();
-                UISoundManager.instance.SetGameStateBGM(GameCurrentState.Story);
-                StoryRoot.Instance.OpenStory(func, true);
+                bool hasUi = UI.UIController.Instance != null;
+                UIPhase phase = hasUi ? UI.UIController.Instance.CurrentUIPhase : default(UIPhase);
+                // Chapter intro during invitation / battle setting / story UI phase,
+                // or when UI controller is not ready yet (early AfterInitialize).
+                bool menuCutscene = !hasUi
+                    || phase == UIPhase.BattleSetting
+                    || phase == UIPhase.Invitation
+                    || phase == UIPhase.Story;
+                if (menuCutscene)
+                {
+                    if (GameSceneManager.Instance != null)
+                    {
+                        if (GameSceneManager.Instance.uIController != null)
+                            GameSceneManager.Instance.uIController.gameObject.SetActive(false);
+                        if (GameSceneManager.Instance.storyRoot != null)
+                            GameSceneManager.Instance.storyRoot.gameObject.SetActive(true);
+                    }
+                    try { SingletonBehavior<UIPopupWindowManager>.Instance?.AllClose(); } catch { }
+                    try { UISoundManager.instance?.SetGameStateBGM(GameCurrentState.Story); } catch { }
+                    if (StoryRoot.Instance != null)
+                        StoryRoot.Instance.OpenStory(func, true);
+                    return;
+                }
+
+                // In-battle cutscene: NEVER touch BattleSceneRoot._battleStarted directly
+                // (MonoMod/FieldAccessException). Use reflection.
+                bool battleStarted = false;
+                try
+                {
+                    var root = SingletonBehavior<BattleSceneRoot>.Instance;
+                    if (root != null)
+                    {
+                        FieldInfo f = typeof(BattleSceneRoot).GetField("_battleStarted", AccessTools.all);
+                        if (f != null)
+                            battleStarted = (bool)f.GetValue(root);
+                    }
+                }
+                catch { battleStarted = false; }
+
+                if (battleStarted)
+                {
+                    try { SingletonBehavior<BattleSoundManager>.Instance?.EndBgm(); } catch { }
+                    try
+                    {
+                        SingletonBehavior<BattleManagerUI>.Instance?.ui_battleStory?.OpenStory(() => func(), false, true);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogWarning("[RMR Story] battle story open failed: " + ex.Message);
+                        try { func?.Invoke(); } catch { }
+                    }
+                }
+                else
+                {
+                    // Fallback: open as menu cutscene so intro is never dropped silently.
+                    if (GameSceneManager.Instance != null)
+                    {
+                        if (GameSceneManager.Instance.uIController != null)
+                            GameSceneManager.Instance.uIController.gameObject.SetActive(false);
+                        if (GameSceneManager.Instance.storyRoot != null)
+                            GameSceneManager.Instance.storyRoot.gameObject.SetActive(true);
+                    }
+                    if (StoryRoot.Instance != null)
+                        StoryRoot.Instance.OpenStory(func, true);
+                }
             }
-            else if (SingletonBehavior<BattleSceneRoot>.Instance._battleStarted) // battle cutscene
+            catch (Exception ex)
             {
-                SingletonBehavior<BattleSoundManager>.Instance.EndBgm();
-                SingletonBehavior<BattleManagerUI>.Instance.ui_battleStory.OpenStory(() => func(), false, true);
+                Debug.LogError("[RMR Story] ActivateStoryScene failed (non-fatal): " + ex);
+                try { func?.Invoke(); } catch { }
             }
         }
 

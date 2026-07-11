@@ -883,9 +883,12 @@ namespace abcdcode_LOGLIKE_MOD
             if (info == null)
                 return;
             EmotionCardXmlInfo registeredPickUpXml = LogLikeMod.GetRegisteredPickUpXml(info);
-            if (registeredPickUpXml == null)
+            if (registeredPickUpXml == null || string.IsNullOrEmpty(registeredPickUpXml.Name))
                 return;
-            AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(registeredPickUpXml.Name);
+            // Stage pick keys (workshopid_stageid) are not in vanilla AbnormalityCard XML.
+            // GetAbnormalityCard returns a transient "Not found" stub that is NOT cached, so
+            // mutating it is a no-op for the UI. Upsert a real dictionary entry instead.
+            AbnormalityCard abnormalityCard = PickUpModel_RMRVanillaEmotion.EnsureDescEntry(registeredPickUpXml.Name);
             if (abnormalityCard == null)
                 return;
             abnormalityCard.flavorText = "";
@@ -931,10 +934,12 @@ namespace abcdcode_LOGLIKE_MOD
                 abnormalityCard.cardName = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("Stage_Rest");
                 abnormalityCard.abilityDesc = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("Stage_Rest_Desc");
             }
-            if (!(info.script != string.Empty))
+            if (string.IsNullOrEmpty(info.script))
                 return;
             PickUpModelBase pickUp = LogLikeMod.FindPickUp(info.script);
-            registeredPickUpXml._artwork = pickUp.ArtWork == string.Empty ? info.script : pickUp.ArtWork;
+            if (pickUp == null)
+                return;
+            registeredPickUpXml._artwork = string.IsNullOrEmpty(pickUp.ArtWork) ? info.script : pickUp.ArtWork;
             abnormalityCard.cardName = pickUp.Name;
             abnormalityCard.abilityDesc = pickUp.Desc;
             abnormalityCard.flavorText = pickUp.FlaverText;
@@ -966,8 +971,11 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static List<DiceCardItemModel> GetCardListForInven()
         {
+            // Vanilla EGO pages are personalEgo / emotion-EGO only — never deck inventory.
+            try { RogueLike_Mod_Reborn.RMRPrepareRestrictions.StripEgoPagesFromPlayerDecks(); } catch { }
+
             var ids = new List<DiceCardXmlInfo>();
-            if (RMRCore.CurrentGamemode.ReplaceBaseDeck)
+            if (RMRCore.CurrentGamemode != null && RMRCore.CurrentGamemode.ReplaceBaseDeck)
             {
                 foreach (var card in DeckXmlList.Instance.GetData(RMRCore.CurrentGamemode.BaseDeckReplacement).cardIdList)
                 {
@@ -986,15 +994,24 @@ namespace abcdcode_LOGLIKE_MOD
             List<DiceCardItemModel> list3 = new List<DiceCardItemModel>();
             for (int i = 0; i < ids.Count; i++)
             {
+                if (ids[i] == null || !RogueLike_Mod_Reborn.RMRPrepareRestrictions.IsCardAllowedInCurrentPrepare(ids[i]))
+                    continue;
                 list3.Add(new DiceCardItemModel(ids[i])
                 {
                     num = 99
                 });
             }
-            foreach (DiceCardItemModel card in LogueBookModels.cardlist)
+            if (LogueBookModels.cardlist != null)
             {
-                card.num = LogueBookModels.UNLOCKED_CARD_COUNT;
-                list3.Add(card);
+                foreach (DiceCardItemModel card in LogueBookModels.cardlist)
+                {
+                    if (card?.ClassInfo == null)
+                        continue;
+                    if (!RogueLike_Mod_Reborn.RMRPrepareRestrictions.IsCardAllowedInCurrentPrepare(card.ClassInfo))
+                        continue;
+                    card.num = LogueBookModels.UNLOCKED_CARD_COUNT;
+                    list3.Add(card);
+                }
             }
             list3.Sort(new Comparison<DiceCardItemModel>(SortUtil.CardItemCompByCost));
             return list3;
@@ -1003,29 +1020,45 @@ namespace abcdcode_LOGLIKE_MOD
         public static List<DiceCardItemModel> GetCardList(bool RemoveBasic = false, bool Decks = false)
         {
             LogueBookModels.PurgeBaseCardsWhenUpgradeExists();
-            List<DiceCardItemModel> list = LogueBookModels.cardlist;
+            List<DiceCardItemModel> list = LogueBookModels.cardlist ?? new List<DiceCardItemModel>();
             List<DiceCardItemModel> list2 = new List<DiceCardItemModel>();
             var ids = new List<DiceCardXmlInfo>();
             if (!RemoveBasic)
             {
-                if (RMRCore.CurrentGamemode.ReplaceBaseDeck)
+                try
                 {
-                    foreach (var card in DeckXmlList.Instance.GetData(RMRCore.CurrentGamemode.BaseDeckReplacement).cardIdList)
+                    if (RMRCore.CurrentGamemode != null && RMRCore.CurrentGamemode.ReplaceBaseDeck)
                     {
-                        if (ids.Count(x => x.id == card.id) == 0)
-                            ids.Add(ItemXmlDataList.instance.GetCardItem(card, false));
+                        var deck = DeckXmlList.Instance?.GetData(RMRCore.CurrentGamemode.BaseDeckReplacement);
+                        if (deck?.cardIdList != null)
+                        {
+                            foreach (var card in deck.cardIdList)
+                            {
+                                if (ids.Count(x => x != null && x.id == card.id) == 0)
+                                    ids.Add(ItemXmlDataList.instance.GetCardItem(card, false));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        ids.AddRange(new List<DiceCardXmlInfo>
+                        {
+                            ItemXmlDataList.instance.GetCardItem(1, false),
+                            ItemXmlDataList.instance.GetCardItem(2, false),
+                            ItemXmlDataList.instance.GetCardItem(3, false),
+                            ItemXmlDataList.instance.GetCardItem(4, false),
+                            ItemXmlDataList.instance.GetCardItem(5, false)
+                        });
                     }
                 }
-                else ids.AddRange(new List<DiceCardXmlInfo>
+                catch
                 {
-                    ItemXmlDataList.instance.GetCardItem(1, false),
-                    ItemXmlDataList.instance.GetCardItem(2, false),
-                    ItemXmlDataList.instance.GetCardItem(3, false),
-                    ItemXmlDataList.instance.GetCardItem(4, false),
-                    ItemXmlDataList.instance.GetCardItem(5, false)
-                });
+                    // Hub/atlas before gamemode ready — skip basic cards rather than NRE.
+                }
                 foreach (DiceCardXmlInfo xmlData in ids)
                 {
+                    if (xmlData == null)
+                        continue;
                     list2.Add(new DiceCardItemModel(xmlData)
                     {
                         num = 99
@@ -1034,33 +1067,39 @@ namespace abcdcode_LOGLIKE_MOD
             }
             foreach (DiceCardItemModel diceCardItemModel in list)
             {
+                if (diceCardItemModel?.ClassInfo == null)
+                    continue;
                 list2.Add(new DiceCardItemModel(diceCardItemModel.ClassInfo)
                 {
                     num = LogueBookModels.UNLOCKED_CARD_COUNT
                 });
             }
-            if (Decks)
+            if (Decks && LogueBookModels.playerModel != null)
             {
                 foreach (UnitDataModel unitDataModel in LogueBookModels.playerModel)
                 {
-                    if (unitDataModel.bookItem.GetCardListFromCurrentDeck() != null)
+                    if (unitDataModel?.bookItem == null)
+                        continue;
+                    List<DiceCardXmlInfo> deckCards = unitDataModel.bookItem.GetCardListFromCurrentDeck();
+                    if (deckCards == null)
+                        continue;
+                    using (List<DiceCardXmlInfo>.Enumerator enumerator4 = deckCards.GetEnumerator())
                     {
-                        using (List<DiceCardXmlInfo>.Enumerator enumerator4 = unitDataModel.bookItem.GetCardListFromCurrentDeck().GetEnumerator())
+                        while (enumerator4.MoveNext())
                         {
-                            while (enumerator4.MoveNext())
+                            DiceCardXmlInfo deckcard = enumerator4.Current;
+                            if (deckcard == null)
+                                continue;
+                            DiceCardItemModel diceCardItemModel2 = list2.Find((DiceCardItemModel x) => x?.ClassInfo != null && x.ClassInfo.id == deckcard.id);
+                            if (diceCardItemModel2 != null)
                             {
-                                DiceCardXmlInfo deckcard = enumerator4.Current;
-                                DiceCardItemModel diceCardItemModel2 = list2.Find((DiceCardItemModel x) => x.ClassInfo.id == deckcard.id);
-                                if (diceCardItemModel2 != null)
-                                {
-                                    diceCardItemModel2.num++;
-                                }
+                                diceCardItemModel2.num++;
                             }
                         }
                     }
                 }
             }
-            list2.RemoveAll((DiceCardItemModel x) => x.num <= 0);
+            list2.RemoveAll((DiceCardItemModel x) => x == null || x.num <= 0);
             list2.Sort(new Comparison<DiceCardItemModel>(SortUtil.CardItemCompByCost));
             return list2;
         }
@@ -1392,20 +1431,33 @@ namespace abcdcode_LOGLIKE_MOD
         /// </summary>
         public static void PurgeBaseCardsWhenUpgradeExists()
         {
+            // Invitation hub / pre-run atlas may call GetCardList before a run initializes cardlist.
+            if (LogueBookModels.cardlist == null || LogueBookModels.cardlist.Count == 0)
+                return;
+
             var upgradedIds = new HashSet<LorId>();
             // Collect all upgraded cards
             foreach (var card in LogueBookModels.cardlist)
             {
-                if (card.GetID().packageId.Contains(LogCardUpgradeManager.UpgradeKeyword))
+                if (card == null)
+                    continue;
+                try
                 {
-                    LorId originalId = card.GetID().GetOriginalId();
-                    if (originalId != card.GetID()) // has a different base
-                        upgradedIds.Add(originalId);
+                    LorId id = card.GetID();
+                    if (id == null || string.IsNullOrEmpty(id.packageId))
+                        continue;
+                    if (id.packageId.Contains(LogCardUpgradeManager.UpgradeKeyword))
+                    {
+                        LorId originalId = id.GetOriginalId();
+                        if (originalId != id) // has a different base
+                            upgradedIds.Add(originalId);
+                    }
                 }
+                catch { /* skip bad card entry */ }
             }
             // Remove base versions that have upgraded counterparts
             if (upgradedIds.Count > 0)
-                LogueBookModels.cardlist.RemoveAll(x => upgradedIds.Contains(x.GetID()));
+                LogueBookModels.cardlist.RemoveAll(x => x != null && upgradedIds.Contains(x.GetID()));
         }
 
         /// <summary>
@@ -2018,8 +2070,18 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 "KetherLibrarian"
             };
-            unitDataModel.bookItem._selectedOriginalSkin = unitDataModel.bookItem.ClassInfo.CharacterSkin[0];
-            unitDataModel.bookItem._characterSkin = unitDataModel.bookItem.ClassInfo.CharacterSkin[0];
+            // BookModel skin fields are private at runtime (publicized only in the compile reference).
+            // Direct assignment throws MonoMod FieldAccessException and freezes EndBattlePhase → black screen.
+            string skinName = unitDataModel.bookItem.ClassInfo.CharacterSkin[0];
+            try
+            {
+                typeof(BookModel).GetField("_selectedOriginalSkin", AccessTools.all)?.SetValue(unitDataModel.bookItem, skinName);
+                typeof(BookModel).GetField("_characterSkin", AccessTools.all)?.SetValue(unitDataModel.bookItem, skinName);
+            }
+            catch (Exception skinEx)
+            {
+                Debug.LogWarning("[RMR] AddSubPlayer skin set failed (non-fatal): " + skinEx.Message);
+            }
             LogueBookModels.playerModel.Add(unitDataModel);
             UnitBattleDataModel unitBattleDataModel = new UnitBattleDataModel(Singleton<StageController>.Instance.GetStageModel(), unitDataModel);
             LogueBookModels.playerBattleModel.Add(unitBattleDataModel);
@@ -2109,17 +2171,18 @@ namespace abcdcode_LOGLIKE_MOD
                 Creature = 0,
                 Chapter = ChapterGrade.DummyGrade
             };
+            // Per floor: one fewer Normal reception, one Rest room (ID 855 via HandleLimitPicking).
             switch (chapter)
             {
                 case ChapterGrade.Grade1:
                     stageLimits = new StageLimits
                     {
-                        Normal = 3,
+                        Normal = 2,
                         Elite = 0,
                         Mystery = 1,
                         Shop = 1,
                         Boss = 1,
-                        Rest = 0,
+                        Rest = 1,
                         Creature = 0,  // No abnormality battles in floor 1-2
                         Chapter = chapter
                     };
@@ -2127,12 +2190,12 @@ namespace abcdcode_LOGLIKE_MOD
                 case ChapterGrade.Grade2:
                     stageLimits = new StageLimits
                     {
-                        Normal = 5,
+                        Normal = 4,
                         Elite = 0,
                         Mystery = 1,
                         Shop = 1,
                         Boss = 1,
-                        Rest = 0,
+                        Rest = 1,
                         Creature = 0,  // No abnormality battles in floor 1-2
                         Chapter = chapter
                     };
@@ -2140,12 +2203,12 @@ namespace abcdcode_LOGLIKE_MOD
                 case ChapterGrade.Grade3:
                     stageLimits = new StageLimits
                     {
-                        Normal = 5,
+                        Normal = 4,
                         Elite = 0,
                         Mystery = 2,
                         Shop = 1,
                         Boss = 1,
-                        Rest = 0,
+                        Rest = 1,
                         Creature = 1,
                         Chapter = chapter
                     };
@@ -2153,12 +2216,12 @@ namespace abcdcode_LOGLIKE_MOD
                 case ChapterGrade.Grade4:
                     stageLimits = new StageLimits
                     {
-                        Normal = 5,
+                        Normal = 4,
                         Elite = 0,
                         Mystery = 2,
                         Shop = 1,
                         Boss = 1,
-                        Rest = 0,
+                        Rest = 1,
                         Creature = 1,
                         Chapter = chapter
                     };
@@ -2166,12 +2229,12 @@ namespace abcdcode_LOGLIKE_MOD
                 case ChapterGrade.Grade5:
                     stageLimits = new StageLimits
                     {
-                        Normal = 6,
+                        Normal = 5,
                         Elite = 0,
                         Mystery = 2,
                         Shop = 2,
                         Boss = 1,
-                        Rest = 0,
+                        Rest = 1,
                         Creature = 1,
                         Chapter = chapter
                     };
@@ -2179,12 +2242,12 @@ namespace abcdcode_LOGLIKE_MOD
                 case ChapterGrade.Grade6:
                     stageLimits = new StageLimits
                     {
-                        Normal = 5,
+                        Normal = 4,
                         Elite = 1,
                         Mystery = 2,
                         Shop = 2,
                         Boss = 1,
-                        Rest = 0,
+                        Rest = 1,
                         Creature = 1,
                         Chapter = chapter
                     };
@@ -2192,12 +2255,12 @@ namespace abcdcode_LOGLIKE_MOD
                 case ChapterGrade.Grade7:
                     stageLimits = new StageLimits
                     {
-                        Normal = 6,
+                        Normal = 5,
                         Elite = 0,
                         Mystery = 2,
                         Shop = 2,
                         Boss = 3,
-                        Rest = 0,
+                        Rest = 1,
                         Creature = 1,
                         Chapter = chapter
                     };
@@ -2263,32 +2326,121 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        /// <summary>
+        /// Ensure RemainStageList[grade] exists and has at least one valid stage.
+        /// If empty/missing, re-roll from the gamemode chapter table (e.g. Grade7 杂质 after 都市之星).
+        /// Returns true when the chapter has selectable stages.
+        /// </summary>
+        public static bool EnsureChapterRemainStages(ChapterGrade grade)
+        {
+            try
+            {
+                if (LogueBookModels.RemainStageList == null)
+                    LogueBookModels.RemainStageList = new Dictionary<ChapterGrade, List<LogueStageInfo>>();
+
+                if (LogueBookModels.RemainStageList.TryGetValue(grade, out List<LogueStageInfo> existing)
+                    && existing != null
+                    && existing.Count > 0)
+                {
+                    existing.RemoveAll(stage =>
+                    {
+                        if (stage == null) return true;
+                        StageClassInfo data = StageClassInfoList.Instance.GetData(stage.Id);
+                        return data == null || data.waveList == null || data.waveList.Count == 0;
+                    });
+                    if (existing.Count > 0)
+                        return true;
+                }
+
+                if (RMRCore.CurrentGamemode == null)
+                {
+                    Debug.LogWarning($"[RMR EnsureChapterRemainStages] no gamemode for {grade}");
+                    return false;
+                }
+
+                List<LogueStageInfo> fresh = RMRCore.CurrentGamemode.InitializeChapterStageList(grade);
+                List<LogueStageInfo> valid = new List<LogueStageInfo>();
+                if (fresh != null)
+                {
+                    foreach (LogueStageInfo info in fresh)
+                    {
+                        if (info == null) continue;
+                        StageClassInfo data = StageClassInfoList.Instance.GetData(info.Id);
+                        if (data == null || data.waveList == null || data.waveList.Count == 0)
+                        {
+                            Debug.LogWarning($"[RMR EnsureChapterRemainStages] skip invalid {info.Id}");
+                            continue;
+                        }
+                        valid.Add(info);
+                    }
+                }
+                LogueBookModels.RemainStageList[grade] = valid;
+                Debug.Log($"[RMR EnsureChapterRemainStages] grade={grade} stages={valid.Count}");
+                return valid.Count > 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[RMR EnsureChapterRemainStages] {grade}: {ex}");
+                return false;
+            }
+        }
+
         public static List<EmotionCardXmlInfo> GetNextList(ChapterGrade grade, bool Stepone = false)
         {
-            List<LogueStageInfo> collection = new List<LogueStageInfo>(LogueBookModels.RemainStageList[grade]);
+            if (LogueBookModels.RemainStageList == null
+                || !LogueBookModels.RemainStageList.TryGetValue(grade, out List<LogueStageInfo> remain)
+                || remain == null
+                || remain.Count == 0)
+            {
+                if (!LogueBookModels.EnsureChapterRemainStages(grade)
+                    || !LogueBookModels.RemainStageList.TryGetValue(grade, out remain)
+                    || remain == null
+                    || remain.Count == 0)
+                {
+                    Debug.LogWarning($"[RMR GetNextList] no stages for {grade}");
+                    return new List<EmotionCardXmlInfo>();
+                }
+            }
+
+            List<LogueStageInfo> collection = new List<LogueStageInfo>(remain);
             if (collection.Count == 0)
                 return new List<EmotionCardXmlInfo>();
             List<EmotionCardXmlInfo> nextList = new List<EmotionCardXmlInfo>();
             List<LogueStageInfo> logueStageInfoList = new List<LogueStageInfo>(collection);
             if (logueStageInfoList.FindAll(x => x.type == StageType.Normal).Count > 1 || logueStageInfoList.Count > 5)
-                logueStageInfoList.Remove(logueStageInfoList.Find(x => x.type == StageType.Boss));
-            for (int index = 0; index < 3; )
+            {
+                LogueStageInfo boss = logueStageInfoList.Find(x => x.type == StageType.Boss);
+                if (boss != null)
+                    logueStageInfoList.Remove(boss);
+            }
+            // Safety: if filtering left nothing, fall back to full collection.
+            if (logueStageInfoList.Count == 0)
+                logueStageInfoList = new List<LogueStageInfo>(collection);
+
+            int guard = 0;
+            for (int index = 0; index < 3 && logueStageInfoList.Count > 0 && guard < 32; guard++)
             {
                 LogueStageInfo info = logueStageInfoList[UnityEngine.Random.Range(0, logueStageInfoList.Count)];
-                EmotionCardXmlInfo thing = LogLikeMod.GetRegisteredPickUpXml(info);
                 logueStageInfoList.Remove(info);
-                string pid = thing == null ? null : LogLikeMod.GetPickUpXmlWorkShopId_Stage(thing);
+                if (info == null)
+                    continue;
+                EmotionCardXmlInfo thing = LogLikeMod.GetRegisteredPickUpXml(info);
+                if (thing == null)
+                {
+                    // Lazy-register stage pickups so next-chapter options can still appear.
+                    try { LogLikeMod.RegisterPickUpXml(info); }
+                    catch { /* ignore */ }
+                    thing = LogLikeMod.GetRegisteredPickUpXml(info);
+                }
                 if (thing != null)
                 {
                     nextList.Add(thing);
-                    LogueBookModels.CreateStageDesc(info);
-                    if (logueStageInfoList.Count == 0)
-                        break;
+                    try { LogueBookModels.CreateStageDesc(info); } catch { /* ignore */ }
                     index++;
-                } else
+                }
+                else
                 {
-                    Debug.Log("NULL STAGE!!! WATCH THE FUCK OUT!!: " + info.Id.packageId + " --- " + info.Id.id.ToString());
-                    Debug.Log(pid == null ? "PID IS NULL" : "PID IS: " + pid);
+                    Debug.LogWarning($"[RMR GetNextList] NULL STAGE pickup: {info.Id?.packageId} --- {info.Id?.id}");
                 }
             }
             return nextList;

@@ -79,14 +79,10 @@ namespace abcdcode_LOGLIKE_MOD
         {
             foreach (EmotionCardXmlInfo card in cards)
             {
-                AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(card.Script[0]);
+                if (card == null || card.Script == null || card.Script.Count == 0)
+                    continue;
                 PickUpModelBase pickUp = LogLikeMod.FindPickUp(card.Script[0]);
-                if (pickUp != null)
-                {
-                    abnormalityCard.cardName = pickUp.Name;
-                    abnormalityCard.flavorText = pickUp.FlaverText;
-                    abnormalityCard.abilityDesc = pickUp.Desc;
-                }
+                PickUpModel_RMRVanillaEmotion.InjectResolvedDesc(card, pickUp);
             }
             UIGetAbnormalityPanel instance = UIGetAbnormalityPanel.instance;
             FieldInfo field1 = ModdingUtils.GetField("currentFloor", instance);
@@ -182,56 +178,121 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void SwapFrame(int id)
         {
             this.RemoveCurFrame();
-            this.curFrame = this.xmlinfo.GetFrame(id);
-            this.FrameObj.Add("FrameArt", ModdingUtils.CreateImage(LogLikeMod.LogUIObjs[90].transform, this.curFrame.ArtWork, new Vector2(1f, 1f), new Vector2(-280f, 180f), new Vector2(1320f, 743f)).gameObject);
-            Image image1 = ModdingUtils.CreateImage(LogLikeMod.LogUIObjs[90].transform, "MysteryPanel", new Vector2(1f, 1f), new Vector2(0.0f, 0.0f));
-            this.FrameObj.Add("Frame", image1.gameObject);
-            Image image2 = ModdingUtils.CreateImage(image1.transform, "RMRMysteryTitleBG", new Vector2(1f, 1f), new Vector2(430f, 410f));
-            this.FrameObj.Add("TitleBG", image2.gameObject);
-            TextMeshProUGUI textTmp1 = ModdingUtils.CreateText_TMP(image2.transform, new Vector2(0.0f, 0.0f), 45, new Vector2(0.0f, 0.0f), new Vector2(1f, 1f), new Vector2(0.0f, 0.0f), TextAlignmentOptions.Midline, LogLikeMod.DefFontColor, LogLikeMod.DefFont_TMP);
-            textTmp1.text = this.GetCurFrameTitle();
-            this.FrameObj.Add("Title", textTmp1.gameObject);
-
-            int choiceAmount = this.curFrame.choices.Count;
-            foreach (MysteryChoiceInfo choice in this.curFrame.choices)
+            if (this.xmlinfo == null)
             {
-                UILogCustomSelectable btn;
-                if (choiceAmount < 5)
-                {
-                    btn = ModdingUtils.CreateLogSelectable(image2.transform, "MysteryButton_Enable", new Vector2(1f, 1f), new Vector2(100f, (float)(-200 - choice.ChoiceID * 200)));
-                }
-                else if (choiceAmount < 9)
-                {
-                    btn = ModdingUtils.CreateLogSelectable(image2.transform, "MysteryButton_Enable", new Vector2(1f, 1f), new Vector2(-150f + (float)(choice.ChoiceID / 4 * 410), (float)(-200 + (choice.ChoiceID % 4) * -140)), new Vector2(401f, 114f));
-                }
-                else
-                {
-                    btn = ModdingUtils.CreateLogSelectable(image2.transform, "MysteryButton_Enable", new Vector2(1f, 1f), new Vector2(-150f + (float)(choice.ChoiceID / 6 * 410), (float)(-200 + (choice.ChoiceID % 6) * -125)), new Vector2(401f, 114f));
-                }
-                Button.ButtonClickedEvent buttonClickedEvent = new Button.ButtonClickedEvent();
-                buttonClickedEvent.AddListener((UnityAction)(() => this.OnClickChoiceCheckAlpha(btn.gameObject, choice.ChoiceID)));
-                btn.onClick = buttonClickedEvent;
-                btn.SelectEvent = new UnityEventBasedata();
-                btn.SelectEvent.AddListener((UnityAction<BaseEventData>)(e => this.OnEnterChoice(choice.ChoiceID)));
-                btn.DeselectEvent = new UnityEventBasedata();
-                btn.DeselectEvent.AddListener((UnityAction<BaseEventData>)(e => this.OnExitChoice(choice.ChoiceID)));
-                this.FrameObj.Add("choice_btn" + choice.ChoiceID.ToString(), btn.gameObject);
-                TextMeshProUGUI textTmp2 = ModdingUtils.CreateText_TMP(btn.transform, new Vector2(20f, 0f), 32 - (choiceAmount >= 12 ? 8 : (choiceAmount - choiceAmount % 4)), new Vector2(0.05f, 0f), new Vector2(0.95f, 1f), new Vector2(0f, 0f), TextAlignmentOptions.Center, LogLikeMod.DefFontColor, LogLikeMod.DefFont_TMP);
-                string text = string.Empty;
-                if (loc != null)
-                    text = loc.GetFrameById(this.curFrame.FrameID).GetChoiceById(choice.ChoiceID).Desc.ReplaceColorShorthands();
-                else 
-                    text = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText(choice.desc).ReplaceColorShorthands();
-                textTmp2.text = text;
-                textTmp2.transform.Rotate(0.0f, 0.0f, 2.5f);
-                this.FrameObj.Add("Desc" + choice.ChoiceID.ToString(), textTmp2.gameObject);
+                Debug.LogError("[RMR Mystery] SwapFrame: xmlinfo is null.");
+                return;
             }
-            this.CreateDia(choiceAmount - 1, image1.gameObject);
-            if (this.animator == null)
-                this.animator = image1.gameObject.AddComponent<AnimUpdater>();
-            this.animator.SetAnim(new MysteryAnimatorDefault(), this);
-            LoguePlayDataSaver.SaveMystery(this);
-            LoguePlayDataSaver.SavePlayData_Menu();
+            this.curFrame = this.xmlinfo.GetFrame(id);
+            if (this.curFrame == null)
+            {
+                Debug.LogError("[RMR Mystery] SwapFrame: frame id=" + id + " missing.");
+                return;
+            }
+            if (this.curFrame.choices == null)
+                this.curFrame.choices = new List<MysteryChoiceInfo>();
+
+            // LogUIObjs[90] is the mystery host; without it Init/SwapFrame NRE and normal play dies.
+            if (LogLikeMod.LogUIObjs == null || !LogLikeMod.LogUIObjs.ContainsKey(90) || LogLikeMod.LogUIObjs[90] == null)
+            {
+                Debug.LogError("[RMR Mystery] SwapFrame: LogUIObjs[90] missing — cannot build mystery UI yet.");
+                return;
+            }
+
+            Transform host = LogLikeMod.LogUIObjs[90].transform;
+            try
+            {
+                string art = string.IsNullOrEmpty(this.curFrame.ArtWork) ? "MysteryPanel" : this.curFrame.ArtWork;
+                Image frameArt = null;
+                try
+                {
+                    frameArt = ModdingUtils.CreateImage(host, art, new Vector2(1f, 1f), new Vector2(-280f, 180f), new Vector2(1320f, 743f));
+                }
+                catch
+                {
+                    frameArt = ModdingUtils.CreateImage(host, "MysteryPanel", new Vector2(1f, 1f), new Vector2(-280f, 180f), new Vector2(1320f, 743f));
+                }
+                if (frameArt != null)
+                    this.FrameObj.Add("FrameArt", frameArt.gameObject);
+
+                Image image1 = ModdingUtils.CreateImage(host, "MysteryPanel", new Vector2(1f, 1f), new Vector2(0.0f, 0.0f));
+                if (image1 == null)
+                {
+                    Debug.LogError("[RMR Mystery] SwapFrame: MysteryPanel image failed.");
+                    return;
+                }
+                this.FrameObj.Add("Frame", image1.gameObject);
+                Image image2 = ModdingUtils.CreateImage(image1.transform, "RMRMysteryTitleBG", new Vector2(1f, 1f), new Vector2(430f, 410f));
+                if (image2 == null)
+                    image2 = ModdingUtils.CreateImage(image1.transform, "MysteryPanel", new Vector2(1f, 1f), new Vector2(430f, 410f));
+                this.FrameObj.Add("TitleBG", image2.gameObject);
+                TextMeshProUGUI textTmp1 = ModdingUtils.CreateText_TMP(image2.transform, new Vector2(0.0f, 0.0f), 45, new Vector2(0.0f, 0.0f), new Vector2(1f, 1f), new Vector2(0.0f, 0.0f), TextAlignmentOptions.Midline, LogLikeMod.DefFontColor, LogLikeMod.DefFont_TMP);
+                textTmp1.text = this.GetCurFrameTitle() ?? string.Empty;
+                this.FrameObj.Add("Title", textTmp1.gameObject);
+
+                int choiceAmount = this.curFrame.choices.Count;
+                foreach (MysteryChoiceInfo choice in this.curFrame.choices)
+                {
+                    if (choice == null)
+                        continue;
+                    UILogCustomSelectable btn;
+                    if (choiceAmount < 5)
+                    {
+                        btn = ModdingUtils.CreateLogSelectable(image2.transform, "MysteryButton_Enable", new Vector2(1f, 1f), new Vector2(100f, (float)(-200 - choice.ChoiceID * 200)));
+                    }
+                    else if (choiceAmount < 9)
+                    {
+                        btn = ModdingUtils.CreateLogSelectable(image2.transform, "MysteryButton_Enable", new Vector2(1f, 1f), new Vector2(-150f + (float)(choice.ChoiceID / 4 * 410), (float)(-200 + (choice.ChoiceID % 4) * -140)), new Vector2(401f, 114f));
+                    }
+                    else
+                    {
+                        btn = ModdingUtils.CreateLogSelectable(image2.transform, "MysteryButton_Enable", new Vector2(1f, 1f), new Vector2(-150f + (float)(choice.ChoiceID / 6 * 410), (float)(-200 + (choice.ChoiceID % 6) * -125)), new Vector2(401f, 114f));
+                    }
+                    if (btn == null)
+                        continue;
+                    Button.ButtonClickedEvent buttonClickedEvent = new Button.ButtonClickedEvent();
+                    int cid = choice.ChoiceID;
+                    buttonClickedEvent.AddListener((UnityAction)(() => this.OnClickChoiceCheckAlpha(btn.gameObject, cid)));
+                    btn.onClick = buttonClickedEvent;
+                    btn.SelectEvent = new UnityEventBasedata();
+                    btn.SelectEvent.AddListener((UnityAction<BaseEventData>)(e => this.OnEnterChoice(cid)));
+                    btn.DeselectEvent = new UnityEventBasedata();
+                    btn.DeselectEvent.AddListener((UnityAction<BaseEventData>)(e => this.OnExitChoice(cid)));
+                    this.FrameObj.Add("choice_btn" + choice.ChoiceID.ToString(), btn.gameObject);
+                    TextMeshProUGUI textTmp2 = ModdingUtils.CreateText_TMP(btn.transform, new Vector2(20f, 0f), 32 - (choiceAmount >= 12 ? 8 : (choiceAmount - choiceAmount % 4)), new Vector2(0.05f, 0f), new Vector2(0.95f, 1f), new Vector2(0f, 0f), TextAlignmentOptions.Center, LogLikeMod.DefFontColor, LogLikeMod.DefFont_TMP);
+                    string text = string.Empty;
+                    try
+                    {
+                        if (loc != null)
+                        {
+                            var lf = loc.GetFrameById(this.curFrame.FrameID);
+                            var lc = lf != null ? lf.GetChoiceById(choice.ChoiceID) : null;
+                            text = lc != null && lc.Desc != null
+                                ? lc.Desc.ReplaceColorShorthands()
+                                : abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText(choice.desc).ReplaceColorShorthands();
+                        }
+                        else
+                            text = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText(choice.desc).ReplaceColorShorthands();
+                    }
+                    catch
+                    {
+                        text = choice.desc ?? string.Empty;
+                    }
+                    textTmp2.text = text ?? string.Empty;
+                    textTmp2.transform.Rotate(0.0f, 0.0f, 2.5f);
+                    this.FrameObj.Add("Desc" + choice.ChoiceID.ToString(), textTmp2.gameObject);
+                }
+                this.CreateDia(Math.Max(0, choiceAmount - 1), image1.gameObject);
+                if (this.animator == null)
+                    this.animator = image1.gameObject.AddComponent<AnimUpdater>();
+                this.animator.SetAnim(new MysteryAnimatorDefault(), this);
+                try { LoguePlayDataSaver.SaveMystery(this); } catch { }
+                try { LoguePlayDataSaver.SavePlayData_Menu(); } catch { }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("[RMR Mystery] SwapFrame failed: " + ex);
+            }
         }
 
         public virtual void CreateDia(int choicevalue, GameObject curFrame)

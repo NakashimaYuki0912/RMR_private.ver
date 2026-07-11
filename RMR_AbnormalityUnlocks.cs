@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Reflection;
 using abcdcode_LOGLIKE_MOD;
 using GameSave;
 using HarmonyLib;
@@ -56,12 +57,16 @@ namespace RogueLike_Mod_Reborn
         private static readonly HashSet<LorId> RouteUnlockedEgoPages = new HashSet<LorId>();
         private static readonly HashSet<int> PermanentlyUnlockedTiers = new HashSet<int>();
         private static readonly HashSet<SephirahType> CompletedRealizations = new HashSet<SephirahType>();
+        /// <summary>script 鈫?vanilla EmotionLevel tier (1/2/3).</summary>
+        private static readonly Dictionary<string, int> _vanillaEmotionTierByScript =
+            new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        private static bool _vanillaEmotionTiersLoaded;
         private static bool BinahUnlockedForCurrentRoute;
         private static bool RedMistVictoryRewardsGrantedThisBattle;
         private static bool BlackSilenceClearRecordedThisBattle;
         private static bool BlueReverberationRewardsGrantedThisBattle;
 
-        // Floor → all abnormality script roots on that floor
+        // Floor 鈫?all abnormality script roots on that floor
         // Sourced from vanilla EmotionCard_*.txt <Sephirah> tags
         public static readonly Dictionary<SephirahType, string[]> FloorAbnormalityScripts = new Dictionary<SephirahType, string[]>
         {
@@ -144,8 +149,9 @@ namespace RogueLike_Mod_Reborn
             BinahUnlockedForCurrentRoute = false;
             LoadPermanentProgress();
             LoadRealizationProgress();
-            foreach (RewardPassiveInfo info in GetPermanentStartingPages())
-                UnlockPage(info.id);
+            // Do NOT bulk-UnlockPage permanent-tier abnos into the mid-battle emotion pool.
+            // Permanent tiers only gate shop/reward availability (IsRewardTierAvailableForChapter).
+            // Mid-battle abno picks use pages actually obtained this route (rewards/shop/emotion).
         }
 
         public static void ResetArchiveProgress()
@@ -194,8 +200,7 @@ namespace RogueLike_Mod_Reborn
             LoadRealizationProgress();
             if (data == null)
             {
-                foreach (RewardPassiveInfo info in GetPermanentStartingPages())
-                    UnlockPage(info.id);
+                // Empty route unlocks 鈥?permanent tiers still gate shop rolls only.
                 return;
             }
             SaveData pages = data.GetData("Pages");
@@ -203,6 +208,8 @@ namespace RogueLike_Mod_Reborn
                 pages = data;
             else
                 BinahUnlockedForCurrentRoute = data.GetInt("BinahUnlocked") > 0;
+            // Only restore pages that were saved as route unlocks (obtained this run).
+            // Never re-inject GetPermanentStartingPages bulk unlocks.
             foreach (SaveData item in pages)
             {
                 LorId id = ExtensionUtils.LogLoadFromSaveData(item);
@@ -229,15 +236,178 @@ namespace RogueLike_Mod_Reborn
                     .ToList();
             }
 
-            return RouteUnlockedPages
+            // Normal RMR run: mid-battle emotion picks only from pages obtained this route
+            // (battle rewards / shop / prior emotion picks) 鈥?not the entire catalog.
+            var list = RouteUnlockedPages
                 .Select(id => Singleton<RewardPassivesList>.Instance.GetPassiveInfo(id))
                 .Where(info => info != null && info.rewardtype == RewardType.Creature && !IsNoAbnormalityFallback(info.id))
                 .ToList();
+            Debug.Log($"[RMRAbnormalityUnlockManager] Mid-battle abno pool size={list.Count} (route-unlocked only).");
+            return list;
+        }
+
+        /// <summary>
+        /// Vanilla mapping (EmotionCard Xml &lt;EmotionLevel&gt; = page tier I/II/III):
+        ///   Tier I  (EmotionLevel=1) 鈫?Team emotion 1鈥?
+        ///   Tier II (EmotionLevel=2) 鈫?Team emotion 3鈥?
+        ///   Tier III(EmotionLevel=3) 鈫?Team emotion 5
+        /// </summary>
+        public static int GetRequiredAbnoTierForTeamEmotion(int teamEmotionLevel)
+        {
+            if (teamEmotionLevel <= 0)
+                return 1;
+            if (teamEmotionLevel <= 2)
+                return 1;
+            if (teamEmotionLevel <= 4)
+                return 2;
+            return 3;
+        }
+
+        private static readonly Dictionary<string, int> VanillaEmotionTierByScript =
+            new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+
+
+        /// <summary>
+        /// Resolve vanilla abnormality tier (1/2/3) for a reward page via EmotionCardXmlList.
+        /// Cached. Returns 0 if unknown.
+        /// </summary>
+        public static int GetVanillaAbnoTier(RewardPassiveInfo info)
+        {
+            if (info == null || string.IsNullOrEmpty(info.script))
+                return 0;
+            return GetVanillaAbnoTierForScript(info.script);
+        }
+
+        public static int GetVanillaAbnoTierForScript(string script)
+        {
+            if (string.IsNullOrEmpty(script))
+                return 0;
+            EnsureVanillaEmotionTiersLoaded();
+            string key = script.Trim();
+            if (_vanillaEmotionTierByScript.TryGetValue(key, out int tier) && tier > 0)
+                return tier;
+            // Root without trailing digit (e.g. BloodBath for BloodBath1)
+            string root = GetRootScript(key);
+            if (!string.IsNullOrEmpty(root) && !string.Equals(root, key, StringComparison.OrdinalIgnoreCase)
+                && _vanillaEmotionTierByScript.TryGetValue(root, out tier) && tier > 0)
+                return tier;
+            return 0;
+        }
+
+        private static void EnsureVanillaEmotionTiersLoaded()
+        {
+            if (_vanillaEmotionTiersLoaded)
+                return;
+            _vanillaEmotionTiersLoaded = true;
+            try
+            {
+                EmotionCardXmlList list = Singleton<EmotionCardXmlList>.Instance;
+                if (list == null)
+                    return;
+                int loaded = 0;
+                foreach (SephirahType floor in FloorAbnormalityScripts.Keys)
+                {
+                    for (int floorLevel = 1; floorLevel <= 6; floorLevel++)
+                    {
+                        List<EmotionCardXmlInfo> cards = null;
+                        try { cards = list.GetDataListByLevel(floor, floorLevel); }
+                        catch { continue; }
+                        if (cards == null)
+                            continue;
+                        foreach (EmotionCardXmlInfo card in cards)
+                        {
+                            if (card?.Script == null)
+                                continue;
+                            int tier = ReadEmotionLevelField(card);
+                            if (tier < 1 || tier > 3)
+                                continue;
+                            foreach (string s in card.Script)
+                            {
+                                if (string.IsNullOrEmpty(s))
+                                    continue;
+                                _vanillaEmotionTierByScript[s] = tier;
+                                string root = GetRootScript(s);
+                                if (!string.IsNullOrEmpty(root) && !_vanillaEmotionTierByScript.ContainsKey(root))
+                                    _vanillaEmotionTierByScript[root] = tier;
+                                loaded++;
+                            }
+                        }
+                    }
+                }
+                Debug.Log($"[RMRAbnormalityUnlockManager] Loaded vanilla abno EmotionLevel tiers for {_vanillaEmotionTierByScript.Count} script keys (entries scanned={loaded}).");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMRAbnormalityUnlockManager] EnsureVanillaEmotionTiersLoaded: " + ex.Message);
+            }
+        }
+
+        private static int ReadEmotionLevelField(EmotionCardXmlInfo card)
+        {
+            if (card == null)
+                return 0;
+            try
+            {
+                // Public field/property on vanilla EmotionCardXmlInfo
+                FieldInfo fi = AccessTools.Field(typeof(EmotionCardXmlInfo), "EmotionLevel");
+                if (fi != null)
+                    return Convert.ToInt32(fi.GetValue(card));
+                PropertyInfo pi = AccessTools.Property(typeof(EmotionCardXmlInfo), "EmotionLevel");
+                if (pi != null)
+                    return Convert.ToInt32(pi.GetValue(card, null));
+            }
+            catch { /* ignore */ }
+            return 0;
+        }
+
+        /// <summary>
+        /// True if this owned page may appear when team emotion level rises to <paramref name="teamEmotionLevel"/>.
+        /// </summary>
+        public static bool IsOwnedPageEligibleForTeamEmotion(RewardPassiveInfo info, int teamEmotionLevel)
+        {
+            if (info == null || IsNoAbnormalityFallback(info.id))
+                return false;
+            int requiredTier = GetRequiredAbnoTierForTeamEmotion(teamEmotionLevel);
+            int pageTier = GetVanillaAbnoTier(info);
+            if (pageTier <= 0)
+            {
+                // Unknown vanilla mapping: allow only at emotion 1鈥? as safe Tier-I fallback,
+                // and log once per script via debug.
+                return requiredTier == 1;
+            }
+            return pageTier == requiredTier;
+        }
+
+        /// <summary>
+        /// Filter route-owned pages for a team emotion pick, then pick up to 3.
+        /// </summary>
+        public static List<RewardPassiveInfo> FilterOwnedPagesForTeamEmotion(
+            IEnumerable<RewardPassiveInfo> ownedPool,
+            int teamEmotionLevel,
+            HashSet<string> alreadySelectedKeys)
+        {
+            int requiredTier = GetRequiredAbnoTierForTeamEmotion(teamEmotionLevel);
+            var eligible = new List<RewardPassiveInfo>();
+            if (ownedPool == null)
+                return eligible;
+            foreach (RewardPassiveInfo info in ownedPool)
+            {
+                if (info == null)
+                    continue;
+                string key = (info.id.packageId ?? "") + ":" + info.id.id;
+                if (alreadySelectedKeys != null && alreadySelectedKeys.Contains(key))
+                    continue;
+                if (!IsOwnedPageEligibleForTeamEmotion(info, teamEmotionLevel))
+                    continue;
+                eligible.Add(info);
+            }
+            Debug.Log($"[RMRAbnormalityUnlockManager] Emotion pick filter teamLv={teamEmotionLevel} needTier={requiredTier} eligible={eligible.Count} (owned pool filtered).");
+            return eligible;
         }
 
         public static void EnqueueBattleClearRewards()
         {
-            // Realization battles have their own reward path — skip normal Roguelike reward chains
+            // Realization battles have their own reward path 鈥?skip normal Roguelike reward chains
             if (RMRRealizationManager.InRealizationBattle)
                 return;
 
@@ -454,83 +624,73 @@ namespace RogueLike_Mod_Reborn
         }
 
         /// <summary>
-        /// Enqueues realization-victory-tier abnormality page and EGO card rewards
-        /// for BOSS stage completions. The count and candidate floors follow the
-        /// route grade bands, then filter down to completed realizations.
-        /// If the player has not completed any matching floor realization, no realization reward
-        /// is queued so the reward UI cannot open an empty selection.
+        /// After a BOSS clear: one realization-exclusive abnormality 3-pick and one E.G.O. 3-pick
+        /// from floors the player has already completed in realization.
+        /// Atlas unlock only means "eligible for pools", NOT "already owned this run".
         /// </summary>
         private static void EnqueueBossRealizationTierRewards(ChapterGrade grade)
         {
-            int abnoCount;
-            int egoCount;
-
-            if (grade <= ChapterGrade.Grade3)
-            {
-                abnoCount = 1;
-                egoCount = 1;
-            }
-            else if (grade <= ChapterGrade.Grade5)
-            {
-                abnoCount = 2;
-                egoCount = 2;
-            }
-            else // Grade6+
-            {
-                abnoCount = 3;
-                egoCount = 3;
-            }
-
             LoadRealizationProgress();
             PruneUnselectedRealizationPagesFromRoute();
             HashSet<SephirahType> completedFloors = GetCompletedRealizationFloorsForBossTier(grade);
             if (completedFloors.Count == 0)
             {
-                Debug.Log($"[RMRAbnormalityUnlockManager] BOSS realization tier rewards skipped: grade={grade}, no completed floors in tier {GetTierForChapter(grade)}");
+                Debug.Log($"[RMRAbnormalityUnlockManager] BOSS realization rewards skipped: grade={grade}, no completed floors in tier {GetTierForChapter(grade)}");
                 return;
             }
 
-            // Enqueue abnormality page rewards (completed realization-exclusive only)
-            for (int i = 0; i < abnoCount; i++)
+            // 1) Liberation-exclusive abnormality page 鈥?always a single 3-choose-1.
+            List<RewardPassiveInfo> exclusiveAbno = RollExclusiveRealizationAbnormalityChoices(completedFloors, 3);
+            if (exclusiveAbno != null && exclusiveAbno.Count > 0)
             {
-                var abnoRewards = RollRealizationAbnormalityChoices(completedFloors, 3);
-                if (abnoRewards != null && abnoRewards.Count > 0)
-                    LogLikeMod.rewards_passive.Add(new RewardInfo { grade = grade, rewards = abnoRewards });
-                else
-                    Debug.LogWarning($"[RMRAbnormalityUnlockManager] BOSS realization abno reward #{i + 1} has no candidates for grade {grade}");
+                LogLikeMod.rewards_passive.Add(new RewardInfo { grade = grade, rewards = exclusiveAbno });
+                Debug.Log($"[RMRAbnormalityUnlockManager] BOSS exclusive abno 3-pick enqueued ({exclusiveAbno.Count} options) floors=[{string.Join(",", completedFloors)}]");
+            }
+            else
+            {
+                Debug.LogWarning($"[RMRAbnormalityUnlockManager] BOSS exclusive abno 3-pick empty for grade {grade} floors=[{string.Join(",", completedFloors)}]");
             }
 
-            // Enqueue EGO card rewards as card reward selections
-            for (int i = 0; i < egoCount; i++)
-            {
-                EnqueueRealizationEgoSelection(completedFloors);
-            }
-
-            Debug.Log($"[RMRAbnormalityUnlockManager] Enqueued BOSS realization tier rewards: grade={grade}, abno={abnoCount}, ego={egoCount}, floors=[{string.Join(",", completedFloors)}]");
+            // 2) Liberation E.G.O. page 鈥?always a single 3-choose-1 (independent ego queue).
+            bool egoQueued = EnqueueRealizationEgoSelection(completedFloors);
+            Debug.Log($"[RMRAbnormalityUnlockManager] BOSS realization rewards grade={grade}: exclusiveAbno={exclusiveAbno?.Count ?? 0}, egoQueued={egoQueued}, floors=[{string.Join(",", completedFloors)}]");
         }
 
         private static HashSet<SephirahType> GetCompletedRealizationFloorsForBossTier(ChapterGrade grade)
         {
-            HashSet<SephirahType> floors = GetBossRealizationRewardFloorsForChapter(grade);
+            HashSet<SephirahType> floors = GetFloorsForChapter(grade);
             floors.IntersectWith(CompletedRealizations);
             return floors;
         }
 
-        private static HashSet<SephirahType> GetBossRealizationRewardFloorsForChapter(ChapterGrade grade)
+        /// <summary>
+        /// True if this run already owns the E.G.O. (picked earlier or already in inventory).
+        /// Atlas unlock alone is NOT ownership 鈥?that only opens the reward/shop pool.
+        /// </summary>
+        public static bool IsEgoOwnedOnCurrentRoute(LorId id)
         {
-            if (grade <= ChapterGrade.Grade3)
-                return new HashSet<SephirahType> { SephirahType.Malkuth, SephirahType.Yesod, SephirahType.Hod, SephirahType.Netzach };
-            if (grade <= ChapterGrade.Grade5)
-                return new HashSet<SephirahType> { SephirahType.Tiphereth, SephirahType.Gebura, SephirahType.Chesed };
-            return new HashSet<SephirahType> { SephirahType.Binah, SephirahType.Hokma, SephirahType.Chesed };
+            if (id == null || id == LorId.None)
+                return true;
+            if (IsEgoUnlockedForCurrentRoute(id))
+                return true;
+            try
+            {
+                if (LogueBookModels.cardlist != null
+                    && LogueBookModels.cardlist.Any(c => c != null && c.GetID() != null
+                        && c.GetID().id == id.id
+                        && (string.IsNullOrEmpty(c.GetID().packageId) || string.IsNullOrEmpty(id.packageId)
+                            || c.GetID().packageId == id.packageId)))
+                    return true;
+            }
+            catch { /* ignore inventory probe failures */ }
+            return false;
         }
 
         /// <summary>
-        /// Rolls a set of realization-exclusive abnormality page reward candidates from the given floors.
-        /// The caller passes only completed realization floors.
-        /// Filters already-unlocked pages in the current route.
+        /// Realization-exclusive abnormality pages only (Snow White / Freisch眉tz final, etc.),
+        /// from completed realization floors. Does not use the wide floor pool.
         /// </summary>
-        private static List<RewardPassiveInfo> RollRealizationAbnormalityChoices(HashSet<SephirahType> floors, int count)
+        private static List<RewardPassiveInfo> RollExclusiveRealizationAbnormalityChoices(HashSet<SephirahType> floors, int count)
         {
             var candidates = new List<RewardPassiveInfo>();
             foreach (var info in GetAllCreatureRewardPages())
@@ -539,24 +699,22 @@ namespace RogueLike_Mod_Reborn
                     continue;
                 if (IsNoAbnormalityFallback(info.id))
                     continue;
-                // Boss rewards roll from the full pool of completed realization floors.
-                SephirahType floor = GetBossRealizationRewardFloorForScript(info.script);
+                if (!IsRealizationExclusive(info))
+                    continue;
+                SephirahType floor = GetRealizationFloorForScript(info.script);
                 if (floor == SephirahType.None || !floors.Contains(floor))
                     continue;
-                // Skip already-unlocked in current route
+                // Route ownership only 鈥?atlas unlock is pool eligibility, not run ownership.
                 if (RouteUnlockedPages.Exists(id => id == info.id))
                     continue;
-                if (LogueBookModels.IsAtlasAbnormalityPageUnlocked(info.id))
+                if (LogueBookModels.EmotionCardList != null && LogueBookModels.EmotionCardList.Any(x => x != null && x.id == info.id))
                     continue;
-                // Skip already in EmotionCardList
-                if (LogueBookModels.EmotionCardList != null && LogueBookModels.EmotionCardList.Any(x => x.id == info.id))
-                    continue;
-                if (LogLikeMod.rewards_passive != null && LogLikeMod.rewards_passive.Any(reward => reward?.rewards != null && reward.rewards.Any(queued => queued.id == info.id)))
+                if (LogLikeMod.rewards_passive != null
+                    && LogLikeMod.rewards_passive.Any(reward => reward?.rewards != null && reward.rewards.Any(queued => queued != null && queued.id == info.id)))
                     continue;
                 candidates.Add(info);
             }
 
-            // Shuffle and pick
             var result = new List<RewardPassiveInfo>();
             while (candidates.Count > 0 && result.Count < count)
             {
@@ -568,56 +726,57 @@ namespace RogueLike_Mod_Reborn
         }
 
         /// <summary>
-        /// Enqueues EGO card selection choices into the independent EGO queue.
-        /// Each selection shows up to 3 unowned EGO card candidates from the specified floors.
-        /// The queue is processed in StartPickReward before normal card drops.
-        /// If no unowned candidates exist, safely skips without blocking.
+        /// Enqueues one E.G.O. 3-choose-1 from completed realization floors.
+        /// Returns true if a non-empty choice set was queued.
         /// </summary>
-        private static void EnqueueRealizationEgoSelection(HashSet<SephirahType> floors)
+        private static bool EnqueueRealizationEgoSelection(HashSet<SephirahType> floors)
         {
-            var candidates = new List<DiceCardXmlInfo>();
+            var candidates = new List<LorId>();
             foreach (var floor in floors)
             {
-                if (!RealizationEgoCardsByFloor.TryGetValue(floor, out LorId[] egoIds))
+                if (!RealizationEgoCardsByFloor.TryGetValue(floor, out LorId[] egoIds) || egoIds == null)
                     continue;
                 foreach (LorId id in egoIds)
                 {
-                    DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(id, true);
+                    if (id == null || id == LorId.None)
+                        continue;
+                    if (IsEgoOwnedOnCurrentRoute(id))
+                        continue;
+                    // Must resolve a real card XML 鈥?otherwise GetQueuedEgoRewards drops the entry and the whole 3-pick can vanish.
+                    DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(id, true)
+                        ?? ItemXmlDataList.instance.GetCardItem(id.id, true)
+                        ?? ItemXmlDataList.instance.GetCardItem(new LorId(string.Empty, id.id), true);
                     if (card == null)
                         continue;
-                    if (IsEgoUnlockedForCurrentRoute(id))
+                    if (LogLikeMod.egoSelectionQueue != null
+                        && LogLikeMod.egoSelectionQueue.Any(choice => choice != null && choice.Any(q => q != null && q.id == id.id)))
                         continue;
-                    if (LogueBookModels.IsAtlasEgoPageUnlocked(id))
-                        continue;
-                    if (LogLikeMod.egoSelectionQueue != null && LogLikeMod.egoSelectionQueue.Any(choice => choice != null && choice.Contains(id)))
-                        continue;
-                    if (!candidates.Exists(c => c.id == card.id))
-                        candidates.Add(card);
+                    if (!candidates.Any(c => c != null && c.id == id.id))
+                        candidates.Add(card.id != null ? card.id : id);
                 }
             }
 
             if (candidates.Count == 0)
             {
-                Debug.LogWarning($"[RMRAbnormalityUnlockManager] EnqueueRealizationEgoSelection: no unowned EGO cards in floors [{string.Join(",", floors)}]");
-                return;
+                Debug.LogWarning($"[RMRAbnormalityUnlockManager] EnqueueRealizationEgoSelection: no unowned EGO in floors [{string.Join(",", floors)}]");
+                return false;
             }
 
-            // Pick up to 3 candidates for the selection UI
             int pickCount = Math.Min(3, candidates.Count);
             var choiceSet = new List<LorId>();
             for (int i = 0; i < pickCount; i++)
             {
                 int index = UnityEngine.Random.Range(0, candidates.Count);
-                choiceSet.Add(candidates[index].id);
+                choiceSet.Add(candidates[index]);
                 candidates.RemoveAt(index);
             }
 
-            // Add to independent EGO selection queue
             if (LogLikeMod.egoSelectionQueue == null)
                 LogLikeMod.egoSelectionQueue = new List<List<LorId>>();
             LogLikeMod.egoSelectionQueue.Add(choiceSet);
 
-            Debug.Log($"[RMRAbnormalityUnlockManager] Enqueued EGO selection: {choiceSet.Count} candidates in queue position {LogLikeMod.egoSelectionQueue.Count}");
+            Debug.Log($"[RMRAbnormalityUnlockManager] Enqueued EGO 3-pick: {choiceSet.Count} candidates (queue size {LogLikeMod.egoSelectionQueue.Count}) ids=[{string.Join(",", choiceSet.Select(x => x.id.ToString()).ToArray())}]");
+            return true;
         }
         public static void EnqueueRewardSelections(int count)
         {
@@ -653,20 +812,194 @@ namespace RogueLike_Mod_Reborn
             else if (RewardingModel.rewardFlag == RewardingModel.RewardFlag.EmtoionChoose && !LogueBookModels.selectedEmotion.Contains(info))
             {
                 LogueBookModels.selectedEmotion.Add(info);
+                // Persist into route pool so later battles this run can re-offer the page.
+                UnlockPage(info.id);
                 LogueBookModels.RecordAtlasAbnormalityPage(info.id);
             }
             return true;
         }
 
+        /// <summary>
+        /// Resolve vanilla EmotionEgoXmlInfo for a combat-page id (for floor _selectedEgoList / EGO hand).
+        /// </summary>
+        public static EmotionEgoXmlInfo FindVanillaEmotionEgo(LorId cardId)
+        {
+            if (cardId == null || cardId == LorId.None || Singleton<EmotionEgoXmlList>.Instance == null)
+                return null;
+            foreach (var pair in RealizationEgoCardsByFloor)
+            {
+                List<EmotionEgoXmlInfo> floorEgos = null;
+                try { floorEgos = Singleton<EmotionEgoXmlList>.Instance.GetDataList(pair.Key); }
+                catch { continue; }
+                if (floorEgos == null)
+                    continue;
+                foreach (EmotionEgoXmlInfo ego in floorEgos)
+                {
+                    if (ego == null)
+                        continue;
+                    try
+                    {
+                        if (ego.CardId != null && ego.CardId.id == cardId.id)
+                            return ego;
+                        if (pair.Value != null && pair.Value.Any(x => x != null && x.id == cardId.id)
+                            && ego.CardId != null && ego.CardId.id == cardId.id)
+                            return ego;
+                    }
+                    catch { /* ignore bad entry */ }
+                }
+            }
+            // Fallback scan: any sephirah list
+            try
+            {
+                foreach (SephirahType floor in System.Enum.GetValues(typeof(SephirahType)))
+                {
+                    if (floor == SephirahType.None)
+                        continue;
+                    List<EmotionEgoXmlInfo> list = Singleton<EmotionEgoXmlList>.Instance.GetDataList(floor);
+                    if (list == null)
+                        continue;
+                    foreach (EmotionEgoXmlInfo ego in list)
+                    {
+                        if (ego?.CardId != null && ego.CardId.id == cardId.id)
+                            return ego;
+                    }
+                }
+            }
+            catch { /* ignore */ }
+            return null;
+        }
+
+        /// <summary>
+        /// Register a mid-battle EGO pick onto the current floor's selected list so vanilla
+        /// ExistEgoCardBySelected / hand toggle treats it like a floor E.G.O. selection.
+        /// </summary>
+        public static bool RegisterSelectedEgoOnCurrentFloor(LorId cardId)
+        {
+            if (cardId == null || cardId == LorId.None)
+                return false;
+            try
+            {
+                StageLibraryFloorModel floor = Singleton<StageController>.Instance?.GetCurrentStageFloorModel();
+                if (floor == null)
+                    return false;
+                List<EmotionEgoXmlInfo> selected =
+                    ModdingUtils.GetFieldValue<List<EmotionEgoXmlInfo>>("_selectedEgoList", floor);
+                if (selected == null)
+                {
+                    selected = new List<EmotionEgoXmlInfo>();
+                    try
+                    {
+                        FieldInfo fi = AccessTools.Field(typeof(StageLibraryFloorModel), "_selectedEgoList");
+                        fi?.SetValue(floor, selected);
+                    }
+                    catch { return false; }
+                }
+                if (selected.Any(e => e?.CardId != null && e.CardId.id == cardId.id))
+                    return true;
+
+                EmotionEgoXmlInfo real = FindVanillaEmotionEgo(cardId);
+                if (real == null)
+                {
+                    // Build a minimal entry so CardId resolves via our Harmony if needed.
+                    real = LogLikeMod.AddEmotionEgoForReward(
+                        ItemXmlDataList.instance?.GetCardItem(cardId, true)
+                        ?? ItemXmlDataList.instance?.GetCardItem(cardId.id, true));
+                }
+                if (real == null)
+                    return false;
+                selected.Add(real);
+                Debug.Log($"[RMR] Registered floor selected EGO id={cardId.id} (selected count={selected.Count}).");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] RegisterSelectedEgoOnCurrentFloor: " + ex.Message);
+                return false;
+            }
+        }
+
         public static void UnlockEgoForCurrentRoute(LorId id)
         {
-            if (id != LorId.None && IsRealizationEgoCard(id))
+            // Track all picked EGO for this run (not only realization ids) so personalEgo grant works.
+            if (id != null && id != LorId.None)
                 RouteUnlockedEgoPages.Add(id);
+        }
+
+        /// <summary>All EGO ids unlocked/picked on the current route.</summary>
+        public static IEnumerable<LorId> EnumerateRouteUnlockedEgoPages()
+        {
+            return RouteUnlockedEgoPages;
         }
 
         public static bool IsEgoUnlockedForCurrentRoute(LorId id)
         {
             return RouteUnlockedEgoPages.Contains(id);
+        }
+
+        public static bool HasCompletedAnyRealization()
+        {
+            return CompletedRealizations != null && CompletedRealizations.Count > 0;
+        }
+
+        /// <summary>
+        /// Pool of E.G.O. card ids available for mid-battle picks (emotion 3/4/5 after abno),
+        /// from completed floor realizations. Excludes ids already selected this reception.
+        /// </summary>
+        public static List<LorId> CollectMidBattleEgoCandidates(HashSet<int> alreadySelectedThisBattle)
+        {
+            var candidates = new List<LorId>();
+            var seen = new HashSet<int>();
+            void Consider(LorId id)
+            {
+                if (id == null || id == LorId.None)
+                    return;
+                if (alreadySelectedThisBattle != null && alreadySelectedThisBattle.Contains(id.id))
+                    return;
+                if (!seen.Add(id.id))
+                    return;
+                DiceCardXmlInfo card = ItemXmlDataList.instance?.GetCardItem(id, true)
+                    ?? ItemXmlDataList.instance?.GetCardItem(id.id, true)
+                    ?? ItemXmlDataList.instance?.GetCardItem(new LorId(string.Empty, id.id), true);
+                if (card == null)
+                    return;
+                candidates.Add(card.id != null ? card.id : id);
+            }
+
+            if (CompletedRealizations != null)
+            {
+                foreach (SephirahType floor in CompletedRealizations)
+                {
+                    if (!RealizationEgoCardsByFloor.TryGetValue(floor, out LorId[] egoIds) || egoIds == null)
+                        continue;
+                    foreach (LorId id in egoIds)
+                        Consider(id);
+                }
+            }
+
+            // Route-picked EGO from shops/rewards that may not be on the realization table.
+            foreach (LorId id in RouteUnlockedEgoPages)
+                Consider(id);
+
+            return candidates;
+        }
+
+        /// <summary>
+        /// Random 3-pick (or fewer) from mid-battle EGO pool.
+        /// </summary>
+        public static List<LorId> RollMidBattleEgoChoiceSet(HashSet<int> alreadySelectedThisBattle)
+        {
+            List<LorId> candidates = CollectMidBattleEgoCandidates(alreadySelectedThisBattle);
+            if (candidates.Count == 0)
+                return new List<LorId>();
+            int pickCount = Math.Min(3, candidates.Count);
+            var choiceSet = new List<LorId>();
+            for (int i = 0; i < pickCount; i++)
+            {
+                int index = UnityEngine.Random.Range(0, candidates.Count);
+                choiceSet.Add(candidates[index]);
+                candidates.RemoveAt(index);
+            }
+            return choiceSet;
         }
 
         public static EmotionCardXmlInfo GetNoAbnormalityFallback(int level)
@@ -743,7 +1076,7 @@ namespace RogueLike_Mod_Reborn
                         return kvp.Key;
                 }
             }
-            Debug.Log($"[RMRAbnormalityUnlockManager] Unknown script root: {root} — defaulting to Keter");
+            Debug.Log($"[RMRAbnormalityUnlockManager] Unknown script root: {root} 鈥?defaulting to Keter");
             return SephirahType.None;
         }
 
@@ -886,33 +1219,63 @@ namespace RogueLike_Mod_Reborn
             return result;
         }
 
-        public static void ApplyVanillaEmotionPresentation(RewardPassiveInfo info, EmotionCardXmlInfo virtualCard)
+        /// <summary>
+        /// Resolve the vanilla EmotionCardXmlInfo for a reward script (e.g. snowwhite1 鈫?
+        /// Name "SnowWhite_Vine"). Vanilla AbnormalityCards localization is keyed by Name,
+        /// not by Script, so callers that need desc text must use this Name.
+        /// </summary>
+        public static EmotionCardXmlInfo FindVanillaEmotionCard(string script)
         {
-            if (info == null || virtualCard == null || info.rewardtype != RewardType.Creature)
-                return;
-            SephirahType floor = GetRealizationFloorForScript(info.script);
+            if (string.IsNullOrEmpty(script))
+                return null;
+            SephirahType floor = GetRealizationFloorForScript(script);
             if (floor == SephirahType.None)
-                floor = GetFloorForScript(info.script);
+                floor = GetFloorForScript(script);
             if (floor == SephirahType.None)
-                return;
+            {
+                // Scan all floors as a last resort (script roots not in the floor map).
+                foreach (SephirahType candidateFloor in FloorAbnormalityScripts.Keys)
+                {
+                    EmotionCardXmlInfo found = FindVanillaEmotionCardOnFloor(candidateFloor, script);
+                    if (found != null)
+                        return found;
+                }
+                return null;
+            }
+            return FindVanillaEmotionCardOnFloor(floor, script);
+        }
 
-            EmotionCardXmlInfo vanillaCard = null;
-            for (int level = 1; level <= 6 && vanillaCard == null; level++)
+        private static EmotionCardXmlInfo FindVanillaEmotionCardOnFloor(SephirahType floor, string script)
+        {
+            for (int level = 1; level <= 6; level++)
             {
                 List<EmotionCardXmlInfo> cards = Singleton<EmotionCardXmlList>.Instance.GetDataListByLevel(floor, level);
                 if (cards == null)
                     continue;
-                vanillaCard = cards.FirstOrDefault(card =>
+                EmotionCardXmlInfo match = cards.FirstOrDefault(card =>
                     card != null
                     && card.Script != null
-                    && card.Script.Any(script => ScriptMatchesRealizationEntry(script, info.script)));
+                    && card.Script.Any(s => ScriptMatchesRealizationEntry(s, script)));
+                if (match != null)
+                    return match;
             }
+            return null;
+        }
+
+        public static void ApplyVanillaEmotionPresentation(RewardPassiveInfo info, EmotionCardXmlInfo virtualCard)
+        {
+            if (info == null || virtualCard == null || info.rewardtype != RewardType.Creature)
+                return;
+
+            EmotionCardXmlInfo vanillaCard = FindVanillaEmotionCard(info.script);
             if (vanillaCard == null)
             {
-                Debug.LogWarning($"[RMRAbnormalityUnlockManager] Vanilla emotion presentation not found for {info.script} on {floor}.");
+                Debug.LogWarning($"[RMRAbnormalityUnlockManager] Vanilla emotion presentation not found for {info.script}.");
                 return;
             }
 
+            // Critical: UI EmotionPassiveCardUI.SetTexts looks up AbnormalityCardDesc by Name.
+            // Vanilla localization IDs are fancy names (SnowWhite_Vine), not scripts (snowwhite1).
             virtualCard.Name = vanillaCard.Name;
             virtualCard._artwork = vanillaCard.Artwork;
             virtualCard.Sephirah = vanillaCard.Sephirah;
@@ -951,9 +1314,9 @@ namespace RogueLike_Mod_Reborn
 
         /// <summary>
         /// Returns the set of floors whose pages are available for the given chapter grade.
-        /// Grade 1-3 → Malkuth/Yesod/Hod/Netzach (前4层)
-        /// Grade 4-5 → Tiphereth/Gebura/Chesed (中3层)
-        /// Grade 6-7 → Binah/Hokma/Keter (后3层)
+        /// Grade 1-3 鈫?Malkuth/Yesod/Hod/Netzach (鍓?灞?
+        /// Grade 4-5 鈫?Tiphereth/Gebura/Chesed (涓?灞?
+        /// Grade 6-7 鈫?Binah/Hokma/Keter (鍚?灞?
         /// </summary>
         public static HashSet<SephirahType> GetFloorsForChapter(ChapterGrade grade)
         {
@@ -1196,9 +1559,10 @@ namespace RogueLike_Mod_Reborn
     {
         public PickUpModel_RMRNoAbnormality()
         {
-            this.Name = "无";
-            this.Desc = "当前情感等级没有已解锁的异想体书页。";
-            this.FlaverText = "这一次，光没有回应。";
+            // Unicode escapes so file encoding cannot corrupt Chinese strings.
+            this.Name = "\u65e0"; // 无
+            this.Desc = "\u5f53\u524d\u60c5\u611f\u7b49\u7ea7\u6ca1\u6709\u5df2\u89e3\u9501\u7684\u5f02\u60f3\u4f53\u4e66\u9875\u3002"; // 当前情感等级没有已解锁的异想体书页。
+            this.FlaverText = "\u8fd9\u4e00\u6b21\uff0c\u5149\u6ca1\u6709\u56de\u5e94\u3002"; // 这一次，光没有回应。
             this.ArtWork = "Stage_Rest";
         }
 

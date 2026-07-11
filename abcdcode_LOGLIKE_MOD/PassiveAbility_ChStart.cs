@@ -12,6 +12,11 @@ namespace abcdcode_LOGLIKE_MOD
         public override void OnWaveStart()
         {
             base.OnWaveStart();
+            if (RMRCore.CurrentGamemode == null)
+            {
+                UnityEngine.Debug.LogWarning("[RMR] PassiveAbility_ChStart: CurrentGamemode is null — skip OnWaveStartInitialEvent.");
+                return;
+            }
             RMRCore.CurrentGamemode.OnWaveStartInitialEvent();
         }
     }

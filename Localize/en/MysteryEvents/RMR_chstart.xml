@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <RogueMysteryXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Mystery ID="-100">
     <Frame ID="0">
@@ -17,20 +17,11 @@ Which one will you choose?</Dialog>
       <Choice ID="3">
         <Desc>Choose [common]Vicious Glasses</Desc>
       </Choice>
-	  <Choice ID="4">
+      <Choice ID="4">
         <Desc>Choose [common]Light's Guidance</Desc>
       </Choice>
-	  <Choice ID="5">
+      <Choice ID="5">
         <Desc>Choose [common]Roadless Camelot</Desc>
-      </Choice>
-      <Choice ID="6">
-        <Desc>Choose [rare]Floor Realization</Desc>
-      </Choice>
-      <Choice ID="7">
-        <Desc>Reset all permanent progress</Desc>
-      </Choice>
-      <Choice ID="8">
-        <Desc>Gameplay guide</Desc>
       </Choice>
     </Frame>
     <Frame ID="1">
@@ -51,13 +42,7 @@ Temporary pages in the current route will not be written back into the permanent
       </Choice>
     </Frame>
     <Frame ID="3">
-      <Dialog>RMR generates a chapter route with normal fights, elite fights, bosses, shops, rest sites, mystery events, abnormality battles, and floor realizations.
-
-The atlas records core pages and combat pages you have permanently unlocked. Later routes, shops, and some special flows read from that atlas.
-
-Floor realizations connect to the vanilla realization flow. After clearing one, that floor's exclusive abnormality pages and E.G.O. pages can enter the permanent reward pool.
-
-Some special bosses have first-clear rewards. After clearing Black Silence once, reaching Urban Star in later routes automatically unlocks the Black Silence core page. After clearing Distorted Ensemble once, reaching Urban Star automatically unlocks the Distorted Blue Reverberation core page and combat pages.</Dialog>
+      <Dialog>(Moved to the start menu "How to Play".)</Dialog>
       <Choice ID="0">
         <Desc>Back</Desc>
       </Choice>

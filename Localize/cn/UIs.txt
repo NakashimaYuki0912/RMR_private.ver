@@ -3,10 +3,23 @@
 
 	 <text id="BattleEnd_CardReward">选择战斗书页奖励</text>
 	 <text id="BattleEnd_PassiveReward">选择被动能力奖励</text>
+	 <text id="BattleEnd_EgoReward">选择 E.G.O. 战斗书页</text>
 	 <text id="BattleEnd_NextStage">请选择下一场接待</text>
 	 <text id="ui_LogueLikeFloor">图书馆</text>
 	 <text id="ui_selectskip">跳过奖励</text>
 	 <text id="ui_stageremain">剩余接待: </text>
+	 <text id="ui_RMR_InventoryEmpty">当前层限制：没有可显示的战斗书页（更高章节或 E.G.O. 已过滤）。</text>
+	 <text id="ui_RMR_BookInventoryEmpty">当前层限制：没有可显示的核心书页（更高章节已过滤）。</text>
+	 <text id="ui_RMR_Floor_Malkuth">历史</text>
+	 <text id="ui_RMR_Floor_Yesod">科技</text>
+	 <text id="ui_RMR_Floor_Hod">文学</text>
+	 <text id="ui_RMR_Floor_Netzach">艺术</text>
+	 <text id="ui_RMR_Floor_Tiphereth">自然</text>
+	 <text id="ui_RMR_Floor_Gebura">语言</text>
+	 <text id="ui_RMR_Floor_Chesed">社会</text>
+	 <text id="ui_RMR_Floor_Binah">哲学</text>
+	 <text id="ui_RMR_Floor_Hokma">宗教</text>
+	 <text id="ui_RMR_Floor_Keter">总类</text>
 	 <text id="ui_ShopLeave">离开商店</text>
 	 <text id="ui_ShopHide">隐藏</text>
 	 <text id="ui_ShopShow">返回</text>
@@ -18,7 +31,7 @@
 	 <text id="ui_RestShow">返回</text>
 	 <text id="ui_Realization">解放战</text>
 	 <text id="ui_RMR_RealizationTitle">解放战</text>
-	 <text id="ui_RMR_RealizationDesc">挑战楼层解放战。胜利后，该楼层的专属异想体书页与 E.G.O 书页会永久进入图鉴和奖励池。</text>
+	 <text id="ui_RMR_RealizationDesc">选择楼层后编队，直接挑战原版最终解放战（安吉拉/罗兰多阶段），不含前置异想体镇压。首胜永久解锁该层异想体与 E.G.O.；已通关可再战不发奖。</text>
 	 <text id="ui_RMR_RealizationChallenge">挑战</text>
 	 <text id="ui_RMR_RealizationCleared">已完成</text>
 	 <text id="ui_RMR_RealizationReplay">已完成 · 可再战</text>
@@ -28,10 +41,18 @@
 	 <text id="ui_RMR_Hub_Play">正常游玩</text>
 	 <text id="ui_RMR_Hub_Realization">挑战解放战</text>
 	 <text id="ui_RMR_Hub_Help">玩法介绍</text>
+	 <text id="ui_RMR_Hub_Reset">重置永久进度</text>
+	 <text id="ui_RMR_Hub_ResetConfirm">确认重置所有永久进度？&#10;将清空图鉴、解放战记录与特殊 Boss 首通记录。&#10;当前路线临时内容不会写回图鉴。</text>
+	 <text id="ui_RMR_Hub_ResetYes">确认重置</text>
+	 <text id="ui_RMR_Hub_ResetNo">取消</text>
+	 <text id="ui_RMR_Hub_ResetDone">永久进度已重置。</text>
 	 <text id="ui_RMR_Hub_Exit">退出</text>
 	 <text id="ui_RMR_Hub_ExitConfirm">是否返回图书馆？不会保留本次开局状态。</text>
 	 <text id="ui_RMR_Hub_ExitYes">确认退出</text>
 	 <text id="ui_RMR_Hub_ExitNo">取消</text>
+	 <text id="ui_RMR_HubFooter">Library of Ruina · Roguelike Mod Reborn</text>
+	 <text id="ui_RMR_ContinueFailed">无法继续 Roguelike 旅程。存档可能缺失或已过期。</text>
+	 <text id="ui_RMR_ContinueLoadFailed">继续失败：存档未能完整加载。请尝试新开局，或完全重启游戏后再进入。</text>
 	 <text id="ui_RMR_Help_Close">关闭</text>
 	 <text id="ui_RMR_Help_Nav_Overview">总览</text>
 	 <text id="ui_RMR_Help_Nav_Route">路线与章节</text>
@@ -107,7 +128,8 @@
   <text id="ui_RMR_StartNewRun">新路线</text>
   <text id="ui_RMR_StartNewRunDesc">开始新的Roguelike路线。这将会覆盖您正在游玩的路线。</text>
   <text id="ui_RMR_ContinueRun">继续旅程</text>
-  <text id="ui_RMR_ContinueRunDesc">继续游玩之前的Roguelike路线。</text>
+  <text id="ui_RMR_ContinueRunDesc">在玩法选择中继续之前的 Roguelike 路线（有存档时显示）。</text>
+  <text id="ui_RMR_Hub_Continue">继续旅程</text>
   <text id="ui_RMR_ConfirmStartNewRun">您确定要开始新的路线吗？保存的存档将被覆盖。</text>
 
 

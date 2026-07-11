@@ -11,6 +11,12 @@ namespace RogueLike_Mod_Reborn
 {
     public static class RMRRealizationManager
     {
+        /// <summary>
+        /// Vanilla Floor Realization (最终解放战) stage id per floor.
+        /// These are Angela/Roland multi-phase E.G.O fights (EnemyUnitInfo_creature_final),
+        /// NOT the earlier abnormality suppression stages (201001–201004 etc.).
+        /// Phase changes are handled in-battle by vanilla scripts (e.g. Corrosion).
+        /// </summary>
         public static readonly Dictionary<SephirahType, int> RealizationBossStageIds = new Dictionary<SephirahType, int>
         {
             { SephirahType.Malkuth,   201005 },
@@ -24,6 +30,9 @@ namespace RogueLike_Mod_Reborn
             { SephirahType.Hokma,     209004 },
             { SephirahType.Keter,     210009 },
         };
+
+        /// <summary>True while our code is invoking OpenBattlePrepare (re-entrancy guard).</summary>
+        private static bool _inOpenBattlePrepare;
 
         public static readonly Dictionary<SephirahType, string> FloorDisplayNames = new Dictionary<SephirahType, string>
         {
@@ -60,6 +69,45 @@ namespace RogueLike_Mod_Reborn
         public static bool IsRealizationPreparationActive => PendingRealizationBattle && !InRealizationBattle;
 
         /// <summary>
+        /// True while the StageController_StartBattle hook is on the stack.
+        /// Used so opening prepare mid-hook aborts the shell StartBattle only,
+        /// without blocking the later player-confirmed StartBattle.
+        /// </summary>
+        private static int _startBattleHookDepth;
+        private static bool _abortCurrentStartBattleAfterPrepare;
+
+        public static void EnterStartBattleHook()
+        {
+            _startBattleHookDepth++;
+        }
+
+        public static void ExitStartBattleHook()
+        {
+            if (_startBattleHookDepth > 0)
+                _startBattleHookDepth--;
+            if (_startBattleHookDepth == 0)
+                _abortCurrentStartBattleAfterPrepare = false;
+        }
+
+        /// <summary>
+        /// If prepare was opened during the current StartBattle hook, consume the abort
+        /// and skip orig(StartBattle) so dummy/shell combat does not auto-start.
+        /// </summary>
+        public static bool ConsumeAbortCurrentStartBattle()
+        {
+            if (!_abortCurrentStartBattleAfterPrepare)
+                return false;
+            _abortCurrentStartBattleAfterPrepare = false;
+            return true;
+        }
+
+        private static void RequestAbortCurrentStartBattleIfInHook()
+        {
+            if (_startBattleHookDepth > 0)
+                _abortCurrentStartBattleAfterPrepare = true;
+        }
+
+        /// <summary>
         /// Clears the realization battle flag. Called from StageController_EndBattle
         /// AFTER the vanilla EndBattle completes, so that postfix hooks still see
         /// the guard during cleanup.
@@ -93,10 +141,15 @@ namespace RogueLike_Mod_Reborn
         /// <summary>Call on first round start while in realization combat.</summary>
         public static void MarkRealizationCombatLive()
         {
-            if (!InRealizationBattle || RealizationCombatLive)
+            if (!InRealizationBattle)
                 return;
-            RealizationCombatLive = true;
-            Debug.Log($"[RMRRealizationManager] Realization combat is live: {CurrentRealizationFloor}");
+            if (!RealizationCombatLive)
+            {
+                RealizationCombatLive = true;
+                Debug.Log($"[RMRRealizationManager] Realization combat is live: {CurrentRealizationFloor}");
+            }
+            // Every round: ensure multiphase boss passives + log immortal/phase state.
+            EnsureRealizationMultiPhaseBossState();
         }
 
         /// <summary>
@@ -117,24 +170,330 @@ namespace RogueLike_Mod_Reborn
 
         /// <summary>
         /// Durable launch intent (survives hub Hide). Set from invitation hub; consumed in HandlePostInvitationLaunch.
+        /// Mirrored by <see cref="RMRStartHubPanel.LaunchIntent"/> for legacy call sites.
         /// </summary>
         public static RMRLaunchIntent PendingLaunchIntent { get; set; }
 
         /// <summary>
-        /// Floor chosen on the invitation-time realization panel, before ConfirmSendInvitation.
-        /// When set, post-invitation launch starts this floor's boss prepare immediately (no initial mystery).
+        /// Optional pre-selected floor (if set before ConfirmSendInvitation).
+        /// Default product path leaves this null and picks floor on battle-prepare after -853 shell.
         /// </summary>
         public static SephirahType? PendingRealizationFloor { get; set; }
 
         /// <summary>
-        /// True after choosing Realization at invitation until a floor is selected or cancelled.
+        /// True while floor panel is up on the -853 bootstrap shell.
         /// Blocks fighting the dummy start-stage unit 854.
         /// </summary>
         public static bool AwaitingRealizationFloorPick { get; set; }
 
+        /// <summary>
+        /// From "挑战解放战" until battle ends / cancel / normal play — treat reception as
+        /// non-roguelike so CheckStage(-853) hooks cannot hijack the bootstrap shell.
+        /// Engine still needs -853 to init LogueBookModels; we never run its dummy combat.
+        /// </summary>
+        public static bool RealizationReceptionActive { get; private set; }
+
         public static void ClearPendingRealizationFloor()
         {
             PendingRealizationFloor = null;
+        }
+
+        /// <summary>
+        /// Full wipe when opening a fresh invitation hub (no leftover intent/floor/gate).
+        /// </summary>
+        public static void PrepareNewHubSession()
+        {
+            PendingLaunchIntent = RMRLaunchIntent.None;
+            RMRStartHubPanel.SyncLaunchIntentMirror(RMRLaunchIntent.None);
+            PendingRealizationFloor = null;
+            AwaitingRealizationFloorPick = false;
+            RealizationReceptionActive = false;
+            RMRCore.ResetPostInvitationLaunchGate();
+            // Kill any leaked 10-floor list / overlay blocking RMR entry clicks.
+            try { LogRealizationPanel.ForceCloseStatic(); } catch { }
+            try { RMRRealizationLaunchHost.DestroyOverlayCompletely(); } catch { }
+            BeginHubSession();
+            Debug.Log("[RMRRealizationManager] PrepareNewHubSession — launch state reset.");
+        }
+
+        /// <summary>
+        /// Clear intent mirrors only. Keeps <see cref="PendingRealizationFloor"/> when invite is in flight.
+        /// </summary>
+        public static void ClearLaunchIntentOnly()
+        {
+            PendingLaunchIntent = RMRLaunchIntent.None;
+            RMRStartHubPanel.SyncLaunchIntentMirror(RMRLaunchIntent.None);
+        }
+
+        /// <summary>
+        /// Set durable intent (+ hub mirror). Realization marks reception as non-roguelike bootstrap.
+        /// </summary>
+        public static void SetLaunchIntent(RMRLaunchIntent intent)
+        {
+            PendingLaunchIntent = intent;
+            RMRStartHubPanel.SyncLaunchIntentMirror(intent);
+            if (intent == RMRLaunchIntent.Realization)
+                RealizationReceptionActive = true;
+            else if (intent == RMRLaunchIntent.NormalPlay)
+                RealizationReceptionActive = false;
+            Debug.Log($"[RMRRealizationManager] LaunchIntent set to {intent}, realizationReception={RealizationReceptionActive}");
+        }
+
+        /// <summary>
+        /// While true, <see cref="LogLikeMod.CheckStage"/> must return false (no full roguelike hooks).
+        /// Covers realization bootstrap shell + prepare + live combat.
+        /// </summary>
+        public static bool ShouldSuppressRoguelikeStageChecks()
+        {
+            if (IsRealizationBootstrapPending())
+                return true;
+            if (PendingRealizationBattle || InRealizationBattle || IsRealizationPreparationActive)
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Pre-combat window only: hub chose Realization, waiting floor / prepare, not yet live combat.
+        /// Used to skip chapter intro and SparklingMirror — must NOT stay true for whole fight.
+        /// </summary>
+        public static bool IsRealizationBootstrapPending()
+        {
+            // Live combat is past bootstrap.
+            if (InRealizationBattle || RealizationCombatLive)
+                return false;
+
+            if (PendingLaunchIntent == RMRLaunchIntent.Realization)
+                return true;
+            if (RMRStartHubPanel.LaunchIntent == RMRLaunchIntent.Realization)
+                return true;
+            if (PendingRealizationFloor.HasValue)
+                return true;
+            if (AwaitingRealizationFloorPick)
+                return true;
+            // Reception active but not yet in combat (includes Pending prepare).
+            if (RealizationReceptionActive)
+                return true;
+            if (PendingRealizationBattle || IsRealizationPreparationActive)
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Only block dummy 854 while the floor panel is up. Do NOT block on RealizationReceptionActive
+        /// alone — that aborted StartBattle before OnWaveStart and prevented HandlePost from running.
+        /// </summary>
+        public static bool ShouldBlockDummyStartBattle()
+        {
+            if (PendingRealizationBattle || InRealizationBattle)
+                return false;
+            return AwaitingRealizationFloorPick;
+        }
+
+        /// <summary>Enter floor-pick mode on the -853 shell (no dummy combat, no mystery).</summary>
+        public static void EnterRealizationFloorPickMode()
+        {
+            RealizationReceptionActive = true;
+            AwaitingRealizationFloorPick = true;
+            PendingRealizationBattle = false;
+            PendingRealizationFloor = null;
+            LogLikeMod.PauseBool = true;
+            BeginHubSession();
+        }
+
+        /// <summary>
+        /// Soft recover after a failed StartRealizationBattle: restore loadout if needed,
+        /// re-open floor pick instead of GameOver (avoids "ended without fighting").
+        /// </summary>
+        public static void RecoverRealizationToFloorPick(string reason)
+        {
+            Debug.LogWarning("[RMRRealizationManager] RecoverRealizationToFloorPick: " + reason);
+            PendingRealizationBattle = false;
+            RealizationCombatLive = false;
+            PendingRealizationFloor = null;
+            LogLikeMod.PauseBool = true;
+            RealizationReceptionActive = true;
+            AwaitingRealizationFloorPick = true;
+            BeginHubSession();
+            // Do NOT OpenBattlePrepare here: after a failed stage bind it re-opens broken
+            // battle chrome under the floor list (white portraits / emotion-bar NRE spam).
+            // Dedicated overlay floor pick is enough to choose again.
+            try
+            {
+                RMRRealizationLaunchHost.DestroyOverlayCompletely();
+            }
+            catch { }
+            try { RMRRealizationLaunchHost.EnsureFloorPanelVisible(); }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMRRealizationManager] Recover floor panel failed: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// MonoMod blocks direct OpenBattlePrepare calls (MethodAccessException).
+        /// Always invoke via reflection. Returns false if UI cannot open.
+        /// </summary>
+        public static bool TryOpenBattlePrepare()
+        {
+            if (_inOpenBattlePrepare)
+                return false;
+            _inOpenBattlePrepare = true;
+            try
+            {
+                var ui = UI.UIController.Instance;
+                if (ui == null)
+                {
+                    Debug.LogError("[RMRRealizationManager] TryOpenBattlePrepare: UIController.Instance is null.");
+                    return false;
+                }
+                var method = AccessTools.Method(typeof(UI.UIController), "OpenBattlePrepare", Type.EmptyTypes);
+                if (method == null)
+                    method = AccessTools.Method(typeof(UI.UIController), "OpenBattlePrepare");
+                if (method == null)
+                {
+                    Debug.LogError("[RMRRealizationManager] OpenBattlePrepare method not found.");
+                    return false;
+                }
+                method.Invoke(ui, null);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Exception inner = ex is System.Reflection.TargetInvocationException tie && tie.InnerException != null
+                    ? tie.InnerException
+                    : ex;
+                Debug.LogError("[RMRRealizationManager] OpenBattlePrepare invoke failed: " + inner);
+                return false;
+            }
+            finally
+            {
+                _inOpenBattlePrepare = false;
+            }
+        }
+
+        /// <summary>
+        /// True if the active stage looks like the RMR -853 bootstrap shell (闪光 / dummy).
+        /// </summary>
+        public static bool IsOnRoguelikeShellStage()
+        {
+            try
+            {
+                StageModel model = Singleton<StageController>.Instance?.GetStageModel();
+                LorId id = model?.ClassInfo?.id ?? LorId.None;
+                if (id == LorId.None)
+                    return false;
+                // Shell stages use mod package + -853 / -855.
+                if (id.id == -853 || id.id == -855)
+                    return true;
+                if (!string.IsNullOrEmpty(id.packageId)
+                    && (id.packageId == LogLikeMod.ModId || id.packageId == RMRCore.packageId)
+                    && id.id < 0)
+                    return true;
+            }
+            catch { }
+            return false;
+        }
+
+        /// <summary>
+        /// Called from OpenBattlePrepare prefix: if the engine is about to show the -853 shell
+        /// prepare (闪光), bind the vanilla Floor Realization stage first so the player
+        /// only sees Angela/Roland liberate-battle prepare.
+        /// Returns true when this method already opened prepare (caller should skip original).
+        /// </summary>
+        public static bool TryRedirectShellPrepareToRealization()
+        {
+            if (_inOpenBattlePrepare)
+                return false;
+            if (InRealizationBattle || RealizationCombatLive)
+                return false;
+            if (PendingRealizationBattle && !IsOnRoguelikeShellStage())
+                return false;
+
+            SephirahType? floor = PendingRealizationFloor;
+            if (!floor.HasValue
+                && PendingLaunchIntent == RMRLaunchIntent.Realization
+                && CurrentRealizationFloor != default(SephirahType)
+                && IsRealizationPreparationActive)
+            {
+                floor = CurrentRealizationFloor;
+            }
+
+            bool wantRealization = RealizationReceptionActive
+                || PendingLaunchIntent == RMRLaunchIntent.Realization
+                || RMRStartHubPanel.LaunchIntent == RMRLaunchIntent.Realization;
+            if (!wantRealization || !floor.HasValue)
+                return false;
+            if (!IsOnRoguelikeShellStage())
+                return false;
+
+            Debug.Log($"[RMRRealizationManager] Redirecting shell prepare → vanilla Floor Realization ({floor.Value})");
+            try
+            {
+                StartRealizationBattle(floor.Value);
+                return PendingRealizationBattle || IsRealizationPreparationActive;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("[RMRRealizationManager] Shell→realization redirect failed: " + ex);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Invitation send aborted (compat mods / missing panel) — drop launch intent so hub stays clean.
+        /// Keeps HubSessionActive so the player can choose again.
+        /// </summary>
+        public static void RollbackLaunchIntentKeepHub()
+        {
+            PendingLaunchIntent = RMRLaunchIntent.None;
+            RMRStartHubPanel.SyncLaunchIntentMirror(RMRLaunchIntent.None);
+            PendingRealizationFloor = null;
+            AwaitingRealizationFloorPick = false;
+            RealizationReceptionActive = false;
+            Debug.Log("[RMRRealizationManager] RollbackLaunchIntentKeepHub — intent cleared, hub session kept.");
+        }
+
+        /// <summary>
+        /// Realization start failed. Prefer soft recover to floor pick; only GameOver on hard exit.
+        /// </summary>
+        /// <param name="restoreLoadout">Restore atlas snapshot if loadout was applied.</param>
+        /// <param name="forceExitToLibrary">If true, skip floor-pick recover and leave reception.</param>
+        public static void FailRealizationStart(string reason, bool restoreLoadout, bool forceExitToLibrary = false)
+        {
+            Debug.LogError("[RMRRealizationManager] FailRealizationStart: " + reason);
+            PendingRealizationBattle = false;
+            RealizationCombatLive = false;
+            PendingRealizationFloor = null;
+            if (restoreLoadout)
+            {
+                try { RestoreRouteLoadout(); }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning("[RMRRealizationManager] FailRealizationStart restore failed: " + ex.Message);
+                }
+            }
+
+            // Soft path: player can pick another floor (still in bootstrap shell).
+            if (!forceExitToLibrary && (HubSessionActive || RealizationReceptionActive) && !NormalPlayStarted)
+            {
+                RecoverRealizationToFloorPick(reason);
+                return;
+            }
+
+            // Hard exit to library.
+            AwaitingRealizationFloorPick = false;
+            LogLikeMod.PauseBool = false;
+            EndHubSessionToLibrary();
+            try
+            {
+                StageController controller = Singleton<StageController>.Instance;
+                if (controller != null)
+                    controller.GameOver(false, true);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMRRealizationManager] FailRealizationStart GameOver failed: " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -158,12 +517,24 @@ namespace RogueLike_Mod_Reborn
         {
             NormalPlayStarted = true;
             HubSessionActive = false;
+            RealizationReceptionActive = false;
+            PendingRealizationFloor = null;
+            AwaitingRealizationFloorPick = false;
         }
 
+        /// <summary>
+        /// Realization finished or cancelled: return to library main. One challenge per invitation
+        /// (re-challenge requires a new mod entry / hub). Not a multi-floor hub loop.
+        /// </summary>
         public static void EndHubSessionToLibrary()
         {
             HubSessionActive = false;
             NormalPlayStarted = false;
+            RealizationReceptionActive = false;
+            PendingRealizationFloor = null;
+            AwaitingRealizationFloorPick = false;
+            ClearLaunchIntentOnly();
+            try { LogRealizationPanel.ForceCloseStatic(); } catch { }
         }
 
         /// <summary>
@@ -204,8 +575,8 @@ namespace RogueLike_Mod_Reborn
         }
         private static List<UnitDeepState> RouteUnitDeepStates;
         /// <summary>
-        /// Resolves a floor to a runnable realization StageClassInfo.
-        /// Validates against StageClassInfoList (battle runtime data), not just StagesXmlList (UI metadata).
+        /// Resolve the vanilla Floor Realization stage for a floor (Angela/Roland multi-phase).
+        /// Only the final stage id (e.g. 201005) — never 201001–201004 abno suppressions.
         /// </summary>
         public static bool TryResolveRealizationStage(
             SephirahType floor,
@@ -217,106 +588,165 @@ namespace RogueLike_Mod_Reborn
             stageClassInfo = null;
             reason = null;
 
-            if (!RealizationBossStageIds.TryGetValue(floor, out int stageIdNum))
+            if (!RealizationBossStageIds.TryGetValue(floor, out int bossStageIdNum))
             {
                 reason = $"No realization stage ID mapping for floor: {floor}";
                 return false;
             }
 
-            // Try vanilla (empty packageId) first, then mod packageId as fallback
-            var candidates = new List<LorId>
+            stageClassInfo = GetVanillaCreatureStage(bossStageIdNum);
+            if (stageClassInfo != null && stageClassInfo.waveList != null && stageClassInfo.waveList.Count > 0)
             {
-                new LorId(string.Empty, stageIdNum),
-                new LorId(LogLikeMod.ModId, stageIdNum),
-            };
-            // Also try the RMRCore packageId
-            if (!string.IsNullOrEmpty(RMRCore.packageId) && RMRCore.packageId != LogLikeMod.ModId)
-                candidates.Add(new LorId(RMRCore.packageId, stageIdNum));
-
-            foreach (var candidate in candidates)
-            {
-                stageClassInfo = Singleton<StageClassInfoList>.Instance.GetData(candidate);
-                if (stageClassInfo != null && stageClassInfo.waveList != null && stageClassInfo.waveList.Count > 0)
-                {
-                    stageId = candidate;
-                    reason = null;
-                    return true;
-                }
+                stageId = stageClassInfo.id != LorId.None
+                    ? stageClassInfo.id
+                    : new LorId(string.Empty, bossStageIdNum);
+                reason = null;
+                Debug.Log($"[RMRRealizationManager] Resolved vanilla Floor Realization stage for {floor}: {stageId.packageId}:{stageId.id} (Angela/Roland multi-phase, not abno chain)");
+                return true;
             }
 
-            // Detail why it failed
-            var sb = new System.Text.StringBuilder();
-            sb.Append($"Realization stage {stageIdNum} for floor {floor} has no valid StageClassInfo. ");
-            sb.Append("Checked candidates: ");
-            foreach (var c in candidates)
-            {
-                var sci = Singleton<StageClassInfoList>.Instance.GetData(c);
-                if (sci == null)
-                    sb.Append($"[{c.packageId}:{c.id} → null] ");
-                else if (sci.waveList == null)
-                    sb.Append($"[{c.packageId}:{c.id} → waveList=null] ");
-                else if (sci.waveList.Count == 0)
-                    sb.Append($"[{c.packageId}:{c.id} → waveList.Count=0] ");
-                else
-                    sb.Append($"[{c.packageId}:{c.id} → OK] ");
-            }
-            reason = sb.ToString();
+            reason = $"Realization stage {bossStageIdNum} for floor {floor} has no valid StageClassInfo in StageClassInfoList.";
             return false;
         }
 
+        private static StageClassInfo GetVanillaCreatureStage(int stageIdNum)
+        {
+            var list = Singleton<StageClassInfoList>.Instance;
+            if (list == null)
+                return null;
+            foreach (var candidate in new[]
+            {
+                new LorId(string.Empty, stageIdNum),
+                new LorId("@origin", stageIdNum),
+                new LorId("BaseGame", stageIdNum),
+                new LorId(LogLikeMod.ModId, stageIdNum),
+            })
+            {
+                StageClassInfo info = list.GetData(candidate);
+                if (info != null && info.waveList != null && info.waveList.Count > 0)
+                    return info;
+            }
+            try
+            {
+                StageClassInfo byInt = list.GetData(stageIdNum);
+                if (byInt != null && byInt.waveList != null && byInt.waveList.Count > 0)
+                    return byInt;
+            }
+            catch { }
+            return null;
+        }
+
+        /// <summary>
+        /// Product flow: pick floor → team prepare → one vanilla Floor Realization stage.
+        /// Multi-phase (Angela/Roland E.G.O forms) is handled entirely by vanilla combat scripts.
+        /// </summary>
         public static void StartRealizationBattle(SephirahType floor)
         {
             if (!CanEnterRealizationFromHub())
             {
-                Debug.LogWarning("[RMRRealizationManager] Realization battles can only be started from the start hub before normal play.");
+                FailRealizationStart(
+                    "Realization gate closed (HubSessionActive=false or NormalPlayStarted).",
+                    restoreLoadout: false,
+                    forceExitToLibrary: true);
                 return;
             }
 
-            // Resolve and validate against StageClassInfoList before mutating loadout state.
             if (!TryResolveRealizationStage(floor, out LorId stageId, out StageClassInfo stageClassInfo, out string reason))
             {
-                Debug.LogError($"[RMRRealizationManager] Cannot start realization battle: {reason}");
+                FailRealizationStart("Cannot resolve Floor Realization stage: " + reason, restoreLoadout: false, forceExitToLibrary: false);
                 return;
             }
 
-            // Do NOT close hub entry here — multi-floor challenges from the hub must remain available.
+            RealizationReceptionActive = true;
             ForceReturnAsDefeatPending = false;
             PendingReturnToHub = false;
             RealizationCombatLive = false;
             AwaitingRealizationFloorPick = false;
+            PendingRealizationFloor = null;
             LogLikeMod.PauseBool = false;
-            // Set PendingRealizationBattle before opening BattleSetting so RMR UI hooks
-            // render the atlas-only temporary party instead of the vanilla floor limit.
             PendingRealizationBattle = true;
             CurrentRealizationFloor = floor;
 
-            // Hide hub chrome so it cannot reappear on top of battle prepare.
             try
             {
                 if (RMRStartHubPanel.Instance != null && RMRStartHubPanel.Instance.IsVisible)
                     RMRStartHubPanel.Instance.Hide();
                 if (LogRealizationPanel.Instance != null && LogRealizationPanel.Instance.IsVisible)
                     LogRealizationPanel.Instance.Hide();
+                try { RMRRealizationLaunchHost.DestroyOverlayCompletely(); } catch { }
             }
             catch { }
 
             if (!ApplyAtlasOnlyLoadout())
             {
-                PendingRealizationBattle = false;
+                FailRealizationStart("Atlas-only loadout failed (no core pages?).", restoreLoadout: false, forceExitToLibrary: false);
                 return;
             }
 
-            // Suppress Roguelike next-stage / reward queues so a second "pick reception" UI cannot appear.
             SuppressRoguelikeSelectionUi();
 
             if (!TryStartVanillaRealizationStage(floor, stageId, stageClassInfo))
             {
-                PendingRealizationBattle = false;
-                RestoreRouteLoadout();
-                Debug.LogError($"[RMRRealizationManager] Failed to start vanilla realization stage: {stageId.packageId}:{stageId.id}");
+                FailRealizationStart(
+                    $"Failed to start Floor Realization stage: {stageId.packageId}:{stageId.id}",
+                    restoreLoadout: true,
+                    forceExitToLibrary: true);
                 return;
             }
-            Debug.Log($"[RMRRealizationManager] Started vanilla realization battle: {floor} (stage {stageId.id}) via package {stageId.packageId}");
+            Debug.Log($"[RMRRealizationManager] Started vanilla Floor Realization: {floor} stage={stageId.id} (prepare → fight Angela/Roland phases)");
+        }
+
+        /// <summary>
+        /// Leave battle scene after realization complete / defeat. Avoids dark battle UI freeze.
+        /// </summary>
+        public static void EnsureExitBattleToLibrary()
+        {
+            LogLikeMod.PauseBool = false;
+            try { LogRealizationPanel.ForceCloseStatic(); } catch { }
+            try { RMRRealizationLaunchHost.DestroyOverlayCompletely(); } catch { }
+
+            ForceReturnAsDefeatPending = true;
+            try
+            {
+                StageController controller = Singleton<StageController>.Instance;
+                if (controller != null)
+                    controller.GameOver(false, true);
+                else
+                    ConsumeForceReturnAsDefeat();
+            }
+            catch (Exception ex)
+            {
+                ConsumeForceReturnAsDefeat();
+                Debug.LogError("[RMRRealizationManager] EnsureExitBattleToLibrary GameOver failed: " + ex);
+            }
+
+            // Vanilla Floor Realization victory often opens 指定司书剧情 / story archives on top of
+            // the library. Our item-catalog postfix used to throw FieldAccessException on
+            // tabcontroller and leave that panel stuck. Dismiss it after the return.
+            try { RMRCore.ForceDismissStoryArchivesAndReturnMain(); } catch { }
+            try
+            {
+                // Second pass after a short delay: EndBattle/story callbacks may re-open archives after GameOver.
+                // Prefer UIController (survives leave-battle); fall back to BattleManagerUI if still alive.
+                MonoBehaviour runner = UI.UIController.Instance as MonoBehaviour;
+                if (runner == null)
+                    runner = SingletonBehavior<BattleManagerUI>.Instance;
+                if (runner != null)
+                    runner.StartCoroutine(CoDismissStoryArchivesDelayed());
+            }
+            catch
+            {
+                try { RMRCore.ForceDismissStoryArchivesAndReturnMain(); } catch { }
+            }
+        }
+
+        private static System.Collections.IEnumerator CoDismissStoryArchivesDelayed()
+        {
+            yield return null;
+            yield return null;
+            try { RMRCore.ForceDismissStoryArchivesAndReturnMain(); } catch { }
+            yield return new WaitForSeconds(0.35f);
+            try { RMRCore.ForceDismissStoryArchivesAndReturnMain(); } catch { }
         }
 
         /// <summary>
@@ -349,28 +779,75 @@ namespace RogueLike_Mod_Reborn
         }
 
         /// <summary>
-        /// Back out of battle prepare without starting the fight; restore route and reopen hub.
+        /// Leave floor-pick mode on -853 shell (close panel / back) → library.
+        /// Must clear Awaiting; otherwise StartBattle stays aborted forever.
+        /// </summary>
+        public static void CancelRealizationFloorPick()
+        {
+            if (InRealizationBattle || RealizationCombatLive)
+                return;
+            if (!AwaitingRealizationFloorPick && !RealizationReceptionActive)
+            {
+                // Still force-kill UI if a ghost panel is on screen.
+                try { LogRealizationPanel.ForceCloseStatic(); } catch { }
+                return;
+            }
+
+            Debug.Log("[RMRRealizationManager] CancelRealizationFloorPick → library.");
+            try { LogRealizationPanel.ForceCloseStatic(); } catch { }
+
+            PendingRealizationBattle = false;
+            RealizationCombatLive = false;
+            AwaitingRealizationFloorPick = false;
+            PendingRealizationFloor = null;
+            ForceReturnAsDefeatPending = false;
+            PendingReturnToHub = false;
+            LogLikeMod.PauseBool = false;
+            SuppressRoguelikeSelectionUi();
+            EndHubSessionToLibrary();
+            try
+            {
+                StageController controller = Singleton<StageController>.Instance;
+                if (controller != null)
+                    controller.GameOver(false, true);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMRRealizationManager] CancelFloorPick GameOver failed: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Back out of battle prepare without starting the fight; restore route → library.
+        /// Also covers floor-pick mode (Awaiting) so back/close never leaves a stuck shell.
         /// </summary>
         public static void CancelRealizationPreparation()
         {
-            if (!PendingRealizationBattle && !IsRealizationPreparationActive)
-                return;
             if (InRealizationBattle)
+                return;
+
+            // Floor pick only (no atlas loadout yet).
+            if (AwaitingRealizationFloorPick && !PendingRealizationBattle && !IsRealizationPreparationActive)
+            {
+                CancelRealizationFloorPick();
+                return;
+            }
+
+            if (!PendingRealizationBattle && !IsRealizationPreparationActive)
                 return;
 
             Debug.Log("[RMRRealizationManager] Cancelling realization preparation (back/exit).");
             PendingRealizationBattle = false;
             ForceReturnAsDefeatPending = false;
             PendingReturnToHub = false;
+            AwaitingRealizationFloorPick = false;
             try { RestoreRouteLoadout(); }
             catch (Exception ex) { Debug.LogWarning("[RMRRealizationManager] Cancel restore failed: " + ex.Message); }
             SuppressRoguelikeSelectionUi();
 
-            // Cancel prepare → return to library main (no in-run mode menu).
-            AwaitingRealizationFloorPick = false;
+            // Cancel prepare → return to library main (no in-run mode menu / no multi-floor hub).
             LogLikeMod.PauseBool = false;
             EndHubSessionToLibrary();
-            RMRStartHubPanel.ClearLaunchIntent();
             try
             {
                 StageController controller = Singleton<StageController>.Instance;
@@ -390,7 +867,18 @@ namespace RogueLike_Mod_Reborn
         {
             if (stageClassInfo == null)
                 return false;
-            ForceRealizationAvailableUnits(stageClassInfo, 5);
+
+            // Floor realization uses up to 5 librarians; do not force if stage already sets AvailableUnit.
+            if (stageClassInfo.waveList != null)
+            {
+                foreach (StageWaveInfo w in stageClassInfo.waveList)
+                {
+                    if (w == null) continue;
+                    // Only set if unset / zero so we don't break Keter AvailableUnit=1 etc.
+                    if (w.availableNumber <= 0)
+                        ForceWaveAvailableUnits(w, 5);
+                }
+            }
 
             try
             {
@@ -407,23 +895,72 @@ namespace RogueLike_Mod_Reborn
                 if (controller == null)
                     return false;
 
-                // Match vanilla creature/realization stage binding, but stop at
-                // BattleSetting so the atlas-only temporary team can be configured.
+                // --- Mirror vanilla UICreatureRebattle / OnClickStartCreatureStage ---
+                // 1) Sephirah context for floor-only + map managers
                 controller.SetCurrentSephirah(floor);
-                controller.InitStageByCreature(stageClassInfo, false);
-                StageModel stageModel = controller.GetStageModel();
-                ForceRealizationAvailableUnits(stageModel?.ClassInfo, 5);
-                ForceRealizationStageModelAvailableUnits(stageModel, 5);
-                LorId currentId = stageModel?.ClassInfo?.id ?? LorId.None;
-                if (currentId != stageClassInfo.id)
+
+                // 2) Floor temporary level = 5 (FloorLevelXml maps Level 5 → final realization stage)
+                //    Vanilla rebattle path always SetTemporaryLevel before InitStageByCreature.
+                try
                 {
-                    Debug.LogError($"[RMRRealizationManager] Vanilla realization StageModel mismatch. current={currentId.packageId}:{currentId.id}, expected={stageClassInfo.id.packageId}:{stageClassInfo.id.id}");
+                    LibraryFloorModel libFloor = LibraryModel.Instance?.GetFloor(floor);
+                    if (libFloor != null)
+                    {
+                        libFloor.SetTemporaryLevel(5);
+                        Debug.Log($"[RMRRealizationManager] SetTemporaryLevel(5) on {floor}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning("[RMRRealizationManager] SetTemporaryLevel failed: " + ex.Message);
+                }
+
+                // 3) isRebattle=true — same as final-battle rebattle slot. Required for proper
+                //    creature-final setup; false was used before and multi-phase (Corrosion) broke.
+                controller.InitStageByCreature(stageClassInfo, true);
+
+                StageModel stageModel = controller.GetStageModel();
+                ForceRealizationStageModelAvailableUnits(stageModel, 5);
+
+                // 4) Vanilla marks floor unit battle data as added — keep for stage floor model.
+                try
+                {
+                    StageLibraryFloorModel stageFloor = controller.GetCurrentStageFloorModel();
+                    var units = stageFloor?.GetUnitBattleDataList();
+                    if (units != null)
+                    {
+                        foreach (UnitBattleDataModel ub in units)
+                        {
+                            if (ub != null)
+                                ub.IsAddedBattle = true;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning("[RMRRealizationManager] Mark IsAddedBattle failed: " + ex.Message);
+                }
+
+                LorId currentId = stageModel?.ClassInfo?.id ?? LorId.None;
+                if (currentId == LorId.None && (stageModel?.waveList == null || stageModel.waveList.Count == 0))
+                {
+                    Debug.LogError($"[RMRRealizationManager] Realization StageModel bind failed for {stageId.packageId}:{stageId.id}");
                     return false;
                 }
 
                 LogLikeMod.curstageid = stageId;
                 LogLikeMod.curstagetype = abcdcode_LOGLIKE_MOD.StageType.Creature;
-                UI.UIController.Instance.OpenBattlePrepare();
+                Debug.Log($"[RMRRealizationManager] Bound vanilla Floor Realization: floor={floor} stage={stageId.id} isRebattle=true (multi-phase via unit passives/ManagerScript)");
+
+                if (!TryOpenBattlePrepare())
+                {
+                    Debug.LogError("[RMRRealizationManager] Stage bound but OpenBattlePrepare failed: "
+                        + stageId.packageId + ":" + stageId.id);
+                    return false;
+                }
+
+                RequestAbortCurrentStartBattleIfInHook();
+                Debug.Log($"[RMRRealizationManager] Battle prepare opened for Floor Realization {floor} stage {stageId.id}");
                 return true;
             }
             catch (Exception ex)
@@ -431,6 +968,347 @@ namespace RogueLike_Mod_Reborn
                 Debug.LogError("[RMRRealizationManager] Failed to start vanilla realization stage: " + ex);
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Final-form multiphase Angela books (EnemyUnitInfo_creature_final) → passive script id.
+        /// Vanilla multiphase is a single wave; phase swaps happen in these passives via isImmortal + OnRoundEndTheLast.
+        /// </summary>
+        private static readonly Dictionary<int, string> MultiphaseBossBookToPassive = new Dictionary<int, string>
+        {
+            // Confirmed CreaturePhase multiphase passives (single-unit Angela E.G.O forms).
+            { 9010511, "105010" }, // Malkuth Angela
+            { 9020511, "205010" }, // Yesod Angela
+            // Hod/Gebura/Binah/etc. use ManagerScript + multi-unit phase; guarded via IsStageFinishable / IsImmortal.
+        };
+
+        /// <summary>
+        /// True while Angela/Roland multi-phase is still mid-fight (immortal boss not on final phase).
+        /// EndBattle during this window must not grant floor clear or exit to library.
+        /// </summary>
+        public static bool IsMidRealizationMultiPhase()
+        {
+            try
+            {
+                // ManagerScript floors (GeburaFinal, HodFinalBattle, BinahFinal, …):
+                // while !IsStageFinishable, phase transition is still in progress even if unit list is empty briefly.
+                try
+                {
+                    var sc = Singleton<StageController>.Instance;
+                    var mgr = sc?.EnemyStageManager;
+                    if (mgr != null && !mgr.IsStageFinishable())
+                        return true;
+                }
+                catch { }
+
+                var bom = BattleObjectManager.instance;
+                if (bom == null)
+                    return false;
+
+                // Scan full enemy list (includes units at 1 HP mid-phase transition).
+                var enemies = bom.GetList(Faction.Enemy);
+                if (enemies == null)
+                    return false;
+
+                foreach (BattleUnitModel unit in enemies)
+                {
+                    if (unit == null)
+                        continue;
+
+                    if (IsUnitInMultiphaseTransition(unit))
+                        return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMRRealizationManager] IsMidRealizationMultiPhase: " + ex.Message);
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Whether this enemy is mid multiphase (must not Die / must not EndBattle as victory).
+        /// </summary>
+        public static bool IsUnitInMultiphaseTransition(BattleUnitModel unit)
+        {
+            if (unit == null)
+                return false;
+
+            // Vanilla IsImmortal() aggregates passiveDetail + bufListDetail.
+            try
+            {
+                if (unit.IsImmortal())
+                    return true;
+            }
+            catch { }
+
+            // Phase passives (Malkuth 105010, Yesod 205010, …). Final phase enum value is 4.
+            try
+            {
+                foreach (object p in EnumeratePassives(unit))
+                {
+                    if (p == null) continue;
+                    if (!IsMultiphasePassiveType(p.GetType()))
+                        continue;
+
+                    var phaseField = AccessTools.Field(p.GetType(), "_currentPhase");
+                    if (phaseField != null)
+                    {
+                        int phase = Convert.ToInt32(phaseField.GetValue(p));
+                        if (phase < 4)
+                            return true;
+                    }
+                    else if (!unit.IsDead())
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch { }
+
+            // Known multiphase boss book missing phase passive / still before final form.
+            // Do NOT treat final phase (or non-phase books) as mid-fight forever.
+            try
+            {
+                if (unit.IsDead())
+                    return false;
+                int bookId = 0;
+                try { bookId = unit.Book != null ? unit.Book.GetBookClassInfoId().id : 0; } catch { }
+                if (bookId == 0)
+                {
+                    try { bookId = unit.UnitData.unitData.bookItem.GetBookClassInfoId().id; } catch { }
+                }
+                if (bookId != 0 && MultiphaseBossBookToPassive.ContainsKey(bookId))
+                {
+                    int? phase = TryGetMultiphasePhase(unit);
+                    // No readable phase ⇒ assume mid (passive missing or not started).
+                    // phase < 4 ⇒ still multiphase.
+                    if (!phase.HasValue || phase.Value < 4)
+                        return true;
+                }
+            }
+            catch { }
+
+            return false;
+        }
+
+        private static int? TryGetMultiphasePhase(BattleUnitModel unit)
+        {
+            try
+            {
+                foreach (object p in EnumeratePassives(unit))
+                {
+                    if (p == null || !IsMultiphasePassiveType(p.GetType()))
+                        continue;
+                    var phaseField = AccessTools.Field(p.GetType(), "_currentPhase");
+                    if (phaseField != null)
+                        return Convert.ToInt32(phaseField.GetValue(p));
+                }
+            }
+            catch { }
+            return null;
+        }
+
+        /// <summary>
+        /// Block Die() on multiphase realization bosses until their final form.
+        /// Vanilla relies on TakeDamage→IsImmortal clamp; if immortal fails, Die ends the fight after phase 1.
+        /// </summary>
+        public static bool ShouldBlockRealizationBossDeath(BattleUnitModel unit)
+        {
+            if (!InRealizationBattle || unit == null)
+                return false;
+            if (unit.faction != Faction.Enemy)
+                return false;
+            return IsUnitInMultiphaseTransition(unit);
+        }
+
+        /// <summary>
+        /// Called when combat goes live / each round: ensure multiphase passives exist and log state.
+        /// </summary>
+        public static void EnsureRealizationMultiPhaseBossState()
+        {
+            if (!InRealizationBattle)
+                return;
+            try
+            {
+                var bom = BattleObjectManager.instance;
+                if (bom == null)
+                    return;
+                var enemies = bom.GetList(Faction.Enemy);
+                if (enemies == null)
+                    return;
+
+                foreach (BattleUnitModel unit in enemies)
+                {
+                    if (unit == null || unit.IsDead())
+                        continue;
+
+                    int bookId = 0;
+                    try
+                    {
+                        if (unit.Book != null)
+                            bookId = unit.Book.GetBookClassInfoId().id;
+                        if (bookId == 0 && unit.UnitData?.unitData?.bookItem != null)
+                            bookId = unit.UnitData.unitData.bookItem.GetBookClassInfoId().id;
+                    }
+                    catch { }
+
+                    bool hasPhasePassive = false;
+                    bool immortal = false;
+                    int phase = -1;
+                    try { immortal = unit.IsImmortal(); } catch { }
+
+                    foreach (object p in EnumeratePassives(unit))
+                    {
+                        if (p == null) continue;
+                        if (!IsMultiphasePassiveType(p.GetType()))
+                            continue;
+                        hasPhasePassive = true;
+                        var phaseField = AccessTools.Field(p.GetType(), "_currentPhase");
+                        if (phaseField != null)
+                            phase = Convert.ToInt32(phaseField.GetValue(p));
+                    }
+
+                    if (!hasPhasePassive && bookId != 0
+                        && MultiphaseBossBookToPassive.TryGetValue(bookId, out string passiveScript))
+                    {
+                        if (TryInjectMultiphasePassive(unit, passiveScript))
+                        {
+                            hasPhasePassive = true;
+                            try { immortal = unit.IsImmortal(); } catch { }
+                            Debug.Log($"[RMRRealizationManager] Injected multiphase passive {passiveScript} on book {bookId}");
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"[RMRRealizationManager] Failed to inject multiphase passive {passiveScript} on book {bookId}");
+                        }
+                    }
+
+                    Debug.Log($"[RMRRealizationManager] Multiphase boss state: book={bookId} immortal={immortal} hasPhasePassive={hasPhasePassive} phase={phase} hp={unit.hp:F0}/{unit.MaxHp}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMRRealizationManager] EnsureRealizationMultiPhaseBossState: " + ex.Message);
+            }
+        }
+
+        private static bool TryInjectMultiphasePassive(BattleUnitModel unit, string passiveScriptId)
+        {
+            try
+            {
+                if (unit?.passiveDetail == null || string.IsNullOrEmpty(passiveScriptId))
+                    return false;
+
+                // Already present?
+                foreach (object p in EnumeratePassives(unit))
+                {
+                    if (p != null && p.GetType().Name.Contains(passiveScriptId))
+                        return true;
+                }
+
+                PassiveAbilityBase created = null;
+                try
+                {
+                    created = Singleton<AssemblyManager>.Instance.CreateInstance_PassiveAbility(passiveScriptId);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning("[RMRRealizationManager] CreateInstance_PassiveAbility failed: " + ex.Message);
+                }
+
+                if (created == null)
+                {
+                    // Fallback: construct PassiveAbility_XXXXXX via reflection.
+                    string typeName = "PassiveAbility_" + passiveScriptId;
+                    Type t = AccessTools.TypeByName(typeName)
+                        ?? typeof(PassiveAbilityBase).Assembly.GetType(typeName);
+                    if (t != null)
+                        created = Activator.CreateInstance(t) as PassiveAbilityBase;
+                }
+
+                if (created == null)
+                    return false;
+
+                try
+                {
+                    created.id = new LorId(int.Parse(passiveScriptId));
+                }
+                catch { }
+
+                PassiveAbilityBase added = unit.passiveDetail.AddPassive(created);
+                PassiveAbilityBase live = added ?? created;
+                try { live.Init(unit); } catch { }
+                try { live.OnWaveStart(); } catch { }
+                try { live.OnUnitCreated(); } catch { }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMRRealizationManager] TryInjectMultiphasePassive: " + ex.Message);
+                return false;
+            }
+        }
+
+        private static bool IsMultiphasePassiveType(Type t)
+        {
+            if (t == null)
+                return false;
+            string n = t.Name;
+            // Known ids + any passive that owns CreaturePhase / _currentPhase multiphase field.
+            if (n == "PassiveAbility_105010" || n == "PassiveAbility_205010"
+                || n == "PassiveAbility_305010" || n == "PassiveAbility_405010"
+                || n == "PassiveAbility_505010" || n == "PassiveAbility_605010"
+                || n == "PassiveAbility_705010" || n == "PassiveAbility_805010"
+                || n == "PassiveAbility_905010")
+                return true;
+            if (AccessTools.Field(t, "_currentPhase") != null
+                && (n.StartsWith("PassiveAbility_1") || n.StartsWith("PassiveAbility_2")
+                    || n.StartsWith("PassiveAbility_3") || n.StartsWith("PassiveAbility_4")
+                    || n.StartsWith("PassiveAbility_5") || n.StartsWith("PassiveAbility_6")
+                    || n.StartsWith("PassiveAbility_7") || n.StartsWith("PassiveAbility_8")
+                    || n.StartsWith("PassiveAbility_9") || n.StartsWith("PassiveAbility_10")))
+                return true;
+            // Nested CreaturePhase enum is a strong signal (Malkuth/Yesod style).
+            foreach (Type nested in t.GetNestedTypes(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic))
+            {
+                if (nested.Name == "CreaturePhase")
+                    return true;
+            }
+            return false;
+        }
+
+        private static IEnumerable<object> EnumeratePassives(BattleUnitModel unit)
+        {
+            if (unit?.passiveDetail == null)
+                yield break;
+
+            System.Collections.IEnumerable plist = null;
+            try
+            {
+                // Prefer public PassiveList if available.
+                var prop = AccessTools.Property(unit.passiveDetail.GetType(), "PassiveList")
+                    ?? AccessTools.Property(unit.passiveDetail.GetType(), "passiveList");
+                plist = prop?.GetValue(unit.passiveDetail, null) as System.Collections.IEnumerable;
+            }
+            catch { }
+
+            if (plist == null)
+            {
+                try
+                {
+                    var listField = AccessTools.Field(unit.passiveDetail.GetType(), "_passiveList")
+                        ?? AccessTools.Field(unit.passiveDetail.GetType(), "passiveList");
+                    plist = listField?.GetValue(unit.passiveDetail) as System.Collections.IEnumerable;
+                }
+                catch { }
+            }
+
+            if (plist == null)
+                yield break;
+
+            foreach (object p in plist)
+                yield return p;
         }
 
         private static void ForceRealizationAvailableUnits(StageClassInfo stageClassInfo, int count)
@@ -495,46 +1373,46 @@ namespace RogueLike_Mod_Reborn
             catch { }
         }
 
+        /// <summary>
+        /// Vanilla Floor Realization stage fully finished (all Angela/Roland phases done, or defeat).
+        /// In-battle phase swaps must NOT call this — only real Stage EndBattle.
+        /// </summary>
         public static void OnRealizationBattleEnded(bool victory)
         {
-            if (!InRealizationBattle)
+            if (!InRealizationBattle && !RealizationCombatLive)
                 return;
 
-            // Spurious EndBattle before any combat round (transition after StartBattle) — ignore.
             if (!RealizationCombatLive)
             {
                 Debug.LogWarning("[RMRRealizationManager] Ignoring EndBattle before realization combat went live (no hub return).");
                 return;
             }
 
-            // First clear only records floor + exclusive atlas pages (CompleteFloorRealization is idempotent).
-            // Re-clears still clear reward queues so no pick UI appears.
             if (victory)
             {
                 RMRAbnormalityUnlockManager.CompleteFloorRealization(CurrentRealizationFloor);
-                Debug.Log($"[RMRRealizationManager] Floor realization victory: {CurrentRealizationFloor}");
+                Debug.Log($"[RMRRealizationManager] Floor Realization victory: {CurrentRealizationFloor}");
+            }
+            else
+            {
+                Debug.Log($"[RMRRealizationManager] Floor Realization defeat: {CurrentRealizationFloor}");
             }
 
-            // Always clear roguelike reward queues (no pick UI on re-clear either).
             LogLikeMod.rewards?.Clear();
             LogLikeMod.rewards_passive?.Clear();
             LogLikeMod.rewards_InStage?.Clear();
             LogLikeMod.nextlist?.Clear();
             SuppressRoguelikeSelectionUi();
 
-            RestoreRouteLoadout();
-            ForceReturnAsDefeatPending = true;
-            // Return to library main page via vanilla defeat/back flow — do NOT re-open mode select hub.
+            try { RestoreRouteLoadout(); }
+            catch (Exception ex) { Debug.LogWarning("[RMRRealizationManager] Restore after realization failed: " + ex.Message); }
+
             PendingReturnToHub = false;
             EndHubSessionToLibrary();
-            RMRStartHubPanel.ClearLaunchIntent();
             RealizationCombatLive = false;
-            // NOTE: InRealizationBattle is cleared in the StageController_EndBattle hook
-            // AFTER orig(self) completes, ensuring ClearBattle/EndBattlePhase postfixes
-            // still see the flag during vanilla cleanup.
             CurrentRealizationFloor = SephirahType.Keter;
 
-            Debug.Log($"[RMRRealizationManager] Realization battle ended. Victory={victory}. Returning to library main (no hub).");
+            Debug.Log($"[RMRRealizationManager] Realization battle ended. Victory={victory}. Returning to library.");
         }
 
         /// <summary>
@@ -549,6 +1427,7 @@ namespace RogueLike_Mod_Reborn
                     RMRStartHubPanel.Instance.Hide();
             }
             catch { }
+            try { RMRCore.ForceDismissStoryArchivesAndReturnMain(); } catch { }
             Debug.Log("[RMRRealizationManager] ReturnToMainAfterRealization — library main via vanilla flow.");
         }
 

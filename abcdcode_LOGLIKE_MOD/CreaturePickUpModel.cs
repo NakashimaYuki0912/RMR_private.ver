@@ -82,14 +82,10 @@ namespace abcdcode_LOGLIKE_MOD
         {
             foreach (EmotionCardXmlInfo card in cards)
             {
-                AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(card.Script[0]);
+                if (card == null || card.Script == null || card.Script.Count == 0)
+                    continue;
                 PickUpModelBase pickUp = LogLikeMod.FindPickUp(card.Script[0]);
-                if (pickUp != null)
-                {
-                    abnormalityCard.cardName = pickUp.Name;
-                    abnormalityCard.flavorText = pickUp.FlaverText;
-                    abnormalityCard.abilityDesc = pickUp.Desc;
-                }
+                PickUpModel_RMRVanillaEmotion.InjectResolvedDesc(card, pickUp);
             }
             UIGetAbnormalityPanel instance = UIGetAbnormalityPanel.instance;
             FieldInfo field1 = ModdingUtils.GetField("currentFloor", instance);

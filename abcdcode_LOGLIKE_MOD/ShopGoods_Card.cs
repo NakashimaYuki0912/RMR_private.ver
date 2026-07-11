@@ -124,10 +124,31 @@ namespace abcdcode_LOGLIKE_MOD
 
         public void OnPointerEnter(BaseEventData e)
         {
+            // CardSlot.OnPointerEnter parents the shared preview under the card slot, which
+            // makes a center/right offset still spill over the left equip/abno column.
+            // Reparent onto ShopFrame (or battle UI root) and pin the preview to board center.
             this.CardSlot.OnPointerEnter(e);
-            float previewX = IsEgoPage ? -250f : 250f;
-            LogLikeMod.UILogBattleDiceCardUI.Instance.transform.localPosition = new Vector3(previewX, -100f, -1f);
-            this.gameObject.transform.SetAsLastSibling();
+            var preview = LogLikeMod.UILogBattleDiceCardUI.Instance;
+            if (preview == null)
+                return;
+
+            Transform shopRoot = null;
+            if (this.parent?.FrameObj != null && this.parent.FrameObj.TryGetValue("ShopFrame", out GameObject frame) && frame != null)
+                shopRoot = frame.transform;
+            if (shopRoot == null && SingletonBehavior<BattleManagerUI>.Instance?.ui_unitListInfoSummary != null)
+                shopRoot = SingletonBehavior<BattleManagerUI>.Instance.ui_unitListInfoSummary.transform;
+            if (shopRoot != null)
+                preview.transform.SetParent(shopRoot, worldPositionStays: false);
+
+            // Keep away from left supplemental column (x≈-700) and right ego column (x≈700).
+            // Always reset rotation — reparenting under rotated slots made the detail spin
+            // an extra angle on every hover.
+            float previewX = IsEgoPage ? -40f : 40f;
+            preview.transform.localPosition = new Vector3(previewX, 30f, -1f);
+            preview.transform.localScale = new Vector3(0.22f, 0.22f, 1f);
+            preview.transform.localRotation = Quaternion.identity;
+            preview.transform.SetAsLastSibling();
+            preview.ApplyShopPreviewFonts();
         }
 
         public override void Purchase()

@@ -36,9 +36,10 @@ namespace RogueLike_Mod_Reborn
         public static LorId[] booksToAddToInventory 
         {
             get {
+                // Do not put -855 (Continue) in the invitation book list — continue is a hub
+                // menu action after RMR entry, not a free-standing invitation recipe icon.
                 var books = new List<LorId>()
                 {
-                    LoguePlayDataSaver.CheckPlayerData() ? new LorId(LogLikeMod.ModId, -855) : null,
                     new LorId(LogLikeMod.ModId, -2854),
                     new LorId(LogLikeMod.ModId, -3854),
                     new LorId(LogLikeMod.ModId, -4854),
@@ -46,7 +47,7 @@ namespace RogueLike_Mod_Reborn
                     new LorId(LogLikeMod.ModId, -6854)
                 };
                 books.AddRange(Singleton<RoguelikeGamemodeController>.Instance.gamemodeList.Select(x => x.StageStart));
-                books.RemoveAll(x => x == null);
+                books.RemoveAll(x => x == null || x.id == -855);
                 return books.ToArray();
             }
         }
@@ -61,12 +62,12 @@ namespace RogueLike_Mod_Reborn
         public const string packageId = "abcdcodecalmmagma.LogueLikeReborn";
         public static CustomMapHandler RMRMapHandler;
 
-        public const string BuildTimestamp = "2026-07-10Tdirect-realize+08:00";
+        public const string BuildTimestamp = "2026-07-11Tabno-tier-filter+08:00";
 
         /// <summary>
         /// After invitation is sent: run the intent chosen on the invitation-time hub.
         /// Never re-opens mode select mid-run.
-        /// Realization: floor is chosen on invitation UI first, then starts boss prepare only (no initial mystery).
+        /// Realization: no initial mystery; floor pick on battle-prepare after -853 shell boots.
         /// </summary>
         /// <summary>Guards against PassiveAbility_ChStart firing OnWaveStart more than once per reception.</summary>
         private static bool _postInvitationLaunchConsumed;
@@ -76,19 +77,19 @@ namespace RogueLike_Mod_Reborn
             _postInvitationLaunchConsumed = false;
         }
 
-        /// <summary>True when this reception should skip chapter intro story and initial mystery.</summary>
-        public static bool IsRealizationLaunchPending()
+        public static bool IsPostInvitationLaunchConsumed => _postInvitationLaunchConsumed;
+
+        /// <summary>
+        /// True only during realization <b>bootstrap</b> (hub choice → floor pick / prepare).
+        /// Does NOT include live combat — use for skipping intro story / SparklingMirror, not for CheckStage.
+        /// </summary>
+        public static bool IsRealizationBootstrapPending()
         {
-            if (RMRRealizationManager.PendingLaunchIntent == RMRLaunchIntent.Realization)
-                return true;
-            if (RMRStartHubPanel.LaunchIntent == RMRLaunchIntent.Realization)
-                return true;
-            if (RMRRealizationManager.PendingRealizationFloor.HasValue)
-                return true;
-            if (RMRRealizationManager.PendingRealizationBattle || RMRRealizationManager.InRealizationBattle)
-                return true;
-            return false;
+            return RMRRealizationManager.IsRealizationBootstrapPending();
         }
+
+        /// <summary>Legacy alias of <see cref="IsRealizationBootstrapPending"/>.</summary>
+        public static bool IsRealizationLaunchPending() => IsRealizationBootstrapPending();
 
         public static void HandlePostInvitationLaunch()
         {
@@ -98,7 +99,7 @@ namespace RogueLike_Mod_Reborn
                 intent = RMRStartHubPanel.LaunchIntent;
 
             SephirahType? preselectedFloor = RMRRealizationManager.PendingRealizationFloor;
-            Debug.Log($"[RMR] HandlePostInvitationLaunch intent={intent} consumed={_postInvitationLaunchConsumed} awaitFloor={RMRRealizationManager.AwaitingRealizationFloorPick} preFloor={(preselectedFloor.HasValue ? preselectedFloor.Value.ToString() : "none")}");
+            Debug.Log($"[RMR] HandlePostInvitationLaunch intent={intent} consumed={_postInvitationLaunchConsumed} awaitFloor={RMRRealizationManager.AwaitingRealizationFloorPick} preFloor={(preselectedFloor.HasValue ? preselectedFloor.Value.ToString() : "none")} reception={RMRRealizationManager.RealizationReceptionActive}");
 
             // PassiveAbility_ChStart can fire OnWaveStart multiple times (wave restart / StartBattle loop).
             // Second call used to have intent=None and incorrectly StartMystery → NRE + broken start UI.
@@ -116,14 +117,25 @@ namespace RogueLike_Mod_Reborn
                 return;
             }
 
-            RMRStartHubPanel.ClearLaunchIntent();
+            // Consume once for this reception. Keep preselected floor until realization starts.
             _postInvitationLaunchConsumed = true;
+            RMRRealizationManager.ClearLaunchIntentOnly();
 
             if (intent == RMRLaunchIntent.Realization)
             {
                 RMRRealizationManager.BeginHubSession();
-                // Floor already chosen on invitation UI → go straight to realization boss prepare.
-                // Never open initial relic mystery (-100) on this path.
+                // Never open initial relic mystery (-100).
+                // Preferred path: floor already chosen on dedicated overlay before invite.
+
+                // Early OpenBattlePrepare redirect may already have bound multi-wave prepare.
+                if (RMRRealizationManager.PendingRealizationBattle
+                    && !RMRRealizationManager.AwaitingRealizationFloorPick
+                    && !RMRRealizationManager.IsOnRoguelikeShellStage())
+                {
+                    Debug.Log("[RMR] HandlePost: realization multi-wave prepare already bound (shell redirect); skip re-start.");
+                    return;
+                }
+
                 if (preselectedFloor.HasValue)
                 {
                     SephirahType floor = preselectedFloor.Value;
@@ -132,27 +144,25 @@ namespace RogueLike_Mod_Reborn
                     LogLikeMod.PauseBool = false;
                     try
                     {
-                        // End any accidental mystery; skip dummy 854 fight.
                         try { Singleton<MysteryManager>.Instance.EndMystery(); } catch { }
+                        try { LogRealizationPanel.ForceCloseStatic(); } catch { }
                         RMRRealizationManager.StartRealizationBattle(floor);
-                        Debug.Log($"[RMR] Realization launch direct → floor {floor} (no initial mystery).");
+                        Debug.Log($"[RMR] Realization launch direct → floor {floor} (dedicated UI pick, no mystery).");
                     }
                     catch (Exception ex)
                     {
                         Debug.LogError("[RMR] Direct realization start failed: " + ex);
-                        RMRRealizationManager.AwaitingRealizationFloorPick = true;
-                        LogLikeMod.PauseBool = true;
-                        RMRRealizationLaunchHost.EnsureFloorPanelVisible();
+                        RMRRealizationManager.RecoverRealizationToFloorPick("direct start exception: " + ex.Message);
                     }
                     return;
                 }
 
-                // Fallback: floor not pre-selected — open floor panel only (still no mystery).
-                RMRRealizationManager.AwaitingRealizationFloorPick = true;
-                LogLikeMod.PauseBool = true;
+                // Fallback: no preselect — open dedicated overlay floor UI (never vanilla prepare alone).
+                RMRRealizationManager.EnterRealizationFloorPickMode();
                 try
                 {
                     RMRRealizationLaunchHost.EnsureFloorPanelVisible();
+                    Debug.Log("[RMR] Realization launch → dedicated overlay floor panel (fallback, no mystery).");
                 }
                 catch (Exception ex)
                 {
@@ -168,7 +178,7 @@ namespace RogueLike_Mod_Reborn
                 return;
             }
 
-            // Normal play only: initial relic mystery.
+            // Normal play only: initial relic mystery (mark normal only after invite actually started).
             RMRRealizationManager.ClearPendingRealizationFloor();
             RMRRealizationManager.StartNormalPlayFromHub();
             try
@@ -243,6 +253,76 @@ namespace RogueLike_Mod_Reborn
         }
 
         /// <summary>
+        /// UIStoryArchivesPanel.tabcontroller is public in some builds but private/inaccessible from
+        /// mod assemblies on current LoR (FieldAccessException). Always use reflection.
+        /// </summary>
+        public static UICustomTabsController GetStoryArchivesTabController(UIStoryArchivesPanel panel)
+        {
+            if (panel == null)
+                return null;
+            try
+            {
+                FieldInfo field = AccessTools.Field(typeof(UIStoryArchivesPanel), "tabcontroller");
+                if (field == null)
+                    return null;
+                return field.GetValue(panel) as UICustomTabsController;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] GetStoryArchivesTabController: " + ex.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Close stuck 指定司书剧情 / story archives overlays (often left open after Floor Realization).
+        /// </summary>
+        public static void ForceDismissStoryArchivesAndReturnMain()
+        {
+            try
+            {
+                try
+                {
+                    if (StoryScene.StoryRoot.Instance != null)
+                        StoryScene.StoryRoot.Instance.EndStory(true);
+                }
+                catch { }
+
+                UI.UIController ui = UI.UIController.Instance;
+                if (ui == null)
+                    return;
+
+                UIStoryArchivesPanel story = ui.GetUIPanel(UIPanelType.Story) as UIStoryArchivesPanel;
+                if (story != null)
+                {
+                    try { story.sephirahStoryPanel?.Deactivate(); } catch { }
+                    try { story.battleStoryPanel?.Deactivate(); } catch { }
+                    try { story.bookStoryPanel?.Deactivate(); } catch { }
+                    try { story.creatureRebattlePanel?.Deactivate(); } catch { }
+                    try
+                    {
+                        if (story.gameObject != null && story.gameObject.activeSelf)
+                            story.gameObject.SetActive(false);
+                    }
+                    catch { }
+                }
+
+                try { Singleton<GlobalLogueItemCatalogPanel>.Instance?.Deactivate(); } catch { }
+                try { ui.ClearActivatePanel(); } catch { }
+
+                // Return to main library / invitation surface so 杂质+指定司书剧情 is not stuck on top.
+                try { ui.CallUIPhase(UIPhase.Sephirah); } catch { }
+                try { ui.CallUIPhase(UIPhase.Invitation); } catch { }
+
+                Debug.Log("[RMR] ForceDismissStoryArchivesAndReturnMain done.");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] ForceDismissStoryArchivesAndReturnMain: " + ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Safely retrieves the BattleDialogXmlList._dictionary via reflection.
         /// Returns null when the field is inaccessible (avoids FieldAccessException).
         /// </summary>
@@ -298,13 +378,15 @@ namespace RogueLike_Mod_Reborn
                 var dialogDict = GetBattleDialogDictionary();
                 if (dialogDict != null && dialogDict.TryGetValue("Workshop", out var workshopRoot))
                     workshopRoot.characterList.RemoveAll(x => x.id.packageId == RMRCore.packageId);
-                DirectoryInfo directoryInfo = new DirectoryInfo(Path.Combine(ogpath, str, "BattleDialogs"));
-                foreach (System.IO.FileInfo fileinfo in directoryInfo.GetFiles())
+                foreach (System.IO.FileInfo fileinfo in LogLikeMod.EnumerateXmlFiles(Path.Combine(ogpath, str, "BattleDialogs")))
                 {
                     try
                     {
-                        var root = new XmlSerializer(typeof(BattleDialogRoot)).Deserialize(fileinfo.OpenRead()) as BattleDialogRoot;
-                        BattleDialogXmlList.Instance.AddDialogByMod(root.characterList);
+                        using (var stream = fileinfo.OpenRead())
+                        {
+                            var root = new XmlSerializer(typeof(BattleDialogRoot)).Deserialize(stream) as BattleDialogRoot;
+                            BattleDialogXmlList.Instance.AddDialogByMod(root.characterList);
+                        }
                     }
                     catch (Exception e)
                     {
@@ -322,13 +404,15 @@ namespace RogueLike_Mod_Reborn
                     var dialogDict = GetBattleDialogDictionary();
                     if (dialogDict != null && dialogDict.TryGetValue("Workshop", out var workshopRoot))
                         workshopRoot.characterList.RemoveAll(x => x.id.packageId == uniqueId);
-                    DirectoryInfo directoryInfo2 = new DirectoryInfo(Path.Combine(modContentInfo.GetLogDllPath(), str, "BattleDialogs"));
-                    foreach (System.IO.FileInfo fileinfo2 in directoryInfo2.GetFiles())
+                    foreach (System.IO.FileInfo fileinfo2 in LogLikeMod.EnumerateXmlFiles(Path.Combine(modContentInfo.GetLogDllPath(), str, "BattleDialogs")))
                     {
                         try
                         {
-                            var root = new XmlSerializer(typeof(BattleDialogRoot)).Deserialize(fileinfo2.OpenRead()) as BattleDialogRoot;
-                            BattleDialogXmlList.Instance.AddDialogByMod(root.characterList);
+                            using (var stream = fileinfo2.OpenRead())
+                            {
+                                var root = new XmlSerializer(typeof(BattleDialogRoot)).Deserialize(stream) as BattleDialogRoot;
+                                BattleDialogXmlList.Instance.AddDialogByMod(root.characterList);
+                            }
                         }
                         catch (Exception e)
                         {
@@ -355,18 +439,20 @@ namespace RogueLike_Mod_Reborn
 
             if (Directory.Exists(Path.Combine(ogpath, str, "EffectTexts")))
             {
-                DirectoryInfo directoryInfo = new DirectoryInfo(Path.Combine(ogpath, str, "EffectTexts"));
-                foreach (System.IO.FileInfo fileinfo in directoryInfo.GetFiles())
+                foreach (System.IO.FileInfo fileinfo in LogLikeMod.EnumerateXmlFiles(Path.Combine(ogpath, str, "EffectTexts")))
                 {
                     try
                     {
-                        var root = new XmlSerializer(typeof(BattleEffectTextRoot)).Deserialize(fileinfo.OpenRead()) as BattleEffectTextRoot;
-                        foreach (var info in root.effectTextList)
+                        using (var stream = fileinfo.OpenRead())
                         {
-                            if (!dict.ContainsKey(info.ID))
-                                dict.Add(info.ID, info);
-                            else
-                                dict[info.ID] = info;
+                            var root = new XmlSerializer(typeof(BattleEffectTextRoot)).Deserialize(stream) as BattleEffectTextRoot;
+                            foreach (var info in root.effectTextList)
+                            {
+                                if (!dict.ContainsKey(info.ID))
+                                    dict.Add(info.ID, info);
+                                else
+                                    dict[info.ID] = info;
+                            }
                         }
                     }
                     catch (Exception e)
@@ -382,18 +468,20 @@ namespace RogueLike_Mod_Reborn
                 string uniqueId = modContentInfo.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(Path.Combine(modContentInfo.GetLogDllPath(), str, "EffectTexts")))
                 {
-                    DirectoryInfo directoryInfo2 = new DirectoryInfo(Path.Combine(modContentInfo.GetLogDllPath(), str, "EffectTexts"));
-                    foreach (System.IO.FileInfo fileinfo2 in directoryInfo2.GetFiles())
+                    foreach (System.IO.FileInfo fileinfo2 in LogLikeMod.EnumerateXmlFiles(Path.Combine(modContentInfo.GetLogDllPath(), str, "EffectTexts")))
                     {
                         try
                         {
-                            var root = new XmlSerializer(typeof(BattleEffectTextRoot)).Deserialize(fileinfo2.OpenRead()) as BattleEffectTextRoot;
-                            foreach (var info in root.effectTextList)
+                            using (var stream = fileinfo2.OpenRead())
                             {
-                                if (!dict.ContainsKey(info.ID))
-                                    dict.Add(info.ID, info);
-                                else
-                                    dict[info.ID] = info;
+                                var root = new XmlSerializer(typeof(BattleEffectTextRoot)).Deserialize(stream) as BattleEffectTextRoot;
+                                foreach (var info in root.effectTextList)
+                                {
+                                    if (!dict.ContainsKey(info.ID))
+                                        dict.Add(info.ID, info);
+                                    else
+                                        dict[info.ID] = info;
+                                }
                             }
                         }
                         catch (Exception e)
@@ -2188,18 +2276,24 @@ namespace RogueLike_Mod_Reborn
             if (Directory.Exists(Path.Combine(ogpath, str, "MysteryEvents")))
             {
                 DirectoryInfo directoryInfo = new DirectoryInfo(Path.Combine(ogpath, str, "MysteryEvents"));
-                foreach (System.IO.FileInfo fileinfo in directoryInfo.GetFiles())
+                // Only real .xml — *.bak / *.pre_* backups were being deserialized and overwriting good text.
+                foreach (System.IO.FileInfo fileinfo in LogLikeMod.EnumerateXmlFiles(Path.Combine(ogpath, str, "MysteryEvents")))
                 {
                     try
                     {
-                        var root = new XmlSerializer(typeof(RogueMysteryXmlRoot)).Deserialize(fileinfo.OpenRead()) as RogueMysteryXmlRoot;
-                        foreach (var info in root.RogueMysteryList)
+                        using (var stream = fileinfo.OpenRead())
                         {
-                            var lorid = new LorId(RMRCore.packageId, info.ID);
-                            if (!mysteryDict.ContainsKey(lorid))
-                                this.mysteryDict.Add(lorid, info);
-                            else
-                                this.mysteryDict[lorid] = info;
+                            var root = new XmlSerializer(typeof(RogueMysteryXmlRoot)).Deserialize(stream) as RogueMysteryXmlRoot;
+                            if (root?.RogueMysteryList == null)
+                                continue;
+                            foreach (var info in root.RogueMysteryList)
+                            {
+                                var lorid = new LorId(RMRCore.packageId, info.ID);
+                                if (!mysteryDict.ContainsKey(lorid))
+                                    this.mysteryDict.Add(lorid, info);
+                                else
+                                    this.mysteryDict[lorid] = info;
+                            }
                         }
                     }
                     catch (Exception e)
@@ -2213,21 +2307,26 @@ namespace RogueLike_Mod_Reborn
             foreach (ModContentInfo modContentInfo in LogLikeMod.GetLogMods())
             {
                 string uniqueId = modContentInfo.invInfo.workshopInfo.uniqueId;
-                if (Directory.Exists(Path.Combine(modContentInfo.GetLogDllPath(), str, "MysteryEvents")))
+                string mysteryDir = Path.Combine(modContentInfo.GetLogDllPath(), str, "MysteryEvents");
+                if (Directory.Exists(mysteryDir))
                 {
-                    DirectoryInfo directoryInfo2 = new DirectoryInfo(Path.Combine(modContentInfo.GetLogDllPath(), str, "MysteryEvents"));
-                    foreach (System.IO.FileInfo fileinfo2 in directoryInfo2.GetFiles())
+                    foreach (System.IO.FileInfo fileinfo2 in LogLikeMod.EnumerateXmlFiles(mysteryDir))
                     {
                         try
                         {
-                            var root = new XmlSerializer(typeof(RogueMysteryXmlRoot)).Deserialize(fileinfo2.OpenRead()) as RogueMysteryXmlRoot;
-                            foreach (var info in root.RogueMysteryList)
+                            using (var stream = fileinfo2.OpenRead())
                             {
-                                var lorid = new LorId(uniqueId, info.ID);
-                                if (!mysteryDict.ContainsKey(lorid))
-                                    this.mysteryDict.Add(lorid, info);
-                                else
-                                    this.mysteryDict[lorid] = info;
+                                var root = new XmlSerializer(typeof(RogueMysteryXmlRoot)).Deserialize(stream) as RogueMysteryXmlRoot;
+                                if (root?.RogueMysteryList == null)
+                                    continue;
+                                foreach (var info in root.RogueMysteryList)
+                                {
+                                    var lorid = new LorId(uniqueId, info.ID);
+                                    if (!mysteryDict.ContainsKey(lorid))
+                                        this.mysteryDict.Add(lorid, info);
+                                    else
+                                        this.mysteryDict[lorid] = info;
+                                }
                             }
                         }
                         catch (Exception e)
@@ -2357,7 +2456,27 @@ namespace RogueLike_Mod_Reborn
             this.isContinue = isContinue;
             if (isContinue)
             {
-                return LoadGamemodeByName(Singleton<LogueSaveManager>.Instance.LoadData("Lastest").GetString("CurrentGamemode"), true);
+                try
+                {
+                    SaveData latest = Singleton<LogueSaveManager>.Instance.LoadData("Lastest");
+                    if (latest == null)
+                    {
+                        Debug.LogError("[RMR] Continue: Lastest save missing.");
+                        return false;
+                    }
+                    string modeName = latest.GetString("CurrentGamemode");
+                    if (string.IsNullOrEmpty(modeName))
+                    {
+                        Debug.LogError("[RMR] Continue: CurrentGamemode key missing in Lastest.");
+                        return false;
+                    }
+                    return LoadGamemodeByName(modeName, true);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError("[RMR] Continue LoadGamemodeByStageRecipe failed: " + ex);
+                    return false;
+                }
             }
             var gamemode = gamemodeList.Find(x => stageRecipe == x.StageStart);
             if (gamemode == null) return false;
@@ -2734,16 +2853,22 @@ namespace RogueLike_Mod_Reborn
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new CraftEquipChapter1());
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new PickUpModel_ShopGood46.SupriseBox());
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new RMREffect_HiddenUpgradeChanceEffect());
-                // Realization launch must never play chapter intro / initial mystery story.
-                if (!RMRCore.IsRealizationLaunchPending())
+                // Realization bootstrap must never play chapter intro (use bootstrap flag, not full combat suppress).
+                if (!RMRCore.IsRealizationBootstrapPending())
                     this.LoadCurrentChapterStory();
                 else
-                    Debug.Log("[RMR] Skipped chapter intro story (realization launch).");
+                    Debug.Log("[RMR] Skipped chapter intro story (realization bootstrap).");
             }
         }
 
         public override void OnWaveStartInitialEvent()
         {
+            // Continue: resume saved route — no hub launch / no intro mystery.
+            if (RoguelikeGamemodeController.Instance != null && RoguelikeGamemodeController.Instance.isContinue)
+            {
+                Debug.Log("[RMR] OnWaveStartInitialEvent skipped (continue run).");
+                return;
+            }
             RMRCore.HandlePostInvitationLaunch();
         }
 
@@ -2778,7 +2903,7 @@ namespace RogueLike_Mod_Reborn
             LogLikeMod.curChStageStep = 0;
             LogLikeMod.curstagetype = abcdcode_LOGLIKE_MOD.StageType.Start;
             LogLikeMod.curstageid = this.StageStart;
-            if (!RMRCore.IsRealizationLaunchPending())
+            if (!RMRCore.IsRealizationBootstrapPending())
                 this.LoadCurrentChapterStory();
             LogLikeMod.ResetNextStage();
             RMRCore.GrantGrade6SpecialCorePagesIfNeeded();
@@ -2786,7 +2911,12 @@ namespace RogueLike_Mod_Reborn
 
         public override void OnWaveStartInitialEvent()
         {
-            if (RMRCore.IsRealizationLaunchPending())
+            if (RoguelikeGamemodeController.Instance != null && RoguelikeGamemodeController.Instance.isContinue)
+            {
+                Debug.Log("[RMR] DebugCh6 OnWaveStartInitialEvent skipped (continue run).");
+                return;
+            }
+            if (RMRCore.IsRealizationBootstrapPending())
             {
                 RMRCore.HandlePostInvitationLaunch();
                 return;
@@ -2809,18 +2939,26 @@ namespace RogueLike_Mod_Reborn
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new CraftEquipChapter1());
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new PickUpModel_ShopGood46.SupriseBox());
                 Singleton<GlobalLogueEffectManager>.Instance.AddEffects(new RMREffect_HiddenUpgradeChanceEffect());
-                // Realization: no chapter intro story (that UI was showing tofu / wrong flow).
-                if (!RMRCore.IsRealizationLaunchPending())
+                // Realization bootstrap: no chapter intro story.
+                if (!RMRCore.IsRealizationBootstrapPending())
                     this.LoadCurrentChapterStory();
                 else
-                    Debug.Log("[RMR] Skipped chapter intro story (realization launch).");
+                    Debug.Log("[RMR] Skipped chapter intro story (realization bootstrap).");
             }
         }
 
         public override void OnWaveStartInitialEvent()
         {
-            // Realization goes straight to floor boss prepare — do not start SparklingMirror dummy map.
-            if (RMRCore.IsRealizationLaunchPending())
+            // Continue: pure resume — no SparklingMirror shell, no hub launch handler.
+            if (RoguelikeGamemodeController.Instance != null && RoguelikeGamemodeController.Instance.isContinue)
+            {
+                Debug.Log("[RMR] OnWaveStartInitialEvent skipped (continue run).");
+                return;
+            }
+            // Realization bootstrap: floor pick / direct stage — do not start SparklingMirror dummy map.
+            // Note: still boots via stage -853 shell (engine needs a reception); shell combat is blocked
+            // while AwaitingRealizationFloorPick / CheckStage suppressed during ReceptionActive.
+            if (RMRCore.IsRealizationBootstrapPending())
             {
                 RMRCore.HandlePostInvitationLaunch();
                 return;
@@ -2866,11 +3004,17 @@ namespace RogueLike_Mod_Reborn
         public void GetLogUIObj()
         {
             UIStoryArchivesPanel goG = UI.UIController.Instance.GetUIPanel(UIPanelType.Story) as UIStoryArchivesPanel;
-            UICustomTabButton gameObject2 = UnityEngine.Object.Instantiate(goG.tabcontroller.CustomTabs[2], goG.tabcontroller.TabsRoot.transform);
+            UICustomTabsController tabs = RMRCore.GetStoryArchivesTabController(goG);
+            if (goG == null || tabs == null || tabs.CustomTabs == null || tabs.CustomTabs.Length < 3)
+            {
+                Debug.LogError("[RMR ItemCatalog] UIStoryArchivesPanel/tabcontroller unavailable — cannot create catalog tab.");
+                return;
+            }
+            UICustomTabButton gameObject2 = UnityEngine.Object.Instantiate(tabs.CustomTabs[2], tabs.TabsRoot.transform);
             UIBookStoryPanel gameObject3 = UnityEngine.Object.Instantiate(goG.bookStoryPanel, goG.ActiveControl.transform);
-            goG.tabcontroller.CustomTabs = goG.tabcontroller.CustomTabs.Append(gameObject2).ToArray();
-            gameObject2.Init(4, goG.tabcontroller);
-            LayoutRebuilder.MarkLayoutForRebuild(goG.tabcontroller.GetComponentInChildren<HorizontalLayoutGroup>().transform as RectTransform);
+            tabs.CustomTabs = tabs.CustomTabs.Append(gameObject2).ToArray();
+            gameObject2.Init(4, tabs);
+            LayoutRebuilder.MarkLayoutForRebuild(tabs.GetComponentInChildren<HorizontalLayoutGroup>().transform as RectTransform);
             gameObject2.gameObject.SetActive(true);
             button = gameObject2;
             button.GetComponentInChildren<UITextDataLoader>().key = "ui_RMR_ItemCatalog";
@@ -3522,98 +3666,224 @@ namespace RogueLike_Mod_Reborn
 
         public static void SetTooltip(this UIMainOverlayManager __instance, string name, string content, RectTransform rectTransform, Rarity rare = (Rarity)69, UIToolTipPanelType panelType = UIToolTipPanelType.OnlyContent)
         {
-            __instance.Open();
-            __instance.tooltipName.text = name;
-            __instance.tooltipName.rectTransform.sizeDelta = new Vector2(__instance.tooltipName.rectTransform.sizeDelta.x, 20f);
-            Camera camera = null;
-            if (rectTransform != null)
+            try
             {
-                Graphic componentInChildren = rectTransform.GetComponentInChildren<Graphic>();
-                if (componentInChildren != null && componentInChildren.canvas.renderMode == RenderMode.ScreenSpaceCamera)
+                // Open() may be non-public under some IL — invoke safely.
+                try
                 {
-                    camera = Camera.main;
+                    var open = AccessTools.Method(typeof(UIMainOverlayManager), "Open");
+                    if (open != null)
+                        open.Invoke(__instance, null);
+                    else
+                        __instance.Open();
                 }
+                catch
+                {
+                    try { __instance.Open(); } catch { return; }
+                }
+
+                // All UIMainOverlayManager members via reflection — MonoMod Method/FieldAccess otherwise.
+                object tooltipNameObj = AccessTools.Field(typeof(UIMainOverlayManager), "tooltipName")?.GetValue(__instance);
+                object tooltipDescObj = AccessTools.Field(typeof(UIMainOverlayManager), "tooltipDesc")?.GetValue(__instance);
+                if (tooltipNameObj == null || tooltipDescObj == null)
+                    return;
+
+                SetOverlayTextProp(tooltipNameObj, "text", name);
+                try
+                {
+                    var rtProp = tooltipNameObj.GetType().GetProperty("rectTransform", AccessTools.all);
+                    if (rtProp?.GetValue(tooltipNameObj, null) is RectTransform nameRt)
+                        nameRt.sizeDelta = new Vector2(nameRt.sizeDelta.x, 20f);
+                }
+                catch { }
+
+                Camera camera = null;
+                if (rectTransform != null)
+                {
+                    Graphic componentInChildren = rectTransform.GetComponentInChildren<Graphic>();
+                    if (componentInChildren != null && componentInChildren.canvas != null
+                        && componentInChildren.canvas.renderMode == RenderMode.ScreenSpaceCamera)
+                    {
+                        camera = Camera.main;
+                    }
+                }
+                Color toolColor = Color.white;
+                if (rare >= Rarity.Common && rare <= Rarity.Unique)
+                    toolColor = UIColorManager.Manager.GetEquipRarityColor(rare);
+                else if (rare == Rarity.Special)
+                    toolColor = UIColorManager.Manager.Error;
+                SetOverlayTextProp(tooltipNameObj, "color", toolColor);
+
+                try
+                {
+                    var setter = AccessTools.Field(typeof(UIMainOverlayManager), "setter_tooltipname")?.GetValue(__instance);
+                    if (setter != null)
+                    {
+                        var underProp = AccessTools.Property(setter.GetType(), "underlayColor");
+                        if (underProp != null && underProp.CanWrite)
+                            underProp.SetValue(setter, toolColor, null);
+                        else
+                            AccessTools.Field(setter.GetType(), "underlayColor")?.SetValue(setter, toolColor);
+                    }
+                }
+                catch { }
+
+                SetOverlayTextProp(tooltipDescObj, "text", content);
+
+                // SetTooltipOverlayBoxSize is MethodAccess-restricted from mods.
+                try
+                {
+                    var sizeMethod = AccessTools.Method(typeof(UIMainOverlayManager), "SetTooltipOverlayBoxSize", new[] { typeof(UIToolTipPanelType) });
+                    if (sizeMethod != null)
+                        sizeMethod.Invoke(__instance, new object[] { panelType });
+                    else
+                        __instance.SetTooltipOverlayBoxSize(panelType);
+                }
+                catch (System.Exception sizeEx)
+                {
+                    UnityEngine.Debug.LogWarning("[RMR] SetTooltipOverlayBoxSize via reflection failed: " + sizeEx.Message);
+                }
+
+                if (!LogLikeMod.IsBattleState())
+                    __instance.SetFixedTooltipOverlayBoxPosition(camera, rectTransform);
+                else
+                    __instance.SetMouseTooltipOverlayBoxPosition();
+
+                try
+                {
+                    var setterObj = AccessTools.Field(typeof(UIMainOverlayManager), "setter_tooltipname")?.GetValue(__instance);
+                    if (setterObj is Behaviour b)
+                    {
+                        b.enabled = false;
+                        b.enabled = true;
+                    }
+                }
+                catch { }
+
+                try
+                {
+                    var enProp = tooltipNameObj.GetType().GetProperty("enabled", AccessTools.all);
+                    if (enProp != null && enProp.CanWrite)
+                    {
+                        enProp.SetValue(tooltipNameObj, false, null);
+                        enProp.SetValue(tooltipNameObj, true, null);
+                    }
+                }
+                catch { }
             }
-            Color toolColor = Color.white;
-            if (rare >= Rarity.Common && rare <= Rarity.Unique)
+            catch (System.Exception ex)
             {
-                toolColor = UIColorManager.Manager.GetEquipRarityColor(rare);
-            } else if (rare == Rarity.Special) toolColor = UIColorManager.Manager.Error;
-            __instance.tooltipName.color = toolColor;
-            __instance.setter_tooltipname.underlayColor = toolColor;
-            __instance.tooltipDesc.text = content;
-            __instance.SetTooltipOverlayBoxSize(panelType);
-            if (!LogLikeMod.IsBattleState())
-                __instance.SetFixedTooltipOverlayBoxPosition(camera, rectTransform); // used fixed transform in menus
-            else
-                __instance.SetMouseTooltipOverlayBoxPosition(); // used cursor-based positioning in battles
-            // ----
-            __instance.setter_tooltipname.enabled = false;
-            __instance.setter_tooltipname.enabled = true;
-            __instance.tooltipName.enabled = false;
-            __instance.tooltipName.enabled = true;
-            // for some reason this fixes the color glow not updating??? what the fuck??
-            // P.S.: it's also in the vanilla game!! what the actual fuck??
+                UnityEngine.Debug.LogWarning("[RMR] SetTooltip failed (non-fatal): " + ex.Message);
+            }
+        }
+
+        private static void SetOverlayTextProp(object target, string propName, object value)
+        {
+            if (target == null) return;
+            try
+            {
+                var prop = target.GetType().GetProperty(propName, AccessTools.all);
+                if (prop != null && prop.CanWrite)
+                    prop.SetValue(target, value, null);
+            }
+            catch { }
+        }
+
+        private static T GetOverlayField<T>(UIMainOverlayManager instance, string fieldName)
+        {
+            try
+            {
+                object val = AccessTools.Field(typeof(UIMainOverlayManager), fieldName)?.GetValue(instance);
+                if (val is T t)
+                    return t;
+            }
+            catch { }
+            return default;
         }
 
         /// <summary>
-        /// Basically the vanilla version but with some extra checks to prevent off-screen placement/overflowing.
+        /// Vanilla-like tooltip placement with overflow clamps. All fields via reflection (MonoMod-safe).
         /// </summary>
         public static void SetFixedTooltipOverlayBoxPosition(this UIMainOverlayManager __instance, Camera cam, RectTransform targeTranseForm)
         {
-            RectTransform rect = __instance.tooltipCanvas.transform as RectTransform;
-            Vector3 worldPoint = targeTranseForm.TransformPoint(targeTranseForm.rect.center);
-            Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(cam, worldPoint);
-            Vector2 desiredPos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, screenPoint, __instance.tooltipCanvas.worldCamera, out desiredPos);
-            Vector2 vector2 = new Vector2(desiredPos.x + __instance._curSize.x, desiredPos.y - __instance._curSize.y);
-            
-            // the below is just some schizo off-screen/overflow checking
-            if (vector2.x > __instance._rightDownPivot.x)
+            try
             {
-                desiredPos.x -= __instance._curSize.x + __instance.tooltipSizePivot.anchoredPosition.x * 2f;
+                if (targeTranseForm == null)
+                    return;
+                var tooltipCanvas = GetOverlayField<Canvas>(__instance, "tooltipCanvas");
+                var tooltipPositionPivot = GetOverlayField<RectTransform>(__instance, "tooltipPositionPivot");
+                var tooltipSizePivot = GetOverlayField<RectTransform>(__instance, "tooltipSizePivot");
+                if (tooltipCanvas == null || tooltipPositionPivot == null)
+                    return;
+
+                Vector2 curSize = GetOverlayField<Vector2>(__instance, "_curSize");
+                Vector2 rightDownPivot = GetOverlayField<Vector2>(__instance, "_rightDownPivot");
+
+                RectTransform rect = tooltipCanvas.transform as RectTransform;
+                Vector3 worldPoint = targeTranseForm.TransformPoint(targeTranseForm.rect.center);
+                // cam may be null for Screen Space Overlay; WorldToScreenPoint accepts null camera.
+                Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(cam, worldPoint);
+                Vector2 desiredPos;
+                Camera uiCam = tooltipCanvas != null ? tooltipCanvas.worldCamera : cam;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, screenPoint, uiCam, out desiredPos);
+                Vector2 vector2 = new Vector2(desiredPos.x + curSize.x, desiredPos.y - curSize.y);
+
+                float sizePivotX = tooltipSizePivot != null ? tooltipSizePivot.anchoredPosition.x : 0f;
+                if (vector2.x > rightDownPivot.x)
+                    desiredPos.x -= curSize.x + sizePivotX * 2f;
+                if (vector2.y < rightDownPivot.y)
+                    desiredPos.y += curSize.y - sizePivotX * 2f;
+                if ((desiredPos.y - curSize.y) < -500)
+                    desiredPos.y -= 500 + (desiredPos.y - curSize.y);
+                else if (desiredPos.y + curSize.y / 2 > 520)
+                    desiredPos.y -= 520 - (desiredPos.y + curSize.y);
+                if (desiredPos.y > 520f)
+                    desiredPos.y = 520f;
+                tooltipPositionPivot.anchoredPosition = desiredPos;
             }
-            if (vector2.y < __instance._rightDownPivot.y)
+            catch (System.Exception ex)
             {
-                desiredPos.y += __instance._curSize.y - __instance.tooltipSizePivot.anchoredPosition.x * 2f;
+                UnityEngine.Debug.LogWarning("[RMR] SetFixedTooltipOverlayBoxPosition failed: " + ex.Message);
             }
-            if ((desiredPos.y - __instance._curSize.y) < -500)
-            {
-                desiredPos.y -= 500 + (desiredPos.y - __instance._curSize.y);
-            }
-            else if (desiredPos.y + __instance._curSize.y / 2 > 520)
-                desiredPos.y -= 520 - (desiredPos.y + __instance._curSize.y);
-            if (desiredPos.y > 520f) // bottom boundary
-                desiredPos.y = 520f;
-            __instance.tooltipPositionPivot.anchoredPosition = desiredPos;
         }
 
         /// <summary>
-        /// Same as SetFixedTooltipOverlayBoxPosition but for use in-battle.
+        /// In-battle mouse-follow tooltip placement (reflection-safe).
         /// </summary>
         public static void SetMouseTooltipOverlayBoxPosition(this UIMainOverlayManager __instance)
         {
-            RectTransform rect = __instance.tooltipCanvas.transform as RectTransform;
-            Vector2 desiredPos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, Input.mousePosition, __instance.tooltipCanvas.worldCamera, out desiredPos);
-            Vector2 vector2 = new Vector2(desiredPos.x + __instance._curSize.x, desiredPos.y - __instance._curSize.y);
-            if (vector2.x > __instance._rightDownPivot.x)
+            try
             {
-                desiredPos.x -= __instance._curSize.x + __instance.tooltipSizePivot.anchoredPosition.x * 2f;
+                var tooltipCanvas = GetOverlayField<Canvas>(__instance, "tooltipCanvas");
+                var tooltipPositionPivot = GetOverlayField<RectTransform>(__instance, "tooltipPositionPivot");
+                var tooltipSizePivot = GetOverlayField<RectTransform>(__instance, "tooltipSizePivot");
+                if (tooltipCanvas == null || tooltipPositionPivot == null)
+                    return;
+
+                Vector2 curSize = GetOverlayField<Vector2>(__instance, "_curSize");
+                Vector2 rightDownPivot = GetOverlayField<Vector2>(__instance, "_rightDownPivot");
+
+                RectTransform rect = tooltipCanvas.transform as RectTransform;
+                Vector2 desiredPos;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, Input.mousePosition, tooltipCanvas.worldCamera, out desiredPos);
+                Vector2 vector2 = new Vector2(desiredPos.x + curSize.x, desiredPos.y - curSize.y);
+                float sizePivotX = tooltipSizePivot != null ? tooltipSizePivot.anchoredPosition.x : 0f;
+                if (vector2.x > rightDownPivot.x)
+                    desiredPos.x -= curSize.x + sizePivotX * 2f;
+                if (vector2.y < rightDownPivot.y)
+                    desiredPos.y += curSize.y - sizePivotX * 2f;
+                if ((desiredPos.y - curSize.y) < -500)
+                    desiredPos.y -= 500 + (desiredPos.y - curSize.y);
+                else if (desiredPos.y + curSize.y / 2 > 520)
+                    desiredPos.y -= 520 - (desiredPos.y + curSize.y);
+                if (desiredPos.y > 520f)
+                    desiredPos.y = 520f;
+                tooltipPositionPivot.anchoredPosition = desiredPos;
             }
-            if (vector2.y < __instance._rightDownPivot.y)
+            catch (System.Exception ex)
             {
-                desiredPos.y += __instance._curSize.y - __instance.tooltipSizePivot.anchoredPosition.x * 2f;
+                UnityEngine.Debug.LogWarning("[RMR] SetMouseTooltipOverlayBoxPosition failed: " + ex.Message);
             }
-            if ((desiredPos.y - __instance._curSize.y) < -500)
-            {
-                desiredPos.y -= 500 + (desiredPos.y - __instance._curSize.y);
-            }
-            else if (desiredPos.y + __instance._curSize.y / 2 > 520)
-                desiredPos.y -= 520 - (desiredPos.y + __instance._curSize.y);
-            if (desiredPos.y > 520f)
-                desiredPos.y = 520f;
-            __instance.tooltipPositionPivot.anchoredPosition = desiredPos;
         }
     }
 
@@ -3719,7 +3989,27 @@ namespace RogueLike_Mod_Reborn
     {
         #region PREFIXES
 
-
+        /// <summary>
+        /// Skip the -853 shell prepare (闪光 / 当前舞台1/1). When realization was chosen with a
+        /// pre-selected floor, rebind to the multi-wave floor stage before the first prepare paints.
+        /// </summary>
+        [HarmonyPrefix, HarmonyPatch(typeof(UI.UIController), "OpenBattlePrepare")]
+        static bool UIController_OpenBattlePrepare_Prefix()
+        {
+            try
+            {
+                if (RMRRealizationManager.TryRedirectShellPrepareToRealization())
+                {
+                    Debug.Log("[RMR] OpenBattlePrepare: shell redirected to vanilla Floor Realization prepare.");
+                    return false; // skip original — redirect already opened prepare
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] OpenBattlePrepare prefix redirect failed: " + ex.Message);
+            }
+            return true;
+        }
 
         #endregion
 
@@ -3730,16 +4020,27 @@ namespace RogueLike_Mod_Reborn
         [HarmonyPostfix, HarmonyPatch(typeof(UIStoryArchivesPanel), nameof(UIStoryArchivesPanel.TabControllerUpdated))]
         static void OpenItemCatalogTab_Post(UIStoryArchivesPanel __instance)
         {
-            if (__instance.tabcontroller.GetCurrentIndex() == 4)
+            try
             {
-                __instance.sephirahStoryPanel.Deactivate();
-                __instance.battleStoryPanel.Deactivate();
-                __instance.bookStoryPanel.Deactivate();
-                __instance.creatureRebattlePanel.Deactivate();
-                Singleton<GlobalLogueItemCatalogPanel>.Instance.Activate();
-            } else
+                UICustomTabsController tabs = RMRCore.GetStoryArchivesTabController(__instance);
+                if (tabs == null)
+                    return;
+                if (tabs.GetCurrentIndex() == 4)
+                {
+                    __instance.sephirahStoryPanel?.Deactivate();
+                    __instance.battleStoryPanel?.Deactivate();
+                    __instance.bookStoryPanel?.Deactivate();
+                    __instance.creatureRebattlePanel?.Deactivate();
+                    Singleton<GlobalLogueItemCatalogPanel>.Instance?.Activate();
+                }
+                else
+                {
+                    Singleton<GlobalLogueItemCatalogPanel>.Instance?.Deactivate();
+                }
+            }
+            catch (Exception ex)
             {
-                Singleton<GlobalLogueItemCatalogPanel>.Instance.Deactivate();
+                Debug.LogWarning("[RMR] OpenItemCatalogTab_Post: " + ex.Message);
             }
         }
 
@@ -3749,20 +4050,45 @@ namespace RogueLike_Mod_Reborn
         [HarmonyPostfix, HarmonyPatch(typeof(UIStoryArchivesPanel), nameof(UIStoryArchivesPanel.InitData))]
         static void InitItemCatalogTab_Post(UIStoryArchivesPanel __instance)
         {
-            if (Singleton<GlobalLogueItemCatalogPanel>.Instance.root == null)
+            try
             {
-                Singleton<GlobalLogueItemCatalogPanel>.Instance.GetLogUIObj();
-            }
-            Singleton<GlobalLogueItemCatalogPanel>.Instance.Init();
-            if (__instance.tabcontroller.GetCurrentIndex() != 4)
-                Singleton<GlobalLogueItemCatalogPanel>.Instance.Deactivate();
+                if (Singleton<GlobalLogueItemCatalogPanel>.Instance == null)
+                    return;
+                if (Singleton<GlobalLogueItemCatalogPanel>.Instance.root == null)
+                    Singleton<GlobalLogueItemCatalogPanel>.Instance.GetLogUIObj();
+                Singleton<GlobalLogueItemCatalogPanel>.Instance.Init();
 
-            __instance.tabcontroller.TabsRoot.transform.localPosition = new Vector3(-290f, 3.17f, 0f);
-            __instance.tabcontroller.CustomTabs[0].transform.localPosition = new Vector3(325f, 35f, 0f);
-            __instance.tabcontroller.CustomTabs[1].transform.localPosition = new Vector3(570f, 35f, 0f);
-            __instance.tabcontroller.CustomTabs[2].transform.localPosition = new Vector3(720f, 35f, 0f);
-            __instance.tabcontroller.CustomTabs[4].transform.localPosition = new Vector3(900f, 35f, 0f);
-            Singleton<GlobalLogueItemCatalogPanel>.Instance.button.TabName.text = TextDataModel.GetText("ui_RMR_ItemCatalog");
+                UICustomTabsController tabs = RMRCore.GetStoryArchivesTabController(__instance);
+                if (tabs == null)
+                    return;
+
+                if (tabs.GetCurrentIndex() != 4)
+                    Singleton<GlobalLogueItemCatalogPanel>.Instance.Deactivate();
+
+                if (tabs.TabsRoot != null)
+                    tabs.TabsRoot.transform.localPosition = new Vector3(-290f, 3.17f, 0f);
+                if (tabs.CustomTabs != null)
+                {
+                    if (tabs.CustomTabs.Length > 0 && tabs.CustomTabs[0] != null)
+                        tabs.CustomTabs[0].transform.localPosition = new Vector3(325f, 35f, 0f);
+                    if (tabs.CustomTabs.Length > 1 && tabs.CustomTabs[1] != null)
+                        tabs.CustomTabs[1].transform.localPosition = new Vector3(570f, 35f, 0f);
+                    if (tabs.CustomTabs.Length > 2 && tabs.CustomTabs[2] != null)
+                        tabs.CustomTabs[2].transform.localPosition = new Vector3(720f, 35f, 0f);
+                    if (tabs.CustomTabs.Length > 4 && tabs.CustomTabs[4] != null)
+                        tabs.CustomTabs[4].transform.localPosition = new Vector3(900f, 35f, 0f);
+                }
+                if (Singleton<GlobalLogueItemCatalogPanel>.Instance.button != null
+                    && Singleton<GlobalLogueItemCatalogPanel>.Instance.button.TabName != null)
+                {
+                    Singleton<GlobalLogueItemCatalogPanel>.Instance.button.TabName.text =
+                        TextDataModel.GetText("ui_RMR_ItemCatalog");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] InitItemCatalogTab_Post: " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -3891,34 +4217,32 @@ namespace RogueLike_Mod_Reborn
         {
             try
             {
-                if (buf == null) 
+                if (buf == null)
                     return;
                 string keyword = buf.keywordIconId ?? buf.keywordId;
                 string fullName = buf.GetType().Assembly.FullName;
-                if (string.IsNullOrEmpty(keyword) || !RMRCore.ClassIds.ContainsKey(fullName)) 
+                if (string.IsNullOrEmpty(keyword) || !RMRCore.ClassIds.ContainsKey(fullName))
                     return;
-                if (RMRCore.ClassIds[fullName] == RMRCore.packageId && LogLikeMod.ArtWorks.ContainsKey(keyword))
-                {
-                    Sprite sprite = LogLikeMod.ArtWorks[keyword];
-                    if (sprite != null)
-                    {
-                        buf._bufIcon = sprite;
-                        buf._iconInit = true;
-                    } 
-                }
-                else if (RMRCore.ClassIds.ContainsKey(fullName) && LogLikeMod.ModdedArtWorks.ContainsKey((RMRCore.ClassIds[fullName], keyword)))
-                {
-                    Sprite sprite = LogLikeMod.ModdedArtWorks[(RMRCore.ClassIds[fullName], keyword)];
-                    if (sprite != null)
-                    {
-                        buf._bufIcon = sprite;
-                        buf._iconInit = true;
-                    }
-                }
+
+                Sprite sprite = null;
+                if (RMRCore.ClassIds[fullName] == RMRCore.packageId && LogLikeMod.ArtWorks != null && LogLikeMod.ArtWorks.ContainsKey(keyword))
+                    sprite = LogLikeMod.ArtWorks[keyword];
+                else if (LogLikeMod.ModdedArtWorks != null
+                    && LogLikeMod.ModdedArtWorks.ContainsKey((RMRCore.ClassIds[fullName], keyword)))
+                    sprite = LogLikeMod.ModdedArtWorks[(RMRCore.ClassIds[fullName], keyword)];
+
+                if (sprite == null)
+                    return;
+
+                // Private fields — use reflection (FieldAccessException under MonoMod otherwise).
+                AccessTools.Field(typeof(BattleUnitBuf), "_bufIcon")?.SetValue(buf, sprite);
+                var iconInit = AccessTools.Field(typeof(BattleUnitBuf), "_iconInit");
+                if (iconInit != null && iconInit.FieldType == typeof(bool))
+                    iconInit.SetValue(buf, true);
             }
             catch (Exception e)
             {
-                Debug.Log("Unable to set buf icon: " + e);
+                Debug.LogWarning("[RMR] Unable to set buf icon: " + e.Message);
             }
         }
 

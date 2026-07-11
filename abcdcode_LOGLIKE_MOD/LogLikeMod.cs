@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: abcdcode_LOGLIKE_MOD.LogLikeMod
 // Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
@@ -240,27 +240,29 @@ namespace abcdcode_LOGLIKE_MOD
                 else
                     stageWaveModelList.Add(stageWaveModel);
             }
-            List<string> mapInfo = data.mapInfo;
-            if ((mapInfo == null || mapInfo.Count == 0) && stageModel.ClassInfo != null && stageModel.ClassInfo.mapInfo != null && stageModel.ClassInfo.mapInfo.Count > 0)
-                mapInfo = stageModel.ClassInfo.mapInfo;
-            if ((mapInfo == null || mapInfo.Count == 0) && startStage != null && startStage.mapInfo != null && startStage.mapInfo.Count > 0)
-                mapInfo = startStage.mapInfo;
-            if (mapInfo != null && mapInfo.Count > 0)
+            // MapInfo must come ONLY from the stage being entered.
+            // Do NOT inherit previous ClassInfo.mapInfo — that kept BlackSilence/Ensemble maps
+            // (or empty Malkuth defaults) stuck across impurity stages.
+            if (stageModel.ClassInfo != null)
             {
-                if (stageModel.ClassInfo != null)
+                if (data.mapInfo != null && data.mapInfo.Count > 0)
                 {
-                    stageModel.ClassInfo.mapInfo = mapInfo;
+                    stageModel.ClassInfo.mapInfo = new List<string>(data.mapInfo);
                     stageModel.SetCurrentMapInfo(0);
+                    Debug.Log($"[RMR SetNextStage] Applied stage mapInfo ({data.mapInfo.Count}) for {stageid}: {string.Join(",", data.mapInfo.ToArray())}");
                 }
                 else
                 {
-                    Debug.LogWarning($"[RMR SetNextStage] Stage {stageid} resolved mapInfo but current StageModel.ClassInfo is null.");
+                    if (stageModel.ClassInfo.mapInfo == null)
+                        stageModel.ClassInfo.mapInfo = new List<string>();
+                    else
+                        stageModel.ClassInfo.mapInfo.Clear();
                 }
             }
-            else
-            {
-                Debug.LogWarning($"[RMR SetNextStage] Stage {stageid} has no mapInfo and no fallback mapInfo. The game will keep the current map.");
-            }
+
+            // Impurity FloorOnly (蓝残响各层接待) must lock CurrentFloor so map/BGM match vanilla.
+            TryApplyStageFloorOnly(data);
+
             if (settype == NextStageSetType.Default || settype == NextStageSetType.Custom)
             {
                 LogLikeMod.nextlist.Clear();
@@ -281,6 +283,56 @@ namespace abcdcode_LOGLIKE_MOD
             }
             LogLikeMod.curstagetype = stagetype;
             LogLikeMod.curstageid = data.id;
+        }
+
+        /// <summary>
+        /// Stages with FloorOnly (impurity Blue-Reverb primary seph fights) force that sephirah
+        /// so InitFloorMap / BGM match the vanilla reception.
+        /// </summary>
+        public static void TryApplyStageFloorOnly(StageClassInfo data)
+        {
+            if (data?.floorOnlyList == null || data.floorOnlyList.Count == 0)
+                return;
+            SephirahType only = data.floorOnlyList[0];
+            if (only == SephirahType.None)
+                return;
+            try
+            {
+                StageController sc = Singleton<StageController>.Instance;
+                if (sc == null)
+                    return;
+                sc.SetCurrentSephirah(only);
+                if (UI.UIController.Instance != null)
+                    UI.UIController.Instance.SetCurrentSephirah(only);
+                Debug.Log($"[RMR SetNextStage] FloorOnly → CurrentFloor={only} stage={data.id}");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR SetNextStage] FloorOnly apply failed: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// True when stage declares invitation/special maps (BlackSilence, ReverberationBand, Philip…).
+        /// These must not be overwritten by ChangeToSephirahMap.
+        /// </summary>
+        public static bool StageHasSpecialInvitationMaps(StageClassInfo info)
+        {
+            if (info?.mapInfo == null || info.mapInfo.Count == 0)
+                return false;
+            foreach (string m in info.mapInfo)
+            {
+                if (string.IsNullOrEmpty(m))
+                    continue;
+                // Floor-shell noise / mirrors are not "special boss" maps.
+                if (string.Equals(m, "SparklingMirrorMapManager", StringComparison.OrdinalIgnoreCase))
+                    continue;
+                if (m.IndexOf("MapManager", StringComparison.OrdinalIgnoreCase) >= 0
+                    && m.IndexOf("Invitation", StringComparison.OrdinalIgnoreCase) < 0)
+                    continue;
+                return true;
+            }
+            return false;
         }
 
         public static GameObject GetLogUIObj(int index)
@@ -339,9 +391,11 @@ namespace abcdcode_LOGLIKE_MOD
             get
             {
                 // Original-codes used LocalizedFontSetter.font_NotoSans only.
-                // On some installs that field holds CJKkr while UI language is cn → Chinese tofu.
-                // Prefer a face whose name matches the active language (sc/kr/jp).
-                if (LogLikeMod._DefFont_TMP == null)
+                // Vanilla CN UI actually uses cnFont_notoSansCJKsc / cnFont_notoSerifCJKsc via
+                // LocalizedFontSetter.SetLocalizedFont — not font_NotoSans (that's the en path).
+                // Only auto-re-resolve when missing or a bare Fallback face (not every frame).
+                if (LogLikeMod._DefFont_TMP == null
+                    || IsTmpFallbackFaceName(LogLikeMod._DefFont_TMP.name ?? ""))
                 {
                     LogLikeMod._DefFont_TMP = GetLanguageMatchedNotoFont(ResolveInitialTextLanguage());
                     if (LogLikeMod._DefFont_TMP == null)
@@ -349,8 +403,6 @@ namespace abcdcode_LOGLIKE_MOD
                     if (LogLikeMod._DefFont_TMP != null)
                     {
                         Debug.Log($"[RMR Localize] DefFont_TMP = '{LogLikeMod._DefFont_TMP.name}' for lang={ResolveInitialTextLanguage()}.");
-                        // Vanilla story / UI read LocalizedFontSetter.font_NotoSans, not DefFont_TMP.
-                        // If that field stays on CJKkr while language=cn, dialogue becomes tofu boxes.
                         ApplyMatchedFontToLocalizedSetter(LogLikeMod._DefFont_TMP);
                     }
                     else
@@ -360,9 +412,105 @@ namespace abcdcode_LOGLIKE_MOD
             }
             set
             {
-                if (value != null)
-                    LogLikeMod._DefFont_TMP = value;
+                // Reject Latin-only option-dropdown faces and partial TMP Fallback atlases.
+                // ShopManager / MysteryManager historically assigned displayDropdown.itemText.font here.
+                if (value == null)
+                {
+                    LogLikeMod._DefFont_TMP = null;
+                    return;
+                }
+                string lang = ResolveInitialTextLanguage();
+                if (IsTmpFallbackFaceName(value.name ?? "")
+                    || !IsTmpFontCompatibleWithLanguage(value, lang))
+                {
+                    Debug.LogWarning($"[RMR Localize] Rejected DefFont_TMP='{value.name}' (lang={lang}); keeping '{LogLikeMod._DefFont_TMP?.name ?? "null"}'.");
+                    return;
+                }
+                LogLikeMod._DefFont_TMP = value;
             }
+        }
+
+        /// <summary>
+        /// Resolve CJK-capable font, patch LocalizedFontSetter language slots, optionally repair live TMP.
+        /// Call after language load / shop open / mystery start.
+        /// </summary>
+        public static void EnsureLocalizedFonts(string reason = null, bool repairActiveUi = false)
+        {
+            try
+            {
+                // Force re-resolve if cache is bad; getter also patches setter.
+                if (LogLikeMod._DefFont_TMP != null
+                    && (IsTmpFallbackFaceName(LogLikeMod._DefFont_TMP.name ?? "")
+                        || !IsTmpFontCompatibleWithLanguage(LogLikeMod._DefFont_TMP, ResolveInitialTextLanguage())))
+                    LogLikeMod._DefFont_TMP = null;
+
+                TMP_FontAsset font = LogLikeMod.DefFont_TMP;
+                if (font == null)
+                {
+                    Debug.LogWarning($"[RMR Localize] EnsureLocalizedFonts: no font (reason={reason}).");
+                    return;
+                }
+                ApplyMatchedFontToLocalizedSetter(font);
+                if (repairActiveUi)
+                    RepairActiveTmpFonts(reason ?? "EnsureLocalizedFonts");
+                else if (!string.IsNullOrEmpty(reason))
+                    Debug.Log($"[RMR Localize] EnsureLocalizedFonts reason={reason} font='{font.name}'.");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR Localize] EnsureLocalizedFonts failed: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Re-font live TMP that cannot render the current language (character names, book intros, shop).
+        /// </summary>
+        public static void RepairActiveTmpFonts(string reason)
+        {
+            TMP_FontAsset font = LogLikeMod.DefFont_TMP;
+            if (font == null)
+                return;
+            string lang = ResolveInitialTextLanguage();
+            int fixedCount = 0;
+            try
+            {
+                TextMeshProUGUI[] all = UnityEngine.Object.FindObjectsOfType<TextMeshProUGUI>();
+                foreach (TextMeshProUGUI tmp in all)
+                {
+                    if (tmp == null)
+                        continue;
+                    TMP_FontAsset cur = tmp.font;
+                    bool bad = cur == null
+                        || IsTmpFallbackFaceName(cur.name ?? "")
+                        || !IsTmpFontCompatibleWithLanguage(cur, lang);
+                    if (!bad)
+                        continue;
+                    tmp.font = font;
+                    if (font.material != null)
+                        tmp.fontSharedMaterial = font.material;
+                    fixedCount++;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR Localize] RepairActiveTmpFonts failed: " + ex.Message);
+                return;
+            }
+            Debug.Log($"[RMR Localize] RepairActiveTmpFonts fixed={fixedCount} reason={reason} font='{font.name}'.");
+        }
+
+        /// <summary>
+        /// TMP often names table-entry faces like "[Fallback_1]NotoSansCJKsc-…".
+        /// Using those as the primary font yields Chinese tofu (partial atlas / no chain).
+        /// Prefer a real primary face; only accept Fallback* as last resort.
+        /// </summary>
+        private static bool IsTmpFallbackFaceName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                return false;
+            return name.IndexOf("[Fallback", StringComparison.OrdinalIgnoreCase) >= 0
+                || name.StartsWith("Fallback_", StringComparison.OrdinalIgnoreCase)
+                || name.StartsWith("Fallback ", StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -382,6 +530,67 @@ namespace abcdcode_LOGLIKE_MOD
                 prefer = new[] { "NotoSans", "Noto" };
 
             TMP_FontAsset fieldNoto = null;
+            TMP_FontAsset bestPrimary = null;
+            TMP_FontAsset bestFallbackOnly = null;
+
+            // Prefer the exact slot vanilla SetLocalizedFont uses for this language.
+            try
+            {
+                var setterEarly = SingletonBehavior<LocalizedFontSetter>.Instance;
+                if (setterEarly != null)
+                {
+                    string preferField = null;
+                    if (lang == "cn" || lang == "trcn")
+                        preferField = "cnFont_notoSansCJKsc";
+                    else if (lang == "kr")
+                        preferField = "krFont_Namsan";
+                    else if (lang == "jp")
+                        preferField = "jpFont_logoTypeGothic";
+                    if (preferField != null)
+                    {
+                        FieldInfo pf = setterEarly.GetType().GetField(preferField, AccessTools.all);
+                        TMP_FontAsset slot = pf != null ? pf.GetValue(setterEarly) as TMP_FontAsset : null;
+                        if (slot != null
+                            && !IsTmpFallbackFaceName(slot.name ?? "")
+                            && IsTmpFontCompatibleWithLanguage(slot, lang))
+                        {
+                            Debug.Log($"[RMR Localize] Using LocalizedFontSetter.{preferField}='{slot.name}'.");
+                            return slot;
+                        }
+                    }
+                }
+            }
+            catch { /* fall through to scan */ }
+
+            void Consider(TMP_FontAsset asset, string source)
+            {
+                if (asset == null)
+                    return;
+                string name = asset.name ?? "";
+                bool tokenHit = false;
+                foreach (string token in prefer)
+                {
+                    if (name.IndexOf(token, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        tokenHit = true;
+                        break;
+                    }
+                }
+                if (!tokenHit)
+                    return;
+                if (IsTmpFallbackFaceName(name))
+                {
+                    if (bestFallbackOnly == null)
+                        bestFallbackOnly = asset;
+                    return;
+                }
+                if (bestPrimary == null)
+                {
+                    bestPrimary = asset;
+                    Debug.Log($"[RMR Localize] Matched primary font '{name}' via {source}.");
+                }
+            }
+
             try
             {
                 var setter = SingletonBehavior<LocalizedFontSetter>.Instance;
@@ -396,15 +605,30 @@ namespace abcdcode_LOGLIKE_MOD
                             continue;
                         if (field.Name == "font_NotoSans")
                             fieldNoto = asset;
-                        string name = asset.name ?? "";
-                        foreach (string token in prefer)
+                        // Prefer a primary that already carries CJK via its fallback table.
+                        if (asset.fallbackFontAssetTable != null)
                         {
-                            if (name.IndexOf(token, StringComparison.OrdinalIgnoreCase) >= 0)
+                            foreach (TMP_FontAsset fb in asset.fallbackFontAssetTable)
                             {
-                                Debug.Log($"[RMR Localize] Matched setter font '{name}' via token '{token}'.");
-                                return asset;
+                                if (fb == null)
+                                    continue;
+                                string fbName = fb.name ?? "";
+                                foreach (string token in prefer)
+                                {
+                                    if (fbName.IndexOf(token, StringComparison.OrdinalIgnoreCase) >= 0
+                                        && !IsTmpFallbackFaceName(asset.name ?? ""))
+                                    {
+                                        if (bestPrimary == null)
+                                        {
+                                            bestPrimary = asset;
+                                            Debug.Log($"[RMR Localize] Matched primary '{asset.name}' (fallback '{fbName}') via setter field {field.Name}.");
+                                        }
+                                        break;
+                                    }
+                                }
                             }
                         }
+                        Consider(asset, "setter field " + field.Name);
                     }
                 }
             }
@@ -416,33 +640,36 @@ namespace abcdcode_LOGLIKE_MOD
             try
             {
                 foreach (TMP_FontAsset asset in Resources.FindObjectsOfTypeAll<TMP_FontAsset>())
-                {
-                    if (asset == null)
-                        continue;
-                    string name = asset.name ?? "";
-                    foreach (string token in prefer)
-                    {
-                        if (name.IndexOf(token, StringComparison.OrdinalIgnoreCase) >= 0)
-                        {
-                            Debug.Log($"[RMR Localize] Matched loaded font '{name}' via token '{token}'.");
-                            return asset;
-                        }
-                    }
-                }
+                    Consider(asset, "loaded assets");
             }
             catch (Exception ex)
             {
                 Debug.LogWarning("[RMR Localize] FindObjectsOfTypeAll TMP scan failed: " + ex.Message);
             }
 
-            // Last resort: original field (may be wrong script for language).
+            if (bestPrimary != null)
+                return bestPrimary;
+
+            // Last resorts — may still tofu if only a partial fallback atlas exists.
+            if (fieldNoto != null && !IsTmpFallbackFaceName(fieldNoto.name ?? ""))
+            {
+                Debug.LogWarning($"[RMR Localize] Falling back to font_NotoSans='{fieldNoto.name}' (may mismatch language {lang}).");
+                return fieldNoto;
+            }
+            if (bestFallbackOnly != null)
+            {
+                Debug.LogWarning($"[RMR Localize] Only Fallback-named CJK face available: '{bestFallbackOnly.name}'. Prefer primary with fallback table.");
+                return bestFallbackOnly;
+            }
             if (fieldNoto != null)
                 Debug.LogWarning($"[RMR Localize] Falling back to font_NotoSans='{fieldNoto.name}' (may mismatch language {lang}).");
             return fieldNoto;
         }
 
         /// <summary>
-        /// Push the language-matched face into LocalizedFontSetter so vanilla story TMP uses it too.
+        /// Vanilla SetLocalizedFont(language=cn) uses cnFont_notoSansCJKsc / cnFont_notoSerifCJKsc,
+        /// NOT font_NotoSans (en default). Character names + key-page intros go through those fields.
+        /// Patch every language slot that is null / Fallback / wrong script.
         /// </summary>
         private static void ApplyMatchedFontToLocalizedSetter(TMP_FontAsset matched)
         {
@@ -454,55 +681,130 @@ namespace abcdcode_LOGLIKE_MOD
                 if (setter == null)
                     return;
 
-                FieldInfo notoField = null;
-                TMP_FontAsset previous = null;
-                foreach (FieldInfo field in setter.GetType().GetFields(AccessTools.all))
-                {
-                    if (!typeof(TMP_FontAsset).IsAssignableFrom(field.FieldType))
-                        continue;
-                    if (field.Name == "font_NotoSans" || field.Name.IndexOf("NotoSans", StringComparison.OrdinalIgnoreCase) >= 0)
-                    {
-                        notoField = field;
-                        previous = field.GetValue(setter) as TMP_FontAsset;
-                        break;
-                    }
-                }
-                if (notoField == null)
-                    return;
-
-                if (previous != null && object.ReferenceEquals(previous, matched))
-                    return;
-
-                string prevName = previous != null ? previous.name : "null";
-                // Only overwrite when the previous face is a clear language mismatch for cn/kr/jp.
                 string lang = ResolveInitialTextLanguage();
-                bool shouldReplace = previous == null;
-                if (!shouldReplace && (lang == "cn" || lang == "trcn"))
+                TMP_FontAsset serif = FindLanguageSerifFont(lang) ?? matched;
+
+                // Map language → fields SetLocalizedFont actually reads.
+                string[] primarySansFields;
+                string[] primarySerifFields;
+                if (lang == "cn" || lang == "trcn")
                 {
-                    bool prevIsSc = prevName.IndexOf("sc", StringComparison.OrdinalIgnoreCase) >= 0
-                        || prevName.IndexOf("Hans", StringComparison.OrdinalIgnoreCase) >= 0
-                        || prevName.IndexOf("Chinese", StringComparison.OrdinalIgnoreCase) >= 0;
-                    shouldReplace = !prevIsSc;
+                    primarySansFields = new[] { "cnFont_notoSansCJKsc" };
+                    primarySerifFields = new[] { "cnFont_notoSerifCJKsc" };
                 }
-                else if (!shouldReplace && lang == "kr")
+                else if (lang == "kr")
                 {
-                    shouldReplace = prevName.IndexOf("kr", StringComparison.OrdinalIgnoreCase) < 0;
+                    primarySansFields = new[] { "krFont_Namsan", "krFont_Arita" };
+                    primarySerifFields = new[] { "krFont_Arita", "krFont_Namsan" };
                 }
-                else if (!shouldReplace && lang == "jp")
+                else if (lang == "jp")
                 {
-                    shouldReplace = prevName.IndexOf("jp", StringComparison.OrdinalIgnoreCase) < 0;
+                    primarySansFields = new[] { "jpFont_logoTypeGothic", "jpFont_ShipporiMincho" };
+                    primarySerifFields = new[] { "jpFont_ShipporiMincho", "jpFont_logoTypeGothic" };
+                }
+                else
+                {
+                    // en path uses kr fonts in vanilla; still seed font_Noto* with CJK-capable face
+                    // so mod UI and any en→cn hybrid text don't tofu.
+                    primarySansFields = new[] { "font_NotoSans", "krFont_Namsan" };
+                    primarySerifFields = new[] { "font_NotoSerif", "krFont_Arita" };
                 }
 
-                if (!shouldReplace)
-                    return;
+                // Only replace slots that are null / Fallback / wrong script.
+                // Never force-overwrite a working vanilla cnFont_* face — that was painting
+                // key-page body/passive TMP as 口口口 while combat cards (other face path) still worked.
+                foreach (string fieldName in primarySansFields)
+                    PatchSetterFontField(setter, fieldName, matched, lang, force: false);
+                foreach (string fieldName in primarySerifFields)
+                    PatchSetterFontField(setter, fieldName, serif, lang, force: false);
 
-                notoField.SetValue(setter, matched);
-                Debug.Log($"[RMR Localize] Overwrote LocalizedFontSetter.{notoField.Name}: '{prevName}' → '{matched.name}' (lang={lang}).");
+                // Always keep en-default slots healthy — some prefabs never re-call SetLocalizedFont.
+                PatchSetterFontField(setter, "font_NotoSans", matched, lang, force: false);
+                PatchSetterFontField(setter, "font_NotoSerif", serif, lang, force: false);
             }
             catch (Exception ex)
             {
                 Debug.LogWarning("[RMR Localize] ApplyMatchedFontToLocalizedSetter failed: " + ex.Message);
             }
+        }
+
+        private static TMP_FontAsset FindLanguageSerifFont(string language)
+        {
+            string lang = CanonicalizeTextLanguage(language);
+            string[] prefer;
+            if (lang == "cn" || lang == "trcn")
+                prefer = new[] { "SerifCJKsc", "SerifSC", "notoSerifCJKsc", "NotoSerifSC", "SourceHanSerifSC" };
+            else if (lang == "kr")
+                prefer = new[] { "Arita", "SerifKR", "NotoSerifKR" };
+            else if (lang == "jp")
+                prefer = new[] { "Shippori", "Mincho", "SerifJP", "NotoSerifJP" };
+            else
+                prefer = new[] { "NotoSerif", "Serif" };
+
+            try
+            {
+                var setter = SingletonBehavior<LocalizedFontSetter>.Instance;
+                if (setter != null)
+                {
+                    foreach (FieldInfo field in setter.GetType().GetFields(AccessTools.all))
+                    {
+                        if (!typeof(TMP_FontAsset).IsAssignableFrom(field.FieldType))
+                            continue;
+                        TMP_FontAsset asset = field.GetValue(setter) as TMP_FontAsset;
+                        if (asset == null || IsTmpFallbackFaceName(asset.name ?? ""))
+                            continue;
+                        string name = asset.name ?? "";
+                        foreach (string token in prefer)
+                        {
+                            if (name.IndexOf(token, StringComparison.OrdinalIgnoreCase) >= 0)
+                                return asset;
+                        }
+                    }
+                }
+                foreach (TMP_FontAsset asset in Resources.FindObjectsOfTypeAll<TMP_FontAsset>())
+                {
+                    if (asset == null || IsTmpFallbackFaceName(asset.name ?? ""))
+                        continue;
+                    string name = asset.name ?? "";
+                    foreach (string token in prefer)
+                    {
+                        if (name.IndexOf(token, StringComparison.OrdinalIgnoreCase) >= 0)
+                            return asset;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR Localize] FindLanguageSerifFont failed: " + ex.Message);
+            }
+            return null;
+        }
+
+        private static void PatchSetterFontField(
+            object setter,
+            string fieldName,
+            TMP_FontAsset replacement,
+            string lang,
+            bool force)
+        {
+            if (setter == null || string.IsNullOrEmpty(fieldName) || replacement == null)
+                return;
+            FieldInfo field = setter.GetType().GetField(fieldName, AccessTools.all);
+            if (field == null || !typeof(TMP_FontAsset).IsAssignableFrom(field.FieldType))
+                return;
+            TMP_FontAsset previous = field.GetValue(setter) as TMP_FontAsset;
+            if (previous != null && object.ReferenceEquals(previous, replacement))
+                return;
+
+            string prevName = previous != null ? previous.name : "null";
+            bool bad = previous == null
+                || IsTmpFallbackFaceName(prevName)
+                || !IsTmpFontCompatibleWithLanguage(previous, lang);
+            if (!force && !bad)
+                return;
+
+            field.SetValue(setter, replacement);
+            Debug.Log($"[RMR Localize] LocalizedFontSetter.{fieldName}: '{prevName}' → '{replacement.name}' (lang={lang}, force={force}).");
         }
 
         public static Color DefFontColor
@@ -1016,20 +1318,96 @@ namespace abcdcode_LOGLIKE_MOD
         {
             using (StringReader stringReader = new StringReader(ReadLocalizeTextFile(path)))
             {
-                
                 BookDescRoot bookDescRoot = (BookDescRoot)new XmlSerializer(typeof(BookDescRoot)).Deserialize((TextReader)stringReader);
-                List<BookXmlInfo> list = Singleton<BookXmlList>.Instance.GetList();
+                if (bookDescRoot?.bookDescList == null)
+                    return;
+
+                // ONLY stamp InnerName on this package's books. Matching every BookXmlInfo by
+                // TextId alone rewrote vanilla key pages that share numeric ids with mod BookInfo
+                // (e.g. 200001) and left Hangul/garbled InnerName paths showing as 口口口.
+                List<BookXmlInfo> allBooks = null;
+                try { allBooks = Singleton<BookXmlList>.Instance.GetList(); } catch { /* ignore */ }
+                Dictionary<string, List<BookXmlInfo>> workshopData = null;
+                try { workshopData = Singleton<BookXmlList>.Instance.GetAllWorkshopData(); } catch { /* ignore */ }
+
                 foreach (BookDesc bookDesc in bookDescRoot.bookDescList)
                 {
-                    BookDesc desc = bookDesc;
-                    List<BookXmlInfo> all = list.FindAll((Predicate<BookXmlInfo>)(x => x.TextId == desc.bookID));
-                    if (all.Count > 0)
+                    if (bookDesc == null || string.IsNullOrEmpty(bookDesc.bookName))
+                        continue;
+
+                    if (workshopData != null
+                        && workshopData.TryGetValue(modid, out List<BookXmlInfo> modBooks)
+                        && modBooks != null)
                     {
-                        foreach (BookXmlInfo bookXmlInfo in all)
-                            bookXmlInfo.InnerName = desc.bookName;
+                        foreach (BookXmlInfo book in modBooks)
+                        {
+                            if (book == null || book.id == null)
+                                continue;
+                            if (book.id.id == bookDesc.bookID || book.TextId == bookDesc.bookID)
+                                book.InnerName = bookDesc.bookName;
+                        }
+                    }
+
+                    if (allBooks == null)
+                        continue;
+                    foreach (BookXmlInfo book in allBooks)
+                    {
+                        if (book == null || book.id == null)
+                            continue;
+                        if (!string.Equals(book.workshopID, modid, StringComparison.Ordinal))
+                            continue;
+                        if (book.id.id == bookDesc.bookID || book.TextId == bookDesc.bookID)
+                            book.InnerName = bookDesc.bookName;
                     }
                 }
-                Singleton<BookDescXmlList>.Instance.AddBookTextByMod(modid, bookDescRoot.bookDescList);
+
+                UpsertBookTextByMod(modid, bookDescRoot.bookDescList);
+            }
+        }
+
+        /// <summary>
+        /// AddBookTextByMod only AddRange — reloads would duplicate. Replace-by-bookID per package.
+        /// </summary>
+        private static void UpsertBookTextByMod(string modid, List<BookDesc> bookDescList)
+        {
+            if (string.IsNullOrEmpty(modid) || bookDescList == null || bookDescList.Count == 0)
+                return;
+            try
+            {
+                BookDescXmlList list = Singleton<BookDescXmlList>.Instance;
+                if (list == null)
+                    return;
+                var workshop = list.GetType()
+                    .GetField("_dictionaryWorkshop", AccessTools.all)
+                    ?.GetValue(list) as Dictionary<string, List<BookDesc>>;
+                if (workshop == null)
+                {
+                    list.AddBookTextByMod(modid, bookDescList);
+                    return;
+                }
+
+                if (!workshop.TryGetValue(modid, out List<BookDesc> existing) || existing == null)
+                {
+                    existing = new List<BookDesc>();
+                    workshop[modid] = existing;
+                }
+
+                foreach (BookDesc incoming in bookDescList)
+                {
+                    if (incoming == null)
+                        continue;
+                    int idx = existing.FindIndex(x => x != null && x.bookID == incoming.bookID);
+                    if (idx >= 0)
+                        existing[idx] = incoming;
+                    else
+                        existing.Add(incoming);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR Localize] UpsertBookTextByMod failed, falling back to AddBookTextByMod: " + ex.Message);
+                try { Singleton<BookDescXmlList>.Instance.AddBookTextByMod(modid, bookDescList); }
+                catch { /* ignore */ }
             }
         }
 
@@ -1041,10 +1419,56 @@ namespace abcdcode_LOGLIKE_MOD
                 Dictionary<LorId, BattleCardDesc> dictionary = (Dictionary<LorId, BattleCardDesc>)typeof(BattleCardDescXmlList).GetField("_dictionary", AccessTools.all).GetValue(Singleton<BattleCardDescXmlList>.Instance);
                 foreach (BattleCardDesc cardDesc in ((BattleCardDescRoot)new XmlSerializer(typeof(BattleCardDescRoot)).Deserialize((TextReader)stringReader)).cardDescList)
                 {
+                    if (cardDesc == null)
+                        continue;
                     LorId lorId = new LorId(modid, cardDesc.cardID);
+
+                    // Most mod CardInfo files only ship LocalizedName. A full overwrite would
+                    // wipe Ability / Behaviour and make hover desc empty or fall back wrongly.
+                    // Merge: keep existing mod entry fields, then fill gaps from origin (vanilla).
+                    BattleCardDesc existing = null;
+                    dictionary.TryGetValue(lorId, out existing);
+                    if (existing != null)
+                    {
+                        if (string.IsNullOrEmpty(cardDesc.ability) && !string.IsNullOrEmpty(existing.ability))
+                            cardDesc.ability = existing.ability;
+                        if ((cardDesc.behaviourDescList == null || cardDesc.behaviourDescList.Count == 0)
+                            && existing.behaviourDescList != null && existing.behaviourDescList.Count > 0)
+                            cardDesc.behaviourDescList = existing.behaviourDescList;
+                    }
+
+                    if (string.IsNullOrEmpty(cardDesc.ability)
+                        || cardDesc.behaviourDescList == null
+                        || cardDesc.behaviourDescList.Count == 0)
+                    {
+                        BattleCardDesc origin = null;
+                        foreach (LorId candidate in new[]
+                        {
+                            new LorId(cardDesc.cardID),
+                            new LorId(string.Empty, cardDesc.cardID),
+                            new LorId("@origin", cardDesc.cardID)
+                        })
+                        {
+                            if (!dictionary.TryGetValue(candidate, out origin) || origin == null)
+                                continue;
+                            if (!string.IsNullOrEmpty(origin.ability)
+                                || (origin.behaviourDescList != null && origin.behaviourDescList.Count > 0))
+                                break;
+                            origin = null;
+                        }
+                        if (origin != null)
+                        {
+                            if (string.IsNullOrEmpty(cardDesc.ability) && !string.IsNullOrEmpty(origin.ability))
+                                cardDesc.ability = origin.ability;
+                            if ((cardDesc.behaviourDescList == null || cardDesc.behaviourDescList.Count == 0)
+                                && origin.behaviourDescList != null && origin.behaviourDescList.Count > 0)
+                                cardDesc.behaviourDescList = origin.behaviourDescList;
+                        }
+                    }
+
                     dictionary[lorId] = cardDesc;
                     DiceCardXmlInfo cardItem = ItemXmlDataList.instance.GetCardItem(lorId, true);
-                    if (cardItem != null)
+                    if (cardItem != null && !string.IsNullOrEmpty(cardDesc.cardName))
                         cardItem.workshopName = cardDesc.cardName;
                 }
             }
@@ -1054,16 +1478,44 @@ namespace abcdcode_LOGLIKE_MOD
         {
             using (StringReader stringReader = new StringReader(ReadLocalizeTextFile(path)))
             {
-                
                 Dictionary<LorId, PassiveDesc> dictionary = (Dictionary<LorId, PassiveDesc>)typeof(PassiveDescXmlList).GetField("_dictionary", AccessTools.all).GetValue(Singleton<PassiveDescXmlList>.Instance);
                 foreach (PassiveDesc desc1 in ((PassiveDescRoot)new XmlSerializer(typeof(PassiveDescRoot)).Deserialize((TextReader)stringReader)).descList)
                 {
                     PassiveDesc desc = desc1;
+                    if (desc == null)
+                        continue;
                     desc.workshopID = modid;
                     dictionary[desc.ID] = desc;
-                    BookXmlInfo bookXmlInfo = Singleton<BookXmlList>.Instance.GetAllWorkshopData()[modid].Find((Predicate<BookXmlInfo>)(x => x.id == desc.ID));
-                    if (bookXmlInfo != null)
-                        bookXmlInfo.InnerName = desc.name;
+
+                    // Workshop BookPassiveInfo.name/desc read PassiveXmlInfo fields when IsWorkshop(),
+                    // NOT PassiveDescXmlList. Stamp CN text onto PassiveXmlInfo so key-page passives
+                    // stay Chinese even if a later LoadPassiveDesc(language) clears the dictionary.
+                    try
+                    {
+                        PassiveXmlInfo pxi = Singleton<PassiveXmlList>.Instance?.GetData(desc.ID);
+                        if (pxi != null)
+                        {
+                            if (!string.IsNullOrEmpty(desc.name))
+                                pxi.name = desc.name;
+                            if (!string.IsNullOrEmpty(desc.desc))
+                                pxi.desc = desc.desc;
+                        }
+                    }
+                    catch { /* ignore */ }
+
+                    try
+                    {
+                        Dictionary<string, List<BookXmlInfo>> workshop = Singleton<BookXmlList>.Instance.GetAllWorkshopData();
+                        if (workshop != null
+                            && workshop.TryGetValue(modid, out List<BookXmlInfo> modBooks)
+                            && modBooks != null)
+                        {
+                            BookXmlInfo bookXmlInfo = modBooks.Find(x => x != null && x.id == desc.ID);
+                            if (bookXmlInfo != null && !string.IsNullOrEmpty(desc.name))
+                                bookXmlInfo.InnerName = desc.name;
+                        }
+                    }
+                    catch { /* ignore */ }
                 }
             }
         }
@@ -1106,6 +1558,63 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        /// <summary>
+        /// Runtime config/data files only. Skips .bak / .pre_* backup names that historically
+        /// lived under Assemblies/dlls and could overwrite good XML when GetFiles() scanned all.
+        /// </summary>
+        public static bool IsRuntimeDataFileName(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                return false;
+            string n = fileName;
+            if (n.IndexOf(".bak", StringComparison.OrdinalIgnoreCase) >= 0)
+                return false;
+            if (n.IndexOf(".pre_", StringComparison.OrdinalIgnoreCase) >= 0)
+                return false;
+            if (n.EndsWith("~", StringComparison.Ordinal))
+                return false;
+            return true;
+        }
+
+        /// <summary>Enumerate *.xml under a directory, excluding backup-style names.</summary>
+        public static FileInfo[] EnumerateXmlFiles(string directoryPath)
+        {
+            return EnumerateDataFiles(directoryPath, ".xml");
+        }
+
+        /// <summary>
+        /// Enumerate data files with given extensions (e.g. .xml, .txt).
+        /// DropValueXmlInfos uses .txt with XML content — must include .txt.
+        /// </summary>
+        public static FileInfo[] EnumerateDataFiles(string directoryPath, params string[] extensions)
+        {
+            if (string.IsNullOrEmpty(directoryPath) || !Directory.Exists(directoryPath))
+                return Array.Empty<FileInfo>();
+            if (extensions == null || extensions.Length == 0)
+                extensions = new[] { ".xml" };
+            try
+            {
+                var dir = new DirectoryInfo(directoryPath);
+                var list = new List<FileInfo>();
+                foreach (string ext in extensions)
+                {
+                    string e = ext.StartsWith(".") ? ext : "." + ext;
+                    list.AddRange(dir.GetFiles("*" + e));
+                }
+                return list.Where(f => IsRuntimeDataFileName(f.Name)).ToArray();
+            }
+            catch
+            {
+                return Array.Empty<FileInfo>();
+            }
+        }
+
+        /// <summary>Enumerate localize text roots (xml/txt) excluding backups.</summary>
+        public static FileInfo[] EnumerateLocalizeTextFiles(string directoryPath)
+        {
+            return EnumerateDataFiles(directoryPath, ".xml", ".txt");
+        }
+
         private static FileInfo[] GetLocalizeFilesIfDirectoryExists(string directoryPath, string label)
         {
             if (!Directory.Exists(directoryPath))
@@ -1113,14 +1622,31 @@ namespace abcdcode_LOGLIKE_MOD
                 Debug.LogWarning($"[RMR Localize] Missing {label} localize directory, skipped: {directoryPath}");
                 return Array.Empty<FileInfo>();
             }
-            return new DirectoryInfo(directoryPath).GetFiles();
+            // Prefer xml then txt; never load .bak / .pre_* backups.
+            return EnumerateLocalizeTextFiles(directoryPath);
         }
+
+        /// <summary>Public language resolve for shop/open paths (option.dat → TextDataModel → OS).</summary>
+        public static string GetActiveTextLanguage() => ResolveInitialTextLanguage();
 
         private static string ResolveInitialTextLanguage()
         {
             string optionLanguage = TryReadLanguageFromOptionFile();
             if (!string.IsNullOrEmpty(optionLanguage))
                 return optionLanguage;
+
+            // Prefer live LocalizedTextLoader language when available (more accurate mid-session).
+            try
+            {
+                LocalizedTextLoader loader = Singleton<LocalizedTextLoader>.Instance;
+                if (loader != null)
+                {
+                    string live = CanonicalizeTextLanguage(loader.CurrentLanguage);
+                    if (!string.IsNullOrEmpty(live) && TextDataModel.GetSupportedLangs().Contains(live))
+                        return live;
+                }
+            }
+            catch { /* ignore */ }
 
             string current = CanonicalizeTextLanguage(TextDataModel.CurrentLanguage);
             if (!string.IsNullOrEmpty(current) && TextDataModel.GetSupportedLangs().Contains(current) && current != "kr")
@@ -1329,6 +1855,10 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (font == null)
                 return false;
+            // Never treat a bare TMP Fallback table face as "compatible primary" —
+            // it may pass HasCharacter on a partial atlas yet still tofu in UI.
+            if (IsTmpFallbackFaceName(font.name ?? ""))
+                return false;
             string probes = GetFontProbeCharacters(language);
             if (string.IsNullOrEmpty(probes))
                 return true;
@@ -1423,7 +1953,7 @@ namespace abcdcode_LOGLIKE_MOD
             DirectoryInfo directoryInfo1 = !Directory.Exists(LogLikeMod.path + str) ? new DirectoryInfo(LogLikeMod.path + "/Localize/en") : new DirectoryInfo(LogLikeMod.path + str);
             Debug.Log($"[RMR Localize] Loading mod text. gameLanguage={language}, modLocalizeLanguage={localizeLanguage}, path={directoryInfo1.FullName}");
             
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles())
+            foreach (FileSystemInfo file in EnumerateLocalizeTextFiles(directoryInfo1.FullName))
                 LogLikeMod.LoadLocalizeFile(file.FullName, ref textDic);
             foreach (ModContentInfo logMod in LogLikeMod.GetLogMods())
             {
@@ -1431,7 +1961,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (FileSystemInfo file in directoryInfo2.GetFiles())
+                    foreach (FileSystemInfo file in EnumerateLocalizeTextFiles(directoryInfo2.FullName))
                         LogLikeMod.LoadLocalizeFile(file.FullName, ref textDic);
                 }
             }
@@ -1450,7 +1980,7 @@ namespace abcdcode_LOGLIKE_MOD
                 if (Directory.Exists(directoryInfo3.FullName))
                 {
 
-                    foreach (FileSystemInfo file in directoryInfo3.GetFiles())
+                    foreach (FileSystemInfo file in EnumerateLocalizeTextFiles(directoryInfo3.FullName))
                         try { 
                             LogLikeMod.LoadPassiveDesc(file.FullName, uniqueId);
                         }
@@ -1474,7 +2004,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(directoryInfo4.FullName))
                 {
-                    foreach (FileSystemInfo file in directoryInfo4.GetFiles())
+                    foreach (FileSystemInfo file in EnumerateLocalizeTextFiles(directoryInfo4.FullName))
                         try { 
                         LogLikeMod.LoadCardDesc(file.FullName, uniqueId);
                         }
@@ -1498,7 +2028,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(directoryInfo5.FullName))
                 {
-                    foreach (FileSystemInfo file in directoryInfo5.GetFiles())
+                    foreach (FileSystemInfo file in EnumerateLocalizeTextFiles(directoryInfo5.FullName))
                         try
                         {
                             LogLikeMod.LoadBookDesc(file.FullName, uniqueId);
@@ -1523,7 +2053,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(directoryInfo6.FullName))
                 {
-                    foreach (FileSystemInfo file in directoryInfo6.GetFiles())
+                    foreach (FileSystemInfo file in EnumerateLocalizeTextFiles(directoryInfo6.FullName))
                         try { 
                             LogLikeMod.LoadEnemyUnitName(file.FullName, uniqueId);
                         }
@@ -1547,7 +2077,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(directoryInfo7.FullName))
                 {
-                    foreach (FileSystemInfo file in directoryInfo7.GetFiles())
+                    foreach (FileSystemInfo file in EnumerateLocalizeTextFiles(directoryInfo7.FullName))
                         try { 
                             LogLikeMod.LoadDropBookName(file.FullName, uniqueId);
                         }
@@ -1571,7 +2101,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(directoryInfo8.FullName))
                 {
-                    foreach (FileSystemInfo file in directoryInfo8.GetFiles())
+                    foreach (FileSystemInfo file in EnumerateLocalizeTextFiles(directoryInfo8.FullName))
                         try { 
                             LogLikeMod.LoadDiceAbilityDesc(file.FullName, uniqueId);
                         }
@@ -1636,6 +2166,336 @@ namespace abcdcode_LOGLIKE_MOD
                 Name = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("LogueLikeMod_CricusDawn2Buf_Name"),
                 Desc = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("LogueLikeMod_CricusDawn2Buf_Desc")
             };
+
+            // Patch cnFont_* / kr / jp slots so vanilla character names + key-page intros
+            // use a real CJK face (SetLocalizedFont does not use font_NotoSans for cn).
+            EnsureLocalizedFonts("LoadTextData:" + localizeLanguage, repairActiveUi: true);
+        }
+
+        private static bool RefreshingVanillaBattleLocalize;
+
+        /// <summary>
+        /// Shop combat-page hover / keyword tooltips read BattleCardAbilityDescXmlList and
+        /// BattleEffectTextsXmlList. If those stayed on EN while UI is CN, descriptions mix
+        /// English + Chinese. Force-reload vanilla battle localize for the active language,
+        /// then re-apply mod CardInfo / DiceAbilityInfo / effect overlays.
+        /// </summary>
+        public static void RefreshVanillaBattleLocalize(string language, string reason)
+        {
+            if (RefreshingVanillaBattleLocalize)
+                return;
+            language = NormalizeTextLanguage(language);
+            if (string.IsNullOrEmpty(language))
+                language = ResolveInitialTextLanguage();
+            try
+            {
+                RefreshingVanillaBattleLocalize = true;
+                LocalizedTextLoader loader = Singleton<LocalizedTextLoader>.Instance;
+                if (loader == null)
+                {
+                    Debug.LogWarning("[RMR Localize] Cannot refresh battle localize — LocalizedTextLoader null.");
+                    return;
+                }
+
+                loader.LoadBattleCardAbilityDescriptions(language);
+                loader.LoadBattleCardDescriptions(language);
+                loader.LoadBattleEffectTexts(language);
+
+                // LoadBattleCard* rebuilds dictionaries — re-merge mod localize on top.
+                ReloadModCardAndDiceLocalize(language);
+                try { RMRCore.LoadSatelliteBattleTexts(language); }
+                catch (Exception satEx)
+                {
+                    Debug.LogWarning("[RMR Localize] satellite battle texts after battle reload: " + satEx.Message);
+                }
+
+                Debug.Log($"[RMR Localize] Refreshed vanilla battle localize language={language}, reason={reason}.");
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("[RMR Localize] RefreshVanillaBattleLocalize failed: " + e);
+            }
+            finally
+            {
+                RefreshingVanillaBattleLocalize = false;
+            }
+        }
+
+        /// <summary>
+        /// Re-apply mod CardInfo + DiceAbilityInfo after vanilla battle dictionary Init.
+        /// </summary>
+        public static void ReloadModCardAndDiceLocalize(string language)
+        {
+            language = NormalizeTextLanguage(language);
+            string localizeLanguage = ResolveModLocalizeLanguage(language);
+            string root = Path.Combine(LogLikeMod.path, "Localize", localizeLanguage);
+            if (!Directory.Exists(root))
+                root = Path.Combine(LogLikeMod.path, "Localize", "en");
+
+            foreach (FileSystemInfo file in GetLocalizeFilesIfDirectoryExists(Path.Combine(root, "CardInfo"), "CardInfo"))
+            {
+                try { LoadCardDesc(file.FullName, LogLikeMod.ModId); }
+                catch (Exception e) { Debug.Log("Failed to reload CardInfo " + file.FullName + ":\n" + e); }
+            }
+            foreach (ModContentInfo logMod in GetLogMods())
+            {
+                string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
+                DirectoryInfo dir = new DirectoryInfo(Path.Combine(logMod.GetLogDllPath(), "Localize", localizeLanguage, "CardInfo"));
+                if (!Directory.Exists(dir.FullName))
+                    continue;
+                foreach (FileSystemInfo file in EnumerateLocalizeTextFiles(dir.FullName))
+                {
+                    try { LoadCardDesc(file.FullName, uniqueId); }
+                    catch (Exception e) { Debug.Log("Failed to reload CardInfo " + file.FullName + ":\n" + e); }
+                }
+            }
+
+            foreach (FileSystemInfo file in GetLocalizeFilesIfDirectoryExists(Path.Combine(root, "DiceAbilityInfo"), "DiceAbilityInfo"))
+            {
+                try { LoadDiceAbilityDesc(file.FullName, LogLikeMod.ModId); }
+                catch (Exception e) { Debug.Log("Failed to reload DiceAbilityInfo " + file.FullName + ":\n" + e); }
+            }
+            foreach (ModContentInfo logMod in GetLogMods())
+            {
+                string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
+                DirectoryInfo dir = new DirectoryInfo(Path.Combine(logMod.GetLogDllPath(), "Localize", localizeLanguage, "DiceAbilityInfo"));
+                if (!Directory.Exists(dir.FullName))
+                    continue;
+                foreach (FileSystemInfo file in EnumerateLocalizeTextFiles(dir.FullName))
+                {
+                    try { LoadDiceAbilityDesc(file.FullName, uniqueId); }
+                    catch (Exception e) { Debug.Log("Failed to reload DiceAbilityInfo " + file.FullName + ":\n" + e); }
+                }
+            }
+        }
+
+        private static bool RefreshingVanillaBookAndPassiveLocalize;
+
+        /// <summary>
+        /// Key-page names / story / passives. Vanilla LoadPassiveDesc CLEARS the whole
+        /// PassiveDesc dictionary (wiping mod entries). Reload origin CN, then re-apply mod
+        /// BookInfo + PassiveInfo (and stamp PassiveXmlInfo) — same pattern as battle cards.
+        /// </summary>
+        public static void RefreshVanillaBookAndPassiveLocalize(string language, string reason)
+        {
+            if (RefreshingVanillaBookAndPassiveLocalize)
+                return;
+            language = NormalizeTextLanguage(language);
+            if (string.IsNullOrEmpty(language))
+                language = ResolveInitialTextLanguage();
+            try
+            {
+                RefreshingVanillaBookAndPassiveLocalize = true;
+                LocalizedTextLoader loader = Singleton<LocalizedTextLoader>.Instance;
+                if (loader == null)
+                {
+                    Debug.LogWarning("[RMR Localize] Cannot refresh book/passive localize — LocalizedTextLoader null.");
+                    return;
+                }
+
+                loader.LoadBookDescriptions(language);
+                loader.LoadPassiveDesc(language);
+
+                // LoadPassiveDesc clears mod package keys — put them back and stamp PassiveXmlInfo.
+                ReloadModBookAndPassiveLocalize(language);
+                EnsureLocalizedFonts("RefreshBookPassive:" + reason, repairActiveUi: true);
+                Debug.Log($"[RMR Localize] Refreshed book/passive localize language={language} reason={reason}.");
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("[RMR Localize] RefreshVanillaBookAndPassiveLocalize failed: " + e);
+            }
+            finally
+            {
+                RefreshingVanillaBookAndPassiveLocalize = false;
+            }
+        }
+
+        /// <summary>
+        /// Re-apply mod BookInfo + PassiveInfo after vanilla book/passive Init/clear.
+        /// </summary>
+        public static void ReloadModBookAndPassiveLocalize(string language)
+        {
+            language = NormalizeTextLanguage(language);
+            string localizeLanguage = ResolveModLocalizeLanguage(language);
+            string root = Path.Combine(LogLikeMod.path, "Localize", localizeLanguage);
+            if (!Directory.Exists(root))
+                root = Path.Combine(LogLikeMod.path, "Localize", "en");
+
+            foreach (FileSystemInfo file in GetLocalizeFilesIfDirectoryExists(Path.Combine(root, "PassiveInfo"), "PassiveInfo"))
+            {
+                try { LoadPassiveDesc(file.FullName, LogLikeMod.ModId); }
+                catch (Exception e) { Debug.Log("Failed to reload PassiveInfo " + file.FullName + ":\n" + e); }
+            }
+            foreach (ModContentInfo logMod in GetLogMods())
+            {
+                string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
+                DirectoryInfo dir = new DirectoryInfo(Path.Combine(logMod.GetLogDllPath(), "Localize", localizeLanguage, "PassiveInfo"));
+                if (!Directory.Exists(dir.FullName))
+                    continue;
+                foreach (FileSystemInfo file in EnumerateLocalizeTextFiles(dir.FullName))
+                {
+                    try { LoadPassiveDesc(file.FullName, uniqueId); }
+                    catch (Exception e) { Debug.Log("Failed to reload PassiveInfo " + file.FullName + ":\n" + e); }
+                }
+            }
+
+            foreach (FileSystemInfo file in GetLocalizeFilesIfDirectoryExists(Path.Combine(root, "BookInfo"), "BookInfo"))
+            {
+                try { LoadBookDesc(file.FullName, LogLikeMod.ModId); }
+                catch (Exception e) { Debug.Log("Failed to reload BookInfo " + file.FullName + ":\n" + e); }
+            }
+            foreach (ModContentInfo logMod in GetLogMods())
+            {
+                string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
+                DirectoryInfo dir = new DirectoryInfo(Path.Combine(logMod.GetLogDllPath(), "Localize", localizeLanguage, "BookInfo"));
+                if (!Directory.Exists(dir.FullName))
+                    continue;
+                foreach (FileSystemInfo file in EnumerateLocalizeTextFiles(dir.FullName))
+                {
+                    try { LoadBookDesc(file.FullName, uniqueId); }
+                    catch (Exception e) { Debug.Log("Failed to reload BookInfo " + file.FullName + ":\n" + e); }
+                }
+            }
+
+            // Origin passives on workshop key pages still need Chinese on PassiveXmlInfo when
+            // the passive LorId carries a mod package (IsWorkshop → fields, not PassiveDescXmlList).
+            StampOriginPassiveXmlInfoFromDescDictionary();
+        }
+
+        /// <summary>
+        /// For every PassiveXmlInfo whose id is workshop-packaged but has a matching origin
+        /// PassiveDesc entry, copy CN name/desc onto the xml fields BookPassiveInfo reads.
+        /// </summary>
+        private static void StampOriginPassiveXmlInfoFromDescDictionary()
+        {
+            try
+            {
+                PassiveXmlList list = Singleton<PassiveXmlList>.Instance;
+                PassiveDescXmlList descs = Singleton<PassiveDescXmlList>.Instance;
+                if (list == null || descs == null)
+                    return;
+                FieldInfo listField = typeof(PassiveXmlList).GetField("_list", AccessTools.all);
+                var all = listField?.GetValue(list) as List<PassiveXmlInfo>;
+                if (all == null)
+                    return;
+
+                int stamped = 0;
+                foreach (PassiveXmlInfo pxi in all)
+                {
+                    if (pxi == null)
+                        continue;
+                    LorId id = pxi.id;
+                    if (id == null || id == LorId.None || !id.IsWorkshop())
+                        continue;
+
+                    // Prefer already-good Chinese on the fields; only fill empty / Hangul / tofu leftovers.
+                    bool namePoor = IsPoorPassiveXmlText(pxi.name);
+                    bool descPoor = IsPoorPassiveXmlText(pxi.desc);
+                    if (!namePoor && !descPoor)
+                        continue;
+
+                    string cnName = null;
+                    string cnDesc = null;
+                    foreach (LorId candidate in new[]
+                    {
+                        new LorId(id.id),
+                        new LorId(string.Empty, id.id),
+                        new LorId("@origin", id.id),
+                        id
+                    })
+                    {
+                        if (namePoor && string.IsNullOrEmpty(cnName))
+                        {
+                            string n = descs.GetName(candidate);
+                            if (!string.IsNullOrEmpty(n) && !IsPoorPassiveXmlText(n))
+                                cnName = n;
+                        }
+                        if (descPoor && string.IsNullOrEmpty(cnDesc))
+                        {
+                            string d = descs.GetDesc(candidate);
+                            if (!string.IsNullOrEmpty(d) && !IsPoorPassiveXmlText(d))
+                                cnDesc = d;
+                        }
+                    }
+
+                    // Fallback: origin-aware helpers (covers package remaps GetName(candidate) may miss).
+                    if (namePoor && string.IsNullOrEmpty(cnName))
+                    {
+                        string n = RewardingModel.GetPassiveName(new LorId(id.id));
+                        if (!string.IsNullOrEmpty(n) && !IsPoorPassiveXmlText(n))
+                            cnName = n;
+                    }
+                    if (descPoor && string.IsNullOrEmpty(cnDesc))
+                    {
+                        string d = RewardingModel.GetPassiveDesc(new LorId(id.id));
+                        if (!string.IsNullOrEmpty(d) && !IsPoorPassiveXmlText(d))
+                            cnDesc = d;
+                    }
+
+                    if (namePoor && !string.IsNullOrEmpty(cnName))
+                    {
+                        pxi.name = cnName;
+                        stamped++;
+                    }
+                    if (descPoor && !string.IsNullOrEmpty(cnDesc))
+                    {
+                        pxi.desc = cnDesc;
+                        stamped++;
+                    }
+                }
+                Debug.Log($"[RMR Localize] Stamped {stamped} PassiveXmlInfo name/desc fields from PassiveDescXmlList (workshop scan done).");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR Localize] StampOriginPassiveXmlInfoFromDescDictionary failed: " + ex.Message);
+            }
+        }
+
+        private static bool LooksLikeHangulHeavy(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return true;
+            int hangul = 0, han = 0;
+            foreach (char ch in text)
+            {
+                if (ch >= 0xAC00 && ch <= 0xD7A3) hangul++;
+                else if (ch >= 0x4E00 && ch <= 0x9FFF) han++;
+            }
+            return hangul > 0 && han == 0;
+        }
+
+        private static bool LooksLikeTofuBoxesLocal(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return false;
+            int tofu = 0, total = 0;
+            foreach (char ch in text)
+            {
+                if (char.IsWhiteSpace(ch))
+                    continue;
+                total++;
+                if (ch == '\u53E3' || ch == '\u25A1' || ch == '\uFFFD' || ch == '\u2610')
+                    tofu++;
+            }
+            return total > 0 && tofu * 2 >= total;
+        }
+
+        private static bool IsPoorPassiveXmlText(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return true;
+            if (LooksLikeHangulHeavy(text))
+                return true;
+            if (LooksLikeTofuBoxesLocal(text))
+                return true;
+            try
+            {
+                if (RewardingModel.IsPoorDisplayNamePublic(text))
+                    return true;
+            }
+            catch { /* ignore */ }
+            return false;
         }
 
         public static void RefreshVanillaAbnormalityTextData(string language, string reason)
@@ -1666,6 +2526,111 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        /// <summary>
+        /// Floor Realization (Binah/Boss Bird) phase text is vanilla BossBirdText.
+        /// If the wrong language package is loaded, players see Korean/English during a CN game.
+        /// Force-reload from BaseMod/Localize/{lang}/BossBirdText/BossBirdText.txt after language resolve.
+        /// </summary>
+        public static void ReloadVanillaBossBirdTextForLanguage(string language, string reason)
+        {
+            try
+            {
+                language = NormalizeTextLanguage(language);
+                if (string.IsNullOrEmpty(language))
+                    language = ResolveInitialTextLanguage();
+
+                string path = ResolveBaseModBossBirdTextPath(language);
+                if (string.IsNullOrEmpty(path) || !File.Exists(path))
+                {
+                    Debug.LogWarning($"[RMR Localize] BossBirdText missing for language={language}, reason={reason}. path={path ?? "null"}");
+                    return;
+                }
+
+                BossBirdTextRoot root;
+                using (var reader = new StringReader(File.ReadAllText(path, Encoding.UTF8)))
+                {
+                    root = (BossBirdTextRoot)new XmlSerializer(typeof(BossBirdTextRoot)).Deserialize(reader);
+                }
+                if (root == null || root.textList == null || root.textList.Count == 0)
+                {
+                    Debug.LogWarning($"[RMR Localize] BossBirdText empty after deserialize language={language} path={path}");
+                    return;
+                }
+
+                BossBirdTextXmlList.Instance.Init(root);
+
+                // Health check: index 1 is BigBirdArrive — CN must contain CJK, not Hangul-only.
+                string sample = BossBirdTextXmlList.Instance.GetText(1) ?? string.Empty;
+                int cjk = 0, hangul = 0;
+                foreach (char ch in sample)
+                {
+                    if (ch >= 0x4e00 && ch <= 0x9fff) cjk++;
+                    if (ch >= 0xac00 && ch <= 0xd7a3) hangul++;
+                }
+                Debug.Log($"[RMR Localize] Reloaded BossBirdText language={language} entries={root.textList.Count} sampleCJK={cjk} sampleHangul={hangul} reason={reason} path={path}");
+                if (language == "cn" && hangul > 0 && cjk == 0)
+                    Debug.LogError("[RMR Localize] BossBirdText for cn appears Korean-only — check BaseMod/Localize/cn/BossBirdText.");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR Localize] ReloadVanillaBossBirdTextForLanguage failed: " + ex);
+            }
+        }
+
+        private static string ResolveBaseModBossBirdTextPath(string language)
+        {
+            // Application.dataPath = .../LibraryOfRuina_Data
+            string dataPath = Application.dataPath;
+            string[] candidates =
+            {
+                Path.Combine(dataPath, "Managed", "BaseMod", "Localize", language, "BossBirdText", "BossBirdText.txt"),
+                Path.Combine(Directory.GetParent(dataPath)?.FullName ?? dataPath, "LibraryOfRuina_Data", "Managed", "BaseMod", "Localize", language, "BossBirdText", "BossBirdText.txt"),
+            };
+            foreach (string c in candidates)
+            {
+                if (!string.IsNullOrEmpty(c) && File.Exists(c))
+                    return c;
+            }
+            return candidates[0];
+        }
+
+        /// <summary>
+        /// One-shot log that CN mod localize is present and key UI strings load as Chinese.
+        /// </summary>
+        public static void LogChineseLocalizeDeployHealth()
+        {
+            try
+            {
+                string lang = NormalizeTextLanguage(TextDataModel.CurrentLanguage);
+                string optionLang = TryReadLanguageFromOptionFile();
+                string cnDir = Path.Combine(LogLikeMod.path ?? string.Empty, "Localize", "cn");
+                int fileCount = Directory.Exists(cnDir)
+                    ? Directory.GetFiles(cnDir, "*.*", SearchOption.AllDirectories).Length
+                    : 0;
+                string hubTitle = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("ui_RMR_HubTitle") ?? "";
+                string continueRun = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("ui_RMR_ContinueRun") ?? "";
+                string bird = BossBirdTextXmlList.Instance != null ? (BossBirdTextXmlList.Instance.GetText(1) ?? "") : "";
+                int hubCjk = 0, birdCjk = 0, birdHangul = 0;
+                foreach (char ch in hubTitle) if (ch >= 0x4e00 && ch <= 0x9fff) hubCjk++;
+                foreach (char ch in bird)
+                {
+                    if (ch >= 0x4e00 && ch <= 0x9fff) birdCjk++;
+                    if (ch >= 0xac00 && ch <= 0xd7a3) birdHangul++;
+                }
+                Debug.Log($"[RMR Localize Health] optionLang={optionLang ?? "?"} gameLang={lang} cnFiles={fileCount} hubTitle='{hubTitle}' continue='{continueRun}' hubCJK={hubCjk} bossBirdCJK={birdCjk} bossBirdHangul={birdHangul}");
+                if (lang == "cn" && birdHangul > 0 && birdCjk == 0)
+                    Debug.LogError("[RMR Localize Health] FAIL: BossBirdText still Korean while game language is cn.");
+                else if (lang == "cn" && hubCjk == 0)
+                    Debug.LogWarning("[RMR Localize Health] WARN: mod hub title has no CJK under cn language.");
+                else if (lang == "cn")
+                    Debug.Log("[RMR Localize Health] OK: cn mod UI + BossBird sample look Chinese.");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR Localize Health] " + ex.Message);
+            }
+        }
+
         public static MysteryXmlRoot LoadMysteryInfos(string str, string modid)
         {
             MysteryXmlRoot mysteryXmlRoot;
@@ -1683,7 +2648,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             DirectoryInfo directoryInfo1 = new DirectoryInfo(LogLikeMod.path + "/SpecialStaticInfo/MysteryXmlInfos");
             List<MysteryXmlInfo> info = new List<MysteryXmlInfo>();
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles("*.xml"))
+            foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo1.FullName))
             {
                 MysteryXmlRoot mysteryXmlRoot = LogLikeMod.LoadMysteryInfos(File.ReadAllText(file.FullName), LogLikeMod.ModId);
                 info.AddRange((IEnumerable<MysteryXmlInfo>)mysteryXmlRoot.Mysterys);
@@ -1693,7 +2658,7 @@ namespace abcdcode_LOGLIKE_MOD
                 DirectoryInfo directoryInfo2 = new DirectoryInfo(logMod.GetLogDllPath() + "/SpecialStaticInfo/MysteryXmlInfos");
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (FileSystemInfo file in directoryInfo2.GetFiles("*.xml"))
+                    foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo2.FullName))
                     {
                         MysteryXmlRoot mysteryXmlRoot = LogLikeMod.LoadMysteryInfos(File.ReadAllText(file.FullName), logMod.invInfo.workshopInfo.uniqueId);
                         info.AddRange((IEnumerable<MysteryXmlInfo>)mysteryXmlRoot.Mysterys);
@@ -1728,7 +2693,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             DirectoryInfo directoryInfo1 = new DirectoryInfo(LogLikeMod.path + "/SpecialStaticInfo/RewardPassiveInfos");
             List<RewardPassivesInfo> info = new List<RewardPassivesInfo>();
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles())
+            foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo1.FullName))
             {
                 RewardPassivesRoot rewardPassivesRoot = LogLikeMod.LoadRewardPassiveInfos(File.ReadAllText(file.FullName), LogLikeMod.ModId);
                 info.AddRange((IEnumerable<RewardPassivesInfo>)rewardPassivesRoot.RewardPassivesList);
@@ -1738,7 +2703,7 @@ namespace abcdcode_LOGLIKE_MOD
                 DirectoryInfo directoryInfo2 = new DirectoryInfo(logMod.GetLogDllPath() + "/SpecialStaticInfo/RewardPassiveInfos");
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (FileSystemInfo file in directoryInfo2.GetFiles())
+                    foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo2.FullName))
                     {
                         RewardPassivesRoot rewardPassivesRoot = LogLikeMod.LoadRewardPassiveInfos(File.ReadAllText(file.FullName), logMod.invInfo.workshopInfo.uniqueId);
                         info.AddRange((IEnumerable<RewardPassivesInfo>)rewardPassivesRoot.RewardPassivesList);
@@ -1770,7 +2735,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             DirectoryInfo directoryInfo1 = new DirectoryInfo(LogLikeMod.path + "/SpecialStaticInfo/StagesXmlInfos");
             List<StagesXmlInfo> info = new List<StagesXmlInfo>();
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles("*.xml"))
+            foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo1.FullName))
             {
                 StagesXmlRoot stagesXmlRoot = LogLikeMod.LoadStages(File.ReadAllText(file.FullName), LogLikeMod.ModId);
                 info.AddRange(stagesXmlRoot.ChapterList);
@@ -1780,7 +2745,7 @@ namespace abcdcode_LOGLIKE_MOD
                 DirectoryInfo directoryInfo2 = new DirectoryInfo(logMod.GetLogDllPath() + "/SpecialStaticInfo/StagesXmlInfos");
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (FileSystemInfo file in directoryInfo2.GetFiles("*.xml"))
+                    foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo2.FullName))
                     {
                         StagesXmlRoot stagesXmlRoot = LogLikeMod.LoadStages(File.ReadAllText(file.FullName), logMod.invInfo.workshopInfo.uniqueId);
                         info.AddRange(stagesXmlRoot.ChapterList);
@@ -1805,9 +2770,10 @@ namespace abcdcode_LOGLIKE_MOD
 
         public void LoadDropValues()
         {
+            // values_ch*.txt files contain XML (not .xml extension).
             DirectoryInfo directoryInfo1 = new DirectoryInfo(LogLikeMod.path + "/SpecialStaticInfo/DropValueXmlInfos");
             List<CardDropValueXmlInfo> info = new List<CardDropValueXmlInfo>();
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles())
+            foreach (FileSystemInfo file in EnumerateDataFiles(directoryInfo1.FullName, ".xml", ".txt"))
             {
                 CardDropValueXmlRoot dropValueXmlRoot = LogLikeMod.LoadDropValues(File.ReadAllText(file.FullName), LogLikeMod.ModId);
                 info.AddRange((IEnumerable<CardDropValueXmlInfo>)dropValueXmlRoot.DropValueXmlList);
@@ -1817,13 +2783,14 @@ namespace abcdcode_LOGLIKE_MOD
                 DirectoryInfo directoryInfo2 = new DirectoryInfo(logMod.GetLogDllPath() + "/SpecialStaticInfo/DropValueXmlInfos");
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (FileSystemInfo file in directoryInfo2.GetFiles())
+                    foreach (FileSystemInfo file in EnumerateDataFiles(directoryInfo2.FullName, ".xml", ".txt"))
                     {
                         CardDropValueXmlRoot dropValueXmlRoot = LogLikeMod.LoadDropValues(File.ReadAllText(file.FullName), logMod.invInfo.workshopInfo.uniqueId);
                         info.AddRange((IEnumerable<CardDropValueXmlInfo>)dropValueXmlRoot.DropValueXmlList);
                     }
                 }
             }
+            Debug.Log($"[RMR] LoadDropValues: {info.Count} drop-value entries loaded.");
             Singleton<CardDropValueList>.Instance.Init(info);
         }
 
@@ -1844,7 +2811,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             DirectoryInfo directoryInfo1 = new DirectoryInfo(LogLikeMod.path + "/SpecialStaticInfo/StoryPathInfos");
             List<LogStoryPathInfo> infolist = new List<LogStoryPathInfo>();
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles())
+            foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo1.FullName))
             {
                 LogStoryPathRoot logStoryPathRoot = LogLikeMod.LoadStoryPath(File.ReadAllText(file.FullName), LogLikeMod.ModId);
                 infolist.AddRange((IEnumerable<LogStoryPathInfo>)logStoryPathRoot.list);
@@ -1854,7 +2821,7 @@ namespace abcdcode_LOGLIKE_MOD
                 DirectoryInfo directoryInfo2 = new DirectoryInfo(logMod.GetLogDllPath() + "/SpecialStaticInfo/StoryPathInfos");
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (FileSystemInfo file in directoryInfo2.GetFiles())
+                    foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo2.FullName))
                     {
                         LogStoryPathRoot logStoryPathRoot = LogLikeMod.LoadStoryPath(File.ReadAllText(file.FullName), logMod.invInfo.workshopInfo.uniqueId);
                         infolist.AddRange((IEnumerable<LogStoryPathInfo>)logStoryPathRoot.list);
@@ -1866,6 +2833,8 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static EmotionEgoXmlInfo AddEmotionEgoForReward(DiceCardXmlInfo info)
         {
+            if (info == null || info.id == null)
+                return null;
             if (LogLikeMod.RewardCardDic_Dummy == null)
                 LogLikeMod.RewardCardDic_Dummy = new Dictionary<string, List<EmotionEgoXmlInfo>>();
             EmotionEgoXmlInfo emotionEgoXmlInfo = new EmotionEgoXmlInfo();
@@ -1873,11 +2842,12 @@ namespace abcdcode_LOGLIKE_MOD
             emotionEgoXmlInfo.Sephirah = SephirahType.None;
             emotionEgoXmlInfo.id = -1;
             emotionEgoXmlInfo.isLock = false;
-            if (info.id.packageId == string.Empty)
-                return emotionEgoXmlInfo;
-            if (!LogLikeMod.RewardCardDic_Dummy.ContainsKey(info.id.packageId))
-                LogLikeMod.RewardCardDic_Dummy.Add(info.id.packageId, new List<EmotionEgoXmlInfo>());
-            LogLikeMod.RewardCardDic_Dummy[info.id.packageId].Add(emotionEgoXmlInfo);
+            // Always register under a package key so EmotionEgoXmlInfo.CardId Harmony can rebuild LorId
+            // (vanilla EGO often has empty packageId — previously returned without dic registration).
+            string pkgKey = string.IsNullOrEmpty(info.id.packageId) ? string.Empty : info.id.packageId;
+            if (!LogLikeMod.RewardCardDic_Dummy.ContainsKey(pkgKey))
+                LogLikeMod.RewardCardDic_Dummy.Add(pkgKey, new List<EmotionEgoXmlInfo>());
+            LogLikeMod.RewardCardDic_Dummy[pkgKey].Add(emotionEgoXmlInfo);
             return emotionEgoXmlInfo;
         }
 
@@ -1934,16 +2904,24 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static bool CheckStage(bool OnBattle = false)
         {
-            // Realization prep/battle must NOT be treated as a full Roguelike reception.
-            // Doing so re-enters next-stage pick UI (BattleEnd_NextStage) and breaks floor entry.
+            // Realization bootstrap (-853 shell), prepare, and combat must NOT be treated as a
+            // full Roguelike reception. Otherwise StartBattle/reward/next-stage hooks hijack
+            // the dummy stage before InitStageByCreature switches to the real boss.
             // Battle-prepare chrome for realization uses IsRoguelikeBattleSettingContext instead.
-            if (RMRRealizationManager.InRealizationBattle
-                || RMRRealizationManager.IsRealizationPreparationActive
-                || RMRRealizationManager.PendingRealizationBattle)
+            if (RMRRealizationManager.ShouldSuppressRoguelikeStageChecks())
                 return false;
 
             try
             {
+                // RMR continue/load path: only while an RMR gamemode is active.
+                // NEVER treat bare saveloading as true without CurrentGamemode — that would
+                // hijack vanilla LibraryModel.LoadFromSaveData → ReEquipDeck at game start.
+                if (LogLikeMod.saveloading && RMRCore.CurrentGamemode != null)
+                    return true;
+
+                if (RMRCore.CurrentGamemode == null)
+                    return false;
+
                 UIPhase currentUiPhase = UI.UIController.Instance.CurrentUIPhase;
                 int num;
                 switch (currentUiPhase)
@@ -1959,10 +2937,19 @@ namespace abcdcode_LOGLIKE_MOD
                 }
                 if (num != 0)
                     return false;
-                LorId stage = Singleton<StageController>.Instance.GetStageModel().ClassInfo.id;
-                if (stage == RMRCore.CurrentGamemode.StageStart || LogLikeMod.saveloading)
+
+                StageModel stageModel = Singleton<StageController>.Instance?.GetStageModel();
+                if (stageModel?.ClassInfo == null)
+                    return false;
+                LorId stage = stageModel.ClassInfo.id;
+                // Loose match: packageId may differ (ModId vs RMR packageId vs empty).
+                if (IsRmrReceptionStageId(stage, RMRCore.CurrentGamemode.StageStart))
                     return true;
-                if (stage == new LorId(LogLikeMod.ModId, -855))
+                // Continue-reception stage id.
+                if (stage.id == -855
+                    && (stage.packageId == LogLikeMod.ModId
+                        || stage.packageId == RMRCore.packageId
+                        || string.IsNullOrEmpty(stage.packageId)))
                     return true;
             }
             catch
@@ -1972,26 +2959,62 @@ namespace abcdcode_LOGLIKE_MOD
             return false;
         }
 
+        /// <summary>True if <paramref name="stage"/> is the gamemode start recipe (id match + package candidates).</summary>
+        private static bool IsRmrReceptionStageId(LorId stage, LorId stageStart)
+        {
+            if (stage.id != stageStart.id)
+                return false;
+            if (stage == stageStart)
+                return true;
+            string pkg = stage.packageId ?? string.Empty;
+            string startPkg = stageStart.packageId ?? string.Empty;
+            return pkg == LogLikeMod.ModId
+                || pkg == RMRCore.packageId
+                || pkg == startPkg
+                || string.IsNullOrEmpty(pkg);
+        }
+
         public static void ResetNextStage()
         {
             LogLikeMod.nextlist = new List<EmotionCardXmlInfo>();
             if (LogLikeMod.curstagetype == StageType.Boss)
             {
-                if (LogLikeMod.curchaptergrade != ChapterGrade.Grade6 && LogueBookModels.RemainStageList.ContainsKey(LogLikeMod.curchaptergrade + 1))
-                    LogLikeMod.nextlist = LogueBookModels.GetNextList(LogLikeMod.curchaptergrade + 1, true);
-                else
+                // RMR final chapter is Grade7 (杂质/Impurity). Classic LogLike treated Grade6 as
+                // final and cleared nextlist after 都市之星 boss — that aborted the run before 杂质.
+                // Grade7 boss clear = end of run (do not offer leftover impurity nodes).
+                if (LogLikeMod.curchaptergrade >= ChapterGrade.Grade7)
+                {
                     LogLikeMod.nextlist.Clear();
+                    LogLikeMod.curChStageStep = 0;
+                    Debug.Log("[RMR ResetNextStage] Grade7 impurity boss clear → run complete (nextlist empty).");
+                    return;
+                }
+
+                ChapterGrade nextGrade = LogLikeMod.curchaptergrade + 1;
+                if (LogueBookModels.EnsureChapterRemainStages(nextGrade))
+                {
+                    LogLikeMod.nextlist = LogueBookModels.GetNextList(nextGrade, true);
+                    Debug.Log($"[RMR ResetNextStage] Boss clear → next chapter {nextGrade} options={LogLikeMod.nextlist?.Count ?? 0}");
+                }
+                else
+                {
+                    LogLikeMod.nextlist.Clear();
+                    Debug.Log($"[RMR ResetNextStage] Boss clear with no further chapter (grade={LogLikeMod.curchaptergrade}).");
+                }
                 LogLikeMod.curChStageStep = 0;
             }
             else
+            {
+                LogueBookModels.EnsureChapterRemainStages(LogLikeMod.curchaptergrade);
                 LogLikeMod.nextlist = LogueBookModels.GetNextList(LogLikeMod.curchaptergrade, LogLikeMod.curstagetype == StageType.Start);
+            }
         }
 
         public static void LoadPassives()
         {
             DirectoryInfo directoryInfo1 = new DirectoryInfo(LogLikeMod.path + "/AddData/Passives");
             List<PassiveXmlInfo> list1 = new List<PassiveXmlInfo>();
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles())
+            foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo1.FullName))
             {
                 try { 
                     List<PassiveXmlInfo> collection = LogLikeMod.LoadPassive(file.FullName, LogLikeMod.ModId);
@@ -2010,7 +3033,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (System.IO.FileInfo file in directoryInfo2.GetFiles())
+                    foreach (System.IO.FileInfo file in EnumerateXmlFiles(directoryInfo2.FullName))
                         try
                         {
                             list2.AddRange(LogLikeMod.LoadPassive(file.FullName, uniqueId));
@@ -2048,7 +3071,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             DirectoryInfo directoryInfo1 = new DirectoryInfo(LogLikeMod.path + "/AddData/Deck");
             List<DeckXmlInfo> list1 = new List<DeckXmlInfo>();
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles())
+            foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo1.FullName))
             {
                 try {
                     List<DeckXmlInfo> collection = LogLikeMod.LoadDeck(file.FullName, LogLikeMod.ModId);
@@ -2067,7 +3090,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (System.IO.FileInfo file in directoryInfo2.GetFiles())
+                    foreach (System.IO.FileInfo file in EnumerateXmlFiles(directoryInfo2.FullName))
                         try
                         {
                             list2.AddRange(LogLikeMod.LoadDeck(file.FullName, uniqueId));
@@ -2110,7 +3133,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             DirectoryInfo directoryInfo1 = new DirectoryInfo(LogLikeMod.path + "/AddData/DropBook");
             List<DropBookXmlInfo> list1 = new List<DropBookXmlInfo>();
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles())
+            foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo1.FullName))
             {
                 try {
                 List<DropBookXmlInfo> collection = LogLikeMod.LoadDropBook(file.FullName, LogLikeMod.ModId);
@@ -2130,7 +3153,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (System.IO.FileInfo file in directoryInfo2.GetFiles())
+                    foreach (System.IO.FileInfo file in EnumerateXmlFiles(directoryInfo2.FullName))
                     {
                         try {
                             File.ReadAllText(file.FullName);
@@ -2178,7 +3201,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             DirectoryInfo directoryInfo1 = new DirectoryInfo(LogLikeMod.path + "/AddData/CardDropTable");
             List<CardDropTableXmlInfo> list1 = new List<CardDropTableXmlInfo>();
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles())
+            foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo1.FullName))
             {
                 try {
                 List<CardDropTableXmlInfo> collection = LogLikeMod.LoadCardDropTable(file.FullName, LogLikeMod.ModId);
@@ -2196,7 +3219,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (FileSystemInfo file in directoryInfo2.GetFiles())
+                    foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo2.FullName))
                     {
                         try {
                             List<CardDropTableXmlInfo> collection = LogLikeMod.LoadCardDropTable(file.FullName, uniqueId);
@@ -2255,7 +3278,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             DirectoryInfo directoryInfo1 = new DirectoryInfo(LogLikeMod.path + "/AddData/CardInfo");
             List<DiceCardXmlInfo> list1 = new List<DiceCardXmlInfo>();
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles())
+            foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo1.FullName))
             {
                 try {
                     List<DiceCardXmlInfo> collection = LogLikeMod.LoadCardInfo(file.FullName, LogLikeMod.ModId);
@@ -2274,7 +3297,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (System.IO.FileInfo file in directoryInfo2.GetFiles())
+                    foreach (System.IO.FileInfo file in EnumerateXmlFiles(directoryInfo2.FullName))
                         try
                         {
                             list2.AddRange(LogLikeMod.LoadCardInfo(file.FullName, uniqueId));
@@ -2316,7 +3339,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             DirectoryInfo directoryInfo1 = new DirectoryInfo(LogLikeMod.path + "/AddData/StageInfo");
             List<StageClassInfo> list1 = new List<StageClassInfo>();
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles())
+            foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo1.FullName))
             {
                 try {
                     List<StageClassInfo> collection = LogLikeMod.LoadStage(file.FullName, LogLikeMod.ModId);
@@ -2335,7 +3358,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (System.IO.FileInfo file in directoryInfo2.GetFiles())
+                    foreach (System.IO.FileInfo file in EnumerateXmlFiles(directoryInfo2.FullName))
                     {
                         try {
                             list2.AddRange(LogLikeMod.LoadStage(file.FullName, uniqueId));
@@ -2472,7 +3495,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             DirectoryInfo directoryInfo1 = new DirectoryInfo(LogLikeMod.path + "/AddData/EnemyUnitInfo");
             List<EnemyUnitClassInfo> list1 = new List<EnemyUnitClassInfo>();
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles())
+            foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo1.FullName))
             {
                 try {
                     List<EnemyUnitClassInfo> collection = LogLikeMod.LoadEnemyUnit(file.FullName, LogLikeMod.ModId);
@@ -2491,7 +3514,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (System.IO.FileInfo file in directoryInfo2.GetFiles())
+                    foreach (System.IO.FileInfo file in EnumerateXmlFiles(directoryInfo2.FullName))
                     {
                         try {
                             list2.AddRange(LogLikeMod.LoadEnemyUnit(file.FullName, uniqueId));
@@ -2587,7 +3610,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             DirectoryInfo directoryInfo1 = new DirectoryInfo(LogLikeMod.path + "/AddData/EquipPage");
             List<BookXmlInfo> list1 = new List<BookXmlInfo>();
-            foreach (FileSystemInfo file in directoryInfo1.GetFiles("*.xml"))
+            foreach (FileSystemInfo file in EnumerateXmlFiles(directoryInfo1.FullName))
             {
                 try {
                     List<BookXmlInfo> collection = LogLikeMod.LoadEquipPage(file.FullName, LogLikeMod.ModId);
@@ -2606,7 +3629,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string uniqueId = logMod.invInfo.workshopInfo.uniqueId;
                 if (Directory.Exists(directoryInfo2.FullName))
                 {
-                    foreach (System.IO.FileInfo file in directoryInfo2.GetFiles("*.xml"))
+                    foreach (System.IO.FileInfo file in EnumerateXmlFiles(directoryInfo2.FullName))
                     {
                         try {
                             list2.AddRange(LogLikeMod.LoadEquipPage(file.FullName, uniqueId));
@@ -2895,6 +3918,10 @@ namespace abcdcode_LOGLIKE_MOD
                 string initialLanguage = ResolveInitialTextLanguage();
                 LogLikeMod.LoadTextData(initialLanguage);
                 LogLikeMod.RefreshVanillaAbnormalityTextData(initialLanguage, "LogLikeMod init");
+                // RegisterPickUpXml/CreateEquipRewardXmlData ran before equip pages + BookDesc load.
+                // Re-inject localized book names into the pick UI AbnormalityCard cache.
+                try { RewardingModel.RefreshAllEquipRewardXmlData(); }
+                catch (Exception ex) { Debug.LogWarning("[RMR Localize] equip reward refresh on init failed: " + ex.Message); }
                 LogLikeMod.spinemotions = new Dictionary<string, Dictionary<ActionDetail, Dictionary<GameObject, SkeletonAnimation>>>();
                 FormationXmlRoot formationXmlRoot;
                 using (StringReader stringReader = new StringReader(File.ReadAllText(LogLikeMod.path + "/AddData/FormationInfo.txt")))
@@ -4436,6 +5463,86 @@ namespace abcdcode_LOGLIKE_MOD
                     this.bufIconListUI[index2].SetEnable(false);
             }
 
+            /// <summary>
+            /// Shop card hover reuses a cloned BattleDiceCardUI whose TMP faces can stay Latin-only
+            /// after language resolve. Force a CJK-capable primary face (never a bare Fallback table face)
+            /// onto name / ability / dice texts.
+            /// </summary>
+            public void ApplyShopPreviewFonts()
+            {
+                // C1: always re-resolve CJK primary and force upright preview root.
+                try
+                {
+                    if (this.transform != null)
+                        this.transform.localRotation = Quaternion.identity;
+                }
+                catch { /* ignore */ }
+
+                TMP_FontAsset font = LogLikeMod.DefFont_TMP;
+                if (font != null && IsTmpFallbackFaceName(font.name ?? ""))
+                {
+                    LogLikeMod.InvalidateTmpFontCache();
+                    font = LogLikeMod.DefFont_TMP;
+                }
+                if (font == null)
+                    return;
+                try
+                {
+                    void Apply(TextMeshProUGUI tmp)
+                    {
+                        if (tmp == null)
+                            return;
+                        tmp.font = font;
+                        if (font.material != null)
+                            tmp.fontSharedMaterial = font.material;
+                        // Prefer visible CJK sizes in shop hover (detail panel).
+                        if (tmp.fontSize < 16f)
+                            tmp.fontSize = 18f;
+                    }
+
+                    Apply(this.txt_cardName);
+                    Apply(this.txt_selfAbility);
+                    if (this.ui_behaviourDescList != null)
+                    {
+                        foreach (BattleDiceCard_BehaviourDescUI behaviour in this.ui_behaviourDescList)
+                        {
+                            if (behaviour == null)
+                                continue;
+                            Apply(behaviour.txt_range);
+                            Apply(behaviour.txt_ability);
+                        }
+                    }
+                    if (this.txt_Resist != null)
+                    {
+                        foreach (TextMeshProUGUI tmp in this.txt_Resist)
+                            Apply(tmp);
+                    }
+                    if (this.txt_bpResist != null)
+                    {
+                        foreach (TextMeshProUGUI tmp in this.txt_bpResist)
+                            Apply(tmp);
+                    }
+
+                    // Keyword tooltips under the preview (C2 assist).
+                    try
+                    {
+                        foreach (TextMeshProUGUI any in this.GetComponentsInChildren<TextMeshProUGUI>(true))
+                        {
+                            if (any == null || any.font == font)
+                                continue;
+                            if (IsTmpFallbackFaceName(any.font != null ? any.font.name : "")
+                                || !IsTmpFontCompatibleWithLanguage(any.font, GetActiveTextLanguage()))
+                                Apply(any);
+                        }
+                    }
+                    catch { /* ignore */ }
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning("[RMR] ApplyShopPreviewFonts: " + ex.Message);
+                }
+            }
+
             public void SetEgoFrameLockColor(bool on)
             {
                 Color color = on ? UIColorManager.Manager.GetUIColor(UIColor.Disabled) : Color.white;
@@ -4597,10 +5704,8 @@ namespace abcdcode_LOGLIKE_MOD
                     obNormalFrame.SetActive(!flag);
                 foreach (GameObject obEgoFrame in this.ob_EgoFrames)
                     obEgoFrame.SetActive(flag);
-                if (LorId.IsModId(cardModel.XmlData.workshopID))
-                    this.txt_cardName.text = RewardingModel.SanitizeDisplayText(cardModel.XmlData.workshopName);
-                else
-                    this.txt_cardName.text = RewardingModel.SanitizeDisplayText(Singleton<BattleCardDescXmlList>.Instance.GetCardName(cardModel.GetTextId()));
+                // Origin-aware card name (mod workshopName / empty package / TextId).
+                this.txt_cardName.text = RewardingModel.GetLocalizedCardName(cardModel.XmlData);
                 this.SetDefaultPreviewResistText();
                 this._cost = this._cardModel.GetCost();
                 this._originCost = this._cardModel.GetOriginCost();
@@ -4612,17 +5717,12 @@ namespace abcdcode_LOGLIKE_MOD
                 this.img_icon.rectTransform.anchoredPosition = flag ? this.rangeIconEgoPos : this.rangeIconOriginPos;
                 List<DiceBehaviour> behaviourList = cardModel.GetBehaviourList();
                 int b = 4 - behaviourList.Count;
-                string text = Singleton<BattleCardDescXmlList>.Instance.GetAbilityDesc(cardModel.GetID());
-                if (string.IsNullOrEmpty(text))
-                {
-                    List<string> abilityDesc = Singleton<BattleCardAbilityDescXmlList>.Instance.GetAbilityDesc(cardModel.XmlData);
-                    if (abilityDesc.Count > 0)
-                        text = string.Join("\n", (IEnumerable<string>)abilityDesc);
-                }
-                else
+                string text = RewardingModel.GetLocalizedCardAbilityDesc(cardModel.XmlData);
+                if (!string.IsNullOrEmpty(text))
                 {
                     string abilityDescString = Singleton<BattleCardAbilityDescXmlList>.Instance.GetDefaultAbilityDescString(cardModel.XmlData);
-                    if (!string.IsNullOrEmpty(abilityDescString))
+                    if (!string.IsNullOrEmpty(abilityDescString)
+                        && text.IndexOf(abilityDescString, System.StringComparison.Ordinal) < 0)
                         text = $"{abilityDescString}\n{text}";
                 }
                 if (!string.IsNullOrEmpty(text))
@@ -4666,6 +5766,8 @@ namespace abcdcode_LOGLIKE_MOD
                     this.ui_behaviourDescList[count].gameObject.SetActive(false);
                     this.img_behaviourDetatilList[count].gameObject.SetActive(false);
                 }
+                // After behaviour text is filled — force CJK-capable TMP faces (shop hover tofu fix).
+                this.ApplyShopPreviewFonts();
                 this.colorFrame = flag ? UIColorManager.Manager.CardEgoCostColor : UIColorManager.Manager.GetCardRarityColor(cardModel.GetRarity());
                 this.colorLineardodge = flag ? UIColorManager.Manager.CardEgoLinearColor : UIColorManager.Manager.GetCardRarityLinearColor(cardModel.GetRarity());
                 this.colorLineardodge_deactive = this.colorLineardodge;
@@ -4985,7 +6087,15 @@ namespace abcdcode_LOGLIKE_MOD
             public static void ConfigureBattleCard(UILogBattleDiceCardUI __instance, int cardCount, bool resetScrolls)
             {
                 UICardSlotScroller uicardSlotScroller = __instance.GetComponent<UICardSlotScroller>();
-                CardViewPatches.ConfigureKeywordList(__instance.KeywordListUI, __instance.gameObject, ref uicardSlotScroller, true);
+                try
+                {
+                    // BCEV private API — MethodAccessException on some installs; skip keywords rather than crash.
+                    CardViewPatches.ConfigureKeywordList(__instance.KeywordListUI, __instance.gameObject, ref uicardSlotScroller, true);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning("[RMR] ConfigureKeywordList skipped (BCEV access): " + ex.Message);
+                }
                 RectTransform rectTransform = __instance.img_behaviourDetatilList[0].transform.parent as RectTransform;
                 RectTransform rectTransform2 = rectTransform.parent as RectTransform;
                 if (!rectTransform2.GetComponent<ScrollRect>())
@@ -5492,10 +6602,7 @@ namespace abcdcode_LOGLIKE_MOD
                 {
                     if (!this.ob_NormalFrame.activeSelf)
                         this.ob_NormalFrame.gameObject.SetActive(true);
-                    if (LorId.IsModId(this._cardModel.ClassInfo.workshopID))
-                        this.txt_cardName.text = RewardingModel.SanitizeDisplayText(this._cardModel.GetName());
-                    else
-                        this.txt_cardName.text = RewardingModel.SanitizeDisplayText(Singleton<BattleCardDescXmlList>.Instance.GetCardName(this._cardModel.GetTextId()));
+                    this.txt_cardName.text = RewardingModel.GetLocalizedCardName(this._cardModel.ClassInfo);
                     this.costNumbers.SetOneValue(this._cardModel.GetSpec().Cost, UISpriteDataManager.instance._cardCostNumberSprites);
                     this.img_RangeIcon.sprite = UISpriteDataManager.instance.GetRangeIconSprite(this._cardModel.GetSpec().Ranged);
                     this.SetRangeIconHsv(UIColorManager.Manager.CardRangeHsvValue[(int)this._cardModel.GetRarity()]);
@@ -5546,17 +6653,13 @@ namespace abcdcode_LOGLIKE_MOD
                     int b = 4 - behaviourList.Count;
                     if (this.ob_selfAbility != null)
                     {
-                        string text = Singleton<BattleCardDescXmlList>.Instance.GetAbilityDesc(this._cardModel.GetID());
-                        if (string.IsNullOrEmpty(text))
-                        {
-                            List<string> abilityDesc = Singleton<BattleCardAbilityDescXmlList>.Instance.GetAbilityDesc(this._cardModel.ClassInfo);
-                            if (abilityDesc.Count > 0)
-                                text = string.Join("\n", (IEnumerable<string>)abilityDesc);
-                        }
-                        else
+                        // Origin-aware: mod-package name-only CardInfo must not hide vanilla Ability.
+                        string text = RewardingModel.GetLocalizedCardAbilityDesc(this._cardModel.ClassInfo);
+                        if (!string.IsNullOrEmpty(text))
                         {
                             string abilityDescString = Singleton<BattleCardAbilityDescXmlList>.Instance.GetDefaultAbilityDescString(this._cardModel.ClassInfo);
-                            if (!string.IsNullOrEmpty(abilityDescString))
+                            if (!string.IsNullOrEmpty(abilityDescString)
+                                && text.IndexOf(abilityDescString, StringComparison.Ordinal) < 0)
                                 text = $"{abilityDescString}\n{text}";
                         }
                         if (!string.IsNullOrEmpty(text))
@@ -5792,11 +6895,16 @@ namespace abcdcode_LOGLIKE_MOD
 
             public void OnPointerEnter(BaseEventData eventData)
             {
-                LogLikeMod.UILogBattleDiceCardUI.Instance.transform.SetParent(this.transform);
+                LogLikeMod.UILogBattleDiceCardUI.Instance.transform.SetParent(this.transform, worldPositionStays: false);
                 LogLikeMod.UILogBattleDiceCardUI.Instance.gameObject.SetActive(true);
                 LogLikeMod.UILogBattleDiceCardUI.Instance.SetCard(BattleDiceCardModel.CreatePlayingCard(this._cardModel.ClassInfo));
-                LogLikeMod.UILogBattleDiceCardUI.Instance.transform.localPosition = new Vector3(250f, -100f, -1f);
-                LogLikeMod.UILogBattleDiceCardUI.Instance.transform.localScale = new Vector3(0.2f, 0.2f);
+                // Default offset for non-shop callers. ShopGoods_Card reparents/repositions afterward
+                // so the large detail panel stays on the board center instead of covering side goods.
+                Transform previewTf = LogLikeMod.UILogBattleDiceCardUI.Instance.transform;
+                previewTf.localPosition = new Vector3(250f, -100f, -1f);
+                previewTf.localScale = new Vector3(0.2f, 0.2f, 1f);
+                previewTf.localRotation = Quaternion.identity;
+                LogLikeMod.UILogBattleDiceCardUI.Instance.ApplyShopPreviewFonts();
             }
 
             public void OnPointerExit(BaseEventData eventData)
@@ -5868,10 +6976,9 @@ namespace abcdcode_LOGLIKE_MOD
                 {
                     if (!this.ob_NormalFrame.activeSelf)
                         this.ob_NormalFrame.gameObject.SetActive(true);
-                    if (LorId.IsModId(this._cardModel.ClassInfo.workshopID))
-                        this.txt_cardName.text = RewardingModel.SanitizeDisplayText(this._cardModel.GetName());
-                    else
-                        this.txt_cardName.text = RewardingModel.SanitizeDisplayText(Singleton<BattleCardDescXmlList>.Instance.GetCardName(this._cardModel.GetTextId()));
+                    this.txt_cardName.text = RewardingModel.GetLocalizedCardName(this._cardModel.ClassInfo);
+                    if (this.txt_cardName != null && LogLikeMod.DefFont_TMP != null)
+                        this.txt_cardName.font = LogLikeMod.DefFont_TMP;
                     this.costNumbers.SetOneValue(this._cardModel.GetSpec().Cost, UISpriteDataManager.instance._cardCostNumberSprites);
                     this.img_RangeIcon.sprite = UISpriteDataManager.instance.GetRangeIconSprite(this._cardModel.GetSpec().Ranged);
                     this.SetRangeIconHsv(UIColorManager.Manager.CardRangeHsvValue[(int)this._cardModel.GetRarity()]);
@@ -5927,8 +7034,8 @@ namespace abcdcode_LOGLIKE_MOD
                 {
                     LogLikeMod.DefFont = UnityEngine.Resources.GetBuiltinResource<Font>("Arial.ttf");
                     LogLikeMod.DefFontColor = UIColorManager.Manager.GetUIColor(UIColor.Default);
-                    LogLikeMod.DefFont_TMP = (SingletonBehavior<UIPopupWindowManager>.Instance.popupPanels[1] as UIOptionWindow).displayDropdown.itemText.font;
                 }
+                LogLikeMod.EnsureLocalizedFonts("BattleMoneyUI.Create");
                 LogLikeMod.BattleMoneyUI.obj_dic = new Dictionary<string, GameObject>();
                 Image image = ModdingUtils.CreateImage(LogLikeMod.LogUIObjs[100].transform, "MoneyIcon", new Vector2(1f, 1f), new Vector2(610f, 510f));
                 TextMeshProUGUI textTmp = ModdingUtils.CreateText_TMP(image.transform, new Vector2(40f, 0.0f), 30, new Vector2(0.0f, 0.0f), new Vector2(1f, 1f), new Vector2(0.0f, 0.0f), TextAlignmentOptions.MidlineRight, LogLikeMod.DefFontColor, LogLikeMod.DefFont_TMP);

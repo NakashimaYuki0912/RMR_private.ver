@@ -23,10 +23,21 @@ namespace abcdcode_LOGLIKE_MOD
             List<DiceCardItemModel> cards = LogueBookModels.GetCardList(true, true);
             if (cards == null)
                 return new List<DiceCardItemModel>();
-            return cards
-                .Where(x => x != null && x.ClassInfo != null && x.ClassInfo.CheckCanUpgrade())
-                .Where(x => Singleton<LogCardUpgradeManager>.Instance.GetAllUpgradesCard(x.GetID()).Count > 0)
-                .ToList();
+            // One entry per card kind (upgrade is by type, not by stack count).
+            var seen = new HashSet<string>();
+            var result = new List<DiceCardItemModel>();
+            foreach (DiceCardItemModel x in cards
+                .Where(c => c != null && c.ClassInfo != null && c.ClassInfo.CheckCanUpgrade())
+                .Where(c => Singleton<LogCardUpgradeManager>.Instance.GetAllUpgradesCard(c.GetID()).Count > 0))
+            {
+                LorId id = x.GetID();
+                string key = id == null ? x.GetHashCode().ToString()
+                    : ((id.packageId ?? "") + ":" + id.id);
+                if (!seen.Add(key))
+                    continue;
+                result.Add(x);
+            }
+            return result;
         }
 
         public static bool HasUpgradeableCards()
@@ -125,9 +136,22 @@ namespace abcdcode_LOGLIKE_MOD
 
         public void OnPointerEnter()
         {
-            SingletonBehavior<UIMainOverlayManager>.Instance.SetTooltip(TextDataModel.GetText("Shop_CardUpgrade_Name"), TextDataModel.GetText("Shop_CardUpgrade_Desc"), this.gameObject.transform as RectTransform, Rarity.Rare, UIToolTipPanelType.OnlyContent);
-            var curPos = SingletonBehavior<UIMainOverlayManager>.Instance.tooltipPositionPivot.anchoredPosition;
-            SingletonBehavior<UIMainOverlayManager>.Instance.tooltipPositionPivot.anchoredPosition = new Vector2(curPos.x, curPos.y + 100f);
+            var overlay = SingletonBehavior<UIMainOverlayManager>.Instance;
+            if (overlay == null)
+                return;
+            overlay.SetTooltip(TextDataModel.GetText("Shop_CardUpgrade_Name"), TextDataModel.GetText("Shop_CardUpgrade_Desc"), this.gameObject.transform as RectTransform, Rarity.Rare, UIToolTipPanelType.OnlyContent);
+            // tooltipPositionPivot is private — access via reflection (FieldAccessException otherwise).
+            try
+            {
+                var pivot = HarmonyLib.AccessTools.Field(typeof(UIMainOverlayManager), "tooltipPositionPivot")
+                    ?.GetValue(overlay) as RectTransform;
+                if (pivot != null)
+                {
+                    var curPos = pivot.anchoredPosition;
+                    pivot.anchoredPosition = new Vector2(curPos.x, curPos.y + 100f);
+                }
+            }
+            catch { }
         }
 
         public void OnPointerExit()

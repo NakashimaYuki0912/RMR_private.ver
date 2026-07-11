@@ -1,55 +1,74 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-	 <text id="BattleEnd_CardReward">Select Combat Page Reward</text>
-	 <text id="BattleEnd_PassiveReward">Select Passive Reward</text>
-	 <text id="BattleEnd_NextStage">Select Next Reception</text>
-	 <text id="ui_LogueLikeFloor">Library</text>
-	 <text id="ui_selectskip">Skip Reward</text>
-	 <text id="ui_stageremain">Remaining Receptions: </text>
-	 <text id="ui_ShopLeave">Leave Shop</text>
-	 <text id="ui_ShopHide">Hide</text>
-	 <text id="ui_ShopShow">Return</text>
-	 <text id="ui_EmotionPositionChange">Change Position</text>
-	 <text id="ui_Money">Ahn</text>
+  <text id="BattleEnd_CardReward">Select Combat Page Reward</text>
+  <text id="BattleEnd_PassiveReward">Select Passive Reward</text>
+	 <text id="BattleEnd_EgoReward">Select an E.G.O. page</text>
+  <text id="BattleEnd_NextStage">Select Next Reception</text>
+  <text id="ui_LogueLikeFloor">Library</text>
+  <text id="ui_selectskip">Skip Reward</text>
+  <text id="ui_stageremain">Remaining Receptions: </text>
+  <text id="ui_RMR_InventoryEmpty">Floor limit: no combat pages to show (higher chapter or E.G.O. filtered).</text>
+  <text id="ui_RMR_BookInventoryEmpty">Floor limit: no key pages to show (higher chapter filtered).</text>
+  <text id="ui_RMR_Floor_Malkuth">History</text>
+  <text id="ui_RMR_Floor_Yesod">Tech</text>
+  <text id="ui_RMR_Floor_Hod">Lit</text>
+  <text id="ui_RMR_Floor_Netzach">Art</text>
+  <text id="ui_RMR_Floor_Tiphereth">Natural</text>
+  <text id="ui_RMR_Floor_Gebura">Language</text>
+  <text id="ui_RMR_Floor_Chesed">Social</text>
+  <text id="ui_RMR_Floor_Binah">Philosophy</text>
+  <text id="ui_RMR_Floor_Hokma">Religion</text>
+  <text id="ui_RMR_Floor_Keter">General</text>
+  <text id="ui_ShopLeave">Leave Shop</text>
+  <text id="ui_ShopHide">Hide</text>
+  <text id="ui_ShopShow">Return</text>
+  <text id="ui_EmotionPositionChange">Change Position</text>
+  <text id="ui_Money">Ahn</text>
 
-	 <text id="ui_RestLeave">Leave Resting Room</text>
-	 <text id="ui_RestHide">Hide</text>
-	 <text id="ui_RestShow">Return</text>
-	 <text id="ui_Realization">Realization</text>
-	 <text id="ui_RMR_RealizationTitle">Realization</text>
-	 <text id="ui_RMR_RealizationDesc">Challenge a floor realization. Victory permanently unlocks that floor's exclusive abnormality and E.G.O pages in the atlas and reward pools.</text>
-	 <text id="ui_RMR_RealizationChallenge">Challenge</text>
-	 <text id="ui_RMR_RealizationCleared">Cleared</text>
-	 <text id="ui_RMR_RealizationReplay">Cleared · Replay</text>
-	 <text id="ui_RMR_RealizationClose">Close</text>
-	 <text id="ui_RMR_HubTitle">Roguelike Start</text>
-	 <text id="ui_RMR_HubDesc">Challenge realization for permanent unlocks, or start a normal run.</text>
-	 <text id="ui_RMR_Hub_Play">Normal Play</text>
-	 <text id="ui_RMR_Hub_Realization">Realization</text>
-	 <text id="ui_RMR_Hub_Help">How to Play</text>
-	 <text id="ui_RMR_Hub_Exit">Exit</text>
-	 <text id="ui_RMR_Hub_ExitConfirm">Return to the Library? This start session will not be kept.</text>
-	 <text id="ui_RMR_Hub_ExitYes">Confirm</text>
-	 <text id="ui_RMR_Hub_ExitNo">Cancel</text>
-	 <text id="ui_RMR_Help_Close">Close</text>
-	 <text id="ui_RMR_Help_Nav_Overview">Overview</text>
-	 <text id="ui_RMR_Help_Nav_Route">Route &amp; Chapters</text>
-	 <text id="ui_RMR_Help_Nav_Shop">Shop &amp; Upgrades</text>
-	 <text id="ui_RMR_Help_Nav_Realization">Realization &amp; Atlas</text>
-	 <text id="ui_RMR_Help_Nav_AbnoEgo">Abnormality / E.G.O.</text>
-	 <text id="ui_RMR_Help_Body_Overview">This mod turns receptions into a chapter-based Roguelike route. From the start hub you can clear floor realizations for permanent unlocks before a normal run.</text>
-	 <text id="ui_RMR_Help_Body_Route">Each chapter uses map nodes: normal, elite, boss, shop, rest, and mystery events. Clearing a boss advances the chapter and expands the party.</text>
-	 <text id="ui_RMR_Help_Body_Shop">Shops sell key pages, combat pages, passives, abnormalities, and E.G.O. Combat pages unlock by type; you can upgrade pages in the shop.</text>
-	 <text id="ui_RMR_Help_Body_Realization">Realization is only entered from the start hub. First clear permanently unlocks that floor's exclusive pages; cleared floors can be replayed without new rewards. Loadouts and in-battle picks use the permanent atlas.</text>
-	 <text id="ui_RMR_Help_Body_AbnoEgo">Normal-run abnormality pages are also saved to the permanent atlas for realization picks. Abnormality and E.G.O. atlas tabs are flat lists without urban-chapter sections.</text>
-
+  <text id="ui_RestLeave">Leave Resting Room</text>
+  <text id="ui_RestHide">Hide</text>
+  <text id="ui_RestShow">Return</text>
+  <text id="ui_Realization">Realization</text>
+  <text id="ui_RMR_RealizationTitle">Floor Realization</text>
+  <text id="ui_RMR_RealizationDesc">Pick a floor, form a team, then fight the vanilla final Floor Realization (Angela/Roland multi-phase). No prior abnormality suppressions. First clear permanently unlocks that floor's pages; re-clears give no rewards.</text>
+  <text id="ui_RMR_RealizationChallenge">Challenge</text>
+  <text id="ui_RMR_RealizationCleared">Cleared</text>
+  <text id="ui_RMR_RealizationReplay">Cleared 路 Replay</text>
+  <text id="ui_RMR_RealizationClose">Close</text>
+  <text id="ui_RMR_HubTitle">Roguelike Start</text>
+  <text id="ui_RMR_HubDesc">Choose how to begin. Realization unlocks permanent rewards; Normal Play starts a run. Continue appears when a save exists.</text>
+  <text id="ui_RMR_Hub_Play">Normal Play</text>
+  <text id="ui_RMR_Hub_Realization">Challenge Realization</text>
+  <text id="ui_RMR_Hub_Help">How to Play</text>
+  <text id="ui_RMR_Hub_Reset">Reset Permanent Progress</text>
+  <text id="ui_RMR_Hub_ResetConfirm">Reset all permanent progress?&#10;This clears the atlas, realization clears, and special first-clear records.&#10;Current-route temporary pages will not be written back.</text>
+  <text id="ui_RMR_Hub_ResetYes">Confirm Reset</text>
+  <text id="ui_RMR_Hub_ResetNo">Cancel</text>
+  <text id="ui_RMR_Hub_ResetDone">Permanent progress has been reset.</text>
+  <text id="ui_RMR_Hub_Exit">Exit</text>
+  <text id="ui_RMR_Hub_ExitConfirm">Return to the Library? This start session will not be kept.</text>
+  <text id="ui_RMR_Hub_ExitYes">Confirm</text>
+  <text id="ui_RMR_Hub_ExitNo">Cancel</text>
+  <text id="ui_RMR_HubFooter">Library of Ruina 路 Roguelike Mod Reborn</text>
+  <text id="ui_RMR_Hub_Continue">Continue Run</text>
+  <text id="ui_RMR_Help_Close">Close</text>
+  <text id="ui_RMR_Help_Nav_Overview">Overview</text>
+  <text id="ui_RMR_Help_Nav_Route">Route &amp; Chapters</text>
+  <text id="ui_RMR_Help_Nav_Shop">Shop &amp; Upgrades</text>
+  <text id="ui_RMR_Help_Nav_Realization">Realization &amp; Atlas</text>
+  <text id="ui_RMR_Help_Nav_AbnoEgo">Abnormality / E.G.O.</text>
+  <text id="ui_RMR_Help_Body_Overview">This mod turns receptions into a chapter-based Roguelike route. From the start hub you can clear floor realizations for permanent unlocks before a normal run.</text>
+  <text id="ui_RMR_Help_Body_Route">Each chapter uses map nodes: normal, elite, boss, shop, rest, and mystery events. Clearing a boss advances the chapter and expands the party.</text>
+  <text id="ui_RMR_Help_Body_Shop">Shops sell key pages, combat pages, passives, abnormalities, and E.G.O. Combat pages unlock by type; you can upgrade pages in the shop.</text>
+  <text id="ui_RMR_Help_Body_Realization">Realization is only entered from the start hub. First clear permanently unlocks that floor's exclusive pages; cleared floors can be replayed without new rewards. Loadouts and in-battle picks use the permanent atlas.</text>
+  <text id="ui_RMR_Help_Body_AbnoEgo">Normal-run abnormality pages are also saved to the permanent atlas for realization picks. Abnormality and E.G.O. atlas tabs are flat lists without urban-chapter sections.</text>
 
   <text id="Equip_Slash">Slash Damage Resistance</text>
   <text id="Equip_Penetrate">Pierce Damage Resistance</text>
   <text id="Equip_Hit">Blunt Damage Resistance</text>
   <text id="Equip_Light">Starting Light</text>
-  <text id="Equip_SpeedArea">Speed Area</text>
+  <text id="Equip_SpeedArea">Speed Range</text>
   <text id="Equip_Passive">Passive</text>
 
   <text id="Stage_Normal">Normal Battle</text>
@@ -60,43 +79,44 @@
   <text id="Stage_Shop">Shop</text>
   <text id="Stage_Rest">Resting Room</text>
 
-  <text id="Stage_Normal_Desc">Do reception of an ordinary Guest.</text>
-  <text id="Stage_Elite_Desc">Do reception of a stronger Guest. After reception, gain a passive ability.</text>
-  <text id="Stage_Boss_Desc">Do reception of a much stronger Guests. After reception, continue to next chapter.</text>
-  <text id="Stage_Mystery_Desc">Anything could happen...</text>
-  <text id="Stage_Shop_Desc">Purchase useful items using your savings.</text>
-  <text id="Stage_Rest_Desc">A resting space to recover your spirits. You can restore HP of Librarians or upgrade Combat Pages.</text>
+  <text id="Stage_Normal_Desc">Host an ordinary guest.</text>
+  <text id="Stage_Elite_Desc">Host a strong guest. Gain 1 passive after battle.</text>
+  <text id="Stage_Boss_Desc">Host a powerful guest. After this reception, continue to the next chapter.</text>
+  <text id="Stage_Creature_Desc">Fight an abnormality. Gain abnormality page rewards after battle.</text>
+  <text id="Stage_Mystery_Desc">Something is about to happen...</text>
+  <text id="Stage_Shop_Desc">Spend your savings on useful items.</text>
+  <text id="Stage_Rest_Desc">A resting space to recover. Restore librarians' HP or upgrade combat pages.</text>
 
   <text id="Mystery_RequireCondition">[Locked] </text>
 
   <text id="LogueLike_PlayerName">Player</text>
 
-  <text id="Shop_EquipPrevious">[Passive Ability (Cost: {0})] </text>
+  <text id="Shop_EquipPrevious">[Passive (Cost: {0})] </text>
   <text id="Shop_CardUpgrade_Name">Card Upgrade</text>
   <text id="Shop_CardUpgrade_Desc">Card Upgrade</text>
 
   <text id="CardChoicePopUp_ChooseDesc">Select Combat Page</text>
   <text id="CardChoicePopUp_RemoveDesc">Select Combat Page to remove</text>
   <text id="CardChoicePopUp_TransformDesc">Select Combat Page to change</text>
-  <text id="CardChoicePopUp_RewardDesc">Select Combat Page to get</text>
+  <text id="CardChoicePopUp_RewardDesc">Select Combat Page to obtain</text>
   <text id="CardChoicePopUp_UpgradeDesc">Select Combat Page to upgrade</text>
 
-  <text id="CardCheckPopUp_InvenDesc">Owned Combat Page</text>
-  <text id="CardCheckPopUp_RewardDesc">Acquired Combat Page</text>
+  <text id="CardCheckPopUp_InvenDesc">Owned Combat Pages</text>
+  <text id="CardCheckPopUp_RewardDesc">Acquired Combat Pages</text>
   <text id="CardCheckPopUp_Close">Return</text>
   <text id="CardCheckPopUp_UpgradeOk">Confirm</text>
   <text id="CardCheckPopUp_UpgradeNo">Cancel</text>
-  <text id="CardCheckPopUp_CannotUpgrade">You have no upgradeable Combat Pages.</text>
+  <text id="CardCheckPopUp_CannotUpgrade">No upgradeable combat pages.</text>
 
-  <text id="ui_Inventory">Item</text>
+  <text id="ui_Inventory">Items</text>
   <text id="ui_CreatureTab">Abnormality</text>
   <text id="ui_CraftTab">Craft</text>
   <text id="ui_CraftCost">Cost</text>
+  <text id="ui_AtlasTab">Atlas</text>
 
   <text id="ui_ExceptionWithLog">Mods that conflict with the RogueLike mod have been detected.</text>
-  
+
   <text id="ui_RMR_ItemCatalog">Item Catalog</text>
-  <text id="ui_AtlasTab">Atlas</text>
   <text id="ui_RMR_ItemObtainCount">You've obtained this item {0} time(s).</text>
   <text id="ui_RMR_ItemNotObtained_Name">???</text>
   <text id="ui_RMR_ItemNotObtained_Desc">You have yet to find this item.</text>
@@ -104,10 +124,12 @@
   <text id="ui_RMR_ItemNoEntry_Credenza">[No entry for now.]</text>
 
   <text id="ui_RMR_StartNewRun">New Run</text>
-  <text id="ui_RMR_StartNewRunDesc">Start a new Roguelike run. If you have an on-going run, it will be overriden.</text>
+  <text id="ui_RMR_StartNewRunDesc">Start a new Roguelike run. An ongoing run will be overwritten.</text>
   <text id="ui_RMR_ContinueRun">Continue Run</text>
-  <text id="ui_RMR_ContinueRunDesc">Continue a previous Roguelike run.</text>
-  <text id="ui_RMR_ConfirmStartNewRun">Are you sure you wish to start a new run? The saved one will be overriden.</text>
-
+  <text id="ui_RMR_ContinueRunDesc">Continue a previous Roguelike run from the mode-select hub (shown when a save exists).</text>
+  <text id="ui_RMR_ConfirmStartNewRun">Start a new run? The saved run will be overwritten.</text>
+  <text id="ui_RMR_ContinueFailed">Failed to continue the Roguelike run. The save may be missing or outdated.</text>
+  <text id="ui_RMR_ContinueLoadFailed">Continue failed: save data could not be fully loaded. Try New Run, or re-enter after a full restart.</text>
 
 </localize>
+

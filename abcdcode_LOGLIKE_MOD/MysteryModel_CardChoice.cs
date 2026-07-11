@@ -149,7 +149,11 @@ namespace abcdcode_LOGLIKE_MOD
                     DiceCardItemModel info = this.cardlist[index1 + this.curindex * 10];
                     LogLikeMod.UILogCardSlot CardSlot = this.cardslots[index1];
                     CardSlot.SetData(info);
-                    CardSlot.txt_cardNumbers.text = "x" + info.num.ToString();
+                    // Upgrade is by card type/kind — hide stack counts (x99 etc). Other choices keep counts.
+                    if (IsUpgradeChoiceTitle())
+                        CardSlot.txt_cardNumbers.text = "";
+                    else
+                        CardSlot.txt_cardNumbers.text = "x" + info.num.ToString();
                     CardSlot.selectable.SubmitEvent.RemoveAllListeners();
                     CardSlot.selectable.SubmitEvent.AddListener((UnityAction<BaseEventData>)(e => this.OnClickCard(info)));
                     CardSlot.selectable.SelectEvent.RemoveAllListeners();
@@ -192,6 +196,27 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         public void OnClickCard(DiceCardItemModel card) => this.resultdel(this, card);
+
+        /// <summary>
+        /// Upgrade popup shows one entry per card kind; stack numbers are misleading.
+        /// Detect by title text (localized) or upgrade-desc key fallbacks.
+        /// </summary>
+        private bool IsUpgradeChoiceTitle()
+        {
+            if (string.IsNullOrEmpty(this.titledesc))
+                return false;
+            try
+            {
+                string upgrade = TextDataModel.GetText("CardChoicePopUp_UpgradeDesc");
+                if (!string.IsNullOrEmpty(upgrade) && this.titledesc == upgrade)
+                    return true;
+            }
+            catch { }
+            // zh/en fallbacks if localization missing
+            if (this.titledesc.Contains("\u5347\u7ea7") || this.titledesc.IndexOf("upgrade", System.StringComparison.OrdinalIgnoreCase) >= 0)
+                return true;
+            return false;
+        }
 
         public enum ChoiceDescType
         {

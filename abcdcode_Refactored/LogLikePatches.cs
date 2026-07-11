@@ -196,8 +196,9 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static void OnClickAtlasTab(UIBattleSettingEditPanel __instance)
         {
+            // Atlas is no longer a prepare tab; ignore prepare-panel clicks.
             UISoundManager.instance.PlayEffectSound(UISoundType.Ui_Click);
-            __instance.SetBUttonState((UIBattleSettingEditTap)5);
+            Debug.Log("[RMR] Atlas tab removed from prepare — open 图鉴 from start hub.");
         }
 
         public static void OnClickRealization(UIBattleSettingEditPanel __instance)
@@ -234,7 +235,54 @@ namespace abcdcode_LOGLIKE_MOD
 
         public static bool IsRoguelikeBattleSettingContext()
         {
-            return LogLikeMod.CheckStage() || RMRRealizationManager.IsRealizationPreparationActive;
+            // Realization prepare is intentional RMR context.
+            if (RMRRealizationManager.IsRealizationPreparationActive)
+                return true;
+            // Full roguelike reception only — never true on vanilla library load.
+            return LogLikeMod.CheckStage();
+        }
+
+        /// <summary>
+        /// Force-unlock key page / combat page slots on the battle-setting librarian panel.
+        /// Vanilla sets isBattlePageLock/isEquipPageLock when the floor was already used, or greys
+        /// them while the matching edit tab is open; RMR prepare must stay editable.
+        /// </summary>
+        public static void ForceUnlockBattleSettingLoadoutSlots(UIBattleSettingLibrarianInfoPanel panel)
+        {
+            if (panel == null || !IsRoguelikeBattleSettingContext())
+                return;
+            Color uiColor = UIColorManager.Manager.GetUIColor(UIColor.Default);
+            typeof(UIBattleSettingLibrarianInfoPanel).GetField("isBattlePageLock", AccessTools.all).SetValue(panel, false);
+            typeof(UIBattleSettingLibrarianInfoPanel).GetField("isEquipPageLock", AccessTools.all).SetValue(panel, false);
+            panel.SetBattlePageSlotColor(uiColor);
+            panel.SetEquipPageSlotColor(uiColor);
+        }
+
+        /// <summary>
+        /// Open equip / battle-card edit panel from librarian info, ignoring vanilla gates:
+        /// - LibraryModel.GetEndContentState() == KeterCompleteOpen (post-game saves silent-block)
+        /// - isBattlePageLock / isEquipPageLock (used-floor lock)
+        /// Passive succession never hits those gates, which is why it still worked.
+        /// </summary>
+        public static bool TryOpenBattleSettingEditFromLibrarian(
+          UIBattleSettingLibrarianInfoPanel panel,
+          UIBattleSettingEditTap tap,
+          BaseEventData eventData)
+        {
+            if (panel == null || !IsRoguelikeBattleSettingContext())
+                return false;
+            if (eventData != null && UIControlManager.GetInpuTypeOf(eventData) == InputType.RightClick)
+                return true; // swallow right-click like vanilla, no open
+            if (tap == UIBattleSettingEditTap.BattleCard)
+            {
+                UnitDataModel unit = LogLikeMod.GetFieldValue<UnitDataModel>(panel, "unitdata");
+                if (unit == null)
+                    return true;
+            }
+            ForceUnlockBattleSettingLoadoutSlots(panel);
+            UISoundManager.instance.PlayEffectSound(UISoundType.Ui_Click);
+            panel.GetSettingPanel().OnClickOpenEditPage(tap);
+            return true;
         }
 
         public static void InitUIBattleSettingWaveSlot(
@@ -418,27 +466,69 @@ namespace abcdcode_LOGLIKE_MOD
         /// </summary>
         public List<DiceCardXmlInfo> UnitDataModel_GetDeckForBattle(Func<UnitDataModel, int, List<DiceCardXmlInfo>> orig, UnitDataModel self, int index)
         {
-            if (LogueBookModels.TryGetGrade6SpecialBuiltInDeckCards(self, out List<DiceCardXmlInfo> builtInDeck))
-                return builtInDeck;
-
-            if ((LogLikeMod.CheckStage(true) || RMRRealizationManager.InRealizationBattle)
-                && RMRCore.CurrentGamemode.ReplaceBaseDeck)
+            try
             {
-                List<DiceCardXmlInfo> list = new List<DiceCardXmlInfo>();
-                list.AddRange(self.GetCardList(index));
+                if (LogueBookModels.TryGetGrade6SpecialBuiltInDeckCards(self, out List<DiceCardXmlInfo> builtInDeck))
+                    return builtInDeck;
+
+                bool useRogueDeck = (LogLikeMod.CheckStage(true) || RMRRealizationManager.InRealizationBattle)
+                    && RMRCore.CurrentGamemode != null
+                    && RMRCore.CurrentGamemode.ReplaceBaseDeck;
+                if (!useRogueDeck)
+                    return orig(self, index);
+
+                // NEVER call self.GetCardList(index) directly — private method, MonoMod DynamicMethod
+                // throws MethodAccessException and aborts StartBattle / CreateLibrarianUnit.
+                List<DiceCardXmlInfo> list = InvokeUnitGetCardList(self, index);
+                if (list == null)
+                    return orig(self, index);
+
                 int deckSize = self.GetDeckSize();
                 int curSize = list.Count;
-                if (self.bookItem.ClassInfo.RangeType != EquipRangeType.Range && curSize < deckSize)
+                if (self.bookItem != null
+                    && self.bookItem.ClassInfo != null
+                    && self.bookItem.ClassInfo.RangeType != EquipRangeType.Range
+                    && curSize < deckSize)
                 {
-                    var defaultDeck = DeckXmlList.Instance.GetData(RMRCore.CurrentGamemode.BaseDeckReplacement).cardIdList;
-                    for (int i = curSize; i < deckSize; i++)
+                    var deckData = DeckXmlList.Instance.GetData(RMRCore.CurrentGamemode.BaseDeckReplacement);
+                    if (deckData?.cardIdList != null)
                     {
-                        list.Add(ItemXmlDataList.instance.GetCardItem(defaultDeck[i], false));
+                        var defaultDeck = deckData.cardIdList;
+                        for (int i = curSize; i < deckSize && i < defaultDeck.Count; i++)
+                        {
+                            DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(defaultDeck[i], false);
+                            if (card != null)
+                                list.Add(card);
+                        }
                     }
                 }
                 return list;
             }
-            return orig(self, index);
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] UnitDataModel_GetDeckForBattle fallback to vanilla: " + ex.Message);
+                return orig(self, index);
+            }
+        }
+
+        /// <summary>Reflect private UnitDataModel.GetCardList(int) for MonoMod-safe access.</summary>
+        private static List<DiceCardXmlInfo> InvokeUnitGetCardList(UnitDataModel self, int index)
+        {
+            if (self == null)
+                return null;
+            try
+            {
+                MethodInfo m = AccessTools.Method(typeof(UnitDataModel), "GetCardList", new[] { typeof(int) });
+                if (m == null)
+                    return null;
+                return m.Invoke(self, new object[] { index }) as List<DiceCardXmlInfo>
+                    ?? new List<DiceCardXmlInfo>();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] InvokeUnitGetCardList failed: " + ex.Message);
+                return null;
+            }
         }
 
         /// <summary>
@@ -476,26 +566,37 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (!LogLikeMod.CheckStage())
                 return orig(self, cardID);
+
+            // Prefer vanilla loader first so real localization is never skipped.
+            // The old path permanently cached "Not found" stubs, which then blocked
+            // later loads and poisoned Name-keyed entries (SnowWhite_Vine etc.).
+            try
+            {
+                AbnormalityCard fromVanilla = orig(self, cardID);
+                if (fromVanilla != null
+                    && !PickUpModel_RMRVanillaEmotion.IsMissingDesc(fromVanilla))
+                    return fromVanilla;
+            }
+            catch
+            {
+                // Fall through to dictionary / stub path.
+            }
+
             Dictionary<string, AbnormalityCard> dictionary = (Dictionary<string, AbnormalityCard>)typeof(AbnormalityCardDescXmlList).GetField("_dictionary", AccessTools.all).GetValue(self);
-            AbnormalityCard abnormalityCard;
-            if (dictionary.ContainsKey(cardID))
+            if (dictionary != null && !string.IsNullOrEmpty(cardID) && dictionary.TryGetValue(cardID, out AbnormalityCard existing)
+                && existing != null && !PickUpModel_RMRVanillaEmotion.IsMissingDesc(existing))
+                return existing;
+
+            // Transient stub — do NOT cache under cardID so a later language refresh can fill it.
+            return new AbnormalityCard()
             {
-                abnormalityCard = dictionary[cardID];
-            }
-            else
-            {
-                abnormalityCard = new AbnormalityCard()
-                {
-                    id = cardID,
-                    abnormalityName = "Not found",
-                    cardName = "Not found",
-                    abilityDesc = "Not found",
-                    flavorText = "Not found",
-                    dialogues = (List<AbnormalityCardDialog>)null
-                };
-                dictionary.Add(cardID, abnormalityCard);
-            }
-            return abnormalityCard;
+                id = cardID,
+                abnormalityName = "Not found",
+                cardName = "Not found",
+                abilityDesc = "Not found",
+                flavorText = "Not found",
+                dialogues = (List<AbnormalityCardDialog>)null
+            };
         }
 
         /// <summary>
@@ -541,19 +642,64 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         /// <summary>
-        /// Hook for disabling the sephirah buttons.
+        /// Hook for sephirah floor buttons on battle prepare.
+        /// RMR StageStart used FloorNum=0 which makes GetAvailableFloorList empty, so vanilla
+        /// left every floor Closed and CurrentFloor stuck on Malkuth (历史层) — map/BGM never
+        /// followed the player's Language/Gebura (etc.) selection.
         /// </summary>
         public void UIBattleSettingPanel_SetCurrentSephirahButton(
           Action<UIBattleSettingPanel> orig,
           UIBattleSettingPanel self)
         {
             orig(self);
-            // (UI.UIController.Instance.GetUIPanel(UIPanelType.BattleSetting) as UIBattleSettingPanel).cg_NormalFrame
-            // attach funny background to object above
             if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
-            // Keep Sephirah buttons available in RMR so the selected floor can continue
-            // controlling reception BGM across later acts.
+            try
+            {
+                // Force every non-null sephirah button Open so the player can pick floor theme.
+                List<UISephirahButton> buttons = UIBattleSettingPanelSephirahButtonsField?.GetValue(self) as List<UISephirahButton>;
+                if (buttons == null)
+                    return;
+                foreach (UISephirahButton btn in buttons)
+                {
+                    if (btn == null)
+                        continue;
+                    // ButtonState.Open = 0 in vanilla enum usage for available floors.
+                    btn.SetButtonState(UISephirahButton.ButtonState.Open);
+                    // Ensure clicks are accepted.
+                    try
+                    {
+                        FieldInfo disabled = typeof(UISephirahButton).GetField("isDisabled", AccessTools.all);
+                        if (disabled != null)
+                            disabled.SetValue(btn, false);
+                    }
+                    catch { /* ignore */ }
+                    // Prepare UI: icons only — do not stamp RMR floor short names under sephirah buttons.
+                    ClearSephirahFloorLabel(btn);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] SetCurrentSephirahButton open-all failed: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Remove any RMR_FloorLabel under a sephirah button (prepare/编队 should not label floors).
+        /// Also covers realization prepare which reuses UIBattleSettingPanel.
+        /// </summary>
+        private static void ClearSephirahFloorLabel(UISephirahButton btn)
+        {
+            if (btn == null)
+                return;
+            const string childName = "RMR_FloorLabel";
+            try
+            {
+                Transform existing = btn.transform.Find(childName);
+                if (existing != null)
+                    UnityEngine.Object.Destroy(existing.gameObject);
+            }
+            catch { /* ignore */ }
         }
 
         /* UNUSED
@@ -694,6 +840,8 @@ namespace abcdcode_LOGLIKE_MOD
         /// </summary>
         private static void ResetBattleEgoSelectionState(StageController controller)
         {
+            // Clear vanilla mid-battle EGO state — RMR drives emotion-3/4/5 EGO picks via
+            // RewardingModel mid-battle queue (after abno), not egoSelectionPoint.
             Singleton<SpecialCardListModel>.Instance.Init();
             StageModel stage = controller?.GetStageModel();
             if (stage == null)
@@ -705,6 +853,7 @@ namespace abcdcode_LOGLIKE_MOD
                 if (floor.team != null)
                     floor.team.egoSelectionPoint = 0;
             }
+            try { RewardingModel.ResetMidBattleEgoSelectionState(); } catch { }
         }
 
         private sealed class PurpleTransitionEmotionState
@@ -747,28 +896,62 @@ namespace abcdcode_LOGLIKE_MOD
 
         public void StageController_StartBattle(Action<StageController> orig, StageController self)
         {
-            // Waiting for floor pick: never start the dummy -853/unit-854 fight.
-            // Clicking "开始舞台" must only re-show floor panel, not re-enter combat loop.
+            RMRRealizationManager.EnterStartBattleHook();
+            try
+            {
+                StageController_StartBattle_Inner(orig, self);
+            }
+            finally
+            {
+                RMRRealizationManager.ExitStartBattleHook();
+            }
+        }
+
+        private void StageController_StartBattle_Inner(Action<StageController> orig, StageController self)
+        {
+            // If StartBattle runs before OnWaveStart (common), still complete realization launch
+            // so we never deadlock: abort forever with reception=True and no Pending battle.
+            if (RMRRealizationManager.RealizationReceptionActive
+                && !RMRRealizationManager.PendingRealizationBattle
+                && !RMRRealizationManager.InRealizationBattle
+                && !RMRCore.IsPostInvitationLaunchConsumed)
+            {
+                try
+                {
+                    Debug.Log("[RMR] StartBattle: running HandlePostInvitationLaunch early (before OnWaveStart).");
+                    RMRCore.HandlePostInvitationLaunch();
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError("[RMR] Early HandlePostInvitationLaunch failed: " + ex);
+                }
+            }
+
+            // HandlePost may open realization prepare mid-hook. Abort THIS shell StartBattle
+            // so we do not ActivatePending + orig immediately (skip team confirm → chaos).
+            if (RMRRealizationManager.ConsumeAbortCurrentStartBattle())
+            {
+                LogLikeMod.PauseBool = false;
+                Debug.Log("[RMR] StartBattle aborted after opening realization prepare — wait for player team confirm.");
+                return;
+            }
+
+            // Only block dummy 854 while waiting for floor pick on prepare UI.
+            // Do NOT block solely on RealizationReceptionActive — that prevented OnWaveStart
+            // and left the player with no battle / instant "end".
             if (RMRRealizationManager.AwaitingRealizationFloorPick
                 && !RMRRealizationManager.PendingRealizationBattle
                 && !RMRRealizationManager.InRealizationBattle)
             {
                 LogLikeMod.PauseBool = true;
                 Debug.LogWarning("[RMR] StartBattle aborted — pick a realization floor first (no dummy combat).");
-                try
-                {
-                    if (UI.UIController.Instance != null)
-                        UI.UIController.Instance.OpenBattlePrepare();
-                }
-                catch { }
-                RMRRealizationLaunchHost.EnsureFloorPanelVisible();
-                // Do NOT call orig(self) — that starts unit 854 and loops prepare/battle.
+                // Do not OpenBattlePrepare under floor pick — overlay alone is enough.
+                try { RMRRealizationLaunchHost.EnsureFloorPanelVisible(); } catch { }
                 return;
             }
 
-            // If a realization battle is pending, activate the flag now that the
-            // realization stage is actually loading. This prevents the EndBattle hook
-            // from treating the event-transition EndBattle as a realization end.
+            // Player confirmed team on BattlePrepare: Pending is still true until here.
+            // Activate InRealizationBattle, then run vanilla StartBattle for the boss stage.
             if (RMRRealizationManager.PendingRealizationBattle)
             {
                 RMRRealizationManager.ActivatePendingRealization();
@@ -846,16 +1029,20 @@ namespace abcdcode_LOGLIKE_MOD
                 }
                 RMRAbnormalityUnlockManager.EnqueueBattleClearRewards();
                 RMRAbnormalityUnlockManager.SuppressRedMistChallengeGenericRewards();
+                // ResetNextStage already builds Grade(N+1) options after a Boss (including Grade6→Grade7 杂质).
+                // Do not re-clear here with a conflicting final-chapter rule.
                 LogLikeMod.ResetNextStage();
-                if (LogLikeMod.curstagetype == StageType.Boss)
+                if (LogLikeMod.curstagetype == StageType.Boss
+                    && (LogLikeMod.nextlist == null || LogLikeMod.nextlist.Count == 0)
+                    && LogLikeMod.curchaptergrade < ChapterGrade.Grade7)
                 {
-                    if (LogLikeMod.curchaptergrade != ChapterGrade.Grade7 && LogueBookModels.RemainStageList.ContainsKey(LogLikeMod.curchaptergrade + 1))
-                        LogLikeMod.nextlist = LogueBookModels.GetNextList(LogLikeMod.curchaptergrade + 1, true);
-                    else
-                        LogLikeMod.nextlist.Clear();
+                    ChapterGrade nextGrade = LogLikeMod.curchaptergrade + 1;
+                    if (LogueBookModels.EnsureChapterRemainStages(nextGrade))
+                    {
+                        LogLikeMod.nextlist = LogueBookModels.GetNextList(nextGrade, true);
+                        Debug.Log($"[RMR StartBattle] Boss nextlist was empty; rebuilt chapter {nextGrade} options={LogLikeMod.nextlist?.Count ?? 0}");
+                    }
                 }
-                else
-                    LogLikeMod.nextlist = LogueBookModels.GetNextList(LogLikeMod.curchaptergrade, LogLikeMod.curstagetype == StageType.Start);
                 Singleton<GlobalLogueEffectManager>.Instance.OnStartBattle();
                 Singleton<GlobalLogueEffectManager>.Instance.UpdateSprites();
             }
@@ -867,6 +1054,8 @@ namespace abcdcode_LOGLIKE_MOD
             if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             Singleton<GlobalLogueEffectManager>.Instance.OnStartBattleAfter();
+            // After units exist: put owned EGO into personalEgo so emotion-level unlock works like vanilla.
+            try { RMRPrepareRestrictions.GrantOwnedEgoToBattleUnits(); } catch { }
         }
 
         /// <summary>
@@ -984,6 +1173,16 @@ namespace abcdcode_LOGLIKE_MOD
                     return;
                 }
 
+                // Multi-phase Angela/Roland: Corrosion etc. keep boss immortal until final form.
+                // If EndBattle fires mid-phase (or during phase swap), do NOT clear floor / exit.
+                if (RMRRealizationManager.IsMidRealizationMultiPhase())
+                {
+                    Debug.Log("[RMRRealizationManager] EndBattle during multi-phase transition — forward vanilla only, keep realization active.");
+                    try { orig(self); }
+                    catch (Exception ex) { Debug.LogWarning("[RMR] Mid-phase EndBattle orig: " + ex.Message); }
+                    return;
+                }
+
                 bool victory = false;
                 try
                 {
@@ -992,13 +1191,14 @@ namespace abcdcode_LOGLIKE_MOD
                 }
                 catch { }
 
+                // Real stage clear of Floor Realization (all phases done, or defeat).
                 RMRRealizationManager.OnRealizationBattleEnded(victory);
-                orig(self);
-                // Clear InRealizationBattle AFTER vanilla EndBattle completes,
-                // so that ClearBattle/EndBattlePhase postfixes still see the guard
-                // during the vanilla cleanup sequence.
+                try { orig(self); }
+                catch (Exception ex) { Debug.LogWarning("[RMR] Realization EndBattle orig: " + ex.Message); }
+
                 RMRRealizationManager.ClearRealizationFlag();
                 RMRRealizationManager.ReturnToMainAfterRealization();
+                RMRRealizationManager.EnsureExitBattleToLibrary();
                 return;
             }
 
@@ -1230,6 +1430,21 @@ namespace abcdcode_LOGLIKE_MOD
                         string str4 = text2 + str3;
                         stageRemainText2.text = str4;
                     }
+                    // C3: match title style (select desc font / color / size).
+                    try
+                    {
+                        if (LogLikeMod.StageRemainText != null && textMeshProUgui1 != null)
+                        {
+                            if (LogLikeMod.DefFont_TMP != null)
+                                LogLikeMod.StageRemainText.font = LogLikeMod.DefFont_TMP;
+                            else if (textMeshProUgui1.font != null)
+                                LogLikeMod.StageRemainText.font = textMeshProUgui1.font;
+                            LogLikeMod.StageRemainText.fontSize = textMeshProUgui1.fontSize;
+                            LogLikeMod.StageRemainText.color = textMeshProUgui1.color;
+                            LogLikeMod.StageRemainText.alignment = TextAlignmentOptions.Center;
+                        }
+                    }
+                    catch { /* ignore style sync */ }
                 }
                 else
                     LogLikeMod.StageRemainPanel.gameObject.SetActive(false);
@@ -1239,6 +1454,14 @@ namespace abcdcode_LOGLIKE_MOD
                     textMeshProUgui2.text = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("BattleEnd_CardReward");
                     if (!Singleton<TutorialManager>.Instance.IsSeeTuto("tutorial_BattlePage1_1"))
                         Singleton<TutorialManager>.Instance.LoadTuto("tutorial_BattlePage1_1");
+                }
+                if (RewardingModel.rewardFlag == RewardingModel.RewardFlag.EgoCardReward)
+                {
+                    string egoTitle = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("BattleEnd_EgoReward");
+                    if (string.IsNullOrEmpty(egoTitle) || egoTitle.IndexOf("BattleEnd_EgoReward", StringComparison.Ordinal) >= 0)
+                        egoTitle = "选择 E.G.O. 战斗书页";
+                    textMeshProUgui1.text = egoTitle;
+                    textMeshProUgui2.text = egoTitle;
                 }
                 if (RewardingModel.rewardFlag == RewardingModel.RewardFlag.PassiveReward)
                 {
@@ -1289,16 +1512,73 @@ namespace abcdcode_LOGLIKE_MOD
                 && LogLikeMod.egoSelectionQueue != null
                 && LogLikeMod.egoSelectionQueue.Count > 0)
             {
+                bool midBattle = RewardingModel.IsMidBattleEgoSelectionActive;
                 List<DiceCardXmlInfo> cardlist = new List<DiceCardXmlInfo>();
                 foreach (BattleDiceCardUI egoSlot in SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.egoSlotList)
                 {
                     if (egoSlot?.CardModel?.XmlData != null)
                         cardlist.Add(egoSlot.CardModel.XmlData);
                 }
-                Singleton<GlobalLogueEffectManager>.Instance.OnPickCardReward(cardlist, ItemXmlDataList.instance.GetCardItem(egoCard.CardId));
-                RMRAbnormalityUnlockManager.UnlockEgoForCurrentRoute(egoCard.CardId);
-                LogueBookModels.RecordAtlasEgoPage(egoCard.CardId);
+                LorId pickId = egoCard != null ? egoCard.CardId : LorId.None;
+                DiceCardXmlInfo pickCard = null;
+                if (pickId != null && pickId != LorId.None)
+                {
+                    pickCard = ItemXmlDataList.instance.GetCardItem(pickId, true)
+                        ?? ItemXmlDataList.instance.GetCardItem(pickId.id, true)
+                        ?? ItemXmlDataList.instance.GetCardItem(new LorId(string.Empty, pickId.id), true);
+                }
+                if (!midBattle)
+                    Singleton<GlobalLogueEffectManager>.Instance.OnPickCardReward(cardlist, pickCard);
+
+                // Ownership / atlas (run permanent unlocks).
+                if (pickCard != null && pickCard.id != null)
+                    LogueBookModels.AddCard(pickCard.id);
+                else if (pickId != null && pickId != LorId.None)
+                    LogueBookModels.AddCard(pickId);
+                RMRAbnormalityUnlockManager.UnlockEgoForCurrentRoute(pickId);
+                LogueBookModels.RecordAtlasEgoPage(pickId);
+                try { RewardingModel.NoteMidBattleEgoPicked(pickId); } catch { }
+
+                // Wire vanilla floor E.G.O. selection so hand toggle (战斗书页 ↔ EGO) appears.
+                EmotionEgoXmlInfo realEgo = null;
+                try { realEgo = RMRAbnormalityUnlockManager.FindVanillaEmotionEgo(pickId); } catch { }
+                try { RMRAbnormalityUnlockManager.RegisterSelectedEgoOnCurrentFloor(pickId); } catch { }
+                if (midBattle && realEgo != null)
+                {
+                    try
+                    {
+                        // Vanilla path registers shared floor EGO hand / cooltime.
+                        orig(self, realEgo);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogWarning("[RMR] vanilla OnPickEgoCard for mid-battle: " + ex.Message);
+                    }
+                }
+
+                try { RMRPrepareRestrictions.GrantOwnedEgoToBattleUnits(); } catch { }
                 LogLikeMod.egoSelectionQueue.RemoveAt(0);
+
+                // Refresh open hand UI so purple EGO toggle shows immediately.
+                try
+                {
+                    var handUi = SingletonBehavior<BattleManagerUI>.Instance?.ui_unitCardsInHand;
+                    BattleUnitModel selected = null;
+                    if (handUi != null)
+                    {
+                        selected = LogLikeMod.GetFieldValue<BattleUnitModel>(handUi, "_selectedUnit")
+                            ?? BattleObjectManager.instance?.GetAliveList(Faction.Player)?.FirstOrDefault();
+                        if (selected != null)
+                            handUi.SetCardsObject(selected, true);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning("[RMR] hand UI refresh after EGO pick: " + ex.Message);
+                }
+
+                if (midBattle)
+                    Debug.Log($"[RMR] Mid-battle EGO picked id={pickId?.packageId}:{pickId?.id} (floor-selected + personalEgo).");
             }
             else
                 orig(self, egoCard);
@@ -1457,31 +1737,13 @@ namespace abcdcode_LOGLIKE_MOD
                     if (LogLikeMod.InvenBtnFrame != null)
                         LogLikeMod.InvenBtnFrame.enabled = false;
                 }
-                if (LogLikeMod.CreatureBtn == null)
-                {
-                    Button fieldValue = LogLikeMod.GetFieldValue<Button>(self, "button_BattleCard");
-                    LogLikeMod.CreatureBtn = UnityEngine.Object.Instantiate<Button>(fieldValue, fieldValue.transform.parent);
-                    LogLikeMod.CreatureBtn.transform.localPosition = fieldValue.transform.localPosition + new Vector3(400f, 0.0f);
-                    Button.ButtonClickedEvent buttonClickedEvent = new Button.ButtonClickedEvent();
-                    buttonClickedEvent.AddListener((UnityAction)(() => LogLikeRoutines.OnClickAtlasTab(self)));
-                    LogLikeMod.CreatureBtn.onClick = buttonClickedEvent;
-                    LogLikeRoutines.SafeGetButtonComponents(LogLikeMod.CreatureBtn, out UITextDataLoader component, out Image creatureFrame);
-                    if (component != null)
-                    {
-                        component.key = "ui_AtlasTab";
-                        component.SetText();
-                    }
-                    LogLikeMod.CreatureBtnFrame = creatureFrame;
-                    if (LogLikeMod.CreatureBtnFrame != null)
-                        LogLikeMod.CreatureBtnFrame.enabled = false;
-                    LogLikeMod.AtlasBtn = LogLikeMod.CreatureBtn;
-                    LogLikeMod.AtlasBtnFrame = LogLikeMod.CreatureBtnFrame;
-                }
+                // Atlas tab removed from battle prepare — open from RMR start hub instead.
+                // Keep CreatureBtn null/hidden; craft sits at former atlas slot (+400).
                 if (LogLikeMod.CraftBtn == null)
                 {
                     Button fieldValue = LogLikeMod.GetFieldValue<Button>(self, "button_BattleCard");
                     LogLikeMod.CraftBtn = UnityEngine.Object.Instantiate<Button>(fieldValue, fieldValue.transform.parent);
-                    LogLikeMod.CraftBtn.transform.localPosition = fieldValue.transform.localPosition + new Vector3(600f, 0.0f);
+                    LogLikeMod.CraftBtn.transform.localPosition = fieldValue.transform.localPosition + new Vector3(400f, 0.0f);
                     Button.ButtonClickedEvent buttonClickedEvent = new Button.ButtonClickedEvent();
                     buttonClickedEvent.AddListener((UnityAction)(() => LogLikeRoutines.OnClickCraftTab(self)));
                     LogLikeMod.CraftBtn.onClick = buttonClickedEvent;
@@ -1494,11 +1756,6 @@ namespace abcdcode_LOGLIKE_MOD
                     LogLikeMod.CraftBtnFrame = craftFrame;
                     if (LogLikeMod.CraftBtnFrame != null)
                         LogLikeMod.CraftBtnFrame.enabled = false;
-                }
-                if (LogLikeMod.AtlasBtn == null && LogLikeMod.CreatureBtn != null)
-                {
-                    LogLikeMod.AtlasBtn = LogLikeMod.CreatureBtn;
-                    LogLikeMod.AtlasBtnFrame = LogLikeMod.CreatureBtnFrame;
                 }
                 if (LogLikeMod.RealizationBtn == null)
                 {
@@ -1520,9 +1777,12 @@ namespace abcdcode_LOGLIKE_MOD
                         LogLikeMod.RealizationBtnFrame.enabled = false;
                 }
                 LogLikeMod.InvenBtn.gameObject.SetActive(true);
-                LogLikeMod.CreatureBtn.gameObject.SetActive(true);
-                LogLikeMod.CraftBtn.gameObject.SetActive(true);
-                LogLikeMod.AtlasBtn.gameObject.SetActive(true);
+                if (LogLikeMod.CreatureBtn != null)
+                    LogLikeMod.CreatureBtn.gameObject.SetActive(false);
+                if (LogLikeMod.CraftBtn != null)
+                    LogLikeMod.CraftBtn.gameObject.SetActive(true);
+                if (LogLikeMod.AtlasBtn != null)
+                    LogLikeMod.AtlasBtn.gameObject.SetActive(false);
                 LogLikeRoutines.ApplyRealizationButtonText(LogLikeMod.RealizationBtn);
                 // Realization entry is only on the start hub — keep prepare-panel button hidden.
                 if (LogLikeMod.RealizationBtn != null)
@@ -1530,7 +1790,7 @@ namespace abcdcode_LOGLIKE_MOD
                 Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(false);
                 Singleton<LogCreatureTabPanel>.Instance.SetActive(false);
                 Singleton<LogCraftPanel>.Instance.SetActive(false);
-                Singleton<LogAtlasPanel>.Instance.SetActive(false);
+                try { Singleton<LogAtlasPanel>.Instance.SetActive(false); } catch { }
                 Image image = (Image)typeof(UIBattleSettingEditPanel).GetField("img_BlockBackGroundBg", AccessTools.all).GetValue(self);
                 self.SetBUttonState(state);
                 image.raycastTarget = true;
@@ -1538,10 +1798,14 @@ namespace abcdcode_LOGLIKE_MOD
             }
             else
             {
-                LogLikeMod.InvenBtn.gameObject.SetActive(false);
-                LogLikeMod.CreatureBtn.gameObject.SetActive(false);
-                LogLikeMod.CraftBtn.gameObject.SetActive(false);
-                LogLikeMod.AtlasBtn.gameObject.SetActive(false);
+                if (LogLikeMod.InvenBtn != null)
+                    LogLikeMod.InvenBtn.gameObject.SetActive(false);
+                if (LogLikeMod.CreatureBtn != null)
+                    LogLikeMod.CreatureBtn.gameObject.SetActive(false);
+                if (LogLikeMod.CraftBtn != null)
+                    LogLikeMod.CraftBtn.gameObject.SetActive(false);
+                if (LogLikeMod.AtlasBtn != null)
+                    LogLikeMod.AtlasBtn.gameObject.SetActive(false);
                 if (LogLikeMod.RealizationBtn != null)
                     LogLikeMod.RealizationBtn.gameObject.SetActive(false);
                 orig(self, state);
@@ -1549,33 +1813,26 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         /// <summary>
-        /// Hook for unlocking BattleSetting combat page customization even after an Act.
+        /// Unlock BattleSetting combat-page / key-page slots for RMR prepare.
+        /// Vanilla locks them after a floor act (IsUsedSephirah) and greys the slots.
         /// </summary>
         public void UIBattleSettingLibrarianInfoPanel_SetBattleCardSlotState(
           Action<UIBattleSettingLibrarianInfoPanel> orig,
           UIBattleSettingLibrarianInfoPanel self)
         {
             orig(self);
-            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
-                return;
-            Color uiColor = UIColorManager.Manager.GetUIColor(UIColor.Default);
-            typeof(UIBattleSettingLibrarianInfoPanel).GetField("isBattlePageLock", AccessTools.all).SetValue(self, false);
-            self.SetBattlePageSlotColor(uiColor);
+            LogLikeRoutines.ForceUnlockBattleSettingLoadoutSlots(self);
         }
 
         /// <summary>
-        /// Hook for unlocking BattleSetting key page customization even after an Act.
+        /// Unlock BattleSetting key-page slot for RMR prepare (see SetBattleCardSlotState).
         /// </summary>
         public void UIBattleSettingLibrarianInfoPanel_SetEquipPageSlotState(
           Action<UIBattleSettingLibrarianInfoPanel> orig,
           UIBattleSettingLibrarianInfoPanel self)
         {
             orig(self);
-            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
-                return;
-            Color uiColor = UIColorManager.Manager.GetUIColor(UIColor.Default);
-            typeof(UIBattleSettingLibrarianInfoPanel).GetField("isEquipPageLock", AccessTools.all).SetValue(self, false);
-            self.SetEquipPageSlotColor(uiColor);
+            LogLikeRoutines.ForceUnlockBattleSettingLoadoutSlots(self);
         }
 
         /* NOT IMPLEMENTED
@@ -1629,30 +1886,37 @@ namespace abcdcode_LOGLIKE_MOD
           BattleUnitModel unitModel,
           bool isClicked = true)
         {
-            if (LogLikeMod.CheckStage(true))
+            // Always use vanilla hand setup so E.G.O. toggle + hand swap work after mid-battle
+            // EGO picks (ExistEgoCardBySelected / personalEgoDetail). Old override only toggled
+            // state and never rebuilt cards — purple EGO switch button never appeared.
+            orig(self, unitModel, isClicked);
+            if (!LogLikeMod.CheckStage(true) || unitModel == null || self == null)
+                return;
+            try
             {
-                GameObject gameObject = (GameObject)BattleUnitCardsInHandUIRootObjField.GetValue(self);
                 Toggle toggle = (Toggle)BattleUnitCardsInHandUIToggleShowEgoField.GetValue(self);
-                gameObject.SetActive(true);
-                BattleUnitCardsInHandUIIsOverOnEgoToggleField.SetValue(self, false);
-                if (isClicked)
-                    BattleUnitCardsInHandUISelectedUnitField.SetValue(self, unitModel);
-                else
-                    BattleUnitCardsInHandUIHoveredUnitField.SetValue(self, unitModel);
-                BattleUnitCardsInHandUI.EgoToggleState egoToggleState = BattleUnitCardsInHandUI.EgoToggleState.Hide;
-                if (unitModel.personalEgoDetail.ExistsCard() || Singleton<SpecialCardListModel>.Instance.ExistEgoCardBySelected())
-                    egoToggleState = toggle.isOn ? BattleUnitCardsInHandUI.EgoToggleState.On : BattleUnitCardsInHandUI.EgoToggleState.Off;
-                else
-                    BattleUnitCardsInHandUIHandStateField.SetValue(self, BattleUnitCardsInHandUI.HandState.BattleCard);
-                if (!PlatformManager.Instance.AchievementUnlocked(AchievementEnum.ONCE_COPY) && unitModel.allyCardDetail.Exsist6CardsInHand_andCopy())
-                    PlatformManager.Instance.UnlockAchievement(AchievementEnum.ONCE_COPY);
-                BattleUnitCardsInHandUISetEgoToggleStateMethod.Invoke(self, new object[1]
+                if (toggle == null)
+                    return;
+                bool hasEgo = false;
+                try { hasEgo = unitModel.personalEgoDetail != null && unitModel.personalEgoDetail.ExistsCard(); } catch { }
+                try
                 {
-         egoToggleState
-                });
+                    if (!hasEgo && Singleton<SpecialCardListModel>.Instance != null)
+                        hasEgo = Singleton<SpecialCardListModel>.Instance.ExistEgoCardBySelected();
+                }
+                catch { }
+                if (!hasEgo)
+                    return;
+                // Force toggle visible if vanilla left it hidden despite owned/selected EGO.
+                BattleUnitCardsInHandUI.EgoToggleState egoToggleState = toggle.isOn
+                    ? BattleUnitCardsInHandUI.EgoToggleState.On
+                    : BattleUnitCardsInHandUI.EgoToggleState.Off;
+                BattleUnitCardsInHandUISetEgoToggleStateMethod.Invoke(self, new object[] { egoToggleState });
             }
-            else
-                orig(self, unitModel, isClicked);
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] SetCardsObject EGO toggle repair: " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -1723,7 +1987,10 @@ namespace abcdcode_LOGLIKE_MOD
           UnitDataModel unitData)
         {
             if (LogLikeRoutines.IsRoguelikeBattleSettingContext())
+            {
                 cards = LogueBookModels.GetCardListForInven();
+                RMRPrepareRestrictions.NotifyInventoryEmptyIfNeeded(isBookInventory: false, cards?.Count ?? 0);
+            }
             orig(self, cards, unitData);
         }
 
@@ -1736,11 +2003,23 @@ namespace abcdcode_LOGLIKE_MOD
           UnitDataModel self,
           LorId cardId)
         {
+            // Must stay false during vanilla library LoadPlayDataFromSaveFile / EquipBook.
+            // Wrong true here re-enters BookModel hook and can crash the whole save load.
             if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return orig(self, cardId);
-            return ItemXmlDataList.instance.GetCardItem(cardId) == null ? 
-                CardEquipState.ERROR : 
-                self.bookItem.AddCardFromInventoryToCurrentDeck(cardId);
+            try
+            {
+                if (self == null || self.bookItem == null)
+                    return orig(self, cardId);
+                return ItemXmlDataList.instance.GetCardItem(cardId) == null
+                    ? CardEquipState.ERROR
+                    : self.bookItem.AddCardFromInventoryToCurrentDeck(cardId);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] UnitDataModel_AddCardFromInventory fallback to vanilla: " + ex.Message);
+                return orig(self, cardId);
+            }
         }
 
         /// <summary>
@@ -1753,40 +2032,51 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return orig(self, cardId);
-            bool editableBlue = LogueBookModels.IsEditableBlueReverberationDeck(self);
-            if (self.IsFixedDeck() && !editableBlue)
+            try
             {
-                return CardEquipState.ERROR;
-            }
-            if (self.IsLockByBluePrimary() && !editableBlue)
-            {
-                return CardEquipState.ERROR;
-            }
-            DiceCardXmlInfo cardXmlInfo = RewardingModel.GetCardItemOriginAware(cardId)
-                ?? ItemXmlDataList.instance.GetCardItem(cardId, false);
-            if (cardXmlInfo == null)
-            {
-                return CardEquipState.ERROR;
-            }
-            if (cardXmlInfo.optionList.Contains(CardOption.OnlyPage))
-            {
-                if (!self.GetOnlyCards().Exists((DiceCardXmlInfo x) => x.id.GetOriginalId() == cardXmlInfo.id.GetOriginalId()))
+                bool editableBlue = LogueBookModels.IsEditableBlueReverberationDeck(self);
+                if (self.IsFixedDeck() && !editableBlue)
+                    return CardEquipState.ERROR;
+                if (self.IsLockByBluePrimary() && !editableBlue)
+                    return CardEquipState.ERROR;
+                DiceCardXmlInfo cardXmlInfo = RewardingModel.GetCardItemOriginAware(cardId)
+                    ?? ItemXmlDataList.instance.GetCardItem(cardId, false);
+                if (cardXmlInfo == null)
+                    return CardEquipState.ERROR;
+                // EGO pages are not combat-deck cards (vanilla: personalEgo / emotion EGO UI only).
+                if (RMRPrepareRestrictions.IsEgoCombatPage(cardXmlInfo)
+                    || !RMRPrepareRestrictions.IsCardAllowedInCurrentPrepare(cardXmlInfo))
+                    return CardEquipState.ERROR;
+                if (cardXmlInfo.optionList.Contains(CardOption.OnlyPage))
                 {
-                    return CardEquipState.OnlyPageLimit;
+                    if (!self.GetOnlyCards().Exists((DiceCardXmlInfo x) => x.id.GetOriginalId() == cardXmlInfo.id.GetOriginalId()))
+                        return CardEquipState.OnlyPageLimit;
                 }
-            }
-            else if (self.ClassInfo.RangeType == EquipRangeType.Melee)
-            {
-                if (cardXmlInfo.Spec.Ranged == CardRange.Far)
+                else if (self.ClassInfo.RangeType == EquipRangeType.Melee)
                 {
-                    return CardEquipState.FarTypeLimit;
+                    if (cardXmlInfo.Spec.Ranged == CardRange.Far)
+                        return CardEquipState.FarTypeLimit;
                 }
+                else if (self.ClassInfo.RangeType == EquipRangeType.Range && cardXmlInfo.Spec.Ranged == CardRange.Near)
+                {
+                    return CardEquipState.NearTypeLimit;
+                }
+
+                // NEVER use self._deck — MonoMod DynamicMethod cannot access private BookModel._deck
+                // (FieldAccessException) and aborts library/continue load (ReEquipDeck).
+                DeckModel deck = LogLikeMod.GetFieldValue<DeckModel>(self, "_deck");
+                if (deck == null)
+                {
+                    Debug.LogWarning("[RMR] BookModel_AddCardFromInventory: _deck null, vanilla fallback.");
+                    return orig(self, cardId);
+                }
+                return deck.AddCardFromInventory(cardId);
             }
-            else if (self.ClassInfo.RangeType == EquipRangeType.Range && cardXmlInfo.Spec.Ranged == CardRange.Near)
+            catch (Exception ex)
             {
-                return CardEquipState.NearTypeLimit;
+                Debug.LogWarning("[RMR] BookModel_AddCardFromInventory fallback to vanilla: " + ex.Message);
+                return orig(self, cardId);
             }
-            return self._deck.AddCardFromInventory(cardId);
         }
 
         /// <summary>
@@ -1796,7 +2086,11 @@ namespace abcdcode_LOGLIKE_MOD
           Func<BookInventoryModel, List<BookModel>> orig,
           BookInventoryModel self)
         {
-            return LogLikeRoutines.IsRoguelikeBattleSettingContext() ? LogueBookModels.booklist : orig(self);
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
+                return orig(self);
+            List<BookModel> books = RMRPrepareRestrictions.FilterEquipInventoryBooks(LogueBookModels.booklist);
+            RMRPrepareRestrictions.NotifyInventoryEmptyIfNeeded(isBookInventory: true, books?.Count ?? 0);
+            return books;
         }
 
         /* DEPRECATED, MOVED TO RMRCORE.BOOKSTOADDTOINVENTORY
@@ -1885,6 +2179,9 @@ namespace abcdcode_LOGLIKE_MOD
             if (self.slotList != null && self.slotList.Count > 0)
                 self.selectablePanel.ChildSelectable = self.slotList[0].selectable;
             self.SetCardsData(self.GetCurrentPageList());
+            // A3: after cost/search filters, still empty → notify floor/EGO limits.
+            if (self._currentCardListForFilter == null || self._currentCardListForFilter.Count == 0)
+                RMRPrepareRestrictions.NotifyInventoryEmptyIfNeeded(false, 0);
         }
 
         /// <summary>
@@ -1955,6 +2252,13 @@ namespace abcdcode_LOGLIKE_MOD
           UIInvitationRightMainPanel self)
         {
             StageClassInfo bookRecipe = self.GetBookRecipe();
+            if (bookRecipe == null)
+            {
+                Debug.LogError("[RMR] ConfirmSendInvitation: GetBookRecipe() returned null — abort.");
+                try { RMRRealizationManager.RollbackLaunchIntentKeepHub(); } catch { }
+                return;
+            }
+
             Singleton<StagesXmlList>.Instance.RestoreToDefault();
             Singleton<RewardPassivesList>.Instance.RestoreToDefault();
             Singleton<MysteryXmlList>.Instance.RestoreToDefault();
@@ -1965,17 +2269,74 @@ namespace abcdcode_LOGLIKE_MOD
             LorId invitation = bookRecipe.id;
             bool succes = false;
 
-            if (invitation == new LorId(RMRCore.packageId, -855))
-            {
-                RoguelikeGamemodeController.Instance.LoadGamemodeByStageRecipe(invitation, true);
-                RMRCore.CurrentGamemode.FilterContent();
+            // Continue: accept both RMR packageId and LogLikeMod.ModId (button uses ModId).
+            bool isContinueInvitation = invitation != null
+                && invitation.id == -855
+                && (invitation.packageId == RMRCore.packageId
+                    || invitation.packageId == LogLikeMod.ModId
+                    || string.IsNullOrEmpty(invitation.packageId));
 
+            if (isContinueInvitation)
+            {
+                // Wipe any leftover realization-bootstrap flags so continue is pure roguelike.
+                try { RMRRealizationManager.EndHubSessionToLibrary(); } catch { }
+                RMRCore.ResetPostInvitationLaunchGate();
+
+                bool loaded = RoguelikeGamemodeController.Instance.LoadGamemodeByStageRecipe(
+                    new LorId(RMRCore.packageId, -855), true);
+                if (!loaded || RMRCore.CurrentGamemode == null)
+                {
+                    Debug.LogError("[RMR] Continue failed: could not load saved gamemode (Lastest CurrentGamemode missing/invalid).");
+                    UIAlarmPopup.instance?.SetAlarmText(
+                        TextDataModel.GetText("ui_RMR_ContinueFailed")
+                        ?? "Failed to continue Roguelike run. Save may be missing or outdated.");
+                    return;
+                }
+
+                RMRCore.CurrentGamemode.FilterContent();
                 RMRCore.CurrentGamemode.BeforeInitializeGamemode();
                 bookRecipe.mapInfo.Clear();
                 orig(self);
-                LoguePlayDataSaver.LoadPlayData();
-                RMRCore.CurrentGamemode.AfterInitializeGamemode();
-                this.Log("CONTINUED ROGUELIKE RUN! " + RMRCore.CurrentGamemode.SaveDataString);
+                bool loadOk = true;
+                try
+                {
+                    LoguePlayDataSaver.LoadPlayData();
+                }
+                catch (Exception ex)
+                {
+                    loadOk = false;
+                    Debug.LogError("[RMR] Continue LoadPlayData failed: " + ex);
+                    try
+                    {
+                        UIAlarmPopup.instance?.SetAlarmText(
+                            TextDataModel.GetText("ui_RMR_ContinueLoadFailed")
+                            ?? "Continue failed: save data could not be fully loaded. Try New Run, or re-enter after a full restart.");
+                    }
+                    catch { }
+                    // Do not leave a half-loaded reception fighting with missing cards/units.
+                    try
+                    {
+                        RMRRealizationManager.EndHubSessionToLibrary();
+                        StageController sc = Singleton<StageController>.Instance;
+                        if (sc != null)
+                            sc.GameOver(false, true);
+                    }
+                    catch (Exception goEx)
+                    {
+                        Debug.LogError("[RMR] Continue abort GameOver failed: " + goEx);
+                    }
+                    return;
+                }
+                try
+                {
+                    RMRCore.CurrentGamemode.AfterInitializeGamemode();
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError("[RMR] Continue AfterInitializeGamemode failed: " + ex);
+                }
+                if (loadOk)
+                    this.Log("CONTINUED ROGUELIKE RUN! " + RMRCore.CurrentGamemode.SaveDataString);
                 return;
             }
             else if (bookRecipe.id == new LorId(LogLikeMod.ModId, -2854))
@@ -2238,12 +2599,41 @@ namespace abcdcode_LOGLIKE_MOD
         public static bool StageController_RoundStartPhase_System(StageController __instance)
         {
             // First combat round of a realization fight — allow EndBattle cleanup afterward.
+            // Also re-ensures multiphase passives every round (Angela/Roland E.G.O forms).
             if (RMRRealizationManager.InRealizationBattle)
                 RMRRealizationManager.MarkRealizationCombatLive();
 
             if (!LogLikeMod.GetFieldValue<bool>(__instance, "_bCalledRoundStart_system") && LogLikeMod.CheckStage())
                 Singleton<GlobalLogueEffectManager>.Instance.OnRoundStart(__instance);
             return true;
+        }
+
+        /// <summary>
+        /// Vanilla multiphase bosses (PassiveAbility_105010 etc.) rely on IsImmortal to stay at 1 HP
+        /// until OnRoundEndTheLast advances the phase. If immortality is missing, Die ends after form 1.
+        /// Parameter names must match vanilla: Die(BattleUnitModel attacker, bool callEvent).
+        /// </summary>
+        [HarmonyPrefix, HarmonyPatch(typeof(BattleUnitModel), nameof(BattleUnitModel.Die))]
+        public static bool BattleUnitModel_Die_RealizationMultiphase(
+            BattleUnitModel __instance,
+            BattleUnitModel attacker,
+            bool callEvent)
+        {
+            if (!RMRRealizationManager.ShouldBlockRealizationBossDeath(__instance))
+                return true;
+            try
+            {
+                if (__instance.hp < 1f)
+                    __instance.SetHp(1);
+                int bid = 0;
+                try { if (__instance.Book != null) bid = __instance.Book.GetBookClassInfoId().id; } catch { }
+                Debug.Log($"[RMRRealizationManager] Blocked Die on multiphase boss (hp clamped). book={bid}");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMRRealizationManager] Multiphase Die block: " + ex.Message);
+            }
+            return false;
         }
 
         /*
@@ -2328,14 +2718,14 @@ namespace abcdcode_LOGLIKE_MOD
                     fieldValue4.enabled = false;
                     fieldValue5.SetActivePanel(false);
                     fieldValue6.SetActivePanel(false);
-                    LogLikeMod.InvenBtnFrame.enabled = true;
-                    LogLikeMod.CreatureBtnFrame.enabled = false;
-                    LogLikeMod.CraftBtnFrame.enabled = false;
-                    LogLikeMod.AtlasBtnFrame.enabled = false;
+                    if (LogLikeMod.InvenBtnFrame != null) LogLikeMod.InvenBtnFrame.enabled = true;
+                    if (LogLikeMod.CreatureBtnFrame != null) LogLikeMod.CreatureBtnFrame.enabled = false;
+                    if (LogLikeMod.CraftBtnFrame != null) LogLikeMod.CraftBtnFrame.enabled = false;
+                    if (LogLikeMod.AtlasBtnFrame != null) LogLikeMod.AtlasBtnFrame.enabled = false;
                     Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(true);
                     Singleton<LogCreatureTabPanel>.Instance.SetActive(false);
                     Singleton<LogCraftPanel>.Instance.SetActive(false);
-                    Singleton<LogAtlasPanel>.Instance.SetActive(false);
+                    try { Singleton<LogAtlasPanel>.Instance.SetActive(false); } catch { }
                     return false;
                 case (UIBattleSettingEditTap)3:
                     fieldValue7.localPosition = (Vector3)new Vector2(0.0f, 0.0f);
@@ -2349,14 +2739,14 @@ namespace abcdcode_LOGLIKE_MOD
                     fieldValue4.enabled = false;
                     fieldValue5.SetActivePanel(false);
                     fieldValue6.SetActivePanel(false);
-                    LogLikeMod.InvenBtnFrame.enabled = false;
-                    LogLikeMod.CreatureBtnFrame.enabled = true;
-                    LogLikeMod.CraftBtnFrame.enabled = false;
-                    LogLikeMod.AtlasBtnFrame.enabled = false;
+                    if (LogLikeMod.InvenBtnFrame != null) LogLikeMod.InvenBtnFrame.enabled = false;
+                    if (LogLikeMod.CreatureBtnFrame != null) LogLikeMod.CreatureBtnFrame.enabled = true;
+                    if (LogLikeMod.CraftBtnFrame != null) LogLikeMod.CraftBtnFrame.enabled = false;
+                    if (LogLikeMod.AtlasBtnFrame != null) LogLikeMod.AtlasBtnFrame.enabled = false;
                     Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(false);
                     Singleton<LogCreatureTabPanel>.Instance.SetActive(true);
                     Singleton<LogCraftPanel>.Instance.SetActive(false);
-                    Singleton<LogAtlasPanel>.Instance.SetActive(false);
+                    try { Singleton<LogAtlasPanel>.Instance.SetActive(false); } catch { }
                     return false;
                 case (UIBattleSettingEditTap)4:
                     fieldValue7.localPosition = (Vector3)new Vector2(0.0f, 0.0f);
@@ -2370,16 +2760,17 @@ namespace abcdcode_LOGLIKE_MOD
                     fieldValue4.enabled = false;
                     fieldValue5.SetActivePanel(false);
                     fieldValue6.SetActivePanel(false);
-                    LogLikeMod.InvenBtnFrame.enabled = false;
-                    LogLikeMod.CreatureBtnFrame.enabled = false;
-                    LogLikeMod.CraftBtnFrame.enabled = true;
-                    LogLikeMod.AtlasBtnFrame.enabled = false;
+                    if (LogLikeMod.InvenBtnFrame != null) LogLikeMod.InvenBtnFrame.enabled = false;
+                    if (LogLikeMod.CreatureBtnFrame != null) LogLikeMod.CreatureBtnFrame.enabled = false;
+                    if (LogLikeMod.CraftBtnFrame != null) LogLikeMod.CraftBtnFrame.enabled = true;
+                    if (LogLikeMod.AtlasBtnFrame != null) LogLikeMod.AtlasBtnFrame.enabled = false;
                     Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(false);
                     Singleton<LogCreatureTabPanel>.Instance.SetActive(false);
                     Singleton<LogCraftPanel>.Instance.SetActive(true);
-                    Singleton<LogAtlasPanel>.Instance.SetActive(false);
+                    try { Singleton<LogAtlasPanel>.Instance.SetActive(false); } catch { }
                     return false;
                 case (UIBattleSettingEditTap)5:
+                    // Atlas moved to RMR start hub — never open from prepare tabs.
                     fieldValue7.localPosition = (Vector3)new Vector2(0.0f, 0.0f);
                     ColorBlock colors7 = fieldValue1.colors;
                     ColorBlock colors8 = fieldValue2.colors;
@@ -2391,26 +2782,137 @@ namespace abcdcode_LOGLIKE_MOD
                     fieldValue4.enabled = false;
                     fieldValue5.SetActivePanel(false);
                     fieldValue6.SetActivePanel(false);
-                    LogLikeMod.InvenBtnFrame.enabled = false;
-                    LogLikeMod.CreatureBtnFrame.enabled = false;
-                    LogLikeMod.CraftBtnFrame.enabled = false;
-                    LogLikeMod.AtlasBtnFrame.enabled = true;
+                    if (LogLikeMod.InvenBtnFrame != null) LogLikeMod.InvenBtnFrame.enabled = false;
+                    if (LogLikeMod.CreatureBtnFrame != null) LogLikeMod.CreatureBtnFrame.enabled = false;
+                    if (LogLikeMod.CraftBtnFrame != null) LogLikeMod.CraftBtnFrame.enabled = false;
+                    if (LogLikeMod.AtlasBtnFrame != null) LogLikeMod.AtlasBtnFrame.enabled = false;
                     Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(false);
                     Singleton<LogCreatureTabPanel>.Instance.SetActive(false);
                     Singleton<LogCraftPanel>.Instance.SetActive(false);
-                    Singleton<LogAtlasPanel>.Instance.SetActive(true);
+                    try { Singleton<LogAtlasPanel>.Instance.SetActive(false); } catch { }
                     return false;
                 default:
+                    // EquipPage / BattleCard (vanilla handles open). Hide RMR overlays first so they
+                    // cannot sit above the inventory list with a higher canvas sortingOrder.
                     Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(false);
                     Singleton<LogCreatureTabPanel>.Instance.SetActive(false);
                     Singleton<LogCraftPanel>.Instance.SetActive(false);
-                    Singleton<LogAtlasPanel>.Instance.SetActive(false);
-                    LogLikeMod.InvenBtnFrame.enabled = false;
-                    LogLikeMod.CreatureBtnFrame.enabled = false;
-                    LogLikeMod.CraftBtnFrame.enabled = false;
-                    LogLikeMod.AtlasBtnFrame.enabled = false;
+                    try { Singleton<LogAtlasPanel>.Instance.SetActive(false); } catch { }
+                    if (LogLikeMod.InvenBtnFrame != null) LogLikeMod.InvenBtnFrame.enabled = false;
+                    if (LogLikeMod.CreatureBtnFrame != null) LogLikeMod.CreatureBtnFrame.enabled = false;
+                    if (LogLikeMod.CraftBtnFrame != null) LogLikeMod.CraftBtnFrame.enabled = false;
+                    if (LogLikeMod.AtlasBtnFrame != null) LogLikeMod.AtlasBtnFrame.enabled = false;
+                    try { CollapseGlobalEffectDrawerIfExpanded(); } catch { }
                     return true;
             }
+        }
+
+        /// <summary>
+        /// After vanilla opens Equip/Battle inventory, force correct draw order:
+        /// inventory panel above block background; collapse expanded effect bar mask.
+        /// Fixes key-page select UI where a semi-transparent layer sits over the book list.
+        /// </summary>
+        [HarmonyPostfix, HarmonyPatch(typeof(UIBattleSettingEditPanel), nameof(UIBattleSettingEditPanel.SetBUttonState))]
+        public static void UIBattleSettingEditPanel_SetBUttonState_ZOrder(
+          UIBattleSettingEditPanel __instance,
+          UIBattleSettingEditTap state)
+        {
+            if (__instance == null || !LogLikeRoutines.IsRoguelikeBattleSettingContext())
+                return;
+            // Only core page / battle page inventories need this repair.
+            if (state != UIBattleSettingEditTap.EquipPage && state != UIBattleSettingEditTap.BattleCard)
+                return;
+            try
+            {
+                CollapseGlobalEffectDrawerIfExpanded();
+
+                Image blockBg = LogLikeMod.GetFieldValue<Image>(__instance, "img_BlockBackGroundBg");
+                if (blockBg != null)
+                {
+                    // Dimmer must stay behind the inventory content, not steal clicks on book slots.
+                    try { blockBg.transform.SetAsFirstSibling(); } catch { }
+                }
+
+                UISettingEquipPageInvenPanel equipPanel =
+                    LogLikeMod.GetFieldValue<UISettingEquipPageInvenPanel>(__instance, "_equipPagePanel");
+                UISettingCardInvenPanel cardPanel =
+                    LogLikeMod.GetFieldValue<UISettingCardInvenPanel>(__instance, "_battleCardPanel");
+
+                if (state == UIBattleSettingEditTap.EquipPage && equipPanel != null)
+                {
+                    try
+                    {
+                        equipPanel.transform.SetAsLastSibling();
+                        // Nested scroll/list roots sometimes end up under the dimmer after tab switches.
+                        if (equipPanel.EquipLeftPanel != null)
+                            equipPanel.EquipLeftPanel.transform.SetAsLastSibling();
+                    }
+                    catch { }
+                }
+                if (state == UIBattleSettingEditTap.BattleCard && cardPanel != null)
+                {
+                    try { cardPanel.transform.SetAsLastSibling(); } catch { }
+                }
+
+                // LogUIObjs[100] hosts money + effect bar at elevated sortingOrder; ensure its
+                // CanvasGroup does not full-screen block when only small HUD children are visible.
+                try
+                {
+                    if (LogLikeMod.LogUIObjs != null && LogLikeMod.LogUIObjs.dic != null
+                        && LogLikeMod.LogUIObjs.dic.TryGetValue(100, out GameObject hudRoot)
+                        && hudRoot != null)
+                    {
+                        CanvasGroup cg = hudRoot.GetComponent<CanvasGroup>();
+                        if (cg != null)
+                        {
+                            // Keep children clickable; root group should not swallow center clicks.
+                            // blocksRaycasts=true is OK if only child Graphics hit-test; force
+                            // interactable true for money/effects without covering inventory.
+                            cg.blocksRaycasts = true;
+                            cg.interactable = true;
+                        }
+                        // Pull inventory above HUD canvas when they share parent (if possible).
+                        if (equipPanel != null && equipPanel.gameObject.activeInHierarchy
+                            && state == UIBattleSettingEditTap.EquipPage)
+                        {
+                            Canvas equipCanvas = equipPanel.GetComponentInParent<Canvas>();
+                            Canvas hudCanvas = hudRoot.GetComponent<Canvas>();
+                            if (equipCanvas != null && hudCanvas != null
+                                && equipCanvas.sortingOrder <= hudCanvas.sortingOrder)
+                            {
+                                // Keep HUD icons visible but inventory interaction must win in center.
+                                // Raise equip canvas slightly above the RMR HUD clone.
+                                equipCanvas.overrideSorting = true;
+                                equipCanvas.sortingOrder = hudCanvas.sortingOrder + 1;
+                            }
+                        }
+                    }
+                }
+                catch { /* optional HUD re-order */ }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR UI] Equip inventory z-order repair failed: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Expanded global-effect drawer uses BackGroundMask on LogUIObjs[100] (high sortingOrder).
+        /// Collapse it when opening equip/battle inventory so the mask cannot dim/block book slots.
+        /// </summary>
+        private static void CollapseGlobalEffectDrawerIfExpanded()
+        {
+            try
+            {
+                GlobalLogueEffectManager mgr = Singleton<GlobalLogueEffectManager>.Instance;
+                if (mgr == null)
+                    return;
+                if (mgr.IsOn && mgr.OnOffBtn != null)
+                    mgr.OnOffBtn.OnClick();
+                else if (mgr.BackGroundMask != null)
+                    mgr.BackGroundMask.gameObject.SetActive(false);
+            }
+            catch { /* ignore */ }
         }
 
         /// <summary>
@@ -2437,6 +2939,15 @@ namespace abcdcode_LOGLIKE_MOD
             if (RMRStartHubPanel.Instance != null && RMRStartHubPanel.Instance.IsVisible
                 && RMRStartHubPanel.Instance.TryHandleBack())
                 return false;
+
+            // Floor pick on -853 shell (panel already closed): still must leave reception.
+            if (RMRRealizationManager.AwaitingRealizationFloorPick
+                && !RMRRealizationManager.PendingRealizationBattle
+                && !RMRRealizationManager.InRealizationBattle)
+            {
+                RMRRealizationManager.CancelRealizationFloorPick();
+                return false;
+            }
 
             // Realization battle-prepare: back must CANCEL prep, never start the fight.
             if (RMRRealizationManager.PendingRealizationBattle
@@ -2768,21 +3279,140 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPrefix, HarmonyPatch(typeof(BookPassiveInfo), "name", MethodType.Getter)]
         public static bool BookPassiveInfo_get_name(BookPassiveInfo __instance, ref string __result)
         {
-            string name = Singleton<PassiveDescXmlList>.Instance.GetName(__instance.passive.id);
-            if (!(name != string.Empty))
+            if (__instance?.passive == null)
                 return true;
-            __result = RewardingModel.SanitizeDisplayText(name);
+            // Origin-aware: mod package on vanilla passives used to miss CN PassiveDesc → empty/Hangul/tofu.
+            // Reject Hangul-only hits so vanilla BookPassiveInfo can still try PassiveXmlInfo / origin.
+            string name = RewardingModel.GetPassiveName(__instance.passive.id);
+            if (string.IsNullOrEmpty(name) || IsPoorUiText(name))
+                return true;
+            __result = name;
             return false;
         }
 
         [HarmonyPrefix, HarmonyPatch(typeof(BookPassiveInfo), "desc", MethodType.Getter)]
         public static bool BookPassiveInfo_get_desc(BookPassiveInfo __instance, ref string __result)
         {
-            string desc = Singleton<PassiveDescXmlList>.Instance.GetDesc(__instance.passive.id);
-            if (desc == string.Empty)
+            if (__instance?.passive == null)
                 return true;
-            __result = RewardingModel.SanitizeDisplayText(desc);
+            string desc = RewardingModel.GetPassiveDesc(__instance.passive.id);
+            if (string.IsNullOrEmpty(desc) || IsPoorUiText(desc))
+                return true;
+            __result = desc;
             return false;
+        }
+
+        /// <summary>
+        /// BookModel.GetName → BookXmlInfo.Name returns InnerName for workshop books (often Hangul
+        /// leftovers that render as 口口口 on CN TMP faces). Prefer origin-aware BookDesc whenever
+        /// the current name is poor — including library view with RMR loaded (not only RMR runs).
+        /// </summary>
+        [HarmonyPostfix, HarmonyPatch(typeof(BookModel), nameof(BookModel.GetName))]
+        public static void BookModel_GetName(BookModel __instance, ref string __result)
+        {
+            if (__instance?.ClassInfo == null)
+                return;
+            // Always repair poor/Hangul/tofu names when RMR is loaded (library + prepare + run).
+            if (!IsPoorUiText(__result))
+                return;
+            string fixedName = RewardingModel.GetLocalizedBookName(__instance.ClassInfo);
+            if (!string.IsNullOrEmpty(fixedName) && !IsPoorUiText(fixedName))
+            {
+                __result = fixedName;
+                return;
+            }
+            LogPoorBookNameOnce("GetName", __instance, __result, fixedName);
+        }
+
+        /// <summary>
+        /// Character name under the equip portrait (口口口) — same Hangul/InnerName path as GetName.
+        /// </summary>
+        [HarmonyPostfix, HarmonyPatch(typeof(BookModel), nameof(BookModel.GetCharacterName))]
+        public static void BookModel_GetCharacterName(BookModel __instance, ref string __result)
+        {
+            if (__instance?.ClassInfo == null)
+                return;
+            if (!IsPoorUiText(__result))
+                return;
+            string fixedName = RewardingModel.GetLocalizedBookName(__instance.ClassInfo);
+            if (!string.IsNullOrEmpty(fixedName) && !IsPoorUiText(fixedName))
+            {
+                __result = fixedName;
+                return;
+            }
+            LogPoorBookNameOnce("GetCharacterName", __instance, __result, fixedName);
+        }
+
+        private static readonly HashSet<string> _loggedPoorBookNames = new HashSet<string>();
+
+        private static void LogPoorBookNameOnce(string where, BookModel book, string original, string attempted)
+        {
+            try
+            {
+                LorId id = book?.ClassInfo?.id;
+                if (id == null || id == LorId.None)
+                    return;
+                string key = where + ":" + (id.packageId ?? "") + ":" + id.id;
+                if (!_loggedPoorBookNames.Add(key))
+                    return;
+                string inner = book.ClassInfo.InnerName ?? "";
+                string textId = book.ClassInfo.TextId.ToString();
+                Debug.LogWarning(
+                    $"[RMR Localize] Poor book name still unresolved ({where}) id={id.packageId}:{id.id} "
+                    + $"TextId={textId} orig='{TruncateForLog(original)}' fixed='{TruncateForLog(attempted)}' "
+                    + $"InnerName='{TruncateForLog(inner)}'");
+            }
+            catch { /* ignore */ }
+        }
+
+        private static string TruncateForLog(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return "";
+            s = s.Replace("\n", "\\n").Replace("\r", "");
+            return s.Length <= 48 ? s : s.Substring(0, 48) + "…";
+        }
+
+        private static bool IsPoorUiText(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return true;
+            if (RewardingModel.IsPoorDisplayNamePublic(text))
+                return true;
+            if (LooksLikeHangulOnly(text))
+                return true;
+            if (LooksLikeTofuBoxes(text))
+                return true;
+            return false;
+        }
+
+        private static bool LooksLikeTofuBoxes(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return false;
+            int tofu = 0, total = 0;
+            foreach (char ch in text)
+            {
+                if (char.IsWhiteSpace(ch))
+                    continue;
+                total++;
+                if (ch == '\u53E3' || ch == '\u25A1' || ch == '\uFFFD' || ch == '\u2610')
+                    tofu++;
+            }
+            return total > 0 && tofu * 2 >= total;
+        }
+
+        private static bool LooksLikeHangulOnly(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return true;
+            int hangul = 0, han = 0;
+            foreach (char ch in text)
+            {
+                if (ch >= 0xAC00 && ch <= 0xD7A3) hangul++;
+                else if (ch >= 0x4E00 && ch <= 0x9FFF) han++;
+            }
+            return hangul > 0 && han == 0;
         }
 
         [HarmonyPrefix, HarmonyPatch(typeof(BattleEmotionRewardInfoUI), nameof(BattleEmotionRewardInfoUI.SetData))]
@@ -3025,11 +3655,9 @@ namespace abcdcode_LOGLIKE_MOD
                 LogLikeMod.DefFontColor = UIColorManager.Manager.GetUIColor(UIColor.Default);
             }
             // Prefer language-aware TMP resolve (Noto CJK). Dropdown faces are often Latin-only
-            // and would paint Chinese as tofu if forced into DefFont_TMP.
+            // and would paint Chinese as tofu if forced into DefFont_TMP — never assign them.
             LogLikeMod.InvalidateTmpFontCache();
-            TMP_FontAsset resolved = LogLikeMod.DefFont_TMP;
-            if (resolved == null && __instance?.displayDropdown?.itemText?.font != null)
-                LogLikeMod.DefFont_TMP = __instance.displayDropdown.itemText.font;
+            LogLikeMod.EnsureLocalizedFonts("UIOptionWindow.Open", repairActiveUi: true);
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(UIBattleSettingEditPanel), nameof(UIBattleSettingEditPanel.Close))]
@@ -3225,9 +3853,95 @@ namespace abcdcode_LOGLIKE_MOD
           UILibrarianEquipInfoSlot __instance,
           BookPassiveInfo passive)
         {
-            if (!(passive.passive.id == new LorId(LogLikeMod.ModId, 1)))
+            if (passive?.passive == null || __instance == null)
                 return;
-            __instance.txt_cost.text = "";
+            // B3: hide money-placeholder passive ("当前拥有的眼") on equip info panel.
+            if (RMRPrepareRestrictions.IsMoneyPlaceholderPassive(passive.passive.id))
+            {
+                if (__instance.txt_cost != null)
+                    __instance.txt_cost.text = "";
+                if (__instance.euipName != null)
+                    __instance.euipName.text = "";
+                if (__instance.euipDesc != null)
+                    __instance.euipDesc.text = "";
+                __instance.gameObject.SetActive(false);
+                return;
+            }
+            __instance.gameObject.SetActive(true);
+
+            // Force-rewrite equip passive name/desc after vanilla SetData.
+            // Getter patches alone still leave Hangul/tofu when UI cached text or workshop
+            // PassiveXmlInfo fields win the race over PassiveDescXmlList.
+            try
+            {
+                LorId pid = passive.passive.id;
+                string goodName = RewardingModel.GetPassiveName(pid);
+                string goodDesc = RewardingModel.GetPassiveDesc(pid);
+
+                if (!string.IsNullOrEmpty(goodName) && !IsPoorUiText(goodName))
+                {
+                    if (__instance.euipName != null)
+                        __instance.euipName.text = goodName;
+                    TrySetTmpField(__instance, "txt_euipName", goodName);
+                }
+                else
+                {
+                    LogPoorPassiveOnce("equipSlot.name", pid, __instance.euipName != null ? __instance.euipName.text : null, goodName);
+                }
+
+                if (!string.IsNullOrEmpty(goodDesc) && !IsPoorUiText(goodDesc))
+                {
+                    if (__instance.euipDesc != null)
+                        __instance.euipDesc.text = goodDesc;
+                    TrySetTmpField(__instance, "txt_euipDesc", goodDesc);
+                }
+                else
+                {
+                    LogPoorPassiveOnce("equipSlot.desc", pid, __instance.euipDesc != null ? __instance.euipDesc.text : null, goodDesc);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR Localize] UILibrarianEquipInfoSlot force rewrite failed: " + ex.Message);
+            }
+        }
+
+        private static readonly HashSet<string> _loggedPoorPassives = new HashSet<string>();
+
+        private static void LogPoorPassiveOnce(string where, LorId pid, string original, string attempted)
+        {
+            try
+            {
+                if (pid == null || pid == LorId.None)
+                    return;
+                string key = where + ":" + (pid.packageId ?? "") + ":" + pid.id;
+                if (!_loggedPoorPassives.Add(key))
+                    return;
+                Debug.LogWarning(
+                    $"[RMR Localize] Poor passive text ({where}) id={pid.packageId}:{pid.id} "
+                    + $"ui='{TruncateForLog(original)}' resolved='{TruncateForLog(attempted)}'");
+            }
+            catch { /* ignore */ }
+        }
+
+        private static void TrySetTmpField(object target, string fieldName, string value)
+        {
+            if (target == null || string.IsNullOrEmpty(fieldName) || value == null)
+                return;
+            try
+            {
+                FieldInfo fi = AccessTools.Field(target.GetType(), fieldName);
+                if (fi == null)
+                    return;
+                object obj = fi.GetValue(target);
+                if (obj == null)
+                    return;
+                // TextMeshProUGUI / Text both expose .text
+                PropertyInfo textProp = obj.GetType().GetProperty("text");
+                if (textProp != null && textProp.CanWrite)
+                    textProp.SetValue(obj, value, null);
+            }
+            catch { /* optional field */ }
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(BattleUnitModel), nameof(BattleUnitModel.OnDie))]
@@ -3276,20 +3990,175 @@ namespace abcdcode_LOGLIKE_MOD
           BookPassiveInfo __instance,
           ref string __result)
         {
-            if (__instance.passive == null || !(__instance.passive.id == new LorId(LogLikeMod.ModId, 1)))
+            // B3: do not surface money counter as a fake passive description on equip UI.
+            if (__instance?.passive != null
+                && RMRPrepareRestrictions.IsMoneyPlaceholderPassive(__instance.passive.id))
+            {
+                __result = string.Empty;
                 return;
-            __result = PassiveAbility_MoneyCheck.GetMoney().ToString();
+            }
+            // Vanilla / workshop path may still return Hangul after prefix let it through.
+            if (__instance?.passive == null || !IsPoorUiText(__result))
+                return;
+            string desc = RewardingModel.GetPassiveDesc(__instance.passive.id);
+            if (!string.IsNullOrEmpty(desc) && !IsPoorUiText(desc))
+                __result = desc;
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(BookPassiveInfo), "name", MethodType.Getter)]
+        public static void BookPassiveInfo_get_name_postfix(
+          BookPassiveInfo __instance,
+          ref string __result)
+        {
+            if (__instance?.passive != null
+                && RMRPrepareRestrictions.IsMoneyPlaceholderPassive(__instance.passive.id))
+            {
+                __result = string.Empty;
+                return;
+            }
+            if (__instance?.passive == null || !IsPoorUiText(__result))
+                return;
+            string name = RewardingModel.GetPassiveName(__instance.passive.id);
+            if (!string.IsNullOrEmpty(name) && !IsPoorUiText(name))
+                __result = name;
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(LocalizedTextLoader), nameof(LocalizedTextLoader.LoadOthers))]
         public static void LocalizedTextLoader_LoadOthers(string language)
         {
             LogLikeMod.LoadTextData(language);
+            // Equip reward desc was registered before book/localize load — re-stamp CN names.
+            try { RewardingModel.RefreshAllEquipRewardXmlData(); }
+            catch (Exception ex) { Debug.LogWarning("[RMR Localize] equip reward refresh after LoadOthers failed: " + ex.Message); }
+            try { LogLikeMod.RefreshVanillaAbnormalityTextData(language, "LoadOthers"); }
+            catch (Exception ex) { Debug.LogWarning("[RMR Localize] vanilla abno refresh after LoadOthers failed: " + ex.Message); }
+            // Combat page ability / keyword texts (shop hover EN mix-up).
+            try { LogLikeMod.RefreshVanillaBattleLocalize(language, "LoadOthers"); }
+            catch (Exception ex) { Debug.LogWarning("[RMR Localize] battle localize refresh after LoadOthers failed: " + ex.Message); }
+            // Key pages: reload vanilla Books/PassiveDesc then re-apply mod BookInfo/PassiveInfo.
+            // Bare LoadPassiveDesc alone CLEARS mod keys → workshop passives fall back to Hangul XML.
+            try { LogLikeMod.RefreshVanillaBookAndPassiveLocalize(language, "LoadOthers"); }
+            catch (Exception ex) { Debug.LogWarning("[RMR Localize] book/passive reload after LoadOthers failed: " + ex.Message); }
+            // Binah Floor Realization phase captions (BossBirdText) must follow game language.
+            // Without this, wrong package can leave Korean lines during a Chinese client session.
+            try { LogLikeMod.ReloadVanillaBossBirdTextForLanguage(language, "LoadOthers"); }
+            catch (Exception ex) { Debug.LogWarning("[RMR Localize] BossBirdText reload after LoadOthers failed: " + ex.Message); }
+            try { LogLikeMod.LogChineseLocalizeDeployHealth(); }
+            catch { }
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(LocalizedTextLoader), nameof(LocalizedTextLoader.LoadBossBirdText))]
+        public static void LocalizedTextLoader_LoadBossBirdText(string language)
+        {
+            // Vanilla builds path Localize/{lang}/{lang}_Bossbird; BaseMod stores
+            // Localize/{lang}/BossBirdText/BossBirdText.txt. Re-apply the real file after vanilla load.
+            try { LogLikeMod.ReloadVanillaBossBirdTextForLanguage(language, "LoadBossBirdText"); }
+            catch (Exception ex) { Debug.LogWarning("[RMR Localize] LoadBossBirdText postfix failed: " + ex.Message); }
+        }
+
+        /// <summary>
+        /// Key-page detail panel story / ability body — force origin-aware CN + repair fonts.
+        /// Covers library equip browse after RMR is loaded (vanilla content tofu).
+        /// Also rewrites book/character name TMP fields when Hangul/tofu remains.
+        /// </summary>
+        [HarmonyPostfix, HarmonyPatch(typeof(UIBattleSettingLibrarianInfoPanel), "SetData")]
+        public static void UIBattleSettingLibrarianInfoPanel_SetData_KeypageLocalize(UIBattleSettingLibrarianInfoPanel __instance)
+        {
+            try
+            {
+                LogLikeMod.EnsureLocalizedFonts("LibrarianInfo.SetData", repairActiveUi: true);
+            }
+            catch { }
+
+            if (__instance == null)
+                return;
+            try
+            {
+                BookModel book = null;
+                foreach (string fieldName in new[] { "unitdata", "unitData", "_unitdata", "_unitData", "data" })
+                {
+                    FieldInfo fi = AccessTools.Field(__instance.GetType(), fieldName);
+                    if (fi == null)
+                        continue;
+                    object val = fi.GetValue(__instance);
+                    if (val is UnitDataModel udm)
+                    {
+                        book = udm.bookItem;
+                        break;
+                    }
+                }
+                if (book?.ClassInfo == null)
+                    return;
+
+                string goodName = RewardingModel.GetLocalizedBookName(book.ClassInfo);
+                if (string.IsNullOrEmpty(goodName) || IsPoorUiText(goodName))
+                {
+                    LogPoorBookNameOnce("LibrarianInfo.SetData", book, book.GetName(), goodName);
+                    return;
+                }
+
+                // Known vanilla/mod TMP labels for key page / character title under portrait.
+                foreach (string fieldName in new[]
+                {
+                    "txt_bookName", "txt_Name", "bookName", "characterName",
+                    "txt_characterName", "txt_equipedbook", "txt_enemyName"
+                })
+                {
+                    try
+                    {
+                        FieldInfo fi = AccessTools.Field(__instance.GetType(), fieldName)
+                            ?? AccessTools.Field(__instance.GetType().BaseType, fieldName);
+                        if (fi == null)
+                            continue;
+                        object label = fi.GetValue(__instance);
+                        if (label == null)
+                            continue;
+                        PropertyInfo textProp = label.GetType().GetProperty("text");
+                        if (textProp == null || !textProp.CanRead || !textProp.CanWrite)
+                            continue;
+                        string cur = textProp.GetValue(label, null) as string;
+                        if (IsPoorUiText(cur))
+                            textProp.SetValue(label, goodName, null);
+                    }
+                    catch { /* optional field */ }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR Localize] LibrarianInfo keypage name rewrite failed: " + ex.Message);
+            }
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(UISettingInvenEquipPageSlot), nameof(UISettingInvenEquipPageSlot.SetOperatingPanel))]
+        public static void UISettingInvenEquipPageSlot_SetOperatingPanel_Fonts(UISettingInvenEquipPageSlot __instance)
+        {
+            // Second postfix (equip button enable is another method) — fonts only.
+            try { LogLikeMod.EnsureLocalizedFonts("EquipSlot.SetOperatingPanel", repairActiveUi: true); }
+            catch { }
+        }
+
+        /// <summary>
+        /// After selecting RMR / opening invitation, re-stamp book+passive CN and fix live TMP
+        /// so library key pages and upcoming story/PV text are not Hangul tofu.
+        /// </summary>
+        public static void RefreshKeypageAndStoryLocalize(string reason)
+        {
+            try
+            {
+                string lang = TextDataModel.CurrentLanguage.ToString();
+                LogLikeMod.RefreshVanillaBookAndPassiveLocalize(lang, reason);
+                LogLikeMod.EnsureLocalizedFonts(reason, repairActiveUi: true);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR Localize] RefreshKeypageAndStoryLocalize: " + ex.Message);
+            }
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(UIInvitationRightMainPanel), nameof(UIInvitationRightMainPanel.OpenInit))]
         public static void UIInvitationRightMainPanel_OpenInit(UIInvitationRightMainPanel __instance)
         {
+            try { RefreshKeypageAndStoryLocalize("Invitation.OpenInit"); } catch { }
             if (LogLikeMod.LogOpenButton == null)
             {
                 LogLikeMod.LogOpenButton = ModdingUtils.CreateLogSelectable(__instance.transform, "LogLikeModIcon", new Vector2(1f, 1f), new Vector2(-70f, 350f), new Vector2(100f, 100f));
@@ -3298,7 +4167,13 @@ namespace abcdcode_LOGLIKE_MOD
                 buttonClickedEvent.AddListener(() =>
                 {
                     // Mode select FIRST (normal / realization / help / exit), then invitation is sent.
-                    SingletonBehavior<UIMainOverlayManager>.Instance.Close();
+                    try
+                    {
+                        SingletonBehavior<UIMainOverlayManager>.Instance.Close();
+                    }
+                    catch { }
+
+                    Debug.Log("[RMR] LogOpenButton clicked.");
                     List<string> ExceptModNames;
                     if (LogLikeMod.CheckExceptionModExist(out ExceptModNames))
                     {
@@ -3311,23 +4186,41 @@ namespace abcdcode_LOGLIKE_MOD
 
                     System.Action openHub = () =>
                     {
-                        RMRStartHubPanel.ClearLaunchIntent();
+                        // ShowInternal -> PrepareNewHubSession already ForceClose + DestroyOverlay,
+                        // then recreates overlay and builds the full-screen hub. Do not create
+                        // overlay before that, or UI can attach to a destroyed transform.
                         RMRStartHubPanel.ShowOnInvitation(__instance);
                     };
 
-                    if (LoguePlayDataSaver.CheckPlayerData())
+                    try
                     {
-                        UIAlarmPopup.instance.SetChoiceAlarmText(
-                            TextDataModel.GetText("ui_RMR_ConfirmStartNewRun"),
-                            (bool yes) =>
+                        if (LoguePlayDataSaver.CheckPlayerData())
+                        {
+                            // Confirm dialog must succeed with Yes/No + callback. If it fails,
+                            // do NOT leave the player on a dead OK-only popup — open hub instead
+                            // (user already clicked "new run"; overwrite risk is logged).
+                            bool confirmShown = UIAlarmPopup.instance.SetChoiceAlarmText(
+                                TextDataModel.GetText("ui_RMR_ConfirmStartNewRun"),
+                                (bool yes) =>
+                                {
+                                    if (yes)
+                                        openHub();
+                                });
+                            if (!confirmShown)
                             {
-                                if (yes)
-                                    openHub();
-                            });
+                                Debug.LogWarning("[RMR] Overwrite confirm UI failed; opening start hub directly after New Run click.");
+                                openHub();
+                            }
+                        }
+                        else
+                        {
+                            openHub();
+                        }
                     }
-                    else
+                    catch (Exception clickEx)
                     {
-                        openHub();
+                        Debug.LogError("[RMR] LogOpenButton handler failed, opening hub directly: " + clickEx);
+                        try { openHub(); } catch (Exception hubEx) { Debug.LogError("[RMR] openHub failed: " + hubEx); }
                     }
                 });
                 LogLikeMod.LogOpenButton.onClick = buttonClickedEvent;
@@ -3345,53 +4238,10 @@ namespace abcdcode_LOGLIKE_MOD
                     SingletonBehavior<UIMainOverlayManager>.Instance.Close();
                 });
             }
-            if (LogLikeMod.LogContinueButton == null)
-            {
-                LogLikeMod.LogContinueButton = ModdingUtils.CreateLogSelectable(__instance.transform, "LogLikeModIcon_Continue", new Vector2(1f, 1f), new Vector2(-70f, 250f), new Vector2(100f, 100f));
-                LogLikeMod.LogContinueButton.gameObject.AddComponent<FrameDummy>();
-                Button.ButtonClickedEvent buttonClickedEvent = new Button.ButtonClickedEvent();
-                buttonClickedEvent.AddListener(() =>
-                {
-                    List<string> ExceptModNames;
-                    SingletonBehavior<UIMainOverlayManager>.Instance.Close();
-                    if (LogLikeMod.CheckExceptionModExist(out ExceptModNames))
-                    {
-                        string text = TextDataModel.GetText("ui_ExceptionWithLog") + Environment.NewLine;
-                        foreach (string str in ExceptModNames)
-                            text = $"{text}-{str}{Environment.NewLine}";
-                        UIAlarmPopup.instance.SetAlarmText(text);
-                    }
-                    else
-                    {
-                        bool flag = true;
-                        __instance.SetCustomInvToggle(true);
-                        foreach (UIInvitationBookSlot invitationbookSlot in __instance.invitationbookSlots)
-                        {
-                            if (flag)
-                                invitationbookSlot.ApplySlotid(new LorId(LogLikeMod.ModId, -855), true);
-                            else
-                                invitationbookSlot.SetEmptySlot();
-                            flag = false;
-                        }
-                        __instance.ConfirmSendInvitation();
-                    }
-                });
-                LogLikeMod.LogContinueButton.onClick = buttonClickedEvent;
-                LogLikeMod.LogContinueButton.SelectEvent = new UnityEventBasedata();
-                LogLikeMod.LogContinueButton.SelectEvent.AddListener((BaseEventData e) =>
-                {
-                    SingletonBehavior<UIMainOverlayManager>.Instance.SetTooltip(
-                        TextDataModel.GetText("ui_RMR_ContinueRun"),
-                        TextDataModel.GetText("ui_RMR_ContinueRunDesc"),
-                        LogLikeMod.LogContinueButton.transform as RectTransform);
-                });
-                LogLikeMod.LogContinueButton.DeselectEvent = new UnityEventBasedata();
-                LogLikeMod.LogContinueButton.DeselectEvent.AddListener((BaseEventData e) =>
-                {
-                    SingletonBehavior<UIMainOverlayManager>.Instance.Close();
-                });
-            }
-            LogLikeMod.LogContinueButton.gameObject.SetActive(LoguePlayDataSaver.CheckPlayerData());
+            // Continue is offered on the RMR mode-select hub (after LogOpenButton), not as a
+            // separate invitation-column icon. Hide any legacy button if it still exists.
+            if (LogLikeMod.LogContinueButton != null)
+                LogLikeMod.LogContinueButton.gameObject.SetActive(false);
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(UIEmotionPassiveCardInven), nameof(UIEmotionPassiveCardInven.SetSprites))]
@@ -3406,7 +4256,9 @@ namespace abcdcode_LOGLIKE_MOD
 
 
         /// <summary>
-        /// Patch responsible for equipping Key Pages(??)
+        /// Wire passive succession for RMR librarians, and force-unlock key/combat page slots.
+        /// SetData only runs SetBattleCardSlotState/SetEquipPageSlotState when isSephirahPanel;
+        /// re-apply unlocks here so loadout stays clickable after unit refresh.
         /// </summary>
         [HarmonyPostfix, HarmonyPatch(typeof(UIBattleSettingLibrarianInfoPanel), nameof(UIBattleSettingLibrarianInfoPanel.SetData))]
         public static void UIBattleSettingLibrarianInfoPanel_SetData(
@@ -3416,6 +4268,7 @@ namespace abcdcode_LOGLIKE_MOD
             __instance.PassiveListSelectable.SubmitEvent.RemoveAllListeners();
             if (!LogLikeRoutines.IsRoguelikeBattleSettingContext() || !LogueBookModels.playerModel.Contains(data))
                 return;
+            LogLikeRoutines.ForceUnlockBattleSettingLoadoutSlots(__instance);
             __instance.PassiveListSelectable.SubmitEvent.AddListener((UnityAction<BaseEventData>)(e => UIPassiveSuccessionPopup.Instance.SetData(data, (UIPassiveSuccessionPopup.ApplyEvent)(() =>
             {
                 __instance.passiveSlotsPanel.SetStatsDataInEquipBook(data.bookItem);
@@ -3423,6 +4276,125 @@ namespace abcdcode_LOGLIKE_MOD
                 UIControlManager.Instance.SelectSelectableForcely(__instance.PassiveListSelectable);
                 LoguePlayDataSaver.SavePlayData_Menu();
             }))));
+        }
+
+        /// <summary>
+        /// Vanilla OnPointerClickBattlePageSlot silently returns when:
+        ///   GetEndContentState() == KeterCompleteOpen (3) — permanent on most post-game saves
+        ///   isBattlePageLock — used floor / edit tab already open
+        /// Both produce "no feedback" clicks. Passive succession never checks these.
+        /// RMR prepare must always open the battle-card edit panel.
+        /// </summary>
+        [HarmonyPrefix, HarmonyPatch(typeof(UIBattleSettingLibrarianInfoPanel), nameof(UIBattleSettingLibrarianInfoPanel.OnPointerClickBattlePageSlot))]
+        public static bool UIBattleSettingLibrarianInfoPanel_OnPointerClickBattlePageSlot(
+          UIBattleSettingLibrarianInfoPanel __instance,
+          BaseEventData data)
+        {
+            return !LogLikeRoutines.TryOpenBattleSettingEditFromLibrarian(
+                __instance, UIBattleSettingEditTap.BattleCard, data);
+        }
+
+        /// <summary>
+        /// Same gates as battle-page click (GetEndContentState / isEquipPageLock). Force open equip edit.
+        /// </summary>
+        [HarmonyPrefix, HarmonyPatch(typeof(UIBattleSettingLibrarianInfoPanel), nameof(UIBattleSettingLibrarianInfoPanel.OnPointerClickEquipPage))]
+        public static bool UIBattleSettingLibrarianInfoPanel_OnPointerClickEquipPage(
+          UIBattleSettingLibrarianInfoPanel __instance,
+          BaseEventData data)
+        {
+            return !LogLikeRoutines.TryOpenBattleSettingEditFromLibrarian(
+                __instance, UIBattleSettingEditTap.EquipPage, data);
+        }
+
+        /// <summary>
+        /// After vanilla SetOperatingPanel disables Equip for IsUsedSephirah / Blue-Reverb clear floors,
+        /// re-enable the button so key pages can be equipped during RMR prepare.
+        /// </summary>
+        [HarmonyPostfix, HarmonyPatch(typeof(UISettingInvenEquipPageSlot), nameof(UISettingInvenEquipPageSlot.SetOperatingPanel))]
+        public static void UISettingInvenEquipPageSlot_SetOperatingPanel(UISettingInvenEquipPageSlot __instance)
+        {
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
+                return;
+            BookModel book = __instance.BookDataModel;
+            if (book == null || !book.CanEquipBookByGivePassive())
+                return;
+            UICustomGraphicObject equipBtn = LogLikeMod.GetFieldValue<UICustomGraphicObject>(__instance, "button_Equip");
+            UICustomGraphicObject emptyDeckBtn = LogLikeMod.GetFieldValue<UICustomGraphicObject>(__instance, "button_EmptyDeck");
+            Image equipIcon = LogLikeMod.GetFieldValue<Image>(__instance, "img_equipbuttonIcon");
+            TextMeshProUGUI equipTxt = LogLikeMod.GetFieldValue<TextMeshProUGUI>(__instance, "txt_equipButton");
+            if (equipBtn == null)
+                return;
+            equipBtn.interactable = true;
+            if (emptyDeckBtn != null)
+                emptyDeckBtn.interactable = !book.IsEmptyDeckAll();
+            if (equipIcon != null)
+                equipIcon.color = Color.white;
+            if (equipTxt != null)
+            {
+                string key = book.owner == null ? "ui_bookinventory_equipbook" : "ui_book_bookname_unequip";
+                equipTxt.text = TextDataModel.GetText(key);
+            }
+        }
+
+        /// <summary>
+        /// Skip the IsUsedSephirah early-out inside OnClickEquipButton during RMR prepare so unequip works.
+        /// </summary>
+        [HarmonyPrefix, HarmonyPatch(typeof(UISettingInvenEquipPageSlot), nameof(UISettingInvenEquipPageSlot.OnClickEquipButton))]
+        public static bool UISettingInvenEquipPageSlot_OnClickEquipButton(UISettingInvenEquipPageSlot __instance)
+        {
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
+                return true;
+            BookModel book = __instance.BookDataModel;
+            if (book == null || !book.CanEquipBookByGivePassive())
+                return true;
+            // Only intercept when vanilla would hard-return on used-sephirah owner.
+            if (book.owner == null)
+                return true;
+            StageModel stage = Singleton<StageController>.Instance?.GetStageModel();
+            if (stage == null || !stage.IsUsedSephirah(book.owner.OwnerSephirah))
+                return true;
+
+            UnitDataModel owner = book.owner;
+            owner.EquipBookForUI(null);
+            UISoundManager.instance.PlayEffectSound(UISoundType.Ui_Click);
+            UISettingEquipPageInvenPanel panel = __instance.GetEquipInvenPanel();
+            panel.EquipLeftPanel.EquipPageList.ReleaseSelectedSlot(book);
+            owner.appearanceType = Gender.N;
+            __instance.SetOperatingPanel();
+            panel.isSaveCheck = false;
+            SingletonBehavior<UICharacterRenderer>.Instance.ReloadCharacter(owner);
+            panel.ChangeEquipBook(owner);
+            if (__instance.selectable != null && __instance.selectable.interactable)
+                UIControlManager.Instance.SelectSelectableForcely(__instance.selectable);
+            return false;
+        }
+
+        /// <summary>
+        /// Skip IsUsedSephirah early-out for EmptyDeck during RMR prepare.
+        /// </summary>
+        [HarmonyPrefix, HarmonyPatch(typeof(UISettingInvenEquipPageSlot), nameof(UISettingInvenEquipPageSlot.OnClickEmptyDeckButton))]
+        public static bool UISettingInvenEquipPageSlot_OnClickEmptyDeckButton(UISettingInvenEquipPageSlot __instance)
+        {
+            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
+                return true;
+            BookModel book = __instance.BookDataModel;
+            if (book == null)
+                return true;
+            if (book.owner == null)
+                return true;
+            StageModel stage = Singleton<StageController>.Instance?.GetStageModel();
+            if (stage == null || !stage.IsUsedSephirah(book.owner.OwnerSephirah))
+                return true;
+
+            book.EmptyDeckToInventoryAll();
+            UISettingEquipPageInvenPanel panel = __instance.GetEquipInvenPanel();
+            panel.isSaveCheck = false;
+            panel.UpdateRightPanel();
+            panel.ReleaseSelectedSlot();
+            __instance.SetOperatingPanel();
+            if (__instance.selectable != null && __instance.selectable.interactable)
+                UIControlManager.Instance.SelectSelectableForcely(__instance.selectable);
+            return false;
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(UIPassiveSuccessionPopup), nameof(UIPassiveSuccessionPopup.InitReservedData))]
@@ -3491,6 +4463,15 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPostfix, HarmonyPatch(typeof(UI.UIController), nameof(UI.UIController.CallUIPhase), new Type[1] { typeof(UIPhase) })]
         public static void UIController_CallUIPhase(UIController __instance, UIPhase phase)
         {
+            // Story / invitation / prepare: re-apply CJK fonts so key-page + PV dialogs are not tofu.
+            try
+            {
+                if (phase == UIPhase.Story || phase == UIPhase.BattleSetting || phase == UIPhase.Invitation
+                    || phase == UIPhase.Sephirah)
+                    LogLikeMod.EnsureLocalizedFonts("CallUIPhase." + phase, repairActiveUi: true);
+            }
+            catch { /* ignore phase/font failures */ }
+
             if (phase != UIPhase.BattleSetting || MysteryBase.curinfo == null)
                 return;
             MysteryBase.LoadGetAbnomalityPanel(MysteryBase.curinfo.abnormal, MysteryBase.curinfo.level);
@@ -3522,9 +4503,109 @@ namespace abcdcode_LOGLIKE_MOD
           StageModel __instance,
           ref StageLibraryFloorModel __result)
         {
-            if (!LogLikeMod.CheckStage() || __instance.floorList.Find((Predicate<StageLibraryFloorModel>)(x => x.IsUnavailable())) == null)
+            // CRITICAL: The original LogLike patch forced null whenever ANY floor in floorList was
+            // unavailable. Vanilla StageController.EndBattle treats
+            //   GetFrontAvailableWave()==null || GetFrontAvailableFloor()==null
+            // as full stage clear → BattleFinalEndUI → return to library (舞台落幕).
+            // Roguelike is single-floor multi-wave: after rewards + SetNextStage adds the next wave,
+            // EndBattle must continue the reception, not exit. Forcing floor=null ended the entire
+            // run after every act (and wiped Lastest via ClearBattle RemovePlayerData).
+            // Prefer the player's currently selected floor (Language/Gebura etc.) so multi-wave
+            // continuation does not snap back to Malkuth (历史层) map/BGM.
+            if (!LogLikeMod.CheckStage())
                 return;
-            __result = (StageLibraryFloorModel)null;
+            try
+            {
+                SephirahType selected = Singleton<StageController>.Instance != null
+                    ? Singleton<StageController>.Instance.CurrentFloor
+                    : SephirahType.None;
+                if (selected != SephirahType.None
+                    && (int)selected != 11 /* ETC */
+                    && __instance.floorList != null)
+                {
+                    StageLibraryFloorModel selectedFloor = __instance.floorList.Find(
+                        f => f != null && f.Sephirah == selected && !f.IsUnavailable());
+                    if (selectedFloor != null)
+                    {
+                        __result = selectedFloor;
+                        return;
+                    }
+                }
+
+                if (__result != null)
+                    return;
+                if (__instance.GetFrontAvailableWave() == null)
+                    return;
+                if (__instance.floorList == null)
+                    return;
+                StageLibraryFloorModel fallback = __instance.floorList.Find(
+                    (Predicate<StageLibraryFloorModel>)(x => x != null && !x.IsUnavailable()));
+                if (fallback == null && __instance.floorList.Count > 0)
+                    fallback = __instance.floorList[0];
+                if (fallback != null)
+                {
+                    __result = fallback;
+                    Debug.Log($"[RMR] GetFrontAvailableFloor fallback → {fallback.Sephirah} (keep multi-wave reception alive).");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] GetFrontAvailableFloor fallback failed: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// After StartBattle map init:
+        /// - Special invitation maps (BlackSilence / ReverberationBand / Philip…) → do NOT override
+        ///   (enemy ManagerScript + InitializeMap already drive those maps/BGM).
+        /// - FloorOnly impurity (蓝残响各层) → sephirah map matching FloorOnly.
+        /// - Normal RMR → player's selected sephirah (Language/Gebura etc.).
+        /// </summary>
+        [HarmonyPostfix, HarmonyPatch(typeof(StageController), nameof(StageController.StartBattle))]
+        public static void StageController_StartBattle_FloorMap(StageController __instance)
+        {
+            if (!LogLikeMod.CheckStage() || __instance == null)
+                return;
+            try
+            {
+                StageModel model = __instance.GetStageModel();
+                StageClassInfo info = model?.ClassInfo;
+                if (info == null)
+                    return;
+
+                // Impurity bosses / story receptions with MapInfo: leave vanilla map pipeline alone.
+                // Our previous ChangeToSephirahMap ran AFTER ManagerScript.OnWaveStart and wiped
+                // ReverberationBand / BlackSilence invitation maps + BGM.
+                if (LogLikeMod.StageHasSpecialInvitationMaps(info))
+                {
+                    Debug.Log($"[RMR] StartBattle keep special invitation maps for stage={info.id} maps={string.Join(",", info.mapInfo.ToArray())}");
+                    return;
+                }
+
+                // Prefer FloorOnly (impurity Blue-Reverb primary seph fights) over player pick.
+                SephirahType mapFloor = __instance.CurrentFloor;
+                if (info.floorOnlyList != null && info.floorOnlyList.Count > 0
+                    && info.floorOnlyList[0] != SephirahType.None)
+                {
+                    mapFloor = info.floorOnlyList[0];
+                    if (__instance.CurrentFloor != mapFloor)
+                        __instance.SetCurrentSephirah(mapFloor);
+                }
+
+                if (mapFloor == SephirahType.None || (int)mapFloor == 11 /* ETC */)
+                    return;
+
+                BattleSceneRoot root = SingletonBehavior<BattleSceneRoot>.Instance;
+                if (root != null)
+                {
+                    root.ChangeToSephirahMap(mapFloor, false);
+                    Debug.Log($"[RMR] StartBattle sephirah map/BGM floor={mapFloor} stage={info.id}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] StartBattle floor map apply failed: " + ex.Message);
+            }
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(UIColorManager), nameof(UIColorManager.GetSephirahColor))]
@@ -3633,7 +4714,21 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
-            int num = 6 + Singleton<GlobalLogueEffectManager>.Instance.ChangeSuccCostValue();
+            // Roguelike receptions keep base 6. Floor Realization (解放战) prepare/battle uses 12
+            // so full RMR passive kits can equip before the boss.
+            int baseCost = 6;
+            if (RMRRealizationManager.IsRealizationPreparationActive
+                || RMRRealizationManager.InRealizationBattle
+                || RMRRealizationManager.RealizationReceptionActive)
+                baseCost = 12;
+            int bonus = 0;
+            try
+            {
+                if (Singleton<GlobalLogueEffectManager>.Instance != null)
+                    bonus = Singleton<GlobalLogueEffectManager>.Instance.ChangeSuccCostValue();
+            }
+            catch { /* ignore */ }
+            int num = baseCost + bonus;
             if (num < 0)
                 num = 0;
             __result = num;
@@ -3720,15 +4815,32 @@ namespace abcdcode_LOGLIKE_MOD
             if (!LogLikeMod.purpleexcept)
             {
                 if (LogLikeMod.AddPlayer)
-                    LogueBookModels.AddSubPlayer();
+                {
+                    try
+                    {
+                        LogueBookModels.AddSubPlayer();
+                    }
+                    catch (Exception addEx)
+                    {
+                        // Must not abort ClearBattle / EndBattlePhase — that freezes on black screen.
+                        Debug.LogError("[RMR] AddSubPlayer during ClearBattle failed (continuing stage end): " + addEx);
+                    }
+                }
                 if (LogLikeMod.RecoverPlayers)
                 {
                     foreach (UnitBattleDataModel unitBattleDataModel in LogueBookModels.playerBattleModel)
                     {
-                        unitBattleDataModel.isDead = false;
-                        unitBattleDataModel.hp += (unitBattleDataModel.MaxHp - (int)unitBattleDataModel.hp) * 0.75f; // recover 75% of missing hp
-                        unitBattleDataModel.Init();
-                        unitBattleDataModel.emotionDetail.Reset();
+                        try
+                        {
+                            unitBattleDataModel.isDead = false;
+                            unitBattleDataModel.hp += (unitBattleDataModel.MaxHp - (int)unitBattleDataModel.hp) * 0.75f; // recover 75% of missing hp
+                            unitBattleDataModel.Init();
+                            unitBattleDataModel.emotionDetail.Reset();
+                        }
+                        catch (Exception recEx)
+                        {
+                            Debug.LogWarning("[RMR] RecoverPlayers unit failed: " + recEx.Message);
+                        }
                     }
                 }
             }
@@ -3739,7 +4851,10 @@ namespace abcdcode_LOGLIKE_MOD
             LoguePlayDataSaver.SavePlayData();
             LoguePlayDataSaver.RemoveFlashData();
             StageModel stageModel = __instance.GetStageModel();
-            if ((stageModel.GetFrontAvailableWave() == null ? 1 : (stageModel.GetFrontAvailableFloor() == null ? 1 : 0)) != 0)
+            // Only wipe continue-save when no waves remain. Do NOT use GetFrontAvailableFloor here:
+            // floor can be null spuriously / after floor-list quirks, which used to delete Lastest
+            // after every act and made "continue" re-run the same dead end.
+            if (stageModel.GetFrontAvailableWave() == null)
                 LoguePlayDataSaver.RemovePlayerData();
         }
 

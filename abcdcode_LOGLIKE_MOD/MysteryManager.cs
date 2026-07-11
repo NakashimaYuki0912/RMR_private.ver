@@ -28,8 +28,9 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 LogLikeMod.DefFont = Resources.GetBuiltinResource<Font>("Arial.ttf");
                 LogLikeMod.DefFontColor = UIColorManager.Manager.GetUIColor(UIColor.Default);
-                LogLikeMod.DefFont_TMP = (SingletonBehavior<UIPopupWindowManager>.Instance.popupPanels[1] as UIOptionWindow).displayDropdown.itemText.font;
             }
+            // Do not copy options-dropdown font (Latin-only). Patch cnFont_* for mystery UI.
+            LogLikeMod.EnsureLocalizedFonts("StartMystery", repairActiveUi: true);
             this.curMystery = MysteryBase.FindMystery(info.script);
             this.curMystery.xmlinfo = info;
             this.interruptMysterys = new List<MysteryBase>();
