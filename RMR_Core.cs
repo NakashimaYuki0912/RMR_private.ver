@@ -36,7 +36,7 @@ namespace RogueLike_Mod_Reborn
         public static LorId[] booksToAddToInventory 
         {
             get {
-                // Do not put -855 (Continue) in the invitation book list — continue is a hub
+                // Do not put -855 (Continue) in the invitation book list �?continue is a hub
                 // menu action after RMR entry, not a free-standing invitation recipe icon.
                 var books = new List<LorId>()
                 {
@@ -62,7 +62,7 @@ namespace RogueLike_Mod_Reborn
         public const string packageId = "abcdcodecalmmagma.LogueLikeReborn";
         public static CustomMapHandler RMRMapHandler;
 
-        public const string BuildTimestamp = "2026-07-11Tabno-tier-filter+08:00";
+        public const string BuildTimestamp = "2026-07-12Tfix-hub-sharp-tier-softlock+08:00";
 
         /// <summary>
         /// After invitation is sent: run the intent chosen on the invitation-time hub.
@@ -80,8 +80,8 @@ namespace RogueLike_Mod_Reborn
         public static bool IsPostInvitationLaunchConsumed => _postInvitationLaunchConsumed;
 
         /// <summary>
-        /// True only during realization <b>bootstrap</b> (hub choice → floor pick / prepare).
-        /// Does NOT include live combat — use for skipping intro story / SparklingMirror, not for CheckStage.
+        /// True only during realization <b>bootstrap</b> (hub choice �?floor pick / prepare).
+        /// Does NOT include live combat �?use for skipping intro story / SparklingMirror, not for CheckStage.
         /// </summary>
         public static bool IsRealizationBootstrapPending()
         {
@@ -102,7 +102,7 @@ namespace RogueLike_Mod_Reborn
             Debug.Log($"[RMR] HandlePostInvitationLaunch intent={intent} consumed={_postInvitationLaunchConsumed} awaitFloor={RMRRealizationManager.AwaitingRealizationFloorPick} preFloor={(preselectedFloor.HasValue ? preselectedFloor.Value.ToString() : "none")} reception={RMRRealizationManager.RealizationReceptionActive}");
 
             // PassiveAbility_ChStart can fire OnWaveStart multiple times (wave restart / StartBattle loop).
-            // Second call used to have intent=None and incorrectly StartMystery → NRE + broken start UI.
+            // Second call used to have intent=None and incorrectly StartMystery �?NRE + broken start UI.
             if (_postInvitationLaunchConsumed
                 || RMRRealizationManager.AwaitingRealizationFloorPick
                 || RMRRealizationManager.PendingRealizationBattle
@@ -147,7 +147,7 @@ namespace RogueLike_Mod_Reborn
                         try { Singleton<MysteryManager>.Instance.EndMystery(); } catch { }
                         try { LogRealizationPanel.ForceCloseStatic(); } catch { }
                         RMRRealizationManager.StartRealizationBattle(floor);
-                        Debug.Log($"[RMR] Realization launch direct → floor {floor} (dedicated UI pick, no mystery).");
+                        Debug.Log($"[RMR] Realization launch direct �?floor {floor} (dedicated UI pick, no mystery).");
                     }
                     catch (Exception ex)
                     {
@@ -157,12 +157,12 @@ namespace RogueLike_Mod_Reborn
                     return;
                 }
 
-                // Fallback: no preselect — open dedicated overlay floor UI (never vanilla prepare alone).
+                // Fallback: no preselect �?open dedicated overlay floor UI (never vanilla prepare alone).
                 RMRRealizationManager.EnterRealizationFloorPickMode();
                 try
                 {
                     RMRRealizationLaunchHost.EnsureFloorPanelVisible();
-                    Debug.Log("[RMR] Realization launch → dedicated overlay floor panel (fallback, no mystery).");
+                    Debug.Log("[RMR] Realization launch �?dedicated overlay floor panel (fallback, no mystery).");
                 }
                 catch (Exception ex)
                 {
@@ -173,7 +173,7 @@ namespace RogueLike_Mod_Reborn
 
             if (intent != RMRLaunchIntent.NormalPlay)
             {
-                // No hub choice (e.g. unexpected path) — do not invent a broken mystery start.
+                // No hub choice (e.g. unexpected path) �?do not invent a broken mystery start.
                 Debug.LogWarning($"[RMR] HandlePostInvitationLaunch: unexpected intent={intent}, no auto mystery.");
                 return;
             }
@@ -430,7 +430,7 @@ namespace RogueLike_Mod_Reborn
             var dict = GetBattleEffectTextDictionary();
             if (dict == null)
             {
-                Debug.LogError("[RMRCore] LoadSatelliteBattleTexts aborted — could not access BattleEffectTextsXmlList._dictionary");
+                Debug.LogError("[RMRCore] LoadSatelliteBattleTexts aborted �?could not access BattleEffectTextsXmlList._dictionary");
                 return;
             }
 
@@ -590,7 +590,7 @@ namespace RogueLike_Mod_Reborn
                 {
                     _cachedArtworkSpriteField = typeof(ArtworkCustomizeData).GetField("_sprite", AccessTools.all);
                     if (_cachedArtworkSpriteField == null)
-                        Debug.LogError("[RMRCore] Cannot find field ArtworkCustomizeData._sprite — vanilla card artwork will not be loaded.");
+                        Debug.LogError("[RMRCore] Cannot find field ArtworkCustomizeData._sprite �?vanilla card artwork will not be loaded.");
                 }
                 return _cachedArtworkSpriteField;
             }
@@ -801,7 +801,7 @@ namespace RogueLike_Mod_Reborn
             var allBooks = Singleton<BookXmlList>.Instance.GetList();
             if (allBooks == null || allBooks.Count == 0)
             {
-                reason = "BookXmlList.GetList() returned empty — BookXmlList may not be loaded yet.";
+                reason = "BookXmlList.GetList() returned empty �?BookXmlList may not be loaded yet.";
                 return new List<BookXmlInfo>();
             }
 
@@ -899,7 +899,7 @@ namespace RogueLike_Mod_Reborn
         /// <summary>
         /// Ensures a role book is in the current booklist (route inventory), even if it is already in the permanent atlas.
         /// This is needed because TryAddUniqueRoleBookToInventoryAndAtlas skips adding to booklist when the id is
-        /// already in AtlasUnlockedRoleBooks — but for Grade6 special core pages, we need them usable immediately.
+        /// already in AtlasUnlockedRoleBooks �?but for Grade6 special core pages, we need them usable immediately.
         /// </summary>
         private static bool EnsureRoleBookInCurrentBooklist(LorId id)
         {
@@ -954,7 +954,7 @@ namespace RogueLike_Mod_Reborn
         {
             if (!TryResolveBlackSilenceCorePage(out BookXmlInfo blackSilence, out string resolveReason))
             {
-                Debug.LogError($"[RMR] EnsureBlackSilenceCorePageForUrbanStar: cannot resolve Black Silence — {resolveReason}");
+                Debug.LogError($"[RMR] EnsureBlackSilenceCorePageForUrbanStar: cannot resolve Black Silence �?{resolveReason}");
                 return false;
             }
             bool bsInAtlasNow = LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(blackSilence.id);
@@ -1056,7 +1056,7 @@ namespace RogueLike_Mod_Reborn
                 return;
             if (!TryResolveBinahCorePage(out BookXmlInfo binah, out string reason))
             {
-                Debug.LogError($"[RMR] PrepareBinahForRedMistChallenge: cannot resolve Binah — {reason}");
+                Debug.LogError($"[RMR] PrepareBinahForRedMistChallenge: cannot resolve Binah �?{reason}");
                 return;
             }
 
@@ -1070,7 +1070,7 @@ namespace RogueLike_Mod_Reborn
         {
             if (!TryResolveBinahCorePage(out BookXmlInfo binah, out string reason))
             {
-                Debug.LogError($"[RMR] UnlockBinahAfterRedMistVictory: cannot resolve Binah — {reason}");
+                Debug.LogError($"[RMR] UnlockBinahAfterRedMistVictory: cannot resolve Binah �?{reason}");
                 return;
             }
 
@@ -1087,7 +1087,7 @@ namespace RogueLike_Mod_Reborn
 
             if (!TryResolveBinahCorePage(out BookXmlInfo binah, out string reason))
             {
-                Debug.LogError($"[RMR] ApplyBinahRedMistProgressionState: cannot resolve Binah — {reason}");
+                Debug.LogError($"[RMR] ApplyBinahRedMistProgressionState: cannot resolve Binah �?{reason}");
                 return;
             }
 
@@ -1133,7 +1133,7 @@ namespace RogueLike_Mod_Reborn
         }
 
         /// <summary>
-        /// Legacy entry point — delegates to EnsureGrade6SpecialCorePagesUnlocked.
+        /// Legacy entry point �?delegates to EnsureGrade6SpecialCorePagesUnlocked.
         /// </summary>
         public static void GrantGrade6SpecialCorePagesIfNeeded()
         {
@@ -2276,7 +2276,7 @@ namespace RogueLike_Mod_Reborn
             if (Directory.Exists(Path.Combine(ogpath, str, "MysteryEvents")))
             {
                 DirectoryInfo directoryInfo = new DirectoryInfo(Path.Combine(ogpath, str, "MysteryEvents"));
-                // Only real .xml — *.bak / *.pre_* backups were being deserialized and overwriting good text.
+                // Only real .xml �?*.bak / *.pre_* backups were being deserialized and overwriting good text.
                 foreach (System.IO.FileInfo fileinfo in LogLikeMod.EnumerateXmlFiles(Path.Combine(ogpath, str, "MysteryEvents")))
                 {
                     try
@@ -2863,7 +2863,7 @@ namespace RogueLike_Mod_Reborn
 
         public override void OnWaveStartInitialEvent()
         {
-            // Continue: resume saved route — no hub launch / no intro mystery.
+            // Continue: resume saved route �?no hub launch / no intro mystery.
             if (RoguelikeGamemodeController.Instance != null && RoguelikeGamemodeController.Instance.isContinue)
             {
                 Debug.Log("[RMR] OnWaveStartInitialEvent skipped (continue run).");
@@ -2949,13 +2949,13 @@ namespace RogueLike_Mod_Reborn
 
         public override void OnWaveStartInitialEvent()
         {
-            // Continue: pure resume — no SparklingMirror shell, no hub launch handler.
+            // Continue: pure resume �?no SparklingMirror shell, no hub launch handler.
             if (RoguelikeGamemodeController.Instance != null && RoguelikeGamemodeController.Instance.isContinue)
             {
                 Debug.Log("[RMR] OnWaveStartInitialEvent skipped (continue run).");
                 return;
             }
-            // Realization bootstrap: floor pick / direct stage — do not start SparklingMirror dummy map.
+            // Realization bootstrap: floor pick / direct stage �?do not start SparklingMirror dummy map.
             // Note: still boots via stage -853 shell (engine needs a reception); shell combat is blocked
             // while AwaitingRealizationFloorPick / CheckStage suppressed during ReceptionActive.
             if (RMRCore.IsRealizationBootstrapPending())
@@ -3007,7 +3007,7 @@ namespace RogueLike_Mod_Reborn
             UICustomTabsController tabs = RMRCore.GetStoryArchivesTabController(goG);
             if (goG == null || tabs == null || tabs.CustomTabs == null || tabs.CustomTabs.Length < 3)
             {
-                Debug.LogError("[RMR ItemCatalog] UIStoryArchivesPanel/tabcontroller unavailable — cannot create catalog tab.");
+                Debug.LogError("[RMR ItemCatalog] UIStoryArchivesPanel/tabcontroller unavailable �?cannot create catalog tab.");
                 return;
             }
             UICustomTabButton gameObject2 = UnityEngine.Object.Instantiate(tabs.CustomTabs[2], tabs.TabsRoot.transform);
@@ -3668,7 +3668,7 @@ namespace RogueLike_Mod_Reborn
         {
             try
             {
-                // Open() may be non-public under some IL — invoke safely.
+                // Open() may be non-public under some IL �?invoke safely.
                 try
                 {
                     var open = AccessTools.Method(typeof(UIMainOverlayManager), "Open");
@@ -3682,7 +3682,7 @@ namespace RogueLike_Mod_Reborn
                     try { __instance.Open(); } catch { return; }
                 }
 
-                // All UIMainOverlayManager members via reflection — MonoMod Method/FieldAccess otherwise.
+                // All UIMainOverlayManager members via reflection �?MonoMod Method/FieldAccess otherwise.
                 object tooltipNameObj = AccessTools.Field(typeof(UIMainOverlayManager), "tooltipName")?.GetValue(__instance);
                 object tooltipDescObj = AccessTools.Field(typeof(UIMainOverlayManager), "tooltipDesc")?.GetValue(__instance);
                 if (tooltipNameObj == null || tooltipDescObj == null)
@@ -4001,7 +4001,7 @@ namespace RogueLike_Mod_Reborn
                 if (RMRRealizationManager.TryRedirectShellPrepareToRealization())
                 {
                     Debug.Log("[RMR] OpenBattlePrepare: shell redirected to vanilla Floor Realization prepare.");
-                    return false; // skip original — redirect already opened prepare
+                    return false; // skip original �?redirect already opened prepare
                 }
             }
             catch (Exception ex)
@@ -4234,7 +4234,7 @@ namespace RogueLike_Mod_Reborn
                 if (sprite == null)
                     return;
 
-                // Private fields — use reflection (FieldAccessException under MonoMod otherwise).
+                // Private fields �?use reflection (FieldAccessException under MonoMod otherwise).
                 AccessTools.Field(typeof(BattleUnitBuf), "_bufIcon")?.SetValue(buf, sprite);
                 var iconInit = AccessTools.Field(typeof(BattleUnitBuf), "_iconInit");
                 if (iconInit != null && iconInit.FieldType == typeof(bool))

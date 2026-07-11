@@ -44,90 +44,91 @@ namespace abcdcode_LOGLIKE_MOD
                 return;
             ShopBase.CardShape = new Dictionary<int, Vector2[]>();
             // Tightened X spacing so cards don't overlap each other or side panels.
-            // Card goods row (top, Y=425) — horizontal gap ≈ 200px between centers.
+            // Combat-page row (Y=365) sits lower than the old Y=425 strip to shrink the
+            // empty gap above key-page / item goods. Horizontal gap ≈ 200px between centers.
             Vector2[] vector2Array1 = new Vector2[3]
             {
-      new Vector2(280f, 425f),
-      new Vector2(0.0f, 425f),
-      new Vector2(-280f, 425f)
+      new Vector2(280f, 365f),
+      new Vector2(0.0f, 365f),
+      new Vector2(-280f, 365f)
             };
             ShopBase.CardShape.Add(3, vector2Array1);
             Vector2[] vector2Array2 = new Vector2[4]
             {
-      new Vector2(300f, 425f),
-      new Vector2(100f, 425f),
-      new Vector2(-100f, 425f),
-      new Vector2(-300f, 425f)
+      new Vector2(300f, 365f),
+      new Vector2(100f, 365f),
+      new Vector2(-100f, 365f),
+      new Vector2(-300f, 365f)
             };
             ShopBase.CardShape.Add(4, vector2Array2);
             Vector2[] vector2Array3 = new Vector2[5]
             {
-      new Vector2(350f, 425f),
-      new Vector2(175f, 425f),
-      new Vector2(0.0f, 425f),
-      new Vector2(-175f, 425f),
-      new Vector2(-350f, 425f)
+      new Vector2(350f, 365f),
+      new Vector2(175f, 365f),
+      new Vector2(0.0f, 365f),
+      new Vector2(-175f, 365f),
+      new Vector2(-350f, 365f)
             };
             ShopBase.CardShape.Add(5, vector2Array3);
             Vector2[] vector2Array4 = new Vector2[6]
             {
-              new Vector2(350f, 425f),
-              new Vector2(210f, 425f),
-              new Vector2(70f, 425f),
-              new Vector2(-70f, 425f),
-              new Vector2(-210f, 425f),
-              new Vector2(-350f, 425f)
+              new Vector2(350f, 365f),
+              new Vector2(210f, 365f),
+              new Vector2(70f, 365f),
+              new Vector2(-70f, 365f),
+              new Vector2(-210f, 365f),
+              new Vector2(-350f, 365f)
             };
             ShopBase.CardShape.Add(6, vector2Array4);
-            // 7–10 items: two rows, top row Y=470, bottom row Y=250
+            // 7–10 items: two rows, top row Y=410, bottom row Y=190
             Vector2[] vector2Array5 = new Vector2[7]
             {
-      new Vector2(300f, 470f),
-      new Vector2(100f, 470f),
-      new Vector2(-100f, 470f),
-      new Vector2(-300f, 470f),
-      new Vector2(280f, 250f),
-      new Vector2(0.0f, 250f),
-      new Vector2(-280f, 250f)
+      new Vector2(300f, 410f),
+      new Vector2(100f, 410f),
+      new Vector2(-100f, 410f),
+      new Vector2(-300f, 410f),
+      new Vector2(280f, 190f),
+      new Vector2(0.0f, 190f),
+      new Vector2(-280f, 190f)
             };
             ShopBase.CardShape.Add(7, vector2Array5);
             Vector2[] vector2Array6 = new Vector2[8]
             {
-      new Vector2(300f, 470f),
-      new Vector2(100f, 470f),
-      new Vector2(-100f, 470f),
-      new Vector2(-300f, 470f),
-      new Vector2(300f, 250f),
-      new Vector2(100f, 250f),
-      new Vector2(-100f, 250f),
-      new Vector2(-300f, 250f)
+      new Vector2(300f, 410f),
+      new Vector2(100f, 410f),
+      new Vector2(-100f, 410f),
+      new Vector2(-300f, 410f),
+      new Vector2(300f, 190f),
+      new Vector2(100f, 190f),
+      new Vector2(-100f, 190f),
+      new Vector2(-300f, 190f)
             };
             ShopBase.CardShape.Add(8, vector2Array6);
             Vector2[] vector2Array7 = new Vector2[9]
             {
-      new Vector2(350f, 470f),
-      new Vector2(175f, 470f),
-      new Vector2(0.0f, 470f),
-      new Vector2(-175f, 470f),
-      new Vector2(-350f, 470f),
-      new Vector2(300f, 250f),
-      new Vector2(100f, 250f),
-      new Vector2(-100f, 250f),
-      new Vector2(-300f, 250f)
+      new Vector2(350f, 410f),
+      new Vector2(175f, 410f),
+      new Vector2(0.0f, 410f),
+      new Vector2(-175f, 410f),
+      new Vector2(-350f, 410f),
+      new Vector2(300f, 190f),
+      new Vector2(100f, 190f),
+      new Vector2(-100f, 190f),
+      new Vector2(-300f, 190f)
             };
             ShopBase.CardShape.Add(9, vector2Array7);
             Vector2[] vector2Array8 = new Vector2[10]
             {
-      new Vector2(350f, 470f),
-      new Vector2(175f, 470f),
-      new Vector2(0.0f, 470f),
-      new Vector2(-175f, 470f),
-      new Vector2(-350f, 470f),
-      new Vector2(350f, 250f),
-      new Vector2(175f, 250f),
-      new Vector2(0.0f, 250f),
-      new Vector2(-175f, 250f),
-      new Vector2(-350f, 250f)
+      new Vector2(350f, 410f),
+      new Vector2(175f, 410f),
+      new Vector2(0.0f, 410f),
+      new Vector2(-175f, 410f),
+      new Vector2(-350f, 410f),
+      new Vector2(350f, 190f),
+      new Vector2(175f, 190f),
+      new Vector2(0.0f, 190f),
+      new Vector2(-175f, 190f),
+      new Vector2(-350f, 190f)
             };
             ShopBase.CardShape.Add(10, vector2Array8);
         }
@@ -239,8 +240,9 @@ namespace abcdcode_LOGLIKE_MOD
         {
             Vector2[] row = ResolveCardShapeRow(num);
             int idx = Mathf.Clamp(id, 0, row.Length - 1);
-            // Passive row sits below combat pages.
-            return row[idx] - new Vector2(0.0f, 450f);
+            // Passive / item row sits below combat pages. Offset reduced with the combat
+            // strip drop (was 450 with Y=425) so middle goods keep their screen Y.
+            return row[idx] - new Vector2(0.0f, 390f);
         }
 
         /// <summary>
@@ -254,9 +256,9 @@ namespace abcdcode_LOGLIKE_MOD
                 // Defensive: constructor always fills this, but keep a tiny fallback.
                 return new[]
                 {
-                    new Vector2(280f, 425f),
-                    new Vector2(0f, 425f),
-                    new Vector2(-280f, 425f),
+                    new Vector2(280f, 365f),
+                    new Vector2(0f, 365f),
+                    new Vector2(-280f, 365f),
                 };
             }
             if (ShopBase.CardShape.TryGetValue(num, out Vector2[] exact) && exact != null && exact.Length > 0)
@@ -277,7 +279,7 @@ namespace abcdcode_LOGLIKE_MOD
             var synth = new Vector2[n];
             float step = n <= 1 ? 0f : 700f / (n - 1);
             for (int i = 0; i < n; i++)
-                synth[i] = new Vector2(350f - i * step, 425f);
+                synth[i] = new Vector2(350f - i * step, 365f);
             return synth;
         }
 
@@ -707,6 +709,10 @@ namespace abcdcode_LOGLIKE_MOD
             // Defeat current shop wave first. EnsureNextListIfNeeded skips rebuild while a wave is
             // still available (treats it as "already picked next stage"), so it must run after Defeat.
             Singleton<StageController>.Instance.GetStageModel().GetWave(Singleton<StageController>.Instance.CurrentWave).Defeat();
+            // Sticky exit + strip residual immune merchant NPCs so after next-stage pick
+            // EndBattlePhase does not "recover" into live combat vs the shop wave.
+            try { RewardingModel.MarkNonCombatNodeExit("LeaveShop"); }
+            catch (Exception ex) { Debug.LogWarning("[RMR] LeaveShop MarkNonCombatNodeExit: " + ex.Message); }
             try { RewardingModel.EnsureNextListIfNeeded(); }
             catch (Exception ex) { Debug.LogWarning("[RMR] LeaveShop EnsureNextListIfNeeded: " + ex.Message); }
             Singleton<StageController>.Instance.EndBattle();

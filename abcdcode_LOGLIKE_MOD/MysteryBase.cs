@@ -81,6 +81,9 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 if (card == null || card.Script == null || card.Script.Count == 0)
                     continue;
+                RewardPassiveInfo rewardInfo = RewardingModel.FindRewardInfo(card);
+                if (rewardInfo != null)
+                    RMRAbnormalityUnlockManager.EnsureVanillaEmotionPresentation(rewardInfo, card);
                 PickUpModelBase pickUp = LogLikeMod.FindPickUp(card.Script[0]);
                 PickUpModel_RMRVanillaEmotion.InjectResolvedDesc(card, pickUp);
             }
@@ -368,6 +371,10 @@ namespace abcdcode_LOGLIKE_MOD
                 if (this.curFrame.Getchoice(choiceid).next == -1 && Singleton<StageController>.Instance.Phase != StageController.StagePhase.EndBattle)
                 {
                     Singleton<StageController>.Instance.GetStageModel().GetWave(Singleton<StageController>.Instance.CurrentWave).Defeat();
+                    // Sticky exit + strip residual immune mystery NPCs so next-stage pick cannot
+                    // resume combat against the mystery wave after SetNextStage flips curstagetype.
+                    try { RewardingModel.MarkNonCombatNodeExit("MysteryEnd"); }
+                    catch (Exception ex) { Debug.LogWarning("[RMR] MysteryEnd MarkNonCombatNodeExit: " + ex.Message); }
                     Singleton<StageController>.Instance.EndBattle();
                 }
                 Singleton<MysteryManager>.Instance.EndMystery(this);

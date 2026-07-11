@@ -207,6 +207,19 @@ namespace abcdcode_LOGLIKE_MOD
             textTmp.rectTransform.anchoredPosition = anchorposition;
             textTmp.text = " ";
             textTmp.font = font;
+            // Bind authored SDF material (avoids null/default soft sampling on fresh TMP).
+            if (font != null && font.material != null)
+            {
+                try { textTmp.fontSharedMaterial = font.material; } catch { /* ignore */ }
+            }
+            try
+            {
+                // Sharper SDF edges at small/mid UI sizes (emotion pick / shop / mystery buttons).
+                var extraProp = typeof(TextMeshProUGUI).GetProperty("extraPadding");
+                if (extraProp != null && extraProp.CanWrite)
+                    extraProp.SetValue(textTmp, true, null);
+            }
+            catch { /* older TMP */ }
             textTmp.fontSize = (float)fsize;
             textTmp.color = tcolor;
             textTmp.alignment = anchor;

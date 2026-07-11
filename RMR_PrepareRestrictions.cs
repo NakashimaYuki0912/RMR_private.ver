@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using abcdcode_LOGLIKE_MOD;
+using HarmonyLib;
 using LOR_DiceSystem;
 using UI;
 using UnityEngine;
@@ -271,67 +272,292 @@ namespace RogueLike_Mod_Reborn
         }
 
         /// <summary>
-        /// Vanilla: personal EGO becomes choosable when emotion level is high enough.
-        /// RMR previously only AddCard'd EGO into combat inventory and stripped them from decks —
-        /// never personalEgoDetail. Grant owned EGO to every living player unit at battle start.
+        /// Grant specific EGO ids into living players' personalEgo hands (mid-battle picks).
+        /// Do NOT dump every route-owned EGO at battle start — that forces EGO hand on and
+        /// blocks normal combat-page selection.
         /// </summary>
-        public static void GrantOwnedEgoToBattleUnits()
+        public static void GrantEgoIdsToBattleUnits(IEnumerable<LorId> egoIds)
         {
-            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext() && !LogLikeMod.CheckStage(true))
-            {
-                // Still try if battle units exist (mid-reception).
-            }
-            List<LorId> egoIds = GetOwnedEgoIdsForBattle();
-            if (egoIds.Count == 0)
+            if (egoIds == null)
+                return;
+            var list = egoIds.Where(id => id != null && id != LorId.None).ToList();
+            if (list.Count == 0)
                 return;
 
             int granted = 0;
             try
             {
                 List<BattleUnitModel> players = BattleObjectManager.instance?.GetList(Faction.Player);
-                if (players != null)
+                if (players == null)
+                    return;
+                foreach (BattleUnitModel unit in players)
                 {
-                    foreach (BattleUnitModel unit in players)
+                    if (unit == null || unit.IsDead() || unit.personalEgoDetail == null)
+                        continue;
+                    foreach (LorId id in list)
                     {
-                        if (unit == null || unit.IsDead() || unit.personalEgoDetail == null)
-                            continue;
-                        foreach (LorId id in egoIds)
+                        try
                         {
+                            bool has = false;
                             try
                             {
-                                // AddCard is idempotent enough for battle; duplicates avoided by Exists checks when present.
-                                bool has = false;
-                                try
-                                {
-                                    var cards = unit.personalEgoDetail.GetHand();
-                                    if (cards != null)
-                                        has = cards.Any(c => c != null && c.GetID() != null
-                                            && c.GetID().id == id.id
-                                            && (string.IsNullOrEmpty(c.GetID().packageId) || string.IsNullOrEmpty(id.packageId)
-                                                || c.GetID().packageId == id.packageId));
-                                }
-                                catch { has = false; }
-                                if (!has)
-                                {
-                                    unit.personalEgoDetail.AddCard(id);
-                                    granted++;
-                                }
+                                var cards = unit.personalEgoDetail.GetHand();
+                                if (cards != null)
+                                    has = cards.Any(c => c != null && c.GetID() != null
+                                        && c.GetID().id == id.id
+                                        && (string.IsNullOrEmpty(c.GetID().packageId) || string.IsNullOrEmpty(id.packageId)
+                                            || c.GetID().packageId == id.packageId));
                             }
-                            catch (Exception ex)
+                            catch { has = false; }
+                            if (!has)
                             {
-                                Debug.LogWarning($"[RMR] GrantOwnedEgo AddCard failed id={id}: {ex.Message}");
+                                unit.personalEgoDetail.AddCard(id);
+                                granted++;
                             }
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.LogWarning($"[RMR] GrantEgo AddCard failed id={id}: {ex.Message}");
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[RMR] GrantOwnedEgoToBattleUnits: " + ex.Message);
+                Debug.LogWarning("[RMR] GrantEgoIdsToBattleUnits: " + ex.Message);
             }
 
             if (granted > 0)
-                Debug.Log($"[RMR] Granted owned EGO to personalEgo ({granted} add ops, {egoIds.Count} unique ids).");
+                Debug.Log($"[RMR] Granted EGO to personalEgo ({granted} add ops, {list.Count} unique ids).");
+        }
+
+        /// <summary>
+        /// Legacy entry: only grants EGOs that were selected mid-battle this reception.
+        /// Full route inventory is no longer auto-injected at StartBattle.
+        /// </summary>
+        public static void GrantOwnedEgoToBattleUnits()
+        {
+            // No-op for bulk grant. Mid-battle picks call GrantEgoIdsToBattleUnits with the pick.
+            // Kept so existing call sites compile without re-flooding hands.
+        }
+
+        /// <summary>
+        /// Clear floor/realization EGO from personalEgo at battle start so hand defaults to combat pages.
+        /// Key-page personal EGOs (EgoPersonal) are left alone.
+        /// Mid-battle picks re-add only the chosen id via <see cref="GrantEgoIdsToBattleUnits"/>.
+        /// </summary>
+        public static void ClearFloorEgoFromHandsAtBattleStart()
+        {
+            try
+            {
+                List<BattleUnitModel> players = BattleObjectManager.instance?.GetList(Faction.Player);
+                if (players == null)
+                    return;
+                foreach (BattleUnitModel unit in players)
+                {
+                    if (unit?.personalEgoDetail == null)
+                        continue;
+                    try
+                    {
+                        var hand = unit.personalEgoDetail.GetHand();
+                        if (hand == null || hand.Count == 0)
+                            continue;
+                        var toRemove = new List<BattleDiceCardModel>();
+                        foreach (BattleDiceCardModel c in hand)
+                        {
+                            if (c == null)
+                                continue;
+                            LorId id = c.GetID();
+                            DiceCardXmlInfo xml = null;
+                            try
+                            {
+                                xml = c.XmlData
+                                    ?? (id != null ? ItemXmlDataList.instance?.GetCardItem(id, true) : null)
+                                    ?? (id != null ? ItemXmlDataList.instance?.GetCardItem(id.id, true) : null);
+                            }
+                            catch { xml = null; }
+
+                            // Keep true key-page personal EGOs only.
+                            if (xml != null && xml.optionList != null
+                                && xml.optionList.Contains(CardOption.EgoPersonal)
+                                && !xml.optionList.Contains(CardOption.EGO))
+                                continue;
+
+                            // Drop floor realization EGO / any non-personal EGO combat page.
+                            bool isFloorEgo = id != null && RMRAbnormalityUnlockManager.IsRealizationEgoCard(id);
+                            bool isRouteEgo = id != null && RMRAbnormalityUnlockManager.IsEgoUnlockedForCurrentRoute(id);
+                            bool isEgoPage = xml != null && IsEgoCombatPage(xml);
+                            if (isFloorEgo || isRouteEgo || isEgoPage)
+                                toRemove.Add(c);
+                        }
+                        foreach (BattleDiceCardModel c in toRemove)
+                        {
+                            try { hand.Remove(c); } catch { }
+                            try { unit.personalEgoDetail.RemoveCard(c.GetID()); } catch { }
+                        }
+                        if (toRemove.Count > 0)
+                            Debug.Log($"[RMR] Cleared {toRemove.Count} floor EGO from personalEgo hand at battle start ({unit.UnitData?.unitData?.name}).");
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogWarning("[RMR] ClearFloorEgoFromHands: " + ex.Message);
+                    }
+                }
+            }
+            catch { /* ignore */ }
+        }
+
+        /// <summary>
+        /// Force open hand UI onto combat pages (toggle off, HandState.BattleCard).
+        /// Field-only — does NOT re-enter SetCardsObject / SetEgoToggleState (those can OOR
+        /// on sp_toggleSprite during early StartBattle / mystery receptions).
+        /// Mid-battle EGO pick and unit click use the safer SetCardsObject path separately.
+        /// </summary>
+        public static void ForceHandUiToBattleCards()
+        {
+            try
+            {
+                var handUi = SingletonBehavior<BattleManagerUI>.Instance?.ui_unitCardsInHand;
+                if (handUi == null)
+                    return;
+
+                try
+                {
+                    var toggleField = AccessTools.Field(typeof(BattleUnitCardsInHandUI), "toggle_ShowEgo");
+                    var toggle = toggleField?.GetValue(handUi) as UnityEngine.UI.Toggle;
+                    if (toggle != null)
+                    {
+                        try { toggle.SetIsOnWithoutNotify(false); }
+                        catch
+                        {
+                            try { toggle.isOn = false; } catch { /* ignore */ }
+                        }
+                    }
+                }
+                catch { /* ignore */ }
+
+                try
+                {
+                    var handStateField = AccessTools.Field(typeof(BattleUnitCardsInHandUI), "_handState");
+                    handStateField?.SetValue(handUi, BattleUnitCardsInHandUI.HandState.BattleCard);
+                }
+                catch { /* ignore */ }
+
+                Debug.Log("[RMR] ForceHandUiToBattleCards: HandState=BattleCard toggle forced off (field-only).");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] ForceHandUiToBattleCards: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// True when hand UI is allowed to open (card-select phase only).
+        /// Prevents a floating combat page under "开始战斗" before the player presses space.
+        /// </summary>
+        public static bool IsHandUiPhaseAllowed()
+        {
+            try
+            {
+                StageController sc = Singleton<StageController>.Instance;
+                if (sc == null)
+                    return false;
+                return sc.Phase == StageController.StagePhase.ApplyLibrarianCardPhase;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Hide the hand root during battle intro (before space / RoundStart) so a single combat
+        /// page does not float mid-screen while units still idle under "开始战斗".
+        /// Also clears selected/hovered unit so hover cannot immediately re-open SetCardsObject with stale slots.
+        /// </summary>
+        public static void HideHandUiUntilCombat()
+        {
+            try
+            {
+                var handUi = SingletonBehavior<BattleManagerUI>.Instance?.ui_unitCardsInHand;
+                if (handUi == null)
+                    return;
+
+                try
+                {
+                    var toggleField = AccessTools.Field(typeof(BattleUnitCardsInHandUI), "toggle_ShowEgo");
+                    var toggle = toggleField?.GetValue(handUi) as UnityEngine.UI.Toggle;
+                    if (toggle != null)
+                    {
+                        try { toggle.SetIsOnWithoutNotify(false); }
+                        catch
+                        {
+                            try { toggle.isOn = false; } catch { /* ignore */ }
+                        }
+                    }
+                }
+                catch { /* ignore */ }
+
+                try
+                {
+                    AccessTools.Field(typeof(BattleUnitCardsInHandUI), "_handState")
+                        ?.SetValue(handUi, BattleUnitCardsInHandUI.HandState.BattleCard);
+                }
+                catch { /* ignore */ }
+
+                try
+                {
+                    AccessTools.Field(typeof(BattleUnitCardsInHandUI), "_selectedUnit")?.SetValue(handUi, null);
+                    AccessTools.Field(typeof(BattleUnitCardsInHandUI), "_hOveredUnit")?.SetValue(handUi, null);
+                }
+                catch { /* ignore */ }
+
+                var rootField = AccessTools.Field(typeof(BattleUnitCardsInHandUI), "_rootObj");
+                var root = rootField?.GetValue(handUi) as GameObject;
+                if (root != null)
+                    root.SetActive(false);
+
+                // Leftover LevelUpUI ego/combat-looking slots from prior reward/EGO pick can float mid-screen.
+                try
+                {
+                    LevelUpUI levelup = SingletonBehavior<BattleManagerUI>.Instance?.ui_levelup;
+                    if (levelup != null)
+                    {
+                        try { levelup.SetRootCanvas(false); } catch { /* ignore */ }
+                        try
+                        {
+                            if (levelup.egoSlotList != null)
+                            {
+                                for (int i = 0; i < levelup.egoSlotList.Length; i++)
+                                {
+                                    if (levelup.egoSlotList[i] != null && levelup.egoSlotList[i].gameObject != null)
+                                        levelup.egoSlotList[i].gameObject.SetActive(false);
+                                }
+                            }
+                        }
+                        catch { /* ignore */ }
+                        try
+                        {
+                            if (levelup.candidates != null)
+                            {
+                                for (int i = 0; i < levelup.candidates.Length; i++)
+                                {
+                                    if (levelup.candidates[i] != null && levelup.candidates[i].gameObject != null)
+                                        levelup.candidates[i].gameObject.SetActive(false);
+                                }
+                            }
+                        }
+                        catch { /* ignore */ }
+                    }
+                }
+                catch { /* ignore */ }
+
+                Debug.Log("[RMR] HideHandUiUntilCombat: hand root deactivated for intro.");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] HideHandUiUntilCombat: " + ex.Message);
+            }
         }
 
         public static bool IsMoneyPlaceholderPassive(LorId id)
@@ -369,32 +595,13 @@ namespace RogueLike_Mod_Reborn
             return floor.ToString();
         }
 
-        /// <summary>A3: toast when inventory list is empty after filters.</summary>
+        /// <summary>
+        /// Former empty-inventory toast (e.g. "当前层限制：没有可显示的核心书页…") — removed as useless noise.
+        /// Kept as silent no-op so existing call sites need no change.
+        /// </summary>
         public static void NotifyInventoryEmptyIfNeeded(bool isBookInventory, int count)
         {
-            if (count > 0)
-                return;
-            if (!LogLikeRoutines.IsRoguelikeBattleSettingContext() && !IsRealizationPrepareContext())
-                return;
-            string key = isBookInventory ? "ui_RMR_BookInventoryEmpty" : "ui_RMR_InventoryEmpty";
-            string msg;
-            try { msg = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText(key); }
-            catch { msg = key; }
-            if (string.IsNullOrEmpty(msg) || msg == key)
-                msg = isBookInventory
-                    ? "当前层限制：没有可显示的核心书页。"
-                    : "当前层限制：没有可显示的战斗书页。";
-            try
-            {
-                if (UIAlarmPopup.instance != null)
-                    UIAlarmPopup.instance.SetAlarmText(msg);
-                else
-                    Debug.Log($"[RMR] {msg}");
-            }
-            catch
-            {
-                Debug.Log($"[RMR] {msg}");
-            }
+            // Silent: no modal / alarm when equip (core) or combat page lists are empty after floor filters.
         }
     }
 }

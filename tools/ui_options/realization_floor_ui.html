@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>解放战选层 · 视觉参考方案</title>
+<style>
+  :root {
+    --bg: #070605;
+    --ink: #f2e8d4;
+    --muted: #9a8a6e;
+    --gold: #e2bc5c;
+    --gold-dim: #8a6e38;
+    --line: #3a2e1a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+    background: radial-gradient(ellipse at 50% 0%, #1a140c 0%, var(--bg) 55%);
+    color: var(--ink);
+  }
+
+  /* ── top bar ── */
+  .top {
+    position: sticky; top: 0; z-index: 30;
+    background: rgba(8,6,4,.92);
+    border-bottom: 1px solid var(--gold-dim);
+    backdrop-filter: blur(10px);
+    padding: 14px 20px 12px;
+  }
+  .top h1 {
+    margin: 0; text-align: center; font-size: 1.2rem;
+    color: var(--gold); letter-spacing: .14em; font-weight: 600;
+  }
+  .top p {
+    margin: 6px 0 0; text-align: center; color: var(--muted); font-size: .88rem;
+  }
+  .tabs {
+    display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .tab {
+    border: 1px solid var(--gold-dim);
+    background: #16120c;
+    color: var(--muted);
+    padding: 8px 14px;
+    font-size: .85rem;
+    letter-spacing: .06em;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .tab:hover { border-color: var(--gold); color: var(--ink); }
+  .tab.active {
+    background: linear-gradient(180deg, #3a2e16, #241c10);
+    border-color: var(--gold);
+    color: var(--gold);
+    box-shadow: 0 0 0 1px rgba(226,188,92,.25);
+  }
+  .tab .id {
+    display: inline-block; min-width: 1.2em;
+    font-weight: 700; color: var(--gold);
+  }
+
+  /* ── main ── */
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 18px 16px 120px; }
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade .18s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .info {
+    display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 860px) { .info { grid-template-columns: 1fr; } }
+  .info-card, .spec-card {
+    background: linear-gradient(180deg, #16120e, #100c09);
+    border: 1px solid var(--line);
+    padding: 14px 16px;
+  }
+  .info-card h2 {
+    margin: 0 0 8px; font-size: 1.15rem; color: var(--ink);
+  }
+  .info-card .tag {
+    display: inline-block; font-size: 11px; letter-spacing: .12em;
+    color: var(--gold); border: 1px solid var(--gold-dim);
+    padding: 2px 8px; margin-bottom: 8px;
+  }
+  .info-card p { margin: 0; color: var(--muted); line-height: 1.6; font-size: .92rem; }
+  .spec-card h3 {
+    margin: 0 0 10px; font-size: .8rem; letter-spacing: .12em;
+    color: var(--gold-dim); font-weight: 600;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    font-size: 12px; color: #c8b898; background: #221c14;
+    border: 1px solid #3a3020; padding: 4px 9px;
+  }
+  .spec-card ul {
+    margin: 10px 0 0; padding-left: 18px; color: #b8a888;
+    font-size: .86rem; line-height: 1.55;
+  }
+
+  /* ── mock stage (full preview) ── */
+  .stage-label {
+    text-align: center; color: var(--gold-dim); font-size: 12px;
+    letter-spacing: .16em; margin: 4px 0 10px;
+  }
+  .stage {
+    position: relative;
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 10;
+    background: #030201;
+    border: 1px solid #4a3a20;
+    box-shadow: 0 20px 60px rgba(0,0,0,.55), inset 0 0 80px rgba(0,0,0,.6);
+    overflow: hidden;
+  }
+  .stage-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(40,28,12,.55) 0%, transparent 55%),
+      #050403;
+  }
+
+  /* shared frame helper */
+  .lor-frame {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    background: #120e0a;
+    border: 2px solid #c9a45c;
+    box-shadow:
+      0 0 0 5px #1a140e,
+      0 0 0 7px #6a5228,
+      0 0 0 10px #2a2010,
+      0 18px 40px rgba(0,0,0,.55);
+  }
+  .lor-frame::before, .lor-frame::after {
+    content: ""; position: absolute; width: 12px; height: 12px;
+    background: #e2bc5c; transform: rotate(45deg);
+  }
+  .lor-frame::before { top: -7px; left: -7px; }
+  .lor-frame::after { top: -7px; right: -7px; }
+  .corner-bl, .corner-br {
+    position: absolute; width: 12px; height: 12px;
+    background: #e2bc5c; transform: rotate(45deg);
+  }
+  .corner-bl { bottom: -7px; left: -7px; }
+  .corner-br { bottom: -7px; right: -7px; }
+
+  .hdr {
+    text-align: center; padding-top: 14px;
+  }
+  .hdr .t {
+    color: var(--gold); font-size: clamp(14px, 1.7vw, 22px);
+    letter-spacing: .12em; font-weight: 700;
+    text-shadow: 0 1px 0 #1a1005;
+  }
+  .hdr .s {
+    color: #7a6a48; font-size: clamp(8px, .85vw, 11px);
+    letter-spacing: .18em; margin-top: 4px;
+  }
+  .hdr .d {
+    color: #8a7a60; font-size: clamp(8px, .85vw, 11px);
+    margin: 6px 8% 0; line-height: 1.4;
+  }
+  .rule {
+    height: 1px; margin: 10px 12% 0;
+    background: linear-gradient(90deg, transparent, #8a6e38, transparent);
+    position: relative;
+  }
+  .rule::after {
+    content: ""; position: absolute; left: 50%; top: 50%;
+    width: 7px; height: 7px; background: #e2bc5c;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  /* ═══════ A: invitation list ═══════ */
+  .a-frame { width: min(42%, 360px); height: min(86%, 520px); }
+  .a-list { margin: 12px 10% 0; display: grid; gap: 7px; }
+  .a-btn {
+    height: 34px;
+    border: 1px solid #8a6e38;
+    background: linear-gradient(180deg, #2a2214, #1a140e);
+    color: #e8d8b0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: clamp(9px, 1vw, 12px);
+    letter-spacing: .04em;
+  }
+  .a-btn.primary {
+    border-color: #e2bc5c; color: #e2bc5c;
+    background: linear-gradient(180deg, #3a2e16, #241c10);
+    box-shadow: inset 0 0 0 1px rgba(226,188,92,.15);
+  }
+  .a-btn.done { color: #e2bc5c; border-color: #b08c40; }
+  .a-foot {
+    position: absolute; bottom: 14px; left: 0; right: 0;
+    text-align: center; color: #6a5a42; font-size: 9px; letter-spacing: .1em;
+  }
+
+  /* ═══════ B: sephirah board ═══════ */
+  .b-frame { width: min(72%, 620px); height: min(78%, 420px); }
+  .b-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: clamp(5px, .8vw, 10px);
+    margin: 14px 6% 0;
+  }
+  .b-cell {
+    aspect-ratio: 1;
+    background: #16120c;
+    border: 1px solid #4a3a22;
+    position: relative;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    color: #d8c8a8; font-size: clamp(9px, 1vw, 12px);
+    overflow: hidden;
+  }
+  .b-cell .rail {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  }
+  .b-cell .en {
+    font-size: clamp(6px, .7vw, 8px); color: #7a6a50; margin-top: 3px; letter-spacing: .08em;
+  }
+  .b-cell.done {
+    border-color: #e2bc5c;
+    box-shadow: inset 0 0 0 1px rgba(226,188,92,.35), 0 0 12px rgba(226,188,92,.12);
+    color: #e2bc5c;
+  }
+  .b-cell.done::after {
+    content: "✓"; position: absolute; top: 3px; right: 5px;
+    font-size: 9px; color: #e2bc5c;
+  }
+
+  /* ═══════ C: pass tickets ═══════ */
+  .c-frame { width: min(78%, 700px); height: min(88%, 500px); }
+  .c-progress {
+    margin: 8px 14% 0; text-align: center;
+  }
+  .c-progress .lab { font-size: clamp(8px, .85vw, 11px); color: #d0c0a0; margin-bottom: 4px; }
+  .c-bar {
+    height: 8px; background: #1a140e; border: 1px solid #6a5228;
+    position: relative; overflow: hidden;
+  }
+  .c-bar > i {
+    display: block; height: 100%; width: 30%;
+    background: linear-gradient(90deg, #8a6e30, #e2bc5c);
+  }
+  .c-rows {
+    margin: 10px 5% 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 7px;
+  }
+  .c-ticket {
+    height: clamp(34px, 4.2vw, 44px);
+    border: 1.5px solid #7a6230;
+    background: #16110c;
+    display: flex; align-items: stretch;
+    position: relative;
+    box-shadow: inset 0 0 0 1px #2a2014;
+  }
+  .c-ticket.done {
+    border-color: #e2bc5c;
+    background: #221a0e;
+  }
+  .c-stub {
+    width: 36px; background: #0c0906;
+    display: flex; align-items: center; justify-content: center;
+    color: #e2bc5c; font-size: clamp(8px, .9vw, 11px); font-weight: 700;
+    border-right: 1px dashed #5a4a28;
+    position: relative;
+  }
+  .c-stub::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .c-body {
+    flex: 1; display: flex; align-items: center; gap: 6px;
+    padding: 0 6px 0 8px; min-width: 0;
+  }
+  .c-rail { width: 3px; align-self: stretch; margin: 4px 0; flex-shrink: 0; }
+  .c-name {
+    display: flex; flex-direction: column; min-width: 0;
+  }
+  .c-name .zh { font-size: clamp(9px, 1vw, 12px); color: #e8dcc0; white-space: nowrap; }
+  .c-name .en { font-size: clamp(6px, .7vw, 8px); color: #7a6a50; letter-spacing: .1em; }
+  .c-ticket.done .c-name .zh { color: #e2bc5c; }
+  .c-seal {
+    margin-left: auto;
+    border: 1px solid #6a5430;
+    padding: 2px 6px;
+    text-align: center;
+    min-width: 48px;
+    flex-shrink: 0;
+  }
+  .c-seal .a { font-size: clamp(8px, .85vw, 10px); color: #c8b898; }
+  .c-seal .b { font-size: clamp(6px, .65vw, 8px); color: #7a6a50; }
+  .c-ticket.done .c-seal {
+    border-color: #e2bc5c; background: #3a2c12;
+  }
+  .c-ticket.done .c-seal .a { color: #e2bc5c; font-weight: 700; }
+  .c-ticket.done .c-seal .b { color: #c9a45c; }
+  .c-back {
+    position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+    border: 1px solid #6a5430; color: #d0c0a0;
+    padding: 5px 28px; font-size: 11px; background: #1a140e;
+  }
+
+  /* ═══════ D: story page ═══════ */
+  .d-frame { width: min(48%, 400px); height: min(86%, 500px); background: linear-gradient(180deg, #1a120c, #0c0906); }
+  .d-quote {
+    margin: 12px 12% 0; text-align: center;
+    color: #7a6a50; font-size: clamp(8px, .9vw, 11px);
+    font-style: italic; line-height: 1.55;
+  }
+  .d-list { margin: 12px 12% 0; }
+  .d-item {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 7px 0;
+    border-bottom: 1px solid #2a2218;
+    font-size: clamp(9px, 1vw, 12px);
+    color: #c8b898;
+  }
+  .d-item .st { color: #6a5a42; font-size: .9em; }
+  .d-item.done { color: #e2bc5c; }
+  .d-item.done .st { color: #c9a45c; }
+  .d-orn {
+    text-align: center; color: #e2bc5c; letter-spacing: .4em;
+    font-size: 12px; margin-top: 4px;
+  }
+
+  /* colors for rails */
+  .c-malkuth, .b-malkuth { background: #b8c846; }
+  .c-yesod, .b-yesod { background: #9b5ec8; }
+  .c-hod, .b-hod { background: #e08038; }
+  .c-netzach, .b-netzach { background: #48b868; }
+  .c-tiphereth, .b-tiphereth { background: #e0c040; }
+  .c-gebura, .b-gebura { background: #d04040; }
+  .c-chesed, .b-chesed { background: #4080e0; }
+  .c-binah, .b-binah { background: #8a7050; }
+  .c-hokma, .b-hokma { background: #c0c8d0; }
+  .c-keter, .b-keter { background: #f0e8d8; }
+
+  /* ── bottom bar ── */
+  .bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 40;
+    background: rgba(8,6,4,.95);
+    border-top: 1px solid var(--gold-dim);
+    padding: 12px 16px;
+    display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap;
+  }
+  .bar .sel { color: var(--muted); font-size: .9rem; min-width: 200px; text-align: center; }
+  .bar .sel strong { color: var(--gold); }
+  .bar button {
+    background: linear-gradient(180deg, #3a2e18, #2a2010);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 10px 26px;
+    font-size: .95rem;
+    letter-spacing: .08em;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .bar button:hover:not(:disabled) { background: #4a3a20; }
+  .bar button:disabled { opacity: .35; cursor: not-allowed; }
+  .bar button.secondary {
+    border-color: #5a4a30; color: #a89878;
+    background: #16120c;
+  }
+
+  .toast {
+    display: none; position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+    z-index: 50; background: #2a2210; border: 1px solid var(--gold);
+    color: var(--gold); padding: 10px 18px; font-size: .9rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,.5);
+  }
+  .toast.show { display: block; animation: fade .15s ease; }
+
+  .server-hint {
+    max-width: 980px; margin: 14px auto 0;
+    text-align: center; color: #5a4a32; font-size: 12px; line-height: 1.5;
+  }
+  .server-hint code {
+    color: #8a7a58; background: #14100c; padding: 1px 6px; border: 1px solid #2a2218;
+  }
+</style>
+</head>
+<body>
+  <div class="toast" id="toast"></div>
+
+  <div class="top">
+    <h1>解放战选层 GUI · 视觉参考</h1>
+    <p>点上方标签切换方案 → 中间是<strong style="color:var(--gold)">接近游戏内全屏比例</strong>的示意 → 底部确认保存</p>
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-id="A"><span class="id">A</span> 邀请书菜单</button>
+      <button class="tab" data-id="B"><span class="id">B</span> 司书层棋盘</button>
+      <button class="tab" data-id="C"><span class="id">C</span> 通行券双列</button>
+      <button class="tab" data-id="D"><span class="id">D</span> 故事书页</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- ════════ A ════════ -->
+    <section class="panel active" id="panel-A">
+      <div class="info">
+        <div class="info-card">
+          <span class="tag">方案 A</span>
+          <h2>邀请书式纵向菜单</h2>
+          <p>全屏墨黑背景，中央竖向「邀请书」卡片。十层做成单列长按钮（主按钮金边），信息密度低，仪式感接近原版发送邀请 / 开局 Hub。</p>
+        </div>
+        <div class="spec-card">
+          <h3>视觉特征</h3>
+          <div class="chips">
+            <span class="chip">单列列表</span>
+            <span class="chip">Mystery 金边按钮感</span>
+            <span class="chip">窄竖卡</span>
+            <span class="chip">仪式感最强</span>
+          </div>
+          <ul>
+            <li>与开局模式选择页同族，产品感统一</li>
+            <li>中文大字最易读，不抢戏</li>
+            <li>已通关仅用金色字/边区分</li>
+          </ul>
+        </div>
+      </div>
+      <div class="stage-label">↓ 游戏内全屏示意（非真实截图，布局比例接近）</div>
+      <div class="stage">
+        <div class="stage-bg"></div>
+        <div class="lor-frame a-frame">
+          <span class="corner-bl"></span><span class="corner-br"></span>
+          <div class="hdr">
+            <div class="t">挑战解放战</div>
+            <div class="s">LIBRARY OF RUINA · INVITATION</div>
+            <div class="d">选择楼层后编队，挑战原版最终解放战</div>
+          </div>
+          <div class="rule"></div>
+          <div class="a-list">
+            <div class="a-btn done">Ⅰ  历史层  ·  已完成 · 可再战</div>
+            <div class="a-btn primary">Ⅱ  科技层  ·  挑战</div>
+            <div class="a-btn">Ⅲ  文学层  ·  挑战</div>
+            <div class="a-btn">Ⅳ  艺术层  ·  挑战</div>
+            <div class="a-btn">Ⅴ  自然层  ·  挑战</div>
+            <div class="a-btn">Ⅵ  语言层  ·  挑战</div>
+            <div class="a-btn">… 其余楼层</div>
+          </div>
+          <div class="a-foot">返回</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ B ════════ -->
+    <section class="panel" id="panel-B">
+      <div class="info">
+        <div class="info-card">
+          <span class="tag">方案 B</span>
+          <h2>司书层色块棋盘</h2>
+          <p>仿图书馆选层：5×2 方格棋盘，每格用司书色侧条标识身份。已通关金框点亮。更像「图书馆地图」而不是菜单列表。</p>
+        </div>
+        <div class="spec-card">
+          <h3>视觉特征</h3>
+          <div class="chips">
+            <span class="chip">5×2 网格</span>
+            <span class="chip">司书色编码</span>
+            <span class="chip">宽横卡</span>
+            <span class="chip">最像原版楼层</span>
+          </div>
+          <ul>
+            <li>十层同屏，扫视最快</li>
+            <li>颜色即楼层身份（历史绿黄、语言红…）</li>
+            <li>已通关/未通关对比非常鲜明</li>
+          </ul>
+        </div>
+      </div>
+      <div class="stage-label">↓ 游戏内全屏示意（非真实截图，布局比例接近）</div>
+      <div class="stage">
+        <div class="stage-bg"></div>
+        <div class="lor-frame b-frame">
+          <span class="corner-bl"></span><span class="corner-br"></span>
+          <div class="hdr">
+            <div class="t">选择解放之层</div>
+            <div class="s">SEPHIRAH · REALIZATION</div>
+          </div>
+          <div class="rule"></div>
+          <div class="b-grid">
+            <div class="b-cell done"><span class="rail b-malkuth"></span>历史<span class="en">MALKUTH</span></div>
+            <div class="b-cell"><span class="rail b-yesod"></span>科技<span class="en">YESOD</span></div>
+            <div class="b-cell"><span class="rail b-hod"></span>文学<span class="en">HOD</span></div>
+            <div class="b-cell done"><span class="rail b-netzach"></span>艺术<span class="en">NETZACH</span></div>
+            <div class="b-cell"><span class="rail b-tiphereth"></span>自然<span class="en">TIPHERETH</span></div>
+            <div class="b-cell"><span class="rail b-gebura"></span>语言<span class="en">GEBURA</span></div>
+            <div class="b-cell done"><span class="rail b-chesed"></span>社会<span class="en">CHESED</span></div>
+            <div class="b-cell"><span class="rail b-binah"></span>哲学<span class="en">BINAH</span></div>
+            <div class="b-cell"><span class="rail b-hokma"></span>宗教<span class="en">HOKMA</span></div>
+            <div class="b-cell"><span class="rail b-keter"></span>总类<span class="en">KETER</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ C ════════ -->
+    <section class="panel" id="panel-C">
+      <div class="info">
+        <div class="info-card">
+          <span class="tag">方案 C · 当前代码方向</span>
+          <h2>通行券 / 双列邀请卡</h2>
+          <p>双列「通行券」：左侧罗马数字票根 + 虚线撕口 + 司书色轨，中间楼层名与英文码，右侧状态印章。顶部解放进度条。信息最全，偏精致 UI。</p>
+        </div>
+        <div class="spec-card">
+          <h3>视觉特征</h3>
+          <div class="chips">
+            <span class="chip">双列卡片</span>
+            <span class="chip">票根 + 印章</span>
+            <span class="chip">进度条 X/10</span>
+            <span class="chip">信息最全</span>
+          </div>
+          <ul>
+            <li>进度、状态、楼层身份同时可见</li>
+            <li>已实现雏形在 LogRealizationPanel</li>
+            <li>适合当「清层图鉴 + 入口」</li>
+          </ul>
+        </div>
+      </div>
+      <div class="stage-label">↓ 游戏内全屏示意（非真实截图，布局比例接近）</div>
+      <div class="stage">
+        <div class="stage-bg"></div>
+        <div class="lor-frame c-frame">
+          <span class="corner-bl"></span><span class="corner-br"></span>
+          <div class="hdr">
+            <div class="t">挑战解放战</div>
+            <div class="s">LIBRARY OF RUINA · FLOOR REALIZATION PASS</div>
+            <div class="d">选择楼层通行券，编队后挑战原版最终解放战。首通永久解锁。</div>
+          </div>
+          <div class="c-progress">
+            <div class="lab">解放进度  3 / 10</div>
+            <div class="c-bar"><i></i></div>
+          </div>
+          <div class="rule"></div>
+          <div class="c-rows">
+            <div class="c-ticket done">
+              <div class="c-stub" style="border-top:3px solid #b8c846">I</div>
+              <div class="c-body">
+                <div class="c-rail c-malkuth"></div>
+                <div class="c-name"><span class="zh">历史层</span><span class="en">MALKUTH</span></div>
+                <div class="c-seal"><div class="a">已完成</div><div class="b">可再战</div></div>
+              </div>
+            </div>
+            <div class="c-ticket">
+              <div class="c-stub" style="border-top:3px solid #9b5ec8">II</div>
+              <div class="c-body">
+                <div class="c-rail c-yesod"></div>
+                <div class="c-name"><span class="zh">科技层</span><span class="en">YESOD</span></div>
+                <div class="c-seal"><div class="a">挑战</div><div class="b">OPEN</div></div>
+              </div>
+            </div>
+            <div class="c-ticket done">
+              <div class="c-stub" style="border-top:3px solid #e08038">III</div>
+              <div class="c-body">
+                <div class="c-rail c-hod"></div>
+                <div class="c-name"><span class="zh">文学层</span><span class="en">HOD</span></div>
+                <div class="c-seal"><div class="a">已完成</div><div class="b">可再战</div></div>
+              </div>
+            </div>
+            <div class="c-ticket">
+              <div class="c-stub" style="border-top:3px solid #48b868">IV</div>
+              <div class="c-body">
+                <div class="c-rail c-netzach"></div>
+                <div class="c-name"><span class="zh">艺术层</span><span class="en">NETZACH</span></div>
+                <div class="c-seal"><div class="a">挑战</div><div class="b">OPEN</div></div>
+              </div>
+            </div>
+            <div class="c-ticket done">
+              <div class="c-stub" style="border-top:3px solid #e0c040">V</div>
+              <div class="c-body">
+                <div class="c-rail c-tiphereth"></div>
+                <div class="c-name"><span class="zh">自然层</span><span class="en">TIPHERETH</span></div>
+                <div class="c-seal"><div class="a">已完成</div><div class="b">可再战</div></div>
+              </div>
+            </div>
+            <div class="c-ticket">
+              <div class="c-stub" style="border-top:3px solid #d04040">VI</div>
+              <div class="c-body">
+                <div class="c-rail c-gebura"></div>
+                <div class="c-name"><span class="zh">语言层</span><span class="en">GEBURA</span></div>
+                <div class="c-seal"><div class="a">挑战</div><div class="b">OPEN</div></div>
+              </div>
+            </div>
+            <div class="c-ticket">
+              <div class="c-stub" style="border-top:3px solid #4080e0">VII</div>
+              <div class="c-body">
+                <div class="c-rail c-chesed"></div>
+                <div class="c-name"><span class="zh">社会层</span><span class="en">CHESED</span></div>
+                <div class="c-seal"><div class="a">挑战</div><div class="b">OPEN</div></div>
+              </div>
+            </div>
+            <div class="c-ticket">
+              <div class="c-stub" style="border-top:3px solid #8a7050">VIII</div>
+              <div class="c-body">
+                <div class="c-rail c-binah"></div>
+                <div class="c-name"><span class="zh">哲学层</span><span class="en">BINAH</span></div>
+                <div class="c-seal"><div class="a">挑战</div><div class="b">OPEN</div></div>
+              </div>
+            </div>
+            <div class="c-ticket">
+              <div class="c-stub" style="border-top:3px solid #c0c8d0">IX</div>
+              <div class="c-body">
+                <div class="c-rail c-hokma"></div>
+                <div class="c-name"><span class="zh">宗教层</span><span class="en">HOKMA</span></div>
+                <div class="c-seal"><div class="a">挑战</div><div class="b">OPEN</div></div>
+              </div>
+            </div>
+            <div class="c-ticket">
+              <div class="c-stub" style="border-top:3px solid #f0e8d8">X</div>
+              <div class="c-body">
+                <div class="c-rail c-keter"></div>
+                <div class="c-name"><span class="zh">总类层</span><span class="en">KETER</span></div>
+                <div class="c-seal"><div class="a">挑战</div><div class="b">OPEN</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="c-back">返 回</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ D ════════ -->
+    <section class="panel" id="panel-D">
+      <div class="info">
+        <div class="info-card">
+          <span class="tag">方案 D</span>
+          <h2>故事书页 / 诗句目录</h2>
+          <p>更文学、更「废墟」：像书页目录。上方氛围引文，下列章节式楼层名 + 状态。装饰线、菱形饰，少色块，偏沉静叙事。</p>
+        </div>
+        <div class="spec-card">
+          <h3>视觉特征</h3>
+          <div class="chips">
+            <span class="chip">目录列表</span>
+            <span class="chip">引文氛围</span>
+            <span class="chip">少色块</span>
+            <span class="chip">氛围最强</span>
+          </div>
+          <ul>
+            <li>最有叙事感与文学味</li>
+            <li>视觉安静，不抢原版美术</li>
+            <li>适合作为重大挑战入口仪式页</li>
+          </ul>
+        </div>
+      </div>
+      <div class="stage-label">↓ 游戏内全屏示意（非真实截图，布局比例接近）</div>
+      <div class="stage">
+        <div class="stage-bg"></div>
+        <div class="lor-frame d-frame">
+          <span class="corner-bl"></span><span class="corner-br"></span>
+          <div class="hdr">
+            <div class="d-orn">— ◆ —</div>
+            <div class="t">解 放</div>
+            <div class="s">FLOOR REALIZATION</div>
+          </div>
+          <div class="d-quote">「我们终将直面<br/>那被压进书页里的真相。」</div>
+          <div class="rule"></div>
+          <div class="d-list">
+            <div class="d-item done"><span>Ⅰ · 历史层</span><span class="st">已解放</span></div>
+            <div class="d-item"><span>Ⅱ · 科技层</span><span class="st">未挑战</span></div>
+            <div class="d-item done"><span>Ⅲ · 文学层</span><span class="st">已解放</span></div>
+            <div class="d-item"><span>Ⅳ · 艺术层</span><span class="st">未挑战</span></div>
+            <div class="d-item done"><span>Ⅴ · 自然层</span><span class="st">已解放</span></div>
+            <div class="d-item"><span>Ⅵ · 语言层</span><span class="st">未挑战</span></div>
+            <div class="d-item"><span>Ⅶ · 社会层</span><span class="st">未挑战</span></div>
+            <div class="d-item"><span>Ⅷ · 哲学层</span><span class="st">未挑战</span></div>
+            <div class="d-item"><span>Ⅸ · 宗教层</span><span class="st">未挑战</span></div>
+            <div class="d-item"><span>Ⅹ · 总类层</span><span class="st">未挑战</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <p class="server-hint">
+      若页面打不开：在资源管理器双击
+      <code>tools\ui_options\start_ui.bat</code>
+      或运行
+      <code>tools\ui_options\serve.ps1</code>
+      ，然后打开
+      <code>http://127.0.0.1:8765/realization_floor_ui.html</code>
+      <br/>也可直接双击本 HTML 文件离线预览（确认保存需服务端，离线会写入浏览器本地）。
+    </p>
+  </div>
+
+  <div class="bar">
+    <div class="sel" id="selText">当前预览：<strong>方案 A · 邀请书菜单</strong>（尚未确认）</div>
+    <button class="secondary" type="button" id="btnOpenFile">用浏览器打开本地文件</button>
+    <button type="button" id="btn" disabled>确认选用此方案</button>
+  </div>
+
+<script>
+  const NAMES = {
+    A: '邀请书菜单',
+    B: '司书层棋盘',
+    C: '通行券双列',
+    D: '故事书页'
+  };
+  let selected = null;
+  let preview = 'A';
+
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+  const selText = document.getElementById('selText');
+  const btn = document.getElementById('btn');
+  const toast = document.getElementById('toast');
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  function setPreview(id) {
+    preview = id;
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.id === id));
+    panels.forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
+    if (selected && selected.id === id) {
+      selText.innerHTML = '已确认：<strong>方案 ' + id + ' · ' + NAMES[id] + '</strong>';
+      btn.disabled = false;
+      btn.textContent = '已选用方案 ' + id;
+    } else {
+      selText.innerHTML = '当前预览：<strong>方案 ' + id + ' · ' + NAMES[id] + '</strong>（点「确认选用」保存）';
+      btn.disabled = false;
+      btn.textContent = '确认选用此方案';
+    }
+  }
+
+  tabs.forEach(t => t.addEventListener('click', () => setPreview(t.dataset.id)));
+
+  btn.addEventListener('click', async () => {
+    selected = {
+      id: preview,
+      name: NAMES[preview],
+      panel: 'realization_floor_pick',
+      savedAt: new Date().toISOString()
+    };
+    // local fallback always
+    try { localStorage.setItem('rmr_realization_ui_selection', JSON.stringify(selected)); } catch (_) {}
+
+    let savedRemote = false;
+    try {
+      const res = await fetch('/select_realization_ui', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(selected)
+      });
+      savedRemote = res.ok;
+    } catch (_) { savedRemote = false; }
+
+    selText.innerHTML = '已确认：<strong>方案 ' + selected.id + ' · ' + selected.name + '</strong>';
+    btn.textContent = '已选用方案 ' + selected.id;
+    if (savedRemote) {
+      showToast('已保存方案 ' + selected.id + ' → selection_realization_ui.json');
+    } else {
+      showToast('已选方案 ' + selected.id + '（离线模式：请在聊天里回复「选方案 ' + selected.id + '」）');
+    }
+  });
+
+  document.getElementById('btnOpenFile').addEventListener('click', () => {
+    showToast('请在资源管理器打开 tools\\ui_options\\realization_floor_ui.html，或运行 start_ui.bat');
+  });
+
+  // Restore previous selection if any
+  try {
+    const raw = localStorage.getItem('rmr_realization_ui_selection');
+    if (raw) {
+      const o = JSON.parse(raw);
+      if (o && o.id && NAMES[o.id]) {
+        selected = o;
+        setPreview(o.id);
+        selText.innerHTML = '上次选择：<strong>方案 ' + o.id + ' · ' + NAMES[o.id] + '</strong>（可改选后重新确认）';
+      }
+    }
+  } catch (_) {}
+
+  // Hash deep link: #C
+  if (location.hash && /^#[ABCD]$/i.test(location.hash)) {
+    setPreview(location.hash.slice(1).toUpperCase());
+  }
+</script>
+</body>
+</html>

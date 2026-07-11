@@ -145,9 +145,6 @@ namespace RogueLike_Mod_Reborn
             yield return null;
             yield return null;
             try { LogLikeMod.EnsureLocalizedFonts("StartHub.delayed", repairActiveUi: true); } catch { }
-            // One more pass after UI settles (story/PV panels may spawn late).
-            yield return new WaitForSeconds(0.35f);
-            try { LogLikeMod.EnsureLocalizedFonts("StartHub.delayed2", repairActiveUi: true); } catch { }
         }
 
         private static void EnsureChineseCapableFont()
@@ -307,13 +304,13 @@ namespace RogueLike_Mod_Reborn
 
             AddLabel(card.transform,
                 T("ui_RMR_HubTitle", "Roguelike \u5f00\u5c40", "Roguelike Start", "Roguelike \uc2dc\uc791"),
-                new Vector2(0f, 200f), 38, new Vector2(560f, 52f), ColGold, true);
+                new Vector2(0f, 200f), 42, new Vector2(560f, 56f), ColGold, true);
             AddLabel(card.transform,
                 T("ui_RMR_HubDesc",
                     "\u9009\u62e9\u5f00\u5c40\u65b9\u5f0f\u3002\u89e3\u653e\u6218\u53ef\u6c38\u4e45\u89e3\u9501\u697c\u5c42\u5956\u52b1\uff1b\u6b63\u5e38\u6e38\u73a9\u8fdb\u5165\u8089\u9e3d\u8def\u7ebf\u3002",
                     "Choose how to begin. Realization unlocks permanent rewards; Normal Play starts a run.",
                     "\uc2dc\uc791 \ubc29\uc2dd\uc744 \uc120\ud0dd\ud558\uc138\uc694. \ud574\ubc29\uc804\uc740 \uc601\uad6c \ud574\uae08, \uc77c\ubc18 \ud50c\ub808\uc774\ub294 \ub7f0\uc744 \uc2dc\uc791\ud569\ub2c8\ub2e4."),
-                new Vector2(0f, 140f), 18, new Vector2(540f, 72f), ColMuted, false);
+                new Vector2(0f, 140f), 20, new Vector2(540f, 72f), ColMuted, false);
 
             AddRule(card.transform, new Vector2(0f, 92f), 460f);
 
@@ -393,13 +390,18 @@ namespace RogueLike_Mod_Reborn
             rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
             rt.sizeDelta = box;
             rt.anchoredPosition = pos;
-            tmp.font = LogLikeMod.DefFont_TMP;
-            tmp.fontSize = size;
+            // Noto CJKsc SDF has no real bold face — FontStyles.Bold is synthetic and turns CN mushy/blurry.
+            // Prefer size weight over pseudo-bold; material must match the Noto atlas.
+            TMP_FontAsset font = LogLikeMod.DefFont_TMP;
+            LogLikeMod.ApplyTmpFontPreservingSharpMaterial(tmp, font);
+            tmp.fontSize = bold ? size + 2 : size;
             tmp.color = color;
             tmp.alignment = TextAlignmentOptions.Center;
             tmp.enableWordWrapping = true;
             tmp.overflowMode = TextOverflowModes.Overflow;
-            tmp.fontStyle = bold ? FontStyles.Bold : FontStyles.Normal;
+            tmp.fontStyle = FontStyles.Normal;
+            tmp.richText = false;
+            try { tmp.enableAutoSizing = false; } catch { /* older TMP */ }
             tmp.text = text;
             return tmp;
         }
@@ -459,13 +461,16 @@ namespace RogueLike_Mod_Reborn
             trt.anchorMax = Vector2.one;
             trt.offsetMin = new Vector2(16f, 6f);
             trt.offsetMax = new Vector2(-16f, -6f);
-            tmp.font = LogLikeMod.DefFont_TMP;
-            tmp.fontSize = primary ? 26 : 24;
+            // No FontStyles.Bold: CJK Noto SDF + synthetic bold = unreadable blur on hub buttons.
+            LogLikeMod.ApplyTmpFontPreservingSharpMaterial(tmp, LogLikeMod.DefFont_TMP);
+            tmp.fontSize = primary ? 30 : 28;
             tmp.color = textColor;
             tmp.alignment = TextAlignmentOptions.Center;
             tmp.enableWordWrapping = false;
             tmp.overflowMode = TextOverflowModes.Overflow;
-            tmp.fontStyle = primary ? FontStyles.Bold : FontStyles.Normal;
+            tmp.fontStyle = FontStyles.Normal;
+            tmp.richText = false;
+            try { tmp.enableAutoSizing = false; } catch { /* older TMP */ }
             tmp.text = label;
 
             // Hover tint
@@ -866,7 +871,7 @@ namespace RogueLike_Mod_Reborn
             trt.anchorMin = Vector2.zero;
             trt.anchorMax = Vector2.one;
             trt.offsetMin = trt.offsetMax = Vector2.zero;
-            tmp.font = LogLikeMod.DefFont_TMP;
+            LogLikeMod.ApplyTmpFontPreservingSharpMaterial(tmp, LogLikeMod.DefFont_TMP);
             tmp.fontSize = 20;
             tmp.color = exitStyle ? ColExit : ColCream;
             tmp.alignment = TextAlignmentOptions.Center;

@@ -1570,6 +1570,8 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (card == null || card.Script == null || card.Script.Count == 0)
                 return null;
+            if (info != null)
+                RMRAbnormalityUnlockManager.EnsureVanillaEmotionPresentation(info, card);
             PickUpModelBase pickUp = LogLikeMod.FindPickUp(card.Script[0]);
             PickUpModel_RMRVanillaEmotion.InjectResolvedDesc(card, pickUp);
             // UI key is card.Name after ApplyVanillaEmotionPresentation (e.g. SnowWhite_Vine).

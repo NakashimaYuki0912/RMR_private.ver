@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LogueEffectXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <LogueEffectInfo Id="RMR_IronHeart">
+    <Name>강철의 심장</Name>
+    <Desc>지정 사서가 각 전투 접대(일반/정예/보스) 시작 시 체력 6을 회복하고 최대 체력이 1 증가합니다.</Desc>
+    <FlavorText>&lt;color=#CA0812&gt;"단단하지만 여전히 다정하다. 마지막 남은 것들 중 하나."&lt;/color&gt;</FlavorText>
+    <CatalogDesc>심장은 기억한다. 마음이 잊으려 해도, 심장은 잊지 않는다.</CatalogDesc>
+  </LogueEffectInfo>
+
+  <LogueEffectInfo Id="RMR_HunterCloak">
+    <Name>사냥꾼의 망토</Name>
+    <Desc>지정 사서가 무대 시작 시 책장 2장을 추가로 뽑습니다. 매 막 시작 시 지정 사서 손에 '독날' 1장을 추가합니다.</Desc>
+    <FlavorText>&lt;color=#08CA12&gt;"낡고 해졌지만, 끝없이 독날이 숨어 있다."&lt;/color&gt;</FlavorText>
+    <CatalogDesc>거친 천으로 만든 망토. 안쪽 주머니에는 아무리 꺼내도 다시 생기는 단검이 있다.</CatalogDesc>
+  </LogueEffectInfo>
+
+  <LogueEffectInfo Id="RMR_StrangeOrb">
+    <Name>이상한 구체</Name>
+    <Desc>무대 시작 시 구체를 소환합니다. 구체는 체력 20, 혼란 불가·지정 불가이며 항성은 '치명'입니다. 챕터가 진행될수록 더 강해집니다.
+- 매 막 구체는 '과거의 통곡' 전투 책장을 손에 추가합니다.</Desc>
+    <FlavorText>&lt;color=#08CAA9&gt;"불안정해 보여도, 무조건 곁에 붙어 있는 듯하다."&lt;/color&gt;</FlavorText>
+    <CatalogDesc>옛 세계의 잔불이 뭉쳐 이룬 이형. 낯설고도 익숙한 폐허를 떠돈다.</CatalogDesc>
+  </LogueEffectInfo>
+
+  <LogueEffectInfo Id="RMR_ViciousGlasses">
+    <Name>광포한 안경</Name>
+    <Desc>매 막 시작 시 모든 아군에게 치명타 10을 부여합니다.</Desc>
+    <FlavorText>&lt;color=#CA08A9&gt;"멀리서 여러 목소리가 '랜덤 크리티컬'을 없애 달라고 외친다."&lt;/color&gt;</FlavorText>
+    <CatalogDesc>[도감 항목 없음.]</CatalogDesc>
+  </LogueEffectInfo>
+
+  <LogueEffectInfo Id="RMR_LightGuidance">
+    <Name>인도의 빛</Name>
+    <Desc>매 막, 모든 사서의 무작위 주사위 유형 위력이 +1 됩니다. (참격/관통/타격/방어)</Desc>
+    <FlavorText>&lt;color=#FEFCDD&gt;"가끔은 '더 잘 플레이하라'고 속삭인다. 그게 무슨 뜻인지는 모르겠지만…"&lt;/color&gt;</FlavorText>
+    <CatalogDesc>[도감 항목 없음.]</CatalogDesc>
+  </LogueEffectInfo>
+
+  <LogueEffectInfo Id="RMR_RoadlessCamelot">
+    <Name>길 없는 카멜롯</Name>
+    <Desc>매 막 시작 시 무작위 사서 1명이 해당 막 동안 '길 없는 카멜롯'을 얻습니다.
+(길 없는 카멜롯: 이 캐릭터가 전투 책장을 사용할 때마다, 다른 모든 아군은 손의 무작위 전투 책장 1장을 해당 막 종료까지 일시 강화합니다.)</Desc>
+    <FlavorText>&lt;color=#03EAF2&gt;"입구 없는 이상향의 결정. 물 위의 달처럼, 아름다움만큼이나 허약하다."&lt;/color&gt;</FlavorText>
+    <CatalogDesc>모두가 이상을 쫓는다. 그러나 때로 그 길은 처음부터 존재하지 않는다. 남은 것은 물 위의 달 그림자뿐이다.</CatalogDesc>
+  </LogueEffectInfo>
+
+  <LogueEffectInfo Id="RMR_StrangeOrbGrade2">
+    <Name>이상한 구체</Name>
+    <Desc>무대 시작 시 구체를 소환합니다. 체력 20, 혼란 불가·지정 불가, 항성 '취약'. 챕터에 따라 강화됩니다.
+- 매 막 '과거의 통곡' 전투 책장 추가
+- 매 막 모든 아군 보호막 3
+- 한 막 걸러 모든 아군 흐트러짐 저항 3 회복</Desc>
+    <FlavorText>&lt;color=#08CAA9&gt;"불안정해 보여도, 무조건 곁에 붙어 있는 듯하다."&lt;/color&gt;</FlavorText>
+    <CatalogDesc></CatalogDesc>
+  </LogueEffectInfo>
+
+  <LogueEffectInfo Id="RMR_StrangeOrbGrade3">
+    <Name>이상한 구체</Name>
+    <Desc>무대 시작 시 구체를 소환합니다. 체력 20, 혼란 불가·지정 불가, 항성 '보통'. 챕터에 따라 강화됩니다.
+- 매 막 '과거의 통곡' 전투 책장 추가
+- 매 막 모든 아군 보호막 3
+- 한 막 걸러 흐트러짐 저항 3 회복
+- 3막에 모든 아군 빛 1 회복</Desc>
+    <FlavorText>&lt;color=#08CAA9&gt;"불안정해 보여도, 무조건 곁에 붙어 있는 듯하다."&lt;/color&gt;</FlavorText>
+    <CatalogDesc></CatalogDesc>
+  </LogueEffectInfo>
+
+  <LogueEffectInfo Id="RMR_StrangeOrbGrade4">
+    <Name>이상한 구체</Name>
+    <Desc>무대 시작 시 구체를 소환합니다. 체력 20, 혼란 불가·지정 불가, 항성 '견딤'. 챕터에 따라 강화됩니다.
+- 매 막 '과거의 통곡' 전투 책장 추가
+- 매 막 모든 아군 보호막 3 + (피해 증가 1 / 출혈 보호 / 화상 보호 3 중 하나)
+- 한 막 걸러 흐트러짐 저항 3 회복
+- 3막에 모든 아군 빛 1 회복</Desc>
+    <FlavorText>&lt;color=#08CAA9&gt;"불안정해 보여도, 무조건 곁에 붙어 있는 듯하다."&lt;/color&gt;</FlavorText>
+    <CatalogDesc></CatalogDesc>
+  </LogueEffectInfo>
+
+  <LogueEffectInfo Id="RMR_StrangeOrbGrade5">
+    <Name>이상한 구체</Name>
+    <Desc>무대 시작 시 구체를 소환합니다. 체력 20, 혼란 불가·지정 불가, 항성 '견딤'. 챕터에 따라 강화됩니다.
+- 매 막 '과거의 통곡' 전투 책장 추가
+- 매 막 모든 아군 보호막 3 + (피해 증가 1 / 출혈 보호 / 화상 보호 3 중 하나)
+- 한 막 걸러 흐트러짐 저항 3 회복
+- 3막에 빛 1 회복
+- 4막에 전원 책장 1장 뽑기. 이후 매 막 무작위 다른 아군이 1장 뽑기</Desc>
+    <FlavorText>&lt;color=#08CAA9&gt;"불안정해 보여도, 무조건 곁에 붙어 있는 듯하다."&lt;/color&gt;</FlavorText>
+    <CatalogDesc></CatalogDesc>
+  </LogueEffectInfo>
+
+  <LogueEffectInfo Id="RMR_StrangeOrbGrade6">
+    <Name>이상한 구체</Name>
+    <Desc>무대 시작 시 구체를 소환합니다. 체력 20, 혼란 불가·지정 불가, 항성 '견딤'. 안정화된 상태입니다.
+- 매 막 '과거의 통곡' 전투 책장 추가
+- 매 막 모든 아군 보호막 3 + (피해 증가 1 / 출혈 보호 / 화상 보호 3 중 하나); 다른 아군 손의 비용 1 이상 무작위 책장 비용 -1(사용 시까지)
+- 한 막 걸러 흐트러짐 저항 3 회복
+- 3막에 빛 1 회복
+- 4막에 전원 1장 뽑기. 이후 매 막 무작위 다른 아군 1장 뽑기</Desc>
+    <FlavorText>&lt;color=#08CAA9&gt;"불안정해 보여도, 무조건 곁에 붙어 있는 듯하다."&lt;/color&gt;</FlavorText>
+    <CatalogDesc></CatalogDesc>
+  </LogueEffectInfo>
+
+</LogueEffectXmlRoot>

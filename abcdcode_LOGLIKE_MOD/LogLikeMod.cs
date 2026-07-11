@@ -116,6 +116,16 @@ namespace abcdcode_LOGLIKE_MOD
         public static LorId curstageid;
         public static Font DefFont;
         public static TMP_FontAsset _DefFont_TMP;
+        /// <summary>OS/dynamic TMP faces created as last-resort CJK fallback; prefer static SDF Noto instead.</summary>
+        private static readonly HashSet<int> OsBackedTmpFontIds = new HashSet<int>();
+        /// <summary>Throttle full-scene RepairActiveTmpFonts (FindObjectsOfType is expensive).</summary>
+        private static float _lastTmpRepairRealtime = -999f;
+        private static string _lastTmpRepairFontName;
+        private const float TmpRepairMinIntervalSeconds = 4f;
+        private static string _fontsAppliedForLanguage;
+        private static string _openingLyricsLoadedForLanguage;
+        private static string _librarianNamesLoadedForLanguage;
+        private static bool _localizeVerboseLogs;
         public static Color _DefFontColor = new Color(0.9372549f, 0.7607843f, 0.5058824f, 1f);
         public const string ModId = "abcdcodecalmmagma.LogueLikeReborn";
         public static string path;
@@ -393,34 +403,51 @@ namespace abcdcode_LOGLIKE_MOD
                 // Original-codes used LocalizedFontSetter.font_NotoSans only.
                 // Vanilla CN UI actually uses cnFont_notoSansCJKsc / cnFont_notoSerifCJKsc via
                 // LocalizedFontSetter.SetLocalizedFont — not font_NotoSans (that's the en path).
-                // Only auto-re-resolve when missing or a bare Fallback face (not every frame).
-                if (LogLikeMod._DefFont_TMP == null
-                    || IsTmpFallbackFaceName(LogLikeMod._DefFont_TMP.name ?? ""))
+                // Only auto-re-resolve when missing, Fallback face, empty name, or soft OS dynamic face.
+                // Never keep empty-name / soft OS faces — they render CN as blurry mush.
+                if (LogLikeMod._DefFont_TMP != null
+                    && (string.IsNullOrEmpty(LogLikeMod._DefFont_TMP.name)
+                        || IsLowQualityTmpFont(LogLikeMod._DefFont_TMP)
+                        || IsTmpFallbackFaceName(LogLikeMod._DefFont_TMP.name ?? "")))
+                {
+                    LogLikeMod._DefFont_TMP = null;
+                }
+
+                if (LogLikeMod._DefFont_TMP == null)
                 {
                     LogLikeMod._DefFont_TMP = GetLanguageMatchedNotoFont(ResolveInitialTextLanguage());
+                    // Only use OS soft path when Noto is truly unavailable — never cache empty-name faces.
                     if (LogLikeMod._DefFont_TMP == null)
-                        LogLikeMod._DefFont_TMP = ResolveLocalizedTmpFont();
+                    {
+                        TMP_FontAsset os = ResolveLocalizedTmpFont();
+                        if (os != null && !IsLowQualityTmpFont(os) && !string.IsNullOrEmpty(os.name))
+                            LogLikeMod._DefFont_TMP = os;
+                    }
+                    if (LogLikeMod._DefFont_TMP != null
+                        && (IsLowQualityTmpFont(LogLikeMod._DefFont_TMP) || string.IsNullOrEmpty(LogLikeMod._DefFont_TMP.name)))
+                    {
+                        LogLikeMod._DefFont_TMP = null;
+                    }
                     if (LogLikeMod._DefFont_TMP != null)
                     {
                         Debug.Log($"[RMR Localize] DefFont_TMP = '{LogLikeMod._DefFont_TMP.name}' for lang={ResolveInitialTextLanguage()}.");
                         ApplyMatchedFontToLocalizedSetter(LogLikeMod._DefFont_TMP);
                     }
-                    else
-                        Debug.LogWarning("[RMR Localize] DefFont_TMP still null.");
                 }
                 return LogLikeMod._DefFont_TMP;
             }
             set
             {
-                // Reject Latin-only option-dropdown faces and partial TMP Fallback atlases.
-                // ShopManager / MysteryManager historically assigned displayDropdown.itemText.font here.
+                // Reject Latin-only option-dropdown faces, partial TMP Fallback atlases,
+                // empty-named / soft OS dynamic faces. ShopManager historically assigned dropdown fonts here.
                 if (value == null)
                 {
                     LogLikeMod._DefFont_TMP = null;
                     return;
                 }
                 string lang = ResolveInitialTextLanguage();
-                if (IsTmpFallbackFaceName(value.name ?? "")
+                if (IsLowQualityTmpFont(value)
+                    || IsTmpFallbackFaceName(value.name ?? "")
                     || !IsTmpFontCompatibleWithLanguage(value, lang))
                 {
                     Debug.LogWarning($"[RMR Localize] Rejected DefFont_TMP='{value.name}' (lang={lang}); keeping '{LogLikeMod._DefFont_TMP?.name ?? "null"}'.");
@@ -438,38 +465,57 @@ namespace abcdcode_LOGLIKE_MOD
         {
             try
             {
+                string lang = ResolveInitialTextLanguage();
                 // Force re-resolve if cache is bad; getter also patches setter.
                 if (LogLikeMod._DefFont_TMP != null
-                    && (IsTmpFallbackFaceName(LogLikeMod._DefFont_TMP.name ?? "")
-                        || !IsTmpFontCompatibleWithLanguage(LogLikeMod._DefFont_TMP, ResolveInitialTextLanguage())))
+                    && (IsLowQualityTmpFont(LogLikeMod._DefFont_TMP)
+                        || IsTmpFallbackFaceName(LogLikeMod._DefFont_TMP.name ?? "")
+                        || !IsTmpFontCompatibleWithLanguage(LogLikeMod._DefFont_TMP, lang)))
                     LogLikeMod._DefFont_TMP = null;
 
                 TMP_FontAsset font = LogLikeMod.DefFont_TMP;
                 if (font == null)
-                {
-                    Debug.LogWarning($"[RMR Localize] EnsureLocalizedFonts: no font (reason={reason}).");
                     return;
+
+                // Apply setter fonts once per language (not every LibrarianInfo/SetCharacter).
+                if (!string.Equals(_fontsAppliedForLanguage, lang, StringComparison.OrdinalIgnoreCase))
+                {
+                    ApplyMatchedFontToLocalizedSetter(font);
+                    _fontsAppliedForLanguage = lang;
                 }
-                ApplyMatchedFontToLocalizedSetter(font);
+
                 if (repairActiveUi)
                     RepairActiveTmpFonts(reason ?? "EnsureLocalizedFonts");
-                else if (!string.IsNullOrEmpty(reason))
-                    Debug.Log($"[RMR Localize] EnsureLocalizedFonts reason={reason} font='{font.name}'.");
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[RMR Localize] EnsureLocalizedFonts failed: " + ex.Message);
+                if (_localizeVerboseLogs)
+                    Debug.LogWarning("[RMR Localize] EnsureLocalizedFonts failed: " + ex.Message);
             }
         }
 
         /// <summary>
         /// Re-font live TMP that cannot render the current language (character names, book intros, shop).
+        /// Preserves TextMeshProMaterialSetter presets when their material already matches the font atlas —
+        /// blindly assigning font.material was a common source of soft/blurry Chinese SDF UI.
         /// </summary>
         public static void RepairActiveTmpFonts(string reason)
         {
             TMP_FontAsset font = LogLikeMod.DefFont_TMP;
-            if (font == null)
+            if (font == null || IsLowQualityTmpFont(font))
                 return;
+
+            // Full-scene FindObjectsOfType is costly — hard throttle unless language load.
+            float now = Time.unscaledTime;
+            string fontName = font.name ?? "";
+            bool force = !string.IsNullOrEmpty(reason)
+                && (reason.StartsWith("LoadTextData", StringComparison.OrdinalIgnoreCase)
+                    || reason.StartsWith("UIOptionWindow", StringComparison.OrdinalIgnoreCase));
+            if (!force
+                && now - _lastTmpRepairRealtime < TmpRepairMinIntervalSeconds
+                && string.Equals(_lastTmpRepairFontName, fontName, StringComparison.Ordinal))
+                return;
+
             string lang = ResolveInitialTextLanguage();
             int fixedCount = 0;
             try
@@ -477,26 +523,194 @@ namespace abcdcode_LOGLIKE_MOD
                 TextMeshProUGUI[] all = UnityEngine.Object.FindObjectsOfType<TextMeshProUGUI>();
                 foreach (TextMeshProUGUI tmp in all)
                 {
-                    if (tmp == null)
+                    if (tmp == null || !tmp.isActiveAndEnabled)
                         continue;
                     TMP_FontAsset cur = tmp.font;
                     bool bad = cur == null
+                        || string.IsNullOrEmpty(cur.name)
+                        || IsLowQualityTmpFont(cur)
                         || IsTmpFallbackFaceName(cur.name ?? "")
                         || !IsTmpFontCompatibleWithLanguage(cur, lang);
                     if (!bad)
-                        continue;
-                    tmp.font = font;
-                    if (font.material != null)
-                        tmp.fontSharedMaterial = font.material;
-                    fixedCount++;
+                        continue; // skip material rebind pass — was expensive and rarely needed
+                    if (ApplyTmpFontPreservingSharpMaterial(tmp, font))
+                        fixedCount++;
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[RMR Localize] RepairActiveTmpFonts failed: " + ex.Message);
+                if (_localizeVerboseLogs)
+                    Debug.LogWarning("[RMR Localize] RepairActiveTmpFonts failed: " + ex.Message);
                 return;
             }
-            Debug.Log($"[RMR Localize] RepairActiveTmpFonts fixed={fixedCount} reason={reason} font='{font.name}'.");
+            _lastTmpRepairRealtime = now;
+            _lastTmpRepairFontName = fontName;
+            if (_localizeVerboseLogs || fixedCount > 0)
+                Debug.Log($"[RMR Localize] RepairActiveTmpFonts fixed={fixedCount} reason={reason} font='{font.name}'.");
+        }
+
+        /// <summary>
+        /// Empty name, OS dynamic CreateFontAsset, or other soft sampling faces — not authored LoR SDF.
+        /// </summary>
+        private static bool IsLowQualityTmpFont(TMP_FontAsset font)
+        {
+            if (font == null)
+                return true;
+            string name = font.name ?? "";
+            if (string.IsNullOrEmpty(name))
+                return true;
+            try
+            {
+                if (OsBackedTmpFontIds.Contains(font.GetInstanceID()))
+                    return true;
+            }
+            catch { /* ignore */ }
+
+            // Runtime OS dynamic faces are typically named after the OS face / "Font Asset".
+            // Authored LoR CJK faces are "NotoSansCJKsc-Regular SDF", "NotoSerifCJKsc-…", etc.
+            if (name.IndexOf("Microsoft YaHei", StringComparison.OrdinalIgnoreCase) >= 0
+                || name.IndexOf("SimHei", StringComparison.OrdinalIgnoreCase) >= 0
+                || name.IndexOf("SimSun", StringComparison.OrdinalIgnoreCase) >= 0
+                || name.IndexOf("Malgun", StringComparison.OrdinalIgnoreCase) >= 0
+                || name.IndexOf("Yu Gothic", StringComparison.OrdinalIgnoreCase) >= 0
+                || name.IndexOf("Meiryo", StringComparison.OrdinalIgnoreCase) >= 0
+                || name.IndexOf("Arial Unicode", StringComparison.OrdinalIgnoreCase) >= 0
+                || name.Equals("Font Asset", StringComparison.OrdinalIgnoreCase)
+                || name.StartsWith("TMP_Font Asset", StringComparison.OrdinalIgnoreCase))
+                return true;
+
+            // Dynamic atlas population (TMP CreateFontAsset default) samples softer than static SDF.
+            try
+            {
+                PropertyInfo pop = font.GetType().GetProperty("atlasPopulationMode", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                if (pop != null)
+                {
+                    object mode = pop.GetValue(font, null);
+                    if (mode != null && string.Equals(mode.ToString(), "Dynamic", StringComparison.OrdinalIgnoreCase))
+                    {
+                        // Static Noto SDFs are never Dynamic. Treat Dynamic as low-quality for primary UI.
+                        // Exception: if name clearly is a known LoR authored face, keep it.
+                        if (name.IndexOf("NotoSansCJK", StringComparison.OrdinalIgnoreCase) < 0
+                            && name.IndexOf("NotoSerifCJK", StringComparison.OrdinalIgnoreCase) < 0
+                            && name.IndexOf("SourceHan", StringComparison.OrdinalIgnoreCase) < 0
+                            && name.IndexOf("Namsan", StringComparison.OrdinalIgnoreCase) < 0
+                            && name.IndexOf("Arita", StringComparison.OrdinalIgnoreCase) < 0
+                            && name.IndexOf("Shippori", StringComparison.OrdinalIgnoreCase) < 0
+                            && name.IndexOf("logoTypeGothic", StringComparison.OrdinalIgnoreCase) < 0)
+                            return true;
+                    }
+                }
+            }
+            catch { /* older TMP without property */ }
+            return false;
+        }
+
+        /// <summary>
+        /// True when material's main texture is this font's atlas (material presets stay sharp).
+        /// </summary>
+        private static bool MaterialMatchesFontAtlas(Material mat, TMP_FontAsset font)
+        {
+            if (mat == null || font == null)
+                return false;
+            try
+            {
+                Texture matTex = mat.mainTexture;
+                if (matTex == null)
+                    return false;
+                if (font.material != null && font.material.mainTexture != null
+                    && object.ReferenceEquals(matTex, font.material.mainTexture))
+                    return true;
+                // Multi-atlas / atlasTextures
+                try
+                {
+                    PropertyInfo atlasProp = font.GetType().GetProperty("atlasTexture", BindingFlags.Instance | BindingFlags.Public);
+                    if (atlasProp != null)
+                    {
+                        Texture atlas = atlasProp.GetValue(font, null) as Texture;
+                        if (atlas != null && object.ReferenceEquals(matTex, atlas))
+                            return true;
+                    }
+                }
+                catch { /* ignore */ }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Assign CJK-capable font without stomping sharper TextMeshProMaterialSetter materials.
+        /// Returns true if an existing matching material was preserved.
+        /// </summary>
+        public static bool ApplyTmpFontPreservingSharpMaterial(TextMeshProUGUI tmp, TMP_FontAsset font)
+        {
+            if (tmp == null || font == null)
+                return false;
+
+            Material prevMat = null;
+            try { prevMat = tmp.fontSharedMaterial; } catch { prevMat = null; }
+
+            bool keepMaterial = MaterialMatchesFontAtlas(prevMat, font);
+            tmp.font = font;
+
+            if (keepMaterial && prevMat != null)
+            {
+                // Re-apply the setter-tuned material after font assignment (TMP may have swapped to default).
+                try { tmp.fontSharedMaterial = prevMat; } catch { /* ignore */ }
+            }
+            else if (font.material != null)
+            {
+                // Only force default font material when previous material was for a different atlas.
+                // (Wrong-atlas materials cause blurry/broken SDF sampling.)
+                try
+                {
+                    Material cur = tmp.fontSharedMaterial;
+                    if (cur == null || !MaterialMatchesFontAtlas(cur, font))
+                        tmp.fontSharedMaterial = font.material;
+                }
+                catch
+                {
+                    try { tmp.fontSharedMaterial = font.material; } catch { /* ignore */ }
+                }
+            }
+
+            // Synthetic Bold on CJK SDF faces without a true bold weight expands the SDF edge
+            // and reads as heavy blur ("糊"). Strip Bold unless the face name is clearly bold.
+            try
+            {
+                string fname = font.name ?? "";
+                bool hasBoldFace = fname.IndexOf("Bold", StringComparison.OrdinalIgnoreCase) >= 0
+                    || fname.IndexOf("Black", StringComparison.OrdinalIgnoreCase) >= 0
+                    || fname.IndexOf("Heavy", StringComparison.OrdinalIgnoreCase) >= 0;
+                if (!hasBoldFace && (tmp.fontStyle & FontStyles.Bold) != 0)
+                    tmp.fontStyle = tmp.fontStyle & ~FontStyles.Bold;
+            }
+            catch { /* ignore */ }
+
+            // Re-trigger LoR TextMeshProMaterialSetter so underlay/outline colors rebind to the live material.
+            try
+            {
+                TextMeshProMaterialSetter setter = tmp.GetComponent<TextMeshProMaterialSetter>();
+                if (setter != null && setter.enabled)
+                {
+                    setter.enabled = false;
+                    setter.enabled = true;
+                }
+            }
+            catch { /* optional component */ }
+
+            // Slightly better SDF sampling at small UI sizes (safe no-op if property missing in older TMP).
+            try
+            {
+                PropertyInfo extra = tmp.GetType().GetProperty("extraPadding", BindingFlags.Instance | BindingFlags.Public);
+                if (extra != null && extra.CanWrite)
+                    extra.SetValue(tmp, true, null);
+            }
+            catch { /* ignore */ }
+
+            return keepMaterial;
         }
 
         /// <summary>
@@ -567,6 +781,8 @@ namespace abcdcode_LOGLIKE_MOD
                 if (asset == null)
                     return;
                 string name = asset.name ?? "";
+                if (IsLowQualityTmpFont(asset))
+                    return;
                 bool tokenHit = false;
                 foreach (string token in prefer)
                 {
@@ -1528,6 +1744,224 @@ namespace abcdcode_LOGLIKE_MOD
                 return reader.ReadToEnd();
         }
 
+        /// <summary>
+        /// Some BaseMod CN files are GBK/GB2312 on disk while declaring UTF-8 (OpeningLyrics).
+        /// Pick the decoding with more CJK and fewer replacement chars.
+        /// </summary>
+        public static string ReadLocalizeTextFileSmart(string path)
+        {
+            if (string.IsNullOrEmpty(path) || !File.Exists(path))
+                return string.Empty;
+            byte[] bytes = File.ReadAllBytes(path);
+            if (bytes.Length >= 3 && bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF)
+                return Encoding.UTF8.GetString(bytes, 3, bytes.Length - 3);
+
+            string utf8 = Encoding.UTF8.GetString(bytes);
+            string gbk;
+            try { gbk = Encoding.GetEncoding(936).GetString(bytes); }
+            catch { return utf8; }
+
+            int Score(string s)
+            {
+                if (string.IsNullOrEmpty(s))
+                    return -100000;
+                int cjk = 0, hangul = 0, bad = 0;
+                foreach (char ch in s)
+                {
+                    if (ch >= 0x4e00 && ch <= 0x9fff) cjk++;
+                    else if (ch >= 0xac00 && ch <= 0xd7a3) hangul++;
+                    else if (ch == '\uFFFD' || ch == '\u53E3') bad++;
+                }
+                // Prefer CJK-rich, penalize Hangul-only and replacement/tofu.
+                return cjk * 10 - hangul * 3 - bad * 20;
+            }
+
+            return Score(gbk) > Score(utf8) ? gbk : utf8;
+        }
+
+        private static int CountCjkChars(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return 0;
+            int n = 0;
+            foreach (char ch in s)
+            {
+                if (ch >= 0x4e00 && ch <= 0x9fff)
+                    n++;
+            }
+            return n;
+        }
+
+        /// <summary>
+        /// Force-reload Opening PV lyrics for the active language from BaseMod/Localize.
+        /// Fixes full-PV 口口口 when Resources/XML path loaded wrong language or bad encoding.
+        /// </summary>
+        public static void ReloadOpeningLyricsForLanguage(string language, string reason)
+        {
+            if (_reloadingOpeningLyrics)
+                return;
+            try
+            {
+                _reloadingOpeningLyrics = true;
+                language = NormalizeTextLanguage(language);
+                if (string.IsNullOrEmpty(language))
+                    language = ResolveInitialTextLanguage();
+                // Once per language per session (unless force via LoadTextData/LoadOpeningLyrics).
+                bool force = !string.IsNullOrEmpty(reason)
+                    && (reason.StartsWith("LoadTextData", StringComparison.OrdinalIgnoreCase)
+                        || reason.StartsWith("LoadOpeningLyrics", StringComparison.OrdinalIgnoreCase)
+                        || reason.StartsWith("LoadOthers", StringComparison.OrdinalIgnoreCase));
+                if (!force && string.Equals(_openingLyricsLoadedForLanguage, language, StringComparison.OrdinalIgnoreCase))
+                    return;
+
+                string path = ResolveBaseModOpeningLyricsPath(language);
+                if (string.IsNullOrEmpty(path) || !File.Exists(path))
+                {
+                    Debug.LogWarning($"[RMR Localize] OpeningLyrics missing language={language} reason={reason} path={path ?? "null"}");
+                    return;
+                }
+
+                string xml = ReadLocalizeTextFileSmart(path);
+                // File uses <Name ID="n">text</Name>; serializer expects OpeningLyricsRoot/lyricsList.
+                // Normalize element names if needed for XmlSerializer.
+                OpeningLyricsRoot root = null;
+                try
+                {
+                    using (var reader = new StringReader(xml))
+                        root = (OpeningLyricsRoot)new XmlSerializer(typeof(OpeningLyricsRoot)).Deserialize(reader);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning("[RMR Localize] OpeningLyrics deserialize failed, trying Name→lyrics rewrite: " + ex.Message);
+                    root = ParseOpeningLyricsFallback(xml);
+                }
+
+                if (root == null || root.lyricsList == null || root.lyricsList.Count == 0)
+                {
+                    root = ParseOpeningLyricsFallback(xml);
+                }
+                if (root == null || root.lyricsList == null || root.lyricsList.Count == 0)
+                {
+                    Debug.LogWarning($"[RMR Localize] OpeningLyrics empty language={language} path={path}");
+                    return;
+                }
+
+                Singleton<Opening.OpeningLyricsXmlList>.Instance.Init(root);
+                _openingLyricsLoadedForLanguage = language;
+                if (_localizeVerboseLogs)
+                {
+                    string sample = Singleton<Opening.OpeningLyricsXmlList>.Instance.GetLyrics(1) ?? "";
+                    Debug.Log($"[RMR Localize] Reloaded OpeningLyrics language={language} entries={root.lyricsList.Count} sampleCJK={CountCjkChars(sample)} reason={reason}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR Localize] ReloadOpeningLyricsForLanguage failed: " + ex.Message);
+            }
+            finally
+            {
+                _reloadingOpeningLyrics = false;
+            }
+        }
+
+        private static OpeningLyricsRoot ParseOpeningLyricsFallback(string xml)
+        {
+            var root = new OpeningLyricsRoot { lyricsList = new List<OpeningLyrics>() };
+            if (string.IsNullOrEmpty(xml))
+                return root;
+            // Support both <Name ID="1">…</Name> and <lyrics ID="1">…</lyrics>
+            foreach (System.Text.RegularExpressions.Match m in System.Text.RegularExpressions.Regex.Matches(
+                xml, @"<(?:Name|lyrics)\s+ID\s*=\s*""(\d+)""\s*>([\s\S]*?)</(?:Name|lyrics)>",
+                System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+            {
+                if (!int.TryParse(m.Groups[1].Value, out int id))
+                    continue;
+                string text = System.Net.WebUtility.HtmlDecode(m.Groups[2].Value).Trim();
+                root.lyricsList.Add(new OpeningLyrics { ID = id, lyrics = text });
+            }
+            return root;
+        }
+
+        private static string ResolveBaseModOpeningLyricsPath(string language)
+        {
+            string dataPath = Application.dataPath;
+            string[] candidates =
+            {
+                Path.Combine(dataPath, "Managed", "BaseMod", "Localize", language, "OpeningLyrics", "_OpeningLyrics.txt"),
+                Path.Combine(dataPath, "Managed", "BaseMod", "Localize", language, "OpeningLyrics", language + "_OpeningLyrics.txt"),
+                Path.Combine(dataPath, "Managed", "BaseMod", "Localize", language, language + "_OpeningLyrics.txt"),
+            };
+            foreach (string c in candidates)
+            {
+                if (File.Exists(c))
+                    return c;
+            }
+            return candidates[0];
+        }
+
+        private static bool _reloadingOpeningLyrics;
+        private static bool _reloadingLibrariansNames;
+
+        /// <summary>Reload NormalLibrariansNamePreset so unit names match game language (not KR hangul tofu).</summary>
+        public static void ReloadLibrariansNamesForLanguage(string language, string reason)
+        {
+            if (_reloadingLibrariansNames)
+                return;
+            try
+            {
+                _reloadingLibrariansNames = true;
+                language = NormalizeTextLanguage(language);
+                if (string.IsNullOrEmpty(language))
+                    language = ResolveInitialTextLanguage();
+                bool force = !string.IsNullOrEmpty(reason)
+                    && (reason.StartsWith("LoadOthers", StringComparison.OrdinalIgnoreCase)
+                        || reason.StartsWith("LoadTextData", StringComparison.OrdinalIgnoreCase)
+                        || reason.StartsWith("LoadLibrariansName", StringComparison.OrdinalIgnoreCase));
+                if (!force && string.Equals(_librarianNamesLoadedForLanguage, language, StringComparison.OrdinalIgnoreCase))
+                    return;
+                LocalizedTextLoader loader = Singleton<LocalizedTextLoader>.Instance;
+                if (loader == null)
+                    return;
+                loader.LoadLibrariansName(language);
+                loader.LoadCharactersName(language);
+                _librarianNamesLoadedForLanguage = language;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR Localize] ReloadLibrariansNamesForLanguage failed: " + ex.Message);
+            }
+            finally
+            {
+                _reloadingLibrariansNames = false;
+            }
+        }
+
+        private static string TruncateSample(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return "";
+            s = s.Replace("\n", " ").Replace("\r", "");
+            return s.Length <= 24 ? s : s.Substring(0, 24) + "…";
+        }
+
+        /// <summary>Apply DefFont to opening PV subtitle TMP (language font list may miss cn).</summary>
+        public static void ApplyOpeningSubtitleFont(Opening.GameOpeningController controller)
+        {
+            if (controller?.SubtitleText == null)
+                return;
+            try
+            {
+                TMP_FontAsset font = DefFont_TMP;
+                if (font == null || IsLowQualityTmpFont(font))
+                    return;
+                TextMeshProUGUI tmp = controller.SubtitleText;
+                if (tmp.font == font)
+                    return;
+                ApplyTmpFontPreservingSharpMaterial(tmp, font);
+            }
+            catch { /* ignore */ }
+        }
+
         public static void LoadLocalizeFile(string path, ref Dictionary<string, string> dic)
         {
             string xml = ReadLocalizeTextFile(path);
@@ -1836,12 +2270,18 @@ namespace abcdcode_LOGLIKE_MOD
                 if (osFont == null)
                     return null;
                 // TextMeshPro dynamic atlas from OS font — supports CJK when game SDF faces are late/missing.
+                // Soft/blurry vs authored NotoSansCJKsc SDF — never prefer as DefFont when static Noto exists.
                 TMP_FontAsset asset = TMP_FontAsset.CreateFontAsset(osFont);
-                if (asset != null && !IsTmpFontCompatibleWithLanguage(asset, language))
-                {
-                    // Still return it: HasCharacter probes can be unreliable on fresh dynamic atlases.
-                    Debug.LogWarning($"[RMR Localize] OS TMP font '{asset.name}' failed glyph probe; using it anyway for language '{language}'.");
-                }
+                if (asset == null)
+                    return null;
+                // Empty-named dynamic faces are unusable as DefFont (log spam + soft blur).
+                if (string.IsNullOrEmpty(asset.name) || IsLowQualityTmpFont(asset))
+                    return null;
+                if (!IsTmpFontCompatibleWithLanguage(asset, language))
+                    return null; // wait for LocalizedFontSetter Noto — never force soft OS as primary
+                try { OsBackedTmpFontIds.Add(asset.GetInstanceID()); } catch { /* ignore */ }
+                if (_localizeVerboseLogs)
+                    Debug.LogWarning($"[RMR Localize] Created soft OS-backed TMP font '{asset.name}' (last resort only).");
                 return asset;
             }
             catch (Exception e)
@@ -3922,6 +4362,10 @@ namespace abcdcode_LOGLIKE_MOD
                 // Re-inject localized book names into the pick UI AbnormalityCard cache.
                 try { RewardingModel.RefreshAllEquipRewardXmlData(); }
                 catch (Exception ex) { Debug.LogWarning("[RMR Localize] equip reward refresh on init failed: " + ex.Message); }
+                // Creature virtual cards: Name often still = script because EmotionCardXmlList was empty
+                // at RegisterPickUpXml. Re-apply vanilla Name/artwork once data is available.
+                try { RMRAbnormalityUnlockManager.RefreshAllCreatureEmotionPresentation(); }
+                catch (Exception ex) { Debug.LogWarning("[RMR Localize] creature emotion presentation refresh on init failed: " + ex.Message); }
                 LogLikeMod.spinemotions = new Dictionary<string, Dictionary<ActionDetail, Dictionary<GameObject, SkeletonAnimation>>>();
                 FormationXmlRoot formationXmlRoot;
                 using (StringReader stringReader = new StringReader(File.ReadAllText(LogLikeMod.path + "/AddData/FormationInfo.txt")))
@@ -5492,9 +5936,8 @@ namespace abcdcode_LOGLIKE_MOD
                     {
                         if (tmp == null)
                             return;
-                        tmp.font = font;
-                        if (font.material != null)
-                            tmp.fontSharedMaterial = font.material;
+                        // Keep matching material presets; only swap wrong-atlas materials.
+                        ApplyTmpFontPreservingSharpMaterial(tmp, font);
                         // Prefer visible CJK sizes in shop hover (detail panel).
                         if (tmp.fontSize < 16f)
                             tmp.fontSize = 18f;

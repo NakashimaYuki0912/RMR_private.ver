@@ -29,10 +29,14 @@ namespace RogueLike_Mod_Reborn
             var canvas = _overlayRoot.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             canvas.sortingOrder = 8000;
+            // Prefer integer-ish scaling to reduce SDF soft sampling on CN hub text.
+            try { canvas.pixelPerfect = true; } catch { /* ignore */ }
             var scaler = _overlayRoot.AddComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1920f, 1080f);
-            scaler.matchWidthOrHeight = 0.5f;
+            scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+            scaler.matchWidthOrHeight = 1f; // match height — LoR is typically 16:9
+            try { scaler.referencePixelsPerUnit = 100f; } catch { /* ignore */ }
             _overlayRoot.AddComponent<GraphicRaycaster>();
 
             var rt = _overlayRoot.GetComponent<RectTransform>();

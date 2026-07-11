@@ -313,7 +313,10 @@ namespace abcdcode_LOGLIKE_MOD
                 }
 
                 if (card != null)
+                {
+                    RMRAbnormalityUnlockManager.EnsureVanillaEmotionPresentation(this.GoodInfo, card);
                     PickUpModel_RMRVanillaEmotion.InjectResolvedDesc(card, pickUp);
+                }
 
                 AbnormalityCard abnormalityCard = null;
                 if (!string.IsNullOrEmpty(script))

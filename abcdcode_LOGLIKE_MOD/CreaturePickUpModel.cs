@@ -6,6 +6,7 @@
 
 using HarmonyLib;
 using LOR_XML;
+using RogueLike_Mod_Reborn;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -84,6 +85,9 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 if (card == null || card.Script == null || card.Script.Count == 0)
                     continue;
+                RewardPassiveInfo rewardInfo = RewardingModel.FindRewardInfo(card);
+                if (rewardInfo != null)
+                    RMRAbnormalityUnlockManager.EnsureVanillaEmotionPresentation(rewardInfo, card);
                 PickUpModelBase pickUp = LogLikeMod.FindPickUp(card.Script[0]);
                 PickUpModel_RMRVanillaEmotion.InjectResolvedDesc(card, pickUp);
             }

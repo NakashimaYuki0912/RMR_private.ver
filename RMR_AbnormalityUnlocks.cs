@@ -57,10 +57,11 @@ namespace RogueLike_Mod_Reborn
         private static readonly HashSet<LorId> RouteUnlockedEgoPages = new HashSet<LorId>();
         private static readonly HashSet<int> PermanentlyUnlockedTiers = new HashSet<int>();
         private static readonly HashSet<SephirahType> CompletedRealizations = new HashSet<SephirahType>();
-        /// <summary>script 鈫?vanilla EmotionLevel tier (1/2/3).</summary>
+        /// <summary>script → vanilla EmotionLevel tier (1/2/3).</summary>
         private static readonly Dictionary<string, int> _vanillaEmotionTierByScript =
             new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         private static bool _vanillaEmotionTiersLoaded;
+        private static bool _staticEmotionTiersSeeded;
         private static bool BinahUnlockedForCurrentRoute;
         private static bool RedMistVictoryRewardsGrantedThisBattle;
         private static bool BlackSilenceClearRecordedThisBattle;
@@ -263,13 +264,12 @@ namespace RogueLike_Mod_Reborn
             return 3;
         }
 
-        private static readonly Dictionary<string, int> VanillaEmotionTierByScript =
-            new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-
-
         /// <summary>
         /// Resolve vanilla abnormality tier (1/2/3) for a reward page via EmotionCardXmlList.
         /// Cached. Returns 0 if unknown.
+        /// IMPORTANT: mod reward scripts (ShyLookToday1, SingingMachine1, …) must be aliased to
+        /// vanilla EmotionCard Script values before lookup — otherwise every page falls through
+        /// as tier 0 and incorrectly appears at team emotion 1–2 together.
         /// </summary>
         public static int GetVanillaAbnoTier(RewardPassiveInfo info)
         {
@@ -284,62 +284,266 @@ namespace RogueLike_Mod_Reborn
                 return 0;
             EnsureVanillaEmotionTiersLoaded();
             string key = script.Trim();
-            if (_vanillaEmotionTierByScript.TryGetValue(key, out int tier) && tier > 0)
+            if (TryLookupCachedAbnoTier(key, out int tier))
                 return tier;
-            // Root without trailing digit (e.g. BloodBath for BloodBath1)
-            string root = GetRootScript(key);
-            if (!string.IsNullOrEmpty(root) && !string.Equals(root, key, StringComparison.OrdinalIgnoreCase)
-                && _vanillaEmotionTierByScript.TryGetValue(root, out tier) && tier > 0)
-                return tier;
+
+            // Mod reward scripts (PascalCase + digit) rarely match vanilla Script keys directly.
+            // Reuse the same alias chain used for artwork/desc resolution.
+            foreach (string candidate in GetVanillaScriptCandidates(key))
+            {
+                if (string.Equals(candidate, key, StringComparison.OrdinalIgnoreCase))
+                    continue;
+                if (TryLookupCachedAbnoTier(candidate, out tier))
+                {
+                    _vanillaEmotionTierByScript[key] = tier;
+                    return tier;
+                }
+            }
+
+            // Live resolve: scan EmotionCardXmlList with full mod↔vanilla matching.
+            try
+            {
+                EmotionCardXmlInfo card = FindVanillaEmotionCard(key);
+                if (card != null)
+                {
+                    tier = ReadEmotionLevelField(card);
+                    if (tier >= 1 && tier <= 3)
+                    {
+                        _vanillaEmotionTierByScript[key] = tier;
+                        if (card.Script != null)
+                        {
+                            foreach (string s in card.Script)
+                            {
+                                if (!string.IsNullOrEmpty(s))
+                                    _vanillaEmotionTierByScript[s] = tier;
+                            }
+                        }
+                        return tier;
+                    }
+                }
+            }
+            catch { /* ignore */ }
+
             return 0;
+        }
+
+        private static bool TryLookupCachedAbnoTier(string script, out int tier)
+        {
+            tier = 0;
+            if (string.IsNullOrEmpty(script))
+                return false;
+            if (_vanillaEmotionTierByScript.TryGetValue(script, out tier) && tier > 0)
+                return true;
+            return false;
         }
 
         private static void EnsureVanillaEmotionTiersLoaded()
         {
+            // Static seed always available (even before EmotionCardXmlList is ready).
+            if (!_staticEmotionTiersSeeded)
+            {
+                SeedStaticVanillaEmotionTiers();
+                SeedModScriptAliasesIntoTierCache();
+                _staticEmotionTiersSeeded = true;
+            }
+
             if (_vanillaEmotionTiersLoaded)
                 return;
-            _vanillaEmotionTiersLoaded = true;
+
             try
             {
                 EmotionCardXmlList list = Singleton<EmotionCardXmlList>.Instance;
                 if (list == null)
-                    return;
-                int loaded = 0;
-                foreach (SephirahType floor in FloorAbnormalityScripts.Keys)
+                    return; // retry later; static map still usable
+
+                int loaded = LoadVanillaEmotionTiersFromXmlList(list);
+                SeedModScriptAliasesIntoTierCache();
+
+                // Only lock the live load once we actually read EmotionLevel values.
+                // If the list is still empty (very early init), keep retrying.
+                if (loaded > 0)
                 {
-                    for (int floorLevel = 1; floorLevel <= 6; floorLevel++)
-                    {
-                        List<EmotionCardXmlInfo> cards = null;
-                        try { cards = list.GetDataListByLevel(floor, floorLevel); }
-                        catch { continue; }
-                        if (cards == null)
-                            continue;
-                        foreach (EmotionCardXmlInfo card in cards)
-                        {
-                            if (card?.Script == null)
-                                continue;
-                            int tier = ReadEmotionLevelField(card);
-                            if (tier < 1 || tier > 3)
-                                continue;
-                            foreach (string s in card.Script)
-                            {
-                                if (string.IsNullOrEmpty(s))
-                                    continue;
-                                _vanillaEmotionTierByScript[s] = tier;
-                                string root = GetRootScript(s);
-                                if (!string.IsNullOrEmpty(root) && !_vanillaEmotionTierByScript.ContainsKey(root))
-                                    _vanillaEmotionTierByScript[root] = tier;
-                                loaded++;
-                            }
-                        }
-                    }
+                    _vanillaEmotionTiersLoaded = true;
+                    Debug.Log($"[RMRAbnormalityUnlockManager] Loaded vanilla abno EmotionLevel tiers: liveEntries={loaded}, cacheKeys={_vanillaEmotionTierByScript.Count}.");
                 }
-                Debug.Log($"[RMRAbnormalityUnlockManager] Loaded vanilla abno EmotionLevel tiers for {_vanillaEmotionTierByScript.Count} script keys (entries scanned={loaded}).");
             }
             catch (Exception ex)
             {
                 Debug.LogWarning("[RMRAbnormalityUnlockManager] EnsureVanillaEmotionTiersLoaded: " + ex.Message);
             }
+        }
+
+        private static int LoadVanillaEmotionTiersFromXmlList(EmotionCardXmlList list)
+        {
+            int loaded = 0;
+            if (list == null)
+                return 0;
+
+            // Prefer full _list scan (avoids Level vs EmotionLevel filter confusion).
+            try
+            {
+                FieldInfo fi = AccessTools.Field(typeof(EmotionCardXmlList), "_list");
+                var all = fi?.GetValue(list) as System.Collections.IList;
+                if (all != null)
+                {
+                    foreach (object o in all)
+                    {
+                        EmotionCardXmlInfo card = o as EmotionCardXmlInfo;
+                        loaded += RegisterEmotionCardTier(card);
+                    }
+                }
+            }
+            catch { /* fall through to floor API */ }
+
+            // Also walk GetDataListByLevel (covers loaders that do not expose _list).
+            foreach (SephirahType floor in FloorAbnormalityScripts.Keys)
+            {
+                for (int floorLevel = 1; floorLevel <= 6; floorLevel++)
+                {
+                    List<EmotionCardXmlInfo> cards = null;
+                    try { cards = list.GetDataListByLevel(floor, floorLevel); }
+                    catch { continue; }
+                    if (cards == null)
+                        continue;
+                    foreach (EmotionCardXmlInfo card in cards)
+                        loaded += RegisterEmotionCardTier(card);
+                }
+            }
+            return loaded;
+        }
+
+        /// <summary>
+        /// Record exact vanilla Script → EmotionLevel. Do NOT map digit-stripped roots:
+        /// singingMachine is tier III while singingMachine2 is tier I; root collapse mixes tiers.
+        /// </summary>
+        private static int RegisterEmotionCardTier(EmotionCardXmlInfo card)
+        {
+            if (card?.Script == null)
+                return 0;
+            int tier = ReadEmotionLevelField(card);
+            if (tier < 1 || tier > 3)
+                return 0;
+            int n = 0;
+            foreach (string s in card.Script)
+            {
+                if (string.IsNullOrEmpty(s))
+                    continue;
+                _vanillaEmotionTierByScript[s] = tier;
+                n++;
+            }
+            return n;
+        }
+
+        /// <summary>
+        /// Copy resolved vanilla tiers onto mod reward script keys (SingingMachine1 → 3, etc.).
+        /// </summary>
+        private static void SeedModScriptAliasesIntoTierCache()
+        {
+            foreach (KeyValuePair<string, string> kvp in ModScriptToVanillaScript)
+            {
+                if (string.IsNullOrEmpty(kvp.Key) || string.IsNullOrEmpty(kvp.Value))
+                    continue;
+                if (_vanillaEmotionTierByScript.TryGetValue(kvp.Value, out int tier) && tier > 0)
+                    _vanillaEmotionTierByScript[kvp.Key] = tier;
+            }
+        }
+
+        /// <summary>
+        /// Hardcoded vanilla EmotionLevel map (from EmotionCard_*.txt). Ensures tier filter
+        /// works even if EmotionCardXmlList is not ready or Reflection misses EmotionLevel.
+        /// Keys are vanilla Script values (case-insensitive dictionary).
+        /// </summary>
+        private static void SeedStaticVanillaEmotionTiers()
+        {
+            // script → EmotionLevel (page tier I/II/III)
+            void Put(string script, int tier)
+            {
+                if (string.IsNullOrEmpty(script) || tier < 1 || tier > 3)
+                    return;
+                // Live/XML values win once loaded; static only fills gaps.
+                if (_vanillaEmotionTierByScript.ContainsKey(script))
+                    return;
+                _vanillaEmotionTierByScript[script] = tier;
+            }
+
+            // Yesod (tech) — SingingMachine music/旋律 = tier III (emotion 5 only)
+            Put("murderer", 1); Put("murderer2", 2); Put("murderer3", 1);
+            Put("helper", 2); Put("helper2", 1); Put("helper3", 2);
+            Put("singingMachine", 3); Put("singingMachine2", 1); Put("singingMachine3", 2);
+            Put("singingmachine", 3); Put("singingmachine2", 1); Put("singingmachine3", 2);
+            // Mod reward scripts (direct keys — alias seed also fills these)
+            Put("SingingMachine1", 3); Put("SingingMachine2", 1); Put("SingingMachine3", 2);
+            Put("butterfly1", 2); Put("butterfly2", 1); Put("butterfly3", 3);
+            Put("Butterfly3", 3);
+            Put("freischutz1", 1); Put("freischutz2", 2); Put("freischutz3", 3);
+
+            // Hod — shyLook / 今日的表情 = tier I
+            Put("shyLook", 1); Put("shyLook2", 1); Put("shyLook3", 2);
+            Put("shylook", 1); Put("shylook2", 1); Put("shylook3", 2);
+            Put("ShyLookToday1", 1); Put("ShyLookToday2", 1); Put("ShyLookToday3", 2);
+            Put("redshoes", 1); Put("redshoes2", 2); Put("redshoes3", 1);
+            Put("spiderbud", 1); Put("spiderbud2", 2); Put("spiderbud3", 2);
+            Put("latitia1", 1); Put("latitia2", 2); Put("latitia3", 2);
+            Put("blackswan1", 3); Put("blackswan2", 3); Put("blackswan3", 3);
+
+            // Malkuth
+            Put("burnninggirl", 1); Put("burnninggirl2", 2); Put("burnninggirl3", 1);
+            Put("teddy", 1); Put("teddy2", 1); Put("teddy3", 1);
+            Put("fairy1", 1); Put("fairy2", 2); Put("fairy3", 2);
+            Put("queenbee1", 2); Put("queenbee2", 2); Put("queenbee3", 3);
+            Put("snowwhite1", 2); Put("snowwhite2", 3); Put("snowwhite3", 3);
+
+            // Netzach
+            Put("fragmentSpace", 1); Put("fragmentSpace2", 1); Put("fragmentSpace3", 2);
+            Put("fragmentspace", 1); Put("fragmentspace2", 1); Put("fragmentspace3", 2);
+            Put("galaxyChild", 1); Put("galaxyChild2", 2); Put("galaxyChild3", 2);
+            Put("galaxychild", 1); Put("galaxychild2", 2); Put("galaxychild3", 2);
+            Put("porccubus", 1); Put("porccubus2", 1); Put("porccubus3", 1);
+            Put("alriune1", 2); Put("alriune2", 2); Put("alriune3", 3);
+            Put("orchestra1", 2); Put("orchestra2", 3); Put("orchestra3", 3);
+
+            // Keter
+            Put("bloodbath", 2); Put("bloodbath2", 1); Put("bloodbath3", 1);
+            Put("heart", 1); Put("heart_rush", 2); Put("doki", 1);
+            Put("pinocchio1", 2); Put("pinocchio2", 1); Put("pinocchio3", 1);
+            Put("snowqueen1", 2); Put("snowqueen2", 3); Put("snowqueen3", 3);
+            Put("quietkidhammer", 2); Put("quietkideyeshine", 3); Put("quietkidguilty", 2);
+
+            // Tiphereth
+            Put("queenofhatred1", 1); Put("queenofhatred2", 1); Put("queenofhatred3", 1);
+            Put("knightofdespair1", 1); Put("knightofdespair2", 1); Put("knightofdespair3", 1);
+            Put("kingofgreed1", 2); Put("kingofgreed2", 2); Put("kingofgreed3", 2);
+            Put("servantofwrath1", 2); Put("servantofwrath2", 2); Put("servantofwrath3", 3);
+            Put("clownofnihil1", 2); Put("clownofnihil2", 3); Put("clownofnihil3", 3);
+
+            // Gebura
+            Put("redhood1", 1); Put("redhood2", 1); Put("redhood3", 2);
+            Put("bigbadwolf1", 2); Put("bigbadwolf2", 1); Put("bigbadwolf3", 1);
+            Put("danggocreature1", 2); Put("danggocreature2", 2); Put("danggocreature3", 2);
+            Put("nosferatu1", 1); Put("nosferatu2", 2); Put("nosferatu3", 1);
+            Put("nothing1", 3); Put("nothing2", 3); Put("nothing3", 3);
+
+            // Chesed
+            Put("scarecrow1", 1); Put("scarecrow2", 1); Put("scarecrow3", 1);
+            Put("lumberjack1", 2); Put("lumberjack2", 1); Put("lumberjack3", 1);
+            Put("waybackhome1", 1); Put("waybackhome2", 2); Put("waybackhome3", 2);
+            Put("ozma1", 2); Put("ozma2", 2); Put("ozma3", 3);
+            Put("wizard1", 2); Put("wizard2", 3); Put("wizard3", 3);
+
+            // Binah
+            Put("bigbird1", 1); Put("bigbird2", 1); Put("bigbird3", 2);
+            Put("smallbird1", 2); Put("smallbird2", 2); Put("smallbird3", 1);
+            Put("longbird1", 1); Put("longbird2", 2); Put("longbird3", 2);
+            Put("bossbird1", 1); Put("bossbird2", 1); Put("bossbird3", 2);
+            Put("bossbird4", 3); Put("bossbird5", 3); Put("bossbird6", 3);
+
+            // Hokma
+            Put("bloodytree1", 1); Put("bloodytree2", 1); Put("bloodytree3", 1);
+            Put("silence1", 1); Put("silence2", 1); Put("silence3", 2);
+            Put("bluestar1", 2); Put("bluestar2", 2); Put("bluestar3", 2);
+            Put("onebadmanygood1", 2);
+            Put("plaguedoctor1", 1);
+            Put("whitenight1", 2); Put("whitenight2", 3); Put("whitenight3", 3); Put("whitenight4", 3);
         }
 
         private static int ReadEmotionLevelField(EmotionCardXmlInfo card)
@@ -348,13 +552,28 @@ namespace RogueLike_Mod_Reborn
                 return 0;
             try
             {
-                // Public field/property on vanilla EmotionCardXmlInfo
+                // Public field on vanilla EmotionCardXmlInfo (also written by RegisterPickUpXml).
+                int tier = card.EmotionLevel;
+                if (tier >= 1 && tier <= 3)
+                    return tier;
+            }
+            catch { /* ignore */ }
+            try
+            {
                 FieldInfo fi = AccessTools.Field(typeof(EmotionCardXmlInfo), "EmotionLevel");
                 if (fi != null)
-                    return Convert.ToInt32(fi.GetValue(card));
+                {
+                    int tier = Convert.ToInt32(fi.GetValue(card));
+                    if (tier >= 1 && tier <= 3)
+                        return tier;
+                }
                 PropertyInfo pi = AccessTools.Property(typeof(EmotionCardXmlInfo), "EmotionLevel");
                 if (pi != null)
-                    return Convert.ToInt32(pi.GetValue(card, null));
+                {
+                    int tier = Convert.ToInt32(pi.GetValue(card, null));
+                    if (tier >= 1 && tier <= 3)
+                        return tier;
+                }
             }
             catch { /* ignore */ }
             return 0;
@@ -362,6 +581,7 @@ namespace RogueLike_Mod_Reborn
 
         /// <summary>
         /// True if this owned page may appear when team emotion level rises to <paramref name="teamEmotionLevel"/>.
+        /// Vanilla: emo 1–2 → EmotionLevel 1 only; 3–4 → 2 only; 5 → 3 only. Never mix tiers.
         /// </summary>
         public static bool IsOwnedPageEligibleForTeamEmotion(RewardPassiveInfo info, int teamEmotionLevel)
         {
@@ -371,9 +591,10 @@ namespace RogueLike_Mod_Reborn
             int pageTier = GetVanillaAbnoTier(info);
             if (pageTier <= 0)
             {
-                // Unknown vanilla mapping: allow only at emotion 1鈥? as safe Tier-I fallback,
-                // and log once per script via debug.
-                return requiredTier == 1;
+                // Unknown after alias + static + live resolve: exclude from ALL picks.
+                // Dumping unknowns into tier I mixed SingingMachine1 (III) with ShyLookToday1 (I).
+                Debug.LogWarning($"[RMRAbnormalityUnlockManager] Unknown abno EmotionLevel for script='{info.script}' id={info.id} — excluded from emotion pick (needTier={requiredTier}).");
+                return false;
             }
             return pageTier == requiredTier;
         }
@@ -394,8 +615,11 @@ namespace RogueLike_Mod_Reborn
             {
                 if (info == null)
                     continue;
+                // Must match RewardingModel.GetRewardPassiveKey: packageId may be null.
                 string key = (info.id.packageId ?? "") + ":" + info.id.id;
-                if (alreadySelectedKeys != null && alreadySelectedKeys.Contains(key))
+                string keyAlt = info.id.packageId + ":" + info.id.id; // legacy null-concat form
+                if (alreadySelectedKeys != null
+                    && (alreadySelectedKeys.Contains(key) || alreadySelectedKeys.Contains(keyAlt)))
                     continue;
                 if (!IsOwnedPageEligibleForTeamEmotion(info, teamEmotionLevel))
                     continue;
@@ -942,8 +1166,9 @@ namespace RogueLike_Mod_Reborn
         }
 
         /// <summary>
-        /// Pool of E.G.O. card ids available for mid-battle picks (emotion 3/4/5 after abno),
-        /// from completed floor realizations. Excludes ids already selected this reception.
+        /// Pool of E.G.O. card ids available for mid-battle picks (emotion 3/4/5 after abno).
+        /// ONLY route-unlocked / already-obtained EGO — never the full realization floor table
+        /// (that offered unowned EGO). Excludes ids already selected this reception.
         /// </summary>
         public static List<LorId> CollectMidBattleEgoCandidates(HashSet<int> alreadySelectedThisBattle)
         {
@@ -955,6 +1180,10 @@ namespace RogueLike_Mod_Reborn
                     return;
                 if (alreadySelectedThisBattle != null && alreadySelectedThisBattle.Contains(id.id))
                     return;
+                // Must already be unlocked/obtained this route (picked / shop / reward).
+                // Atlas permanent unlock alone is NOT enough — that is shop/reward pool only.
+                if (!IsEgoOwnedOnCurrentRoute(id))
+                    return;
                 if (!seen.Add(id.id))
                     return;
                 DiceCardXmlInfo card = ItemXmlDataList.instance?.GetCardItem(id, true)
@@ -965,21 +1194,28 @@ namespace RogueLike_Mod_Reborn
                 candidates.Add(card.id != null ? card.id : id);
             }
 
-            if (CompletedRealizations != null)
-            {
-                foreach (SephirahType floor in CompletedRealizations)
-                {
-                    if (!RealizationEgoCardsByFloor.TryGetValue(floor, out LorId[] egoIds) || egoIds == null)
-                        continue;
-                    foreach (LorId id in egoIds)
-                        Consider(id);
-                }
-            }
-
-            // Route-picked EGO from shops/rewards that may not be on the realization table.
+            // Only pages the player already owns/unlocked this route.
             foreach (LorId id in RouteUnlockedEgoPages)
                 Consider(id);
 
+            // Inventory copies (if any) that count as owned EGO.
+            try
+            {
+                if (LogueBookModels.cardlist != null)
+                {
+                    foreach (DiceCardItemModel item in LogueBookModels.cardlist)
+                    {
+                        if (item?.ClassInfo == null)
+                            continue;
+                        if (!RMRPrepareRestrictions.IsEgoCombatPage(item.ClassInfo))
+                            continue;
+                        Consider(item.GetID() ?? item.ClassInfo.id);
+                    }
+                }
+            }
+            catch { /* ignore */ }
+
+            Debug.Log($"[RMR] Mid-battle EGO candidates (owned-only) count={candidates.Count} ids=[{string.Join(",", candidates.Select(x => x.id.ToString()).ToArray())}]");
             return candidates;
         }
 
@@ -1068,6 +1304,11 @@ namespace RogueLike_Mod_Reborn
         public static SephirahType GetFloorForScript(string script)
         {
             string root = GetRootScript(script);
+            if (string.IsNullOrEmpty(root)
+                || root.IndexOf("RMRNoAbnormality", StringComparison.OrdinalIgnoreCase) >= 0
+                || root.IndexOf("BossReward", StringComparison.OrdinalIgnoreCase) >= 0
+                || root.IndexOf("Equip", StringComparison.OrdinalIgnoreCase) >= 0)
+                return SephirahType.None;
             foreach (var kvp in FloorAbnormalityScripts)
             {
                 foreach (string floorRoot in kvp.Value)
@@ -1076,7 +1317,7 @@ namespace RogueLike_Mod_Reborn
                         return kvp.Key;
                 }
             }
-            Debug.Log($"[RMRAbnormalityUnlockManager] Unknown script root: {root} 鈥?defaulting to Keter");
+            // Non-abno scripts (shop/boss reward wrappers) — silent None, no spam.
             return SephirahType.None;
         }
 
@@ -1140,9 +1381,14 @@ namespace RogueLike_Mod_Reborn
 
         public static bool IsRealizationEgoCard(LorId id)
         {
+            if (id == null || id == LorId.None)
+                return false;
             foreach (var kvp in RealizationEgoCardsByFloor)
             {
-                if (kvp.Value.Any(x => x == id))
+                if (kvp.Value == null)
+                    continue;
+                // Compare by numeric id — packageId may be empty vs null across sources.
+                if (kvp.Value.Any(x => x != null && x.id == id.id))
                     return true;
             }
             return false;
@@ -1220,9 +1466,164 @@ namespace RogueLike_Mod_Reborn
         }
 
         /// <summary>
-        /// Resolve the vanilla EmotionCardXmlInfo for a reward script (e.g. snowwhite1 鈫?
-        /// Name "SnowWhite_Vine"). Vanilla AbnormalityCards localization is keyed by Name,
-        /// not by Script, so callers that need desc text must use this Name.
+        /// Mod reward scripts (PascalCase LogLike names) often differ from vanilla EmotionCard
+        /// Script fields (e.g. ScorchedGirl1 → burnninggirl). Without this map,
+        /// FindVanillaEmotionCard permanently fails and Name stays as the script key so
+        /// EmotionPassiveCardUI.SetTexts looks up the wrong AbnormalityCardDesc → 口口口 / Not found.
+        /// </summary>
+        private static readonly Dictionary<string, string> ModScriptToVanillaScript =
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                // Scorched Girl
+                { "ScorchedGirl1", "burnninggirl" },
+                { "ScorchedGirl2", "burnninggirl2" },
+                { "ScorchedGirl3", "burnninggirl3" },
+                // Bloodbath
+                { "BloodBath1", "bloodbath" },
+                { "BloodBath2", "bloodbath2" },
+                { "BloodBath3", "bloodbath3" },
+                // Happy Teddy
+                { "HappyTeddyBear1", "teddy" },
+                { "HappyTeddyBear2", "teddy2" },
+                { "HappyTeddyBear3", "teddy3" },
+                // Forsaken Murderer
+                { "ForsakenMurderer1", "murderer" },
+                { "ForsakenMurderer2", "murderer2" },
+                { "ForsakenMurderer3", "murderer3" },
+                // Today's Shy Look
+                { "ShyLookToday1", "shylook" },
+                { "ShyLookToday2", "shylook2" },
+                { "ShyLookToday3", "shylook3" },
+                // Fragment of the Universe
+                { "UniverseZogak1", "fragmentspace" },
+                { "UniverseZogak2", "fragmentspace2" },
+                { "UniverseZogak3", "fragmentspace3" },
+                // Fairy Festival
+                { "FairyCarnival1", "fairy1" },
+                { "FairyCarnival2", "fairy2" },
+                { "FairyCarnival3", "fairy3" },
+                // Child of the Galaxy
+                { "ChildofGalaxy1", "galaxychild" },
+                { "ChildofGalaxy2", "galaxychild2" },
+                { "ChildofGalaxy3", "galaxychild3" },
+                // Heart of Aspiration (3rd page is vanilla "doki", not heart*)
+                { "HeartofAspiration1", "heart" },
+                { "HeartofAspiration2", "heart_rush" },
+                { "HeartofAspiration3", "doki" },
+                // Little Helper
+                { "LittleHelper1", "helper" },
+                { "LittleHelper2", "helper2" },
+                { "LittleHelper3", "helper3" },
+                // Red Shoes
+                { "RedShoes1", "redshoes" },
+                { "RedShoes2", "redshoes2" },
+                { "RedShoes3", "redshoes3" },
+                // Laetitia (vanilla spelling latitia)
+                { "Laetitia1", "latitia1" },
+                { "Laetitia2", "latitia2" },
+                { "Laetitia3", "latitia3" },
+                // King of Greed
+                { "Greed1", "kingofgreed1" },
+                { "Greed2", "kingofgreed2" },
+                { "Greed3", "kingofgreed3" },
+                // Servant of Wrath
+                { "Angry1", "servantofwrath1" },
+                { "Angry2", "servantofwrath2" },
+                { "Angry3", "servantofwrath3" },
+                // The Road Home / House
+                { "House1", "waybackhome1" },
+                { "House2", "waybackhome2" },
+                { "House3", "waybackhome3" },
+                // Spider Bud
+                { "SpiderBud1", "spiderbud" },
+                { "SpiderBud2", "spiderbud2" },
+                { "SpiderBud3", "spiderbud3" },
+                // Singing Machine
+                { "SingingMachine1", "singingmachine" },
+                { "SingingMachine2", "singingmachine2" },
+                { "SingingMachine3", "singingmachine3" },
+                // Porccubus
+                { "Porccubus1", "porccubus" },
+                { "Porccubus2", "porccubus2" },
+                { "Porccubus3", "porccubus3" },
+                // Snow Queen
+                { "TheSnowQueen1", "snowqueen1" },
+                { "TheSnowQueen2", "snowqueen2" },
+                { "TheSnowQueen3", "snowqueen3" },
+                // Mountain of Smiling Bodies (vanilla script root is danggocreature)
+                { "Mountain1", "danggocreature1" },
+                { "Mountain2", "danggocreature2" },
+                { "Mountain3", "danggocreature3" },
+                // Time / Clock (vanilla script root is silence)
+                { "Clock1", "silence1" },
+                { "Clock2", "silence2" },
+                { "Clock3", "silence3" },
+                // Quiet Kid (case only, listed for clarity)
+                { "quietKidHammer", "quietkidhammer" },
+                { "quietKidEyeShine", "quietkideyeshine" },
+                { "quietKidGuilty", "quietkidguilty" },
+            };
+
+        /// <summary>
+        /// Candidate vanilla Script values to try when resolving a mod reward script.
+        /// </summary>
+        public static IEnumerable<string> GetVanillaScriptCandidates(string script)
+        {
+            if (string.IsNullOrEmpty(script))
+                yield break;
+
+            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var list = new List<string>();
+            void Add(string s)
+            {
+                if (string.IsNullOrEmpty(s) || !seen.Add(s))
+                    return;
+                list.Add(s);
+            }
+
+            Add(script);
+            if (ModScriptToVanillaScript.TryGetValue(script, out string mapped))
+                Add(mapped);
+
+            string root = GetRootScript(script);
+            string digits = script.Length > root.Length ? script.Substring(root.Length) : string.Empty;
+            if (ModScriptToVanillaScript.TryGetValue(root + "1", out string mappedFirst)
+                && (string.IsNullOrEmpty(digits) || digits == "1"))
+                Add(mappedFirst);
+            if (!string.IsNullOrEmpty(digits) && ModScriptToVanillaScript.TryGetValue(root + digits, out string mappedN))
+                Add(mappedN);
+
+            // Case-only variants (QueenBee1 ↔ queenbee1).
+            Add(script.ToLowerInvariant());
+            if (!string.IsNullOrEmpty(root))
+            {
+                Add(root.ToLowerInvariant());
+                if (!string.IsNullOrEmpty(digits))
+                    Add(root.ToLowerInvariant() + digits);
+            }
+
+            foreach (string s in list)
+                yield return s;
+        }
+
+        private static bool VanillaScriptMatchesMod(string vanillaScript, string modScript)
+        {
+            if (string.IsNullOrEmpty(vanillaScript) || string.IsNullOrEmpty(modScript))
+                return false;
+            if (ScriptMatchesRealizationEntry(vanillaScript, modScript))
+                return true;
+            foreach (string candidate in GetVanillaScriptCandidates(modScript))
+            {
+                if (string.Equals(vanillaScript, candidate, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Resolve the vanilla EmotionCardXmlInfo for a reward script (e.g. snowwhite1 →
+        /// Name "SnowWhite_Vine", ScorchedGirl1 → burnninggirl Name). Vanilla AbnormalityCards
+        /// localization is keyed by Name, not by Script, so callers that need desc text must use this Name.
         /// </summary>
         public static EmotionCardXmlInfo FindVanillaEmotionCard(string script)
         {
@@ -1231,35 +1632,147 @@ namespace RogueLike_Mod_Reborn
             SephirahType floor = GetRealizationFloorForScript(script);
             if (floor == SephirahType.None)
                 floor = GetFloorForScript(script);
-            if (floor == SephirahType.None)
+            if (floor != SephirahType.None)
             {
-                // Scan all floors as a last resort (script roots not in the floor map).
-                foreach (SephirahType candidateFloor in FloorAbnormalityScripts.Keys)
-                {
-                    EmotionCardXmlInfo found = FindVanillaEmotionCardOnFloor(candidateFloor, script);
-                    if (found != null)
-                        return found;
-                }
-                return null;
+                EmotionCardXmlInfo onFloor = FindVanillaEmotionCardOnFloor(floor, script);
+                if (onFloor != null)
+                    return onFloor;
             }
-            return FindVanillaEmotionCardOnFloor(floor, script);
+            // Scan all mapped floors (script roots not in the floor map / wrong Level filter).
+            foreach (SephirahType candidateFloor in FloorAbnormalityScripts.Keys)
+            {
+                if (candidateFloor == floor)
+                    continue;
+                EmotionCardXmlInfo found = FindVanillaEmotionCardOnFloor(candidateFloor, script);
+                if (found != null)
+                    return found;
+            }
+            // Last resort: raw _list scan (works once EmotionCardXmlList is fully loaded).
+            return FindVanillaEmotionCardScanAll(script);
         }
 
         private static EmotionCardXmlInfo FindVanillaEmotionCardOnFloor(SephirahType floor, string script)
         {
+            EmotionCardXmlList list = Singleton<EmotionCardXmlList>.Instance;
+            if (list == null || string.IsNullOrEmpty(script))
+                return null;
+
             for (int level = 1; level <= 6; level++)
             {
-                List<EmotionCardXmlInfo> cards = Singleton<EmotionCardXmlList>.Instance.GetDataListByLevel(floor, level);
+                List<EmotionCardXmlInfo> cards = null;
+                try { cards = list.GetDataListByLevel(floor, level); } catch { continue; }
                 if (cards == null)
                     continue;
                 EmotionCardXmlInfo match = cards.FirstOrDefault(card =>
                     card != null
                     && card.Script != null
-                    && card.Script.Any(s => ScriptMatchesRealizationEntry(s, script)));
+                    && card.Script.Any(s => VanillaScriptMatchesMod(s, script)));
                 if (match != null)
                     return match;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Full _list scan when floor/level filters miss (early init, or Level field mismatch).
+        /// </summary>
+        private static EmotionCardXmlInfo FindVanillaEmotionCardScanAll(string script)
+        {
+            if (string.IsNullOrEmpty(script))
+                return null;
+            try
+            {
+                EmotionCardXmlList list = Singleton<EmotionCardXmlList>.Instance;
+                if (list == null)
+                    return null;
+                FieldInfo fi = AccessTools.Field(typeof(EmotionCardXmlList), "_list");
+                var all = fi?.GetValue(list) as System.Collections.IList;
+                if (all == null)
+                    return null;
+                foreach (object o in all)
+                {
+                    EmotionCardXmlInfo card = o as EmotionCardXmlInfo;
+                    if (card?.Script == null)
+                        continue;
+                    if (card.Script.Any(s => VanillaScriptMatchesMod(s, script)))
+                        return card;
+                }
+            }
+            catch { /* ignore */ }
+            return null;
+        }
+
+        /// <summary>
+        /// True when the virtual card still uses the registration default Name (= script),
+        /// so EmotionPassiveCardUI would look up the wrong AbnormalityCardDesc key.
+        /// </summary>
+        public static bool NeedsVanillaEmotionPresentation(RewardPassiveInfo info, EmotionCardXmlInfo virtualCard)
+        {
+            if (info == null || virtualCard == null || info.rewardtype != RewardType.Creature)
+                return false;
+            if (string.IsNullOrEmpty(info.script))
+                return false;
+            // Fallback / non-vanilla pages keep script Name intentionally.
+            if (string.Equals(info.script, "RMRNoAbnormality", StringComparison.OrdinalIgnoreCase))
+                return false;
+            if (string.IsNullOrEmpty(virtualCard.Name))
+                return true;
+            if (string.Equals(virtualCard.Name, info.script, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (virtualCard.Script != null && virtualCard.Script.Count > 0
+                && string.Equals(virtualCard.Name, virtualCard.Script[0], StringComparison.OrdinalIgnoreCase))
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Lazy re-apply: RegisterPickUpXml often runs before EmotionCardXmlList is populated,
+        /// so ApplyVanillaEmotionPresentation no-ops at init. Call again at emotion-pick / reward time.
+        /// </summary>
+        public static bool EnsureVanillaEmotionPresentation(RewardPassiveInfo info, EmotionCardXmlInfo virtualCard)
+        {
+            if (!NeedsVanillaEmotionPresentation(info, virtualCard))
+                return false;
+            string nameBefore = virtualCard.Name;
+            ApplyVanillaEmotionPresentation(info, virtualCard);
+            return !string.Equals(nameBefore, virtualCard.Name, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// Re-apply vanilla Name/artwork for every registered Creature reward whose presentation
+        /// was missing at init. Safe to call after EmotionCardXmlList / locale load.
+        /// Does not touch EquipPage rewards.
+        /// </summary>
+        public static void RefreshAllCreatureEmotionPresentation()
+        {
+            try
+            {
+                if (LogLikeMod.PickUpXml_Dummy_Passive == null
+                    || Singleton<RewardPassivesList>.Instance?.infos == null)
+                    return;
+                int fixedCount = 0;
+                foreach (RewardPassivesInfo group in Singleton<RewardPassivesList>.Instance.infos)
+                {
+                    if (group?.RewardPassiveList == null)
+                        continue;
+                    foreach (RewardPassiveInfo info in group.RewardPassiveList)
+                    {
+                        if (info == null || info.rewardtype != RewardType.Creature)
+                            continue;
+                        EmotionCardXmlInfo card = LogLikeMod.GetRegisteredPickUpXml(info);
+                        if (card == null)
+                            continue;
+                        if (EnsureVanillaEmotionPresentation(info, card))
+                            fixedCount++;
+                    }
+                }
+                if (fixedCount > 0)
+                    Debug.Log($"[RMRAbnormalityUnlockManager] Lazy-applied vanilla emotion presentation for {fixedCount} creature page(s).");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMRAbnormalityUnlockManager] RefreshAllCreatureEmotionPresentation failed: " + ex.Message);
+            }
         }
 
         public static void ApplyVanillaEmotionPresentation(RewardPassiveInfo info, EmotionCardXmlInfo virtualCard)
@@ -1267,10 +1780,19 @@ namespace RogueLike_Mod_Reborn
             if (info == null || virtualCard == null || info.rewardtype != RewardType.Creature)
                 return;
 
-            EmotionCardXmlInfo vanillaCard = FindVanillaEmotionCard(info.script);
+            EmotionCardXmlInfo vanillaCard = FindVanillaEmotionCard(info.script)
+                ?? FindVanillaEmotionCardScanAll(info.script);
             if (vanillaCard == null)
             {
-                Debug.LogWarning($"[RMRAbnormalityUnlockManager] Vanilla emotion presentation not found for {info.script}.");
+                // Only warn once per script to avoid init spam when EmotionCardXmlList is still empty.
+                // Mod fallback page has no vanilla entry — silence spam.
+                if (info.script != null
+                    && info.script.IndexOf("RMRNoAbnormality", StringComparison.OrdinalIgnoreCase) >= 0)
+                    return;
+                if (_presentationMissLogged == null)
+                    _presentationMissLogged = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                if (_presentationMissLogged.Add(info.script ?? ""))
+                    Debug.LogWarning($"[RMRAbnormalityUnlockManager] Vanilla emotion presentation not found for {info.script}.");
                 return;
             }
 
@@ -1281,6 +1803,8 @@ namespace RogueLike_Mod_Reborn
             virtualCard.Sephirah = vanillaCard.Sephirah;
             virtualCard.State = vanillaCard.State;
         }
+
+        private static HashSet<string> _presentationMissLogged;
         /// <summary>
         /// Mark a floor realization as completed (first clear only). Unlocks the floor's
         /// realization reward pool and records exclusive abnormality + E.G.O. pages into

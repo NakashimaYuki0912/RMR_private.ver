@@ -365,7 +365,102 @@ namespace abcdcode_LOGLIKE_MOD
         private static readonly FieldInfo BattleUnitCardsInHandUISelectedUnitField = typeof(BattleUnitCardsInHandUI).GetField("_selectedUnit", AccessTools.all);
         private static readonly FieldInfo BattleUnitCardsInHandUIHoveredUnitField = typeof(BattleUnitCardsInHandUI).GetField("_hOveredUnit", AccessTools.all);
         private static readonly FieldInfo BattleUnitCardsInHandUIHandStateField = typeof(BattleUnitCardsInHandUI).GetField("_handState", AccessTools.all);
+        private static readonly FieldInfo BattleUnitCardsInHandUISpToggleSpriteField = typeof(BattleUnitCardsInHandUI).GetField("sp_toggleSprite", AccessTools.all);
         private static readonly MethodInfo BattleUnitCardsInHandUISetEgoToggleStateMethod = typeof(BattleUnitCardsInHandUI).GetMethod("SetEgoToggleState", AccessTools.all);
+        private static readonly MethodInfo BattleUnitCardsInHandUIUpdateCardListMethod = typeof(BattleUnitCardsInHandUI).GetMethod("UpdateCardList", AccessTools.all);
+        private static readonly MethodInfo BattleUnitCardsInHandUIIsActivatedMethod = typeof(BattleUnitCardsInHandUI).GetMethod("IsActivated", AccessTools.all);
+
+        /// <summary>
+        /// Vanilla SetEgoToggleState indexes sp_toggleSprite[0..2] unconditionally.
+        /// Early StartBattle / mystery receptions can have a short or null sprite array → ArgumentOutOfRange.
+        /// </summary>
+        private static bool CanSafelyCallSetEgoToggleState(BattleUnitCardsInHandUI self)
+        {
+            if (self == null || BattleUnitCardsInHandUISpToggleSpriteField == null)
+                return false;
+            try
+            {
+                var sprites = BattleUnitCardsInHandUISpToggleSpriteField.GetValue(self) as UnityEngine.Sprite[];
+                return sprites != null && sprites.Length >= 3;
+            }
+            catch { return false; }
+        }
+
+        /// <summary>
+        /// Apply hand / EGO-toggle state without relying on vanilla SetEgoToggleState sprite indexing.
+        /// Prefer vanilla when sprites are ready; otherwise only set HandState + toggle flags.
+        /// </summary>
+        private static void ApplyHandEgoToggleSafe(
+            BattleUnitCardsInHandUI self,
+            BattleUnitCardsInHandUI.EgoToggleState state)
+        {
+            if (self == null)
+                return;
+
+            // Always pin combat hand state first for Hide/Off.
+            try
+            {
+                if (state == BattleUnitCardsInHandUI.EgoToggleState.On)
+                    BattleUnitCardsInHandUIHandStateField?.SetValue(self, BattleUnitCardsInHandUI.HandState.EgoCard);
+                else
+                    BattleUnitCardsInHandUIHandStateField?.SetValue(self, BattleUnitCardsInHandUI.HandState.BattleCard);
+            }
+            catch { /* ignore */ }
+
+            Toggle toggle = null;
+            try { toggle = BattleUnitCardsInHandUIToggleShowEgoField?.GetValue(self) as Toggle; } catch { toggle = null; }
+
+            if (CanSafelyCallSetEgoToggleState(self) && BattleUnitCardsInHandUISetEgoToggleStateMethod != null)
+            {
+                try
+                {
+                    BattleUnitCardsInHandUISetEgoToggleStateMethod.Invoke(self, new object[] { state });
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning("[RMR] SetEgoToggleState invoke failed, using field fallback: " +
+                        (ex.InnerException != null ? ex.InnerException.Message : ex.Message));
+                }
+            }
+
+            // Field-only fallback (no sprite array access).
+            try
+            {
+                if (toggle != null)
+                {
+                    try { toggle.SetIsOnWithoutNotify(state == BattleUnitCardsInHandUI.EgoToggleState.On); }
+                    catch
+                    {
+                        try { toggle.isOn = state == BattleUnitCardsInHandUI.EgoToggleState.On; } catch { }
+                    }
+                    try { toggle.interactable = state == BattleUnitCardsInHandUI.EgoToggleState.On
+                        || state == BattleUnitCardsInHandUI.EgoToggleState.Off; } catch { }
+                    try
+                    {
+                        if (toggle.gameObject != null)
+                            toggle.gameObject.SetActive(state != BattleUnitCardsInHandUI.EgoToggleState.Hide);
+                    }
+                    catch { /* ignore */ }
+                }
+            }
+            catch { /* ignore */ }
+
+            // Refresh card list only when UI is active; swallow OOR from empty formation.
+            try
+            {
+                bool activated = false;
+                if (BattleUnitCardsInHandUIIsActivatedMethod != null)
+                    activated = (bool)BattleUnitCardsInHandUIIsActivatedMethod.Invoke(self, null);
+                if (activated && BattleUnitCardsInHandUIUpdateCardListMethod != null)
+                    BattleUnitCardsInHandUIUpdateCardListMethod.Invoke(self, null);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] UpdateCardList fallback skipped: " +
+                    (ex.InnerException != null ? ex.InnerException.Message : ex.Message));
+            }
+        }
 
         private static void QueueDropBookReward(DropBookXmlInfo reward, LorId sourceId = null)
         {
@@ -418,6 +513,17 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 if (LogLikeMod.egoSelectionQueue != null && LogLikeMod.egoSelectionQueue.Count > 0)
                     LogLikeMod.egoSelectionQueue.RemoveAt(0);
+                // Mid-battle EGO skip must resume combat — never enter post-battle StartPickReward / TryEndRun.
+                if (RewardingModel.IsMidBattleEgoSelectionActive)
+                {
+                    try { RewardingModel.NoteMidBattleEgoPicked(LorId.None); } catch { }
+                    try { RewardingModel.rewardFlag = RewardingModel.RewardFlag.EmtoionChoose; } catch { }
+                    if (self != null)
+                        self.SetRootCanvas(false);
+                    try { RMRPrepareRestrictions.ForceHandUiToBattleCards(); } catch { }
+                    Debug.Log("[RMR] Mid-battle EGO skipped — resume combat (no StartPickReward).");
+                    return;
+                }
             }
             else if (RewardingModel.rewardFlag == RewardingModel.RewardFlag.PassiveReward)
             {
@@ -772,6 +878,29 @@ namespace abcdcode_LOGLIKE_MOD
                     orig(self, deltaTime);
                     return;
                 }
+                // If EndBattlePhase was entered while both sides still fight (emotion-5 EGO glitch),
+                // resume combat instead of hanging on RewardClearStage forever.
+                try
+                {
+                    if (!RewardingModel.IsNonCombatNodeStage()
+                        && RewardingModel.IsLiveCombatBothSidesAlive())
+                    {
+                        Debug.Log("[RMR] EndBattlePhase recovery: both sides alive → RoundStartPhase_System (abort reward end).");
+                        try { RewardingModel.ClearSuppressSpuriousEndBattle(); } catch { }
+                        try { LogLikeMod.EndBattle = false; } catch { }
+                        try
+                        {
+                            LogLikeMod.SetStagePhase(self, StageController.StagePhase.RoundStartPhase_System);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.LogWarning("[RMR] EndBattlePhase recovery SetStagePhase failed: " + ex.Message);
+                        }
+                        return;
+                    }
+                }
+                catch { /* continue into normal reward path */ }
+
                 RMRAbnormalityUnlockManager.GrantRedMistChallengeVictoryRewards();
                 RMRAbnormalityUnlockManager.RecordBlackSilenceVictoryUnlock();
                 RMRAbnormalityUnlockManager.GrantDistortedEnsembleVictoryRewards();
@@ -1054,8 +1183,12 @@ namespace abcdcode_LOGLIKE_MOD
             if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
             Singleton<GlobalLogueEffectManager>.Instance.OnStartBattleAfter();
-            // After units exist: put owned EGO into personalEgo so emotion-level unlock works like vanilla.
-            try { RMRPrepareRestrictions.GrantOwnedEgoToBattleUnits(); } catch { }
+            // Do NOT dump all owned EGO into personalEgo at start — that forces the EGO hand UI and
+            // blocks combat-page selection. Mid-battle picks grant only the chosen id.
+            try { RMRPrepareRestrictions.ClearFloorEgoFromHandsAtBattleStart(); } catch { }
+            // Hide hand during start/intro so a stray card ("协同突击" etc.) does not float on screen
+            // before the player presses space. RoundStart / unit click re-opens via SetCardsObject.
+            try { RMRPrepareRestrictions.HideHandUiUntilCombat(); } catch { }
         }
 
         /// <summary>
@@ -1204,6 +1337,21 @@ namespace abcdcode_LOGLIKE_MOD
 
             if (LogLikeMod.CheckStage(true) && self.Phase != StageController.StagePhase.EndBattle)
             {
+                // Spurious EndBattle while both factions still fight must not enter EndBattlePhase
+                // (seen after emotion-5 abno+EGO: field clears → looks like instant enemy wipe).
+                // Shop/mystery/rest and Purple Tear transition are excluded.
+                try
+                {
+                    if (!LogLikeMod.purpleexcept
+                        && !RewardingModel.IsNonCombatNodeStage()
+                        && RewardingModel.IsLiveCombatBothSidesAlive())
+                    {
+                        Debug.Log("[RMR] Ignoring EndBattle while both sides still alive (live combat).");
+                        return;
+                    }
+                }
+                catch { /* fall through to normal reward EndBattle path */ }
+
                 LogLikeMod.EndBattle = false;
                 LogLikeMod.SetStagePhase(self, StageController.StagePhase.EndBattle);
             }
@@ -1539,46 +1687,71 @@ namespace abcdcode_LOGLIKE_MOD
                 LogueBookModels.RecordAtlasEgoPage(pickId);
                 try { RewardingModel.NoteMidBattleEgoPicked(pickId); } catch { }
 
-                // Wire vanilla floor E.G.O. selection so hand toggle (战斗书页 ↔ EGO) appears.
-                EmotionEgoXmlInfo realEgo = null;
-                try { realEgo = RMRAbnormalityUnlockManager.FindVanillaEmotionEgo(pickId); } catch { }
-                try { RMRAbnormalityUnlockManager.RegisterSelectedEgoOnCurrentFloor(pickId); } catch { }
-                if (midBattle && realEgo != null)
+                // Mid-battle: do NOT call vanilla OnPickEgoCard.
+                // orig arms egoSelectionPoint and refreshes hand → sp_toggleSprite OOR / SetCardsObject
+                // cascade that can push StageController into EndBattle while enemies still live.
+                bool floorRegistered = false;
+                try { floorRegistered = RMRAbnormalityUnlockManager.RegisterSelectedEgoOnCurrentFloor(pickId); } catch { }
+                if (midBattle && pickId != null && pickId != LorId.None)
                 {
                     try
                     {
-                        // Vanilla path registers shared floor EGO hand / cooltime.
-                        orig(self, realEgo);
+                        SephirahType floor = self != null ? self.Sephirah : SephirahType.Keter;
+                        Singleton<SpecialCardListModel>.Instance?.AddCard(pickId, floor);
                     }
-                    catch (Exception ex)
+                    catch { /* ignore */ }
+                    try
                     {
-                        Debug.LogWarning("[RMR] vanilla OnPickEgoCard for mid-battle: " + ex.Message);
+                        if (self?.team != null)
+                            self.team.egoSelectionPoint = 0;
                     }
+                    catch { /* ignore */ }
                 }
 
-                try { RMRPrepareRestrictions.GrantOwnedEgoToBattleUnits(); } catch { }
-                LogLikeMod.egoSelectionQueue.RemoveAt(0);
-
-                // Refresh open hand UI so purple EGO toggle shows immediately.
-                try
+                // Grant ONLY the picked id during mid-battle — never re-flood all route EGOs.
+                if (midBattle && pickId != null && pickId != LorId.None)
                 {
-                    var handUi = SingletonBehavior<BattleManagerUI>.Instance?.ui_unitCardsInHand;
-                    BattleUnitModel selected = null;
-                    if (handUi != null)
-                    {
-                        selected = LogLikeMod.GetFieldValue<BattleUnitModel>(handUi, "_selectedUnit")
-                            ?? BattleObjectManager.instance?.GetAliveList(Faction.Player)?.FirstOrDefault();
-                        if (selected != null)
-                            handUi.SetCardsObject(selected, true);
-                    }
+                    try { RMRPrepareRestrictions.GrantEgoIdsToBattleUnits(new[] { pickId }); }
+                    catch (Exception ex) { Debug.LogWarning("[RMR] GrantEgoIds after pick: " + ex.Message); }
                 }
-                catch (Exception ex)
-                {
-                    Debug.LogWarning("[RMR] hand UI refresh after EGO pick: " + ex.Message);
-                }
+                if (LogLikeMod.egoSelectionQueue.Count > 0)
+                    LogLikeMod.egoSelectionQueue.RemoveAt(0);
 
+                // Mid-battle: leave rewardFlag / level-up UI; do not start post-battle StartPickReward.
                 if (midBattle)
-                    Debug.Log($"[RMR] Mid-battle EGO picked id={pickId?.packageId}:{pickId?.id} (floor-selected + personalEgo).");
+                {
+                    try { RewardingModel.rewardFlag = RewardingModel.RewardFlag.EmtoionChoose; } catch { }
+                    try
+                    {
+                        LevelUpUI levelup = SingletonBehavior<BattleManagerUI>.Instance?.ui_levelup;
+                        if (levelup != null)
+                            LogLikeRoutines.HideRewardSelectionImmediately(levelup);
+                    }
+                    catch { /* ignore */ }
+                    // Field-only hand state; keep root hidden until ApplyLibrarianCardPhase.
+                    try { RMRPrepareRestrictions.ForceHandUiToBattleCards(); } catch { }
+                    try { RMRPrepareRestrictions.HideHandUiUntilCombat(); } catch { }
+                    int enemyAlive = 0;
+                    try
+                    {
+                        enemyAlive = BattleObjectManager.instance?.GetAliveListWithAvailable(Faction.Enemy)?.Count ?? 0;
+                    }
+                    catch { enemyAlive = -1; }
+                    Debug.Log($"[RMR] Mid-battle EGO picked id={pickId?.packageId}:{pickId?.id} floorReg={floorRegistered} enemiesAlive={enemyAlive} (resume combat, no vanilla OnPickEgoCard).");
+                }
+                else
+                {
+                    // Post-battle EGO: close UI and advance remaining reward queue.
+                    try
+                    {
+                        LevelUpUI levelup = SingletonBehavior<BattleManagerUI>.Instance?.ui_levelup;
+                        if (levelup != null)
+                            levelup.SetRootCanvas(false);
+                    }
+                    catch { /* ignore */ }
+                    try { RewardingModel.StartPickReward(); }
+                    catch (Exception ex) { Debug.LogWarning("[RMR] StartPickReward after post-battle EGO: " + ex.Message); }
+                }
             }
             else
                 orig(self, egoCard);
@@ -1886,36 +2059,116 @@ namespace abcdcode_LOGLIKE_MOD
           BattleUnitModel unitModel,
           bool isClicked = true)
         {
-            // Always use vanilla hand setup so E.G.O. toggle + hand swap work after mid-battle
-            // EGO picks (ExistEgoCardBySelected / personalEgoDetail). Old override only toggled
-            // state and never rebuilt cards — purple EGO switch button never appeared.
-            orig(self, unitModel, isClicked);
-            if (!LogLikeMod.CheckStage(true) || unitModel == null || self == null)
+            // Vanilla SetCardsObject NREs in RMR receptions (hover unit / empty formation).
+            // Keep Magma-style safe path for RMR, but still surface EGO toggle when personalEgo
+            // or floor-selected EGO exists (after mid-battle EGO picks).
+            // Default hand is ALWAYS battle pages when selecting a unit (isClicked): force toggle
+            // off so flooded EGO / sticky toggle cannot trap the player on unplayable EGO-only hand.
+            if (!LogLikeMod.CheckStage(true))
+            {
+                orig(self, unitModel, isClicked);
+                return;
+            }
+            if (self == null || unitModel == null)
                 return;
             try
             {
+                GameObject gameObject = (GameObject)BattleUnitCardsInHandUIRootObjField.GetValue(self);
                 Toggle toggle = (Toggle)BattleUnitCardsInHandUIToggleShowEgoField.GetValue(self);
-                if (toggle == null)
+
+                // Before card-select phase (intro "开始战斗" / idle enemies), never open the hand root.
+                // Hover/select during StartBattle was re-activating a single floating combat page mid-screen.
+                if (!RMRPrepareRestrictions.IsHandUiPhaseAllowed())
+                {
+                    BattleUnitCardsInHandUIIsOverOnEgoToggleField.SetValue(self, false);
+                    try
+                    {
+                        if (toggle != null)
+                        {
+                            try { toggle.SetIsOnWithoutNotify(false); } catch { try { toggle.isOn = false; } catch { } }
+                        }
+                    }
+                    catch { /* ignore */ }
+                    try
+                    {
+                        BattleUnitCardsInHandUIHandStateField.SetValue(self, BattleUnitCardsInHandUI.HandState.BattleCard);
+                    }
+                    catch { /* ignore */ }
+                    if (gameObject != null)
+                        gameObject.SetActive(false);
                     return;
+                }
+
+                if (gameObject != null)
+                    gameObject.SetActive(true);
+                BattleUnitCardsInHandUIIsOverOnEgoToggleField.SetValue(self, false);
+                if (isClicked)
+                    BattleUnitCardsInHandUISelectedUnitField.SetValue(self, unitModel);
+                else
+                    BattleUnitCardsInHandUIHoveredUnitField.SetValue(self, unitModel);
+
                 bool hasEgo = false;
-                try { hasEgo = unitModel.personalEgoDetail != null && unitModel.personalEgoDetail.ExistsCard(); } catch { }
+                try
+                {
+                    hasEgo = unitModel.personalEgoDetail != null && unitModel.personalEgoDetail.ExistsCard();
+                }
+                catch { hasEgo = false; }
                 try
                 {
                     if (!hasEgo && Singleton<SpecialCardListModel>.Instance != null)
                         hasEgo = Singleton<SpecialCardListModel>.Instance.ExistEgoCardBySelected();
                 }
-                catch { }
-                if (!hasEgo)
-                    return;
-                // Force toggle visible if vanilla left it hidden despite owned/selected EGO.
-                BattleUnitCardsInHandUI.EgoToggleState egoToggleState = toggle.isOn
-                    ? BattleUnitCardsInHandUI.EgoToggleState.On
-                    : BattleUnitCardsInHandUI.EgoToggleState.Off;
-                BattleUnitCardsInHandUISetEgoToggleStateMethod.Invoke(self, new object[] { egoToggleState });
+                catch { /* ignore */ }
+
+                // Selecting a unit → prefer combat pages. Player can still flip the purple EGO toggle.
+                if (isClicked && toggle != null)
+                {
+                    try { toggle.isOn = false; } catch { /* ignore */ }
+                }
+                try
+                {
+                    BattleUnitCardsInHandUIHandStateField.SetValue(self, BattleUnitCardsInHandUI.HandState.BattleCard);
+                }
+                catch { /* ignore */ }
+
+                BattleUnitCardsInHandUI.EgoToggleState egoToggleState = BattleUnitCardsInHandUI.EgoToggleState.Hide;
+                if (hasEgo && toggle != null)
+                {
+                    // After force-off on click, Off; on hover preserve toggle if user left it on.
+                    egoToggleState = toggle.isOn
+                        ? BattleUnitCardsInHandUI.EgoToggleState.On
+                        : BattleUnitCardsInHandUI.EgoToggleState.Off;
+                    if (toggle.isOn)
+                    {
+                        try
+                        {
+                            BattleUnitCardsInHandUIHandStateField.SetValue(self, BattleUnitCardsInHandUI.HandState.EgoCard);
+                        }
+                        catch { /* ignore */ }
+                    }
+                }
+
+                try
+                {
+                    if (!PlatformManager.Instance.AchievementUnlocked(AchievementEnum.ONCE_COPY)
+                        && unitModel.allyCardDetail != null
+                        && unitModel.allyCardDetail.Exsist6CardsInHand_andCopy())
+                        PlatformManager.Instance.UnlockAchievement(AchievementEnum.ONCE_COPY);
+                }
+                catch { /* ignore */ }
+
+                ApplyHandEgoToggleSafe(self, egoToggleState);
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[RMR] SetCardsObject EGO toggle repair: " + ex.Message);
+                // Never let hand-UI setup abort the reception.
+                Debug.LogWarning("[RMR] SetCardsObject safe path failed: " +
+                    (ex.InnerException != null ? ex.InnerException.Message : ex.Message));
+                try
+                {
+                    BattleUnitCardsInHandUIHandStateField?.SetValue(self, BattleUnitCardsInHandUI.HandState.BattleCard);
+                }
+                catch { /* ignore */ }
             }
         }
 
@@ -2602,6 +2855,11 @@ namespace abcdcode_LOGLIKE_MOD
             // Also re-ensures multiphase passives every round (Angela/Roland E.G.O forms).
             if (RMRRealizationManager.InRealizationBattle)
                 RMRRealizationManager.MarkRealizationCombatLive();
+
+            // Mid-battle EGO suppress flag is only needed through the emotion RoundEnd → next round.
+            // Non-combat node exit (shop/mystery leave) also ends once the next wave's RoundStart runs.
+            try { RewardingModel.ClearSuppressSpuriousEndBattle(); } catch { /* ignore */ }
+            try { RewardingModel.ClearNonCombatNodeExit(); } catch { /* ignore */ }
 
             if (!LogLikeMod.GetFieldValue<bool>(__instance, "_bCalledRoundStart_system") && LogLikeMod.CheckStage())
                 Singleton<GlobalLogueEffectManager>.Instance.OnRoundStart(__instance);
@@ -4043,8 +4301,148 @@ namespace abcdcode_LOGLIKE_MOD
             // Without this, wrong package can leave Korean lines during a Chinese client session.
             try { LogLikeMod.ReloadVanillaBossBirdTextForLanguage(language, "LoadOthers"); }
             catch (Exception ex) { Debug.LogWarning("[RMR Localize] BossBirdText reload after LoadOthers failed: " + ex.Message); }
-            try { LogLikeMod.LogChineseLocalizeDeployHealth(); }
-            catch { }
+            // Opening PV + librarian names: once per language (cached inside helpers).
+            try { LogLikeMod.ReloadOpeningLyricsForLanguage(language, "LoadOthers"); } catch { }
+            try { LogLikeMod.ReloadLibrariansNamesForLanguage(language, "LoadOthers"); } catch { }
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(LocalizedTextLoader), nameof(LocalizedTextLoader.LoadOpeningLyrics))]
+        public static void LocalizedTextLoader_LoadOpeningLyrics(string language)
+        {
+            try { LogLikeMod.ReloadOpeningLyricsForLanguage(language, "LoadOpeningLyrics"); } catch { }
+        }
+
+        /// <summary>
+        /// Opening PV: ensure lyrics + CJK font once at Init/SetLanguage (not every subtitle frame).
+        /// </summary>
+        [HarmonyPostfix, HarmonyPatch(typeof(Opening.GameOpeningController), nameof(Opening.GameOpeningController.SetLanguage))]
+        public static void GameOpeningController_SetLanguage(Opening.GameOpeningController __instance, string language)
+        {
+            try
+            {
+                LogLikeMod.ReloadOpeningLyricsForLanguage(language, "Opening.SetLanguage");
+                LogLikeMod.ApplyOpeningSubtitleFont(__instance);
+            }
+            catch { /* ignore */ }
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(Opening.GameOpeningController), nameof(Opening.GameOpeningController.Init))]
+        public static void GameOpeningController_Init(Opening.GameOpeningController __instance)
+        {
+            try
+            {
+                string lang = null;
+                try { lang = GlobalGameManager.Instance?.CurrentOption?.language; } catch { }
+                if (string.IsNullOrEmpty(lang))
+                    lang = TextDataModel.CurrentLanguage.ToString();
+                LogLikeMod.ReloadOpeningLyricsForLanguage(lang, "Opening.Init");
+                LogLikeMod.ApplyOpeningSubtitleFont(__instance);
+            }
+            catch { /* ignore */ }
+        }
+
+        /// <summary>
+        /// Formation slot names: light path only (no full-scene font repair).
+        /// </summary>
+        [HarmonyPostfix, HarmonyPatch(typeof(UICharacterSlot), nameof(UICharacterSlot.SetCharacter))]
+        public static void UICharacterSlot_SetCharacter_LocalizeName(UICharacterSlot __instance)
+        {
+            if (__instance?.Name == null)
+                return;
+            try
+            {
+                TextMeshProUGUI nameTmp = __instance.Name;
+                TMP_FontAsset font = LogLikeMod.DefFont_TMP;
+                if (font != null && nameTmp.font != font)
+                    LogLikeMod.ApplyTmpFontPreservingSharpMaterial(nameTmp, font);
+
+                if (!IsPoorUiText(nameTmp.text))
+                    return;
+                UnitDataModel unit = null;
+                try
+                {
+                    if (__instance.unitBattleData != null)
+                        unit = __instance.unitBattleData.unitData;
+                }
+                catch { unit = null; }
+                string fixedName = ResolveUnitDisplayName(unit);
+                if (!string.IsNullOrEmpty(fixedName) && !IsPoorUiText(fixedName))
+                    nameTmp.text = fixedName;
+            }
+            catch { /* ignore */ }
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(UnitDataModel), "get_name")]
+        public static void UnitDataModel_get_name(UnitDataModel __instance, ref string __result)
+        {
+            if (__instance == null || !IsPoorUiText(__result))
+                return;
+            try
+            {
+                string fixedName = ResolveUnitDisplayName(__instance);
+                if (!string.IsNullOrEmpty(fixedName) && !IsPoorUiText(fixedName))
+                    __result = fixedName;
+            }
+            catch { /* ignore */ }
+        }
+
+        private static string ResolveUnitDisplayName(UnitDataModel unit)
+        {
+            if (unit == null)
+                return string.Empty;
+            try
+            {
+                // Prefer book character / key-page localized name.
+                BookModel book = unit.bookItem ?? unit.CustomBookItem;
+                if (book != null)
+                {
+                    string charName = null;
+                    try { charName = book.GetCharacterName(); } catch { charName = null; }
+                    if (!string.IsNullOrEmpty(charName) && !IsPoorUiText(charName))
+                        return charName;
+                    string bookName = null;
+                    try { bookName = book.GetName(); } catch { bookName = null; }
+                    if (!string.IsNullOrEmpty(bookName) && !IsPoorUiText(bookName))
+                        return bookName;
+                    if (book.ClassInfo != null)
+                    {
+                        string loc = RewardingModel.GetLocalizedBookName(book.ClassInfo);
+                        if (!string.IsNullOrEmpty(loc) && !IsPoorUiText(loc))
+                            return loc;
+                    }
+                }
+
+                // nameID → LibrariansNameXmlList (must be language-correct after our reload).
+                int nameId = -1;
+                try
+                {
+                    FieldInfo fi = AccessTools.Field(typeof(UnitDataModel), "_nameID");
+                    if (fi != null)
+                        nameId = (int)fi.GetValue(unit);
+                }
+                catch { nameId = -1; }
+                if (nameId >= 0 && Singleton<LibrariansNameXmlList>.Instance != null)
+                {
+                    string fromList = Singleton<LibrariansNameXmlList>.Instance.GetName(nameId);
+                    if (!string.IsNullOrEmpty(fromList) && !IsPoorUiText(fromList))
+                        return fromList;
+                }
+
+                // Sephirah default book → CharactersNameXmlList
+                if (unit.isSephirah && unit.bookItem != null)
+                {
+                    try
+                    {
+                        LorId id = unit.bookItem.GetBookClassInfoId();
+                        string seph = Singleton<CharactersNameXmlList>.Instance?.GetName(id);
+                        if (!string.IsNullOrEmpty(seph) && !IsPoorUiText(seph))
+                            return seph;
+                    }
+                    catch { /* ignore */ }
+                }
+            }
+            catch { /* ignore */ }
+            return string.Empty;
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(LocalizedTextLoader), nameof(LocalizedTextLoader.LoadBossBirdText))]
@@ -4066,7 +4464,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             try
             {
-                LogLikeMod.EnsureLocalizedFonts("LibrarianInfo.SetData", repairActiveUi: true);
+                // No-op heavy path: full EnsureLocalizedFonts on every SetData caused hitching.
             }
             catch { }
 
@@ -4133,8 +4531,8 @@ namespace abcdcode_LOGLIKE_MOD
         public static void UISettingInvenEquipPageSlot_SetOperatingPanel_Fonts(UISettingInvenEquipPageSlot __instance)
         {
             // Second postfix (equip button enable is another method) — fonts only.
-            try { LogLikeMod.EnsureLocalizedFonts("EquipSlot.SetOperatingPanel", repairActiveUi: true); }
-            catch { }
+            // Slot open is high-frequency; setter patch is enough (repair throttled / phase-driven).
+            // intentionally empty — equip slot open is high-frequency
         }
 
         /// <summary>
@@ -4463,14 +4861,15 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPostfix, HarmonyPatch(typeof(UI.UIController), nameof(UI.UIController.CallUIPhase), new Type[1] { typeof(UIPhase) })]
         public static void UIController_CallUIPhase(UIController __instance, UIPhase phase)
         {
-            // Story / invitation / prepare: re-apply CJK fonts so key-page + PV dialogs are not tofu.
+            // Only heavy-repair on rare phase transitions (not every BattleSetting open).
             try
             {
-                if (phase == UIPhase.Story || phase == UIPhase.BattleSetting || phase == UIPhase.Invitation
-                    || phase == UIPhase.Sephirah)
+                if (phase == UIPhase.Story || phase == UIPhase.Invitation)
                     LogLikeMod.EnsureLocalizedFonts("CallUIPhase." + phase, repairActiveUi: true);
+                else if (phase == UIPhase.BattleSetting || phase == UIPhase.Sephirah)
+                    LogLikeMod.EnsureLocalizedFonts("CallUIPhase." + phase, repairActiveUi: false);
             }
-            catch { /* ignore phase/font failures */ }
+            catch { /* ignore */ }
 
             if (phase != UIPhase.BattleSetting || MysteryBase.curinfo == null)
                 return;

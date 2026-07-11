@@ -774,13 +774,17 @@ namespace abcdcode_LOGLIKE_MOD
                 // Inject under the registered Name key (vanilla Name like SnowWhite_Vine after
                 // ApplyVanillaEmotionPresentation). Never stamp "Not found" over good vanilla text.
                 EmotionCardXmlInfo registeredPickUpXml = LogLikeMod.GetRegisteredPickUpXml(info);
+                // Creature only — EquipPage presentation is handled by CreateEquipRewardXmlData.
+                if (registeredPickUpXml != null && info.rewardtype == RewardType.Creature)
+                    RMRAbnormalityUnlockManager.EnsureVanillaEmotionPresentation(info, registeredPickUpXml);
                 PickUpModelBase pickUp = LogLikeMod.FindPickUp(info.script);
                 if (registeredPickUpXml != null)
                     PickUpModel_RMRVanillaEmotion.InjectResolvedDesc(registeredPickUpXml, pickUp);
                 else
                 {
                     AbnormalityCard abnormalityCard = Singleton<AbnormalityCardDescXmlList>.Instance.GetAbnormalityCard(info.script);
-                    if (abnormalityCard != null && pickUp != null && !PickUpModel_RMRVanillaEmotion.IsMissingText(pickUp.Name))
+                    if (abnormalityCard != null && pickUp != null
+                        && PickUpModel_RMRVanillaEmotion.IsUsablePickUpDisplayText(pickUp.Name, info.script))
                     {
                         abnormalityCard.cardName = pickUp.Name;
                         abnormalityCard.flavorText = pickUp.FlaverText;
@@ -1225,6 +1229,11 @@ namespace abcdcode_LOGLIKE_MOD
         private static readonly HashSet<int> _midBattleSelectedEgoCardIds = new HashSet<int>();
         /// <summary>True while LevelUpUI is showing a mid-battle EGO 3-pick (not post-battle queue).</summary>
         public static bool IsMidBattleEgoSelectionActive { get; private set; }
+        /// <summary>
+        /// Blocks spurious EndBattle → EndBattlePhase while emotion/EGO UI just finished and combat
+        /// is still live (both factions alive). Cleared on next RoundStart / battle reset.
+        /// </summary>
+        public static bool SuppressSpuriousEndBattleWhileCombatLive { get; private set; }
 
         public static void ResetMidBattleEgoSelectionState()
         {
@@ -1232,13 +1241,120 @@ namespace abcdcode_LOGLIKE_MOD
             _midBattleEgoDoneAtLevel.Clear();
             _midBattleSelectedEgoCardIds.Clear();
             IsMidBattleEgoSelectionActive = false;
+            SuppressSpuriousEndBattleWhileCombatLive = false;
+            NonCombatNodeExitPending = false;
         }
 
         public static void NoteMidBattleEgoPicked(LorId id)
         {
             if (id != null && id != LorId.None)
                 _midBattleSelectedEgoCardIds.Add(id.id);
+            bool wasMidBattle = IsMidBattleEgoSelectionActive;
             IsMidBattleEgoSelectionActive = false;
+            // Keep combat alive after emotion-5 EGO: do not let reward EndBattle hijack RoundEnd.
+            if (wasMidBattle)
+                SuppressSpuriousEndBattleWhileCombatLive = true;
+        }
+
+        public static void ClearSuppressSpuriousEndBattle()
+        {
+            SuppressSpuriousEndBattleWhileCombatLive = false;
+        }
+
+        /// <summary>
+        /// Sticky flag set when leaving shop / finishing mystery-rest (Defeat + EndBattle).
+        /// Survives CloseShop / EndMystery and next-stage pick (SetNextStage overwrites
+        /// curstagetype), so EndBattlePhase "both sides alive" recovery cannot resume
+        /// combat against residual immune merchant/mystery NPCs. Cleared on next RoundStart.
+        /// </summary>
+        public static bool NonCombatNodeExitPending { get; private set; }
+
+        /// <summary>
+        /// Mark intentional non-combat node exit and strip residual enemy NPCs so
+        /// IsLiveCombatBothSidesAlive is false for the remainder of EndBattlePhase.
+        /// </summary>
+        public static void MarkNonCombatNodeExit(string reason = null)
+        {
+            NonCombatNodeExitPending = true;
+            try
+            {
+                if (BattleObjectManager.instance != null)
+                {
+                    List<BattleUnitModel> enemies = BattleObjectManager.instance.GetList(Faction.Enemy);
+                    if (enemies != null)
+                    {
+                        // Copy: Die may mutate the live unit list.
+                        foreach (BattleUnitModel unit in new List<BattleUnitModel>(enemies))
+                        {
+                            if (unit == null || unit.IsDead())
+                                continue;
+                            try { unit.Die(); }
+                            catch { /* ignore immortal / already-dead */ }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] MarkNonCombatNodeExit clear enemies failed: " + ex.Message);
+            }
+            if (!string.IsNullOrEmpty(reason))
+                Debug.Log("[RMR] NonCombatNodeExit pending: " + reason);
+        }
+
+        public static void ClearNonCombatNodeExit()
+        {
+            NonCombatNodeExitPending = false;
+        }
+
+        /// <summary>True if a mid-battle EGO offer is pending (armed, not yet opened).</summary>
+        public static bool HasPendingMidBattleEgo()
+        {
+            return _pendingMidBattleEgoEmotionLevel >= 3;
+        }
+
+        /// <summary>
+        /// Live combat: both factions still have available units. Used to refuse EndBattle
+        /// (reward phase) so mid-battle EGO pick cannot wipe enemies / end the reception.
+        /// </summary>
+        public static bool IsLiveCombatBothSidesAlive()
+        {
+            try
+            {
+                if (BattleObjectManager.instance == null)
+                    return false;
+                int players = BattleObjectManager.instance.GetAliveListWithAvailable(Faction.Player).Count;
+                int enemies = BattleObjectManager.instance.GetAliveListWithAvailable(Faction.Enemy).Count;
+                return players > 0 && enemies > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Shop / mystery / rest are non-combat nodes that may call EndBattle while "units" exist.
+        /// Combat stages must not enter reward EndBattle while both sides are still alive.
+        /// Also true while NonCombatNodeExitPending — after next-stage pick curstagetype is no
+        /// longer Shop/Mystery but residual NPCs may still be on the field until the wave swaps.
+        /// </summary>
+        public static bool IsNonCombatNodeStage()
+        {
+            if (NonCombatNodeExitPending)
+                return true;
+            try
+            {
+                if (Singleton<ShopManager>.Instance?.curshop != null)
+                    return true;
+                if (Singleton<MysteryManager>.Instance?.curMystery != null)
+                    return true;
+            }
+            catch { /* ignore */ }
+            return LogLikeMod.curstagetype == StageType.Shop
+                || LogLikeMod.curstagetype == StageType.Mystery
+                || LogLikeMod.curstagetype == StageType.Rest
+                || LogLikeMod.curstagetype == StageType.Reward;
         }
 
         /// <summary>
@@ -1341,7 +1457,15 @@ namespace abcdcode_LOGLIKE_MOD
                 return false;
             }
 
-            Debug.Log($"[RMR] Mid-battle EGO selection opened at emotion {lv}, offers={offers.Count} ids=[{string.Join(",", choiceIds.Select(x => x.id.ToString()).ToArray())}]");
+            int enemyAlive = 0;
+            int playerAlive = 0;
+            try
+            {
+                enemyAlive = BattleObjectManager.instance?.GetAliveListWithAvailable(Faction.Enemy)?.Count ?? 0;
+                playerAlive = BattleObjectManager.instance?.GetAliveListWithAvailable(Faction.Player)?.Count ?? 0;
+            }
+            catch { /* ignore */ }
+            Debug.Log($"[RMR] Mid-battle EGO selection opened at emotion {lv}, offers={offers.Count} ids=[{string.Join(",", choiceIds.Select(x => x.id.ToString()).ToArray())}] enemies={enemyAlive} players={playerAlive}");
             return true;
         }
 
@@ -1381,6 +1505,8 @@ namespace abcdcode_LOGLIKE_MOD
             RewardingModel.rewardFlag = RewardingModel.RewardFlag.EmtoionChoose;
             // Vanilla: at team emotion 3/4/5, after abno pick comes floor E.G.O. selection.
             ArmMidBattleEgoAfterEmotionIfNeeded();
+            // One throttled font repair is enough (second pass was doubling FindObjectsOfType cost).
+            try { LogLikeMod.EnsureLocalizedFonts("PickEmotion", repairActiveUi: true); } catch { }
             SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.Init(emotions.Count, emotions);
         }
 
@@ -1391,6 +1517,22 @@ namespace abcdcode_LOGLIKE_MOD
             Singleton<GlobalLogueEffectManager>.Instance.RewardClearStageInterrupt();
             if (Singleton<MysteryManager>.Instance.curMystery != null || SingletonBehavior<BattleManagerUI>.Instance.ui_levelup.IsEnabled)
                 return false;
+            // Mid-battle abno/EGO must never open post-battle rewards or allow EndBattle while fight continues.
+            if (IsMidBattleEgoSelectionActive || HasPendingMidBattleEgo())
+                return false;
+            if (SuppressSpuriousEndBattleWhileCombatLive && IsLiveCombatBothSidesAlive() && !IsNonCombatNodeStage())
+            {
+                if (!LogLikeMod.EndBattle)
+                    Debug.Log("[RMR RewardClearStage] refuse EndBattle — mid-battle EGO just resolved and both sides still alive.");
+                return false;
+            }
+            if (IsLiveCombatBothSidesAlive() && !IsNonCombatNodeStage())
+            {
+                // Spurious EndBattlePhase while combat is still live (seen after emotion-5 EGO pick).
+                if (!LogLikeMod.EndBattle)
+                    Debug.Log("[RMR RewardClearStage] refuse EndBattle — both factions still have living units (live combat).");
+                return false;
+            }
             EnsureBossBattleCardReward();
             // Total party wipe = defeat. Do NOT open reward/next-stage UI just because nextlist was
             // pre-filled at StartBattle — that would let a lost fight continue the run.
@@ -1406,7 +1548,11 @@ namespace abcdcode_LOGLIKE_MOD
             int nextCount = LogLikeMod.nextlist != null ? LogLikeMod.nextlist.FindAll(x => x != null).Count : 0;
             if (rewardCount == 0 && passiveCount == 0 && nextCount == 0 && !HasQueuedEgoSelections() && !HasQueuedMysteryRewards())
             {
-                Debug.Log($"[RMR RewardClearStage] queues empty → allow EndBattle (grade={LogLikeMod.curchaptergrade}, type={LogLikeMod.curstagetype}, step={LogLikeMod.curChStageStep}).");
+                // EndBattlePhase calls this every frame — log once so Player.log is not flooded.
+                if (!LogLikeMod.EndBattle)
+                {
+                    Debug.Log($"[RMR RewardClearStage] queues empty → allow EndBattle (grade={LogLikeMod.curchaptergrade}, type={LogLikeMod.curstagetype}, step={LogLikeMod.curChStageStep}).");
+                }
                 return true;
             }
             if (Singleton<MysteryManager>.Instance.curMystery == null)
@@ -1586,6 +1732,12 @@ namespace abcdcode_LOGLIKE_MOD
 
             foreach (EmotionCardXmlInfo emotionCardXmlInfo in infos)
             {
+                // Lazy re-apply Name/artwork if RegisterPickUpXml ran before EmotionCardXmlList was ready
+                // (or before mod→vanilla script aliases could resolve). UI SetTexts keys by Name.
+                RewardPassiveInfo offerInfo = RewardingModel.FindRewardInfo(emotionCardXmlInfo);
+                if (offerInfo != null)
+                    RMRAbnormalityUnlockManager.EnsureVanillaEmotionPresentation(offerInfo, emotionCardXmlInfo);
+
                 PickUpModelBase pickUp = (emotionCardXmlInfo.Script != null && emotionCardXmlInfo.Script.Count > 0)
                     ? LogLikeMod.FindPickUp(emotionCardXmlInfo.Script[0])
                     : null;
@@ -1640,9 +1792,10 @@ namespace abcdcode_LOGLIKE_MOD
 
         private static string GetRewardPassiveKey(RewardPassiveInfo info)
         {
-            if (info == null)
+            if (info == null || info.id == null)
                 return string.Empty;
-            return info.id.packageId + ":" + info.id.id.ToString();
+            // Null-safe: matches FilterOwnedPagesForTeamEmotion key format.
+            return (info.id.packageId ?? "") + ":" + info.id.id.ToString();
         }
 
         private static string GetEmotionCardKey(EmotionCardXmlInfo info)

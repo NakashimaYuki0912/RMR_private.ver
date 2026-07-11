@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>RMR UI 优化选项</title>
+<style>
+  :root { --bg:#0f0e14; --card:#1a1824; --accent:#c4a574; --text:#e8e0d4; --muted:#9a9080; --ok:#6bcf7f; --line:#3a3548; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: "Segoe UI", "Microsoft YaHei", sans-serif; background: radial-gradient(ellipse at top, #1e1a2e, var(--bg)); color: var(--text); min-height:100vh; padding: 24px; }
+  h1 { font-weight:600; letter-spacing:0.04em; margin:0 0 8px; }
+  .sub { color: var(--muted); margin-bottom: 24px; max-width: 720px; line-height:1.5; }
+  .grid { display:grid; gap:16px; max-width:900px; }
+  .card { background: var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; }
+  .card h2 { margin:0 0 10px; font-size:1.05rem; color:#d4b896; }
+  label.opt { display:flex; gap:12px; align-items:flex-start; padding:10px 8px; border-radius:8px; cursor:pointer; }
+  label.opt:hover { background: rgba(255,255,255,0.04); }
+  label.opt input { margin-top:4px; }
+  .title { font-weight:600; }
+  .desc { color: var(--muted); font-size:0.9rem; margin-top:4px; line-height:1.45; }
+  .actions { margin-top: 28px; display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+  button { background: linear-gradient(135deg,#8b6914,#c4a574); border:none; color:#1a1208; font-weight:700; padding:12px 22px; border-radius:8px; cursor:pointer; font-size:1rem; }
+  button:hover { filter: brightness(1.08); }
+  button.secondary { background: transparent; border:1px solid var(--line); color: var(--text); font-weight:500; }
+  #out { margin-top:20px; max-width:900px; background:#121018; border:1px solid var(--line); border-radius:8px; padding:14px; white-space:pre-wrap; font-family: ui-monospace, Consolas, monospace; font-size:0.85rem; display:none; }
+  .done { color: var(--ok); }
+  .badge { display:inline-block; font-size:0.75rem; padding:2px 8px; border-radius:999px; background:#2a2438; color:#b8a990; margin-left:8px; }
+</style>
+</head>
+<body>
+  <h1>RMR UI / 交互优化方案</h1>
+  <p class="sub">
+    勾选你想要的方案后点「确认选择」。结果会显示在下方，并写入本地 <code>selection.json</code>（若服务支持 POST）。
+    已实现的逻辑改动（EGO 不进战斗卡组、解放战章节限制、核心页文案）与下列 UI 方案可叠加。
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h2>A. 编队 / 书页库存 <span class="badge">推荐</span></h2>
+      <label class="opt"><input type="checkbox" name="ui" value="A1" checked/>
+        <div><div class="title">A1. EGO 从战斗书页列表隐藏</div>
+        <div class="desc">EGO 仅通过战斗中 EGO 开关 / 情感 EGO 使用，不出现在「战斗书页」装备列表（与原版一致）。</div></div>
+      </label>
+      <label class="opt"><input type="checkbox" name="ui" value="A2" checked/>
+        <div><div class="title">A2. 解放战章节过滤提示</div>
+        <div class="desc">历史/科技/文学/艺术≤梦魇；总类≤杂质；其余≤都市之星。被过滤的书页不显示在列表中。</div></div>
+      </label>
+      <label class="opt"><input type="checkbox" name="ui" value="A3"/>
+        <div><div class="title">A3. 列表空状态文案</div>
+        <div class="desc">当过滤后无可用书页时，显示「当前层限制了更高章节书页」提示。</div></div>
+      </label>
+    </div>
+
+    <div class="card">
+      <h2>B. 核心书页信息面板</h2>
+      <label class="opt"><input type="checkbox" name="ui" value="B1" checked/>
+        <div><div class="title">B1. 中文书名 / 角色名（origin-aware）</div>
+        <div class="desc">修复 workshop InnerName 韩文导致的口口口；被动名/描述走原版 ID 中文。</div></div>
+      </label>
+      <label class="opt"><input type="checkbox" name="ui" value="B2" checked/>
+        <div><div class="title">B2. 被动分行 + 完整说明 + 书页故事</div>
+        <div class="desc">悬停/奖励描述不再只是「被动A, 被动B」逗号列表。</div></div>
+      </label>
+      <label class="opt"><input type="checkbox" name="ui" value="B3"/>
+        <div><div class="title">B3. 隐藏「当前拥有的眼」类运行时占位被动</div>
+        <div class="desc">编队信息面板不展示金钱计数用的内部被动，减少观感干扰。</div></div>
+      </label>
+    </div>
+
+    <div class="card">
+      <h2>C. 商店 / 战斗 HUD</h2>
+      <label class="opt"><input type="checkbox" name="ui" value="C1"/>
+        <div><div class="title">C1. 商店悬停预览强制正立 + CJK 字体</div>
+        <div class="desc">已有部分实现；可选再加强预览锚点与字号。</div></div>
+      </label>
+      <label class="opt"><input type="checkbox" name="ui" value="C2"/>
+        <div><div class="title">C2. 关键词 tooltip 语言与主界面一致</div>
+        <div class="desc">打开商店时刷新 EffectTexts，避免英文关键词残留。</div></div>
+      </label>
+      <label class="opt"><input type="checkbox" name="ui" value="C3"/>
+        <div><div class="title">C3. 「剩余接待」数字样式统一</div>
+        <div class="desc">与选关标题字号/颜色对齐，减少 HUD 杂乱感。</div></div>
+      </label>
+    </div>
+
+    <div class="card">
+      <h2>D. 选层 / 地图</h2>
+      <label class="opt"><input type="checkbox" name="ui" value="D1"/>
+        <div><div class="title">D1. 当前出战层高亮 + 层名中文标注</div>
+        <div class="desc">编队左侧司书按钮旁显示「语言层」等中文，避免点错。</div></div>
+      </label>
+      <label class="opt"><input type="checkbox" name="ui" value="D2"/>
+        <div><div class="title">D2. 杂质关显示 FloorOnly 提示</div>
+        <div class="desc">进入杂质某残响战前提示「本场固定某某层地图/BGM」。</div></div>
+      </label>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button type="button" id="btnOk">确认选择</button>
+    <button type="button" class="secondary" id="btnAll">全选</button>
+    <button type="button" class="secondary" id="btnNone">清空</button>
+    <span id="status" class="sub" style="margin:0"></span>
+  </div>
+  <div id="out"></div>
+
+<script>
+const out = document.getElementById('out');
+const status = document.getElementById('status');
+function selected() {
+  return [...document.querySelectorAll('input[name=ui]:checked')].map(i => i.value);
+}
+document.getElementById('btnAll').onclick = () => {
+  document.querySelectorAll('input[name=ui]').forEach(i => i.checked = true);
+};
+document.getElementById('btnNone').onclick = () => {
+  document.querySelectorAll('input[name=ui]').forEach(i => i.checked = false);
+};
+document.getElementById('btnOk').onclick = async () => {
+  const picks = selected();
+  const payload = {
+    time: new Date().toISOString(),
+    selected: picks,
+    notes: 'Agent will implement checked options after you confirm.'
+  };
+  out.style.display = 'block';
+  out.textContent = JSON.stringify(payload, null, 2);
+  status.innerHTML = '<span class="done">已记录选择</span> — 可关闭页面，告诉助手「按 selection 实现」';
+  try {
+    const r = await fetch('/select', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (r.ok) status.innerHTML += ' <span class="done">(已写入 selection.json)</span>';
+  } catch (e) {
+    status.innerHTML += ' (仅页面显示；POST 不可用时请复制下方 JSON)';
+  }
+};
+</script>
+</body>
+</html>

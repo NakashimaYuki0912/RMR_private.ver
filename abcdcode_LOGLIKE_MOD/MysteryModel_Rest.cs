@@ -200,6 +200,8 @@ public class MysteryModel_Rest : MysteryBase
   public void LeaveRest()
   {
     Singleton<StageController>.Instance.GetStageModel().GetWave(Singleton<StageController>.Instance.CurrentWave).Defeat();
+    try { RewardingModel.MarkNonCombatNodeExit("LeaveRest"); }
+    catch (System.Exception ex) { UnityEngine.Debug.LogWarning("[RMR] LeaveRest MarkNonCombatNodeExit: " + ex.Message); }
     Singleton<StageController>.Instance.EndBattle();
     Singleton<MysteryManager>.Instance.EndMystery((MysteryBase) this);
   }

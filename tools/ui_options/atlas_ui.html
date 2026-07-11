@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>图鉴 GUI · 优化方案</title>
+<style>
+  :root { --bg:#070605; --gold:#e2bc5c; --gold-dim:#8a6e38; --ink:#f2e8d4; --muted:#9a8a6e; --line:#3a2e1a; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:"Segoe UI","Microsoft YaHei",sans-serif; background:radial-gradient(ellipse at 50% 0%,#1a140c,#070605 55%); color:var(--ink); min-height:100vh; }
+  .top { position:sticky; top:0; z-index:20; background:rgba(8,6,4,.94); border-bottom:1px solid var(--gold-dim); padding:14px 16px 10px; backdrop-filter:blur(8px); }
+  h1 { margin:0; text-align:center; color:var(--gold); font-size:1.15rem; letter-spacing:.12em; }
+  .sub { text-align:center; color:var(--muted); font-size:.88rem; margin:6px 0 10px; }
+  .tabs { display:flex; justify-content:center; gap:8px; flex-wrap:wrap; }
+  .tab { border:1px solid var(--gold-dim); background:#16120c; color:var(--muted); padding:8px 12px; cursor:pointer; font:inherit; font-size:.85rem; }
+  .tab.active { border-color:var(--gold); color:var(--gold); background:linear-gradient(180deg,#3a2e16,#241c10); }
+  .wrap { max-width:1100px; margin:0 auto; padding:16px 14px 110px; }
+  .panel { display:none; }
+  .panel.active { display:block; }
+  .info { display:grid; grid-template-columns:1.1fr .9fr; gap:12px; margin-bottom:12px; }
+  @media(max-width:860px){ .info{grid-template-columns:1fr;} }
+  .card { background:linear-gradient(180deg,#16120e,#100c09); border:1px solid var(--line); padding:12px 14px; }
+  .card h2 { margin:0 0 6px; font-size:1.05rem; }
+  .card p { margin:0; color:var(--muted); line-height:1.55; font-size:.9rem; }
+  .tag { display:inline-block; font-size:11px; color:var(--gold); border:1px solid var(--gold-dim); padding:2px 8px; margin-bottom:6px; letter-spacing:.1em; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .chip { font-size:11px; color:#c8b898; background:#221c14; border:1px solid #3a3020; padding:3px 8px; }
+  .stage-label { text-align:center; color:var(--gold-dim); font-size:12px; letter-spacing:.12em; margin:4px 0 8px; }
+  .stage { position:relative; width:100%; max-width:980px; margin:0 auto; aspect-ratio:16/10; background:#030201; border:1px solid #4a3a20; overflow:hidden; box-shadow:0 16px 50px rgba(0,0,0,.5); }
+  .bg { position:absolute; inset:0; background:radial-gradient(ellipse at 50% 40%,rgba(40,28,12,.5),transparent 55%),#050403; }
+  .frame { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:min(88%,820px); height:min(86%,460px); border:2px solid #c9a45c; background:#120e0a; box-shadow:0 0 0 5px #1a140e,0 0 0 7px #6a5228; }
+  .hdr { text-align:center; padding-top:10px; color:var(--gold); font-size:14px; letter-spacing:.1em; font-weight:700; }
+  .hdr s { display:block; color:#7a6a48; font-size:10px; text-decoration:none; letter-spacing:.14em; margin-top:2px; font-weight:400; }
+  /* A current */
+  .a-tabs { display:flex; gap:4px; justify-content:center; margin:8px 0 6px; flex-wrap:wrap; }
+  .a-tabs span { font-size:9px; border:1px solid #5a4a30; color:#a89878; padding:2px 6px; }
+  .a-tabs span.on { border-color:var(--gold); color:var(--gold); }
+  .a-grid { display:grid; grid-template-columns:repeat(8,1fr); gap:5px; margin:0 8% 0 6%; width:52%; }
+  .a-cell { aspect-ratio:1; background:#1a1510; border:1px solid #4a3a22; display:flex; align-items:center; justify-content:center; font-size:10px; color:#666; }
+  .a-cell.ok { border-color:#8a6e38; color:#e2bc5c; font-size:8px; }
+  .a-detail { position:absolute; right:5%; top:18%; width:26%; height:70%; border:1px solid #6a5430; background:#16110c; padding:8px; font-size:9px; color:#c8b898; }
+  .a-detail .art { height:40%; background:#0c0906; border:1px solid #3a3020; margin-bottom:6px; }
+  .a-detail .id { color:#6a5a42; word-break:break-all; margin-top:6px; }
+  /* B encyclopedia */
+  .b-layout { display:grid; grid-template-columns:140px 1fr 200px; gap:8px; height:calc(100% - 50px); margin:8px 12px 0; }
+  .b-nav { border-right:1px solid #3a2e1a; padding-right:6px; }
+  .b-nav div { font-size:10px; color:#8a7a60; padding:5px 4px; border-left:2px solid transparent; margin-bottom:2px; }
+  .b-nav div.on { color:var(--gold); border-left-color:var(--gold); background:#1a140e; }
+  .b-main { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; align-content:start; }
+  .b-card { height:54px; border:1px solid #5a4a30; background:#16120c; display:flex; gap:6px; padding:4px; }
+  .b-card .ic { width:36px; background:#0c0906; border:1px solid #3a2e1a; }
+  .b-card .tx { font-size:9px; color:#d0c0a0; }
+  .b-card .tx small { display:block; color:#6a5a42; margin-top:2px; }
+  .b-side { border-left:1px solid #3a2e1a; padding-left:8px; font-size:9px; color:#a89878; }
+  .b-side .big { height:70px; background:#0c0906; border:1px solid #4a3a22; margin-bottom:6px; }
+  /* C library book */
+  .c-frame { width:min(42%,360px); height:min(88%,480px); }
+  .c-list { margin:10px 12% 0; }
+  .c-item { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #2a2218; font-size:10px; color:#c8b898; }
+  .c-item.done { color:var(--gold); }
+  .c-item .st { color:#6a5a42; }
+  .c-item.done .st { color:#c9a45c; }
+  /* D dual pane */
+  .d-split { display:grid; grid-template-columns:1fr 1fr; height:calc(100% - 48px); margin-top:8px; }
+  .d-left { border-right:1px solid #3a2e1a; padding:0 10px; overflow:hidden; }
+  .d-row { display:flex; gap:6px; align-items:center; padding:5px 4px; border-bottom:1px solid #221c14; font-size:10px; color:#c8b898; }
+  .d-row .dot { width:8px; height:8px; border-radius:50%; background:#5a4a30; }
+  .d-row.on .dot { background:var(--gold); }
+  .d-row.on { color:var(--gold); background:#1a140e; }
+  .d-right { padding:10px 12px; font-size:10px; color:#a89878; }
+  .d-right h3 { margin:0 0 6px; color:var(--gold); font-size:13px; }
+  .d-right .art { height:100px; background:#0c0906; border:1px solid #4a3a22; margin-bottom:8px; }
+  .bar { position:fixed; bottom:0; left:0; right:0; background:rgba(8,6,4,.95); border-top:1px solid var(--gold-dim); padding:12px; display:flex; justify-content:center; align-items:center; gap:14px; flex-wrap:wrap; }
+  .bar .sel { color:var(--muted); font-size:.9rem; }
+  .bar .sel strong { color:var(--gold); }
+  button.confirm { background:linear-gradient(180deg,#3a2e18,#2a2010); border:1px solid var(--gold); color:var(--gold); padding:10px 24px; font:inherit; cursor:pointer; }
+  button.confirm:disabled { opacity:.4; cursor:not-allowed; }
+  .toast { display:none; position:fixed; top:14px; left:50%; transform:translateX(-50%); background:#2a2210; border:1px solid var(--gold); color:var(--gold); padding:10px 16px; z-index:40; }
+  .toast.show { display:block; }
+  .note { text-align:center; color:#5a4a32; font-size:12px; margin-top:12px; }
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="top">
+  <h1>图鉴 GUI · 优化方案</h1>
+  <p class="sub">对照当前图鉴问题（生硬格子、ID 裸奔、详情面板粗糙）→ 切换方案预览 → 确认保存</p>
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-id="A">A 当前加强</button>
+    <button class="tab" data-id="B">B 百科卡片墙</button>
+    <button class="tab" data-id="C">C 书页目录</button>
+    <button class="tab" data-id="D">D 双栏查阅</button>
+  </div>
+</div>
+<div class="wrap">
+
+<section class="panel active" id="panel-A">
+  <div class="info">
+    <div class="card"><span class="tag">方案 A · 推荐快速落地</span><h2>当前图鉴加强（LoR 金框）</h2>
+      <p>保留 8×6 格子骨架，但：去掉裸露 LorId；未解锁用锁/? 静音；详情做成邀请书小卡（标题·插画·简述·费用/章节）；章节/分类 Tab 改金边胶囊；升级开关做成印章按钮。</p></div>
+    <div class="card"><div class="chips"><span class="chip">改动小</span><span class="chip">保留习惯</span><span class="chip">修信息噪音</span></div>
+      <p style="margin-top:8px">适合先解决「太丑/太技术化」再谈大改布局。</p></div>
+  </div>
+  <div class="stage-label">全屏示意</div>
+  <div class="stage"><div class="bg"></div>
+    <div class="frame">
+      <div class="hdr">图 鉴<s>LIBRARY ATLAS · ROGUELIKE</s></div>
+      <div class="a-tabs"><span>传闻</span><span class="on">都市怪谈</span><span>都市传说</span><span>…</span></div>
+      <div class="a-tabs"><span class="on">角色书页</span><span>战斗书页</span><span>异想体</span><span>EGO</span></div>
+      <div class="a-grid">
+        <div class="a-cell ok">再来</div><div class="a-cell">?</div><div class="a-cell">🔒</div><div class="a-cell">?</div>
+        <div class="a-cell">🔒</div><div class="a-cell">?</div><div class="a-cell">?</div><div class="a-cell">🔒</div>
+        <div class="a-cell">?</div><div class="a-cell ok">✓</div><div class="a-cell">?</div><div class="a-cell">🔒</div>
+        <div class="a-cell">?</div><div class="a-cell">?</div><div class="a-cell">🔒</div><div class="a-cell">?</div>
+      </div>
+      <div class="a-detail"><div class="art"></div><b style="color:#e2bc5c">再来再来!</b><br/>费用 3 · 章节 3<br/><br/>命中时恢复 2 点体力…<div class="id">（无裸 ID）</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-B">
+  <div class="info">
+    <div class="card"><span class="tag">方案 B</span><h2>百科卡片墙</h2>
+      <p>左侧章节导航，中间大卡列表（缩略图+名称+稀有度色），右侧常驻详情。更像图鉴/收藏册，信息层次清晰。</p></div>
+    <div class="card"><div class="chips"><span class="chip">可读性最强</span><span class="chip">中等改动</span><span class="chip">少格子感</span></div></div>
+  </div>
+  <div class="stage-label">全屏示意</div>
+  <div class="stage"><div class="bg"></div>
+    <div class="frame" style="width:min(92%,860px)">
+      <div class="hdr">收藏图鉴<s>ENCYCLOPEDIA</s></div>
+      <div class="b-layout">
+        <div class="b-nav"><div class="on">都市怪谈</div><div>都市传说</div><div>都市疾病</div><div>都市梦魇</div><div>都市之星</div><div>杂质</div></div>
+        <div class="b-main">
+          <div class="b-card"><div class="ic"></div><div class="tx">再来再来!<small>战斗 · 费用3</small></div></div>
+          <div class="b-card"><div class="ic"></div><div class="tx">深潜的记忆<small>战斗 · 费用2</small></div></div>
+          <div class="b-card"><div class="ic"></div><div class="tx">???<small>未解锁</small></div></div>
+          <div class="b-card"><div class="ic"></div><div class="tx">???<small>未解锁</small></div></div>
+        </div>
+        <div class="b-side"><div class="big"></div><b style="color:#e2bc5c">再来再来!</b><br/>命中时恢复体力…</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-C">
+  <div class="info">
+    <div class="card"><span class="tag">方案 C</span><h2>故事书页目录</h2>
+      <p>窄竖卡 + 章节式列表。已解锁金字，未解锁灰字。极简文学风，与解放战方案 D 同族。</p></div>
+    <div class="card"><div class="chips"><span class="chip">氛围强</span><span class="chip">信息密度低</span><span class="chip">中等改动</span></div></div>
+  </div>
+  <div class="stage-label">全屏示意</div>
+  <div class="stage"><div class="bg"></div>
+    <div class="frame c-frame">
+      <div class="hdr">— 图鉴 —<s>ATLAS INDEX</s></div>
+      <div class="c-list">
+        <div class="c-item done"><span>Ⅰ · 再来再来!</span><span class="st">已收录</span></div>
+        <div class="c-item"><span>Ⅱ · ???</span><span class="st">未解锁</span></div>
+        <div class="c-item done"><span>Ⅲ · 深潜的记忆</span><span class="st">已收录</span></div>
+        <div class="c-item"><span>Ⅳ · ???</span><span class="st">未解锁</span></div>
+        <div class="c-item"><span>Ⅴ · ???</span><span class="st">未解锁</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-D">
+  <div class="info">
+    <div class="card"><span class="tag">方案 D</span><h2>双栏查阅台</h2>
+      <p>左栏可滚动条目列表（带状态点），右栏大图+完整描述+关联标签。适合认真查效果，最接近「图书馆查阅」。</p></div>
+    <div class="card"><div class="chips"><span class="chip">查阅体验最好</span><span class="chip">改动较大</span><span class="chip">桌面优先</span></div></div>
+  </div>
+  <div class="stage-label">全屏示意</div>
+  <div class="stage"><div class="bg"></div>
+    <div class="frame" style="width:min(90%,780px)">
+      <div class="hdr">查阅台<s>READING DESK</s></div>
+      <div class="d-split">
+        <div class="d-left">
+          <div class="d-row on"><span class="dot"></span>再来再来!</div>
+          <div class="d-row"><span class="dot"></span>深潜的记忆</div>
+          <div class="d-row"><span class="dot"></span>???</div>
+          <div class="d-row"><span class="dot"></span>???</div>
+          <div class="d-row"><span class="dot"></span>???</div>
+        </div>
+        <div class="d-right">
+          <div class="art"></div>
+          <h3>再来再来!</h3>
+          费用 3 · 章节 3 · 战斗书页<br/><br/>
+          命中时恢复 2 点体力。<br/>使用时抽取 1 张书页。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<p class="note">确认后会写入 selection_atlas_ui.json。也可在聊天回复「图鉴选方案 X」。</p>
+</div>
+<div class="bar">
+  <div class="sel" id="selText">当前预览：<strong>方案 A</strong></div>
+  <button class="confirm" id="btn" type="button">确认选用此方案</button>
+</div>
+<script>
+const NAMES={A:'当前加强',B:'百科卡片墙',C:'书页目录',D:'双栏查阅'};
+let preview='A', selected=null;
+const tabs=document.querySelectorAll('.tab'), panels=document.querySelectorAll('.panel');
+const selText=document.getElementById('selText'), btn=document.getElementById('btn'), toast=document.getElementById('toast');
+function setP(id){ preview=id; tabs.forEach(t=>t.classList.toggle('active',t.dataset.id===id)); panels.forEach(p=>p.classList.toggle('active',p.id==='panel-'+id));
+  selText.innerHTML='当前预览：<strong>方案 '+id+' · '+NAMES[id]+'</strong>'; btn.textContent='确认选用此方案'; }
+tabs.forEach(t=>t.addEventListener('click',()=>setP(t.dataset.id)));
+btn.addEventListener('click',async()=>{
+  selected={id:preview,name:NAMES[preview],panel:'atlas_ui',savedAt:new Date().toISOString()};
+  try{localStorage.setItem('rmr_atlas_ui',JSON.stringify(selected));}catch(_){}
+  let ok=false;
+  try{ const r=await fetch('/select_atlas_ui',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(selected)}); ok=r.ok; }catch(_){}
+  selText.innerHTML='已确认：<strong>方案 '+selected.id+' · '+selected.name+'</strong>';
+  toast.textContent=ok?('已保存方案 '+selected.id):('离线已选 '+selected.id+'，请在聊天回复「图鉴选方案 '+selected.id+'」');
+  toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),2800);
+});
+</script>
+</body>
+</html>

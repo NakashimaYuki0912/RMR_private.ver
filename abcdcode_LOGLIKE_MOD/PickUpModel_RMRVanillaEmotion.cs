@@ -69,6 +69,8 @@ namespace abcdcode_LOGLIKE_MOD
                     Name = string.IsNullOrEmpty(desc.cardName) ? _script : desc.cardName;
                     Desc = desc.abilityDesc ?? string.Empty;
                     FlaverText = desc.flavorText ?? string.Empty;
+                    // Fill any still-empty field from mod CreaturePickUp_Table.
+                    TryFillFromModTextTable();
                     return;
                 }
             }
@@ -76,9 +78,40 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 Debug.LogWarning($"[RMRVanillaEmotion] Failed to load text for {_script}: {ex.Message}");
             }
+            // Fallback: mod localize table (PickUpCreature_{script}_Name/Desc/FlaverText).
             Name = _script;
             Desc = string.Empty;
             FlaverText = string.Empty;
+            TryFillFromModTextTable();
+        }
+
+        /// <summary>
+        /// CreaturePickUp_Table.xml has full CN name/desc/flavor for reward scripts (UniverseZogak2 etc.).
+        /// Used when vanilla Name-keyed lookup failed or only partially filled.
+        /// </summary>
+        private void TryFillFromModTextTable()
+        {
+            if (string.IsNullOrEmpty(_script))
+                return;
+            try
+            {
+                string name = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText(
+                    "PickUpCreature_" + _script + "_Name");
+                string desc = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText(
+                    "PickUpCreature_" + _script + "_Desc");
+                string flavor = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText(
+                    "PickUpCreature_" + _script + "_FlaverText");
+                if (IsMissingText(Name) && !IsMissingText(name)
+                    && name.IndexOf("PickUpCreature_", StringComparison.Ordinal) < 0)
+                    Name = name;
+                if (IsMissingText(Desc) && !IsMissingText(desc)
+                    && desc.IndexOf("PickUpCreature_", StringComparison.Ordinal) < 0)
+                    Desc = desc;
+                if (IsMissingText(FlaverText) && !IsMissingText(flavor)
+                    && flavor.IndexOf("PickUpCreature_", StringComparison.Ordinal) < 0)
+                    FlaverText = flavor;
+            }
+            catch { /* table missing is fine */ }
         }
 
         /// <summary>
@@ -188,6 +221,25 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         /// <summary>
+        /// True when text is usable UI display (not missing, not the script id, not Hangul-only tofu risk).
+        /// </summary>
+        public static bool IsUsablePickUpDisplayText(string text, string script)
+        {
+            if (IsMissingText(text))
+                return false;
+            if (!string.IsNullOrEmpty(script)
+                && string.Equals(text, script, StringComparison.OrdinalIgnoreCase))
+                return false;
+            try
+            {
+                if (RewardingModel.IsPoorDisplayNamePublic(text))
+                    return false;
+            }
+            catch { /* ignore */ }
+            return true;
+        }
+
+        /// <summary>
         /// Inject resolved name/desc into the AbnormalityCard slot used by the pick UI.
         /// Never overwrites a good vanilla entry with "Not found".
         /// </summary>
@@ -195,8 +247,35 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (card == null)
                 return;
+
+            string script = card.Script != null && card.Script.Count > 0 ? card.Script[0] : null;
+
+            // Prefer vanilla EmotionCard.Name as dictionary key (SnowWhite_Vine), not raw script
+            // (ScorchedGirl1) — UI SetTexts looks up AbnormalityCardDesc by Name.
+            // Uses FindVanillaEmotionCard (mod→vanilla script aliases + full list scan).
+            try
+            {
+                if ((string.IsNullOrEmpty(card.Name)
+                     || string.Equals(card.Name, script, StringComparison.OrdinalIgnoreCase))
+                    && !string.IsNullOrEmpty(script))
+                {
+                    EmotionCardXmlInfo vanilla = RMRAbnormalityUnlockManager.FindVanillaEmotionCard(script);
+                    if (vanilla != null)
+                    {
+                        if (!string.IsNullOrEmpty(vanilla.Name))
+                            card.Name = vanilla.Name;
+                        if (!string.IsNullOrEmpty(vanilla.Artwork))
+                            card._artwork = vanilla.Artwork;
+                        if (vanilla.Sephirah != SephirahType.None)
+                            card.Sephirah = vanilla.Sephirah;
+                        card.State = vanilla.State;
+                    }
+                }
+            }
+            catch { /* ignore presentation refresh */ }
+
             string key = !string.IsNullOrEmpty(card.Name) ? card.Name
-                : (card.Script != null && card.Script.Count > 0 ? card.Script[0] : null);
+                : script;
             if (string.IsNullOrEmpty(key))
                 return;
 
@@ -205,31 +284,61 @@ namespace abcdcode_LOGLIKE_MOD
             if (target == null)
                 return;
 
-            // Prefer PickUpModel text when it is real localized content (custom PickUpModels).
-            if (pickUp != null && !IsMissingText(pickUp.Name))
+            // Prefer PickUpModel text only when it is real localized content (custom PickUpModels).
+            // Script-id fallbacks and Hangul leftovers must not overwrite vanilla Chinese.
+            // Do NOT skip vanilla fill when abilityDesc is still missing — that left the pick UI
+            // with a good title/flavor but 口口口 / empty mechanical description.
+            if (pickUp != null && IsUsablePickUpDisplayText(pickUp.Name, script))
             {
                 target.cardName = pickUp.Name;
-                if (!IsMissingText(pickUp.FlaverText))
+                if (IsUsablePickUpDisplayText(pickUp.FlaverText, script))
                     target.flavorText = pickUp.FlaverText;
-                if (!string.IsNullOrEmpty(pickUp.Desc))
+                if (IsUsablePickUpDisplayText(pickUp.Desc, script))
                     target.abilityDesc = pickUp.Desc;
-                return;
             }
 
-            // Otherwise keep / re-resolve vanilla text by script.
-            string script = card.Script != null && card.Script.Count > 0 ? card.Script[0] : null;
-            AbnormalityCard resolved = ResolveAbnormalityDesc(script);
-            if (resolved != null && !IsMissingDesc(resolved))
+            // Fill any still-missing / unusable fields from vanilla Name-keyed AbnormalityCards.
+            if (!IsUsablePickUpDisplayText(target.cardName, script)
+                || IsMissingText(target.abilityDesc)
+                || IsMissingText(target.flavorText)
+                || !IsUsablePickUpDisplayText(target.abilityDesc, script)
+                || !IsUsablePickUpDisplayText(target.flavorText, script))
             {
-                // If resolved is a different dictionary entry, copy fields onto the UI key entry.
-                if (!ReferenceEquals(resolved, target))
+                AbnormalityCard resolved = ResolveAbnormalityDesc(script);
+                if (resolved != null)
                 {
-                    target.cardName = resolved.cardName;
-                    target.flavorText = resolved.flavorText;
-                    target.abilityDesc = resolved.abilityDesc;
-                    target.abnormalityName = resolved.abnormalityName;
-                    if (resolved.dialogues != null)
+                    if (!IsUsablePickUpDisplayText(target.cardName, script)
+                        && IsUsablePickUpDisplayText(resolved.cardName, script))
+                        target.cardName = resolved.cardName;
+                    if ((!IsUsablePickUpDisplayText(target.flavorText, script)
+                         || IsMissingText(target.flavorText))
+                        && !IsMissingText(resolved.flavorText))
+                        target.flavorText = resolved.flavorText;
+                    if ((!IsUsablePickUpDisplayText(target.abilityDesc, script)
+                         || IsMissingText(target.abilityDesc))
+                        && !IsMissingText(resolved.abilityDesc))
+                        target.abilityDesc = resolved.abilityDesc;
+                    if (string.IsNullOrEmpty(target.abnormalityName)
+                        && !string.IsNullOrEmpty(resolved.abnormalityName))
+                        target.abnormalityName = resolved.abnormalityName;
+                    if (target.dialogues == null && resolved.dialogues != null)
                         target.dialogues = resolved.dialogues;
+                }
+            }
+
+            // Also stamp under the raw script key so any UI path that looks up by Script works.
+            if (!string.IsNullOrEmpty(script)
+                && !string.Equals(script, key, StringComparison.OrdinalIgnoreCase))
+            {
+                AbnormalityCard scriptSlot = EnsureDescEntry(script);
+                if (scriptSlot != null)
+                {
+                    if (!IsUsablePickUpDisplayText(scriptSlot.cardName, script))
+                        scriptSlot.cardName = target.cardName;
+                    if (IsMissingText(scriptSlot.abilityDesc))
+                        scriptSlot.abilityDesc = target.abilityDesc;
+                    if (IsMissingText(scriptSlot.flavorText))
+                        scriptSlot.flavorText = target.flavorText;
                 }
             }
         }
