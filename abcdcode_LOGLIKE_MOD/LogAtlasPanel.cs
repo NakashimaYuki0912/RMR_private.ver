@@ -73,9 +73,9 @@ namespace abcdcode_LOGLIKE_MOD
             AtlasCategory.EgoPage
         };
 
-        // Scheme B: encyclopedia wall — left nav (categories + sections), center cards, right detail.
-        private const int CenterCols = 3;
-        private const int CenterRows = 7;
+        // Selected A-A archive wall: left categories, center 4x5 cards, right detail.
+        private const int CenterCols = 4;
+        private const int CenterRows = 5;
         private const int CenterPageSize = CenterCols * CenterRows;
 
         public GameObject root;
@@ -90,6 +90,8 @@ namespace abcdcode_LOGLIKE_MOD
         private Image upgradeToggleFrame;
         private TextMeshProUGUI upgradeToggleLabel;
         private TextMeshProUGUI headerTitle;
+        private TextMeshProUGUI headerCount;
+        private TextMeshProUGUI sectionHeader;
         private TextMeshProUGUI pageLabel;
         private Button pagePrevBtn;
         private Button pageNextBtn;
@@ -156,7 +158,7 @@ namespace abcdcode_LOGLIKE_MOD
             root = TryCreateBattleSettingCloneRoot();
             if (root == null)
                 root = CreateOverlayCanvasRoot();
-            BuildSchemeBChrome();
+            BuildArchiveWallChrome();
             EnsureHubCloseButton();
             root.SetActive(true);
         }
@@ -190,7 +192,7 @@ namespace abcdcode_LOGLIKE_MOD
                 if (root == null)
                     throw new InvalidOperationException("CreateOverlayCanvasRoot returned null");
 
-                BuildSchemeBChrome();
+                BuildArchiveWallChrome();
                 EnsureHubCloseButton();
 
                 if (_hostRoot != null)
@@ -262,12 +264,18 @@ namespace abcdcode_LOGLIKE_MOD
             try { cb?.Invoke(); } catch { }
         }
 
-        private void BuildSchemeBChrome()
+        private void BuildArchiveWallChrome()
         {
+            Image wall = CreatePanelImage(root.transform, new Vector2(0f, 20f), new Vector2(1460f, 720f),
+                new Color(0.055f, 0.045f, 0.035f, 0.96f));
+            try { wall.transform.SetAsFirstSibling(); } catch { }
+
             headerTitle = CreateLabel(root.transform, new Vector2(0f, 390f), 28, ColGold, TextAlignmentOptions.Center);
-            headerTitle.text = "\u6536\u85cf\u56fe\u9274"; // 收藏图鉴
+            headerTitle.text = LocalizedUi("ui_RMR_Atlas_Title", "\u6c38\u4e45\u56fe\u9274");
             TextMeshProUGUI sub = CreateLabel(root.transform, new Vector2(0f, 360f), 14, ColGoldDim, TextAlignmentOptions.Center);
-            sub.text = "LIBRARY ATLAS  \u00b7  ENCYCLOPEDIA";
+            sub.text = "PERMANENT ARCHIVE  \u00b7  LIBRARY ATLAS";
+            headerCount = CreateLabel(root.transform, new Vector2(540f, 390f), 13, ColMuted, TextAlignmentOptions.Right);
+            headerCount.text = "0 / 0";
 
             CreateLeftNav();
             CreateBattleCardUpgradeToggle();
@@ -311,6 +319,8 @@ namespace abcdcode_LOGLIKE_MOD
             detailDescription = null;
             detailMeta = null;
             headerTitle = null;
+            headerCount = null;
+            sectionHeader = null;
             pageLabel = null;
             pagePrevBtn = null;
             pageNextBtn = null;
@@ -450,10 +460,11 @@ namespace abcdcode_LOGLIKE_MOD
             rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
             rt.sizeDelta = new Vector2(400f, size + 16f);
             rt.anchoredPosition = pos;
-            try { tmp.font = LogLikeMod.DefFont_TMP; } catch { }
+            try { LogLikeMod.ApplyTmpFontPreservingSharpMaterial(tmp, LogLikeMod.DefFont_TMP); } catch { }
             tmp.fontSize = size;
             tmp.color = color;
             tmp.alignment = align;
+            tmp.fontStyle = FontStyles.Normal;
             tmp.raycastTarget = false;
             return tmp;
         }
@@ -516,13 +527,14 @@ namespace abcdcode_LOGLIKE_MOD
                 button.onClick = new Button.ButtonClickedEvent();
                 button.onClick.AddListener((UnityAction)(() => SelectCategory(category)));
                 TextMeshProUGUI label = ModdingUtils.CreateText_TMP(image.transform, Vector2.zero, 18, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, ColCream, LogLikeMod.DefFont_TMP);
-                label.text = GetCategoryName(category);
+                string numeral = i == 0 ? "I" : (i == 1 ? "II" : (i == 2 ? "III" : "IV"));
+                label.text = numeral + "  \u00b7  " + GetCategoryName(category);
                 categoryLabels.Add(label);
             }
 
-            // Section / floor filters under categories
-            TextMeshProUGUI secHdr = ModdingUtils.CreateText_TMP(root.transform, new Vector2(-560f, 55f), 14, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, ColGoldDim, LogLikeMod.DefFont_TMP);
-            secHdr.text = "\u7ae0\u8282 / \u5206\u7c7b"; // 章节 / 分类
+            // Progress filters exist only for role books and combat pages.
+            sectionHeader = ModdingUtils.CreateText_TMP(root.transform, new Vector2(-560f, 55f), 14, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, ColGoldDim, LogLikeMod.DefFont_TMP);
+            sectionHeader.text = LocalizedUi("ui_RMR_Atlas_Progress", "\u83b7\u5f97\u9636\u6bb5");
 
             for (int i = 0; i < Sections.Length; i++)
             {
@@ -543,19 +555,19 @@ namespace abcdcode_LOGLIKE_MOD
 
         private void CreateCenterCards()
         {
-            // Encyclopedia cards: 3×7 horizontal entries in the middle.
+            // A-A encyclopedia cards: 4 columns x 5 rows.
             // Use CreatePanelImage — ModdingUtils.CreateImage can fail silently at invitation-time.
-            float startX = -250f;
-            float startY = 280f;
-            float stepX = 220f;
-            float stepY = 72f;
+            float startX = -285f;
+            float startY = 245f;
+            float stepX = 160f;
+            float stepY = 112f;
             for (int row = 0; row < CenterRows; row++)
             {
                 for (int col = 0; col < CenterCols; col++)
                 {
                     Image image = CreatePanelImage(root.transform,
                         new Vector2(startX + col * stepX, startY - row * stepY),
-                        new Vector2(208f, 64f), ColPanel);
+                        new Vector2(150f, 102f), ColPanel);
                     tiles.Add(image.gameObject.AddComponent<LogAtlasTile>());
                 }
             }
@@ -580,10 +592,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         private void CreatePageControls()
         {
-            pageLabel = ModdingUtils.CreateText_TMP(root.transform, new Vector2(-30f, -250f), 16, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, ColCream, LogLikeMod.DefFont_TMP);
+            // Keep paging below the fifth card row (its lower edge is y=-254).
+            const float pagingY = -315f;
+            pageLabel = ModdingUtils.CreateText_TMP(root.transform, new Vector2(-30f, pagingY), 16, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, ColCream, LogLikeMod.DefFont_TMP);
             pageLabel.text = "1 / 1";
 
-            Image prevImg = ModdingUtils.CreateImage(root.transform, "ShopGoodRewardFrame", Vector2.one, new Vector2(-120f, -250f), new Vector2(70f, 32f));
+            Image prevImg = ModdingUtils.CreateImage(root.transform, "ShopGoodRewardFrame", Vector2.one, new Vector2(-120f, pagingY), new Vector2(70f, 32f));
             pagePrevBtn = prevImg.gameObject.AddComponent<Button>();
             pagePrevBtn.targetGraphic = prevImg;
             pagePrevBtn.onClick = new Button.ButtonClickedEvent();
@@ -597,7 +611,7 @@ namespace abcdcode_LOGLIKE_MOD
             }));
             ModdingUtils.CreateText_TMP(prevImg.transform, Vector2.zero, 16, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, ColCream, LogLikeMod.DefFont_TMP).text = "<";
 
-            Image nextImg = ModdingUtils.CreateImage(root.transform, "ShopGoodRewardFrame", Vector2.one, new Vector2(60f, -250f), new Vector2(70f, 32f));
+            Image nextImg = ModdingUtils.CreateImage(root.transform, "ShopGoodRewardFrame", Vector2.one, new Vector2(60f, pagingY), new Vector2(70f, 32f));
             pageNextBtn = nextImg.gameObject.AddComponent<Button>();
             pageNextBtn.targetGraphic = nextImg;
             pageNextBtn.onClick = new Button.ButtonClickedEvent();
@@ -983,6 +997,9 @@ namespace abcdcode_LOGLIKE_MOD
         private void SelectCategory(AtlasCategory category)
         {
             currentCategory = category;
+            // Abnormality and E.G.O. pages are permanent flat collections, not urban-progress lists.
+            if (category == AtlasCategory.AbnormalityPage || category == AtlasCategory.EgoPage)
+                currentSection = AtlasSection.All;
             currentPage = 0;
             UpdateTiles();
         }
@@ -1006,6 +1023,8 @@ namespace abcdcode_LOGLIKE_MOD
             // Urban-chapter filter only for role/battle; abno/EGO use flat list (sections hide).
             bool flatCategory = currentCategory == AtlasCategory.AbnormalityPage
                 || currentCategory == AtlasCategory.EgoPage;
+            if (sectionHeader != null)
+                sectionHeader.gameObject.SetActive(!flatCategory);
             for (int i = 0; i < sectionLabels.Count; i++)
             {
                 if (sectionLabels[i] != null)
@@ -1046,6 +1065,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
 
             Debug.Log($"[RMR Atlas] UpdateTiles cat={currentCategory} sec={currentSection} count={entries.Count}");
+
+            if (headerCount != null)
+            {
+                int unlockedCount = entries.Count(x => x != null && x.Unlocked);
+                headerCount.text = LocalizedUi("ui_RMR_Atlas_Unlocked", "\u5df2\u89e3\u9501") + "  " + unlockedCount.ToString() + " / " + entries.Count.ToString();
+            }
 
             if (entries.Count == 0)
             {
@@ -1717,8 +1742,20 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        private static string LocalizedUi(string key, string fallback)
+        {
+            try
+            {
+                string text = TextDataModel.GetText(key);
+                if (!string.IsNullOrEmpty(text) && text != key)
+                    return text;
+            }
+            catch { }
+            return fallback;
+        }
+
         /// <summary>
-        /// Scheme B encyclopedia card: left thumbnail + title + subtitle (not raw ID grid).
+        /// A-A archive-wall card: centered artwork with title and collection metadata.
         /// </summary>
         public class LogAtlasTile : MonoBehaviour
         {
@@ -1758,26 +1795,28 @@ namespace abcdcode_LOGLIKE_MOD
                     artwork.raycastTarget = false;
                     var artRt = artGo.GetComponent<RectTransform>();
                     artRt.anchorMin = artRt.anchorMax = new Vector2(0.5f, 0.5f);
-                    artRt.sizeDelta = new Vector2(48f, 48f);
-                    artRt.anchoredPosition = new Vector2(-72f, 0f);
+                    artRt.sizeDelta = new Vector2(54f, 54f);
+                    artRt.anchoredPosition = new Vector2(0f, 18f);
                 }
                 if (title == null)
                 {
-                    title = CreateLabel(transform, new Vector2(28f, 10f), 16, ColCream, TextAlignmentOptions.Left);
-                    try { title.GetComponent<RectTransform>().sizeDelta = new Vector2(140f, 24f); } catch { }
+                    title = CreateLabel(transform, new Vector2(0f, -24f), 14, ColCream, TextAlignmentOptions.Center);
+                    try { title.GetComponent<RectTransform>().sizeDelta = new Vector2(136f, 22f); } catch { }
                 }
                 if (subtitle == null)
                 {
-                    subtitle = CreateLabel(transform, new Vector2(28f, -12f), 12, ColMuted, TextAlignmentOptions.Left);
-                    try { subtitle.GetComponent<RectTransform>().sizeDelta = new Vector2(140f, 20f); } catch { }
+                    subtitle = CreateLabel(transform, new Vector2(0f, -42f), 10, ColMuted, TextAlignmentOptions.Center);
+                    try { subtitle.GetComponent<RectTransform>().sizeDelta = new Vector2(136f, 18f); } catch { }
                 }
 
                 try
                 {
-                    if (title.font == null && LogLikeMod.DefFont_TMP != null)
-                        title.font = LogLikeMod.DefFont_TMP;
-                    if (subtitle.font == null && LogLikeMod.DefFont_TMP != null)
-                        subtitle.font = LogLikeMod.DefFont_TMP;
+                    if (title != null && LogLikeMod.DefFont_TMP != null
+                        && (title.font == null || string.IsNullOrEmpty(title.font.name)))
+                        LogLikeMod.ApplyTmpFontPreservingSharpMaterial(title, LogLikeMod.DefFont_TMP);
+                    if (subtitle != null && LogLikeMod.DefFont_TMP != null
+                        && (subtitle.font == null || string.IsNullOrEmpty(subtitle.font.name)))
+                        LogLikeMod.ApplyTmpFontPreservingSharpMaterial(subtitle, LogLikeMod.DefFont_TMP);
                 }
                 catch { }
 
@@ -1786,7 +1825,7 @@ namespace abcdcode_LOGLIKE_MOD
                     artwork.sprite = entry.Artwork;
                     if (artwork.sprite == null && LogLikeMod.ArtWorks != null && LogLikeMod.ArtWorks.ContainsKey("ItemNotFoundIcon"))
                         artwork.sprite = LogLikeMod.ArtWorks["ItemNotFoundIcon"];
-                    title.text = Truncate(entry.Title ?? "?", 14);
+                    title.text = Truncate(entry.Title ?? "?", 11);
                     title.color = ColCream;
                     subtitle.text = BuildSubtitle(entry);
                     subtitle.color = ColMuted;
@@ -1814,8 +1853,8 @@ namespace abcdcode_LOGLIKE_MOD
                 }
                 try
                 {
-                    artwork.rectTransform.sizeDelta = new Vector2(48f, 48f);
-                    artwork.rectTransform.anchoredPosition = new Vector2(-72f, 0f);
+                    artwork.rectTransform.sizeDelta = new Vector2(54f, 54f);
+                    artwork.rectTransform.anchoredPosition = new Vector2(0f, 18f);
                 }
                 catch { }
 

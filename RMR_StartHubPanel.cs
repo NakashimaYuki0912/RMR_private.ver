@@ -244,7 +244,7 @@ namespace RogueLike_Mod_Reborn
             return zh;
         }
 
-        // Full-screen black page + centered parchment menu card.
+        // Hub A: full-screen invitation page with a left identity block and right action index.
         private static readonly Color ColPageBlack = new Color(0f, 0f, 0f, 1f);
         private static readonly Color ColPanel = new Color(0.12f, 0.10f, 0.08f, 0.98f);
         private static readonly Color ColPanelEdge = new Color(0.55f, 0.42f, 0.22f, 0.95f);
@@ -280,15 +280,47 @@ namespace RogueLike_Mod_Reborn
             dimRt.offsetMax = Vector2.zero;
             dimImg.raycastTarget = true;
 
-            // Centered gold rim + menu card (same options as before).
+            // Existing RMR illustration, dimmed beneath the invitation controls.
+            try
+            {
+                if (LogLikeMod.ArtWorks != null && LogLikeMod.ArtWorks.ContainsKey("\u968f\u673a\u4e8b\u4ef6\u80cc\u666f1"))
+                {
+                    var artGo = new GameObject("InvitationBackdrop", typeof(RectTransform));
+                    artGo.transform.SetParent(_root.transform, false);
+                    var art = artGo.AddComponent<Image>();
+                    art.sprite = LogLikeMod.ArtWorks["\u968f\u673a\u4e8b\u4ef6\u80cc\u666f1"];
+                    art.color = new Color(0.34f, 0.31f, 0.27f, 0.72f);
+                    art.preserveAspect = false;
+                    art.raycastTarget = false;
+                    var artRt = artGo.GetComponent<RectTransform>();
+                    artRt.anchorMin = Vector2.zero;
+                    artRt.anchorMax = Vector2.one;
+                    artRt.offsetMin = Vector2.zero;
+                    artRt.offsetMax = Vector2.zero;
+                }
+            }
+            catch { }
+
+            var veilGo = new GameObject("InvitationVeil", typeof(RectTransform));
+            veilGo.transform.SetParent(_root.transform, false);
+            var veil = veilGo.AddComponent<Image>();
+            veil.color = new Color(0f, 0f, 0f, 0.64f);
+            veil.raycastTarget = false;
+            var veilRt = veilGo.GetComponent<RectTransform>();
+            veilRt.anchorMin = Vector2.zero;
+            veilRt.anchorMax = Vector2.one;
+            veilRt.offsetMin = Vector2.zero;
+            veilRt.offsetMax = Vector2.zero;
+
+            // Right-side invitation index; all existing actions and gates remain unchanged.
             var frame = new GameObject("Frame", typeof(RectTransform));
             frame.transform.SetParent(_root.transform, false);
             var frameImg = frame.AddComponent<Image>();
             frameImg.color = ColPanelEdge;
             var frameRt = frame.GetComponent<RectTransform>();
             frameRt.anchorMin = frameRt.anchorMax = new Vector2(0.5f, 0.5f);
-            frameRt.sizeDelta = new Vector2(680f, 680f);
-            frameRt.anchoredPosition = Vector2.zero;
+            frameRt.sizeDelta = new Vector2(640f, 680f);
+            frameRt.anchoredPosition = new Vector2(430f, 0f);
 
             var card = new GameObject("Card", typeof(RectTransform));
             card.transform.SetParent(frame.transform, false);
@@ -300,19 +332,33 @@ namespace RogueLike_Mod_Reborn
             cardRt.offsetMin = new Vector2(3f, 3f);
             cardRt.offsetMax = new Vector2(-3f, -3f);
 
-            AddRule(card.transform, new Vector2(0f, 232f), 520f);
+            TextMeshProUGUI eyebrow = AddLabel(_root.transform, "LIBRARY INVITATION  \u00b7  RMR",
+                new Vector2(-430f, 330f), 14, new Vector2(650f, 30f), ColGold, false);
+            eyebrow.alignment = TextAlignmentOptions.Left;
 
-            AddLabel(card.transform,
-                T("ui_RMR_HubTitle", "Roguelike \u5f00\u5c40", "Roguelike Start", "Roguelike \uc2dc\uc791"),
-                new Vector2(0f, 200f), 42, new Vector2(560f, 56f), ColGold, true);
-            AddLabel(card.transform,
+            TextMeshProUGUI title = AddLabel(_root.transform,
+                T("ui_RMR_HubTitle", "\u8089\u9e3d\u63a5\u5f85", "Roguelike Reception", "Roguelike \uc811\ub300"),
+                new Vector2(-430f, 260f), 54, new Vector2(650f, 76f), ColCream, true);
+            title.alignment = TextAlignmentOptions.Left;
+
+            TextMeshProUGUI titleEn = AddLabel(_root.transform, "ROGUELIKE MOD REBORN",
+                new Vector2(-430f, 208f), 18, new Vector2(650f, 32f), ColGold, false);
+            titleEn.alignment = TextAlignmentOptions.Left;
+
+            AddInvitationSigil(_root.transform, new Vector2(-500f, 42f));
+            AddRule(_root.transform, new Vector2(-430f, -100f), 620f);
+
+            TextMeshProUGUI desc = AddLabel(_root.transform,
                 T("ui_RMR_HubDesc",
-                    "\u9009\u62e9\u5f00\u5c40\u65b9\u5f0f\u3002\u89e3\u653e\u6218\u53ef\u6c38\u4e45\u89e3\u9501\u697c\u5c42\u5956\u52b1\uff1b\u6b63\u5e38\u6e38\u73a9\u8fdb\u5165\u8089\u9e3d\u8def\u7ebf\u3002",
-                    "Choose how to begin. Realization unlocks permanent rewards; Normal Play starts a run.",
-                    "\uc2dc\uc791 \ubc29\uc2dd\uc744 \uc120\ud0dd\ud558\uc138\uc694. \ud574\ubc29\uc804\uc740 \uc601\uad6c \ud574\uae08, \uc77c\ubc18 \ud50c\ub808\uc774\ub294 \ub7f0\uc744 \uc2dc\uc791\ud569\ub2c8\ub2e4."),
-                new Vector2(0f, 140f), 20, new Vector2(540f, 72f), ColMuted, false);
+                    "\u9009\u62e9\u8fd9\u6b21\u63a5\u5f85\u7684\u5f00\u59cb\u65b9\u5f0f\u3002\u8def\u7ebf\u5185\u5bb9\u5c5e\u4e8e\u672c\u6b21\u65c5\u7a0b\uff1b\u56fe\u9274\u4e0e\u89e3\u653e\u8bb0\u5f55\u5c06\u6c38\u4e45\u4fdd\u7559\u3002",
+                    "Choose how this reception begins. Route resources belong to this journey; Atlas and realization records persist.",
+                    "\uc774\ubc88 \uc811\ub300\uc758 \uc2dc\uc791 \ubc29\uc2dd\uc744 \uc120\ud0dd\ud558\uc138\uc694."),
+                new Vector2(-430f, -170f), 19, new Vector2(650f, 110f), ColMuted, false);
+            desc.alignment = TextAlignmentOptions.TopLeft;
 
-            AddRule(card.transform, new Vector2(0f, 92f), 460f);
+            AddLabel(card.transform, "RECEPTION INDEX", new Vector2(0f, 238f), 13,
+                new Vector2(520f, 28f), ColPanelEdge, false);
+            AddRule(card.transform, new Vector2(0f, 214f), 520f);
 
             // Continue lives here (after RMR entry → mode select), not as a lone invitation icon.
             bool hasSave = false;
@@ -323,40 +369,40 @@ namespace RogueLike_Mod_Reborn
             int btnCount = hasSave ? 7 : 6;
             float step = 62f;
             float cardH = 520f + btnCount * step;
-            frameRt.sizeDelta = new Vector2(680f, cardH);
+            frameRt.sizeDelta = new Vector2(640f, cardH);
 
-            // Top action cluster starts below title/desc.
-            float y = hasSave ? 78f : 56f;
+            // Fixed Roman numerals preserve each entry's identity even when Continue is unavailable.
+            float y = hasSave ? 170f : 140f;
             AddMenuButton(card.transform,
-                T("ui_RMR_Hub_Play", "\u6b63\u5e38\u6e38\u73a9", "Normal Play", "\uc77c\ubc18 \ud50c\ub808\uc774"),
+                "I   " + T("ui_RMR_Hub_Play", "\u6b63\u5e38\u6e38\u73a9", "Normal Play", "\uc77c\ubc18 \ud50c\ub808\uc774"),
                 y, OnClickPlay, primary: true);
             y -= step;
             if (hasSave)
             {
                 AddMenuButton(card.transform,
-                    T("ui_RMR_ContinueRun", "\u7ee7\u7eed\u65c5\u7a0b", "Continue Run", "\uc774\uc5b4\ud558\uae30"),
+                    "II   " + T("ui_RMR_ContinueRun", "\u7ee7\u7eed\u65c5\u7a0b", "Continue Run", "\uc774\uc5b4\ud558\uae30"),
                     y, OnClickContinue, primary: true);
                 y -= step;
             }
             AddMenuButton(card.transform,
-                T("ui_RMR_Hub_Realization", "\u6311\u6218\u89e3\u653e\u6218", "Challenge Realization", "\ud574\ubc29\uc804 \ub3c4\uc804"),
+                "III   " + T("ui_RMR_Hub_Realization", "\u6311\u6218\u89e3\u653e\u6218", "Challenge Realization", "\ud574\ubc29\uc804 \ub3c4\uc804"),
                 y, OnClickRealization, primary: false);
             y -= step;
             AddMenuButton(card.transform,
-                T("ui_RMR_Hub_Help", "\u73a9\u6cd5\u4ecb\u7ecd", "How to Play", "\ud50c\ub808\uc774 \uc18c\uac1c"),
+                "IV   " + T("ui_RMR_Hub_Help", "\u73a9\u6cd5\u4ecb\u7ecd", "How to Play", "\ud50c\ub808\uc774 \uc18c\uac1c"),
                 y, OnClickHelp, primary: false);
             y -= step;
             // 图鉴 — permanent collection browser (moved out of battle prepare).
             AddMenuButton(card.transform,
-                T("ui_RMR_Hub_Atlas", "\u56fe\u9274", "Atlas", "\ub3c4\uac10"),
+                "V   " + T("ui_RMR_Hub_Atlas", "\u56fe\u9274", "Atlas", "\ub3c4\uac10"),
                 y, OnClickAtlas, primary: false);
             y -= step;
             AddMenuButton(card.transform,
-                T("ui_RMR_Hub_Reset", "\u91cd\u7f6e\u6c38\u4e45\u8fdb\u5ea6", "Reset Permanent Progress", "\uc601\uad6c \uc9c4\ud589 \ucd08\uae30\ud654"),
+                "VI   " + T("ui_RMR_Hub_Reset", "\u91cd\u7f6e\u6c38\u4e45\u8fdb\u5ea6", "Reset Permanent Progress", "\uc601\uad6c \uc9c4\ud589 \ucd08\uae30\ud654"),
                 y, OnClickResetProgress, primary: false, exitStyle: true);
             y -= step;
             AddMenuButton(card.transform,
-                T("ui_RMR_Hub_Exit", "\u9000\u51fa", "Exit", "\uc885\ub8cc"),
+                "VII   " + T("ui_RMR_Hub_Exit", "\u9000\u51fa", "Exit", "\uc885\ub8cc"),
                 y, OnClickExit, primary: false, exitStyle: true);
 
             float footerY = y - 48f;
@@ -366,6 +412,40 @@ namespace RogueLike_Mod_Reborn
                     "Library of Ruina \u00b7 Roguelike Mod Reborn",
                     "Library of Ruina \u00b7 Roguelike Mod Reborn"),
                 new Vector2(0f, footerY), 14, new Vector2(540f, 28f), ColMuted, false);
+        }
+
+        private static void AddInvitationSigil(Transform parent, Vector2 pos)
+        {
+            var outer = new GameObject("InvitationSigilOuter", typeof(RectTransform));
+            outer.transform.SetParent(parent, false);
+            var outerImage = outer.AddComponent<Image>();
+            outerImage.color = new Color(ColGold.r, ColGold.g, ColGold.b, 0.18f);
+            outerImage.raycastTarget = false;
+            var outerRt = outer.GetComponent<RectTransform>();
+            outerRt.anchorMin = outerRt.anchorMax = new Vector2(0.5f, 0.5f);
+            outerRt.sizeDelta = new Vector2(118f, 118f);
+            outerRt.anchoredPosition = pos;
+            outerRt.localRotation = Quaternion.Euler(0f, 0f, 45f);
+
+            var middle = new GameObject("InvitationSigilMiddle", typeof(RectTransform));
+            middle.transform.SetParent(outer.transform, false);
+            var middleImage = middle.AddComponent<Image>();
+            middleImage.color = new Color(0.08f, 0.07f, 0.05f, 1f);
+            middleImage.raycastTarget = false;
+            var middleRt = middle.GetComponent<RectTransform>();
+            middleRt.anchorMin = middleRt.anchorMax = new Vector2(0.5f, 0.5f);
+            middleRt.sizeDelta = new Vector2(82f, 82f);
+            middleRt.anchoredPosition = Vector2.zero;
+
+            var core = new GameObject("InvitationSigilCore", typeof(RectTransform));
+            core.transform.SetParent(middle.transform, false);
+            var coreImage = core.AddComponent<Image>();
+            coreImage.color = new Color(0.56f, 0.20f, 0.18f, 1f);
+            coreImage.raycastTarget = false;
+            var coreRt = core.GetComponent<RectTransform>();
+            coreRt.anchorMin = coreRt.anchorMax = new Vector2(0.5f, 0.5f);
+            coreRt.sizeDelta = new Vector2(34f, 34f);
+            coreRt.anchoredPosition = Vector2.zero;
         }
 
         private static void AddRule(Transform parent, Vector2 pos, float width)

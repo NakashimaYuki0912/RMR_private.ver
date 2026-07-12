@@ -58,10 +58,6 @@
   <text id="ui_RMR_Help_Nav_Shop">Shop &amp; Upgrades</text>
   <text id="ui_RMR_Help_Nav_Realization">Realization &amp; Atlas</text>
   <text id="ui_RMR_Help_Nav_AbnoEgo">Abnormality / E.G.O.</text>
-  <text id="ui_RMR_Help_Body_Overview">This mod turns receptions into a chapter-based Roguelike route. From the start hub you can clear floor realizations for permanent unlocks before a normal run.</text>
-  <text id="ui_RMR_Help_Body_Route">Each chapter uses map nodes: normal, elite, boss, shop, rest, and mystery events. Clearing a boss advances the chapter and expands the party.</text>
-  <text id="ui_RMR_Help_Body_Shop">Shops sell key pages, combat pages, passives, abnormalities, and E.G.O. Combat pages unlock by type; you can upgrade pages in the shop.</text>
-  <text id="ui_RMR_Help_Body_Realization">Realization is only entered from the start hub. First clear permanently unlocks that floor's exclusive pages; cleared floors can be replayed without new rewards. Loadouts and in-battle picks use the permanent atlas.</text>
   <text id="ui_RMR_Help_Body_AbnoEgo">Normal-run abnormality pages are also saved to the permanent atlas for realization picks. Abnormality and E.G.O. atlas tabs are flat lists without urban-chapter sections.</text>
 
   <text id="Equip_Slash">Slash Damage Resistance</text>
@@ -130,6 +126,17 @@
   <text id="ui_RMR_ConfirmStartNewRun">Start a new run? The saved run will be overwritten.</text>
   <text id="ui_RMR_ContinueFailed">Failed to continue the Roguelike run. The save may be missing or outdated.</text>
   <text id="ui_RMR_ContinueLoadFailed">Continue failed: save data could not be fully loaded. Try New Run, or re-enter after a full restart.</text>
+  <text id="ui_RMR_Help_Nav_Rewards">Combat &amp; Builds</text>
+  <text id="ui_RMR_Help_Nav_Atlas">Permanent Atlas</text>
+  <text id="ui_RMR_Help_Body_Overview">Welcome to Roguelike Mod Reborn. Every reception becomes an independent journey from Urban Myth to Impuritas Civitatis.&#10;&#10;Begin a normal run with starting resources, choose among route nodes, and let battles, supplies, and events shape a unique build. Defeat each chapter boss to enter a more dangerous urban stage; defeating the Impuritas Civitatis boss completes the run.&#10;&#10;Money, inventory, and chapter progress belong to the current run. Atlas discoveries and realization clears remain for future journeys.</text>
+  <text id="ui_RMR_Help_Body_Route">Choose the next stop after every encounter. Routes offer different combat pressure, rewards, and risks.&#10;&#10;Normal battles provide steady pages, passives, and money. Elite battles are harder but usually pay better. Boss victories advance the chapter and unlock stronger enemies, rewards, and goods. Abnormality battles award their pages; chapters one and two use rest nodes instead. Shops, rests, and mysteries provide purchases, recovery, or special choices. The Impuritas Civitatis boss ends the run.</text>
+  <text id="ui_RMR_Help_Body_Rewards">Combat follows Library of Ruina's core rules: equip key pages, combat pages, and passives, then win through clashes, Light, and Emotion.&#10;&#10;Victories can grant pages, passives, abnormalities, E.G.O., money, or special rewards for the current route. Combat pages are tracked by type; upgrades replace the old version and later upgrades cost more.&#10;&#10;Team Emotion 1–2 offers tier I abnormality pages, 3–4 tier II, and 5 tier III. Mid-battle abnormality and E.G.O. choices only use content owned in the current route.</text>
+  <text id="ui_RMR_Help_Body_Shop">Shops spend run money on key pages, combat pages, passives, abnormalities, E.G.O., and upgrades. Stock depends on chapter, realization progress, and current inventory. Buying a combat page unlocks its type; an upgrade replaces the old version and raises the price of later upgrades.&#10;&#10;Rest nodes provide recovery and breathing room. Mystery events offer choices that may grant resources or demand money, pages, or another price.</text>
+  <text id="ui_RMR_Help_Body_Atlas">Key pages, combat pages, abnormality pages, and E.G.O. discovered during journeys are recorded in the permanent Atlas. The Atlas is separate from current-run inventory, so a new run still requires fresh collection and building.&#10;&#10;Key pages and combat pages can be filtered by acquisition stage. Abnormality pages and E.G.O. combat pages use flat collections with no progress-stage split.&#10;&#10;Atlas unlocks also provide loadout resources for realizations. Reset Permanent Progress clears the Atlas and realization records.</text>
+  <text id="ui_RMR_Help_Body_Realization">Choose Challenge Realization from the start hub, select a floor, and prepare a temporary team from permanent Atlas unlocks. The challenge enters that floor's final multi-phase battle directly.&#10;&#10;A first clear permanently unlocks the floor's exclusive abnormality pages and E.G.O. Cleared floors can be replayed without repeating first-clear rewards. Temporary realization loadouts do not overwrite normal-run configurations. Starting Normal Play closes the realization entrance for that run.</text>
+  <text id="ui_RMR_Atlas_Title">Permanent Atlas</text>
+  <text id="ui_RMR_Atlas_Progress">Acquisition Stage</text>
+  <text id="ui_RMR_Atlas_Unlocked">Unlocked</text>
 
 </localize>
 

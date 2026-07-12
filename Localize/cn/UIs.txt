@@ -54,15 +54,13 @@
 	 <text id="ui_RMR_ContinueFailed">无法继续 Roguelike 旅程。存档可能缺失或已过期。</text>
 	 <text id="ui_RMR_ContinueLoadFailed">继续失败：存档未能完整加载。请尝试新开局，或完全重启游戏后再进入。</text>
 	 <text id="ui_RMR_Help_Close">关闭</text>
-	 <text id="ui_RMR_Help_Nav_Overview">总览</text>
+	 <text id="ui_RMR_Help_Nav_Overview">玩法概览</text>
 	 <text id="ui_RMR_Help_Nav_Route">路线与章节</text>
-	 <text id="ui_RMR_Help_Nav_Shop">商店与升级</text>
-	 <text id="ui_RMR_Help_Nav_Realization">解放战与图鉴</text>
+	 <text id="ui_RMR_Help_Nav_Rewards">战斗与构筑</text>
+	 <text id="ui_RMR_Help_Nav_Shop">补给与事件</text>
+	 <text id="ui_RMR_Help_Nav_Atlas">永久图鉴</text>
+	 <text id="ui_RMR_Help_Nav_Realization">解放战与提示</text>
 	 <text id="ui_RMR_Help_Nav_AbnoEgo">异想体 / E.G.O.</text>
-	 <text id="ui_RMR_Help_Body_Overview">本模组将接待改为按章节推进的 Roguelike 路线。开局主菜单可先挑战楼层解放以永久解锁奖励，再进入正常游玩。</text>
-	 <text id="ui_RMR_Help_Body_Route">每章在地图节点中经历普通战、精英、Boss、商店、休息与神秘事件。击败 Boss 后升章、加人并刷新节点池。</text>
-	 <text id="ui_RMR_Help_Body_Shop">商店分区出售核心书页、战斗书页、被动、异想体与 E.G.O.。战斗书页按种类解锁；可在商店升级书页。</text>
-	 <text id="ui_RMR_Help_Body_Realization">解放战仅从开局主菜单进入。首次通关永久解锁该层专属异想体与 E.G.O.；已通关可再战但不再发奖。编队与战中选页依赖永久图鉴。</text>
 	 <text id="ui_RMR_Help_Body_AbnoEgo">正常游玩获得的异想体书页也会写入永久图鉴，供解放战选页使用。图鉴中异想体与 E.G.O. 不按都市章节分段，直接展示。</text>
 
 
@@ -132,5 +130,14 @@
   <text id="ui_RMR_Hub_Continue">继续旅程</text>
   <text id="ui_RMR_ConfirmStartNewRun">您确定要开始新的路线吗？保存的存档将被覆盖。</text>
 
+  <text id="ui_RMR_Help_Body_Overview">欢迎来到 Roguelike Mod Reborn。在这里，每次接待都是一段从都市传闻逐步走向杂质的独立旅程。&#10;&#10;开始正常游玩后，你会获得初始资源，并在不同类型的路线节点之间作出选择。每次战斗、补给与事件都会改变当前队伍，逐渐形成这一局独有的构筑。&#10;&#10;击败章节 Boss 可以进入更危险的都市阶段。最终击败杂质章节 Boss，即可完成本次旅程。&#10;&#10;路线中的金币、库存和章节进度只属于当前旅程；图鉴与楼层解放记录会永久保留，为之后的游玩提供更多选择。</text>
+  <text id="ui_RMR_Help_Body_Route">每次完成当前节点后，你都可以从若干候选节点中选择下一站。不同路线会带来不同的战斗强度、奖励与风险。&#10;&#10;【普通战】稳定获取书页、被动和金币。&#10;&#10;【精英战】敌人更强，但奖励通常也更好。&#10;&#10;【Boss 战】击败章节 Boss 后进入下一章节，开放更高等级的敌人、奖励与商品。&#10;&#10;【异想体战】挑战异想体并获得对应书页。第一、第二章不会生成异想体战斗节点，相关位置由休息节点替代。&#10;&#10;【商店、休息与神秘事件】提供购买、恢复或特殊选择。击败杂质章节 Boss 后，本次旅程正式结束。</text>
+  <text id="ui_RMR_Help_Body_Rewards">战斗仍遵循《废墟图书馆》的基本规则。配置核心书页、战斗书页与被动能力，并通过拼点、光芒和情感等级赢得接待。&#10;&#10;胜利后可能获得核心书页、战斗书页、被动、异想体书页、E.G.O.、金币或特殊奖励，这些内容会进入当前路线库存。&#10;&#10;战斗书页按照“种类”记录。升级后，强化版本会替换原版本；重复升级会逐渐提高费用。&#10;&#10;队伍情感等级 1–2 对应 I 阶异想体书页，3–4 对应 II 阶，5 对应 III 阶。异想体书页与中途 E.G.O.选择只会从当前路线已经拥有的内容中产生。</text>
+  <text id="ui_RMR_Help_Body_Shop">【商店】使用本次旅程获得的金币购买核心书页、战斗书页、被动、异想体书页、E.G.O.或战斗书页升级。商品受到章节、解放状态和当前库存影响。&#10;&#10;购买战斗书页代表获得该书页种类。升级会用新版替换旧版，每次成功升级后，后续升级价格都会提高。&#10;&#10;【休息】用于调整旅程节奏，为后续战斗恢复状态或获得休整机会。&#10;&#10;【神秘事件】不同选择可能带来资源与奖励，也可能要求金币、书页或其他代价。</text>
+  <text id="ui_RMR_Help_Body_Atlas">旅程中获得的角色书页、战斗书页、异想体书页与 E.G.O.会逐步记录到永久图鉴中。&#10;&#10;永久图鉴与当前路线库存并不相同。图鉴内容不会在新路线中自动全部加入库存，每次正常游玩仍需要重新收集和构筑。&#10;&#10;角色书页与战斗书页可按获得阶段筛选；异想体书页与 E.G.O.战斗书页不区分进度阶段，直接作为完整收藏展示。&#10;&#10;永久图鉴也为楼层解放战提供编队资源。“重置永久进度”会清除图鉴与楼层解放记录，请谨慎使用。</text>
+  <text id="ui_RMR_Help_Body_Realization">在开局菜单选择“挑战解放战”，选择目标楼层并使用永久图鉴配置临时队伍。&#10;&#10;解放战会直接进入所选楼层的最终多阶段战斗，不需要重复前置异想体镇压。不同楼层可能拥有不同的书页章节限制。&#10;&#10;首次通关会永久解锁该层专属异想体书页与 E.G.O.。已经通关的楼层可以再战，但不会重复发放首通奖励。&#10;&#10;解放战临时编队不会覆盖正常路线配置。选择“正常游玩”后，本次路线期间会关闭解放入口；放弃路线并重新开始后可再次挑战。</text>
+  <text id="ui_RMR_Atlas_Title">永久图鉴</text>
+  <text id="ui_RMR_Atlas_Progress">获得阶段</text>
+  <text id="ui_RMR_Atlas_Unlocked">已解锁</text>
 
 </localize>
