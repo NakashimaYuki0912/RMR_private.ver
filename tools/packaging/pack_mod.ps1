@@ -2,6 +2,11 @@
 # Usage: powershell -File .\tools\packaging\pack_mod.ps1
 # Output: RougelikeModReborn_YYYYMMDD_HHmmss.zip under _release_packages\archives
 
+param(
+    # Author's published Workshop content id (NOT the original CalmMagma item 3503523710).
+    [string]$WorkshopContentId = "3743867841"
+)
+
 $ErrorActionPreference = "Stop"
 
 $projectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -12,11 +17,13 @@ if (-not $projectRoot) {
     throw "Could not locate repository root for packaging."
 }
 
-$workshop = "E:\Steam\steamapps\workshop\content\1256670\3503523710"
+$workshop = "E:\Steam\steamapps\workshop\content\1256670\$WorkshopContentId"
 if (-not (Test-Path $workshop)) {
     Write-Host "ERROR: Workshop not found: $workshop" -ForegroundColor Red
+    Write-Host "Hint: run deploy_workshop.ps1 first (it seeds from 3503523710 if needed)." -ForegroundColor Yellow
     exit 1
 }
+Write-Host "Packing Workshop content id: $WorkshopContentId" -ForegroundColor Cyan
 
 $tmpDir = "$projectRoot\_release_packages\RougelikeModReborn"
 $archiveDir = "$projectRoot\_release_packages\archives"

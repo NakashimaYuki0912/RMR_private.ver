@@ -37,6 +37,8 @@ namespace abcdcode_LOGLIKE_MOD
 
         public DiceCardXmlInfo GetUpgradeCard(LorId cardid)
         {
+            if (LogueBookModels.TryGetBinahFullUpgradeCard(cardid, out DiceCardXmlInfo binahFull))
+                return binahFull;
             if (UpgradeMetadata.UnpackPid(cardid.packageId, out UpgradeMetadata metadata))
             {
                 if (metadata.canStack)
@@ -61,6 +63,12 @@ namespace abcdcode_LOGLIKE_MOD
         public Dictionary<int, DiceCardXmlInfo> GetAllUpgradesCard(LorId cardId, int count = 1)
         {
             Dictionary<int, DiceCardXmlInfo> dictionary = new Dictionary<int, DiceCardXmlInfo>();
+            // Binah degraded → full is a discrete card-id swap, not a stacked dice upgrade.
+            if (LogueBookModels.TryGetBinahFullUpgradeCard(cardId, out DiceCardXmlInfo binahFull))
+            {
+                dictionary[0] = binahFull;
+                return dictionary;
+            }
             if (UpgradeMetadata.UnpackPid(cardId.packageId, out UpgradeMetadata metadata))
             {
                 if (metadata.canStack)

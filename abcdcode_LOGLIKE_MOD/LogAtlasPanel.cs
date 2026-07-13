@@ -117,13 +117,18 @@ namespace abcdcode_LOGLIKE_MOD
             (root != null && root.activeInHierarchy)
             || (_hostRoot != null && _hostRoot.activeInHierarchy);
 
-        private static readonly Color ColGold = new Color(0.93f, 0.76f, 0.42f, 1f);
-        private static readonly Color ColGoldDim = new Color(0.62f, 0.48f, 0.26f, 1f);
-        private static readonly Color ColCream = new Color(0.93f, 0.88f, 0.78f, 1f);
-        private static readonly Color ColMuted = new Color(0.68f, 0.62f, 0.50f, 1f);
-        private static readonly Color ColPanel = new Color(0.10f, 0.08f, 0.06f, 0.96f);
-        private static readonly Color ColNavIdle = new Color(0.16f, 0.13f, 0.10f, 0.98f);
-        private static readonly Color ColNavOn = new Color(0.28f, 0.22f, 0.12f, 1f);
+        // Scheme A palette + BG2 (金晕暗室)
+        private static readonly Color ColGold = new Color(0.773f, 0.608f, 0.333f, 1f);
+        private static readonly Color ColGoldDim = new Color(0.42f, 0.31f, 0.18f, 1f);
+        private static readonly Color ColCream = new Color(0.925f, 0.878f, 0.784f, 1f);
+        private static readonly Color ColMuted = new Color(0.604f, 0.549f, 0.459f, 1f);
+        private static readonly Color ColPanel = new Color(0.078f, 0.067f, 0.055f, 0.96f);
+        private static readonly Color ColNavIdle = new Color(0.118f, 0.094f, 0.071f, 0.96f);
+        private static readonly Color ColNavOn = new Color(0.227f, 0.165f, 0.086f, 0.98f);
+        private static readonly Color ColTile = new Color(0.110f, 0.090f, 0.071f, 0.96f);
+        private static readonly Color ColTileLocked = new Color(0.078f, 0.071f, 0.063f, 0.92f);
+        private static readonly Color ColBgVoid = new Color(0.020f, 0.016f, 0.012f, 1f);
+        private static readonly Color ColBgGlow = new Color(0.102f, 0.082f, 0.055f, 0.55f);
 
         public static GameObject GetLogUIObj(int index)
         {
@@ -266,16 +271,26 @@ namespace abcdcode_LOGLIKE_MOD
 
         private void BuildArchiveWallChrome()
         {
-            Image wall = CreatePanelImage(root.transform, new Vector2(0f, 20f), new Vector2(1460f, 720f),
-                new Color(0.055f, 0.045f, 0.035f, 0.96f));
+            // Scheme A-A on BG2: thin content plate (no ornate ShopGoodRewardFrame oval).
+            Image wall = CreateSolidImage(root.transform, "ArchivePlate", new Vector2(0f, 10f),
+                new Vector2(1480f, 700f), new Color(0.055f, 0.045f, 0.035f, 0.82f), false);
             try { wall.transform.SetAsFirstSibling(); } catch { }
+            Image wallEdge = CreateSolidImage(root.transform, "ArchivePlateEdge", new Vector2(0f, 10f),
+                new Vector2(1484f, 704f), new Color(ColGoldDim.r, ColGoldDim.g, ColGoldDim.b, 0.55f), false);
+            try { wallEdge.transform.SetAsFirstSibling(); } catch { }
 
-            headerTitle = CreateLabel(root.transform, new Vector2(0f, 390f), 28, ColGold, TextAlignmentOptions.Center);
+            headerTitle = CreateLabel(root.transform, new Vector2(0f, 380f), 28, ColGold, TextAlignmentOptions.Center);
             headerTitle.text = LocalizedUi("ui_RMR_Atlas_Title", "\u6c38\u4e45\u56fe\u9274");
-            TextMeshProUGUI sub = CreateLabel(root.transform, new Vector2(0f, 360f), 14, ColGoldDim, TextAlignmentOptions.Center);
+            try { headerTitle.GetComponent<RectTransform>().sizeDelta = new Vector2(480f, 40f); } catch { }
+            TextMeshProUGUI sub = CreateLabel(root.transform, new Vector2(0f, 350f), 13, ColGoldDim, TextAlignmentOptions.Center);
             sub.text = "PERMANENT ARCHIVE  \u00b7  LIBRARY ATLAS";
-            headerCount = CreateLabel(root.transform, new Vector2(540f, 390f), 13, ColMuted, TextAlignmentOptions.Right);
+            try { sub.GetComponent<RectTransform>().sizeDelta = new Vector2(520f, 24f); } catch { }
+            headerCount = CreateLabel(root.transform, new Vector2(560f, 380f), 13, ColMuted, TextAlignmentOptions.Right);
             headerCount.text = "0 / 0";
+            try { headerCount.GetComponent<RectTransform>().sizeDelta = new Vector2(220f, 24f); } catch { }
+
+            Image rule = CreateSolidImage(root.transform, "HeaderRule", new Vector2(0f, 332f),
+                new Vector2(1200f, 1.5f), new Color(ColGoldDim.r, ColGoldDim.g, ColGoldDim.b, 0.5f), false);
 
             CreateLeftNav();
             CreateBattleCardUpgradeToggle();
@@ -405,9 +420,11 @@ namespace abcdcode_LOGLIKE_MOD
             hrt.localPosition = Vector3.zero;
             hrt.SetAsLastSibling();
 
+            // BG2 · 金晕暗室 — layered solid Images (no CSS / no new assets).
             var bg = host.AddComponent<Image>();
-            bg.color = new Color(0.02f, 0.015f, 0.01f, 0.98f);
+            bg.color = ColBgVoid;
             bg.raycastTarget = true;
+            BuildBg2Atmosphere(host.transform);
 
             // Content host centered — child UI uses absolute offsets around origin.
             var content = new GameObject("AtlasContent", typeof(RectTransform));
@@ -424,30 +441,108 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         /// <summary>
-        /// Solid panel image — never hard-depends on ArtWorks / ShopGoodRewardFrame.
+        /// BG2 vignette: warm center glow + edge crush, Scheme A archive lighting.
         /// </summary>
-        private static Image CreatePanelImage(Transform parent, Vector2 pos, Vector2 size, Color color)
+        private static void BuildBg2Atmosphere(Transform host)
         {
-            var go = new GameObject("AtlasPanel", typeof(RectTransform));
+            // Soft warm pool in the middle of the screen.
+            Image glow = CreateSolidImage(host, "Bg2Glow", Vector2.zero, new Vector2(1400f, 900f), ColBgGlow, false);
+            try
+            {
+                var grt = glow.rectTransform;
+                grt.anchorMin = grt.anchorMax = new Vector2(0.5f, 0.5f);
+                grt.anchoredPosition = new Vector2(0f, 20f);
+            }
+            catch { }
+
+            // Edge vignette plates (approximate radial falloff).
+            CreateEdgeShade(host, "VignetteTop", new Vector2(0.5f, 1f), new Vector2(0f, 0f), new Vector2(1f, 0.22f),
+                new Color(0f, 0f, 0f, 0.55f));
+            CreateEdgeShade(host, "VignetteBottom", new Vector2(0.5f, 0f), new Vector2(0f, 0f), new Vector2(1f, 0.22f),
+                new Color(0f, 0f, 0f, 0.62f));
+            CreateEdgeShade(host, "VignetteLeft", new Vector2(0f, 0.5f), new Vector2(0f, 0f), new Vector2(0.18f, 1f),
+                new Color(0f, 0f, 0f, 0.45f));
+            CreateEdgeShade(host, "VignetteRight", new Vector2(1f, 0.5f), new Vector2(0f, 0f), new Vector2(0.18f, 1f),
+                new Color(0f, 0f, 0f, 0.45f));
+        }
+
+        private static void CreateEdgeShade(Transform parent, string name, Vector2 pivot, Vector2 offsetMin, Vector2 sizeFrac, Color color)
+        {
+            var go = new GameObject(name, typeof(RectTransform));
             go.transform.SetParent(parent, false);
             var img = go.AddComponent<Image>();
             img.color = color;
-            img.raycastTarget = true;
-            try
+            img.raycastTarget = false;
+            var rt = go.GetComponent<RectTransform>();
+            // sizeFrac.x/y used as anchor span from pivot edge
+            if (pivot.y >= 0.99f) // top strip
             {
-                if (LogLikeMod.ArtWorks != null && LogLikeMod.ArtWorks.ContainsKey("ShopGoodRewardFrame"))
-                {
-                    Sprite sp = LogLikeMod.ArtWorks["ShopGoodRewardFrame"];
-                    if (sp != null)
-                        img.sprite = sp;
-                }
+                rt.anchorMin = new Vector2(0f, 1f - sizeFrac.y);
+                rt.anchorMax = new Vector2(1f, 1f);
             }
-            catch { }
+            else if (pivot.y <= 0.01f) // bottom
+            {
+                rt.anchorMin = new Vector2(0f, 0f);
+                rt.anchorMax = new Vector2(1f, sizeFrac.y);
+            }
+            else if (pivot.x <= 0.01f) // left
+            {
+                rt.anchorMin = new Vector2(0f, 0f);
+                rt.anchorMax = new Vector2(sizeFrac.x, 1f);
+            }
+            else // right
+            {
+                rt.anchorMin = new Vector2(1f - sizeFrac.x, 0f);
+                rt.anchorMax = new Vector2(1f, 1f);
+            }
+            rt.offsetMin = Vector2.zero;
+            rt.offsetMax = Vector2.zero;
+            rt.pivot = pivot;
+        }
+
+        /// <summary>Solid UI panel — no ShopGoodRewardFrame (that frame fought Scheme A look).</summary>
+        private static Image CreateSolidImage(Transform parent, string name, Vector2 pos, Vector2 size, Color color, bool raycast)
+        {
+            var go = new GameObject(name, typeof(RectTransform));
+            go.transform.SetParent(parent, false);
+            var img = go.AddComponent<Image>();
+            img.sprite = null;
+            img.color = color;
+            img.raycastTarget = raycast;
             var rt = go.GetComponent<RectTransform>();
             rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.pivot = new Vector2(0.5f, 0.5f);
             rt.sizeDelta = size;
             rt.anchoredPosition = pos;
             rt.localScale = Vector3.one;
+            return img;
+        }
+
+        /// <summary>
+        /// Solid panel image — Scheme A: pure color, optional thin gold edge child.
+        /// </summary>
+        private static Image CreatePanelImage(Transform parent, Vector2 pos, Vector2 size, Color color)
+        {
+            return CreatePanelImage(parent, pos, size, color, false);
+        }
+
+        private static Image CreatePanelImage(Transform parent, Vector2 pos, Vector2 size, Color color, bool goldEdge)
+        {
+            Image img = CreateSolidImage(parent, "AtlasPanel", pos, size, color, true);
+            if (goldEdge)
+            {
+                Image edge = CreateSolidImage(img.transform, "GoldEdge", Vector2.zero,
+                    new Vector2(size.x + 2f, size.y + 2f),
+                    new Color(ColGoldDim.r, ColGoldDim.g, ColGoldDim.b, 0.75f), false);
+                edge.transform.SetAsFirstSibling();
+                try
+                {
+                    var ert = edge.rectTransform;
+                    ert.anchorMin = ert.anchorMax = new Vector2(0.5f, 0.5f);
+                    ert.anchoredPosition = Vector2.zero;
+                }
+                catch { }
+            }
             return img;
         }
 
@@ -457,8 +552,10 @@ namespace abcdcode_LOGLIKE_MOD
             go.transform.SetParent(parent, false);
             var tmp = go.AddComponent<TextMeshProUGUI>();
             var rt = go.GetComponent<RectTransform>();
+            // Center-point labels only — never stretch to parent (blocks raycasts if raycastTarget leaks).
             rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
-            rt.sizeDelta = new Vector2(400f, size + 16f);
+            rt.pivot = new Vector2(0.5f, 0.5f);
+            rt.sizeDelta = new Vector2(Mathf.Max(80f, size * 12f), size + 16f);
             rt.anchoredPosition = pos;
             try { LogLikeMod.ApplyTmpFontPreservingSharpMaterial(tmp, LogLikeMod.DefFont_TMP); } catch { }
             tmp.fontSize = size;
@@ -481,8 +578,11 @@ namespace abcdcode_LOGLIKE_MOD
             }
             if (_hubCloseBtn == null)
             {
-                Image img = CreatePanelImage(root.transform, new Vector2(0f, -320f), new Vector2(220f, 48f),
-                    new Color(0.22f, 0.17f, 0.12f, 1f));
+                // Bottom-right — must not sit on paging (was y=-320 overlapping "1/N").
+                Image edge = CreatePanelImage(root.transform, new Vector2(520f, -360f), new Vector2(224f, 52f), ColGoldDim);
+                edge.raycastTarget = false;
+                Image img = CreatePanelImage(root.transform, new Vector2(520f, -360f), new Vector2(216f, 44f),
+                    new Color(0.18f, 0.14f, 0.10f, 1f));
                 _hubCloseBtn = img.gameObject;
                 Button btn = _hubCloseBtn.AddComponent<Button>();
                 btn.targetGraphic = img;
@@ -494,6 +594,7 @@ namespace abcdcode_LOGLIKE_MOD
                 });
                 TextMeshProUGUI backLabel = CreateLabel(_hubCloseBtn.transform, Vector2.zero, 20, ColCream, TextAlignmentOptions.Center);
                 backLabel.text = "\u8fd4\u56de"; // 返回
+                backLabel.raycastTarget = false;
                 try
                 {
                     var lrt = backLabel.GetComponent<RectTransform>();
@@ -502,6 +603,7 @@ namespace abcdcode_LOGLIKE_MOD
                     lrt.offsetMin = Vector2.zero;
                     lrt.offsetMax = Vector2.zero;
                     lrt.anchoredPosition = Vector2.zero;
+                    lrt.sizeDelta = Vector2.zero;
                 }
                 catch { }
             }
@@ -514,72 +616,110 @@ namespace abcdcode_LOGLIKE_MOD
         /// </summary>
         private void CreateLeftNav()
         {
-            // Category column — always includes 异想体书页 + EGO战斗书页 as dedicated rails.
+            // Scheme A left rails: solid bar + gold accent strip when selected.
             for (int i = 0; i < Categories.Length; i++)
             {
                 AtlasCategory category = Categories[i];
-                Image image = ModdingUtils.CreateImage(root.transform, "ShopGoodRewardFrame", Vector2.one,
-                    new Vector2(-560f, 280f - i * 52f), new Vector2(170f, 46f));
-                try { image.color = ColNavIdle; } catch { }
+                Image image = CreateSolidImage(root.transform, "CatRail",
+                    new Vector2(-580f, 270f - i * 50f), new Vector2(200f, 42f), ColNavIdle, true);
                 categoryFrames.Add(image);
+
+                Image accent = CreateSolidImage(image.transform, "Accent",
+                    new Vector2(-98f, 0f), new Vector2(3f, 34f), ColGoldDim, false);
+                accent.gameObject.name = "CatAccent";
+
                 Button button = image.gameObject.AddComponent<Button>();
                 button.targetGraphic = image;
                 button.onClick = new Button.ButtonClickedEvent();
                 button.onClick.AddListener((UnityAction)(() => SelectCategory(category)));
-                TextMeshProUGUI label = ModdingUtils.CreateText_TMP(image.transform, Vector2.zero, 18, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, ColCream, LogLikeMod.DefFont_TMP);
+                TextMeshProUGUI label = CreateLabel(image.transform, new Vector2(6f, 0f), 15, ColCream, TextAlignmentOptions.Left);
                 string numeral = i == 0 ? "I" : (i == 1 ? "II" : (i == 2 ? "III" : "IV"));
                 label.text = numeral + "  \u00b7  " + GetCategoryName(category);
+                try
+                {
+                    var lrt = label.GetComponent<RectTransform>();
+                    lrt.anchorMin = new Vector2(0f, 0.5f);
+                    lrt.anchorMax = new Vector2(1f, 0.5f);
+                    lrt.pivot = new Vector2(0f, 0.5f);
+                    lrt.anchoredPosition = new Vector2(16f, 0f);
+                    lrt.sizeDelta = new Vector2(-24f, 36f);
+                }
+                catch { }
                 categoryLabels.Add(label);
             }
 
-            // Progress filters exist only for role books and combat pages.
-            sectionHeader = ModdingUtils.CreateText_TMP(root.transform, new Vector2(-560f, 55f), 14, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, ColGoldDim, LogLikeMod.DefFont_TMP);
+            sectionHeader = CreateLabel(root.transform, new Vector2(-580f, 50f), 12, ColGoldDim, TextAlignmentOptions.Left);
             sectionHeader.text = LocalizedUi("ui_RMR_Atlas_Progress", "\u83b7\u5f97\u9636\u6bb5");
+            try
+            {
+                var srt = sectionHeader.GetComponent<RectTransform>();
+                srt.pivot = new Vector2(0f, 0.5f);
+                srt.anchorMin = srt.anchorMax = new Vector2(0.5f, 0.5f);
+                srt.anchoredPosition = new Vector2(-680f, 50f);
+                srt.sizeDelta = new Vector2(200f, 22f);
+            }
+            catch { }
 
             for (int i = 0; i < Sections.Length; i++)
             {
                 AtlasSection section = Sections[i];
-                Image image = ModdingUtils.CreateImage(root.transform, "ShopGoodRewardFrame", Vector2.one,
-                    new Vector2(-560f, 20f - i * 36f), new Vector2(170f, 32f));
-                try { image.color = ColNavIdle; } catch { }
+                Image image = CreateSolidImage(root.transform, "SecRail",
+                    new Vector2(-580f, 18f - i * 34f), new Vector2(200f, 28f), ColNavIdle, true);
                 sectionFrames.Add(image);
+                Image accent = CreateSolidImage(image.transform, "Accent",
+                    new Vector2(-98f, 0f), new Vector2(3f, 22f), ColGoldDim, false);
+                accent.gameObject.name = "SecAccent";
+
                 Button button = image.gameObject.AddComponent<Button>();
                 button.targetGraphic = image;
                 button.onClick = new Button.ButtonClickedEvent();
                 button.onClick.AddListener((UnityAction)(() => SelectSection(section)));
-                TextMeshProUGUI label = ModdingUtils.CreateText_TMP(image.transform, Vector2.zero, 15, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, ColMuted, LogLikeMod.DefFont_TMP);
+                TextMeshProUGUI label = CreateLabel(image.transform, new Vector2(6f, 0f), 13, ColMuted, TextAlignmentOptions.Left);
                 label.text = GetSectionName(section);
+                try
+                {
+                    var lrt = label.GetComponent<RectTransform>();
+                    lrt.anchorMin = new Vector2(0f, 0.5f);
+                    lrt.anchorMax = new Vector2(1f, 0.5f);
+                    lrt.pivot = new Vector2(0f, 0.5f);
+                    lrt.anchoredPosition = new Vector2(16f, 0f);
+                    lrt.sizeDelta = new Vector2(-24f, 26f);
+                }
+                catch { }
                 sectionLabels.Add(label);
             }
         }
 
         private void CreateCenterCards()
         {
-            // A-A encyclopedia cards: 4 columns x 5 rows.
-            // Use CreatePanelImage — ModdingUtils.CreateImage can fail silently at invitation-time.
-            float startX = -285f;
-            float startY = 245f;
-            float stepX = 160f;
-            float stepY = 112f;
+            // A-A wall: 4 x 5 solid tiles with thin gold edge (Scheme A mockup).
+            float startX = -260f;
+            float startY = 240f;
+            float stepX = 148f;
+            float stepY = 108f;
             for (int row = 0; row < CenterRows; row++)
             {
                 for (int col = 0; col < CenterCols; col++)
                 {
-                    Image image = CreatePanelImage(root.transform,
-                        new Vector2(startX + col * stepX, startY - row * stepY),
-                        new Vector2(150f, 102f), ColPanel);
+                    Vector2 pos = new Vector2(startX + col * stepX, startY - row * stepY);
+                    Image edge = CreateSolidImage(root.transform, "TileEdge", pos,
+                        new Vector2(140f, 100f), new Color(ColGoldDim.r, ColGoldDim.g, ColGoldDim.b, 0.45f), false);
+                    Image image = CreateSolidImage(edge.transform, "TileFace", Vector2.zero,
+                        new Vector2(136f, 96f), ColTile, true);
+                    try
+                    {
+                        var irt = image.rectTransform;
+                        irt.anchorMin = irt.anchorMax = new Vector2(0.5f, 0.5f);
+                        irt.anchoredPosition = Vector2.zero;
+                    }
+                    catch { }
                     tiles.Add(image.gameObject.AddComponent<LogAtlasTile>());
                 }
             }
 
-            _emptyHint = CreateLabel(root.transform, new Vector2(-30f, 40f), 18, ColMuted, TextAlignmentOptions.Center);
+            _emptyHint = CreateLabel(root.transform, new Vector2(-40f, 40f), 16, ColMuted, TextAlignmentOptions.Center);
             _emptyHint.text = "";
-            try
-            {
-                var rt = _emptyHint.GetComponent<RectTransform>();
-                rt.sizeDelta = new Vector2(600f, 80f);
-            }
-            catch { }
+            try { _emptyHint.GetComponent<RectTransform>().sizeDelta = new Vector2(560f, 80f); } catch { }
         }
 
         private void ShowEmptyHint(string msg)
@@ -592,12 +732,16 @@ namespace abcdcode_LOGLIKE_MOD
 
         private void CreatePageControls()
         {
-            // Keep paging below the fifth card row (its lower edge is y=-254).
-            const float pagingY = -315f;
-            pageLabel = ModdingUtils.CreateText_TMP(root.transform, new Vector2(-30f, pagingY), 16, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, ColCream, LogLikeMod.DefFont_TMP);
-            pageLabel.text = "1 / 1";
+            // Center under card wall. Return button lives separately at bottom-right.
+            // CRITICAL: never use anchors (0,0)-(1,1) on root — CreateText_TMP stretch blocked all clicks.
+            const float pagingY = -300f;
 
-            Image prevImg = ModdingUtils.CreateImage(root.transform, "ShopGoodRewardFrame", Vector2.one, new Vector2(-120f, pagingY), new Vector2(70f, 32f));
+            pageLabel = CreateLabel(root.transform, new Vector2(-30f, pagingY), 16, ColCream, TextAlignmentOptions.Center);
+            pageLabel.text = "1 / 1";
+            try { pageLabel.GetComponent<RectTransform>().sizeDelta = new Vector2(120f, 28f); } catch { }
+
+            Image prevImg = CreatePanelImage(root.transform, new Vector2(-130f, pagingY), new Vector2(56f, 34f),
+                new Color(0.18f, 0.14f, 0.10f, 1f));
             pagePrevBtn = prevImg.gameObject.AddComponent<Button>();
             pagePrevBtn.targetGraphic = prevImg;
             pagePrevBtn.onClick = new Button.ButtonClickedEvent();
@@ -609,9 +753,20 @@ namespace abcdcode_LOGLIKE_MOD
                     UpdateTiles();
                 }
             }));
-            ModdingUtils.CreateText_TMP(prevImg.transform, Vector2.zero, 16, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, ColCream, LogLikeMod.DefFont_TMP).text = "<";
+            TextMeshProUGUI prevTxt = CreateLabel(prevImg.transform, Vector2.zero, 18, ColCream, TextAlignmentOptions.Center);
+            prevTxt.text = "<";
+            try
+            {
+                var prt = prevTxt.GetComponent<RectTransform>();
+                prt.anchorMin = Vector2.zero;
+                prt.anchorMax = Vector2.one;
+                prt.offsetMin = prt.offsetMax = Vector2.zero;
+                prt.sizeDelta = Vector2.zero;
+            }
+            catch { }
 
-            Image nextImg = ModdingUtils.CreateImage(root.transform, "ShopGoodRewardFrame", Vector2.one, new Vector2(60f, pagingY), new Vector2(70f, 32f));
+            Image nextImg = CreatePanelImage(root.transform, new Vector2(70f, pagingY), new Vector2(56f, 34f),
+                new Color(0.18f, 0.14f, 0.10f, 1f));
             pageNextBtn = nextImg.gameObject.AddComponent<Button>();
             pageNextBtn.targetGraphic = nextImg;
             pageNextBtn.onClick = new Button.ButtonClickedEvent();
@@ -620,39 +775,49 @@ namespace abcdcode_LOGLIKE_MOD
                 currentPage++;
                 UpdateTiles();
             }));
-            ModdingUtils.CreateText_TMP(nextImg.transform, Vector2.zero, 16, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, ColCream, LogLikeMod.DefFont_TMP).text = ">";
+            TextMeshProUGUI nextTxt = CreateLabel(nextImg.transform, Vector2.zero, 18, ColCream, TextAlignmentOptions.Center);
+            nextTxt.text = ">";
+            try
+            {
+                var nrt = nextTxt.GetComponent<RectTransform>();
+                nrt.anchorMin = Vector2.zero;
+                nrt.anchorMax = Vector2.one;
+                nrt.offsetMin = nrt.offsetMax = Vector2.zero;
+                nrt.sizeDelta = Vector2.zero;
+            }
+            catch { }
         }
 
         private void CreateDetailPanel()
         {
-            // Right-side reading desk detail (Scheme B).
-            detailPanelRoot = ModdingUtils.CreateImage(root.transform, "ShopGoodRewardFrame", Vector2.one, new Vector2(520f, 40f), new Vector2(300f, 520f)).gameObject;
-            try
-            {
-                var img = detailPanelRoot.GetComponent<Image>();
-                if (img != null)
-                    img.color = ColPanel;
-            }
-            catch { }
+            // Scheme A right reading desk.
+            Image deskEdge = CreateSolidImage(root.transform, "DeskEdge", new Vector2(540f, 30f),
+                new Vector2(304f, 524f), new Color(ColGoldDim.r, ColGoldDim.g, ColGoldDim.b, 0.5f), false);
+            Image desk = CreateSolidImage(root.transform, "Desk", new Vector2(540f, 30f),
+                new Vector2(296f, 516f), ColPanel, true);
+            detailPanelRoot = desk.gameObject;
 
-            detailTitle = ModdingUtils.CreateText_TMP(detailPanelRoot.transform, new Vector2(0f, 230f), 22, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, ColGold, LogLikeMod.DefFont_TMP);
-            detailTitle.alignment = TextAlignmentOptions.Center;
+            detailTitle = CreateLabel(detailPanelRoot.transform, new Vector2(0f, 220f), 18, ColGold, TextAlignmentOptions.Center);
             detailTitle.text = "";
+            try { detailTitle.GetComponent<RectTransform>().sizeDelta = new Vector2(270f, 36f); } catch { }
 
-            detailMeta = ModdingUtils.CreateText_TMP(detailPanelRoot.transform, new Vector2(0f, 200f), 14, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, ColMuted, LogLikeMod.DefFont_TMP);
+            detailMeta = CreateLabel(detailPanelRoot.transform, new Vector2(0f, 190f), 12, ColMuted, TextAlignmentOptions.Center);
             detailMeta.text = "";
+            try { detailMeta.GetComponent<RectTransform>().sizeDelta = new Vector2(270f, 24f); } catch { }
 
-            detailArtwork = ModdingUtils.CreateImage(detailPanelRoot.transform, (Sprite)null, Vector2.one, new Vector2(0f, 80f), new Vector2(180f, 180f));
+            detailArtwork = CreateSolidImage(detailPanelRoot.transform, "Art", new Vector2(0f, 80f),
+                new Vector2(150f, 150f), new Color(0.08f, 0.07f, 0.06f, 1f), false);
             detailArtwork.preserveAspect = true;
 
-            detailDescription = ModdingUtils.CreateText_TMP(detailPanelRoot.transform, new Vector2(0f, -150f), 15, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.TopLeft, ColCream, LogLikeMod.DefFont_TMP);
-            detailDescription.alignment = TextAlignmentOptions.TopLeft;
+            detailDescription = CreateLabel(detailPanelRoot.transform, new Vector2(0f, -130f), 13, ColCream, TextAlignmentOptions.TopLeft);
             detailDescription.text = "";
+            detailDescription.enableWordWrapping = true;
+            detailDescription.overflowMode = TextOverflowModes.Overflow;
             try
             {
                 var rt = detailDescription.GetComponent<RectTransform>();
                 if (rt != null)
-                    rt.sizeDelta = new Vector2(260f, 220f);
+                    rt.sizeDelta = new Vector2(260f, 240f);
             }
             catch { }
 
@@ -971,7 +1136,8 @@ namespace abcdcode_LOGLIKE_MOD
 
         private void CreateBattleCardUpgradeToggle()
         {
-            Image image = ModdingUtils.CreateImage(root.transform, "ShopGoodRewardFrame", Vector2.one, new Vector2(-560f, -250f), new Vector2(170f, 36f));
+            Image image = CreateSolidImage(root.transform, "UpgradeToggle",
+                new Vector2(-580f, -250f), new Vector2(200f, 34f), ColNavIdle, true);
             upgradeToggleRoot = image.gameObject;
             upgradeToggleFrame = image;
             Button button = image.gameObject.AddComponent<Button>();
@@ -983,7 +1149,16 @@ namespace abcdcode_LOGLIKE_MOD
                 currentPage = 0;
                 UpdateTiles();
             }));
-            upgradeToggleLabel = ModdingUtils.CreateText_TMP(image.transform, Vector2.zero, 15, Vector2.zero, Vector2.one, Vector2.zero, TextAlignmentOptions.Center, ColCream, LogLikeMod.DefFont_TMP);
+            upgradeToggleLabel = CreateLabel(image.transform, Vector2.zero, 13, ColCream, TextAlignmentOptions.Center);
+            try
+            {
+                var lrt = upgradeToggleLabel.GetComponent<RectTransform>();
+                lrt.anchorMin = Vector2.zero;
+                lrt.anchorMax = Vector2.one;
+                lrt.offsetMin = lrt.offsetMax = Vector2.zero;
+                lrt.sizeDelta = Vector2.zero;
+            }
+            catch { }
             SetBattleCardUpgradeToggleVisible(false);
         }
 
@@ -1006,7 +1181,7 @@ namespace abcdcode_LOGLIKE_MOD
 
         private void UpdateTiles()
         {
-            // Highlight category rails (always visible: 角色 / 战斗 / 异想体 / EGO战斗).
+            // Highlight category rails (Scheme A: gold accent + fill).
             for (int i = 0; i < categoryLabels.Count; i++)
             {
                 bool on = Categories[i] == currentCategory;
@@ -1015,6 +1190,17 @@ namespace abcdcode_LOGLIKE_MOD
                 if (i < categoryFrames.Count && categoryFrames[i] != null)
                 {
                     try { categoryFrames[i].color = on ? ColNavOn : ColNavIdle; } catch { }
+                    try
+                    {
+                        Transform acc = categoryFrames[i].transform.Find("CatAccent");
+                        if (acc != null)
+                        {
+                            var accImg = acc.GetComponent<Image>();
+                            if (accImg != null)
+                                accImg.color = on ? ColGold : ColGoldDim;
+                        }
+                    }
+                    catch { }
                 }
             }
 
@@ -1042,6 +1228,17 @@ namespace abcdcode_LOGLIKE_MOD
                     if (i < sectionFrames.Count && sectionFrames[i] != null)
                     {
                         try { sectionFrames[i].color = on ? ColNavOn : ColNavIdle; } catch { }
+                        try
+                        {
+                            Transform acc = sectionFrames[i].transform.Find("SecAccent");
+                            if (acc != null)
+                            {
+                                var accImg = acc.GetComponent<Image>();
+                                if (accImg != null)
+                                    accImg.color = on ? ColGold : ColGoldDim;
+                            }
+                        }
+                        catch { }
                     }
                 }
             }
@@ -1197,6 +1394,28 @@ namespace abcdcode_LOGLIKE_MOD
             return result;
         }
 
+        /// <summary>RMR starter librarian shells — not collectible atlas content.</summary>
+        private static bool IsRmrInternalRoleBook(LorId id)
+        {
+            if (id == null)
+                return false;
+            // 旅途指定司书之页 (-854), 旅途助理司书之页 (-855) and assistant slots -856..
+            if (id.id == -854 || id.id == -855 || id.id == -856 || id.id == -857 || id.id == -858)
+                return true;
+            return false;
+        }
+
+        private static bool IsRmrInternalRoleBookTitle(string title)
+        {
+            if (string.IsNullOrEmpty(title))
+                return false;
+            // 旅途指定司书 / 旅途助理司书
+            return title.IndexOf("\u65c5\u9014\u6307\u5b9a\u53f8\u4e66", StringComparison.Ordinal) >= 0
+                || title.IndexOf("\u65c5\u9014\u52a9\u7406\u53f8\u4e66", StringComparison.Ordinal) >= 0
+                || title.IndexOf("Journey Librarian", StringComparison.OrdinalIgnoreCase) >= 0
+                || title.IndexOf("Assistant Librarian", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
         private static IEnumerable<AtlasEntry> BuildRoleBookEntries()
         {
             foreach (BookXmlInfo info in EnumerateAllBooks())
@@ -1211,11 +1430,17 @@ namespace abcdcode_LOGLIKE_MOD
                 }
                 catch { /* ignore */ }
 
+                // Hide RMR internal starter pages from permanent atlas.
+                if (IsRmrInternalRoleBook(info.id))
+                    continue;
+
                 string title = RewardingModel.GetLocalizedBookName(info);
                 if (string.IsNullOrEmpty(title) || RewardingModel.IsPoorDisplayNamePublic(title))
                     title = GetDisplayName(info, info.id);
                 if (string.IsNullOrEmpty(title))
                     title = info.id.id.ToString();
+                if (IsRmrInternalRoleBookTitle(title))
+                    continue;
 
                 yield return new AtlasEntry
                 {
@@ -1320,17 +1545,24 @@ namespace abcdcode_LOGLIKE_MOD
                 catch { /* ignore */ }
 
                 DiceCardXmlInfo displayInfo = GetDisplayCardInfo(info, showUpgraded);
-                string title = GetDisplayName(displayInfo, info.id);
+                // Always localize from base card first — upgraded workshopName is often non-CJK "Name+".
+                string title = null;
                 try
                 {
-                    string loc = RewardingModel.GetLocalizedCardName(displayInfo);
-                    if (!string.IsNullOrEmpty(loc) && !RewardingModel.IsPoorDisplayNamePublic(loc))
-                        title = loc;
-                    else if (!string.IsNullOrEmpty(displayInfo.workshopName)
-                        && !RewardingModel.IsPoorDisplayNamePublic(displayInfo.workshopName))
-                        title = displayInfo.workshopName;
+                    title = RewardingModel.GetLocalizedCardName(info);
+                    if (showUpgraded && displayInfo != null && displayInfo != info
+                        && !string.IsNullOrEmpty(title) && !title.EndsWith("+", StringComparison.Ordinal))
+                        title += "+";
+                    if (RewardingModel.IsPoorDisplayNamePublic(title))
+                    {
+                        string locUp = RewardingModel.GetLocalizedCardName(displayInfo);
+                        if (!RewardingModel.IsPoorDisplayNamePublic(locUp))
+                            title = locUp;
+                    }
                 }
-                catch { /* ignore */ }
+                catch { title = null; }
+                if (string.IsNullOrEmpty(title) || RewardingModel.IsPoorDisplayNamePublic(title))
+                    title = GetDisplayName(info, info.id);
 
                 yield return new AtlasEntry
                 {
@@ -1378,20 +1610,36 @@ namespace abcdcode_LOGLIKE_MOD
                 return "";
             List<string> lines = new List<string>();
             if (showUpgraded)
-                lines.Add("\u5347\u7ea7\u9884\u89c8");
+                lines.Add("\u5347\u7ea7\u9884\u89c8"); // 升级预览
             if (displayInfo.Spec != null)
                 lines.Add("\u8d39\u7528: " + displayInfo.Spec.Cost.ToString());
             lines.Add("\u7ae0\u8282: " + displayInfo.Chapter.ToString());
-            if (!string.IsNullOrEmpty(displayInfo.Script))
-                lines.Add("\u6548\u679c: " + displayInfo.Script);
+
+            // Localized page ability (never dump raw Script class names — they tofu / English-only).
+            try
+            {
+                string ability = RewardingModel.GetLocalizedCardAbilityDesc(displayInfo);
+                if (string.IsNullOrEmpty(ability) && id != null)
+                {
+                    DiceCardXmlInfo baseCard = ItemXmlDataList.instance != null
+                        ? ItemXmlDataList.instance.GetCardItem(id, true) : null;
+                    if (baseCard != null)
+                        ability = RewardingModel.GetLocalizedCardAbilityDesc(baseCard);
+                }
+                if (!string.IsNullOrEmpty(ability) && !RewardingModel.IsPoorDisplayNamePublic(ability))
+                    lines.Add(ability);
+            }
+            catch { /* ignore */ }
+
             if (displayInfo.DiceBehaviourList != null && displayInfo.DiceBehaviourList.Count > 0)
             {
                 lines.Add("\u9ab0\u5b50:");
                 for (int i = 0; i < displayInfo.DiceBehaviourList.Count; i++)
                 {
                     DiceBehaviour dice = displayInfo.DiceBehaviourList[i];
-                    string script = string.IsNullOrEmpty(dice.Script) ? string.Empty : " / " + dice.Script;
-                    lines.Add((i + 1).ToString() + ". " + GetDiceDetailText(dice.Detail) + " " + dice.Min.ToString() + "-" + dice.Dice.ToString() + script);
+                    // Do not append raw dice.Script class ids (e.g. English ability keys → tofu risk).
+                    lines.Add((i + 1).ToString() + ". " + GetDiceDetailText(dice.Detail) + " "
+                        + dice.Min.ToString() + "-" + dice.Dice.ToString());
                 }
             }
             return string.Join("\n", lines.ToArray());
@@ -1776,15 +2024,9 @@ namespace abcdcode_LOGLIKE_MOD
                 }
                 gameObject.SetActive(true);
                 image = image ?? GetComponent<Image>();
-                try
-                {
-                    if (LogLikeMod.ArtWorks != null && LogLikeMod.ArtWorks.ContainsKey("ShopGoodRewardFrame"))
-                        image.sprite = LogLikeMod.ArtWorks["ShopGoodRewardFrame"];
-                }
-                catch { }
-                image.color = entry.Unlocked
-                    ? new Color(0.14f, 0.11f, 0.08f, 1f)
-                    : new Color(0.10f, 0.09f, 0.08f, 0.85f);
+                // Scheme A tiles: solid face only (no ShopGoodRewardFrame).
+                image.sprite = null;
+                image.color = entry.Unlocked ? ColTile : ColTileLocked;
 
                 if (artwork == null)
                 {
@@ -1858,6 +2100,15 @@ namespace abcdcode_LOGLIKE_MOD
                 }
                 catch { }
 
+                // Prefer plain Button — UILogCustomSelectable can fail silently outside battle UI,
+                // leaving tiles visible but not clickable on hub atlas.
+                var btn = gameObject.GetComponent<Button>();
+                if (btn == null)
+                {
+                    btn = gameObject.AddComponent<Button>();
+                    btn.targetGraphic = image;
+                    btn.onClick.AddListener(() => OnSelect());
+                }
                 if (selectable == null)
                 {
                     try
@@ -1869,14 +2120,7 @@ namespace abcdcode_LOGLIKE_MOD
                         selectable.DeselectEvent = new UnityEventBasedata();
                         selectable.DeselectEvent.AddListener((UnityAction<BaseEventData>)(e => OnExit()));
                     }
-                    catch
-                    {
-                        // Fallback: plain Button if custom selectable missing
-                        var btn = gameObject.GetComponent<Button>() ?? gameObject.AddComponent<Button>();
-                        btn.targetGraphic = image;
-                        btn.onClick.RemoveAllListeners();
-                        btn.onClick.AddListener(() => OnSelect());
-                    }
+                    catch { /* Button already handles click */ }
                 }
             }
 

@@ -176,9 +176,10 @@ namespace abcdcode_LOGLIKE_MOD
             label.text = GetRMRText("ui_Realization", "\u89e3\u653e\u6218");
             label.enableWordWrapping = false;
             label.fontSize = 32f;
-            label.font = LogLikeMod.DefFont_TMP;
+            LogLikeMod.ApplyTmpFontPreservingSharpMaterial(label, LogLikeMod.DefFont_TMP);
             label.color = LogLikeMod.DefFontColor;
             label.alignment = TextAlignmentOptions.Center;
+            label.fontStyle = FontStyles.Normal;
             label.raycastTarget = false;
         }
 
@@ -1584,9 +1585,9 @@ namespace abcdcode_LOGLIKE_MOD
                         if (LogLikeMod.StageRemainText != null && textMeshProUgui1 != null)
                         {
                             if (LogLikeMod.DefFont_TMP != null)
-                                LogLikeMod.StageRemainText.font = LogLikeMod.DefFont_TMP;
+                                LogLikeMod.ApplyTmpFontPreservingSharpMaterial(LogLikeMod.StageRemainText, LogLikeMod.DefFont_TMP);
                             else if (textMeshProUgui1.font != null)
-                                LogLikeMod.StageRemainText.font = textMeshProUgui1.font;
+                                LogLikeMod.ApplyTmpFontPreservingSharpMaterial(LogLikeMod.StageRemainText, textMeshProUgui1.font);
                             LogLikeMod.StageRemainText.fontSize = textMeshProUgui1.fontSize;
                             LogLikeMod.StageRemainText.color = textMeshProUgui1.color;
                             LogLikeMod.StageRemainText.alignment = TextAlignmentOptions.Center;

@@ -329,30 +329,95 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (card == null)
                 return string.Empty;
-            if (LorId.IsModId(card.workshopID) && !string.IsNullOrEmpty(card.workshopName))
-                return SanitizeDisplayText(card.workshopName);
-            foreach (LorId candidate in GetOriginAwareIds(card.id))
+
+            // Upgrade cards are mod-registered with workshopName = "{baseWorkshopName}+".
+            // Prefer vanilla TextId / original id localization first, then append "+".
+            bool isUpgrade = false;
+            try
             {
-                string name = Singleton<BattleCardDescXmlList>.Instance.GetCardName(candidate);
-                if (!string.IsNullOrEmpty(name) && !string.Equals(name, "Not Found", StringComparison.OrdinalIgnoreCase))
-                    return SanitizeDisplayText(name);
-                if (IsOriginPackage(candidate.packageId))
-                {
-                    name = Singleton<BattleCardDescXmlList>.Instance.GetCardName(new LorId(candidate.id));
-                    if (!string.IsNullOrEmpty(name) && !string.Equals(name, "Not Found", StringComparison.OrdinalIgnoreCase))
-                        return SanitizeDisplayText(name);
-                }
+                string wid = card.workshopID ?? "";
+                isUpgrade = wid.IndexOf(LogCardUpgradeManager.UpgradeKeyword, StringComparison.Ordinal) >= 0
+                    || (!string.IsNullOrEmpty(card.workshopName) && card.workshopName.EndsWith("+", StringComparison.Ordinal));
             }
+            catch { /* ignore */ }
+
+            // 1) TextId (upgrade copies preserve base TextId)
             if (card.TextId != null && card.TextId != LorId.None)
             {
                 string name = Singleton<BattleCardDescXmlList>.Instance.GetCardName(card.TextId);
-                if (!string.IsNullOrEmpty(name) && !string.Equals(name, "Not Found", StringComparison.OrdinalIgnoreCase))
-                    return SanitizeDisplayText(name);
+                if (!string.IsNullOrEmpty(name) && !string.Equals(name, "Not Found", StringComparison.OrdinalIgnoreCase) && !IsPoorDisplayName(name))
+                    return SanitizeDisplayText(isUpgrade && !name.EndsWith("+") ? name + "+" : name);
                 name = Singleton<BattleCardDescXmlList>.Instance.GetCardName(new LorId(card.TextId.id));
-                if (!string.IsNullOrEmpty(name) && !string.Equals(name, "Not Found", StringComparison.OrdinalIgnoreCase))
-                    return SanitizeDisplayText(name);
+                if (!string.IsNullOrEmpty(name) && !string.Equals(name, "Not Found", StringComparison.OrdinalIgnoreCase) && !IsPoorDisplayName(name))
+                    return SanitizeDisplayText(isUpgrade && !name.EndsWith("+") ? name + "+" : name);
             }
-            return SanitizeDisplayText(card.workshopName ?? card.Name ?? string.Empty);
+
+            // 2) Origin-aware id walk (and original id for upgrades)
+            foreach (LorId candidate in GetOriginAwareIds(card.id))
+            {
+                string name = Singleton<BattleCardDescXmlList>.Instance.GetCardName(candidate);
+                if (!string.IsNullOrEmpty(name) && !string.Equals(name, "Not Found", StringComparison.OrdinalIgnoreCase) && !IsPoorDisplayName(name))
+                    return SanitizeDisplayText(isUpgrade && !name.EndsWith("+") ? name + "+" : name);
+                if (IsOriginPackage(candidate.packageId))
+                {
+                    name = Singleton<BattleCardDescXmlList>.Instance.GetCardName(new LorId(candidate.id));
+                    if (!string.IsNullOrEmpty(name) && !string.Equals(name, "Not Found", StringComparison.OrdinalIgnoreCase) && !IsPoorDisplayName(name))
+                        return SanitizeDisplayText(isUpgrade && !name.EndsWith("+") ? name + "+" : name);
+                }
+            }
+            try
+            {
+                LorId orig = card.id != null ? card.id.GetOriginalId() : null;
+                if (orig != null && orig != card.id)
+                {
+                    string name = Singleton<BattleCardDescXmlList>.Instance.GetCardName(orig);
+                    if (!string.IsNullOrEmpty(name) && !string.Equals(name, "Not Found", StringComparison.OrdinalIgnoreCase) && !IsPoorDisplayName(name))
+                        return SanitizeDisplayText(isUpgrade && !name.EndsWith("+") ? name + "+" : name);
+                    name = Singleton<BattleCardDescXmlList>.Instance.GetCardName(new LorId(orig.id));
+                    if (!string.IsNullOrEmpty(name) && !string.Equals(name, "Not Found", StringComparison.OrdinalIgnoreCase) && !IsPoorDisplayName(name))
+                        return SanitizeDisplayText(isUpgrade && !name.EndsWith("+") ? name + "+" : name);
+                }
+            }
+            catch { /* ignore */ }
+
+            // 3) Only then workshopName — but strip trailing + and re-localize base if possible
+            string ws = card.workshopName ?? "";
+            if (!string.IsNullOrEmpty(ws))
+            {
+                string baseWs = ws.TrimEnd('+');
+                if (!string.IsNullOrEmpty(baseWs) && !IsPoorDisplayName(baseWs)
+                    && baseWs.IndexOf('\u25A1') < 0 && baseWs.IndexOf('\uFFFD') < 0)
+                {
+                    // Prefer not to show raw English workshop ids when we already failed localization;
+                    // still better than empty.
+                    string cleaned = SanitizeDisplayText(baseWs);
+                    if (isUpgrade && !cleaned.EndsWith("+", StringComparison.Ordinal))
+                        cleaned += "+";
+                    // Reject pure non-CJK garbage for CN if entire string is replacement boxes
+                    if (!LooksLikeTofu(cleaned))
+                        return cleaned;
+                }
+            }
+
+            string fallback = SanitizeDisplayText(card.Name ?? string.Empty);
+            if (isUpgrade && !string.IsNullOrEmpty(fallback) && !fallback.EndsWith("+", StringComparison.Ordinal))
+                fallback += "+";
+            return fallback;
+        }
+
+        private static bool LooksLikeTofu(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return true;
+            int bad = 0, good = 0;
+            foreach (char c in text)
+            {
+                if (c == '\u25A1' || c == '\uFFFD' || c == '\u25A0' || c == '?')
+                    bad++;
+                else if (!char.IsWhiteSpace(c) && c != '+')
+                    good++;
+            }
+            return good == 0 && bad > 0;
         }
 
         public static string GetLocalizedCardAbilityDesc(DiceCardXmlInfo card)

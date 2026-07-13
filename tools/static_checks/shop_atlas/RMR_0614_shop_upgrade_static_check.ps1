@@ -17,8 +17,8 @@ function AssertContains($label, $text, $needle) {
     if ($text -notlike "*$needle*") { throw "$label missing: $needle" }
 }
 AssertContains 'ShopSection card upgrade slot' $shop 'CardUpgrade'
-AssertContains 'Upgrade base price' $shop 'UpgradeCardBasePrice = 20'
-AssertContains 'Upgrade price step' $shop 'UpgradeCardPriceStep = 5'
+AssertContains 'Upgrade base price' $shop 'UpgradeCardBasePrice = 10'
+AssertContains 'Upgrade price step' $shop 'UpgradeCardPriceStep = 2'
 AssertContains 'Upgrade creator method' $shop 'CreateShop_CardUpgrade'
 AssertContains 'Upgrade save bucket' $shop 'Upgrades'
 AssertContains 'Upgrade route save price' (Get-Content (Join-Path $root 'abcdcode_LOGLIKE_MOD\LogueBookModels.cs') -Raw) 'shopUpgradeCardPrice'

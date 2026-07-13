@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Accepted — **user confirmed Scheme A (2026-07-12)** via `tools/ui_beautify` selection.
 
 ## Date
 

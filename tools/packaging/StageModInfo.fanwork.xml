@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NormalInvitation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.1</Version>
+  <Workshop>
+    <ID>abcdcodecalmmagma.LogueLikeReborn</ID>
+    <Title>RogueLike Mod REBORN fan work</Title>
+    <Description>Fan-maintained RMR. Start via the top-right icon on the Reception screen. Continue via the bookmark icon.</Description>
+    <Tag />
+    <PreviewImage />
+  </Workshop>
+  <InvitationFile>
+    <EnemyUnit Exist="false">
+      <Path>\Data\EnemyUnitInfo.xml</Path>
+    </EnemyUnit>
+    <EquipPage_Enemy Exist="false">
+      <Path>\Data\EquipPage_Enemy.xml</Path>
+    </EquipPage_Enemy>
+    <EquipPage_Librarian Exist="false">
+      <Path>\Data\EquipPage_Librarian.xml</Path>
+    </EquipPage_Librarian>
+    <DropBook Exist="false">
+      <Path>\Data\Dropbook.xml</Path>
+    </DropBook>
+    <CardDropTable Exist="false">
+      <Path>\Data\CardDropTable.xml</Path>
+    </CardDropTable>
+    <CardInfo Exist="false">
+      <Path>\Data\CardInfo.xml</Path>
+    </CardInfo>
+    <Deck Exist="false">
+      <Path>\Data\Deck_Enemy.xml</Path>
+    </Deck>
+    <Dialog Exist="false">
+      <Path>\Data\Combat_Dialog.xml</Path>
+    </Dialog>
+    <BookDesc Exist="false">
+      <Path>\Data\BookStory.xml</Path>
+    </BookDesc>
+    <Passive Exist="false">
+      <Path>\Data\PassiveList.xml</Path>
+    </Passive>
+  </InvitationFile>
+</NormalInvitation>

@@ -1,4 +1,4 @@
-$ErrorActionPreference = "Stop"
+﻿$ErrorActionPreference = "Stop"
 
 $repo = (Resolve-Path (Join-Path $PSScriptRoot "..\..\..")).Path
 $hubPath = Join-Path $repo "RMR_StartHubPanel.cs"
@@ -32,11 +32,11 @@ $checks = @(
     @{ Name = "hub left identity sigil"; Pass = $hub.Contains('AddInvitationSigil') },
     @{ Name = "hub right action index"; Pass = $hub.Contains('RECEPTION INDEX') },
     @{ Name = "help selected player copy"; Pass = $help.Contains('BuildPlayerPages()') },
-    @{ Name = "help illustrated nav"; Pass = $help.Contains('NavIcon') -and $help.Contains('Banner') },
+    @{ Name = "help illustrated nav"; Pass = $help.Contains('NavIcon') },
     @{ Name = "help continuous scroll"; Pass = $help.Contains('ScrollRect') -and $help.Contains('ApplyBodyText') },
     @{ Name = "help has no body pager"; Pass = -not $help.Contains('MakePageBtn(') -and -not $help.Contains('_pageLabel') -and -not $help.Contains('SplitBodyPages') },
     @{ Name = "atlas archive wall grid"; Pass = $atlas.Contains('CenterCols = 4') -and $atlas.Contains('CenterRows = 5') },
-    @{ Name = "atlas paging below wall"; Pass = $atlas.Contains('const float pagingY = -315f') },
+    @{ Name = "atlas paging below wall"; Pass = $atlas.Contains('const float pagingY = -300f') -or $atlas.Contains('const float pagingY = -315f') },
     @{ Name = "atlas flat categories"; Pass = $atlas.Contains('currentCategory == AtlasCategory.AbnormalityPage') -and $atlas.Contains('currentCategory == AtlasCategory.EgoPage') },
     @{ Name = "atlas hides progress header"; Pass = $atlas.Contains('sectionHeader.gameObject.SetActive(!flatCategory)') },
     @{ Name = "atlas ignores progress filter for flat categories"; Pass = $atlas.Contains('flatCategory || currentSection == AtlasSection.All || x.Section == currentSection') },

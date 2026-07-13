@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RMR GUI 美观化方案 · Hub / 玩法介绍 / 图鉴</title>
+<style>
+  :root {
+    --bg: #0a0908;
+    --panel: #14110d;
+    --gold: #c59b55;
+    --gold-dim: #6b4f2e;
+    --cream: #ece0c8;
+    --muted: #9a8d75;
+    --danger: #c97870;
+    --line: rgba(197,155,85,.35);
+    --ok: #7aab7a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    background: radial-gradient(1200px 600px at 50% -10%, #1a1610 0%, var(--bg) 55%);
+    color: var(--cream); min-height: 100vh;
+  }
+  header {
+    border-bottom: 1px solid var(--line);
+    padding: 18px 28px 14px;
+    background: rgba(10,9,8,.92);
+    position: sticky; top: 0; z-index: 20;
+  }
+  header h1 { margin: 0 0 6px; font-size: 20px; color: var(--gold); font-weight: 600; letter-spacing: .04em; }
+  header p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; max-width: 1100px; }
+  .badge {
+    display: inline-block; margin-left: 8px; padding: 2px 8px; border: 1px solid var(--line);
+    border-radius: 999px; font-size: 11px; color: var(--gold-dim); vertical-align: middle;
+  }
+  .badge.ok { color: var(--ok); border-color: rgba(122,171,122,.4); }
+  main { padding: 22px 28px 80px; max-width: 1400px; margin: 0 auto; }
+  .constraints {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-bottom: 22px;
+  }
+  .card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 14px 16px;
+  }
+  .card h3 { margin: 0 0 8px; font-size: 13px; color: var(--gold); letter-spacing: .06em; text-transform: uppercase; }
+  .card ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 12px; line-height: 1.55; }
+  .scheme {
+    margin-bottom: 28px; border: 1px solid var(--line); background: rgba(20,17,13,.95);
+  }
+  .scheme-head {
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; justify-content: space-between;
+    padding: 16px 18px; border-bottom: 1px solid var(--line);
+  }
+  .scheme-head h2 { margin: 0 0 6px; font-size: 18px; color: var(--cream); }
+  .scheme-head .meta { color: var(--muted); font-size: 12px; line-height: 1.5; max-width: 820px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .tag {
+    font-size: 11px; padding: 3px 8px; border: 1px solid var(--line); color: var(--gold);
+    background: rgba(197,155,85,.08);
+  }
+  .tag.risk { color: var(--danger); border-color: rgba(201,120,112,.4); }
+  .tag.easy { color: var(--ok); border-color: rgba(122,171,122,.4); }
+  .pick {
+    border: 1px solid var(--gold-dim); background: transparent; color: var(--gold);
+    padding: 10px 16px; cursor: pointer; font-size: 13px; letter-spacing: .04em;
+  }
+  .pick:hover { background: rgba(197,155,85,.12); }
+  .pick.selected { background: rgba(197,155,85,.22); border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+  .previews {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 14px;
+  }
+  @media (max-width: 1100px) { .previews { grid-template-columns: 1fr; } }
+  .preview-wrap {
+    border: 1px solid rgba(197,155,85,.2); background: #050403; overflow: hidden;
+  }
+  .preview-wrap h4 {
+    margin: 0; padding: 8px 10px; font-size: 11px; letter-spacing: .08em; color: var(--gold-dim);
+    border-bottom: 1px solid rgba(197,155,85,.15); background: #0e0c0a;
+  }
+  .stage {
+    position: relative; width: 100%; aspect-ratio: 16/10; overflow: hidden;
+    background: #000; font-family: Georgia, "Times New Roman", "Songti SC", serif;
+  }
+  .stage * { box-sizing: border-box; }
+  footer.bar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+    background: rgba(10,9,8,.96); border-top: 1px solid var(--line);
+    padding: 12px 28px; display: flex; gap: 16px; align-items: center; justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  footer.bar strong { color: var(--gold); }
+  footer.bar code { color: var(--cream); font-size: 12px; }
+  button.export {
+    border: 1px solid var(--gold); background: rgba(197,155,85,.15); color: var(--gold);
+    padding: 8px 14px; cursor: pointer; font-size: 12px;
+  }
+
+  /* ========== Shared LoR palette helpers ========== */
+  .lor-bg { background: radial-gradient(ellipse at 40% 20%, #1c1712 0%, #050403 70%); }
+  .gold-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: .55; }
+  .cream { color: #ece0c8; }
+  .gold { color: #c59b55; }
+  .muted { color: #9a8d75; }
+  .danger { color: #c97870; }
+
+  /* A: Invitation Index (current ADR direction, refined) */
+  .a-hub .left { position:absolute; left:6%; top:14%; width:42%; }
+  .a-hub .eyebrow { font-size:9px; letter-spacing:.18em; color:#6b4f2e; margin-bottom:10px; }
+  .a-hub .title { font-size:28px; line-height:1.1; color:#ece0c8; margin:0 0 6px; font-weight:500; }
+  .a-hub .title-en { font-size:11px; letter-spacing:.2em; color:#c59b55; margin-bottom:14px; }
+  .a-hub .sigil {
+    width:48px; height:48px; border:1px solid #c59b55; transform:rotate(45deg);
+    margin:16px 0 16px 8px; box-shadow:0 0 24px rgba(197,155,85,.15);
+  }
+  .a-hub .desc { font-size:10px; line-height:1.55; color:#9a8d75; max-width:90%; }
+  .a-hub .menu { position:absolute; right:5%; top:10%; width:40%; }
+  .a-hub .menu-h { font-size:9px; letter-spacing:.16em; color:#6b4f2e; margin-bottom:8px; }
+  .a-hub .row {
+    display:flex; align-items:stretch; height:28px; margin-bottom:5px;
+    border-left:2px solid #c59b55; background: linear-gradient(90deg, rgba(50,40,25,.95), rgba(12,10,8,.9));
+  }
+  .a-hub .row.sec { border-left-color:#6b4f2e; }
+  .a-hub .row.dng { border-left-color:#c97870; }
+  .a-hub .num { width:28px; font-size:9px; color:#c59b55; display:flex; align-items:center; justify-content:center; }
+  .a-hub .lab { flex:1; font-size:11px; color:#ece0c8; display:flex; align-items:center; }
+  .a-hub .sub { font-size:7px; color:#6b4f2e; letter-spacing:.08em; margin-left:auto; padding-right:8px; display:flex; align-items:center; }
+
+  .a-help .frame {
+    position:absolute; inset:6% 8%; border:1px solid #6b4f2e; background:rgba(12,10,8,.96);
+  }
+  .a-help .ttl { text-align:center; font-size:14px; color:#c59b55; margin-top:10px; letter-spacing:.12em; }
+  .a-help .sub { text-align:center; font-size:8px; color:#6b4f2e; margin:4px 0 10px; }
+  .a-help .cols { display:flex; height:calc(100% - 50px); padding:0 12px 12px; gap:10px; }
+  .a-help .nav { width:28%; }
+  .a-help .nav-item {
+    height:22px; margin-bottom:4px; background:#1f1912; border-left:2px solid #6b4f2e;
+    font-size:9px; color:#ece0c8; display:flex; align-items:center; padding-left:8px;
+  }
+  .a-help .nav-item.on { border-left-color:#c59b55; background:#3a2a16; color:#c59b55; }
+  .a-help .body { flex:1; background:#0f0d0a; border:1px solid rgba(107,79,46,.4); padding:8px; }
+  .a-help .ban { height:28%; background:linear-gradient(90deg,#2a2218,#15120e); margin-bottom:6px; border:1px solid #3a2f22; }
+  .a-help .txt { font-size:8px; line-height:1.5; color:#c8bda8; height:58%; overflow:hidden; }
+
+  .a-atlas .wall {
+    position:absolute; inset:5% 4%; background:rgba(14,11,9,.96); border:1px solid #3a2f22;
+    display:grid; grid-template-columns: 16% 1fr 26%; gap:8px; padding:10px;
+  }
+  .a-atlas .rail .cat {
+    height:20px; margin-bottom:4px; background:#1a1510; font-size:8px; color:#9a8d75;
+    display:flex; align-items:center; padding-left:6px; border-left:2px solid transparent;
+  }
+  .a-atlas .rail .cat.on { color:#c59b55; border-left-color:#c59b55; background:#2a2115; }
+  .a-atlas .grid {
+    display:grid; grid-template-columns:repeat(5,1fr); grid-template-rows:repeat(4,1fr); gap:4px;
+  }
+  .a-atlas .tile { background:#1c1712; border:1px solid #2c241a; }
+  .a-atlas .tile.on { border-color:#c59b55; box-shadow: inset 0 0 0 1px rgba(197,155,85,.3); }
+  .a-atlas .detail { background:#100d0a; border:1px solid #2c241a; padding:8px; }
+  .a-atlas .detail .art { height:40%; background:#1c1712; margin-bottom:6px; }
+  .a-atlas .detail .t { font-size:10px; color:#c59b55; margin-bottom:4px; }
+  .a-atlas .detail .d { font-size:7px; color:#9a8d75; line-height:1.45; }
+
+  /* B: Manuscript / parchment book */
+  .b-hub .paper {
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:58%; height:78%; background:linear-gradient(180deg,#1a1612,#100e0b);
+    border:1px solid #8a6a3a; box-shadow:0 0 0 3px #1a1208, 0 20px 60px rgba(0,0,0,.6);
+  }
+  .b-hub .paper::before {
+    content:""; position:absolute; inset:6px; border:1px solid rgba(197,155,85,.25); pointer-events:none;
+  }
+  .b-hub .ttl { text-align:center; margin-top:10%; font-size:18px; color:#c59b55; letter-spacing:.15em; }
+  .b-hub .line { width:50%; height:1px; margin:10px auto; background:rgba(197,155,85,.4); }
+  .b-hub .btn {
+    width:62%; margin:6px auto; height:22px; text-align:center; line-height:22px;
+    font-size:11px; color:#ece0c8; background:rgba(40,32,22,.9);
+    border-top:1px solid rgba(197,155,85,.2); border-bottom:1px solid rgba(197,155,85,.2);
+  }
+  .b-hub .btn.p { color:#c59b55; }
+  .b-hub .btn.d { color:#c97870; }
+  .b-hub .foot { position:absolute; bottom:8%; left:0; right:0; text-align:center; font-size:8px; color:#6b4f2e; }
+
+  .b-help .book {
+    position:absolute; inset:8% 10%; display:flex; border:1px solid #6b4f2e; background:#0e0c0a;
+  }
+  .b-help .spine { width:10px; background:linear-gradient(90deg,#3a2a16,#1a140e); }
+  .b-help .lpage { width:30%; padding:12px 8px; border-right:1px solid rgba(107,79,46,.5); background:#14110d; }
+  .b-help .rpage { flex:1; padding:12px; background:#100e0b; }
+  .b-help .ch {
+    font-size:9px; padding:6px 4px; margin-bottom:3px; color:#9a8d75;
+    border-bottom:1px dotted rgba(107,79,46,.35);
+  }
+  .b-help .ch.on { color:#c59b55; border-bottom-color:#c59b55; }
+  .b-help .rt { font-size:12px; color:#c59b55; margin-bottom:8px; }
+  .b-help .rb { font-size:8px; color:#c8bda8; line-height:1.55; }
+
+  .b-atlas .shelf {
+    position:absolute; inset:6%; border:1px solid #3a2f22; background:#0c0a08;
+    display:flex; flex-direction:column; padding:10px;
+  }
+  .b-atlas .tabs { display:flex; gap:6px; margin-bottom:8px; }
+  .b-atlas .tab { font-size:8px; padding:4px 10px; border:1px solid #3a2f22; color:#9a8d75; }
+  .b-atlas .tab.on { border-color:#c59b55; color:#c59b55; }
+  .b-atlas .rows { flex:1; display:flex; flex-direction:column; gap:8px; }
+  .b-atlas .row {
+    flex:1; border-bottom:2px solid #2a2218; display:flex; gap:6px; align-items:flex-end; padding-bottom:4px;
+  }
+  .b-atlas .book {
+    width:12%; height:70%; background:linear-gradient(180deg,#3a2a16,#1a140e);
+    border:1px solid #5a4430; transform:skewX(-4deg);
+  }
+  .b-atlas .book.on { border-color:#c59b55; height:85%; }
+
+  /* C: Sephirah / floor seal */
+  .c-hub .veil { position:absolute; inset:0; background:radial-gradient(circle at 30% 40%, #241c14 0%, #050403 65%); }
+  .c-hub .ring {
+    position:absolute; left:18%; top:28%; width:26%; aspect-ratio:1;
+    border:1px solid rgba(197,155,85,.35); border-radius:50%;
+    box-shadow:0 0 40px rgba(197,155,85,.08), inset 0 0 30px rgba(0,0,0,.5);
+  }
+  .c-hub .ring2 {
+    position:absolute; left:21%; top:32%; width:20%; aspect-ratio:1;
+    border:1px dashed rgba(197,155,85,.25); border-radius:50%;
+  }
+  .c-hub .center-t {
+    position:absolute; left:18%; top:42%; width:26%; text-align:center;
+    font-size:12px; color:#c59b55; letter-spacing:.12em;
+  }
+  .c-hub .list { position:absolute; right:8%; top:16%; width:42%; }
+  .c-hub .item {
+    display:grid; grid-template-columns:28px 1fr; gap:8px; align-items:center;
+    margin-bottom:7px; padding:6px 8px; background:rgba(20,16,12,.85);
+    border:1px solid rgba(107,79,46,.35);
+  }
+  .c-hub .seal {
+    width:22px; height:22px; border-radius:50%; border:1px solid #c59b55;
+    display:flex; align-items:center; justify-content:center; font-size:8px; color:#c59b55;
+  }
+  .c-hub .item .n { font-size:11px; color:#ece0c8; }
+  .c-hub .item .s { font-size:7px; color:#6b4f2e; letter-spacing:.06em; }
+  .c-hub .item.dng .seal, .c-hub .item.dng .n { border-color:#c97870; color:#c97870; }
+
+  .c-help .stage-inner { position:absolute; inset:7% 6%; display:flex; gap:0; }
+  .c-help .floors {
+    width:22%; background:#100d0a; border:1px solid #3a2f22; padding:8px 6px;
+  }
+  .c-help .fl {
+    height:18px; margin-bottom:4px; font-size:8px; color:#9a8d75;
+    display:flex; align-items:center; gap:6px;
+  }
+  .c-help .fl .dot { width:8px; height:8px; border-radius:50%; border:1px solid #6b4f2e; }
+  .c-help .fl.on { color:#c59b55; }
+  .c-help .fl.on .dot { background:#c59b55; border-color:#c59b55; }
+  .c-help .pane {
+    flex:1; margin-left:8px; border:1px solid #3a2f22; background:rgba(14,11,9,.96); padding:12px;
+  }
+  .c-help .pane h5 { margin:0 0 8px; font-size:12px; color:#c59b55; }
+  .c-help .pane p { margin:0; font-size:8px; color:#c8bda8; line-height:1.55; }
+
+  .c-atlas .wrap { position:absolute; inset:5%; display:grid; grid-template-rows:auto 1fr; gap:8px; }
+  .c-atlas .top {
+    display:flex; justify-content:space-between; align-items:center;
+    border-bottom:1px solid rgba(197,155,85,.25); padding-bottom:6px;
+  }
+  .c-atlas .top .t { font-size:12px; color:#c59b55; letter-spacing:.14em; }
+  .c-atlas .top .pills { display:flex; gap:4px; }
+  .c-atlas .pill { font-size:7px; padding:3px 8px; border-radius:999px; border:1px solid #3a2f22; color:#9a8d75; }
+  .c-atlas .pill.on { border-color:#c59b55; color:#c59b55; }
+  .c-atlas .body { display:grid; grid-template-columns:1fr 30%; gap:8px; min-height:0; }
+  .c-atlas .cards {
+    display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:minmax(0,1fr); gap:5px;
+  }
+  .c-atlas .card-tile {
+    background:#16120e; border:1px solid #2c241a; border-radius:2px;
+    display:flex; flex-direction:column;
+  }
+  .c-atlas .card-tile .img { flex:1; background:#1c1712; margin:4px; border:1px solid #2a2218; }
+  .c-atlas .card-tile .nm { font-size:7px; color:#9a8d75; padding:0 4px 4px; text-align:center; }
+  .c-atlas .card-tile.on { border-color:#c59b55; }
+  .c-atlas .side { border:1px solid #2c241a; background:#100d0a; padding:8px; }
+  .c-atlas .side .big { height:45%; background:#1c1712; margin-bottom:6px; border:1px solid #2a2218; }
+  .c-atlas .side .tt { font-size:10px; color:#c59b55; margin-bottom:4px; }
+  .c-atlas .side .dd { font-size:7px; color:#9a8d75; line-height:1.45; }
+
+  .impl {
+    padding: 0 18px 16px; color: var(--muted); font-size: 12px; line-height: 1.55;
+  }
+  .impl code { color: var(--cream); font-size: 11px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>RMR GUI 美观化方案推荐 <span class="badge ok">可部署到 Unity/RMR</span></h1>
+  <p>
+    三套完整视觉体系（Hub + 玩法介绍 + 图鉴）均只使用 RMR 已能实现的能力：
+    <code>Image / TMP / Button / ScrollRect / Mask / Overlay Canvas</code>、纯色与现有 <code>ArtWorks</code> 贴图、
+    <code>ApplyTmpFontPreservingSharpMaterial</code>（禁止 CJK 伪粗体）。
+    不依赖 Web-only 特效。选定方案后，可在 <code>RMR_StartHubPanel</code> / <code>RMR_HelpHandbookPanel</code> / <code>LogAtlasPanel</code> 中落地。
+  </p>
+</header>
+
+<main>
+  <section class="constraints">
+    <div class="card">
+      <h3>部署约束</h3>
+      <ul>
+        <li>目标分辨率基准 1920×1080，ScaleWithScreenSize</li>
+        <li>中文必须 NotoSansCJKsc + 锐利材质路径</li>
+        <li>交互与门控（存档/解放/重置）不得因换皮改坏</li>
+        <li>优先复用 MysteryButton / 边框类 ArtWorks，缺则几何色块兜底</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>推荐选型原则</h3>
+      <ul>
+        <li>与废墟图书馆：黑金、克制、仪式感、少饱和色</li>
+        <li>信息密度：图鉴 &gt; 玩法介绍 &gt; Hub</li>
+        <li>实现成本：几何色块 &lt; 现有贴图拼装 &lt; 新美术资源</li>
+        <li>破坏性操作仅用暗红，不用大红高饱和</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>当前代码锚点</h3>
+      <ul>
+        <li>Hub：<code>RMR_StartHubPanel.cs</code></li>
+        <li>玩法介绍：<code>RMR_HelpHandbookPanel.cs</code></li>
+        <li>图鉴：<code>LogAtlasPanel.cs</code></li>
+        <li>字体：<code>LogLikeMod.ApplyTmpFontPreservingSharpMaterial</code></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SCHEME A -->
+  <article class="scheme" data-id="A">
+    <div class="scheme-head">
+      <div>
+        <h2>方案 A · 接待邀请索引（Invitation Index）</h2>
+        <div class="meta">
+          延续 ADR-001 方向并做精修：全屏黑场 + 左侧身份/印记 + 右侧编号接待菜单。
+          玩法介绍为「章节索引 + 顶栏插图 + 连续滚动」。图鉴为「左分类轨 + 中央收藏墙 + 右详情」。
+          <strong>最贴近原版接待/邀请仪式感，推荐默认。</strong>
+        </div>
+        <div class="tags">
+          <span class="tag easy">实现难度：低–中</span>
+          <span class="tag">复用现有票券按钮结构</span>
+          <span class="tag">与当前 WIP Hub 最接近</span>
+          <span class="tag">图鉴信息密度高</span>
+        </div>
+      </div>
+      <button class="pick" type="button" data-pick="A">选择方案 A</button>
+    </div>
+    <div class="previews">
+      <div class="preview-wrap">
+        <h4>HUB</h4>
+        <div class="stage lor-bg a-hub">
+          <div class="left">
+            <div class="eyebrow">LIBRARY INVITATION · RMR</div>
+            <div class="title">肉鸽接待</div>
+            <div class="title-en">ROGUELIKE MOD REBORN</div>
+            <div class="sigil"></div>
+            <div class="desc">选择这次接待的开始方式。路线内内容属于本次旅程；图鉴与解放记录将永久保留。</div>
+          </div>
+          <div class="menu">
+            <div class="menu-h">RECEPTION INDEX</div>
+            <div class="row"><span class="num">I</span><span class="lab">正常游玩</span><span class="sub">BEGIN</span></div>
+            <div class="row"><span class="num">II</span><span class="lab">继续旅程</span><span class="sub">RESUME</span></div>
+            <div class="row sec"><span class="num">III</span><span class="lab">挑战解放战</span><span class="sub">FLOOR</span></div>
+            <div class="row sec"><span class="num">IV</span><span class="lab">玩法介绍</span><span class="sub">MANUAL</span></div>
+            <div class="row sec"><span class="num">V</span><span class="lab">图鉴</span><span class="sub">ATLAS</span></div>
+            <div class="row dng"><span class="num">VI</span><span class="lab">重置永久进度</span><span class="sub">RESET</span></div>
+            <div class="row dng"><span class="num">VII</span><span class="lab">退出</span><span class="sub">EXIT</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="preview-wrap">
+        <h4>玩法介绍</h4>
+        <div class="stage lor-bg a-help">
+          <div class="frame">
+            <div class="ttl">玩法介绍</div>
+            <div class="sub">BUILD YOUR OWN LIBRARY</div>
+            <div class="cols">
+              <div class="nav">
+                <div class="nav-item on">玩法概览</div>
+                <div class="nav-item">路线与章节</div>
+                <div class="nav-item">战斗与构筑</div>
+                <div class="nav-item">补给与事件</div>
+                <div class="nav-item">永久图鉴</div>
+                <div class="nav-item">解放战与提示</div>
+              </div>
+              <div class="body">
+                <div class="ban"></div>
+                <div class="txt">欢迎来到 Roguelike Mod Reborn。每次接待都是一段从都市传闻走向杂质的旅程……（连续滚动，无 1/2/3 分页）</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="preview-wrap">
+        <h4>图鉴</h4>
+        <div class="stage lor-bg a-atlas">
+          <div class="wall">
+            <div class="rail">
+              <div class="cat on">角色书页</div>
+              <div class="cat">战斗书页</div>
+              <div class="cat">异想体</div>
+              <div class="cat">E.G.O.</div>
+            </div>
+            <div class="grid">
+              <div class="tile on"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div>
+              <div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div>
+              <div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div>
+              <div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div>
+            </div>
+            <div class="detail">
+              <div class="art"></div>
+              <div class="t">选中条目</div>
+              <div class="d">右侧常驻详情：立绘/图标、名称、元信息、描述。异想体与 EGO 不显示都市进度分段。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="impl">
+      <strong class="gold">落地要点：</strong>
+      Hub 继续用 <code>RMRInvitationButtonGraphic</code> 分色票券行；Help 保持左导航+右 ScrollRect；Atlas 保持三栏 <code>BuildArchiveWallChrome</code>。
+      主要是间距、线宽、悬停与标题层级的 polish，风险最低。
+    </div>
+  </article>
+
+  <!-- SCHEME B -->
+  <article class="scheme" data-id="B">
+    <div class="scheme-head">
+      <div>
+        <h2>方案 B · 司书手稿 / 羊皮书（Manuscript）</h2>
+        <div class="meta">
+          居中「书页/邀请函」面板：Hub 像一封被打开的邀请信；玩法介绍像对开手稿（左目录右正文）；图鉴像书架横排，选中书脊高亮。
+          更安静、更「图书馆档案」——适合希望 UI 沉稳、减少左右分屏信息量的玩家。
+        </div>
+        <div class="tags">
+          <span class="tag easy">实现难度：中</span>
+          <span class="tag">Hub 改回居中主面板</span>
+          <span class="tag">图鉴需改网格为横排书架</span>
+          <span class="tag risk">图鉴密度略降，分页会更多</span>
+        </div>
+      </div>
+      <button class="pick" type="button" data-pick="B">选择方案 B</button>
+    </div>
+    <div class="previews">
+      <div class="preview-wrap">
+        <h4>HUB</h4>
+        <div class="stage lor-bg b-hub">
+          <div class="paper">
+            <div class="ttl">ROGUELIKE 开局</div>
+            <div class="line"></div>
+            <div class="btn p">正常游玩</div>
+            <div class="btn p">继续旅程</div>
+            <div class="btn">挑战解放战</div>
+            <div class="btn">玩法介绍</div>
+            <div class="btn">图鉴</div>
+            <div class="btn d">重置永久进度</div>
+            <div class="btn d">退出</div>
+            <div class="foot">Library of Ruina · Roguelike Mod Reborn</div>
+          </div>
+        </div>
+      </div>
+      <div class="preview-wrap">
+        <h4>玩法介绍</h4>
+        <div class="stage lor-bg b-help">
+          <div class="book">
+            <div class="spine"></div>
+            <div class="lpage">
+              <div class="ch on">Ⅰ 玩法概览</div>
+              <div class="ch">Ⅱ 路线与章节</div>
+              <div class="ch">Ⅲ 战斗与构筑</div>
+              <div class="ch">Ⅳ 补给与事件</div>
+              <div class="ch">Ⅴ 永久图鉴</div>
+              <div class="ch">Ⅵ 解放战与提示</div>
+            </div>
+            <div class="rpage">
+              <div class="rt">玩法概览</div>
+              <div class="rb">手稿式正文：更大行距、更少装饰图，强调可读性。关闭按钮可放在书页底边。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="preview-wrap">
+        <h4>图鉴</h4>
+        <div class="stage lor-bg b-atlas">
+          <div class="shelf">
+            <div class="tabs">
+              <div class="tab on">角色书页</div>
+              <div class="tab">战斗书页</div>
+              <div class="tab">异想体</div>
+              <div class="tab">E.G.O.</div>
+            </div>
+            <div class="rows">
+              <div class="row"><div class="book on"></div><div class="book"></div><div class="book"></div><div class="book"></div><div class="book"></div><div class="book"></div><div class="book"></div></div>
+              <div class="row"><div class="book"></div><div class="book"></div><div class="book"></div><div class="book"></div><div class="book"></div><div class="book"></div><div class="book"></div></div>
+              <div class="row"><div class="book"></div><div class="book"></div><div class="book"></div><div class="book"></div><div class="book"></div><div class="book"></div><div class="book"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="impl">
+      <strong class="gold">落地要点：</strong>
+      Hub 回到居中 <code>Frame+Card</code>（类似早期实现）；Help 双页布局；Atlas 用横向 shelf 行 + 详情弹层（或底栏详情）。
+      书架 skew 在 Unity 中用轻微旋转 RectTransform 模拟即可，无需 3D。
+    </div>
+  </article>
+
+  <!-- SCHEME C -->
+  <article class="scheme" data-id="C">
+    <div class="scheme-head">
+      <div>
+        <h2>方案 C · 十层印记 / 司书纹章（Sephirah Seal）</h2>
+        <div class="meta">
+          左侧巨大印记/圆环（象征图书馆与十层），右侧条目列表；玩法介绍做成「楼层节点」竖轨；图鉴顶部圆角分类 pill + 大卡墙。
+          更强符号感与仪式感，适合「解放战/楼层」叙事加重时的视觉统一。
+        </div>
+        <div class="tags">
+          <span class="tag">实现难度：中</span>
+          <span class="tag">符号语言统一</span>
+          <span class="tag risk">圆环/印记需精调比例</span>
+          <span class="tag">与解放选层 UI 可共用语言</span>
+        </div>
+      </div>
+      <button class="pick" type="button" data-pick="C">选择方案 C</button>
+    </div>
+    <div class="previews">
+      <div class="preview-wrap">
+        <h4>HUB</h4>
+        <div class="stage lor-bg c-hub">
+          <div class="veil"></div>
+          <div class="ring"></div>
+          <div class="ring2"></div>
+          <div class="center-t">RMR</div>
+          <div class="list">
+            <div class="item"><div class="seal">I</div><div><div class="n">正常游玩</div><div class="s">NEW RECEPTION</div></div></div>
+            <div class="item"><div class="seal">II</div><div><div class="n">继续旅程</div><div class="s">CONTINUE</div></div></div>
+            <div class="item"><div class="seal">III</div><div><div class="n">挑战解放战</div><div class="s">REALIZATION</div></div></div>
+            <div class="item"><div class="seal">IV</div><div><div class="n">玩法介绍</div><div class="s">MANUAL</div></div></div>
+            <div class="item"><div class="seal">V</div><div><div class="n">图鉴</div><div class="s">ATLAS</div></div></div>
+            <div class="item dng"><div class="seal">VI</div><div><div class="n">重置永久进度</div><div class="s">RESET</div></div></div>
+            <div class="item dng"><div class="seal">VII</div><div><div class="n">退出</div><div class="s">EXIT</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="preview-wrap">
+        <h4>玩法介绍</h4>
+        <div class="stage lor-bg c-help">
+          <div class="stage-inner">
+            <div class="floors">
+              <div class="fl on"><span class="dot"></span>玩法概览</div>
+              <div class="fl"><span class="dot"></span>路线与章节</div>
+              <div class="fl"><span class="dot"></span>战斗与构筑</div>
+              <div class="fl"><span class="dot"></span>补给与事件</div>
+              <div class="fl"><span class="dot"></span>永久图鉴</div>
+              <div class="fl"><span class="dot"></span>解放战与提示</div>
+            </div>
+            <div class="pane">
+              <h5>玩法概览</h5>
+              <p>竖轨像楼层节点；右侧为阅读区。可与解放选层的楼层列表视觉同源，降低学习成本。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="preview-wrap">
+        <h4>图鉴</h4>
+        <div class="stage lor-bg c-atlas">
+          <div class="wrap">
+            <div class="top">
+              <div class="t">永久图鉴</div>
+              <div class="pills">
+                <div class="pill on">角色</div>
+                <div class="pill">战斗</div>
+                <div class="pill">异想体</div>
+                <div class="pill">EGO</div>
+              </div>
+            </div>
+            <div class="body">
+              <div class="cards">
+                <div class="card-tile on"><div class="img"></div><div class="nm">条目 A</div></div>
+                <div class="card-tile"><div class="img"></div><div class="nm">条目 B</div></div>
+                <div class="card-tile"><div class="img"></div><div class="nm">条目 C</div></div>
+                <div class="card-tile"><div class="img"></div><div class="nm">条目 D</div></div>
+                <div class="card-tile"><div class="img"></div><div class="nm">条目 E</div></div>
+                <div class="card-tile"><div class="img"></div><div class="nm">条目 F</div></div>
+                <div class="card-tile"><div class="img"></div><div class="nm">条目 G</div></div>
+                <div class="card-tile"><div class="img"></div><div class="nm">条目 H</div></div>
+              </div>
+              <div class="side">
+                <div class="big"></div>
+                <div class="tt">详情</div>
+                <div class="dd">顶部分类 pill + 大卡 + 右侧详情，浏览节奏更接近卡牌收集游戏。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="impl">
+      <strong class="gold">落地要点：</strong>
+      印记用双 Image 旋转 45°/圆形描边模拟；分类 pill 用圆角 Sprite 或九宫。
+      与 <code>LogRealizationPanel</code> 选层可共享「节点圆点」组件，减少第三套视觉语言。
+    </div>
+  </article>
+
+  <section class="card" style="margin-top:8px">
+    <h3>部署可行性结论</h3>
+    <ul>
+      <li><strong>A / B / C 均可部署</strong>到当前 RMR：不引入 WebView、不依赖新 DLL 框架。</li>
+      <li><strong>A 成本最低</strong>：与现有票券 Hub + 三栏图鉴代码同构，主要 polish。</li>
+      <li><strong>B 需改 Hub 为居中面板 + 图鉴布局重写</strong>，约 1 次完整 UI 重构迭代。</li>
+      <li><strong>C 中等</strong>：Hub/Help 结构可改，图鉴顶栏 pill 改动面中等；印记比例需实机微调。</li>
+      <li>任选一案后：改 C# 构建 UI → <code>deploy_workshop.ps1</code> → 完全重启游戏验收。</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="bar">
+  <div>
+    当前选择：<strong id="selLabel">尚未选择</strong>
+    <div style="margin-top:4px"><code id="selPath">tools/ui_beautify/selection.json</code></div>
+  </div>
+  <div style="display:flex; gap:10px; align-items:center;">
+    <button class="export" type="button" id="btnCopy">复制选择 JSON</button>
+    <span class="muted" style="font-size:12px" id="hint">点「选择方案 X」后告诉我方案代号即可开工落地</span>
+  </div>
+</footer>
+
+<script>
+  const KEY = "rmr_ui_beautify_selection";
+  const meta = {
+    A: { id: "A", name: "接待邀请索引 Invitation Index", cost: "low-medium", recommended: true },
+    B: { id: "B", name: "司书手稿 Manuscript", cost: "medium", recommended: false },
+    C: { id: "C", name: "十层印记 Sephirah Seal", cost: "medium", recommended: false }
+  };
+  let current = localStorage.getItem(KEY) || "";
+
+  function render() {
+    document.querySelectorAll(".pick").forEach(btn => {
+      const id = btn.getAttribute("data-pick");
+      btn.classList.toggle("selected", id === current);
+      btn.textContent = id === current ? ("已选方案 " + id) : ("选择方案 " + id);
+    });
+    const m = meta[current];
+    document.getElementById("selLabel").textContent = m ? (m.id + " · " + m.name) : "尚未选择";
+    document.getElementById("hint").textContent = m
+      ? ("已记录本地方案 " + m.id + "。回复「按方案 " + m.id + " 落地」即可开始改 C# 并部署。")
+      : "点「选择方案 X」后告诉我方案代号即可开工落地";
+  }
+
+  document.querySelectorAll(".pick").forEach(btn => {
+    btn.addEventListener("click", () => {
+      current = btn.getAttribute("data-pick");
+      localStorage.setItem(KEY, current);
+      const payload = {
+        selected: current,
+        scheme: meta[current],
+        surfaces: { hub: true, help: true, atlas: true },
+        deployable: true,
+        constraints: [
+          "TMP + ApplyTmpFontPreservingSharpMaterial",
+          "no CJK FontStyles.Bold",
+          "Overlay Canvas 1920x1080",
+          "preserve hub gates and callbacks"
+        ],
+        updatedAt: new Date().toISOString()
+      };
+      // also try write via fetch if server supports POST later; for now clipboard + localStorage
+      window.__RMR_SELECTION__ = payload;
+      render();
+    });
+  });
+
+  document.getElementById("btnCopy").addEventListener("click", async () => {
+    const payload = window.__RMR_SELECTION__ || {
+      selected: current || null,
+      note: "no selection yet"
+    };
+    const text = JSON.stringify(payload, null, 2);
+    try {
+      await navigator.clipboard.writeText(text);
+      document.getElementById("hint").textContent = "已复制 JSON 到剪贴板";
+    } catch {
+      prompt("复制下列 JSON：", text);
+    }
+  });
+
+  render();
+</script>
+</body>
+</html>

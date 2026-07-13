@@ -62,7 +62,7 @@ namespace RogueLike_Mod_Reborn
         public const string packageId = "abcdcodecalmmagma.LogueLikeReborn";
         public static CustomMapHandler RMRMapHandler;
 
-        public const string BuildTimestamp = "2026-07-12Tselected-ui-hubA-helpHA-atlasAA+08:00";
+        public const string BuildTimestamp = "2026-07-13Trelease-binah-upgrade-shop10+08:00";
 
         /// <summary>
         /// After invitation is sent: run the intent chosen on the invitation-time hub.

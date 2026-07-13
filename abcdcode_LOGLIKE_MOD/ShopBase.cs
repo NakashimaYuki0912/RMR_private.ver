@@ -22,8 +22,8 @@ namespace abcdcode_LOGLIKE_MOD
 
     public class ShopBase
     {
-        public const int UpgradeCardBasePrice = 20;
-        public const int UpgradeCardPriceStep = 5;
+        public const int UpgradeCardBasePrice = 10;
+        public const int UpgradeCardPriceStep = 2;
 
         public enum ShopSection
         {

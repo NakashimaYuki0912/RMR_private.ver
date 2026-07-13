@@ -206,23 +206,17 @@ namespace abcdcode_LOGLIKE_MOD
             textTmp.rectTransform.anchorMax = anchormax;
             textTmp.rectTransform.anchoredPosition = anchorposition;
             textTmp.text = " ";
-            textTmp.font = font;
-            // Bind authored SDF material (avoids null/default soft sampling on fresh TMP).
-            if (font != null && font.material != null)
-            {
-                try { textTmp.fontSharedMaterial = font.material; } catch { /* ignore */ }
-            }
-            try
-            {
-                // Sharper SDF edges at small/mid UI sizes (emotion pick / shop / mystery buttons).
-                var extraProp = typeof(TextMeshProUGUI).GetProperty("extraPadding");
-                if (extraProp != null && extraProp.CanWrite)
-                    extraProp.SetValue(textTmp, true, null);
-            }
-            catch { /* older TMP */ }
+            // Shared sharp path: correct atlas material, strip synthetic Bold on CJK SDF, extraPadding.
+            if (font != null)
+                LogLikeMod.ApplyTmpFontPreservingSharpMaterial(textTmp, font);
+            else
+                textTmp.font = null;
             textTmp.fontSize = (float)fsize;
             textTmp.color = tcolor;
             textTmp.alignment = anchor;
+            textTmp.fontStyle = FontStyles.Normal;
+            // Labels must never steal UI clicks (full-stretch anchors on root were blocking atlas).
+            textTmp.raycastTarget = false;
             gameObject.transform.localScale = new Vector3(1f, 1f);
             gameObject.transform.localPosition = (Vector3)position;
             gameObject.SetActive(true);

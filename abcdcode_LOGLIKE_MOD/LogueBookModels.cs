@@ -46,6 +46,22 @@ namespace abcdcode_LOGLIKE_MOD
         private const string PermanentAtlasSaveName = "RMR_AtlasPermanentUnlocks";
         public static Dictionary<UnitDataModel, LorId> Grade6SpecialBuiltInDeckSource = new Dictionary<UnitDataModel, LorId>();
 
+        /// <summary>
+        /// Degraded Binah combat page ids that have been upgraded to full (non-degraded) versions this run.
+        /// Keys are degraded card numeric ids (607201-607205).
+        /// </summary>
+        public static HashSet<int> BinahUpgradedDegradedCardIds = new HashSet<int>();
+
+        /// <summary>Vanilla mapping: degraded Binah pages → full Arbiter pages.</summary>
+        private static readonly Dictionary<int, int> BinahDegradedToFullCardIds = new Dictionary<int, int>
+        {
+            { 607201, 706201 }, // Lock
+            { 607202, 706202 }, // Fairy
+            { 607203, 706203 }, // Shockwave
+            { 607204, 706204 }, // Pillar
+            { 607205, 706205 }, // Chain
+        };
+
         public static BookModel LoadFromSaveData_BookModel(SaveData data)
         {
             LorId savedId = RMRCore.NormalizeLegacyBlueReverberationCorePageId(ExtensionUtils.LogLoadFromSaveData(data.GetData("id")));
@@ -721,6 +737,13 @@ namespace abcdcode_LOGLIKE_MOD
                 data14.AddToList(id.LogGetSaveData());
             data1.AddData("shopPick", data14);
             data1.AddData("shopUpgradeCardPrice", new SaveData(LogueBookModels.shopUpgradeCardPrice));
+            SaveData binahUpgradeData = new SaveData();
+            if (LogueBookModels.BinahUpgradedDegradedCardIds != null)
+            {
+                foreach (int upgradedId in LogueBookModels.BinahUpgradedDegradedCardIds)
+                    binahUpgradeData.AddToList(new SaveData(upgradedId));
+            }
+            data1.AddData("binahUpgradedCards", binahUpgradeData);
             SaveData data15 = new SaveData();
             foreach (BookModel model in LogueBookModels.booklist)
             {
@@ -774,6 +797,29 @@ namespace abcdcode_LOGLIKE_MOD
             SaveData upgradePriceData = save.GetData("shopUpgradeCardPrice");
             if (upgradePriceData != null)
                 LogueBookModels.shopUpgradeCardPrice = upgradePriceData.GetIntSelf();
+            LogueBookModels.BinahUpgradedDegradedCardIds = new HashSet<int>();
+            SaveData binahUpgradeLoad = save.GetData("binahUpgradedCards");
+            if (binahUpgradeLoad != null)
+            {
+                foreach (SaveData entry in binahUpgradeLoad)
+                {
+                    if (entry == null)
+                        continue;
+                    int upgradedId = entry.GetIntSelf();
+                    if (upgradedId > 0)
+                        LogueBookModels.BinahUpgradedDegradedCardIds.Add(upgradedId);
+                }
+            }
+            // Units restore fixed decks before this flag is loaded; re-apply so full Binah pages stick.
+            if (LogueBookModels.BinahUpgradedDegradedCardIds.Count > 0)
+            {
+                EnsureGrade6SpecialBuiltInDeckSource();
+                foreach (KeyValuePair<UnitDataModel, LorId> kv in Grade6SpecialBuiltInDeckSource.ToList())
+                {
+                    if (kv.Key != null && kv.Value != null && kv.Value != LorId.None)
+                        TryApplyGrade6SpecialBuiltInDeckToUnit(kv.Key, kv.Value);
+                }
+            }
             foreach (KeyValuePair<string, SaveData> keyValuePair in save.GetData("playersstatadders").GetDictionarySelf())
             {
                 KeyValuePair<string, SaveData> dic = keyValuePair;
@@ -1261,16 +1307,125 @@ namespace abcdcode_LOGLIKE_MOD
                     if (card != null)
                         builtInDeck.Add(card);
                 }
-                return builtInDeck.Count > 0;
+                if (builtInDeck.Count > 0)
+                {
+                    ApplyBinahCardUpgradesInPlace(builtInDeck);
+                    return true;
+                }
             }
 
             if (TryLoadKnownVanillaFixedDeckCards(sourceId, out builtInDeck))
+            {
+                ApplyBinahCardUpgradesInPlace(builtInDeck);
                 return true;
+            }
 
             BookXmlInfo sourcePage = Singleton<BookXmlList>.Instance.GetData(sourceId);
             if (!IsGrade6SpecialBuiltInDeckPage(sourcePage))
                 return false;
-            return TryLoadBuiltInDeckFromOnlyCards(sourcePage, out builtInDeck);
+            if (!TryLoadBuiltInDeckFromOnlyCards(sourcePage, out builtInDeck))
+                return false;
+            ApplyBinahCardUpgradesInPlace(builtInDeck);
+            return true;
+        }
+
+        public static bool IsBinahDegradedCardId(int cardId)
+        {
+            return BinahDegradedToFullCardIds.ContainsKey(cardId);
+        }
+
+        public static bool IsBinahDegradedUpgradeable(LorId cardId)
+        {
+            if (cardId == null || cardId == LorId.None)
+                return false;
+            int bare = cardId.GetOriginalId().id;
+            return BinahDegradedToFullCardIds.ContainsKey(bare)
+                && !BinahUpgradedDegradedCardIds.Contains(bare);
+        }
+
+        public static bool TryGetBinahFullUpgradeCard(LorId degradedId, out DiceCardXmlInfo fullCard)
+        {
+            fullCard = null;
+            if (!IsBinahDegradedUpgradeable(degradedId))
+                return false;
+            int bare = degradedId.GetOriginalId().id;
+            if (!BinahDegradedToFullCardIds.TryGetValue(bare, out int fullId))
+                return false;
+            fullCard = ItemXmlDataList.instance.GetCardItem(fullId, true)
+                ?? ItemXmlDataList.instance.GetCardItem(new LorId(fullId), true);
+            return fullCard != null;
+        }
+
+        /// <summary>
+        /// Lists unique degraded Binah combat pages that can still be upgraded to full versions.
+        /// Only offered when a player unit currently holds a Binah fixed deck.
+        /// </summary>
+        public static List<DiceCardItemModel> GetBinahDegradedUpgradeableCards()
+        {
+            var result = new List<DiceCardItemModel>();
+            if (playerModel == null || playerModel.Count == 0)
+                return result;
+            if (!playerModel.Any(unit => unit?.bookItem?.ClassInfo != null
+                    && (RMRCore.IsBinahCorePage(unit.bookItem.ClassInfo)
+                        || (TryGetGrade6SpecialBuiltInDeckSource(unit, out LorId sourceId) && sourceId != null && sourceId.id == 8))))
+                return result;
+
+            foreach (KeyValuePair<int, int> pair in BinahDegradedToFullCardIds)
+            {
+                if (BinahUpgradedDegradedCardIds.Contains(pair.Key))
+                    continue;
+                DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(new LorId(LogLikeMod.ModId, pair.Key), true)
+                    ?? ItemXmlDataList.instance.GetCardItem(pair.Key, true);
+                if (card == null)
+                    continue;
+                result.Add(new DiceCardItemModel(card)
+                {
+                    num = 1
+                });
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Marks a degraded Binah page type as upgraded and refreshes fixed decks so all copies become full.
+        /// </summary>
+        public static bool TryApplyBinahDegradedCardUpgrade(LorId degradedId)
+        {
+            if (!IsBinahDegradedUpgradeable(degradedId))
+                return false;
+            int bare = degradedId.GetOriginalId().id;
+            if (!BinahDegradedToFullCardIds.TryGetValue(bare, out int fullBare))
+                return false;
+            BinahUpgradedDegradedCardIds.Add(bare);
+            EnsureGrade6SpecialBuiltInDeckSource();
+            foreach (KeyValuePair<UnitDataModel, LorId> kv in Grade6SpecialBuiltInDeckSource.ToList())
+            {
+                if (kv.Key != null && kv.Value != null && kv.Value != LorId.None)
+                    TryApplyGrade6SpecialBuiltInDeckToUnit(kv.Key, kv.Value);
+            }
+            Debug.Log($"[RMR] Binah degraded page upgraded: {bare} -> {fullBare}");
+            return true;
+        }
+
+        private static void ApplyBinahCardUpgradesInPlace(List<DiceCardXmlInfo> deck)
+        {
+            if (deck == null || deck.Count == 0 || BinahUpgradedDegradedCardIds == null || BinahUpgradedDegradedCardIds.Count == 0)
+                return;
+            for (int i = 0; i < deck.Count; i++)
+            {
+                DiceCardXmlInfo card = deck[i];
+                if (card?.id == null)
+                    continue;
+                int bare = card.id.GetOriginalId().id;
+                if (!BinahUpgradedDegradedCardIds.Contains(bare))
+                    continue;
+                if (!BinahDegradedToFullCardIds.TryGetValue(bare, out int fullId))
+                    continue;
+                DiceCardXmlInfo full = ItemXmlDataList.instance.GetCardItem(fullId, true)
+                    ?? ItemXmlDataList.instance.GetCardItem(new LorId(fullId), true);
+                if (full != null)
+                    deck[i] = full;
+            }
         }
 
         private static bool TryLoadKnownVanillaFixedDeckCards(LorId sourceId, out List<DiceCardXmlInfo> builtInDeck)
@@ -1695,6 +1850,7 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.AtlasUnlockedEgoPages = new HashSet<LorId>();
             LogueBookModels.LoadPermanentAtlasData();
             LogueBookModels.Grade6SpecialBuiltInDeckSource = new Dictionary<UnitDataModel, LorId>();
+            LogueBookModels.BinahUpgradedDegradedCardIds = new HashSet<int>();
             LogueBookModels.playerModel = new List<UnitDataModel>();
             UnitDataModel player = new UnitDataModel(new LorId(LogLikeMod.ModId, -854));
             player.bookItem.instanceId = LogueBookModels.nextinstanceid++;

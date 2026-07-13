@@ -6,7 +6,11 @@
 param(
     [ValidateSet("Debug", "Release")]
     [string]$Configuration = "Debug",
-    [switch]$SkipBuild
+    [switch]$SkipBuild,
+    # Author's published Workshop content id (NOT the original CalmMagma item 3503523710).
+    [string]$WorkshopContentId = "3743867841",
+    # Optional seed tree when the target folder does not exist yet (e.g. first deploy of a new Workshop item).
+    [string]$SeedFromWorkshopContentId = "3503523710"
 )
 
 $ErrorActionPreference = "Stop"
@@ -17,11 +21,24 @@ if (-not (Test-Path (Join-Path $projectRoot "RogueLike Mod Reborn.csproj"))) {
     throw "Project root not found from $scriptDir"
 }
 
-$workshopRoot = "E:\Steam\steamapps\workshop\content\1256670\3503523710"
+$workshopRoot = "E:\Steam\steamapps\workshop\content\1256670\$WorkshopContentId"
 $dllsRoot = Join-Path $workshopRoot "Assemblies\dlls"
 if (-not (Test-Path $dllsRoot)) {
-    throw "Workshop dlls root missing: $dllsRoot"
+    $seedRoot = "E:\Steam\steamapps\workshop\content\1256670\$SeedFromWorkshopContentId"
+    if ($SeedFromWorkshopContentId -and (Test-Path $seedRoot)) {
+        Write-Host "Workshop target missing; seeding $WorkshopContentId from $SeedFromWorkshopContentId ..." -ForegroundColor Yellow
+        New-Item -ItemType Directory -Force -Path (Split-Path $workshopRoot -Parent) | Out-Null
+        Copy-Item -Recurse -Force $seedRoot $workshopRoot
+        # Drop seed-only author metadata that is not needed for a fresh local tree
+        $codex = Join-Path $workshopRoot "Assemblies\_codex_backups"
+        if (Test-Path $codex) { Remove-Item -Recurse -Force $codex }
+    }
 }
+if (-not (Test-Path $dllsRoot)) {
+    throw "Workshop dlls root missing: $dllsRoot (create/subscribe item $WorkshopContentId or pass -SeedFromWorkshopContentId)"
+}
+Write-Host "Deploy target Workshop content id: $WorkshopContentId" -ForegroundColor Cyan
+Write-Host "  $workshopRoot" -ForegroundColor DarkCyan
 
 # Abort if game is running (DLL locked / hot-load unsafe).
 $game = Get-Process -Name "LibraryOfRuina" -ErrorAction SilentlyContinue
@@ -117,6 +134,33 @@ Get-ChildItem $dllsRoot -Recurse -File -ErrorAction SilentlyContinue | Where-Obj
 }
 Write-Host "  moved $moved backup-style files to $quarantine"
 
+# --- StageModInfo hygiene (fan work / forked items) ---
+# RMR must keep InvitationFile.* Exist="false". Exist="true" + empty Data stubs
+# makes LoR open a broken vanilla invitation instead of the DLL hub.
+Write-Host "Fixing StageModInfo (DLL-only invitation, fan-work title)..." -ForegroundColor Cyan
+$stageTemplate = Join-Path $scriptDir "StageModInfo.fanwork.xml"
+$stageTarget = Join-Path $workshopRoot "StageModInfo.xml"
+if (Test-Path $stageTemplate) {
+    Copy-Item $stageTemplate $stageTarget -Force
+}
+else {
+    Write-Host "  WARNING: StageModInfo.fanwork.xml missing; skipping StageModInfo fix." -ForegroundColor Yellow
+}
+# Nested StageModInfo under "mod infos" are author packaging notes — do not expose as mods.
+Get-ChildItem $workshopRoot -Recurse -Filter "StageModInfo.xml" -ErrorAction SilentlyContinue |
+    Where-Object { $_.DirectoryName -ne $workshopRoot } |
+    ForEach-Object {
+        $disabled = $_.FullName + ".not_a_mod"
+        if (-not (Test-Path $disabled)) {
+            Move-Item $_.FullName $disabled -Force
+            Write-Host "  disabled nested: $($_.FullName)" -ForegroundColor Yellow
+        }
+        else {
+            Remove-Item $_.FullName -Force
+            Write-Host "  removed nested (already disabled): $($_.FullName)" -ForegroundColor Yellow
+        }
+    }
+
 $srcHash = (Get-FileHash $builtDll -Algorithm SHA256).Hash
 $dstHash = (Get-FileHash (Join-Path $dllsRoot "RogueLike Mod Reborn.dll") -Algorithm SHA256).Hash
 if ($srcHash -ne $dstHash) {
@@ -128,7 +172,11 @@ $u = [Text.Encoding]::Unicode.GetString($bytes)
 $build = [regex]::Match($u, "2026-\d{2}-\d{2}T[\w\+\-\.]+")
 Write-Host ""
 Write-Host "Deploy OK" -ForegroundColor Green
+Write-Host "  Workshop content id: $WorkshopContentId"
+Write-Host "  Path: $workshopRoot"
 Write-Host "  DLL SHA256: $dstHash"
 Write-Host "  Build stamp (from DLL strings): $($build.Value)"
+Write-Host "  StageModInfo: $stageTarget"
 Write-Host "  Backup: $backupDir"
-Write-Host "  Next: restart Library of Ruina and confirm Player.log Build: line matches."
+Write-Host "  Next: fully restart Library of Ruina; confirm Player.log Build: line matches."
+Write-Host "  NOTE: Steam may re-download and OVERWRITE this folder until you upload to Workshop cloud." -ForegroundColor Yellow

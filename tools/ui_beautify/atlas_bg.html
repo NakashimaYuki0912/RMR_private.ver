@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>图鉴背景方案 · RMR</title>
+<style>
+  :root {
+    --gold: #c59b55; --gold-dim: #6b4f2e; --cream: #ece0c8; --muted: #9a8d75; --panel: #14110d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    background: #0a0908; color: var(--cream);
+  }
+  header {
+    padding: 16px 24px; border-bottom: 1px solid rgba(197,155,85,.3);
+    position: sticky; top: 0; background: rgba(10,9,8,.95); z-index: 10;
+  }
+  header h1 { margin: 0 0 6px; font-size: 18px; color: var(--gold); }
+  header p { margin: 0; font-size: 13px; color: var(--muted); max-width: 960px; line-height: 1.5; }
+  main { padding: 20px 24px 100px; max-width: 1280px; margin: 0 auto; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+  .opt {
+    border: 1px solid rgba(197,155,85,.28); background: #100e0b; overflow: hidden;
+  }
+  .opt.selected { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+  .opt-head {
+    display: flex; justify-content: space-between; gap: 10px; align-items: flex-start;
+    padding: 12px 14px; border-bottom: 1px solid rgba(197,155,85,.2);
+  }
+  .opt-head h2 { margin: 0 0 4px; font-size: 15px; }
+  .opt-head .meta { font-size: 12px; color: var(--muted); line-height: 1.45; }
+  .pick {
+    border: 1px solid var(--gold-dim); background: transparent; color: var(--gold);
+    padding: 8px 12px; cursor: pointer; font-size: 12px; white-space: nowrap;
+  }
+  .pick.selected { background: rgba(197,155,85,.2); border-color: var(--gold); }
+  .stage {
+    position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden;
+    font-family: Georgia, "Songti SC", serif;
+  }
+  .atlas-ui {
+    position: absolute; inset: 6% 5%; display: grid;
+    grid-template-columns: 16% 1fr 24%; gap: 8px; padding: 10px;
+    border: 1px solid rgba(107,79,46,.7); z-index: 2;
+  }
+  .rail .c { height: 18px; margin-bottom: 4px; background: rgba(30,24,18,.9); font-size: 8px; color: #c8bda8; display:flex; align-items:center; padding-left:6px; border-left: 2px solid transparent; }
+  .rail .c.on { color: var(--gold); border-left-color: var(--gold); background: rgba(58,42,22,.95); }
+  .wall { display: grid; grid-template-columns: repeat(4,1fr); grid-template-rows: repeat(3,1fr); gap: 4px; }
+  .tile { background: rgba(28,23,18,.92); border: 1px solid #2c241a; }
+  .desk { background: rgba(20,16,12,.94); border: 1px solid #2c241a; padding: 8px; }
+  .desk .art { height: 40%; background: #1c1712; margin-bottom: 6px; }
+  .desk .t { font-size: 10px; color: var(--gold); }
+  .desk .d { font-size: 7px; color: var(--muted); line-height: 1.4; margin-top: 4px; }
+  .title {
+    position: absolute; top: 3%; left: 0; right: 0; text-align: center; z-index: 3;
+    font-size: 12px; color: var(--gold); letter-spacing: .12em;
+  }
+  .tag { font-size: 11px; color: #7aab7a; }
+  .tag.mid { color: var(--gold); }
+  footer {
+    position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 24px;
+    background: rgba(10,9,8,.96); border-top: 1px solid rgba(197,155,85,.3);
+    display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: center;
+  }
+  footer strong { color: var(--gold); }
+  a { color: var(--gold); }
+
+  /* BG-1 pure void */
+  .bg1 { background: #050403; }
+  /* BG-2 gold vignette */
+  .bg2 { background:
+    radial-gradient(ellipse at 50% 40%, #1a1510 0%, #0a0806 45%, #030201 100%);
+  }
+  .bg2::before {
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background: radial-gradient(ellipse at 50% 50%, transparent 35%, rgba(0,0,0,.55) 100%);
+  }
+  /* BG-3 plate + soft ornaments (matches current frame vibe, cleaner) */
+  .bg3 { background: #060504; }
+  .bg3 .plate {
+    position:absolute; inset: 4% 3%; border: 1px solid rgba(197,155,85,.35);
+    background: linear-gradient(180deg, rgba(28,22,16,.98), rgba(12,10,8,.98));
+    box-shadow: 0 0 0 6px rgba(0,0,0,.35), inset 0 0 80px rgba(0,0,0,.45);
+    z-index: 1;
+  }
+  .bg3 .corner {
+    position:absolute; width:48px; height:48px; border: 1px solid rgba(197,155,85,.4); z-index: 1;
+  }
+  .bg3 .tl { top: 5%; left: 4%; border-right:0; border-bottom:0; }
+  .bg3 .br { bottom: 5%; right: 4%; border-left:0; border-top:0; }
+  /* BG-4 desaturated art wash */
+  .bg4 {
+    background:
+      linear-gradient(180deg, rgba(8,6,4,.72), rgba(8,6,4,.88)),
+      radial-gradient(ellipse at 30% 20%, #3a2a18 0%, #120e0a 50%, #050403 100%);
+  }
+  .bg4 .wash {
+    position:absolute; inset:0; opacity:.22; z-index:0;
+    background:
+      repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(197,155,85,.04) 41px),
+      repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(197,155,85,.03) 41px);
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>图鉴背景方案（在方案 A 布局上换底）</h1>
+  <p>
+    布局仍为：左分类轨 · 中收藏墙 · 右详情 · 底部分页 · 右下返回。
+    此处只换<strong>背景氛围</strong>。均可在 <code>LogAtlasPanel.CreateOverlayCanvasRoot / BuildArchiveWallChrome</code> 用纯色/渐变 Image 落地，无需新贴图。
+    <a href="/">← 返回总览</a>
+  </p>
+</header>
+<main>
+  <div class="grid">
+    <article class="opt" data-id="BG1">
+      <div class="opt-head">
+        <div>
+          <h2>BG1 · 纯黑虚空</h2>
+          <div class="meta">最干净，对比最强。成本最低。<span class="tag">推荐若要极简</span></div>
+        </div>
+        <button class="pick" data-pick="BG1">选择 BG1</button>
+      </div>
+      <div class="stage bg1">
+        <div class="title">永久图鉴</div>
+        <div class="atlas-ui">
+          <div class="rail"><div class="c on">I · 角色</div><div class="c">II · 战斗</div><div class="c">III · 异想体</div><div class="c">IV · EGO</div></div>
+          <div class="wall"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
+          <div class="desk"><div class="art"></div><div class="t">详情</div><div class="d">纯黑底，档案墙自带边框。</div></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="opt" data-id="BG2">
+      <div class="opt-head">
+        <div>
+          <h2>BG2 · 金晕暗室</h2>
+          <div class="meta">中心略亮、四周压暗，像灯下翻档案。<span class="tag mid">推荐默认</span></div>
+        </div>
+        <button class="pick" data-pick="BG2">选择 BG2</button>
+      </div>
+      <div class="stage bg2">
+        <div class="title">永久图鉴</div>
+        <div class="atlas-ui">
+          <div class="rail"><div class="c on">I · 角色</div><div class="c">II · 战斗</div><div class="c">III · 异想体</div><div class="c">IV · EGO</div></div>
+          <div class="wall"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
+          <div class="desk"><div class="art"></div><div class="t">详情</div><div class="d">径向暗角，不抢内容。</div></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="opt" data-id="BG3">
+      <div class="opt-head">
+        <div>
+          <h2>BG3 · 双层金框档案板</h2>
+          <div class="meta">整块深褐板 + 细金框 + L 角，贴近原版 UI 边饰，无花哨卷草。</div>
+        </div>
+        <button class="pick" data-pick="BG3">选择 BG3</button>
+      </div>
+      <div class="stage bg3">
+        <div class="plate"></div>
+        <div class="corner tl"></div>
+        <div class="corner br"></div>
+        <div class="title">永久图鉴</div>
+        <div class="atlas-ui" style="border-color: transparent; background: transparent;">
+          <div class="rail"><div class="c on">I · 角色</div><div class="c">II · 战斗</div><div class="c">III · 异想体</div><div class="c">IV · EGO</div></div>
+          <div class="wall"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
+          <div class="desk"><div class="art"></div><div class="t">详情</div><div class="d">板面承载，比卷草框更利落。</div></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="opt" data-id="BG4">
+      <div class="opt-head">
+        <div>
+          <h2>BG4 · 暗纹织底</h2>
+          <div class="meta">极淡网格暗纹 + 暖褐渐变，增加材质感但不抢锁图标。</div>
+        </div>
+        <button class="pick" data-pick="BG4">选择 BG4</button>
+      </div>
+      <div class="stage bg4">
+        <div class="wash"></div>
+        <div class="title">永久图鉴</div>
+        <div class="atlas-ui">
+          <div class="rail"><div class="c on">I · 角色</div><div class="c">II · 战斗</div><div class="c">III · 异想体</div><div class="c">IV · EGO</div></div>
+          <div class="wall"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
+          <div class="desk"><div class="art"></div><div class="t">详情</div><div class="d">织底氛围，仍保持方案 A 三栏。</div></div>
+        </div>
+      </div>
+    </article>
+  </div>
+</main>
+<footer>
+  <div>当前选择：<strong id="sel">尚未选择</strong> · 选定后回复例如「图鉴背景用 BG2」</div>
+  <div style="font-size:12px;color:var(--muted)">localStorage key: rmr_atlas_bg</div>
+</footer>
+<script>
+const KEY = "rmr_atlas_bg";
+let cur = localStorage.getItem(KEY) || "";
+const names = { BG1:"纯黑虚空", BG2:"金晕暗室", BG3:"双层金框档案板", BG4:"暗纹织底" };
+function render(){
+  document.querySelectorAll(".opt").forEach(o => o.classList.toggle("selected", o.dataset.id===cur));
+  document.querySelectorAll(".pick").forEach(b => {
+    const id=b.dataset.pick;
+    b.classList.toggle("selected", id===cur);
+    b.textContent = id===cur ? ("已选 "+id) : ("选择 "+id);
+  });
+  document.getElementById("sel").textContent = cur ? (cur+" · "+names[cur]) : "尚未选择";
+  window.__ATLAS_BG__ = cur ? { selected: cur, name: names[cur], updatedAt: new Date().toISOString() } : null;
+}
+document.querySelectorAll(".pick").forEach(b => b.addEventListener("click", () => {
+  cur = b.dataset.pick; localStorage.setItem(KEY, cur); render();
+}));
+render();
+</script>
+</body>
+</html>

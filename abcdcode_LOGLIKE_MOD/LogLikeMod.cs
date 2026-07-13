@@ -7421,7 +7421,7 @@ namespace abcdcode_LOGLIKE_MOD
                         this.ob_NormalFrame.gameObject.SetActive(true);
                     this.txt_cardName.text = RewardingModel.GetLocalizedCardName(this._cardModel.ClassInfo);
                     if (this.txt_cardName != null && LogLikeMod.DefFont_TMP != null)
-                        this.txt_cardName.font = LogLikeMod.DefFont_TMP;
+                        LogLikeMod.ApplyTmpFontPreservingSharpMaterial(this.txt_cardName, LogLikeMod.DefFont_TMP);
                     this.costNumbers.SetOneValue(this._cardModel.GetSpec().Cost, UISpriteDataManager.instance._cardCostNumberSprites);
                     this.img_RangeIcon.sprite = UISpriteDataManager.instance.GetRangeIconSprite(this._cardModel.GetSpec().Ranged);
                     this.SetRangeIconHsv(UIColorManager.Manager.CardRangeHsvValue[(int)this._cardModel.GetRarity()]);

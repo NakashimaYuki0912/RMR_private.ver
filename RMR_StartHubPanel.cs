@@ -5,6 +5,7 @@ using abcdcode_LOGLIKE_MOD;
 using TMPro;
 using UI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -171,16 +172,41 @@ namespace RogueLike_Mod_Reborn
             yield return null;
             LogLikeMod.InvalidateTmpFontCache();
             TMP_FontAsset after = LogLikeMod.DefFont_TMP;
-            if (after != null && !object.ReferenceEquals(after, before) && _visible)
+            // Never rebuild hub while help/atlas/confirm/floor-pick is on top — destroys soft-hide state.
+            if (after == null || object.ReferenceEquals(after, before) || !_visible)
+                yield break;
+            if (_confirmRoot != null)
+                yield break;
+            try
             {
-                if (_root != null)
-                    Destroy(_root);
-                _root = null;
-                _confirmRoot = null;
-                Transform parent = RMRRealizationLaunchHost.GetOrCreateOverlayRoot();
-                if (parent != null)
-                    BuildUi(parent);
+                if (RMRHelpHandbookPanel.Instance != null && RMRHelpHandbookPanel.Instance.IsVisible)
+                    yield break;
             }
+            catch { }
+            try
+            {
+                var atlas = Singleton<LogAtlasPanel>.Instance;
+                if (atlas != null && atlas.IsVisible)
+                    yield break;
+            }
+            catch { }
+            try
+            {
+                if (LogRealizationPanel.Instance != null && LogRealizationPanel.Instance.IsVisible)
+                    yield break;
+            }
+            catch { }
+            // Soft-hidden hub (_root inactive) must not be rebuilt either.
+            if (_root != null && !_root.activeSelf)
+                yield break;
+
+            if (_root != null)
+                Destroy(_root);
+            _root = null;
+            _confirmRoot = null;
+            Transform parent = RMRRealizationLaunchHost.GetOrCreateOverlayRoot();
+            if (parent != null)
+                BuildUi(parent);
         }
 
         public void Hide()
@@ -192,7 +218,7 @@ namespace RogueLike_Mod_Reborn
             try
             {
                 var atlas = Singleton<LogAtlasPanel>.Instance;
-                if (atlas != null && atlas.root != null && atlas.root.activeSelf)
+                if (atlas != null && atlas.IsVisible)
                     atlas.CloseFromHub();
             }
             catch { }
@@ -208,7 +234,16 @@ namespace RogueLike_Mod_Reborn
         {
             if (!_visible)
                 return false;
-            // Atlas open on top of hub → close atlas first.
+            // Stack: help → atlas → confirm → hub.
+            try
+            {
+                if (RMRHelpHandbookPanel.Instance != null && RMRHelpHandbookPanel.Instance.IsVisible)
+                {
+                    RMRHelpHandbookPanel.Instance.Hide();
+                    return true;
+                }
+            }
+            catch { }
             try
             {
                 var atlas = Singleton<LogAtlasPanel>.Instance;
@@ -246,12 +281,12 @@ namespace RogueLike_Mod_Reborn
 
         // Hub A: full-screen invitation page with a left identity block and right action index.
         private static readonly Color ColPageBlack = new Color(0f, 0f, 0f, 1f);
-        private static readonly Color ColPanel = new Color(0.12f, 0.10f, 0.08f, 0.98f);
-        private static readonly Color ColPanelEdge = new Color(0.55f, 0.42f, 0.22f, 0.95f);
-        private static readonly Color ColGold = new Color(0.93f, 0.76f, 0.42f, 1f);
-        private static readonly Color ColCream = new Color(0.93f, 0.88f, 0.78f, 1f);
-        private static readonly Color ColMuted = new Color(0.72f, 0.66f, 0.55f, 1f);
-        private static readonly Color ColExit = new Color(0.82f, 0.55f, 0.52f, 1f);
+        private static readonly Color ColPanel = new Color(0.082f, 0.071f, 0.055f, 0.98f);
+        private static readonly Color ColPanelEdge = new Color(0.376f, 0.278f, 0.157f, 0.95f);
+        private static readonly Color ColGold = new Color(0.773f, 0.608f, 0.333f, 1f);
+        private static readonly Color ColCream = new Color(0.91f, 0.87f, 0.79f, 1f);
+        private static readonly Color ColMuted = new Color(0.725f, 0.667f, 0.557f, 1f);
+        private static readonly Color ColExit = new Color(0.812f, 0.557f, 0.522f, 1f);
 
         private void BuildUi(Transform parent)
         {
@@ -280,7 +315,7 @@ namespace RogueLike_Mod_Reborn
             dimRt.offsetMax = Vector2.zero;
             dimImg.raycastTarget = true;
 
-            // Existing RMR illustration, dimmed beneath the invitation controls.
+            // Scheme A visual baseline: cover-cropped reception artwork under layered darkness.
             try
             {
                 if (LogLikeMod.ArtWorks != null && LogLikeMod.ArtWorks.ContainsKey("\u968f\u673a\u4e8b\u4ef6\u80cc\u666f1"))
@@ -289,137 +324,151 @@ namespace RogueLike_Mod_Reborn
                     artGo.transform.SetParent(_root.transform, false);
                     var art = artGo.AddComponent<Image>();
                     art.sprite = LogLikeMod.ArtWorks["\u968f\u673a\u4e8b\u4ef6\u80cc\u666f1"];
-                    art.color = new Color(0.34f, 0.31f, 0.27f, 0.72f);
-                    art.preserveAspect = false;
+                    art.color = new Color(0.58f, 0.53f, 0.44f, 0.92f);
+                    art.preserveAspect = true;
                     art.raycastTarget = false;
                     var artRt = artGo.GetComponent<RectTransform>();
                     artRt.anchorMin = Vector2.zero;
                     artRt.anchorMax = Vector2.one;
                     artRt.offsetMin = Vector2.zero;
                     artRt.offsetMax = Vector2.zero;
+                    var fitter = artGo.AddComponent<AspectRatioFitter>();
+                    fitter.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
+                    fitter.aspectRatio = art.sprite.rect.width / Math.Max(1f, art.sprite.rect.height);
                 }
             }
             catch { }
 
-            var veilGo = new GameObject("InvitationVeil", typeof(RectTransform));
-            veilGo.transform.SetParent(_root.transform, false);
-            var veil = veilGo.AddComponent<Image>();
-            veil.color = new Color(0f, 0f, 0f, 0.64f);
-            veil.raycastTarget = false;
-            var veilRt = veilGo.GetComponent<RectTransform>();
-            veilRt.anchorMin = Vector2.zero;
-            veilRt.anchorMax = Vector2.one;
-            veilRt.offsetMin = Vector2.zero;
-            veilRt.offsetMax = Vector2.zero;
-
-            // Right-side invitation index; all existing actions and gates remain unchanged.
-            var frame = new GameObject("Frame", typeof(RectTransform));
-            frame.transform.SetParent(_root.transform, false);
-            var frameImg = frame.AddComponent<Image>();
-            frameImg.color = ColPanelEdge;
-            var frameRt = frame.GetComponent<RectTransform>();
-            frameRt.anchorMin = frameRt.anchorMax = new Vector2(0.5f, 0.5f);
-            frameRt.sizeDelta = new Vector2(640f, 680f);
-            frameRt.anchoredPosition = new Vector2(430f, 0f);
-
-            var card = new GameObject("Card", typeof(RectTransform));
-            card.transform.SetParent(frame.transform, false);
-            var cardImg = card.AddComponent<Image>();
-            cardImg.color = ColPanel;
-            var cardRt = card.GetComponent<RectTransform>();
-            cardRt.anchorMin = Vector2.zero;
-            cardRt.anchorMax = Vector2.one;
-            cardRt.offsetMin = new Vector2(3f, 3f);
-            cardRt.offsetMax = new Vector2(-3f, -3f);
+            AddHorizontalShade(_root.transform, "InvitationVeil", Vector2.zero, Vector2.one,
+                new Color(0f, 0f, 0f, 0.36f));
+            AddHorizontalShade(_root.transform, "InvitationLeftShade", Vector2.zero, new Vector2(0.56f, 1f),
+                new Color(0f, 0f, 0f, 0.72f));
+            AddHorizontalShade(_root.transform, "InvitationRightShade", new Vector2(0.58f, 0f), Vector2.one,
+                new Color(0f, 0f, 0f, 0.54f));
+            AddInvitationPageFrame(_root.transform);
 
             TextMeshProUGUI eyebrow = AddLabel(_root.transform, "LIBRARY INVITATION  \u00b7  RMR",
-                new Vector2(-430f, 330f), 14, new Vector2(650f, 30f), ColGold, false);
+                new Vector2(-480f, 382f), 12, new Vector2(650f, 30f), ColGold, false);
             eyebrow.alignment = TextAlignmentOptions.Left;
 
             TextMeshProUGUI title = AddLabel(_root.transform,
                 T("ui_RMR_HubTitle", "\u8089\u9e3d\u63a5\u5f85", "Roguelike Reception", "Roguelike \uc811\ub300"),
-                new Vector2(-430f, 260f), 54, new Vector2(650f, 76f), ColCream, true);
+                new Vector2(-480f, 310f), 70, new Vector2(650f, 94f), ColCream, true);
             title.alignment = TextAlignmentOptions.Left;
 
             TextMeshProUGUI titleEn = AddLabel(_root.transform, "ROGUELIKE MOD REBORN",
-                new Vector2(-430f, 208f), 18, new Vector2(650f, 32f), ColGold, false);
+                new Vector2(-480f, 232f), 24, new Vector2(650f, 38f), ColGold, false);
             titleEn.alignment = TextAlignmentOptions.Left;
 
-            AddInvitationSigil(_root.transform, new Vector2(-500f, 42f));
-            AddRule(_root.transform, new Vector2(-430f, -100f), 620f);
+            AddInvitationSigil(_root.transform, new Vector2(-715f, 105f));
+            AddRule(_root.transform, new Vector2(-480f, -2f), 650f);
 
             TextMeshProUGUI desc = AddLabel(_root.transform,
                 T("ui_RMR_HubDesc",
                     "\u9009\u62e9\u8fd9\u6b21\u63a5\u5f85\u7684\u5f00\u59cb\u65b9\u5f0f\u3002\u8def\u7ebf\u5185\u5bb9\u5c5e\u4e8e\u672c\u6b21\u65c5\u7a0b\uff1b\u56fe\u9274\u4e0e\u89e3\u653e\u8bb0\u5f55\u5c06\u6c38\u4e45\u4fdd\u7559\u3002",
                     "Choose how this reception begins. Route resources belong to this journey; Atlas and realization records persist.",
                     "\uc774\ubc88 \uc811\ub300\uc758 \uc2dc\uc791 \ubc29\uc2dd\uc744 \uc120\ud0dd\ud558\uc138\uc694."),
-                new Vector2(-430f, -170f), 19, new Vector2(650f, 110f), ColMuted, false);
+                new Vector2(-480f, -82f), 17, new Vector2(650f, 110f), ColMuted, false);
             desc.alignment = TextAlignmentOptions.TopLeft;
 
-            AddLabel(card.transform, "RECEPTION INDEX", new Vector2(0f, 238f), 13,
-                new Vector2(520f, 28f), ColPanelEdge, false);
-            AddRule(card.transform, new Vector2(0f, 214f), 520f);
+            // Scheme A: right-side reception index plate (ticket stack host).
+            var menuRoot = new GameObject("InvitationMenu", typeof(RectTransform));
+            menuRoot.transform.SetParent(_root.transform, false);
+            var menuRt = menuRoot.GetComponent<RectTransform>();
+            menuRt.anchorMin = menuRt.anchorMax = new Vector2(0.5f, 0.5f);
+            menuRt.sizeDelta = new Vector2(540f, 760f);
+            menuRt.anchoredPosition = new Vector2(566f, 64f);
+
+            var menuPlate = new GameObject("IndexPlate", typeof(RectTransform));
+            menuPlate.transform.SetParent(menuRoot.transform, false);
+            menuPlate.transform.SetAsFirstSibling();
+            var plateImg = menuPlate.AddComponent<Image>();
+            plateImg.color = new Color(0.055f, 0.045f, 0.035f, 0.72f);
+            plateImg.raycastTarget = false;
+            var plateRt = menuPlate.GetComponent<RectTransform>();
+            plateRt.anchorMin = plateRt.anchorMax = new Vector2(0.5f, 0.5f);
+            plateRt.sizeDelta = new Vector2(520f, 640f);
+            plateRt.anchoredPosition = new Vector2(0f, 10f);
+            var plateEdge = new GameObject("IndexPlateEdge", typeof(RectTransform));
+            plateEdge.transform.SetParent(menuPlate.transform, false);
+            plateEdge.transform.SetAsFirstSibling();
+            var peImg = plateEdge.AddComponent<Image>();
+            peImg.color = new Color(ColPanelEdge.r, ColPanelEdge.g, ColPanelEdge.b, 0.55f);
+            peImg.raycastTarget = false;
+            var peRt = plateEdge.GetComponent<RectTransform>();
+            peRt.anchorMin = Vector2.zero;
+            peRt.anchorMax = Vector2.one;
+            peRt.offsetMin = new Vector2(-1.5f, -1.5f);
+            peRt.offsetMax = new Vector2(1.5f, 1.5f);
+
+            TextMeshProUGUI indexTitle = AddLabel(menuRoot.transform, "RECEPTION INDEX", new Vector2(34f, 354f), 12,
+                new Vector2(430f, 26f), ColPanelEdge, false);
+            indexTitle.alignment = TextAlignmentOptions.Left;
+            AddRule(menuRoot.transform, new Vector2(0f, 332f), 420f);
+
+            TextMeshProUGUI footer = AddLabel(_root.transform,
+                T("ui_RMR_HubFooter", "Library of Ruina \u00b7 Roguelike Mod Reborn",
+                    "Library of Ruina \u00b7 Roguelike Mod Reborn",
+                    "Library of Ruina \u00b7 Roguelike Mod Reborn"),
+                new Vector2(0f, -470f), 13, new Vector2(900f, 28f), ColMuted, false);
+            footer.alignment = TextAlignmentOptions.Center;
 
             // Continue lives here (after RMR entry → mode select), not as a lone invitation icon.
             bool hasSave = false;
             try { hasSave = LoguePlayDataSaver.CheckPlayerData(); } catch { hasSave = false; }
 
-            // Buttons: Play, [Continue], Realization, Help, Atlas, Reset, Exit.
-            // Atlas sits above Reset (user request). Grow card height for the extra row.
-            int btnCount = hasSave ? 7 : 6;
-            float step = 62f;
-            float cardH = 520f + btnCount * step;
-            frameRt.sizeDelta = new Vector2(640f, cardH);
-
-            // Fixed Roman numerals preserve each entry's identity even when Continue is unavailable.
-            float y = hasSave ? 170f : 140f;
-            AddMenuButton(card.transform,
-                "I   " + T("ui_RMR_Hub_Play", "\u6b63\u5e38\u6e38\u73a9", "Normal Play", "\uc77c\ubc18 \ud50c\ub808\uc774"),
-                y, OnClickPlay, primary: true);
+            // The recovered A prototype uses seven 67px invitation rows with a 9px gap.
+            float step = 76f;
+            float y = 304f;
+            AddMenuButton(menuRoot.transform, "I",
+                T("ui_RMR_Hub_Play", "\u6b63\u5e38\u6e38\u73a9", "Normal Play", "\uc77c\ubc18 \ud50c\ub808\uc774"),
+                "BEGIN A NEW ROGUELIKE RECEPTION", y, OnClickPlay, primary: true);
             y -= step;
             if (hasSave)
             {
-                AddMenuButton(card.transform,
-                    "II   " + T("ui_RMR_ContinueRun", "\u7ee7\u7eed\u65c5\u7a0b", "Continue Run", "\uc774\uc5b4\ud558\uae30"),
-                    y, OnClickContinue, primary: true);
+                AddMenuButton(menuRoot.transform, "II",
+                    T("ui_RMR_ContinueRun", "\u7ee7\u7eed\u65c5\u7a0b", "Continue Run", "\uc774\uc5b4\ud558\uae30"),
+                    "RESUME THE SAVED ROUTE", y, OnClickContinue, primary: true);
                 y -= step;
             }
-            AddMenuButton(card.transform,
-                "III   " + T("ui_RMR_Hub_Realization", "\u6311\u6218\u89e3\u653e\u6218", "Challenge Realization", "\ud574\ubc29\uc804 \ub3c4\uc804"),
-                y, OnClickRealization, primary: false);
+            AddMenuButton(menuRoot.transform, "III",
+                T("ui_RMR_Hub_Realization", "\u6311\u6218\u89e3\u653e\u6218", "Challenge Realization", "\ud574\ubc29\uc804 \ub3c4\uc804"),
+                "FLOOR REALIZATION", y, OnClickRealization, primary: false);
             y -= step;
-            AddMenuButton(card.transform,
-                "IV   " + T("ui_RMR_Hub_Help", "\u73a9\u6cd5\u4ecb\u7ecd", "How to Play", "\ud50c\ub808\uc774 \uc18c\uac1c"),
-                y, OnClickHelp, primary: false);
+            AddMenuButton(menuRoot.transform, "IV",
+                T("ui_RMR_Hub_Help", "\u73a9\u6cd5\u4ecb\u7ecd", "How to Play", "\ud50c\ub808\uc774 \uc18c\uac1c"),
+                "HOW TO PLAY", y, OnClickHelp, primary: false);
             y -= step;
-            // 图鉴 — permanent collection browser (moved out of battle prepare).
-            AddMenuButton(card.transform,
-                "V   " + T("ui_RMR_Hub_Atlas", "\u56fe\u9274", "Atlas", "\ub3c4\uac10"),
-                y, OnClickAtlas, primary: false);
+            AddMenuButton(menuRoot.transform, "V",
+                T("ui_RMR_Hub_Atlas", "\u56fe\u9274", "Atlas", "\ub3c4\uac10"),
+                "PERMANENT ATLAS", y, OnClickAtlas, primary: false);
             y -= step;
-            AddMenuButton(card.transform,
-                "VI   " + T("ui_RMR_Hub_Reset", "\u91cd\u7f6e\u6c38\u4e45\u8fdb\u5ea6", "Reset Permanent Progress", "\uc601\uad6c \uc9c4\ud589 \ucd08\uae30\ud654"),
-                y, OnClickResetProgress, primary: false, exitStyle: true);
+            AddMenuButton(menuRoot.transform, "VI",
+                T("ui_RMR_Hub_Reset", "\u91cd\u7f6e\u6c38\u4e45\u8fdb\u5ea6", "Reset Permanent Progress", "\uc601\uad6c \uc9c4\ud589 \ucd08\uae30\ud654"),
+                "RESET ARCHIVE", y, OnClickResetProgress, primary: false, exitStyle: true);
             y -= step;
-            AddMenuButton(card.transform,
-                "VII   " + T("ui_RMR_Hub_Exit", "\u9000\u51fa", "Exit", "\uc885\ub8cc"),
-                y, OnClickExit, primary: false, exitStyle: true);
-
-            float footerY = y - 48f;
-            AddRule(card.transform, new Vector2(0f, footerY + 18f), 460f);
-            AddLabel(card.transform,
-                T("ui_RMR_HubFooter", "Library of Ruina \u00b7 Roguelike Mod Reborn",
-                    "Library of Ruina \u00b7 Roguelike Mod Reborn",
-                    "Library of Ruina \u00b7 Roguelike Mod Reborn"),
-                new Vector2(0f, footerY), 14, new Vector2(540f, 28f), ColMuted, false);
+            AddMenuButton(menuRoot.transform, "VII",
+                T("ui_RMR_Hub_Exit", "\u9000\u51fa", "Exit", "\uc885\ub8cc"),
+                "RETURN TO INVITATION", y, OnClickExit, primary: false, exitStyle: true);
         }
 
         private static void AddInvitationSigil(Transform parent, Vector2 pos)
         {
+            var glow = new GameObject("InvitationSigilGlow", typeof(RectTransform));
+            glow.transform.SetParent(parent, false);
+            var glowImage = glow.AddComponent<Image>();
+            glowImage.color = new Color(ColGold.r, ColGold.g, ColGold.b, 0.055f);
+            glowImage.raycastTarget = false;
+            var glowRt = glow.GetComponent<RectTransform>();
+            glowRt.anchorMin = glowRt.anchorMax = new Vector2(0.5f, 0.5f);
+            glowRt.sizeDelta = new Vector2(136f, 136f);
+            glowRt.anchoredPosition = pos;
+            glowRt.localRotation = Quaternion.Euler(0f, 0f, 45f);
+
             var outer = new GameObject("InvitationSigilOuter", typeof(RectTransform));
             outer.transform.SetParent(parent, false);
             var outerImage = outer.AddComponent<Image>();
-            outerImage.color = new Color(ColGold.r, ColGold.g, ColGold.b, 0.18f);
+            outerImage.color = ColGold;
             outerImage.raycastTarget = false;
             var outerRt = outer.GetComponent<RectTransform>();
             outerRt.anchorMin = outerRt.anchorMax = new Vector2(0.5f, 0.5f);
@@ -427,25 +476,109 @@ namespace RogueLike_Mod_Reborn
             outerRt.anchoredPosition = pos;
             outerRt.localRotation = Quaternion.Euler(0f, 0f, 45f);
 
-            var middle = new GameObject("InvitationSigilMiddle", typeof(RectTransform));
-            middle.transform.SetParent(outer.transform, false);
-            var middleImage = middle.AddComponent<Image>();
-            middleImage.color = new Color(0.08f, 0.07f, 0.05f, 1f);
-            middleImage.raycastTarget = false;
-            var middleRt = middle.GetComponent<RectTransform>();
-            middleRt.anchorMin = middleRt.anchorMax = new Vector2(0.5f, 0.5f);
-            middleRt.sizeDelta = new Vector2(82f, 82f);
-            middleRt.anchoredPosition = Vector2.zero;
+            var outerInner = new GameObject("InvitationSigilOuterInner", typeof(RectTransform));
+            outerInner.transform.SetParent(outer.transform, false);
+            var outerInnerImage = outerInner.AddComponent<Image>();
+            outerInnerImage.color = new Color(0.045f, 0.040f, 0.031f, 1f);
+            outerInnerImage.raycastTarget = false;
+            var outerInnerRt = outerInner.GetComponent<RectTransform>();
+            outerInnerRt.anchorMin = outerInnerRt.anchorMax = new Vector2(0.5f, 0.5f);
+            outerInnerRt.sizeDelta = new Vector2(116f, 116f);
+            outerInnerRt.anchoredPosition = Vector2.zero;
+
+            var ring = new GameObject("InvitationSigilRing", typeof(RectTransform));
+            ring.transform.SetParent(outerInner.transform, false);
+            var ringImage = ring.AddComponent<Image>();
+            ringImage.color = new Color(ColGold.r, ColGold.g, ColGold.b, 0.66f);
+            ringImage.raycastTarget = false;
+            var ringRt = ring.GetComponent<RectTransform>();
+            ringRt.anchorMin = ringRt.anchorMax = new Vector2(0.5f, 0.5f);
+            ringRt.sizeDelta = new Vector2(84f, 84f);
+            ringRt.anchoredPosition = Vector2.zero;
+
+            var ringInner = new GameObject("InvitationSigilRingInner", typeof(RectTransform));
+            ringInner.transform.SetParent(ring.transform, false);
+            var ringInnerImage = ringInner.AddComponent<Image>();
+            ringInnerImage.color = outerInnerImage.color;
+            ringInnerImage.raycastTarget = false;
+            var ringInnerRt = ringInner.GetComponent<RectTransform>();
+            ringInnerRt.anchorMin = ringInnerRt.anchorMax = new Vector2(0.5f, 0.5f);
+            ringInnerRt.sizeDelta = new Vector2(82f, 82f);
+            ringInnerRt.anchoredPosition = Vector2.zero;
 
             var core = new GameObject("InvitationSigilCore", typeof(RectTransform));
-            core.transform.SetParent(middle.transform, false);
+            core.transform.SetParent(ringInner.transform, false);
             var coreImage = core.AddComponent<Image>();
             coreImage.color = new Color(0.56f, 0.20f, 0.18f, 1f);
             coreImage.raycastTarget = false;
             var coreRt = core.GetComponent<RectTransform>();
             coreRt.anchorMin = coreRt.anchorMax = new Vector2(0.5f, 0.5f);
-            coreRt.sizeDelta = new Vector2(34f, 34f);
+            coreRt.sizeDelta = new Vector2(38f, 38f);
             coreRt.anchoredPosition = Vector2.zero;
+        }
+
+        private static void AddHorizontalShade(Transform parent, string name, Vector2 anchorMin, Vector2 anchorMax, Color color)
+        {
+            var go = new GameObject(name, typeof(RectTransform));
+            go.transform.SetParent(parent, false);
+            var image = go.AddComponent<Image>();
+            image.color = color;
+            image.raycastTarget = false;
+            var rt = go.GetComponent<RectTransform>();
+            rt.anchorMin = anchorMin;
+            rt.anchorMax = anchorMax;
+            rt.offsetMin = Vector2.zero;
+            rt.offsetMax = Vector2.zero;
+        }
+
+        private static void AddInvitationPageFrame(Transform parent)
+        {
+            var frame = new GameObject("InvitationPageFrame", typeof(RectTransform));
+            frame.transform.SetParent(parent, false);
+            var rt = frame.GetComponent<RectTransform>();
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = new Vector2(32f, 32f);
+            rt.offsetMax = new Vector2(-32f, -32f);
+            AddFrameLine(frame.transform, "FrameTop", new Vector2(0.5f, 1f), new Vector2(0f, -0.5f), new Vector2(0f, 1f), new Vector2(1f, 1f), ColPanelEdge);
+            AddFrameLine(frame.transform, "FrameBottom", new Vector2(0.5f, 0f), new Vector2(0f, 0.5f), new Vector2(0f, 0f), new Vector2(1f, 0f), ColPanelEdge);
+            AddFrameLine(frame.transform, "FrameLeft", new Vector2(0f, 0.5f), new Vector2(0.5f, 0f), new Vector2(0f, 0f), new Vector2(0f, 1f), ColPanelEdge);
+            AddFrameLine(frame.transform, "FrameRight", new Vector2(1f, 0.5f), new Vector2(-0.5f, 0f), new Vector2(1f, 0f), new Vector2(1f, 1f), ColPanelEdge);
+
+            // Prototype's heavy upper-left and lower-right L corners.
+            AddCornerBar(frame.transform, "CornerTL_H", new Vector2(39f, -1.5f), new Vector2(78f, 3f), new Vector2(0f, 1f));
+            AddCornerBar(frame.transform, "CornerTL_V", new Vector2(1.5f, -39f), new Vector2(3f, 78f), new Vector2(0f, 1f));
+            AddCornerBar(frame.transform, "CornerBR_H", new Vector2(-39f, 1.5f), new Vector2(78f, 3f), new Vector2(1f, 0f));
+            AddCornerBar(frame.transform, "CornerBR_V", new Vector2(-1.5f, 39f), new Vector2(3f, 78f), new Vector2(1f, 0f));
+        }
+
+        private static void AddFrameLine(Transform parent, string name, Vector2 pivot, Vector2 pos,
+            Vector2 anchorMin, Vector2 anchorMax, Color color)
+        {
+            var go = new GameObject(name, typeof(RectTransform));
+            go.transform.SetParent(parent, false);
+            var image = go.AddComponent<Image>();
+            image.color = new Color(color.r, color.g, color.b, 0.46f);
+            image.raycastTarget = false;
+            var rt = go.GetComponent<RectTransform>();
+            rt.anchorMin = anchorMin;
+            rt.anchorMax = anchorMax;
+            rt.pivot = pivot;
+            rt.anchoredPosition = pos;
+            rt.sizeDelta = anchorMin.x == anchorMax.x ? new Vector2(1f, 0f) : new Vector2(0f, 1f);
+        }
+
+        private static void AddCornerBar(Transform parent, string name, Vector2 pos, Vector2 size, Vector2 anchor)
+        {
+            var go = new GameObject(name, typeof(RectTransform));
+            go.transform.SetParent(parent, false);
+            var image = go.AddComponent<Image>();
+            image.color = ColGold;
+            image.raycastTarget = false;
+            var rt = go.GetComponent<RectTransform>();
+            rt.anchorMin = rt.anchorMax = anchor;
+            rt.sizeDelta = size;
+            rt.anchoredPosition = pos;
         }
 
         private static void AddRule(Transform parent, Vector2 pos, float width)
@@ -486,80 +619,82 @@ namespace RogueLike_Mod_Reborn
             return tmp;
         }
 
-        private void AddMenuButton(Transform parent, string label, float y, UnityAction action, bool primary, bool exitStyle = false)
+        private void AddMenuButton(Transform parent, string roman, string title, string subtitle, float y,
+            UnityAction action, bool primary, bool exitStyle = false)
         {
-            Button btn = null;
-            // Prefer mod mystery button art (same as event choices / close buttons).
-            try
-            {
-                if (LogLikeMod.ArtWorks != null && LogLikeMod.ArtWorks.ContainsKey("MysteryButton_Enable"))
-                {
-                    btn = ModdingUtils.CreateButton(parent, "MysteryButton_Enable",
-                        Vector2.one, new Vector2(0f, y), new Vector2(460f, 64f));
-                }
-            }
-            catch
-            {
-                btn = null;
-            }
+            var go = new GameObject("HubMenuButton", typeof(RectTransform));
+            go.transform.SetParent(parent, false);
+            var graphic = go.AddComponent<RMRInvitationButtonGraphic>();
+            graphic.leftColor = primary
+                ? new Color(0.20f, 0.16f, 0.10f, 0.98f)
+                : new Color(0.082f, 0.071f, 0.055f, 0.96f);
+            graphic.rightColor = new Color(0.031f, 0.031f, 0.027f, 0.84f);
+            graphic.raycastTarget = true;
+            var rt = go.GetComponent<RectTransform>();
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.sizeDelta = new Vector2(500f, 67f);
+            rt.anchoredPosition = new Vector2(0f, y);
+            var btn = go.AddComponent<Button>();
+            btn.targetGraphic = graphic;
 
-            if (btn == null)
-            {
-                var go = new GameObject("HubBtn", typeof(RectTransform));
-                go.transform.SetParent(parent, false);
-                var img = go.AddComponent<Image>();
-                img.color = primary
-                    ? new Color(0.38f, 0.30f, 0.18f, 0.98f)
-                    : new Color(0.28f, 0.23f, 0.17f, 0.98f);
-                var rt = go.GetComponent<RectTransform>();
-                rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
-                rt.sizeDelta = new Vector2(460f, 64f);
-                rt.anchoredPosition = new Vector2(0f, y);
-                btn = go.AddComponent<Button>();
-                btn.targetGraphic = img;
+            var leftAccent = new GameObject("HubButtonAccent", typeof(RectTransform));
+            leftAccent.transform.SetParent(go.transform, false);
+            var accentImage = leftAccent.AddComponent<Image>();
+            accentImage.color = exitStyle ? ColExit : (primary ? ColGold : ColPanelEdge);
+            accentImage.raycastTarget = false;
+            var accentRt = leftAccent.GetComponent<RectTransform>();
+            accentRt.anchorMin = new Vector2(0f, 0f);
+            accentRt.anchorMax = new Vector2(0f, 1f);
+            accentRt.sizeDelta = new Vector2(primary ? 3f : 2f, 0f);
+            accentRt.anchoredPosition = Vector2.zero;
 
-                // Gold outline
-                var edge = new GameObject("Edge", typeof(RectTransform));
-                edge.transform.SetParent(go.transform, false);
-                edge.transform.SetAsFirstSibling();
-                var eImg = edge.AddComponent<Image>();
-                eImg.color = primary ? ColGold : ColPanelEdge;
-                eImg.raycastTarget = false;
-                var eRt = edge.GetComponent<RectTransform>();
-                eRt.anchorMin = Vector2.zero;
-                eRt.anchorMax = Vector2.one;
-                eRt.offsetMin = new Vector2(-2f, -2f);
-                eRt.offsetMax = new Vector2(2f, 2f);
-            }
+            var bottom = new GameObject("HubButtonRule", typeof(RectTransform));
+            bottom.transform.SetParent(go.transform, false);
+            var bottomImage = bottom.AddComponent<Image>();
+            bottomImage.color = new Color(ColPanelEdge.r, ColPanelEdge.g, ColPanelEdge.b, 0.34f);
+            bottomImage.raycastTarget = false;
+            var bottomRt = bottom.GetComponent<RectTransform>();
+            bottomRt.anchorMin = new Vector2(0f, 0f);
+            bottomRt.anchorMax = new Vector2(1f, 0f);
+            bottomRt.sizeDelta = new Vector2(0f, 1f);
+            bottomRt.anchoredPosition = Vector2.zero;
 
-            Color textColor = exitStyle ? ColExit : (primary ? ColGold : ColCream);
-            var textGo = new GameObject("Text", typeof(RectTransform));
-            textGo.transform.SetParent(btn.transform, false);
-            var tmp = textGo.AddComponent<TextMeshProUGUI>();
-            var trt = textGo.GetComponent<RectTransform>();
-            trt.anchorMin = Vector2.zero;
-            trt.anchorMax = Vector2.one;
-            trt.offsetMin = new Vector2(16f, 6f);
-            trt.offsetMax = new Vector2(-16f, -6f);
-            // No FontStyles.Bold: CJK Noto SDF + synthetic bold = unreadable blur on hub buttons.
-            LogLikeMod.ApplyTmpFontPreservingSharpMaterial(tmp, LogLikeMod.DefFont_TMP);
-            tmp.fontSize = primary ? 30 : 28;
-            tmp.color = textColor;
-            tmp.alignment = TextAlignmentOptions.Center;
-            tmp.enableWordWrapping = false;
-            tmp.overflowMode = TextOverflowModes.Overflow;
-            tmp.fontStyle = FontStyles.Normal;
-            tmp.richText = false;
-            try { tmp.enableAutoSizing = false; } catch { /* older TMP */ }
-            tmp.text = label;
+            Color titleColor = exitStyle ? ColExit : (primary ? ColGold : ColCream);
+            TextMeshProUGUI number = AddLabel(go.transform, roman, new Vector2(-212f, 8f), 13,
+                new Vector2(46f, 26f), exitStyle ? ColExit : ColGold, false);
+            number.name = "HubButtonNumber";
+            number.alignment = TextAlignmentOptions.Left;
+            TextMeshProUGUI main = AddLabel(go.transform, title, new Vector2(-72f, 11f), 20,
+                new Vector2(270f, 29f), titleColor, false);
+            main.name = "HubButtonTitle";
+            main.alignment = TextAlignmentOptions.Left;
+            TextMeshProUGUI sub = AddLabel(go.transform, subtitle, new Vector2(-72f, -15f), 11,
+                new Vector2(270f, 20f), new Color(0.60f, 0.55f, 0.47f, 1f), false);
+            sub.name = "HubButtonSubtitle";
+            sub.alignment = TextAlignmentOptions.Left;
+
+            TextMeshProUGUI arrow = AddLabel(go.transform, "\u203a", new Vector2(218f, 0f), 24,
+                new Vector2(28f, 34f), exitStyle ? ColExit : ColPanelEdge, false);
+            arrow.name = "HubButtonArrow";
+
+            var hover = go.AddComponent<RMRHubButtonHover>();
+            hover.target = rt;
+            hover.accent = accentImage;
+            hover.graphic = graphic;
+            hover.idleAccent = accentImage.color;
+            hover.hoverAccent = exitStyle ? new Color(0.91f, 0.40f, 0.36f, 1f) : new Color(0.886f, 0.769f, 0.510f, 1f);
+            hover.idleLeft = graphic.leftColor;
+            hover.idleRight = graphic.rightColor;
+            hover.hoverLeft = new Color(0.329f, 0.231f, 0.110f, 0.98f);
+            hover.hoverRight = new Color(0.055f, 0.047f, 0.035f, 0.90f);
 
             // Hover tint
             try
             {
                 var colors = btn.colors;
                 colors.normalColor = Color.white;
-                colors.highlightedColor = new Color(1.05f, 1.0f, 0.9f, 1f);
-                colors.pressedColor = new Color(0.85f, 0.8f, 0.7f, 1f);
+                colors.highlightedColor = new Color(1.34f, 1.22f, 0.98f, 1f);
+                colors.pressedColor = new Color(0.78f, 0.70f, 0.58f, 1f);
                 colors.selectedColor = colors.highlightedColor;
                 colors.fadeDuration = 0.08f;
                 btn.colors = colors;
@@ -919,30 +1054,20 @@ namespace RogueLike_Mod_Reborn
 
         private void AddConfirmButton(Transform parent, string label, float x, UnityAction action, bool exitStyle)
         {
-            Button btn = null;
-            try
-            {
-                if (LogLikeMod.ArtWorks != null && LogLikeMod.ArtWorks.ContainsKey("MysteryButton_Enable"))
-                {
-                    btn = ModdingUtils.CreateButton(parent, "MysteryButton_Enable",
-                        Vector2.one, new Vector2(x, -52f), new Vector2(170f, 48f));
-                }
-            }
-            catch { btn = null; }
-
-            if (btn == null)
-            {
-                var go = new GameObject("Confirm", typeof(RectTransform));
-                go.transform.SetParent(parent, false);
-                var img = go.AddComponent<Image>();
-                img.color = new Color(0.32f, 0.26f, 0.18f, 1f);
-                var rt = go.GetComponent<RectTransform>();
-                rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
-                rt.sizeDelta = new Vector2(170f, 48f);
-                rt.anchoredPosition = new Vector2(x, -52f);
-                btn = go.AddComponent<Button>();
-                btn.targetGraphic = img;
-            }
+            var go = new GameObject("Confirm", typeof(RectTransform));
+            go.transform.SetParent(parent, false);
+            var img = go.AddComponent<Image>();
+            img.color = new Color(0.10f, 0.085f, 0.065f, 1f);
+            var rt = go.GetComponent<RectTransform>();
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.sizeDelta = new Vector2(170f, 48f);
+            rt.anchoredPosition = new Vector2(x, -52f);
+            var btn = go.AddComponent<Button>();
+            btn.targetGraphic = img;
+            var outline = go.AddComponent<Outline>();
+            outline.effectColor = exitStyle ? ColExit : ColPanelEdge;
+            outline.effectDistance = new Vector2(1f, -1f);
+            outline.useGraphicAlpha = false;
 
             var tgo = new GameObject("T", typeof(RectTransform));
             tgo.transform.SetParent(btn.transform, false);
@@ -961,6 +1086,108 @@ namespace RogueLike_Mod_Reborn
                 try { UISoundManager.instance.PlayEffectSound(UISoundType.Ui_Click); } catch { }
                 action();
             });
+        }
+    }
+
+    /// <summary>
+    /// Split-tone invitation ticket button face (left/right fill). Used as Button targetGraphic.
+    /// </summary>
+    internal sealed class RMRInvitationButtonGraphic : MaskableGraphic
+    {
+        public Color leftColor = new Color(0.12f, 0.10f, 0.07f, 0.98f);
+        public Color rightColor = new Color(0.04f, 0.035f, 0.03f, 0.90f);
+        [Range(0.2f, 0.8f)] public float split = 0.42f;
+
+        protected override void OnPopulateMesh(VertexHelper vh)
+        {
+            vh.Clear();
+            Rect r = GetPixelAdjustedRect();
+            float mid = Mathf.Lerp(r.xMin, r.xMax, Mathf.Clamp01(split));
+            Color32 cL = leftColor * color;
+            Color32 cR = rightColor * color;
+            // Left panel
+            vh.AddVert(new Vector3(r.xMin, r.yMin), cL, Vector2.zero);
+            vh.AddVert(new Vector3(r.xMin, r.yMax), cL, Vector2.zero);
+            vh.AddVert(new Vector3(mid, r.yMax), cL, Vector2.zero);
+            vh.AddVert(new Vector3(mid, r.yMin), cL, Vector2.zero);
+            vh.AddTriangle(0, 1, 2);
+            vh.AddTriangle(2, 3, 0);
+            // Right panel
+            vh.AddVert(new Vector3(mid, r.yMin), cR, Vector2.zero);
+            vh.AddVert(new Vector3(mid, r.yMax), cR, Vector2.zero);
+            vh.AddVert(new Vector3(r.xMax, r.yMax), cR, Vector2.zero);
+            vh.AddVert(new Vector3(r.xMax, r.yMin), cR, Vector2.zero);
+            vh.AddTriangle(4, 5, 6);
+            vh.AddTriangle(6, 7, 4);
+        }
+
+        public void SetSplitColors(Color left, Color right)
+        {
+            leftColor = left;
+            rightColor = right;
+            SetVerticesDirty();
+        }
+    }
+
+    internal sealed class RMRHubButtonHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    {
+        public RectTransform target;
+        public Image accent;
+        public Image point;
+        public RMRInvitationButtonGraphic graphic;
+        public Color idleAccent;
+        public Color hoverAccent;
+        public Color idlePoint;
+        public Color hoverPoint;
+        public Color idleLeft;
+        public Color idleRight;
+        public Color hoverLeft;
+        public Color hoverRight;
+
+        private Vector2 _idlePosition;
+        private bool _captured;
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            Capture();
+            if (target != null)
+                target.anchoredPosition = _idlePosition + new Vector2(7f, 0f);
+            if (accent != null)
+                accent.color = hoverAccent;
+            if (point != null)
+                point.color = hoverPoint;
+            if (graphic != null)
+                graphic.SetSplitColors(hoverLeft, hoverRight);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            Restore();
+        }
+
+        private void OnDisable()
+        {
+            Restore();
+        }
+
+        private void Capture()
+        {
+            if (_captured || target == null)
+                return;
+            _idlePosition = target.anchoredPosition;
+            _captured = true;
+        }
+
+        private void Restore()
+        {
+            if (_captured && target != null)
+                target.anchoredPosition = _idlePosition;
+            if (accent != null)
+                accent.color = idleAccent;
+            if (point != null)
+                point.color = idlePoint;
+            if (graphic != null)
+                graphic.SetSplitColors(idleLeft, idleRight);
         }
     }
 }

@@ -41,7 +41,8 @@
 	 <text id="ui_RMR_Hub_Play">正常游玩</text>
 	 <text id="ui_RMR_Hub_Realization">挑战解放战</text>
 	 <text id="ui_RMR_Hub_Help">玩法介绍</text>
-	 <text id="ui_RMR_Hub_Reset">重置永久进度</text>
+	   <text id="ui_RMR_Hub_Atlas">图鉴</text>
+<text id="ui_RMR_Hub_Reset">重置永久进度</text>
 	 <text id="ui_RMR_Hub_ResetConfirm">确认重置所有永久进度？&#10;将清空图鉴、解放战记录与特殊 Boss 首通记录。&#10;当前路线临时内容不会写回图鉴。</text>
 	 <text id="ui_RMR_Hub_ResetYes">确认重置</text>
 	 <text id="ui_RMR_Hub_ResetNo">取消</text>
@@ -124,7 +125,7 @@
   <text id="ui_RMR_ItemNoEntry_Credenza">[当前无法进入]</text>
 
   <text id="ui_RMR_StartNewRun">新路线</text>
-  <text id="ui_RMR_StartNewRunDesc">开始新的Roguelike路线。这将会覆盖您正在游玩的路线。</text>
+  <text id="ui_RMR_StartNewRunDesc">开始游玩RMR模组</text>
   <text id="ui_RMR_ContinueRun">继续旅程</text>
   <text id="ui_RMR_ContinueRunDesc">在玩法选择中继续之前的 Roguelike 路线（有存档时显示）。</text>
   <text id="ui_RMR_Hub_Continue">继续旅程</text>

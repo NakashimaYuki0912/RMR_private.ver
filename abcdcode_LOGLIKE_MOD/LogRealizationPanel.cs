@@ -473,24 +473,18 @@ namespace abcdcode_LOGLIKE_MOD
             rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
             rt.sizeDelta = box;
             rt.anchoredPosition = pos;
-            tmp.font = LogLikeMod.DefFont_TMP;
-            tmp.fontSize = size;
+            // Same as StartHub: Noto CJK SDF has no real bold; FontStyles.Bold + outline = mushy CN.
+            LogLikeMod.ApplyTmpFontPreservingSharpMaterial(tmp, LogLikeMod.DefFont_TMP);
+            tmp.fontSize = bold ? size + 2 : size;
             tmp.color = color;
             tmp.alignment = align;
             tmp.enableWordWrapping = true;
             tmp.overflowMode = TextOverflowModes.Overflow;
-            tmp.fontStyle = bold ? FontStyles.Bold : FontStyles.Normal;
+            tmp.fontStyle = FontStyles.Normal;
+            tmp.richText = false;
+            try { tmp.enableAutoSizing = false; } catch { /* older TMP */ }
             tmp.raycastTarget = false;
             tmp.text = text ?? "";
-            if (bold)
-            {
-                try
-                {
-                    tmp.outlineWidth = 0.14f;
-                    tmp.outlineColor = new Color(0.12f, 0.08f, 0.03f, 0.9f);
-                }
-                catch { }
-            }
             return tmp;
         }
 

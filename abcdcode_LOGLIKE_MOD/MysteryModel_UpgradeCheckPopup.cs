@@ -24,6 +24,8 @@ namespace abcdcode_LOGLIKE_MOD
         public MysteryModel_UpgradeCheckPopup.CheckResult nodele;
         public LogLikeMod.UILogCardSlot slot;
         public UpgradeMetadata metadata;
+        /// <summary>True when upgrading a degraded Binah page into its full vanilla counterpart.</summary>
+        public bool binahSpecialUpgrade;
 
         public override void LoadFromSaveData(SaveData savedata)
         {
@@ -67,9 +69,11 @@ namespace abcdcode_LOGLIKE_MOD
             LogLikeMod.UILogCardSlot curcard = LogLikeMod.UILogCardSlot.SlotCopyingByOrig();
             this.metadata = null;
             this.slot = null;
+            this.binahSpecialUpgrade = LogueBookModels.IsBinahDegradedUpgradeable(this.cardid);
 
             var upgradeList = Singleton<LogCardUpgradeManager>.Instance.GetAllUpgradesCard(this.cardid, 1).Values.ToList();
-            upgradeList.Sort((x, y) => UpgradeMetadata.UnpackPidUnsafe(x.id.packageId).index > UpgradeMetadata.UnpackPidUnsafe(y.id.packageId).index ? 1 : 0);
+            if (!this.binahSpecialUpgrade)
+                upgradeList.Sort((x, y) => UpgradeMetadata.UnpackPidUnsafe(x.id.packageId).index > UpgradeMetadata.UnpackPidUnsafe(y.id.packageId).index ? 1 : 0);
 
             curcard.transform.SetParent(image.transform);
             curcard.transform.localScale = new Vector3(1.5f, 1.5f);
@@ -103,7 +107,8 @@ namespace abcdcode_LOGLIKE_MOD
                 resultcard.selectable.DeselectEvent.AddListener(e => this.OnPointerExit(resultcard));
                 resultcard.gameObject.SetActive(true);
                 this.slot = resultcard;
-                UpgradeMetadata.UnpackPid(upgrade.id.packageId, out this.metadata);
+                if (!this.binahSpecialUpgrade)
+                    UpgradeMetadata.UnpackPid(upgrade.id.packageId, out this.metadata);
             }
             else
             {

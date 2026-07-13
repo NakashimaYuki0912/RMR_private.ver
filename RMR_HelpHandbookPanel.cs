@@ -18,8 +18,6 @@ namespace RogueLike_Mod_Reborn
         private GameObject _root;
         private TextMeshProUGUI _bodyText;
         private TextMeshProUGUI _sectionTitle;
-        private Image _bannerImage;
-        private Image _iconImage;
         private ScrollRect _bodyScroll;
         private RectTransform _bodyContentRt;
         private readonly List<TextMeshProUGUI> _navLabels = new List<TextMeshProUGUI>();
@@ -27,14 +25,14 @@ namespace RogueLike_Mod_Reborn
         private int _index;
         public bool IsVisible => _root != null && _root.activeSelf;
 
-        private static readonly Color ColGold = new Color(0.93f, 0.76f, 0.42f, 1f);
-        private static readonly Color ColGoldDim = new Color(0.62f, 0.48f, 0.26f, 1f);
-        private static readonly Color ColCream = new Color(0.93f, 0.88f, 0.78f, 1f);
-        private static readonly Color ColMuted = new Color(0.72f, 0.66f, 0.55f, 1f);
-        private static readonly Color ColPanel = new Color(0.11f, 0.09f, 0.07f, 0.98f);
-        private static readonly Color ColNavIdle = new Color(0.22f, 0.18f, 0.13f, 1f);
-        private static readonly Color ColNavOn = new Color(0.38f, 0.30f, 0.16f, 1f);
+        private static readonly Color ColGold = new Color(0.776f, 0.608f, 0.333f, 1f);
+        private static readonly Color ColGoldDim = new Color(0.384f, 0.286f, 0.161f, 1f);
+        private static readonly Color ColCream = new Color(0.933f, 0.898f, 0.827f, 1f);
+        private static readonly Color ColMuted = new Color(0.620f, 0.569f, 0.482f, 1f);
+        private static readonly Color ColPanel = new Color(0.051f, 0.043f, 0.031f, 0.96f);
         private static readonly Color ColBodyBg = new Color(0.06f, 0.05f, 0.04f, 1f);
+        private static readonly Color ColNavIdle = new Color(0.122f, 0.098f, 0.067f, 0.90f);
+        private static readonly Color ColNavOn = new Color(0.314f, 0.216f, 0.114f, 0.96f);
 
         private struct Page
         {
@@ -152,170 +150,6 @@ namespace RogueLike_Mod_Reborn
             };
         }
 
-        private static Page[] BuildPages()
-        {
-            // Audience: already finished / knows vanilla LoR.
-            // Only write deltas vs 原版接待 / 编队 / 战斗 / 解放.
-            return new Page[]
-            {
-                new Page
-                {
-                    NavKey = "ui_RMR_Help_Nav_Overview",
-                    NavZh = "和原版有何不同",
-                    NavEn = "Vs Vanilla",
-                    BodyKey = "ui_RMR_Help_Body_Overview",
-                    BodyZh =
-                        "默认你已熟悉原版接待、编队、情感与解放流程。下面只写本模组改动点。\n\n" +
-                        "【整体】\n" +
-                        "· 原版：邀请 → 固定接待战 → 下一场。\n" +
-                        "· 本模：邀请入口进入 RMR 主菜单 →「正常游玩」后变成「按章节推进的肉鸽路线」（传闻→…→杂质）。\n" +
-                        "· 战斗内操作（拼点、情感、光芒等）仍是原版规则，不另教。\n\n" +
-                        "【开局多了几条路】\n" +
-                        "· 正常游玩 — 开一局肉鸽。\n" +
-                        "· 继续旅程 — 读本地存档（有档才显示）。\n" +
-                        "· 挑战解放战 — 不跑主线，直接打某层原版最终解放；首通永久解锁。\n" +
-                        "· 图鉴 / 重置永久进度 — 永久档案，见对应页。\n\n" +
-                        "【永久 vs 本局】\n" +
-                        "· 永久：图鉴解锁、解放首通记录等（重置会清）。\n" +
-                        "· 本局：金币、本局库存、章节进度（死档/重开丢失）。",
-                    BodyEn =
-                        "Assumes you know vanilla LoR. Only RMR deltas below.\n\n" +
-                        "Receptions become a chapter-based Roguelike route instead of a fixed invite chain.\n" +
-                        "Combat rules stay vanilla.\n" +
-                        "Start hub adds: Normal Play, Continue, Realization, Atlas, Reset permanent progress.\n" +
-                        "Permanent: atlas / realization first-clears. Per-run: money, inventory, chapter progress."
-                },
-                new Page
-                {
-                    NavKey = "ui_RMR_Help_Nav_Route",
-                    NavZh = "路线节点",
-                    NavEn = "Route Nodes",
-                    BodyKey = "ui_RMR_Help_Body_Route",
-                    BodyZh =
-                        "【相对原版】不再是「下一场接待是谁」，而是章节地图上选节点。\n\n" +
-                        "【节点类型】\n" +
-                        "· 普通 / 精英 / Boss — 难度与收益递进；Boss 胜后升章、加人、刷新节点池。\n" +
-                        "· 异想体 — 接近原版镇压，掉异想体书页并进图鉴。\n" +
-                        "· 商店 / 休息 / 神秘事件 — 肉鸽向补给与抉择（原版接待没有这套地图环）。\n\n" +
-                        "【终局】\n" +
-                        "· 杂质章 Boss 打完即本局结束，不会无限续关。\n\n" +
-                        "【编队】\n" +
-                        "· 仍用原版编队 UI（核心页/战斗页等）。\n" +
-                        "· 图鉴入口已移出编队，改在开局菜单。\n" +
-                        "· 可接待楼层数随进度变，注意人数上限。",
-                    BodyEn =
-                        "Instead of a fixed next reception, you pick map nodes per urban chapter.\n" +
-                        "Nodes: normal / elite / boss / abnormality / shop / rest / mystery.\n" +
-                        "Impurity boss ends the run.\n" +
-                        "Prepare UI is still vanilla; Atlas is on the start hub only."
-                },
-                new Page
-                {
-                    NavKey = "ui_RMR_Help_Nav_Rewards",
-                    NavZh = "奖励与库存",
-                    NavEn = "Rewards & Inventory",
-                    BodyKey = "ui_RMR_Help_Body_Rewards",
-                    BodyZh =
-                        "【相对原版】战后不再只是「接待结算」，而是排队领：被动 / 战斗书页 / EGO 等。\n\n" +
-                        "【战斗书页库存】\n" +
-                        "· 按「种类」解锁与升级，不是像背包堆叠那样按张分别升级。\n" +
-                        "· 升级界面不显示 x99 数量意义（升级看种类）。\n" +
-                        "· 升过的版本会替换原种类，后续构筑识别升级态。\n\n" +
-                        "【E.G.O.】\n" +
-                        "· 仍按原版：个人 EGO + 情感等级解锁，不要当九张套牌里的普通战斗卡。\n" +
-                        "· 本模在开战时会把本局已拥有的 EGO 注入个人 EGO 栏；等级够了就能选。\n" +
-                        "· 误塞进战斗卡组会被尽量剥离。\n\n" +
-                        "【永久图鉴】\n" +
-                        "· 主线拿到的异想体 / EGO / 部分书页会写入永久图鉴，供解放战等使用。",
-                    BodyEn =
-                        "Post-battle reward queues (passives / pages / EGO) replace simple reception settle.\n" +
-                        "Combat pages unlock/upgrade by type, not stack count.\n" +
-                        "EGO stays personalEgo + emotion level; owned EGO is granted at battle start.\n" +
-                        "Finds also feed the permanent atlas."
-                },
-                new Page
-                {
-                    NavKey = "ui_RMR_Help_Nav_Shop",
-                    NavZh = "商店",
-                    NavEn = "Shop",
-                    BodyKey = "ui_RMR_Help_Body_Shop",
-                    BodyZh =
-                        "【相对原版】接待途中有「商店节点」，用本局金币买东西（不是图书馆招待所那套）。\n\n" +
-                        "【分区大致包括】\n" +
-                        "核心书页 / 战斗书页 / 被动 / 异想体 / E.G.O. / 书页升级。\n\n" +
-                        "【升级】\n" +
-                        "选已有战斗书页种类强化；与「再买一张同名」不是一回事。\n" +
-                        "钱不够会变红或不可点。",
-                    BodyEn =
-                        "Shop nodes spend run money on key pages, combat pages, passives, abnos, EGO, upgrades.\n" +
-                        "Upgrades target card types you already own."
-                },
-                new Page
-                {
-                    NavKey = "ui_RMR_Help_Nav_Realization",
-                    NavZh = "解放战（改动）",
-                    NavEn = "Realization",
-                    BodyKey = "ui_RMR_Help_Body_Realization",
-                    BodyZh =
-                        "【相对原版】\n" +
-                        "· 原版：剧情推进到某层后打完整解放线（含前置镇压等）。\n" +
-                        "· 本模：开局菜单「挑战解放战」→ 选层 → 编队 → 直接打该层原版最终解放（多阶段），跳过前置镇压链。\n\n" +
-                        "【首通 / 再战】\n" +
-                        "· 首通：永久解锁该层专属奖励进图鉴。\n" +
-                        "· 再战：可重复打，不再发首通奖。\n\n" +
-                        "【编队限制（与原版自由书库不同）】\n" +
-                        "· 历史/科技/文学/艺术：书页章节上限到都市梦魇。\n" +
-                        "· 总类：可到杂质。\n" +
-                        "· 其余层：多为都市之星。\n" +
-                        "· 解放战被动费用上限更高（按模组规格）。\n\n" +
-                        "【地图】\n" +
-                        "尽量跟所选司书层；杂质等特殊图不硬改原版 MapInfo。",
-                    BodyEn =
-                        "From start hub only: pick floor → prepare → vanilla final multi-phase realization (no prior suppress chain).\n" +
-                        "First clear permanent unlocks; replays no first-clear loot.\n" +
-                        "Chapter caps on loadouts by floor; higher passive cost budget in realization."
-                },
-                new Page
-                {
-                    NavKey = "ui_RMR_Help_Nav_Atlas",
-                    NavZh = "图鉴",
-                    NavEn = "Atlas",
-                    BodyKey = "ui_RMR_Help_Body_Atlas",
-                    BodyZh =
-                        "【相对原版】不是图书馆「书架故事」那套，而是 RMR 永久收藏。\n\n" +
-                        "· 入口：开局菜单 → 图鉴（编队页没有）。\n" +
-                        "· 四类：角色书页 / 战斗书页 / 异想体书页 / EGO 战斗书页。\n" +
-                        "· 未解锁显示 ?；解放战可用内容大体依赖这里已解锁集合。\n" +
-                        "· 「重置永久进度」会清图鉴与解放记录。",
-                    BodyEn =
-                        "Permanent RMR collection (not vanilla archives UI).\n" +
-                        "Open from start hub only. Four categories; realization pools use unlocks.\n" +
-                        "Reset permanent progress wipes atlas + realization records."
-                },
-                new Page
-                {
-                    NavKey = "ui_RMR_Help_Nav_Tips",
-                    NavZh = "注意点",
-                    NavEn = "Notes",
-                    BodyKey = "ui_RMR_Help_Body_Tips",
-                    BodyZh =
-                        "【和原版习惯冲突时】\n" +
-                        "· 想打解放：去开局菜单，不要在编队里找旧入口。\n" +
-                        "· 想看图鉴：同上。\n" +
-                        "· 杂质 Boss = 本局终点。\n" +
-                        "· 改 DLL 后必须完全退出游戏再进。\n\n" +
-                        "【建议顺序（可选）】\n" +
-                        "先解放几层攒图鉴 → 再开正常游玩，池子更宽。\n\n" +
-                        "其余战斗技巧与原版相同，此处不重复。",
-                    BodyEn =
-                        "Realization & Atlas only on start hub.\n" +
-                        "Impurity boss ends the run.\n" +
-                        "Fully restart the game after replacing the DLL.\n" +
-                        "Optional: clear some realizations before a normal run."
-                },
-            };
-        }
-
         void Awake()
         {
             Instance = this;
@@ -396,6 +230,9 @@ namespace RogueLike_Mod_Reborn
             dim.color = new Color(0.02f, 0.015f, 0.01f, 1f);
             dim.raycastTarget = true;
 
+            // Scheme A / H-A: double gold rim + dark archive card.
+            MakeSolid(_root.transform, "OuterRim", Vector2.zero, new Vector2(1192f, 732f),
+                new Color(ColGold.r, ColGold.g, ColGold.b, 0.22f));
             var frame = MakeSolid(_root.transform, "Frame", Vector2.zero, new Vector2(1180f, 720f), ColGoldDim);
             var card = MakeSolid(frame.transform, "Card", Vector2.zero, new Vector2(1168f, 708f), ColPanel);
             StretchInset(card.GetComponent<RectTransform>(), 4f);
@@ -404,6 +241,8 @@ namespace RogueLike_Mod_Reborn
                 TextAlignmentOptions.Center, T("ui_RMR_Hub_Help", "玩法介绍", "How to Play")).color = ColGold;
             MakeTmp(card.transform, "Sub", new Vector2(0f, 280f), new Vector2(1000f, 22f), 13,
                 TextAlignmentOptions.Center, "\u5728\u4e0d\u65ad\u53d8\u5316\u7684\u63a5\u5f85\u4e2d\uff0c\u6784\u7b51\u5c5e\u4e8e\u4f60\u7684\u56fe\u4e66\u9986  \u00b7  BUILD YOUR OWN LIBRARY").color = ColGoldDim;
+            MakeSolid(card.transform, "TitleRule", new Vector2(0f, 262f), new Vector2(520f, 1.5f),
+                new Color(ColGoldDim.r, ColGoldDim.g, ColGoldDim.b, 0.75f));
 
             // H-A left illustrated chapter index.
             float navTop = 210f;
@@ -446,25 +285,15 @@ namespace RogueLike_Mod_Reborn
                 });
             }
 
-            // H-A right illustrated header plus one continuous scroll area.
+            // H-A body: title + continuous scroll only (no stretched banner artwork — user request).
             var bodyBg = MakeSolid(card.transform, "BodyBg", new Vector2(130f, 10f), new Vector2(800f, 520f), ColBodyBg);
             try { bodyBg.GetComponent<Image>().raycastTarget = true; } catch { }
 
-            _bannerImage = MakeSolid(bodyBg.transform, "Banner", new Vector2(0f, 180f), new Vector2(740f, 96f),
-                new Color(0.08f, 0.07f, 0.06f, 1f)).GetComponent<Image>();
-            _bannerImage.preserveAspect = false;
-            _bannerImage.raycastTarget = false;
-
-            _iconImage = MakeSolid(bodyBg.transform, "Icon", new Vector2(-312f, 180f), new Vector2(72f, 72f),
-                new Color(0.12f, 0.10f, 0.08f, 1f)).GetComponent<Image>();
-            _iconImage.preserveAspect = true;
-            _iconImage.raycastTarget = false;
-
-            _sectionTitle = MakeTmp(bodyBg.transform, "SecTitle", new Vector2(42f, 180f), new Vector2(520f, 36f), 21,
+            _sectionTitle = MakeTmp(bodyBg.transform, "SecTitle", new Vector2(0f, 220f), new Vector2(740f, 36f), 22,
                 TextAlignmentOptions.Left, "");
             _sectionTitle.color = ColGold;
 
-            MakeSolid(bodyBg.transform, "Rule", new Vector2(0f, 120f), new Vector2(740f, 1.5f),
+            MakeSolid(bodyBg.transform, "Rule", new Vector2(0f, 198f), new Vector2(740f, 1.5f),
                 new Color(ColGoldDim.r, ColGoldDim.g, ColGoldDim.b, 0.7f));
 
             // Scrollbar is the only body navigation; no redundant 1/2/3 paging.
@@ -472,8 +301,8 @@ namespace RogueLike_Mod_Reborn
             viewportGo.transform.SetParent(bodyBg.transform, false);
             var viewportRt = viewportGo.GetComponent<RectTransform>();
             viewportRt.anchorMin = viewportRt.anchorMax = new Vector2(0.5f, 0.5f);
-            viewportRt.sizeDelta = new Vector2(760f, 300f);
-            viewportRt.anchoredPosition = new Vector2(-6f, -48f);
+            viewportRt.sizeDelta = new Vector2(760f, 380f);
+            viewportRt.anchoredPosition = new Vector2(-6f, -20f);
             var viewportImg = viewportGo.AddComponent<Image>();
             viewportImg.color = new Color(0.05f, 0.04f, 0.03f, 0.55f);
             viewportImg.raycastTarget = true;
@@ -517,8 +346,8 @@ namespace RogueLike_Mod_Reborn
             sbGo.transform.SetParent(bodyBg.transform, false);
             var sbRt = sbGo.GetComponent<RectTransform>();
             sbRt.anchorMin = sbRt.anchorMax = new Vector2(0.5f, 0.5f);
-            sbRt.sizeDelta = new Vector2(8f, 300f);
-            sbRt.anchoredPosition = new Vector2(382f, -48f);
+            sbRt.sizeDelta = new Vector2(8f, 380f);
+            sbRt.anchoredPosition = new Vector2(382f, -20f);
             var sbBg = sbGo.AddComponent<Image>();
             sbBg.color = new Color(0.18f, 0.14f, 0.10f, 0.9f);
             var scrollbar = sbGo.AddComponent<Scrollbar>();
@@ -547,8 +376,18 @@ namespace RogueLike_Mod_Reborn
 
             var closeGo = new GameObject("Close", typeof(RectTransform));
             closeGo.transform.SetParent(card.transform, false);
+            var cEdge = new GameObject("CloseEdge", typeof(RectTransform));
+            cEdge.transform.SetParent(closeGo.transform, false);
+            var ceImg = cEdge.AddComponent<Image>();
+            ceImg.color = ColGoldDim;
+            ceImg.raycastTarget = false;
+            var ceRt = cEdge.GetComponent<RectTransform>();
+            ceRt.anchorMin = Vector2.zero;
+            ceRt.anchorMax = Vector2.one;
+            ceRt.offsetMin = new Vector2(-2f, -2f);
+            ceRt.offsetMax = new Vector2(2f, 2f);
             var cimg = closeGo.AddComponent<Image>();
-            cimg.color = new Color(0.28f, 0.22f, 0.16f, 1f);
+            cimg.color = new Color(0.22f, 0.17f, 0.12f, 1f);
             var crt = closeGo.GetComponent<RectTransform>();
             crt.anchorMin = crt.anchorMax = new Vector2(0.5f, 0.5f);
             crt.sizeDelta = new Vector2(200f, 48f);
@@ -690,23 +529,7 @@ namespace RogueLike_Mod_Reborn
                 _sectionTitle.text = T(page.NavKey, page.NavZh, page.NavEn);
 
             ApplyBodyText(T(page.BodyKey, page.BodyZh, page.BodyEn));
-
-            Sprite art = ResolveArt(page.ArtKeys);
-            if (_bannerImage != null)
-            {
-                _bannerImage.sprite = art;
-                _bannerImage.enabled = true;
-                _bannerImage.color = art != null
-                    ? new Color(0.75f, 0.70f, 0.60f, 1f)
-                    : new Color(0.08f, 0.07f, 0.06f, 1f);
-            }
-            if (_iconImage != null)
-            {
-                Sprite icon = ResolveArt(page.ArtKeys, 1) ?? art;
-                _iconImage.sprite = icon;
-                _iconImage.enabled = icon != null;
-                _iconImage.color = Color.white;
-            }
+            // Banner artwork removed — stretched backgrounds looked bad.
 
             for (int i = 0; i < _navLabels.Count; i++)
             {

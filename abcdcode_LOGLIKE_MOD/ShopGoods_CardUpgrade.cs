@@ -22,7 +22,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             List<DiceCardItemModel> cards = LogueBookModels.GetCardList(true, true);
             if (cards == null)
-                return new List<DiceCardItemModel>();
+                cards = new List<DiceCardItemModel>();
             // One entry per card kind (upgrade is by type, not by stack count).
             var seen = new HashSet<string>();
             var result = new List<DiceCardItemModel>();
@@ -36,6 +36,18 @@ namespace abcdcode_LOGLIKE_MOD
                 if (!seen.Add(key))
                     continue;
                 result.Add(x);
+            }
+            // Binah fixed-deck degraded pages are NoInventory and never enter cardlist;
+            // surface them explicitly so rest/shop can upgrade to full Arbiter versions.
+            foreach (DiceCardItemModel binahCard in LogueBookModels.GetBinahDegradedUpgradeableCards())
+            {
+                LorId id = binahCard?.GetID();
+                if (id == null)
+                    continue;
+                string key = (id.packageId ?? "") + ":" + id.id;
+                if (!seen.Add(key))
+                    continue;
+                result.Add(binahCard);
             }
             return result;
         }
@@ -114,7 +126,26 @@ namespace abcdcode_LOGLIKE_MOD
 
         public void ApplyUpgrade(MysteryModel_CardChoice mystery, MysteryModel_UpgradeCheckPopup popup, LorId cardid)
         {
-            if (!this.CanPurchase() || popup == null || popup.metadata == null)
+            if (!this.CanPurchase() || popup == null)
+                return;
+
+            if (popup.binahSpecialUpgrade || LogueBookModels.IsBinahDegradedUpgradeable(cardid))
+            {
+                if (!LogueBookModels.TryApplyBinahDegradedCardUpgrade(cardid))
+                    return;
+                PassiveAbility_MoneyCheck.SubMoney(this.price);
+                UISoundManager.instance.PlayEffectSound(UISoundType.Card_Apply);
+                CardAddVfx.RunCardVfx(popup.slot);
+                if (this.parent != null)
+                    this.parent.OnCardUpgradePurchased(this);
+                if (!HasUpgradeableCards())
+                    this.gameObject.SetActive(false);
+                Singleton<MysteryManager>.Instance.EndMystery(mystery);
+                Singleton<MysteryManager>.Instance.EndMystery(popup);
+                return;
+            }
+
+            if (popup.metadata == null)
                 return;
             PassiveAbility_MoneyCheck.SubMoney(this.price);
             LogueBookModels.DeleteCard(cardid);

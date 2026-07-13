@@ -2,73 +2,56 @@
 
 ## Version
 
-- Date: 2026-06-12
+- Date: 2026-07-13
 - Game: Library Of Ruina
-- Workshop ID: `abcdcodecalmmagma.LogueLikeReborn`
+- **Your** Workshop content id: `3743867841` (author item to update)
+- Original upstream Workshop content id (reference only): `3503523710`
+- Workshop package id: `abcdcodecalmmagma.LogueLikeReborn`
+- Build stamp: `2026-07-13Trelease-binah-upgrade-shop10+08:00`
 
-## Included fixes
+## Included in this release
 
-- Fixed the `FieldAccessException` crashes in `RMR_Core.cs` by replacing direct private-field access with reflection helpers.
-- Adjusted shop layout so item cards use tighter spacing and `1.0` scale instead of overlapping the side panel and bottom area.
-- Removed abnormality battle generation from floor 1 and floor 2. Abnormality battles start appearing again from floor 3.
-- Kept reward deduplication and abnormality unlock changes in the playable build.
+- Hub / Help / Atlas Scheme A polish (atlas BG2, rails/tiles, click/paging fixes)
+- Hide starter journey/assistant books from atlas; RMR invite text: 开始游玩RMR模组
+- Upgraded battle-card names no longer show as 口口口
+- Binah degraded pages (`607201`–`607205`) upgrade at rest/shop to full pages (`706201`–`706205`)
+- Shop card-upgrade price: **10** eyes base, **+2** after each purchase
+- Special core unlock paths retained: Black Silence, Binah (route-local after Red Mist), Blue Reverberation, Red Mist / Gebura
 
-## Main changed files
-
-- `RMR_Core.cs`
-- `abcdcode_LOGLIKE_MOD/ShopBase.cs`
-- `abcdcode_LOGLIKE_MOD/ShopGoods_Card.cs`
-- `abcdcode_LOGLIKE_MOD/ShopGoods_Passive.cs`
-- `abcdcode_LOGLIKE_MOD/LogueBookModels.cs`
-- `abcdcode_LOGLIKE_MOD/RewardingModel.cs`
-- `RMR_AbnormalityUnlocks.cs`
-
-## Build command
+## Build & deploy
 
 ```powershell
-dotnet msbuild "RogueLike Mod Reborn.csproj" /p:Configuration=Release
+cd "D:\VS_program\ruina-roguelike-reborn-main\ruina-roguelike-reborn-main"
+powershell -ExecutionPolicy Bypass -File .\tools\packaging\deploy_workshop.ps1 -Configuration Release
+powershell -ExecutionPolicy Bypass -File .\tools\packaging\pack_mod.ps1
 ```
 
-The verified DLL can also be built to a temporary output folder during validation. The currently deployed playable DLL is the one under the Workshop mod directory.
-
-## Release package structure
-
-The playable package should keep the same structure as the in-game mod folder:
+Playable tree (**your** item):
 
 ```text
-RogueLike Mod Reborn/
-  Assemblies/
-    dlls/
-      RogueLike Mod Reborn.dll
-      RogueLike Mod Reborn.xml
-      AddData/
-      ArtWork/
-      AssetBundle/
-      AudioClip/
-      DevNuggets/
-      Localize/
-      SpecialStaticInfo/
-      Spine/
-      StoryInfo/
-  Data/
-  mod infos/
-  Resource/
-  StageModInfo.xml
-  desc.txt
-  old changelogs.txt
-  preview.jpg.png
+E:\Steam\steamapps\workshop\content\1256670\3743867841\
 ```
 
-Do not include local backup DLLs such as `*.bak` in the release package.
+Zip archive (upload helper):
 
-## Publishing notes
+```text
+_release_packages\archives\RougelikeModReborn_v*.zip
+```
 
-- GitHub Release: upload a zip of the playable mod folder only. Do not upload source code, `_release_packages`, temp builds, or backup DLLs as the playable asset.
-- Steam Workshop: the same playable mod folder can be uploaded if its directory structure matches the game-loaded folder above.
-- If you use one package for both GitHub and Workshop, make sure it contains only the playable files and no local backup artifacts.
+## Steam Workshop update (author)
 
-## Known notes
+Agent cannot log into Steam for you. After deploy+pack:
 
-- Visual shop layout should be checked once in game after deployment because this validation only confirmed the code change and build.
-- Floor 1 and floor 2 now exclude `Creature` nodes from `VanillaGamemodeReceptionList`; floor 3 and later still allow them.
-- If you update the Workshop folder manually, fully restart the game before testing so the old DLL is not kept in memory.
+1. Fully exit Library of Ruina.
+2. Open **your** Workshop item: https://steamcommunity.com/sharedfiles/filedetails/?id=3743867841  
+   (Do **not** update the upstream item `3503523710`.)
+3. In-game Workshop author tools: **Update** this item from  
+   `E:\Steam\steamapps\workshop\content\1256670\3743867841\`  
+   (or from the packed zip contents — keep `Assemblies/`, `StageModInfo.xml`, etc.).
+4. Confirm `Player.log` contains:
+   `Build: 2026-07-13Trelease-binah-upgrade-shop10+08:00`
+
+## Package hygiene
+
+- Do not ship `*.bak`, `_codex_backups`, or `DevNuggets` (pack script strips these).
+- Keep `StageModInfo.xml`, `Assemblies\dlls\`, `Data\`, `Resource\` structure intact.

@@ -264,6 +264,22 @@
       <LocalizedName>Degraded Chain</LocalizedName>
     </BattleCardDesc>
 
+    <BattleCardDesc ID="706201">
+      <LocalizedName>Lock</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="706202">
+      <LocalizedName>Fairy</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="706203">
+      <LocalizedName>Shockwave</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="706204">
+      <LocalizedName>Pillar</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="706205">
+      <LocalizedName>Chain</LocalizedName>
+    </BattleCardDesc>
+
     <BattleCardDesc ID="608001">
       <LocalizedName>Feral Knives</LocalizedName>
     </BattleCardDesc>

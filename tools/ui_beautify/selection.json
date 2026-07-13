@@ -1,0 +1,29 @@
+{
+  "selected": "A",
+  "scheme": {
+    "id": "A",
+    "name": "接待邀请索引 Invitation Index",
+    "cost": "low-medium",
+    "recommended": true
+  },
+  "surfaces": {
+    "hub": true,
+    "help": true,
+    "atlas": true
+  },
+  "deployable": true,
+  "constraints": [
+    "TMP + ApplyTmpFontPreservingSharpMaterial",
+    "no CJK FontStyles.Bold",
+    "Overlay Canvas 1920x1080",
+    "preserve hub gates and callbacks"
+  ],
+  "implementation": {
+    "hub": "RMR_StartHubPanel — left identity/sigil + right reception index tickets",
+    "help": "RMR_HelpHandbookPanel — H-A illustrated nav + banner + continuous scroll",
+    "atlas": "LogAtlasPanel — A-A archive wall 4x5 + left rails + detail"
+  },
+  "updatedAt": "2026-07-12T15:54:56.508Z",
+  "status": "landed-and-deployed",
+  "build": "2026-07-12Tscheme-A-invitation-index+08:00"
+}

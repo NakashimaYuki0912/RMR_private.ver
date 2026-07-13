@@ -40,7 +40,8 @@
   <text id="ui_RMR_Hub_Play">일반 플레이</text>
   <text id="ui_RMR_Hub_Realization">개방전 도전</text>
   <text id="ui_RMR_Hub_Help">플레이 소개</text>
-  <text id="ui_RMR_Hub_Reset">영구 진행 초기화</text>
+    <text id="ui_RMR_Hub_Atlas">도감</text>
+<text id="ui_RMR_Hub_Reset">영구 진행 초기화</text>
   <text id="ui_RMR_Hub_ResetConfirm">모든 영구 진행을 초기화할까요?&#10;도감, 개방전 기록, 특수 보스 첫 클리어 기록이 삭제됩니다.&#10;현재 루트의 임시 내용은 도감에 다시 쓰이지 않습니다.</text>
   <text id="ui_RMR_Hub_ResetYes">초기화 확인</text>
   <text id="ui_RMR_Hub_ResetNo">취소</text>
@@ -54,8 +55,8 @@
   <text id="ui_RMR_Help_Close">닫기</text>
   <text id="ui_RMR_Help_Nav_Overview">개요</text>
   <text id="ui_RMR_Help_Nav_Route">루트와 챕터</text>
-  <text id="ui_RMR_Help_Nav_Shop">상점과 강화</text>
-  <text id="ui_RMR_Help_Nav_Realization">개방전과 도감</text>
+  <text id="ui_RMR_Help_Nav_Shop">보급과 이벤트</text>
+  <text id="ui_RMR_Help_Nav_Realization">개방전과 안내</text>
   <text id="ui_RMR_Help_Nav_AbnoEgo">환상체 / E.G.O.</text>
   <text id="ui_RMR_Help_Body_AbnoEgo">일반 런에서 얻은 환상체 책장도 영구 도감에 기록되어 개방전 선택에 쓰입니다. 도감의 환상체/E.G.O.는 도시 등급 구분 없이 바로 표시됩니다.</text>
 
@@ -119,7 +120,7 @@
   <text id="ui_RMR_ItemNoEntry_Credenza">[현재 항목 없음]</text>
 
   <text id="ui_RMR_StartNewRun">새 여정</text>
-  <text id="ui_RMR_StartNewRunDesc">새 로그라이크 여정을 시작합니다. 진행 중인 여정이 있으면 덮어씁니다.</text>
+  <text id="ui_RMR_StartNewRunDesc">RMR 모드 플레이를 시작합니다.</text>
   <text id="ui_RMR_ContinueRun">이어하기</text>
   <text id="ui_RMR_ContinueRunDesc">시작 메뉴에서 이전 로그라이크 여정을 이어합니다(저장 데이터가 있을 때 표시).</text>
   <text id="ui_RMR_ConfirmStartNewRun">새 여정을 시작할까요? 저장된 여정이 덮어쓰입니다.</text>

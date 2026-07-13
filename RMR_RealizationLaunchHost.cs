@@ -63,6 +63,15 @@ namespace RogueLike_Mod_Reborn
                     return;
                 if (RMRHelpHandbookPanel.Instance != null && RMRHelpHandbookPanel.Instance.IsVisible)
                     return;
+                // Atlas from hub: hub may be soft-hidden (IsVisible still true usually), but
+                // always keep overlay while atlas host is live.
+                try
+                {
+                    var atlas = Singleton<LogAtlasPanel>.Instance;
+                    if (atlas != null && atlas.IsVisible)
+                        return;
+                }
+                catch { /* atlas type / singleton optional at early boot */ }
                 Object.Destroy(_overlayRoot);
                 _overlayRoot = null;
             }

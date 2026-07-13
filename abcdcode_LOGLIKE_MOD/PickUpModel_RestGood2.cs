@@ -36,7 +36,8 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override bool CheckCondition()
         {
-            bool condition = LogueBookModels.GetCardList(true, true).FindAll(x => x.ClassInfo.CheckCanUpgrade()).Count > 0;
+            // Share shop filter so Binah fixed-deck degraded pages are included.
+            bool condition = ShopGoods_CardUpgrade.HasUpgradeableCards();
             if (!condition)
                 UI.UIAlarmPopup.instance.SetAlarmText(TextDataModel.GetText("CardCheckPopUp_CannotUpgrade"));
             return condition;
@@ -44,9 +45,9 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override void OnChoice(RestGood good)
         {
-            MysteryModel_CardChoice.PopupCardChoice(LogueBookModels.GetCardList(true, true).
-                FindAll(x => x.ClassInfo.CheckCanUpgrade()), 
-                new MysteryModel_CardChoice.ChoiceResult(this.UpgradeCard), 
+            MysteryModel_CardChoice.PopupCardChoice(
+                ShopGoods_CardUpgrade.GetUpgradeableCards(),
+                new MysteryModel_CardChoice.ChoiceResult(this.UpgradeCard),
                 MysteryModel_CardChoice.ChoiceDescType.UpgradeDesc);
         }
 
@@ -63,8 +64,18 @@ namespace abcdcode_LOGLIKE_MOD
           MysteryModel_UpgradeCheckPopup mystery2,
           LorId cardid)
         {
-            LogueBookModels.DeleteCard(cardid);
-            LogueBookModels.AddCard(new LorId(mystery2.metadata.unparsedPid, cardid.id));
+            if (mystery2 != null && (mystery2.binahSpecialUpgrade || LogueBookModels.IsBinahDegradedUpgradeable(cardid)))
+            {
+                if (!LogueBookModels.TryApplyBinahDegradedCardUpgrade(cardid))
+                    return;
+            }
+            else
+            {
+                if (mystery2?.metadata == null)
+                    return;
+                LogueBookModels.DeleteCard(cardid);
+                LogueBookModels.AddCard(new LorId(mystery2.metadata.unparsedPid, cardid.id));
+            }
             UISoundManager.instance.PlayEffectSound(UISoundType.Card_Apply);
             Singleton<MysteryManager>.Instance.EndMystery(mystery);
             Singleton<MysteryManager>.Instance.EndMystery(mystery2);

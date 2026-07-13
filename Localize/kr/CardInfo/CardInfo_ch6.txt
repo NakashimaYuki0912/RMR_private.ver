@@ -264,6 +264,22 @@
       <LocalizedName>열화된 사슬</LocalizedName>
     </BattleCardDesc>
 
+    <BattleCardDesc ID="706201">
+      <LocalizedName>자물쇠</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="706202">
+      <LocalizedName>요정</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="706203">
+      <LocalizedName>충격파</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="706204">
+      <LocalizedName>기둥</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="706205">
+      <LocalizedName>사슬</LocalizedName>
+    </BattleCardDesc>
+
     <BattleCardDesc ID="608001">
       <LocalizedName>광폭한 칼날</LocalizedName>
     </BattleCardDesc>

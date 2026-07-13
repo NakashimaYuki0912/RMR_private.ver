@@ -247,7 +247,7 @@
       <LocalizedName>血雾弥漫</LocalizedName>
     </BattleCardDesc>
 
-    <!-- binah -->
+    <!-- binah degraded -->
     <BattleCardDesc ID="607201">
       <LocalizedName>劣化之锁</LocalizedName>
     </BattleCardDesc>
@@ -262,6 +262,23 @@
     </BattleCardDesc>
     <BattleCardDesc ID="607205">
       <LocalizedName>劣化之链</LocalizedName>
+    </BattleCardDesc>
+
+    <!-- binah full (post-upgrade) -->
+    <BattleCardDesc ID="706201">
+      <LocalizedName>之锁</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="706202">
+      <LocalizedName>妖灵</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="706203">
+      <LocalizedName>震击</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="706204">
+      <LocalizedName>之柱</LocalizedName>
+    </BattleCardDesc>
+    <BattleCardDesc ID="706205">
+      <LocalizedName>之链</LocalizedName>
     </BattleCardDesc>
 
     <BattleCardDesc ID="608001">
