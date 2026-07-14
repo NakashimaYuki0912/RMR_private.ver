@@ -919,6 +919,8 @@ namespace abcdcode_LOGLIKE_MOD
                         battleUnitModel.emotionDetail.SetEmotionLevel(0);
                         battleUnitModel.emotionDetail.PassiveList.Clear();
                     }
+                    // Between nodes: prune dead spine caches + optional GC (classic long-session lag).
+                    try { RMRSessionHygiene.OnNodeTransition(heavy: true); } catch { /* ignore */ }
                 }
             }
             orig(self, deltaTime);
@@ -1333,6 +1335,7 @@ namespace abcdcode_LOGLIKE_MOD
                 RMRRealizationManager.ClearRealizationFlag();
                 RMRRealizationManager.ReturnToMainAfterRealization();
                 RMRRealizationManager.EnsureExitBattleToLibrary();
+                try { RMRSessionHygiene.OnNodeTransition(heavy: true); } catch { /* ignore */ }
                 return;
             }
 
@@ -3096,7 +3099,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (__instance == null || !LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
-            // Leaving combat bookshelf → restore detailSlot layer state.
+            // Leaving combat bookshelf → clear detailSlot canvas boost.
             if (state != UIBattleSettingEditTap.BattleCard)
             {
                 try { RMRCombatCardDetailLayer.Restore(); } catch { /* ignore */ }
@@ -3114,10 +3117,10 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         /// <summary>
-        /// Vanilla: list slot only highlights; enlarged card is scroll.detailSlot
-        /// (ShowDetailSlotByInventory). RMR panel Canvas fix makes list siblings cover that
-        /// detail — reparent the *existing* detailSlot to a top holder (preserve world pose).
-        /// Never clones list cards.
+        /// Match vanilla combat hover: list slot highlights only; enlarged card is
+        /// list.detailSlot (ShowDetailSlotByInventory). After vanilla places it, put
+        /// detailSlot last among siblings (+ light Canvas boost on detail only).
+        /// No list-card clone, no reparent off the prepare hierarchy.
         /// </summary>
         [HarmonyPostfix, HarmonyPatch(typeof(UIInvenCardListScroll), nameof(UIInvenCardListScroll.ShowDetailSlotByInventory))]
         public static void UIInvenCardListScroll_ShowDetailSlotByInventory_ElevateDetail(
@@ -3130,12 +3133,11 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 if (__instance.gameObject.GetComponent<RMRCombatCardHoverFollow>() == null)
                     __instance.gameObject.AddComponent<RMRCombatCardHoverFollow>();
-                // After vanilla place + reveal start; reparent so list cannot cover detail.
                 RMRCombatCardDetailLayer.ElevateDetailSlot(__instance);
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[RMR UI] Elevate detailSlot failed: " + ex.Message);
+                Debug.LogWarning("[RMR UI] detailSlot bring-to-front failed: " + ex.Message);
             }
         }
 
@@ -3143,47 +3145,15 @@ namespace abcdcode_LOGLIKE_MOD
         public static void UIInvenCardListScroll_HideDetailSlotByInventory_RestoreDetail(
             UIInvenCardListScroll __instance)
         {
-            // Always restore parent even if context flag flickers.
             try { RMRCombatCardDetailLayer.Restore(); }
             catch { /* ignore */ }
         }
 
         /// <summary>
-        /// BCEV mutates detail after SetData; re-apply top-layer parent so layout rebuild
-        /// does not leave detail under the list again.
-        /// </summary>
-        [HarmonyPostfix, HarmonyPatch(typeof(UIDetailCardSlot), nameof(UIDetailCardSlot.SetData))]
-        public static void UIDetailCardSlot_SetData_EnsureTopLayer(UIDetailCardSlot __instance)
-        {
-            if (__instance == null || !LogLikeRoutines.IsRoguelikeBattleSettingContext())
-                return;
-            if (!__instance.gameObject.activeInHierarchy)
-                return;
-            try
-            {
-                // Find owning list if still under one; else elevate via any list on the battle panel.
-                UIInvenCardListScroll list = __instance.GetComponentInParent<UIInvenCardListScroll>();
-                if (list == null)
-                {
-                    UIBattleSettingPanel bsp = UI.UIController.Instance != null
-                        ? UI.UIController.Instance.GetUIPanel(UIPanelType.BattleSetting) as UIBattleSettingPanel
-                        : null;
-                    if (bsp != null && bsp.EditPanel != null)
-                    {
-                        UISettingCardInvenPanel cardPanel =
-                            LogLikeMod.GetFieldValue<UISettingCardInvenPanel>(bsp.EditPanel, "_battleCardPanel");
-                        if (cardPanel != null)
-                            list = cardPanel.InvenCardList;
-                    }
-                }
-                if (list != null)
-                    RMRCombatCardDetailLayer.ElevateDetailSlot(list);
-            }
-            catch { /* ignore */ }
-        }
-
-        /// <summary>
-        /// Raise key-page / combat-page inventory above dimmers and the RMR money/effect HUD canvas.
+        /// Soften dimmer + RMR HUD for prepare inventory.
+        /// Combat pages: do NOT RaiseUiPanelCanvas on the whole battle-card panel
+        /// (that flattened sorting and let list slots cover vanilla detailSlot).
+        /// Key-page equip panel may still raise above HUD.
         /// </summary>
         private static void RepairPrepareInventoryDrawOrder(
             UIBattleSettingEditPanel editPanel,
@@ -3191,14 +3161,12 @@ namespace abcdcode_LOGLIKE_MOD
         {
             CollapseGlobalEffectDrawerIfExpanded();
 
-            // Leftover hub/atlas overlay (sortingOrder 8000+) must not sit on prepare inventory.
             try { RMRRealizationLaunchHost.DestroyOverlayIfEmpty(); } catch { /* optional */ }
 
             Image blockBg = LogLikeMod.GetFieldValue<Image>(editPanel, "img_BlockBackGroundBg");
             if (blockBg != null)
             {
                 try { blockBg.transform.SetAsFirstSibling(); } catch { }
-                // Dimmer may stay visible, but must not paint above book/card slots or eat clicks.
                 try { blockBg.raycastTarget = false; } catch { }
             }
 
@@ -3208,7 +3176,6 @@ namespace abcdcode_LOGLIKE_MOD
                 LogLikeMod.GetFieldValue<UISettingCardInvenPanel>(editPanel, "_battleCardPanel");
 
             int hudOrder = GetRmrHudCanvasSortingOrder();
-            // Inventory content must be above LogUIObjs[100] (base+100) and above any dimmer.
             int inventoryOrder = Math.Max(hudOrder + 20, 140);
 
             if (state == UIBattleSettingEditTap.EquipPage && equipPanel != null)
@@ -3221,7 +3188,6 @@ namespace abcdcode_LOGLIKE_MOD
                 }
                 catch { }
                 RaiseUiPanelCanvas(equipPanel.gameObject, inventoryOrder);
-                // Scroll list / slots often live under nested roots — push those forward too.
                 try
                 {
                     if (equipPanel.EquipLeftPanel != null)
@@ -3232,15 +3198,35 @@ namespace abcdcode_LOGLIKE_MOD
 
             if (state == UIBattleSettingEditTap.BattleCard && cardPanel != null)
             {
+                // Sibling only — keep vanilla EditPanel.canvas sortingOrder=12 semantics so
+                // detailSlot (later sibling) paints above list slots. Soften RMR HUD.
                 try { cardPanel.transform.SetAsLastSibling(); } catch { }
-                // Keep panel above RMR HUD, but do NOT rely on this for detail vs list —
-                // detailSlot is reparented to RMR_DetailSlotLayerHolder (higher order).
-                RaiseUiPanelCanvas(cardPanel.gameObject, inventoryOrder);
+                try { ClearForcedPanelCanvasRaise(cardPanel.gameObject); } catch { /* ignore */ }
+                SoftenRmrHudCanvasForInventory(lowerSortingIfAbove: 50);
             }
+            else
+            {
+                SoftenRmrHudCanvasForInventory(lowerSortingIfAbove: -1);
+            }
+        }
 
-            // Soften RMR HUD clone: keep money/effects visible top-right, but stop full-root
-            // raycast / accidental full-screen Graphics from covering the center lists.
-            SoftenRmrHudCanvasForInventory();
+        /// <summary>
+        /// Undo prior RaiseUiPanelCanvas on the battle-card panel so list/detail share
+        /// the vanilla edit-panel canvas again (sibling order works for detailSlot).
+        /// </summary>
+        private static void ClearForcedPanelCanvasRaise(GameObject panelRoot)
+        {
+            if (panelRoot == null)
+                return;
+            Canvas c = panelRoot.GetComponent<Canvas>();
+            if (c == null)
+                return;
+            // Only clear aggressive overrides we introduced (high order + override).
+            if (c.overrideSorting && c.sortingOrder >= 100)
+            {
+                c.overrideSorting = false;
+                // Leave component; disabling override returns to parent EditPanel order 12.
+            }
         }
 
         private static int GetRmrHudCanvasSortingOrder()
@@ -3260,7 +3246,12 @@ namespace abcdcode_LOGLIKE_MOD
             return 100;
         }
 
-        private static void SoftenRmrHudCanvasForInventory()
+        /// <param name="lowerSortingIfAbove">
+        /// If &gt;= 0 and HUD canvas sortingOrder is above this, clamp it down so money/effects
+        /// stay visible without burying the combat bookshelf (vanilla edit panel is order 12).
+        /// Pass -1 to skip sorting clamp.
+        /// </param>
+        private static void SoftenRmrHudCanvasForInventory(int lowerSortingIfAbove = -1)
         {
             try
             {
@@ -3273,12 +3264,18 @@ namespace abcdcode_LOGLIKE_MOD
                 if (cg != null)
                 {
                     cg.interactable = true;
-                    // Root still receives child hits; empty full-rect without Graphic is fine.
                     cg.blocksRaycasts = true;
                 }
 
-                // Any leftover full-stretch Image under the HUD clone (empty LevelUp shell)
-                // must not dim/block the center inventory.
+                Canvas hudCanvas = hudRoot.GetComponent<Canvas>();
+                if (hudCanvas != null && lowerSortingIfAbove >= 0 && hudCanvas.sortingOrder > lowerSortingIfAbove)
+                {
+                    // Keep slightly above vanilla edit panel (12) so money still shows, but
+                    // well below detailSlot boost (250).
+                    hudCanvas.overrideSorting = true;
+                    hudCanvas.sortingOrder = lowerSortingIfAbove;
+                }
+
                 foreach (Image img in hudRoot.GetComponentsInChildren<Image>(true))
                 {
                     if (img == null)
@@ -3296,7 +3293,6 @@ namespace abcdcode_LOGLIKE_MOD
                         && Mathf.Abs(rt.offsetMax.x) < 1f && Mathf.Abs(rt.offsetMax.y) < 1f;
                     if (!fullStretch)
                         continue;
-                    // Keep money icons; neutralize shell backgrounds.
                     img.raycastTarget = false;
                     Color c = img.color;
                     if (c.a > 0.05f && (c.r + c.g + c.b) < 1.2f)
@@ -3701,7 +3697,13 @@ namespace abcdcode_LOGLIKE_MOD
           BattleUnitModel __instance,
           BattleDiceBehavior behavior)
         {
-            Singleton<GlobalLogueEffectManager>.Instance.BeforeRollDice(behavior);
+            // Outside RMR (or with zero global effects) skip singleton/list walk every dice.
+            if (!LogLikeMod.CheckStage())
+                return true;
+            var mgr = Singleton<GlobalLogueEffectManager>.Instance;
+            if (mgr == null || mgr.effects == null || mgr.effects.Count == 0)
+                return true;
+            mgr.BeforeRollDice(behavior);
             return true;
         }
 
@@ -3709,7 +3711,12 @@ namespace abcdcode_LOGLIKE_MOD
         public static bool BattlePlayingCardDataInUnitModel_OnUseCard(
           BattlePlayingCardDataInUnitModel __instance)
         {
-            Singleton<GlobalLogueEffectManager>.Instance.OnUseCard(__instance);
+            if (!LogLikeMod.CheckStage())
+                return true;
+            var mgr = Singleton<GlobalLogueEffectManager>.Instance;
+            if (mgr == null || mgr.effects == null || mgr.effects.Count == 0)
+                return true;
+            mgr.OnUseCard(__instance);
             return true;
         }
 

@@ -1,40 +1,101 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.CameraRender
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
+// Decompiled with JetBrains decompiler — performance-tuned for long sessions.
+// Original: forced Camera.Render every ~3 frames while RMR stage + spine skin.
+// Tuned: cache Camera, longer skip when inactive, avoid GetCharacterName every frame.
 
 using System;
 using UI;
 using UnityEngine;
 
- 
-namespace abcdcode_LOGLIKE_MOD {
-
-public class CameraRender : MonoBehaviour
+namespace abcdcode_LOGLIKE_MOD
 {
-  public bool Actived;
-  public int index;
-  public int skip = 0;
-
-  public bool CheckingRender()
-  {
-    return LogLikeMod.spinedatas.ContainsKey(SingletonBehavior<UICharacterRenderer>.Instance.characterList[this.index].unitModel.CustomBookItem.GetCharacterName());
-  }
-
-  public void Update()
-  {
-    try
+    public class CameraRender : MonoBehaviour
     {
-      --this.skip;
-      if (!LogLikeMod.CheckStage() || !this.CheckingRender() || this.skip >= 0)
-        return;
-      this.gameObject.GetComponent<Camera>().Render();
-      this.skip = 2;
+        public bool Actived;
+        public int index;
+        public int skip = 0;
+
+        private Camera _cam;
+        private string _lastNameKey;
+        private bool _lastNeedRender;
+        private int _nameRecheckCooldown;
+
+        public bool CheckingRender()
+        {
+            try
+            {
+                // Re-check name only every N frames — GetCharacterName allocates and walks book data.
+                if (_nameRecheckCooldown-- > 0)
+                    return _lastNeedRender;
+
+                _nameRecheckCooldown = 20;
+                var renderer = SingletonBehavior<UICharacterRenderer>.Instance;
+                if (renderer == null || renderer.characterList == null
+                    || this.index < 0 || this.index >= renderer.characterList.Count)
+                {
+                    _lastNeedRender = false;
+                    return false;
+                }
+
+                var slot = renderer.characterList[this.index];
+                var unit = slot != null ? slot.unitModel : null;
+                var book = unit != null ? unit.CustomBookItem : null;
+                if (book == null)
+                {
+                    _lastNeedRender = false;
+                    return false;
+                }
+
+                string name = book.GetCharacterName();
+                _lastNameKey = name;
+                _lastNeedRender = !string.IsNullOrEmpty(name)
+                    && LogLikeMod.spinedatas != null
+                    && LogLikeMod.spinedatas.ContainsKey(name);
+                return _lastNeedRender;
+            }
+            catch
+            {
+                _lastNeedRender = false;
+                return false;
+            }
+        }
+
+        public void Update()
+        {
+            try
+            {
+                --this.skip;
+                if (this.skip >= 0)
+                    return;
+
+                // Not in RMR reception — almost never need forced spine portrait render.
+                if (!LogLikeMod.CheckStage())
+                {
+                    this.skip = 45;
+                    return;
+                }
+
+                if (!this.CheckingRender())
+                {
+                    this.skip = 20;
+                    return;
+                }
+
+                if (_cam == null)
+                    _cam = this.gameObject.GetComponent<Camera>();
+                if (_cam == null || !_cam.isActiveAndEnabled)
+                {
+                    this.skip = 20;
+                    return;
+                }
+
+                _cam.Render();
+                // Was every ~3 frames; every ~7 frames is enough for portrait UI and much cheaper.
+                this.skip = 6;
+            }
+            catch
+            {
+                this.skip = 30;
+            }
+        }
     }
-    catch
-    {
-    }
-  }
-}
 }

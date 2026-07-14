@@ -188,9 +188,75 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (string.IsNullOrEmpty(text))
                 return text;
+            // Fast path: most strings need no rewrite — avoid walking the table every UI refresh.
+            bool any = false;
+            foreach (KeyValuePair<string, string> replacement in KnownTextReplacements)
+            {
+                if (text.IndexOf(replacement.Key, StringComparison.Ordinal) >= 0)
+                {
+                    any = true;
+                    break;
+                }
+            }
+            if (!any)
+                return text;
             foreach (KeyValuePair<string, string> replacement in KnownTextReplacements)
                 text = text.Replace(replacement.Key, replacement.Value);
             return text;
+        }
+
+        // ---- Session caches (passive/book localize is called on every equip/hover refresh) ----
+        private static string _localizeCacheLanguage;
+        private static readonly Dictionary<string, string> PassiveNameCache = new Dictionary<string, string>(256);
+        private static readonly Dictionary<string, string> PassiveDescCache = new Dictionary<string, string>(256);
+        private static readonly Dictionary<string, string> BookNameCache = new Dictionary<string, string>(256);
+        private const int LocalizeCacheSoftCap = 4096;
+
+        private static void EnsureLocalizeCacheLanguage()
+        {
+            string lang = null;
+            try { lang = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.CurrentLanguage; } catch { /* ignore */ }
+            if (string.IsNullOrEmpty(lang))
+            {
+                try { lang = global::TextDataModel.CurrentLanguage; } catch { /* ignore */ }
+            }
+            if (lang == null)
+                lang = string.Empty;
+            if (_localizeCacheLanguage == lang)
+                return;
+            _localizeCacheLanguage = lang;
+            PassiveNameCache.Clear();
+            PassiveDescCache.Clear();
+            BookNameCache.Clear();
+        }
+
+        /// <summary>Called by session hygiene when sets grow or language may have changed.</summary>
+        public static void ClearLocalizeCachesIfStale()
+        {
+            EnsureLocalizeCacheLanguage();
+            if (PassiveNameCache.Count > LocalizeCacheSoftCap
+                || PassiveDescCache.Count > LocalizeCacheSoftCap
+                || BookNameCache.Count > LocalizeCacheSoftCap)
+            {
+                PassiveNameCache.Clear();
+                PassiveDescCache.Clear();
+                BookNameCache.Clear();
+            }
+        }
+
+        public static void ClearLocalizeCaches()
+        {
+            PassiveNameCache.Clear();
+            PassiveDescCache.Clear();
+            BookNameCache.Clear();
+            _localizeCacheLanguage = null;
+        }
+
+        private static string LorIdCacheKey(LorId id)
+        {
+            if (id == null)
+                return string.Empty;
+            return (id.packageId ?? string.Empty) + ":" + id.id;
         }
 
         private static bool TryGetKnownBookName(BookXmlInfo book, out string name)
@@ -446,8 +512,22 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (book == null)
                 return string.Empty;
+
+            EnsureLocalizeCacheLanguage();
+            string cacheKey = null;
+            if (book.id != null)
+            {
+                cacheKey = LorIdCacheKey(book.id) + "#" + book.TextId;
+                if (BookNameCache.TryGetValue(cacheKey, out string cached))
+                    return cached;
+            }
+
             if (TryGetKnownBookName(book, out string knownName) && !IsPoorDisplayName(knownName))
+            {
+                if (cacheKey != null)
+                    BookNameCache[cacheKey] = knownName;
                 return knownName;
+            }
 
             List<string> candidates = new List<string>();
             void Consider(string name)
@@ -485,12 +565,17 @@ namespace abcdcode_LOGLIKE_MOD
                 Consider(book.InnerName);
 
             string best = PickBestDisplayName(candidates);
+            string result;
             if (!string.IsNullOrEmpty(best))
-                return SanitizeDisplayText(best);
+                result = SanitizeDisplayText(best);
+            else if (string.Equals(book.InnerName, "ModNeeded", StringComparison.OrdinalIgnoreCase) || book.isError)
+                result = string.Empty;
+            else
+                result = SanitizeDisplayText(book.InnerName ?? string.Empty);
 
-            if (string.Equals(book.InnerName, "ModNeeded", StringComparison.OrdinalIgnoreCase) || book.isError)
-                return string.Empty;
-            return SanitizeDisplayText(book.InnerName ?? string.Empty);
+            if (cacheKey != null)
+                BookNameCache[cacheKey] = result;
+            return result;
         }
 
         public static string GetPassiveName(LorId passiveId)
@@ -501,6 +586,11 @@ namespace abcdcode_LOGLIKE_MOD
             // Placeholder / garbage passives (e.g. 1000000000) have no desc — hide them.
             if (passiveId.id <= 0 || passiveId.id >= 1000000000)
                 return string.Empty;
+
+            EnsureLocalizeCacheLanguage();
+            string cacheKey = LorIdCacheKey(passiveId);
+            if (PassiveNameCache.TryGetValue(cacheKey, out string cached))
+                return cached;
 
             List<string> candidates = new List<string>();
             void Consider(string name)
@@ -544,9 +634,9 @@ namespace abcdcode_LOGLIKE_MOD
             catch { /* ignore */ }
 
             string best = PickBestDisplayName(candidates);
-            if (!string.IsNullOrEmpty(best))
-                return SanitizeDisplayText(best);
-            return string.Empty;
+            string result = !string.IsNullOrEmpty(best) ? SanitizeDisplayText(best) : string.Empty;
+            PassiveNameCache[cacheKey] = result;
+            return result;
         }
 
         /// <summary>
@@ -559,6 +649,11 @@ namespace abcdcode_LOGLIKE_MOD
                 return string.Empty;
             if (passiveId.id <= 0 || passiveId.id >= 1000000000)
                 return string.Empty;
+
+            EnsureLocalizeCacheLanguage();
+            string cacheKey = LorIdCacheKey(passiveId);
+            if (PassiveDescCache.TryGetValue(cacheKey, out string cached))
+                return cached;
 
             List<string> candidates = new List<string>();
             void Consider(string desc)
@@ -596,9 +691,9 @@ namespace abcdcode_LOGLIKE_MOD
             catch { /* ignore */ }
 
             string best = PickBestDisplayName(candidates);
-            if (!string.IsNullOrEmpty(best))
-                return SanitizeDisplayText(best);
-            return string.Empty;
+            string result = !string.IsNullOrEmpty(best) ? SanitizeDisplayText(best) : string.Empty;
+            PassiveDescCache[cacheKey] = result;
+            return result;
         }
 
         /// <summary>

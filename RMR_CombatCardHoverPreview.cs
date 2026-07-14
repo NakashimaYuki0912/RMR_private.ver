@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Reflection;
 using UI;
 using UnityEngine;
@@ -8,202 +7,183 @@ using UnityEngine.UI;
 namespace RogueLike_Mod_Reborn
 {
     /// <summary>
-    /// Vanilla combat hover uses <c>UIInvenCardListScroll.detailSlot</c> (not the list item).
-    /// RMR's panel Canvas raise puts list siblings over that detail.
+    /// Vanilla combat-bookshelf hover (Assembly-CSharp):
+    ///   UIInvenCardSlot.OnPointerEnter
+    ///     → list.ShowDetailSlotByInventory(slot)
+    ///         → detailSlot.SetData(model)
+    ///         → detailSlot active, position = slot.position + targetPosForDetailSlot
+    ///         → RevealDetailSlot: localScale 0 → slotDetailOriginScale
+    ///     → list slot only SetHighlightedSlot (colors)
     ///
-    /// Fix: reparent the existing vanilla detailSlot under a high-order Overlay holder,
-    /// using worldPositionStays only (do not rewrite localScale — that breaks RevealDetailSlot).
-    /// On hide, restore original parent + sibling index.
+    /// Vanilla does NOT reparent, clone list cards, or raise list-item Canvas.
+    /// Detail draws above the list because the prefab places detailSlot after list content
+    /// (later sibling draws later) under UIBattleSettingEditPanel.canvas sortingOrder=12.
+    ///
+    /// RMR regression: RaiseUiPanelCanvas on the whole battle-card panel + leftover experiments
+    /// broke that sibling relationship. Fix = restore vanilla draw order for detailSlot only:
+    ///   1) SetAsLastSibling under its original parent
+    ///   2) optional light overrideSorting only on the detail root (not list slots)
+    /// Never clone list cards; never reparent off the list hierarchy; never touch localScale.
     /// </summary>
     public static class RMRCombatCardDetailLayer
     {
-        private const string HolderName = "RMR_DetailSlotLayerHolder";
-        private const int HolderSortingOrder = 32000;
+        /// <summary>
+        /// Slightly above RMR HUD clone (LogUIObjs[100] ≈ base+100) and equip panel raises,
+        /// without leaving Screen Space Camera of the prepare UI family when possible.
+        /// </summary>
+        private const int DetailSortBoost = 250;
 
-        private static GameObject _holderRoot;
-        private static RectTransform _holderRt;
-        private static Canvas _holderCanvas;
-
-        private static UIDetailCardSlot _detail;
-        private static Transform _origParent;
-        private static int _origSibling;
-        private static bool _active;
-        private static MonoBehaviour _coroutineHost;
-        private static Coroutine _pendingElevate;
+        private static UIDetailCardSlot _activeDetail;
+        private static Canvas _detailCanvas;
+        private static bool _addedCanvas;
+        private static bool _addedRaycaster;
+        private static bool _hadCanvas;
+        private static bool _prevOverride;
+        private static int _prevOrder;
+        private static bool _prevEnabled;
 
         /// <summary>
-        /// After vanilla ShowDetailSlotByInventory (and optionally after BCEV SetData).
-        /// Schedules elevate at end of frame so reveal/BCEV layout can finish first.
+        /// Call after vanilla ShowDetailSlotByInventory has positioned the detail.
         /// </summary>
         public static void ElevateDetailSlot(UIInvenCardListScroll list)
         {
             if (list == null)
                 return;
+
+            DestroyLegacyHolderIfAny();
+
             UIDetailCardSlot detail = GetDetailSlot(list);
             if (detail == null || detail.gameObject == null || !detail.gameObject.activeInHierarchy)
                 return;
 
-            // Already on holder — only ensure sorting, do not thrash transform.
-            if (_active && _detail == detail && detail.transform.parent == _holderRt)
-            {
-                EnsureHolderTop();
-                return;
-            }
-
-            MonoBehaviour host = list;
-            if (_pendingElevate != null && _coroutineHost != null)
-            {
-                try { _coroutineHost.StopCoroutine(_pendingElevate); } catch { /* ignore */ }
-                _pendingElevate = null;
-            }
-            _coroutineHost = host;
-            _pendingElevate = host.StartCoroutine(ElevateEndOfFrame(list));
-        }
-
-        private static IEnumerator ElevateEndOfFrame(UIInvenCardListScroll list)
-        {
-            // Wait for vanilla RevealDetailSlot + BCEV SetData layout.
-            yield return null;
-            yield return new WaitForEndOfFrame();
-            _pendingElevate = null;
-            ElevateNow(list);
-        }
-
-        private static void ElevateNow(UIInvenCardListScroll list)
-        {
-            if (list == null)
-                return;
-            UIDetailCardSlot detail = GetDetailSlot(list);
-            if (detail == null || detail.gameObject == null || !detail.gameObject.activeInHierarchy)
-                return;
-
-            if (_active && _detail == detail && detail.transform.parent == _holderRt)
-            {
-                EnsureHolderTop();
-                return;
-            }
-
-            if (_active && _detail != null && _detail != detail)
-                Restore();
-
-            if (!EnsureHolder())
-                return;
-
-            // Strip accidental Canvas on list slots (old broken fixes) so they cannot outrank detail.
-            try { StripElevatedCanvasesFromListSlots(list); } catch { /* ignore */ }
-
-            _detail = detail;
+            _activeDetail = detail;
             Transform t = detail.transform;
-            _origParent = t.parent;
-            _origSibling = t.GetSiblingIndex();
 
+            // 1) Prefab-style: last among siblings under the same parent as list content.
             try
             {
-                // worldPositionStays keeps screen position; do NOT rewrite localScale
-                // (RevealDetailSlot animates localScale from 0 → slotDetailOriginScale).
-                t.SetParent(_holderRt, worldPositionStays: true);
-                EnsureHolderTop();
+                t.SetAsLastSibling();
+                // Also push list root last under its parent so detail's branch is late if nested.
+                if (list.transform.parent != null)
+                    list.transform.SetAsLastSibling();
+            }
+            catch { /* ignore */ }
 
-                // Force absolute top sorting on detail itself too (nested canvases).
-                ForceDetailCanvasStack(detail.gameObject);
+            // 2) Light Canvas boost only on detail root — do not reparent, do not touch scale.
+            try
+            {
+                Canvas c = detail.GetComponent<Canvas>();
+                if (c == null)
+                {
+                    c = detail.gameObject.AddComponent<Canvas>();
+                    _addedCanvas = true;
+                    _hadCanvas = false;
+                    _prevOverride = false;
+                    _prevOrder = 0;
+                    _prevEnabled = true;
+                }
+                else if (_detailCanvas != c)
+                {
+                    _hadCanvas = true;
+                    _addedCanvas = false;
+                    _prevOverride = c.overrideSorting;
+                    _prevOrder = c.sortingOrder;
+                    _prevEnabled = c.enabled;
+                }
 
-                _active = true;
-                // One log per successful elevate (avoid SetData spam).
-                Debug.Log($"[RMR] detailSlot on top layer parent={t.parent?.name} order={HolderSortingOrder}");
+                _detailCanvas = c;
+                c.enabled = true;
+                c.overrideSorting = true;
+                // Absolute order high enough to sit above list graphics in the same edit panel.
+                if (c.sortingOrder < DetailSortBoost)
+                    c.sortingOrder = DetailSortBoost;
+
+                if (detail.GetComponent<GraphicRaycaster>() == null)
+                {
+                    detail.gameObject.AddComponent<GraphicRaycaster>();
+                    _addedRaycaster = true;
+                }
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[RMR] ElevateDetailSlot failed: " + ex.Message);
-                try
-                {
-                    if (_origParent != null)
-                        t.SetParent(_origParent, worldPositionStays: true);
-                }
-                catch { /* ignore */ }
-                _active = false;
-                _detail = null;
+                Debug.LogWarning("[RMR] detailSlot SetAsLastSibling/Canvas boost failed: " + ex.Message);
             }
+
+            // 3) Remove leftover experimental canvases on list slots (old WIP).
+            try { StripElevatedCanvasesFromListSlots(list); } catch { /* ignore */ }
         }
 
         public static void Restore()
         {
-            if (_pendingElevate != null && _coroutineHost != null)
-            {
-                try { _coroutineHost.StopCoroutine(_pendingElevate); } catch { /* ignore */ }
-                _pendingElevate = null;
-            }
-
-            if (!_active && _detail == null)
-                return;
-
             try
             {
-                if (_detail != null && _detail.transform != null && _origParent != null)
+                if (_detailCanvas != null)
                 {
-                    Transform t = _detail.transform;
-                    t.SetParent(_origParent, worldPositionStays: true);
-                    int max = Mathf.Max(0, _origParent.childCount - 1);
-                    t.SetSiblingIndex(Mathf.Clamp(_origSibling, 0, max));
+                    if (_addedCanvas)
+                    {
+                        if (_addedRaycaster)
+                        {
+                            GraphicRaycaster gr = _detailCanvas.GetComponent<GraphicRaycaster>();
+                            if (gr != null)
+                                UnityEngine.Object.Destroy(gr);
+                        }
+                        UnityEngine.Object.Destroy(_detailCanvas);
+                    }
+                    else if (_hadCanvas)
+                    {
+                        _detailCanvas.overrideSorting = _prevOverride;
+                        _detailCanvas.sortingOrder = _prevOrder;
+                        _detailCanvas.enabled = _prevEnabled;
+                        if (_addedRaycaster)
+                        {
+                            GraphicRaycaster gr = _detailCanvas.GetComponent<GraphicRaycaster>();
+                            if (gr != null)
+                                UnityEngine.Object.Destroy(gr);
+                        }
+                    }
                 }
             }
-            catch (Exception ex)
-            {
-                Debug.LogWarning("[RMR] detailSlot restore failed: " + ex.Message);
-            }
+            catch { /* ignore */ }
             finally
             {
-                _active = false;
-                _detail = null;
-                _origParent = null;
-                _origSibling = 0;
+                _activeDetail = null;
+                _detailCanvas = null;
+                _addedCanvas = false;
+                _addedRaycaster = false;
+                _hadCanvas = false;
             }
+
+            DestroyLegacyHolderIfAny();
         }
 
-        private static void EnsureHolderTop()
+        /// <summary>Remove experimental DontDestroyOnLoad holder from older WIP builds.</summary>
+        private static void DestroyLegacyHolderIfAny()
         {
-            if (_holderRoot == null || _holderCanvas == null)
-                return;
-            if (!_holderRoot.activeSelf)
-                _holderRoot.SetActive(true);
-            _holderCanvas.overrideSorting = true;
-            _holderCanvas.sortingOrder = HolderSortingOrder;
-            try { _holderRoot.transform.SetAsLastSibling(); } catch { /* ignore */ }
+            try
+            {
+                GameObject legacy = GameObject.Find("RMR_DetailSlotLayerHolder");
+                if (legacy == null)
+                    return;
+                // If detail was left parented under it, reparent is unknown — destroy only empty holder.
+                if (legacy.transform.childCount > 0)
+                {
+                    // Put children back under first available battle card list if possible.
+                    UIInvenCardListScroll list = UnityEngine.Object.FindObjectOfType<UIInvenCardListScroll>();
+                    Transform fallbackParent = list != null ? list.transform : null;
+                    while (legacy.transform.childCount > 0)
+                    {
+                        Transform child = legacy.transform.GetChild(0);
+                        if (fallbackParent != null)
+                            child.SetParent(fallbackParent, worldPositionStays: true);
+                        else
+                            child.SetParent(null, worldPositionStays: true);
+                    }
+                }
+                UnityEngine.Object.Destroy(legacy);
+            }
+            catch { /* ignore */ }
         }
 
-        private static void ForceDetailCanvasStack(GameObject detailRoot)
-        {
-            if (detailRoot == null)
-                return;
-            Canvas[] canvases = detailRoot.GetComponentsInChildren<Canvas>(true);
-            for (int i = 0; i < canvases.Length; i++)
-            {
-                Canvas c = canvases[i];
-                if (c == null)
-                    continue;
-                c.overrideSorting = true;
-                c.sortingOrder = HolderSortingOrder + 1 + i;
-            }
-            // Root detail may have no canvas — parent holder is enough; optional root canvas:
-            Canvas rootCanvas = detailRoot.GetComponent<Canvas>();
-            if (rootCanvas == null)
-            {
-                rootCanvas = detailRoot.AddComponent<Canvas>();
-                rootCanvas.overrideSorting = true;
-                rootCanvas.sortingOrder = HolderSortingOrder + 1;
-                if (detailRoot.GetComponent<GraphicRaycaster>() == null)
-                    detailRoot.AddComponent<GraphicRaycaster>();
-            }
-            else
-            {
-                rootCanvas.overrideSorting = true;
-                rootCanvas.sortingOrder = HolderSortingOrder + 1;
-            }
-        }
-
-        /// <summary>
-        /// Old experimental fixes may have left Canvas+overrideSorting on list slots.
-        /// Those can still paint over detail if order is high enough.
-        /// </summary>
         private static void StripElevatedCanvasesFromListSlots(UIInvenCardListScroll list)
         {
             if (list == null)
@@ -215,62 +195,14 @@ namespace RogueLike_Mod_Reborn
                 if (slot == null)
                     continue;
                 Canvas c = slot.GetComponent<Canvas>();
-                if (c == null)
+                if (c == null || !c.overrideSorting)
                     continue;
-                // Only remove canvases we likely added (override on the slot root).
-                if (c.overrideSorting && c.sortingOrder >= 100)
-                {
-                    GraphicRaycaster gr = slot.GetComponent<GraphicRaycaster>();
-                    if (gr != null)
-                        UnityEngine.Object.Destroy(gr);
-                    UnityEngine.Object.Destroy(c);
-                }
-            }
-        }
-
-        private static bool EnsureHolder()
-        {
-            if (_holderRoot != null && _holderRt != null && _holderCanvas != null)
-            {
-                EnsureHolderTop();
-                return true;
-            }
-
-            try
-            {
-                _holderRoot = new GameObject(HolderName);
-                UnityEngine.Object.DontDestroyOnLoad(_holderRoot);
-
-                _holderCanvas = _holderRoot.AddComponent<Canvas>();
-                _holderCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-                _holderCanvas.overrideSorting = true;
-                _holderCanvas.sortingOrder = HolderSortingOrder;
-
-                var scaler = _holderRoot.AddComponent<CanvasScaler>();
-                scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-                scaler.referenceResolution = new Vector2(1920f, 1080f);
-                scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
-                scaler.matchWidthOrHeight = 1f;
-
-                _holderRoot.AddComponent<GraphicRaycaster>();
-
-                _holderRt = _holderRoot.GetComponent<RectTransform>();
-                if (_holderRt == null)
-                    _holderRt = _holderRoot.AddComponent<RectTransform>();
-                _holderRt.anchorMin = Vector2.zero;
-                _holderRt.anchorMax = Vector2.one;
-                _holderRt.offsetMin = Vector2.zero;
-                _holderRt.offsetMax = Vector2.zero;
-                _holderRt.localScale = Vector3.one;
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Debug.LogWarning("[RMR] detail holder create failed: " + ex.Message);
-                _holderRoot = null;
-                _holderRt = null;
-                _holderCanvas = null;
-                return false;
+                if (c.sortingOrder < 100)
+                    continue;
+                GraphicRaycaster gr = slot.GetComponent<GraphicRaycaster>();
+                if (gr != null)
+                    UnityEngine.Object.Destroy(gr);
+                UnityEngine.Object.Destroy(c);
             }
         }
 

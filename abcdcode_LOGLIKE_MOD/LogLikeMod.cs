@@ -3342,7 +3342,25 @@ namespace abcdcode_LOGLIKE_MOD
             return num != 0;
         }
 
+        // Frame-local cache: CheckStage is hit by many Harmony patches per frame.
+        private static int _checkStageFrame = -1;
+        private static bool _checkStageOnBattle;
+        private static bool _checkStageResult;
+
         public static bool CheckStage(bool OnBattle = false)
+        {
+            int frame = Time.frameCount;
+            if (frame == _checkStageFrame && OnBattle == _checkStageOnBattle)
+                return _checkStageResult;
+
+            bool result = CheckStageUncached(OnBattle);
+            _checkStageFrame = frame;
+            _checkStageOnBattle = OnBattle;
+            _checkStageResult = result;
+            return result;
+        }
+
+        private static bool CheckStageUncached(bool OnBattle)
         {
             // Realization bootstrap (-853 shell), prepare, and combat must NOT be treated as a
             // full Roguelike reception. Otherwise StartBattle/reward/next-stage hooks hijack

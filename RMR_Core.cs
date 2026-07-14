@@ -216,6 +216,7 @@ namespace RogueLike_Mod_Reborn
 
             MakeDirectoriesAndLoadConfig();
             Harmony.CreateAndPatchAll(typeof(RMR_Patches), packageId);
+            try { RMRSessionHygiene.EnsureHost(); } catch (Exception hyEx) { Debug.LogWarning("[RMR] SessionHygiene host: " + hyEx.Message); }
 
             RegisterAllKeyword();
 
