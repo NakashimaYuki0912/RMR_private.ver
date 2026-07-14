@@ -5,7 +5,7 @@
 	"contentfolder"		"E:\\Steam\\steamapps\\workshop\\content\\1256670_BACKUPS\\3743867841_upload"
 	"previewfile"		"E:\\Steam\\steamapps\\workshop\\content\\1256670_BACKUPS\\3743867841_upload\\preview.jpg.png"
 	"visibility"		"0"
-	"title"		"RogueLike Mod REBORN fan work"
-	"description"		"Fan-maintained RMR. Start via top-right Reception icon. Build 2026-07-13Trelease-binah-upgrade-shop10+08:00. StageModInfo Exist=false hub fix. Binah upgrade. Shop 10/+2."
-	"changenote"		"2026-07-13: StageModInfo Exist=false restore RMR hub; Hub/Help/Atlas; Binah upgrade; shop 10/+2"
+	"title"		"RMR REBORN fan work [Workshop]"
+	"description"		"Fan-maintained RMR. Start via top-right Reception icon.\n\n[h2]2026-07-13 Update[/h2]\n[list]\n[*]Urban Plague / Nightmare / Star / Impurity: Rest +1 (additive only)\n[*]Urban Plague / Nightmare / Star bosses: liberation-exclusive abno picks 1 -> 2 (E.G.O. still 1)\n[/list]\n\nBuild: 2026-07-13Trest-abno-g4-g7+08:00\nStageModInfo Exist=false (DLL hub). Binah upgrade. Shop upgrade 10/+2."
+	"changenote"		"[h2]2026-07-13 Balance / Drop Changes[/h2]\n[list]\n[*][b]Rest +1[/b]: Urban Plague / Urban Nightmare / Star of the City / Impurity each gain one extra Rest node (additive only; does not replace other events)\n[*][b]Liberation-exclusive Abno x2[/b]: After Urban Plague / Nightmare / Star bosses, exclusive abnormality 3-pick is now 2 times (was 1). E.G.O. 3-pick remains 1.\n[/list]\n\n[h2]2026-07-13 平衡 / 掉落调整[/h2]\n[list]\n[*][b]休息处 +1[/b]：都市恶疾、都市梦魇、都市之星、杂质各额外增加 1 个休息处（不替换其他事件）\n[*][b]解放战专属异想体 x2[/b]：都市恶疾 / 都市梦魇 / 都市之星 Boss 结束后，专属异想体三选一从 1 次改为 2 次；E.G.O. 仍为 1 次\n[/list]\n\nBuild: 2026-07-13Trest-abno-g4-g7+08:00"
 }

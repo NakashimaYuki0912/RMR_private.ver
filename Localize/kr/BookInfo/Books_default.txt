@@ -3,12 +3,12 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <bookDescList>
     <BookDesc BookID="-854">
-      <BookName>도전자의 책장</BookName>
+      <BookName>여정 지정 사서의 책장</BookName>
       <TextList />
       <PassiveList />
     </BookDesc>
     <BookDesc BookID="-855">
-      <BookName>도전자의 책장</BookName>
+      <BookName>여정 보조 사서의 책장</BookName>
       <TextList />
       <PassiveList />
     </BookDesc>

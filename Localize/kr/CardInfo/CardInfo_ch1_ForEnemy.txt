@@ -13,6 +13,9 @@
     <BattleCardDesc ID="-104004">
       <LocalizedName>광란</LocalizedName>
     </BattleCardDesc>
+    <BattleCardDesc ID="-104006">
+      <LocalizedName>분쇄</LocalizedName>
+    </BattleCardDesc>
 
   </cardDescList>
 </BattleCardDescRoot>

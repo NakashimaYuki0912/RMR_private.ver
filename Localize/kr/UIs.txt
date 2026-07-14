@@ -3,6 +3,7 @@
 
   <text id="BattleEnd_CardReward">전투 책장 보상 선택</text>
   <text id="BattleEnd_PassiveReward">패시브 보상 선택</text>
+  <text id="BattleEnd_EgoReward">E.G.O. 책장 선택</text>
   <text id="BattleEnd_NextStage">다음 접대 선택</text>
   <text id="ui_LogueLikeFloor">도서관</text>
   <text id="ui_selectskip">보상 넘기기</text>
@@ -137,5 +138,28 @@
   <text id="ui_RMR_Atlas_Title">영구 도감</text>
   <text id="ui_RMR_Atlas_Progress">획득 단계</text>
   <text id="ui_RMR_Atlas_Unlocked">해금</text>
+  <text id="ui_RMR_Atlas_Locked">미해금</text>
+  <text id="ui_RMR_Atlas_LockedHint">아직 해금되지 않았습니다.</text>
+  <text id="ui_RMR_Atlas_ShowUpgraded">강화판 표시</text>
+  <text id="ui_RMR_Atlas_EmptyFlat">이 분류에 항목이 없습니다(환상체/E.G.O.는 플레이 또는 개방전 후 해금).</text>
+  <text id="ui_RMR_Atlas_EmptySection">이 단계에 항목이 없습니다. 왼쪽 "전체" 또는 다른 분류를 선택하세요.</text>
+  <text id="ui_RMR_Atlas_Cat_RoleBook">핵심 책장</text>
+  <text id="ui_RMR_Atlas_Cat_BattleCard">전투 책장</text>
+  <text id="ui_RMR_Atlas_Cat_Abno">환상체 책장</text>
+  <text id="ui_RMR_Atlas_Cat_Ego">E.G.O. 전투 책장</text>
+  <text id="ui_RMR_Atlas_Sec_All">전체</text>
+  <text id="ui_RMR_Atlas_Sec_Rumor">소문</text>
+  <text id="ui_RMR_Atlas_Sec_UrbanLegend">도시괴담</text>
+  <text id="ui_RMR_Atlas_Sec_UrbanMyth">도시전설</text>
+  <text id="ui_RMR_Atlas_Sec_UrbanIllness">도시질병</text>
+  <text id="ui_RMR_Atlas_Sec_UrbanNightmare">도시악몽</text>
+  <text id="ui_RMR_Atlas_Sec_UrbanStar">도시의 별</text>
+  <text id="ui_RMR_Atlas_Sec_Impurity">불순물</text>
+  <text id="ui_RMR_Atlas_Res_Weak">취약</text>
+  <text id="ui_RMR_Atlas_Res_Normal">보통</text>
+  <text id="ui_RMR_Atlas_Res_Endure">내성</text>
+  <text id="ui_RMR_Atlas_Res_Immune">면역</text>
+  <text id="ui_RMR_Atlas_Res_Vulnerable">치명</text>
+  <text id="ui_RMR_Atlas_UpgradePreview">강화 미리보기</text>
 
 </localize>

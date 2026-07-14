@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <CharactersNameRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
+<!-- special / extras -->
+	<Name ID="2001">코플리</Name>
+
 <!-- 1챕터 -->
 	<Name ID="11">망치</Name>
 	<Name ID="12">레니</Name>
@@ -166,7 +169,7 @@
   
   <Name ID="147">이오리</Name>
 
-  <Name ID="148">enlxmfflsdis</Name>
+  <Name ID="148">미카엘</Name>
   <Name ID="149">오른손</Name>
   <Name ID="150">왼손</Name>
   

@@ -2,19 +2,19 @@
 <BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <cardDescList>
     <BattleCardDesc ID="-10">
-      <LocalizedName>Roguish Evade</LocalizedName> <!-- Evade -->
+      <LocalizedName>교활한 회피</LocalizedName> <!-- Roguish Evade -->
     </BattleCardDesc>
     <BattleCardDesc ID="-11">
-      <LocalizedName>Twin Strikes</LocalizedName> <!-- Light Attack -->
+      <LocalizedName>이중 타격</LocalizedName> <!-- Twin Strikes -->
     </BattleCardDesc>
     <BattleCardDesc ID="-12">
-      <LocalizedName>Stand Ground</LocalizedName> <!-- Light Defense -->
+      <LocalizedName>굳건한 방어</LocalizedName> <!-- Stand Ground -->
     </BattleCardDesc>
     <BattleCardDesc ID="-13">
-      <LocalizedName>Hit and Run</LocalizedName> <!-- Charge and Cover -->
+      <LocalizedName>치고 빠지기</LocalizedName> <!-- Hit and Run -->
     </BattleCardDesc>
 	<BattleCardDesc ID="-14">
-      <LocalizedName>Coordinated Strikes</LocalizedName> <!-- Focused Strikes -->
+      <LocalizedName>연계 타격</LocalizedName> <!-- Coordinated Strikes -->
     </BattleCardDesc>
   </cardDescList>
 </BattleCardDescRoot>

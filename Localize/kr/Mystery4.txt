@@ -6,6 +6,7 @@
 썩어도 공방제 물품이니 직접 쓸 수도 있고, 아마 찾아보면 좋은 구매자들을 찾을 수 있을지도 모릅니다.</text>
              <text id="MysteryCh4_1Frame0Choice0Desc">직접 쓴다(도시질병 전투책장 보상 5개 획득)</text>
              <text id="MysteryCh4_1Frame0Choice1Desc">팔아 넘긴다(25안 획득)</text>
+             <text id="MysteryCh4_1Frame0Choice2Desc">장비를 수리해 사용한다 ([red]-1 무기 수리[/color], [green]+2[/color] [unique]유니크[/color] [green]도시질병 책장[/color])</text>
              <text id="MysteryCh4_1Frame1Dia0">당신은 뒷골목 조직들에게 물건을 넘기고 돈을 받았습니다.</text>
              <text id="MysteryCh4_1Frame1Dia1">당신은 협회 해결사들에게 물건을 넘기고 돈을 받았습니다.</text>
              <text id="MysteryCh4_1Frame1Dia2">당신은 공방 기술자들에게 물건을 넘기고 돈을 받았습니다.</text>

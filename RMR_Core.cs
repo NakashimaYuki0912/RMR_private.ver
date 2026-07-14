@@ -62,7 +62,7 @@ namespace RogueLike_Mod_Reborn
         public const string packageId = "abcdcodecalmmagma.LogueLikeReborn";
         public static CustomMapHandler RMRMapHandler;
 
-        public const string BuildTimestamp = "2026-07-13Trelease-binah-upgrade-shop10+08:00";
+        public const string BuildTimestamp = "2026-07-13Trest-abno-g4-g7+08:00";
 
         /// <summary>
         /// After invitation is sent: run the intent chosen on the invitation-time hub.
@@ -1171,15 +1171,24 @@ namespace RogueLike_Mod_Reborn
                 ClearSimpleFlag(Grade6SpecialCorePagesGrantedSaveName, "Granted");
 
                 LogueBookModels.EnsureAtlasUnlocks();
-                LogueBookModels.AtlasUnlockedRoleBooks.Clear();
-                LogueBookModels.AtlasUnlockedBattleCards.Clear();
-                LogueBookModels.AtlasUnlockedAbnormalityPages.Clear();
-                LogueBookModels.AtlasUnlockedEgoPages.Clear();
-                LogueBookModels.SavePermanentAtlasData();
+                LogueBookModels.BeginPermanentAtlasReset();
+                try
+                {
+                    LogueBookModels.AtlasUnlockedRoleBooks.Clear();
+                    LogueBookModels.AtlasUnlockedBattleCards.Clear();
+                    LogueBookModels.AtlasUnlockedAbnormalityPages.Clear();
+                    LogueBookModels.AtlasUnlockedEgoPages.Clear();
+                    LogueBookModels.SavePermanentAtlasData();
+                }
+                finally
+                {
+                    LogueBookModels.EndPermanentAtlasReset();
+                }
                 Debug.Log("[RMR] Reset all archive progress: permanent atlas, realization clears, and special clear flags were cleared.");
             }
             catch (Exception e)
             {
+                try { LogueBookModels.EndPermanentAtlasReset(); } catch { }
                 Debug.LogError($"[RMR] ResetAllArchiveProgress failed: {e}");
             }
         }
@@ -2710,11 +2719,38 @@ namespace RogueLike_Mod_Reborn
         }
 
         /// <summary>
-        /// Determines some aspects of the abnormality selection screen, do not override unless you know what you're doing.
+        /// Abnormality-page chapter pool for reception UI / legacy callers.
+        /// Final realization exclusives are excluded until that floor is cleared.
         /// </summary>
         public virtual List<RewardPassiveInfo> GetCurChapterCreature(ChapterGrade grade)
         {
-            return Singleton<RewardPassivesList>.Instance.GetChapterData(grade, PassiveRewardListType.Creature, LorId.None);
+            List<RewardPassiveInfo> raw = Singleton<RewardPassivesList>.Instance.GetChapterData(grade, PassiveRewardListType.Creature, LorId.None)
+                ?? new List<RewardPassiveInfo>();
+            // Also merge Custom lists used by RMR abno rewards, then gate exclusives.
+            List<RewardPassiveInfo> custom = Singleton<RewardPassivesList>.Instance.GetChapterData(grade, PassiveRewardListType.Custom, LorId.None)
+                ?? new List<RewardPassiveInfo>();
+            List<RewardPassiveInfo> gradeAllCustom = Singleton<RewardPassivesList>.Instance.GetChapterData(ChapterGrade.GradeAll, PassiveRewardListType.Custom, LorId.None)
+                ?? new List<RewardPassiveInfo>();
+
+            var merged = new List<RewardPassiveInfo>();
+            void AddRange(List<RewardPassiveInfo> list)
+            {
+                if (list == null) return;
+                foreach (RewardPassiveInfo info in list)
+                {
+                    if (info == null || info.rewardtype != RewardType.Creature)
+                        continue;
+                    if (!RMRAbnormalityUnlockManager.CanAppearInNormalReceptionAbnoPool(info))
+                        continue;
+                    if (merged.Exists(x => x != null && x.id == info.id))
+                        continue;
+                    merged.Add(info);
+                }
+            }
+            AddRange(raw);
+            AddRange(custom);
+            AddRange(gradeAllCustom);
+            return merged;
         }
 
         /// <summary>

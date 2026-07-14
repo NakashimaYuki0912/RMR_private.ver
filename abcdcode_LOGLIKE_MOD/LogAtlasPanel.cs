@@ -51,7 +51,21 @@ namespace abcdcode_LOGLIKE_MOD
     public class LogAtlasPanel : Singleton<LogAtlasPanel>
     {
         public const string LockedTitle = "?";
-        private const string AtlasUpgradeToggleLabel = "\u663e\u793a\u5347\u7ea7\u7248";
+
+        private static string AtlasUi(string zh, string en, string kr)
+        {
+            string lang = "";
+            try { lang = TextDataModel.CurrentLanguage.ToString().ToLowerInvariant(); } catch { }
+            if (lang.Contains("kr") || lang.Contains("ko")) return kr;
+            if (lang.Contains("en")) return en;
+            return zh;
+        }
+
+        private static string AtlasUpgradeToggleLabelText()
+        {
+            return LocalizedUi("ui_RMR_Atlas_ShowUpgraded",
+                AtlasUi("显示升级版", "Show upgraded", "강화판 표시"));
+        }
 
         private static readonly AtlasSection[] Sections =
         {
@@ -179,12 +193,14 @@ namespace abcdcode_LOGLIKE_MOD
             try { LogLikeMod.InvalidateTmpFontCache(); } catch { }
             try
             {
+                // Hub can open before CreatePlayer; always rehydrate permanent atlas from disk first.
                 LogueBookModels.EnsureAtlasUnlocks();
+                LogueBookModels.LoadPermanentAtlasData();
                 LogueBookModels.SyncCurrentInventoryToPermanentAtlas();
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[RMR Atlas] EnsureAtlasUnlocks: " + ex.Message);
+                Debug.LogWarning("[RMR Atlas] EnsureAtlasUnlocks/LoadPermanent: " + ex.Message);
             }
 
             try
@@ -236,12 +252,16 @@ namespace abcdcode_LOGLIKE_MOD
                     int total = 0;
                     try { total = BuildEntries(false).Count; } catch { }
                     Debug.Log($"[RMR Atlas] Opened from start hub. entries≈{total} tiles={tiles.Count} "
+                        + $"RoleBooks={LogueBookModels.AtlasUnlockedRoleBooks?.Count ?? 0} "
+                        + $"BattleCards={LogueBookModels.AtlasUnlockedBattleCards?.Count ?? 0} "
+                        + $"Abno={LogueBookModels.AtlasUnlockedAbnormalityPages?.Count ?? 0} "
+                        + $"Ego={LogueBookModels.AtlasUnlockedEgoPages?.Count ?? 0} "
                         + $"host={(_hostRoot != null ? _hostRoot.name : "null")} root={(root != null ? root.name : "null")}");
                 }
                 catch (Exception tileEx)
                 {
                     Debug.LogWarning("[RMR Atlas] UpdateTiles failed (UI still shown): " + tileEx);
-                    try { ShowEmptyHint("图鉴数据加载失败，请查看日志。"); } catch { }
+                    try { ShowEmptyHint(AtlasUi("图鉴数据加载失败，请查看日志。", "Failed to load atlas data. Check the log.", "도감 데이터를 불러오지 못했습니다. 로그를 확인하세요.")); } catch { }
                 }
             }
             catch (Exception ex)
@@ -593,7 +613,7 @@ namespace abcdcode_LOGLIKE_MOD
                     CloseFromHub();
                 });
                 TextMeshProUGUI backLabel = CreateLabel(_hubCloseBtn.transform, Vector2.zero, 20, ColCream, TextAlignmentOptions.Center);
-                backLabel.text = "\u8fd4\u56de"; // 返回
+                backLabel.text = AtlasUi("\u8fd4\u56de", "Back", "\ub3cc\uc544\uac00\uae30"); // 返回 / Back / 돌아가기
                 backLabel.raycastTarget = false;
                 try
                 {
@@ -843,7 +863,7 @@ namespace abcdcode_LOGLIKE_MOD
                     detailArtwork.sprite = LogLikeMod.ArtWorks.ContainsKey("ItemNotFoundIcon") ? LogLikeMod.ArtWorks["ItemNotFoundIcon"] : null;
                     detailArtwork.enabled = detailArtwork.sprite != null;
                     ApplyArtworkLayout(detailArtwork, AtlasCategory.RoleBook, true);
-                    detailDescription.text = "\u5c1a\u672a\u89e3\u9501\u3002"; // 尚未解锁。
+                    detailDescription.text = AtlasUi("\u5c1a\u672a\u89e3\u9501\u3002", "Not unlocked yet.", "\uc544\uc9c1 \ud574\uae08\ub418\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4.");
                     return;
                 }
 
@@ -933,15 +953,19 @@ namespace abcdcode_LOGLIKE_MOD
                     displayName = book.CharacterSkin[0];
                 if (string.IsNullOrEmpty(displayName))
                     displayName = id.ToString();
-                lines.Add("名称: " + displayName);
+                lines.Add(AtlasUi("名称: ", "Name: ", "이름: ") + displayName);
                 lines.Add("HP: " + book.EquipEffect.Hp.ToString());
-                lines.Add("速度: " + book.EquipEffect.SpeedMin.ToString() + "-" + book.EquipEffect.Speed.ToString());
-                lines.Add("速度骰子: " + book.EquipEffect.SpeedDiceNum.ToString());
-                lines.Add("耐性: 斩" + ResToText(book.EquipEffect.SResist) + " 突" + ResToText(book.EquipEffect.PResist) + " 打" + ResToText(book.EquipEffect.HResist));
-                lines.Add("混乱耐性: 斩" + ResToText(book.EquipEffect.SBResist) + " 突" + ResToText(book.EquipEffect.PBResist) + " 打" + ResToText(book.EquipEffect.HBResist));
+                lines.Add(AtlasUi("速度: ", "Speed: ", "속도: ") + book.EquipEffect.SpeedMin.ToString() + "-" + book.EquipEffect.Speed.ToString());
+                lines.Add(AtlasUi("速度骰子: ", "Speed Dice: ", "속도 주사위: ") + book.EquipEffect.SpeedDiceNum.ToString());
+                lines.Add(AtlasUi("耐性: 斩", "Resist: Slash ", "내성: 참격 ") + ResToText(book.EquipEffect.SResist)
+                    + AtlasUi(" 突", " Pierce ", " 관통 ") + ResToText(book.EquipEffect.PResist)
+                    + AtlasUi(" 打", " Blunt ", " 타격 ") + ResToText(book.EquipEffect.HResist));
+                lines.Add(AtlasUi("混乱耐性: 斩", "Stagger Resist: Slash ", "흐트러짐 내성: 참격 ") + ResToText(book.EquipEffect.SBResist)
+                    + AtlasUi(" 突", " Pierce ", " 관통 ") + ResToText(book.EquipEffect.PBResist)
+                    + AtlasUi(" 打", " Blunt ", " 타격 ") + ResToText(book.EquipEffect.HBResist));
                 if (book.EquipEffect.PassiveList != null && book.EquipEffect.PassiveList.Count > 0)
                 {
-                    lines.Add("被动:");
+                    lines.Add(AtlasUi("被动:", "Passives:", "패시브:"));
                     foreach (LorId pid in book.EquipEffect.PassiveList)
                     {
                         string pName = RewardingModel.GetPassiveName(pid);
@@ -1028,7 +1052,7 @@ namespace abcdcode_LOGLIKE_MOD
             // E.G.O. combat pages — battle-card style detail, labeled as EGO.
             string body = BuildBattleCardDetail(id, "");
             if (string.IsNullOrEmpty(body))
-                return "E.G.O. \u6218\u6597\u4e66\u9875";
+                return GetCategoryName(AtlasCategory.EgoPage);
             return "E.G.O.\n" + body;
         }
 
@@ -1036,12 +1060,18 @@ namespace abcdcode_LOGLIKE_MOD
         {
             switch (res)
             {
-                case AtkResist.Weak: return "耐性";     // 耐性
-                case AtkResist.Normal: return "一般";    // 一般
-                case AtkResist.Endure: return "耐受";    // 耐受
-                case AtkResist.Immune: return "免疫";    // 免疫
-                case AtkResist.Vulnerable: return "脆弱"; // 脆弱
-                default: return res.ToString();
+                case AtkResist.Weak:
+                    return LocalizedUi("ui_RMR_Atlas_Res_Weak", AtlasUi("耐性", "Weak", "취약"));
+                case AtkResist.Normal:
+                    return LocalizedUi("ui_RMR_Atlas_Res_Normal", AtlasUi("一般", "Normal", "보통"));
+                case AtkResist.Endure:
+                    return LocalizedUi("ui_RMR_Atlas_Res_Endure", AtlasUi("耐受", "Endured", "내성"));
+                case AtkResist.Immune:
+                    return LocalizedUi("ui_RMR_Atlas_Res_Immune", AtlasUi("免疫", "Immune", "면역"));
+                case AtkResist.Vulnerable:
+                    return LocalizedUi("ui_RMR_Atlas_Res_Vulnerable", AtlasUi("脆弱", "Fatal", "치명"));
+                default:
+                    return res.ToString();
             }
         }
 
@@ -1122,6 +1152,7 @@ namespace abcdcode_LOGLIKE_MOD
                 _openedFromHub = false;
                 Init();
                 LogueBookModels.EnsureAtlasUnlocks();
+                LogueBookModels.LoadPermanentAtlasData();
                 LogueBookModels.SyncCurrentInventoryToPermanentAtlas();
                 UpdateTiles();
                 EnsureHubCloseButton();
@@ -1272,8 +1303,16 @@ namespace abcdcode_LOGLIKE_MOD
             if (entries.Count == 0)
             {
                 ShowEmptyHint(flatCategory
-                    ? "本分类暂无条目（异想体/EGO 需游玩或解放战后解锁）。"
-                    : "本节暂无条目，请点左侧「全部」或切换分类。");
+                    ? LocalizedUi("ui_RMR_Atlas_EmptyFlat",
+                        AtlasUi(
+                            "本分类暂无条目（异想体/EGO 需游玩或解放战后解锁）。",
+                            "No entries in this category (abnormality / E.G.O. unlock via play or realization).",
+                            "이 분류에 항목이 없습니다(환상체/E.G.O.는 플레이 또는 개방전 후 해금)."))
+                    : LocalizedUi("ui_RMR_Atlas_EmptySection",
+                        AtlasUi(
+                            "本节暂无条目，请点左侧「全部」或切换分类。",
+                            "No entries in this stage. Try \"All\" or another category.",
+                            "이 단계에 항목이 없습니다. 왼쪽 \"전체\" 또는 다른 분류를 선택하세요.")));
             }
             else
             {
@@ -1586,7 +1625,7 @@ namespace abcdcode_LOGLIKE_MOD
             if (upgradeToggleFrame != null)
                 upgradeToggleFrame.color = showUpgradedBattleCards ? UIColorManager.Manager.GetUIColor(UIColor.Highlighted) : UIColorManager.Manager.GetUIColor(UIColor.Default);
             if (upgradeToggleLabel != null)
-                upgradeToggleLabel.text = (showUpgradedBattleCards ? "[x] " : "[ ] ") + AtlasUpgradeToggleLabel;
+                upgradeToggleLabel.text = (showUpgradedBattleCards ? "[x] " : "[ ] ") + AtlasUpgradeToggleLabelText();
         }
 
         private static DiceCardXmlInfo GetDisplayCardInfo(DiceCardXmlInfo info, bool showUpgraded)
@@ -1610,10 +1649,10 @@ namespace abcdcode_LOGLIKE_MOD
                 return "";
             List<string> lines = new List<string>();
             if (showUpgraded)
-                lines.Add("\u5347\u7ea7\u9884\u89c8"); // 升级预览
+                lines.Add(LocalizedUi("ui_RMR_Atlas_UpgradePreview", AtlasUi("升级预览", "Upgrade preview", "강화 미리보기")));
             if (displayInfo.Spec != null)
-                lines.Add("\u8d39\u7528: " + displayInfo.Spec.Cost.ToString());
-            lines.Add("\u7ae0\u8282: " + displayInfo.Chapter.ToString());
+                lines.Add(AtlasUi("费用: ", "Cost: ", "비용: ") + displayInfo.Spec.Cost.ToString());
+            lines.Add(AtlasUi("章节: ", "Chapter: ", "장: ") + displayInfo.Chapter.ToString());
 
             // Localized page ability (never dump raw Script class names — they tofu / English-only).
             try
@@ -1633,7 +1672,7 @@ namespace abcdcode_LOGLIKE_MOD
 
             if (displayInfo.DiceBehaviourList != null && displayInfo.DiceBehaviourList.Count > 0)
             {
-                lines.Add("\u9ab0\u5b50:");
+                lines.Add(AtlasUi("骰子:", "Dice:", "주사위:"));
                 for (int i = 0; i < displayInfo.DiceBehaviourList.Count; i++)
                 {
                     DiceBehaviour dice = displayInfo.DiceBehaviourList[i];
@@ -1649,12 +1688,18 @@ namespace abcdcode_LOGLIKE_MOD
         {
             switch (detail)
             {
-                case BehaviourDetail.Slash: return "\u65a9\u51fb";
-                case BehaviourDetail.Penetrate: return "\u7a81\u523a";
-                case BehaviourDetail.Hit: return "\u6253\u51fb";
-                case BehaviourDetail.Guard: return "\u9632\u5fa1";
-                case BehaviourDetail.Evasion: return "\u95ea\u907f";
-                default: return detail.ToString();
+                case BehaviourDetail.Slash:
+                    return AtlasUi("斩击", "Slash", "참격");
+                case BehaviourDetail.Penetrate:
+                    return AtlasUi("突刺", "Pierce", "관통");
+                case BehaviourDetail.Hit:
+                    return AtlasUi("打击", "Blunt", "타격");
+                case BehaviourDetail.Guard:
+                    return AtlasUi("防御", "Block", "방어");
+                case BehaviourDetail.Evasion:
+                    return AtlasUi("闪避", "Evade", "회피");
+                default:
+                    return detail.ToString();
             }
         }
 
@@ -1967,14 +2012,24 @@ namespace abcdcode_LOGLIKE_MOD
         {
             switch (section)
             {
-                case AtlasSection.All: return "\u5168\u90e8"; // 全部
-                case AtlasSection.Rumor: return "传闻";
-                case AtlasSection.UrbanLegend: return "都市怪谈";
-                case AtlasSection.UrbanMyth: return "都市传说";
-                case AtlasSection.UrbanIllness: return "都市恶疾";
-                case AtlasSection.UrbanNightmare: return "都市梦魇";
-                case AtlasSection.UrbanStar: return "都市之星";
-                default: return "杂质";
+                case AtlasSection.All:
+                    return LocalizedUi("ui_RMR_Atlas_Sec_All", AtlasUi("全部", "All", "전체"));
+                case AtlasSection.Rumor:
+                    return LocalizedUi("ui_RMR_Atlas_Sec_Rumor", AtlasUi("传闻", "Canard", "소문"));
+                case AtlasSection.UrbanLegend:
+                    // Enum name is historical; CN 都市怪谈 == EN Urban Myth / KR 도시괴담
+                    return LocalizedUi("ui_RMR_Atlas_Sec_UrbanLegend", AtlasUi("都市怪谈", "Urban Myth", "도시괴담"));
+                case AtlasSection.UrbanMyth:
+                    // CN 都市传说 == EN Urban Legend / KR 도시전설
+                    return LocalizedUi("ui_RMR_Atlas_Sec_UrbanMyth", AtlasUi("都市传说", "Urban Legend", "도시전설"));
+                case AtlasSection.UrbanIllness:
+                    return LocalizedUi("ui_RMR_Atlas_Sec_UrbanIllness", AtlasUi("都市恶疾", "Urban Plague", "도시질병"));
+                case AtlasSection.UrbanNightmare:
+                    return LocalizedUi("ui_RMR_Atlas_Sec_UrbanNightmare", AtlasUi("都市梦魇", "Urban Nightmare", "도시악몽"));
+                case AtlasSection.UrbanStar:
+                    return LocalizedUi("ui_RMR_Atlas_Sec_UrbanStar", AtlasUi("都市之星", "Star of the City", "도시의 별"));
+                default:
+                    return LocalizedUi("ui_RMR_Atlas_Sec_Impurity", AtlasUi("杂质", "Impurity", "불순물"));
             }
         }
 
@@ -1982,11 +2037,16 @@ namespace abcdcode_LOGLIKE_MOD
         {
             switch (category)
             {
-                case AtlasCategory.RoleBook: return "\u89d2\u8272\u4e66\u9875"; // 角色书页
-                case AtlasCategory.BattleCard: return "\u6218\u6597\u4e66\u9875"; // 战斗书页
-                case AtlasCategory.AbnormalityPage: return "\u5f02\u60f3\u4f53\u4e66\u9875"; // 异想体书页
-                case AtlasCategory.EgoPage: return "EGO\u6218\u6597\u4e66\u9875"; // EGO战斗书页
-                default: return "EGO\u6218\u6597\u4e66\u9875";
+                case AtlasCategory.RoleBook:
+                    return LocalizedUi("ui_RMR_Atlas_Cat_RoleBook", AtlasUi("角色书页", "Key Pages", "핵심 책장"));
+                case AtlasCategory.BattleCard:
+                    return LocalizedUi("ui_RMR_Atlas_Cat_BattleCard", AtlasUi("战斗书页", "Combat Pages", "전투 책장"));
+                case AtlasCategory.AbnormalityPage:
+                    return LocalizedUi("ui_RMR_Atlas_Cat_Abno", AtlasUi("异想体书页", "Abnormality Pages", "환상체 책장"));
+                case AtlasCategory.EgoPage:
+                    return LocalizedUi("ui_RMR_Atlas_Cat_Ego", AtlasUi("EGO战斗书页", "E.G.O. Pages", "E.G.O. 전투 책장"));
+                default:
+                    return LocalizedUi("ui_RMR_Atlas_Cat_Ego", AtlasUi("EGO战斗书页", "E.G.O. Pages", "E.G.O. 전투 책장"));
             }
         }
 
@@ -2078,7 +2138,7 @@ namespace abcdcode_LOGLIKE_MOD
                         ? LogLikeMod.ArtWorks["ItemNotFoundIcon"] : null;
                     title.text = LockedTitle;
                     title.color = ColMuted;
-                    subtitle.text = "\u672a\u89e3\u9501"; // 未解锁
+                    subtitle.text = LocalizedUi("ui_RMR_Atlas_Locked", AtlasUi("未解锁", "Locked", "미해금"));
                     subtitle.color = new Color(0.45f, 0.40f, 0.32f, 1f);
                 }
                 // Always show art node; use solid tint if no sprite (avoid white default square).
@@ -2157,7 +2217,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string name = entry.Unlocked ? entry.Title : LockedTitle;
                 string desc = entry.Unlocked
                     ? (string.IsNullOrEmpty(entry.Description) ? GetCategoryName(entry.Category) : entry.Description)
-                    : "\u5c1a\u672a\u89e3\u9501\u3002";
+                    : LocalizedUi("ui_RMR_Atlas_LockedHint", AtlasUi("尚未解锁。", "Not unlocked yet.", "아직 해금되지 않았습니다."));
                 try
                 {
                     SingletonBehavior<UIMainOverlayManager>.Instance.SetTooltip(name, desc, transform as RectTransform, Rarity.Special, UIToolTipPanelType.OnlyContent);

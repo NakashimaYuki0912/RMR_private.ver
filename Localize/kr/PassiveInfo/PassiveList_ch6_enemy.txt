@@ -58,7 +58,7 @@
 	</PassiveDesc>
 	<PassiveDesc ID="150139">
    <Name>손</Name>
-    <Desc>흐트러짐 상태가 되지 않고 체력이 떨어져도 파괴되지 않는다. 막 시작시 체력이 30 이하면 행동할 수 없다. enlxmfflsdis가 없으면 파괴된다.</Desc>
+    <Desc>흐트러짐 상태가 되지 않고 체력이 떨어져도 파괴되지 않는다. 막 시작시 체력이 30 이하면 행동할 수 없다. 미카엘이 없으면 파괴된다.</Desc>
 	</PassiveDesc>
 	<PassiveDesc ID="150051">
     <Name>일렁임</Name>

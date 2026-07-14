@@ -696,6 +696,7 @@
     <Compile Include="RMR_StartHubPanel.cs" />
     <Compile Include="RMR_HelpHandbookPanel.cs" />
     <Compile Include="RMR_RealizationLaunchHost.cs" />
+    <Compile Include="RMR_CombatCardHoverPreview.cs" />
     <Compile Include="RMR_AbnormalityBattleRouter.cs" />
     <Compile Include="RMR_MysteryEvents.cs" />
     <Compile Include="RMR_Core.cs" />

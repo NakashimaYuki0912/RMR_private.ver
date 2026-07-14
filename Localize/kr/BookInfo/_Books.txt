@@ -489,7 +489,7 @@
     </BookDesc>
 
     <BookDesc BookID="250051">
-      <BookName>enlxmfflsdis의 책장</BookName>
+      <BookName>미카엘의 책장</BookName>
     </BookDesc>
 
     <BookDesc BookID="260001">

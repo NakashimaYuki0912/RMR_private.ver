@@ -25,6 +25,12 @@
 다음 막에 힘 3을 얻음.
 자신의 손에 '일점 돌파'를 추가</Desc>
   </BattleCardAbility>
+  <BattleCardAbility ID="fireIlsumLogEdit">
+    <Desc>[사용시] 손에 '불꽃 섬광'이 있으면 버리고 책장을 1장 뽑은 뒤, 버린 책장의 공격 주사위를 이 책장에 추가</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="costdownLogEdit">
+    <Desc>손에 있는 다른 '연속 참격' 수만큼 이 책장의 비용이 감소</Desc>
+  </BattleCardAbility>
 
 </BattleCardAbilityDescRoot>
 

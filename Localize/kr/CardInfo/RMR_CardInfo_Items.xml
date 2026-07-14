@@ -2,19 +2,19 @@
 <BattleCardDescRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <cardDescList>
     <BattleCardDesc ID="-100">
-      <LocalizedName>Shiv</LocalizedName>
+      <LocalizedName>독니</LocalizedName>
     </BattleCardDesc>
     <BattleCardDesc ID="-101">
-      <LocalizedName>Calm</LocalizedName>
+      <LocalizedName>냉정</LocalizedName>
     </BattleCardDesc>
     <BattleCardDesc ID="-102">
-      <LocalizedName>Wrath</LocalizedName>
+      <LocalizedName>분노</LocalizedName>
     </BattleCardDesc>
     <BattleCardDesc ID="-103">
-      <LocalizedName>The Remote</LocalizedName>
+      <LocalizedName>리모컨</LocalizedName>
     </BattleCardDesc>
 	<BattleCardDesc ID="-104">
-      <LocalizedName>Wails of the Past</LocalizedName>
+      <LocalizedName>과거의 통곡</LocalizedName>
     </BattleCardDesc>
   </cardDescList>
 </BattleCardDescRoot>

@@ -1608,7 +1608,16 @@ namespace abcdcode_LOGLIKE_MOD
                 {
                     string egoTitle = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("BattleEnd_EgoReward");
                     if (string.IsNullOrEmpty(egoTitle) || egoTitle.IndexOf("BattleEnd_EgoReward", StringComparison.Ordinal) >= 0)
-                        egoTitle = "选择 E.G.O. 战斗书页";
+                    {
+                        string lang = "";
+                        try { lang = TextDataModel.CurrentLanguage.ToString().ToLowerInvariant(); } catch { }
+                        if (lang.Contains("kr") || lang.Contains("ko"))
+                            egoTitle = "E.G.O. 책장 선택";
+                        else if (lang.Contains("en"))
+                            egoTitle = "Select an E.G.O. page";
+                        else
+                            egoTitle = "选择 E.G.O. 战斗书页";
+                    }
                     textMeshProUgui1.text = egoTitle;
                     textMeshProUgui2.text = egoTitle;
                 }
@@ -1967,8 +1976,16 @@ namespace abcdcode_LOGLIKE_MOD
                 try { Singleton<LogAtlasPanel>.Instance.SetActive(false); } catch { }
                 Image image = (Image)typeof(UIBattleSettingEditPanel).GetField("img_BlockBackGroundBg", AccessTools.all).GetValue(self);
                 self.SetBUttonState(state);
-                image.raycastTarget = true;
+                // Dimmer stays behind inventory content; postfix RaiseUiPanelCanvas lifts key/combat lists.
+                // raycastTarget=true on a full-screen dimmer above books was blocking/obscuring slots.
+                if (image != null)
+                {
+                    try { image.transform.SetAsFirstSibling(); } catch { }
+                    image.raycastTarget = false;
+                }
                 self.SetActivePanel(true);
+                // Z-order repair for key/combat inventory runs in
+                // LogLikePatches.UIBattleSettingEditPanel_SetBUttonState_ZOrder (Harmony postfix).
             }
             else
             {
@@ -3068,8 +3085,9 @@ namespace abcdcode_LOGLIKE_MOD
 
         /// <summary>
         /// After vanilla opens Equip/Battle inventory, force correct draw order:
-        /// inventory panel above block background; collapse expanded effect bar mask.
-        /// Fixes key-page select UI where a semi-transparent layer sits over the book list.
+        /// inventory panels (key pages + combat pages) above dimmer + RMR HUD clone.
+        /// LogUIObjs[100] is a LevelUpUI clone with sortingOrder += 100 and was covering
+        /// the center book/card lists so artwork looked buried under a dark layer.
         /// </summary>
         [HarmonyPostfix, HarmonyPatch(typeof(UIBattleSettingEditPanel), nameof(UIBattleSettingEditPanel.SetBUttonState))]
         public static void UIBattleSettingEditPanel_SetBUttonState_ZOrder(
@@ -3078,81 +3096,239 @@ namespace abcdcode_LOGLIKE_MOD
         {
             if (__instance == null || !LogLikeRoutines.IsRoguelikeBattleSettingContext())
                 return;
-            // Only core page / battle page inventories need this repair.
+            // Leaving combat bookshelf → restore detailSlot layer state.
+            if (state != UIBattleSettingEditTap.BattleCard)
+            {
+                try { RMRCombatCardDetailLayer.Restore(); } catch { /* ignore */ }
+            }
             if (state != UIBattleSettingEditTap.EquipPage && state != UIBattleSettingEditTap.BattleCard)
                 return;
             try
             {
-                CollapseGlobalEffectDrawerIfExpanded();
-
-                Image blockBg = LogLikeMod.GetFieldValue<Image>(__instance, "img_BlockBackGroundBg");
-                if (blockBg != null)
-                {
-                    // Dimmer must stay behind the inventory content, not steal clicks on book slots.
-                    try { blockBg.transform.SetAsFirstSibling(); } catch { }
-                }
-
-                UISettingEquipPageInvenPanel equipPanel =
-                    LogLikeMod.GetFieldValue<UISettingEquipPageInvenPanel>(__instance, "_equipPagePanel");
-                UISettingCardInvenPanel cardPanel =
-                    LogLikeMod.GetFieldValue<UISettingCardInvenPanel>(__instance, "_battleCardPanel");
-
-                if (state == UIBattleSettingEditTap.EquipPage && equipPanel != null)
-                {
-                    try
-                    {
-                        equipPanel.transform.SetAsLastSibling();
-                        // Nested scroll/list roots sometimes end up under the dimmer after tab switches.
-                        if (equipPanel.EquipLeftPanel != null)
-                            equipPanel.EquipLeftPanel.transform.SetAsLastSibling();
-                    }
-                    catch { }
-                }
-                if (state == UIBattleSettingEditTap.BattleCard && cardPanel != null)
-                {
-                    try { cardPanel.transform.SetAsLastSibling(); } catch { }
-                }
-
-                // LogUIObjs[100] hosts money + effect bar at elevated sortingOrder; ensure its
-                // CanvasGroup does not full-screen block when only small HUD children are visible.
-                try
-                {
-                    if (LogLikeMod.LogUIObjs != null && LogLikeMod.LogUIObjs.dic != null
-                        && LogLikeMod.LogUIObjs.dic.TryGetValue(100, out GameObject hudRoot)
-                        && hudRoot != null)
-                    {
-                        CanvasGroup cg = hudRoot.GetComponent<CanvasGroup>();
-                        if (cg != null)
-                        {
-                            // Keep children clickable; root group should not swallow center clicks.
-                            // blocksRaycasts=true is OK if only child Graphics hit-test; force
-                            // interactable true for money/effects without covering inventory.
-                            cg.blocksRaycasts = true;
-                            cg.interactable = true;
-                        }
-                        // Pull inventory above HUD canvas when they share parent (if possible).
-                        if (equipPanel != null && equipPanel.gameObject.activeInHierarchy
-                            && state == UIBattleSettingEditTap.EquipPage)
-                        {
-                            Canvas equipCanvas = equipPanel.GetComponentInParent<Canvas>();
-                            Canvas hudCanvas = hudRoot.GetComponent<Canvas>();
-                            if (equipCanvas != null && hudCanvas != null
-                                && equipCanvas.sortingOrder <= hudCanvas.sortingOrder)
-                            {
-                                // Keep HUD icons visible but inventory interaction must win in center.
-                                // Raise equip canvas slightly above the RMR HUD clone.
-                                equipCanvas.overrideSorting = true;
-                                equipCanvas.sortingOrder = hudCanvas.sortingOrder + 1;
-                            }
-                        }
-                    }
-                }
-                catch { /* optional HUD re-order */ }
+                RepairPrepareInventoryDrawOrder(__instance, state);
             }
             catch (Exception ex)
             {
                 Debug.LogWarning("[RMR UI] Equip inventory z-order repair failed: " + ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Vanilla: list slot only highlights; enlarged card is scroll.detailSlot
+        /// (ShowDetailSlotByInventory). RMR panel Canvas fix makes list siblings cover that
+        /// detail — reparent the *existing* detailSlot to a top holder (preserve world pose).
+        /// Never clones list cards.
+        /// </summary>
+        [HarmonyPostfix, HarmonyPatch(typeof(UIInvenCardListScroll), nameof(UIInvenCardListScroll.ShowDetailSlotByInventory))]
+        public static void UIInvenCardListScroll_ShowDetailSlotByInventory_ElevateDetail(
+            UIInvenCardListScroll __instance,
+            UIOriginCardSlot slot)
+        {
+            if (__instance == null || !LogLikeRoutines.IsRoguelikeBattleSettingContext())
+                return;
+            try
+            {
+                if (__instance.gameObject.GetComponent<RMRCombatCardHoverFollow>() == null)
+                    __instance.gameObject.AddComponent<RMRCombatCardHoverFollow>();
+                // After vanilla place + reveal start; reparent so list cannot cover detail.
+                RMRCombatCardDetailLayer.ElevateDetailSlot(__instance);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR UI] Elevate detailSlot failed: " + ex.Message);
+            }
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(UIInvenCardListScroll), nameof(UIInvenCardListScroll.HideDetailSlotByInventory))]
+        public static void UIInvenCardListScroll_HideDetailSlotByInventory_RestoreDetail(
+            UIInvenCardListScroll __instance)
+        {
+            // Always restore parent even if context flag flickers.
+            try { RMRCombatCardDetailLayer.Restore(); }
+            catch { /* ignore */ }
+        }
+
+        /// <summary>
+        /// BCEV mutates detail after SetData; re-apply top-layer parent so layout rebuild
+        /// does not leave detail under the list again.
+        /// </summary>
+        [HarmonyPostfix, HarmonyPatch(typeof(UIDetailCardSlot), nameof(UIDetailCardSlot.SetData))]
+        public static void UIDetailCardSlot_SetData_EnsureTopLayer(UIDetailCardSlot __instance)
+        {
+            if (__instance == null || !LogLikeRoutines.IsRoguelikeBattleSettingContext())
+                return;
+            if (!__instance.gameObject.activeInHierarchy)
+                return;
+            try
+            {
+                // Find owning list if still under one; else elevate via any list on the battle panel.
+                UIInvenCardListScroll list = __instance.GetComponentInParent<UIInvenCardListScroll>();
+                if (list == null)
+                {
+                    UIBattleSettingPanel bsp = UI.UIController.Instance != null
+                        ? UI.UIController.Instance.GetUIPanel(UIPanelType.BattleSetting) as UIBattleSettingPanel
+                        : null;
+                    if (bsp != null && bsp.EditPanel != null)
+                    {
+                        UISettingCardInvenPanel cardPanel =
+                            LogLikeMod.GetFieldValue<UISettingCardInvenPanel>(bsp.EditPanel, "_battleCardPanel");
+                        if (cardPanel != null)
+                            list = cardPanel.InvenCardList;
+                    }
+                }
+                if (list != null)
+                    RMRCombatCardDetailLayer.ElevateDetailSlot(list);
+            }
+            catch { /* ignore */ }
+        }
+
+        /// <summary>
+        /// Raise key-page / combat-page inventory above dimmers and the RMR money/effect HUD canvas.
+        /// </summary>
+        private static void RepairPrepareInventoryDrawOrder(
+            UIBattleSettingEditPanel editPanel,
+            UIBattleSettingEditTap state)
+        {
+            CollapseGlobalEffectDrawerIfExpanded();
+
+            // Leftover hub/atlas overlay (sortingOrder 8000+) must not sit on prepare inventory.
+            try { RMRRealizationLaunchHost.DestroyOverlayIfEmpty(); } catch { /* optional */ }
+
+            Image blockBg = LogLikeMod.GetFieldValue<Image>(editPanel, "img_BlockBackGroundBg");
+            if (blockBg != null)
+            {
+                try { blockBg.transform.SetAsFirstSibling(); } catch { }
+                // Dimmer may stay visible, but must not paint above book/card slots or eat clicks.
+                try { blockBg.raycastTarget = false; } catch { }
+            }
+
+            UISettingEquipPageInvenPanel equipPanel =
+                LogLikeMod.GetFieldValue<UISettingEquipPageInvenPanel>(editPanel, "_equipPagePanel");
+            UISettingCardInvenPanel cardPanel =
+                LogLikeMod.GetFieldValue<UISettingCardInvenPanel>(editPanel, "_battleCardPanel");
+
+            int hudOrder = GetRmrHudCanvasSortingOrder();
+            // Inventory content must be above LogUIObjs[100] (base+100) and above any dimmer.
+            int inventoryOrder = Math.Max(hudOrder + 20, 140);
+
+            if (state == UIBattleSettingEditTap.EquipPage && equipPanel != null)
+            {
+                try
+                {
+                    equipPanel.transform.SetAsLastSibling();
+                    if (equipPanel.EquipLeftPanel != null)
+                        equipPanel.EquipLeftPanel.transform.SetAsLastSibling();
+                }
+                catch { }
+                RaiseUiPanelCanvas(equipPanel.gameObject, inventoryOrder);
+                // Scroll list / slots often live under nested roots — push those forward too.
+                try
+                {
+                    if (equipPanel.EquipLeftPanel != null)
+                        RaiseUiPanelCanvas(equipPanel.EquipLeftPanel.gameObject, inventoryOrder + 1);
+                }
+                catch { }
+            }
+
+            if (state == UIBattleSettingEditTap.BattleCard && cardPanel != null)
+            {
+                try { cardPanel.transform.SetAsLastSibling(); } catch { }
+                // Keep panel above RMR HUD, but do NOT rely on this for detail vs list —
+                // detailSlot is reparented to RMR_DetailSlotLayerHolder (higher order).
+                RaiseUiPanelCanvas(cardPanel.gameObject, inventoryOrder);
+            }
+
+            // Soften RMR HUD clone: keep money/effects visible top-right, but stop full-root
+            // raycast / accidental full-screen Graphics from covering the center lists.
+            SoftenRmrHudCanvasForInventory();
+        }
+
+        private static int GetRmrHudCanvasSortingOrder()
+        {
+            try
+            {
+                if (LogLikeMod.LogUIObjs != null && LogLikeMod.LogUIObjs.dic != null
+                    && LogLikeMod.LogUIObjs.dic.TryGetValue(100, out GameObject hudRoot)
+                    && hudRoot != null)
+                {
+                    Canvas hudCanvas = hudRoot.GetComponent<Canvas>();
+                    if (hudCanvas != null)
+                        return hudCanvas.sortingOrder;
+                }
+            }
+            catch { }
+            return 100;
+        }
+
+        private static void SoftenRmrHudCanvasForInventory()
+        {
+            try
+            {
+                if (LogLikeMod.LogUIObjs == null || LogLikeMod.LogUIObjs.dic == null)
+                    return;
+                if (!LogLikeMod.LogUIObjs.dic.TryGetValue(100, out GameObject hudRoot) || hudRoot == null)
+                    return;
+
+                CanvasGroup cg = hudRoot.GetComponent<CanvasGroup>();
+                if (cg != null)
+                {
+                    cg.interactable = true;
+                    // Root still receives child hits; empty full-rect without Graphic is fine.
+                    cg.blocksRaycasts = true;
+                }
+
+                // Any leftover full-stretch Image under the HUD clone (empty LevelUp shell)
+                // must not dim/block the center inventory.
+                foreach (Image img in hudRoot.GetComponentsInChildren<Image>(true))
+                {
+                    if (img == null)
+                        continue;
+                    string n = img.gameObject.name ?? "";
+                    if (n.IndexOf("Money", StringComparison.OrdinalIgnoreCase) >= 0
+                        || n.IndexOf("Effect", StringComparison.OrdinalIgnoreCase) >= 0
+                        || n.IndexOf("Icon", StringComparison.OrdinalIgnoreCase) >= 0)
+                        continue;
+                    RectTransform rt = img.rectTransform;
+                    if (rt == null)
+                        continue;
+                    bool fullStretch = rt.anchorMin == Vector2.zero && rt.anchorMax == Vector2.one
+                        && Mathf.Abs(rt.offsetMin.x) < 1f && Mathf.Abs(rt.offsetMin.y) < 1f
+                        && Mathf.Abs(rt.offsetMax.x) < 1f && Mathf.Abs(rt.offsetMax.y) < 1f;
+                    if (!fullStretch)
+                        continue;
+                    // Keep money icons; neutralize shell backgrounds.
+                    img.raycastTarget = false;
+                    Color c = img.color;
+                    if (c.a > 0.05f && (c.r + c.g + c.b) < 1.2f)
+                    {
+                        c.a = 0f;
+                        img.color = c;
+                    }
+                }
+            }
+            catch { /* optional */ }
+        }
+
+        /// <summary>
+        /// Ensure a panel has an override-sorted Canvas high enough to draw above RMR HUD clones.
+        /// </summary>
+        private static void RaiseUiPanelCanvas(GameObject panelRoot, int sortingOrder)
+        {
+            if (panelRoot == null)
+                return;
+            Canvas canvas = panelRoot.GetComponent<Canvas>();
+            if (canvas == null)
+                canvas = panelRoot.GetComponentInParent<Canvas>();
+            if (canvas == null)
+            {
+                canvas = panelRoot.AddComponent<Canvas>();
+                if (panelRoot.GetComponent<GraphicRaycaster>() == null)
+                    panelRoot.AddComponent<GraphicRaycaster>();
+            }
+            canvas.enabled = true;
+            canvas.overrideSorting = true;
+            if (canvas.sortingOrder < sortingOrder)
+                canvas.sortingOrder = sortingOrder;
         }
 
         /// <summary>
@@ -3169,6 +3345,8 @@ namespace abcdcode_LOGLIKE_MOD
                 if (mgr.IsOn && mgr.OnOffBtn != null)
                     mgr.OnOffBtn.OnClick();
                 else if (mgr.BackGroundMask != null)
+                    mgr.BackGroundMask.gameObject.SetActive(false);
+                if (mgr.BackGroundMask != null)
                     mgr.BackGroundMask.gameObject.SetActive(false);
             }
             catch { /* ignore */ }

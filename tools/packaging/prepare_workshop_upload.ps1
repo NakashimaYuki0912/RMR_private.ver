@@ -54,11 +54,17 @@ if (-not (Test-Path $preview)) {
     }
 }
 
-# Force correct StageModInfo (Exist=false) + strip nested StageModInfo that create ghost mod entries
+# Force PUBLIC Workshop StageModInfo (Exist=false) — never ship the [本地] local title to Steam.
+# Local deploys use StageModInfo.local.xml; cloud subscribers must see StageModInfo.fanwork.xml.
 $stageTemplate = Join-Path $scriptDir "StageModInfo.fanwork.xml"
 if (Test-Path $stageTemplate) {
     Copy-Item $stageTemplate (Join-Path $uploadRoot "StageModInfo.xml") -Force
-    Write-Host "  applied StageModInfo.fanwork.xml (all InvitationFile Exist=false)" -ForegroundColor Green
+    Write-Host "  applied StageModInfo.fanwork.xml (Workshop title, Exist=false)" -ForegroundColor Green
+    $smi = Get-Content (Join-Path $uploadRoot "StageModInfo.xml") -Raw -Encoding UTF8
+    if ($smi -match '\[本地\]') { throw "Upload StageModInfo still has [本地] title — abort" }
+    if ($smi -notmatch '\[Workshop\]') {
+        Write-Host "  WARNING: public title missing [Workshop] tag" -ForegroundColor Yellow
+    }
 }
 Get-ChildItem $uploadRoot -Recurse -Filter "StageModInfo.xml" -ErrorAction SilentlyContinue |
     Where-Object { $_.DirectoryName -ne $uploadRoot } |

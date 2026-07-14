@@ -16,5 +16,9 @@
       <LocalizedName>조잡한 방패</LocalizedName>
     </BattleCardDesc>
 
+    <BattleCardDesc ID="706108">
+      <LocalizedName>아틀리에 로직</LocalizedName>
+    </BattleCardDesc>
+
   </cardDescList>
 </BattleCardDescRoot>

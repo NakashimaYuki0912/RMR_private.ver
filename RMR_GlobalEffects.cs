@@ -139,15 +139,8 @@ namespace RogueLike_Mod_Reborn
 
         public static Rarity ItemRarity = Rarity.Common;
 
-        public override string GetEffectName()
-        {
-            return "无路卡美洛";
-        }
-
-        public override string GetEffectDesc()
-        {
-            return "每幕开始时，一名随机司书本幕获得“无路卡美洛”。没有入口的理想乡会在使用战斗书页时，为其他友方暂时升级手中的随机战斗书页。";
-        }
+        // Name/Desc come from Localize/*/LogueEffectText via KeywordId (cn/en/kr).
+        // Do not hardcode Chinese here — that bypasses localization.
 
         public override string KeywordId => "RMR_RoadlessCamelot";
 

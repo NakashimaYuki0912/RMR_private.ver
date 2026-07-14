@@ -4,6 +4,16 @@
 		<Name>보유 안</Name>
 		<Desc>???</Desc>
 	</PassiveDesc>
+
+	<PassiveDesc ID="854">
+		<Name>반짝임</Name>
+		<Desc>나와 함께라면, 끝없이 반짝이는 가능성을 걸을 수 있으리라.</Desc>
+	</PassiveDesc>
+
+	<PassiveDesc ID="28480004">
+		<Name>뒷골목의 밤</Name>
+		<Desc>3막이 끝날 때 강제적으로 무대를 종료한다.</Desc>
+	</PassiveDesc>
   
 </PassiveDescRoot>
   

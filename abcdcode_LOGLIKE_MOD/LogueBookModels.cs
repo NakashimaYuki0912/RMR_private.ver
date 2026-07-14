@@ -44,6 +44,14 @@ namespace abcdcode_LOGLIKE_MOD
         public static HashSet<LorId> AtlasUnlockedAbnormalityPages;
         public static HashSet<LorId> AtlasUnlockedEgoPages;
         private const string PermanentAtlasSaveName = "RMR_AtlasPermanentUnlocks";
+        /// <summary>
+        /// True after permanent atlas has been loaded from disk (or intentionally cleared by reset).
+        /// Prevents SavePermanentAtlasData from writing empty in-memory sets over a real save
+        /// when the hub atlas is opened before CreatePlayer/run init.
+        /// </summary>
+        private static bool PermanentAtlasHydrated;
+        /// <summary>When true, SavePermanentAtlasData skips disk-merge (used by full archive reset).</summary>
+        private static bool SuppressPermanentAtlasMergeOnSave;
         public static Dictionary<UnitDataModel, LorId> Grade6SpecialBuiltInDeckSource = new Dictionary<UnitDataModel, LorId>();
 
         /// <summary>
@@ -335,6 +343,30 @@ namespace abcdcode_LOGLIKE_MOD
             try
             {
                 LogueBookModels.EnsureAtlasUnlocks();
+                // Never overwrite disk with an unhydrated/empty session (hub open before CreatePlayer).
+                if (!SuppressPermanentAtlasMergeOnSave && !PermanentAtlasHydrated)
+                    LogueBookModels.LoadPermanentAtlasData();
+                else if (!SuppressPermanentAtlasMergeOnSave)
+                {
+                    // Even when hydrated, re-merge disk so concurrent/other-session unlocks are not lost.
+                    // LoadAtlasUnlocks only adds; it does not remove intentional progress.
+                    try
+                    {
+                        SaveData disk = Singleton<LogueSaveManager>.Instance.LoadData(PermanentAtlasSaveName);
+                        if (disk != null)
+                        {
+                            LogueBookModels.LoadAtlasUnlocks(disk.GetData("atlasRoleBookUnlocks"), LogueBookModels.AtlasUnlockedRoleBooks);
+                            LogueBookModels.LoadAtlasUnlocks(disk.GetData("atlasBattleCardUnlocks"), LogueBookModels.AtlasUnlockedBattleCards);
+                            LogueBookModels.LoadAtlasUnlocks(disk.GetData("atlasAbnormalityPageUnlocks"), LogueBookModels.AtlasUnlockedAbnormalityPages);
+                            LogueBookModels.LoadAtlasUnlocks(disk.GetData("atlasEgoPageUnlocks"), LogueBookModels.AtlasUnlockedEgoPages);
+                        }
+                    }
+                    catch (Exception mergeEx)
+                    {
+                        Debug.LogWarning("[RMR Atlas] Pre-save disk merge skipped: " + mergeEx.Message);
+                    }
+                }
+
                 LogueBookModels.PruneInvalidPermanentRoleBookAtlasUnlocks();
                 LogueBookModels.PruneInvalidPermanentAbnormalityAtlasUnlocks();
                 SaveData data = new SaveData();
@@ -343,6 +375,8 @@ namespace abcdcode_LOGLIKE_MOD
                 data.AddData("atlasAbnormalityPageUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedAbnormalityPages));
                 data.AddData("atlasEgoPageUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedEgoPages));
                 Singleton<LogueSaveManager>.Instance.SaveData(data, PermanentAtlasSaveName);
+                PermanentAtlasHydrated = true;
+                Debug.Log($"[RMR Atlas] Saved permanent atlas. RoleBooks={AtlasUnlockedRoleBooks.Count}, BattleCards={AtlasUnlockedBattleCards.Count}, Abno={AtlasUnlockedAbnormalityPages.Count}, Ego={AtlasUnlockedEgoPages.Count}.");
             }
             catch (Exception e)
             {
@@ -357,17 +391,26 @@ namespace abcdcode_LOGLIKE_MOD
                 LogueBookModels.EnsureAtlasUnlocks();
                 SaveData data = Singleton<LogueSaveManager>.Instance.LoadData(PermanentAtlasSaveName);
                 if (data == null)
+                {
+                    PermanentAtlasHydrated = true;
+                    Debug.Log("[RMR Atlas] No permanent atlas save on disk yet.");
                     return;
+                }
 
+                int beforeRoles = AtlasUnlockedRoleBooks.Count;
+                int beforeCards = AtlasUnlockedBattleCards.Count;
                 LogueBookModels.LoadAtlasUnlocks(data.GetData("atlasRoleBookUnlocks"), LogueBookModels.AtlasUnlockedRoleBooks);
                 LogueBookModels.LoadAtlasUnlocks(data.GetData("atlasBattleCardUnlocks"), LogueBookModels.AtlasUnlockedBattleCards);
                 LogueBookModels.LoadAtlasUnlocks(data.GetData("atlasAbnormalityPageUnlocks"), LogueBookModels.AtlasUnlockedAbnormalityPages);
                 LogueBookModels.LoadAtlasUnlocks(data.GetData("atlasEgoPageUnlocks"), LogueBookModels.AtlasUnlockedEgoPages);
                 LogueBookModels.PruneCorePageExclusiveBattleCardsFromInventoryAndAtlas();
                 LogueBookModels.PruneInvalidPermanentAbnormalityAtlasUnlocks();
+                PermanentAtlasHydrated = true;
+                Debug.Log($"[RMR Atlas] Loaded permanent atlas. RoleBooks={AtlasUnlockedRoleBooks.Count} (was {beforeRoles}), BattleCards={AtlasUnlockedBattleCards.Count} (was {beforeCards}), Abno={AtlasUnlockedAbnormalityPages.Count}, Ego={AtlasUnlockedEgoPages.Count}.");
             }
             catch (Exception e)
             {
+                PermanentAtlasHydrated = true; // avoid infinite re-load loops; save will not wipe if merge runs
                 Debug.LogWarning("[RMR Atlas] Failed to load permanent atlas data: " + e);
             }
         }
@@ -375,6 +418,21 @@ namespace abcdcode_LOGLIKE_MOD
         public static void LoadPermanentAtlasUnlocks()
         {
             LogueBookModels.LoadPermanentAtlasData();
+        }
+
+        /// <summary>
+        /// Call before intentionally wiping permanent atlas (reset archive).
+        /// Prevents SavePermanentAtlasData from re-merging disk contents back in.
+        /// </summary>
+        public static void BeginPermanentAtlasReset()
+        {
+            SuppressPermanentAtlasMergeOnSave = true;
+            PermanentAtlasHydrated = true;
+        }
+
+        public static void EndPermanentAtlasReset()
+        {
+            SuppressPermanentAtlasMergeOnSave = false;
         }
 
         private static SaveData SaveAtlasUnlocks(HashSet<LorId> ids)
@@ -1844,10 +1902,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.AddingRemainStageList();
             LogueBookModels.cardlist = new List<DiceCardItemModel>();
             LogueBookModels.booklist = new List<BookModel>();
+            // Fresh run session: clear in-memory atlas then rehydrate from permanent disk save.
             LogueBookModels.AtlasUnlockedRoleBooks = new HashSet<LorId>();
             LogueBookModels.AtlasUnlockedBattleCards = new HashSet<LorId>();
             LogueBookModels.AtlasUnlockedAbnormalityPages = new HashSet<LorId>();
             LogueBookModels.AtlasUnlockedEgoPages = new HashSet<LorId>();
+            PermanentAtlasHydrated = false;
             LogueBookModels.LoadPermanentAtlasData();
             LogueBookModels.Grade6SpecialBuiltInDeckSource = new Dictionary<UnitDataModel, LorId>();
             LogueBookModels.BinahUpgradedDegradedCardIds = new HashSet<int>();
@@ -2377,7 +2437,7 @@ namespace abcdcode_LOGLIKE_MOD
                         Mystery = 2,
                         Shop = 1,
                         Boss = 1,
-                        Rest = 1,
+                        Rest = 2, // +1 rest (都市恶疾)
                         Creature = 1,
                         Chapter = chapter
                     };
@@ -2390,7 +2450,7 @@ namespace abcdcode_LOGLIKE_MOD
                         Mystery = 2,
                         Shop = 2,
                         Boss = 1,
-                        Rest = 1,
+                        Rest = 2, // +1 rest (都市梦魇)
                         Creature = 1,
                         Chapter = chapter
                     };
@@ -2403,7 +2463,7 @@ namespace abcdcode_LOGLIKE_MOD
                         Mystery = 2,
                         Shop = 2,
                         Boss = 1,
-                        Rest = 1,
+                        Rest = 2, // +1 rest (都市之星)
                         Creature = 1,
                         Chapter = chapter
                     };
@@ -2416,7 +2476,7 @@ namespace abcdcode_LOGLIKE_MOD
                         Mystery = 2,
                         Shop = 2,
                         Boss = 3,
-                        Rest = 1,
+                        Rest = 2, // +1 rest (杂质)
                         Creature = 1,
                         Chapter = chapter
                     };

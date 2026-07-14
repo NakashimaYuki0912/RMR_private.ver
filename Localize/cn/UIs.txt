@@ -140,5 +140,28 @@
   <text id="ui_RMR_Atlas_Title">永久图鉴</text>
   <text id="ui_RMR_Atlas_Progress">获得阶段</text>
   <text id="ui_RMR_Atlas_Unlocked">已解锁</text>
+  <text id="ui_RMR_Atlas_Locked">未解锁</text>
+  <text id="ui_RMR_Atlas_LockedHint">尚未解锁。</text>
+  <text id="ui_RMR_Atlas_ShowUpgraded">显示升级版</text>
+  <text id="ui_RMR_Atlas_EmptyFlat">本分类暂无条目（异想体/EGO 需游玩或解放战后解锁）。</text>
+  <text id="ui_RMR_Atlas_EmptySection">本节暂无条目，请点左侧「全部」或切换分类。</text>
+  <text id="ui_RMR_Atlas_Cat_RoleBook">角色书页</text>
+  <text id="ui_RMR_Atlas_Cat_BattleCard">战斗书页</text>
+  <text id="ui_RMR_Atlas_Cat_Abno">异想体书页</text>
+  <text id="ui_RMR_Atlas_Cat_Ego">EGO战斗书页</text>
+  <text id="ui_RMR_Atlas_Sec_All">全部</text>
+  <text id="ui_RMR_Atlas_Sec_Rumor">传闻</text>
+  <text id="ui_RMR_Atlas_Sec_UrbanLegend">都市怪谈</text>
+  <text id="ui_RMR_Atlas_Sec_UrbanMyth">都市传说</text>
+  <text id="ui_RMR_Atlas_Sec_UrbanIllness">都市恶疾</text>
+  <text id="ui_RMR_Atlas_Sec_UrbanNightmare">都市梦魇</text>
+  <text id="ui_RMR_Atlas_Sec_UrbanStar">都市之星</text>
+  <text id="ui_RMR_Atlas_Sec_Impurity">杂质</text>
+  <text id="ui_RMR_Atlas_Res_Weak">耐性</text>
+  <text id="ui_RMR_Atlas_Res_Normal">一般</text>
+  <text id="ui_RMR_Atlas_Res_Endure">耐受</text>
+  <text id="ui_RMR_Atlas_Res_Immune">免疫</text>
+  <text id="ui_RMR_Atlas_Res_Vulnerable">脆弱</text>
+  <text id="ui_RMR_Atlas_UpgradePreview">升级预览</text>
 
 </localize>

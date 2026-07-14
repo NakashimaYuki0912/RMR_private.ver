@@ -3,9 +3,9 @@
   <Version>1.1</Version>
   <Workshop>
     <ID>abcdcodecalmmagma.LogueLikeReborn</ID>
-    <!-- Public Workshop listing title (item 3743867841). Used by prepare_workshop_upload.ps1. -->
-    <Title>RMR REBORN fan work [Workshop]</Title>
-    <Description>Steam Workshop 订阅包 (item 3743867841)。从接待界面右上角图标开始；书签继续游戏。Fan-maintained RMR — start via top-right Reception icon.</Description>
+    <!-- Shown in LoR mod list when you run deploy_workshop.ps1 (local override of workshop folder). -->
+    <Title>[本地] RMR REBORN fan work</Title>
+    <Description>[LOCAL DEPLOY] 本机 deploy_workshop 写入的版本，不是 Steam 云端订阅包。若 Steam 重新下载 Workshop，此标题会被云端包覆盖。启动见接待界面右上角图标。</Description>
     <Tag />
     <PreviewImage />
   </Workshop>

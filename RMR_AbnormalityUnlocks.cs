@@ -83,21 +83,50 @@ namespace RogueLike_Mod_Reborn
             { SephirahType.Keter, new[] { "BloodBath", "HeartofAspiration", "Pinocchio", "TheSnowQueen", "quietKid" } },
         };
 
-        // Final realization rewards are not granted directly. Completing a floor opens
-        // these entries to the shop and reward rolls for future picks.
+        // Final-floor realization exclusives (CreatureInfo_PickTable GradeAll Unique Level 5–6).
+        // Completing that floor opens these scripts to shop + post-battle abno 3-picks.
+        // Roots must cover ALL numbered forms (freischutz1–3, not only freischutz3).
+        // Do NOT list normal floor abnos (SingingMachine / Butterfly are regular Yesod pages).
         public static readonly Dictionary<SephirahType, string[]> RealizationRewardScriptsByFloor = new Dictionary<SephirahType, string[]>
         {
-            { SephirahType.Malkuth, new[] { "snowwhite" } },
-            { SephirahType.Yesod, new[] { "SingingMachine1", "Butterfly3", "freischutz3" } },
-            { SephirahType.Hod, new[] { "blackswan" } },
-            { SephirahType.Netzach, new[] { "orchestra" } },
-            { SephirahType.Tiphereth, new[] { "clownofnihil" } },
-            { SephirahType.Gebura, new[] { "nothing" } },
-            { SephirahType.Chesed, new[] { "wizard" } },
-            { SephirahType.Binah, new[] { "bossbird" } },
+            { SephirahType.Malkuth, new[] { "snowwhite" } },           // snowwhite1–3
+            { SephirahType.Yesod, new[] { "freischutz" } },             // freischutz1–3 (Der Freischütz final)
+            { SephirahType.Hod, new[] { "blackswan" } },                // blackswan1–3
+            { SephirahType.Netzach, new[] { "orchestra" } },            // orchestra1–3
+            { SephirahType.Tiphereth, new[] { "clownofnihil" } },       // clownofnihil1–3
+            { SephirahType.Gebura, new[] { "nothing" } },               // nothing1–3 (Nothing There)
+            { SephirahType.Chesed, new[] { "wizard" } },                // wizard1–3
+            { SephirahType.Binah, new[] { "bossbird" } },               // bossbird1–6 (Apocalypse Bird)
             { SephirahType.Hokma, new[] { "whitenight", "plaguedoctor", "onebadmanygood" } },
-            { SephirahType.Keter, new[] { "quietKid" } },
+            { SephirahType.Keter, new[] { "quietKid" } },               // quietKidHammer / EyeShine / Guilty
         };
+
+        /// <summary>
+        /// RewardPassive IDs for GradeAll exclusive block (CreatureInfo_PickTable 15370401–15370436).
+        /// Used as a hard isolation key so partial script-list mistakes cannot leak into normal drops.
+        /// </summary>
+        public const int RealizationExclusivePassiveIdMin = 15370401;
+        public const int RealizationExclusivePassiveIdMax = 15370436;
+
+        /// <summary>
+        /// Exclusive passive ID → floor (mirrors CreatureInfo_PickTable GradeAll block order).
+        /// Used when script matching fails so exclusives never slip into the normal pool ungated.
+        /// </summary>
+        private static SephirahType GetRealizationFloorForExclusivePassiveId(int passiveId)
+        {
+            if (passiveId < RealizationExclusivePassiveIdMin || passiveId > RealizationExclusivePassiveIdMax)
+                return SephirahType.None;
+            if (passiveId <= 15370403) return SephirahType.Malkuth;   // snowwhite1–3
+            if (passiveId <= 15370406) return SephirahType.Yesod;     // freischutz1–3
+            if (passiveId <= 15370409) return SephirahType.Hod;       // blackswan1–3
+            if (passiveId <= 15370412) return SephirahType.Netzach;   // orchestra1–3
+            if (passiveId <= 15370415) return SephirahType.Tiphereth; // clownofnihil1–3
+            if (passiveId <= 15370418) return SephirahType.Gebura;    // nothing1–3
+            if (passiveId <= 15370421) return SephirahType.Chesed;    // wizard1–3
+            if (passiveId <= 15370427) return SephirahType.Binah;     // bossbird1–6
+            if (passiveId <= 15370433) return SephirahType.Hokma;     // onebad/plague/whitenight
+            return SephirahType.Keter;                                // quietKid*
+        }
 
         // Boss clear rewards use the completed floor's full vanilla abnormality pool.
         // This is intentionally wider than RealizationRewardScriptsByFloor: Binah, for
@@ -171,10 +200,14 @@ namespace RogueLike_Mod_Reborn
             BinahUnlockedForCurrentRoute = false;
             PermanentlyUnlockedTiers.Clear();
             CompletedRealizations.Clear();
+            _realizationProgressLoaded = false;
             ResetRedMistChallengeBattleState();
             DeleteSaveFile(ProgressSaveName);
             DeleteSaveFile(RealizationSaveName);
             DeleteSaveFile(RedMistVictorySaveName);
+            // Confirm disk wipe took effect (stale exclusives must not re-enter pools).
+            LoadRealizationProgress(force: true);
+            Debug.Log($"[RMRAbnormalityUnlockManager] ResetAllPermanentProgress: realization clears={CompletedRealizations.Count}");
         }
 
         public static SaveData SaveRouteUnlocks()
@@ -238,12 +271,14 @@ namespace RogueLike_Mod_Reborn
             }
 
             // Normal RMR run: mid-battle emotion picks only from pages obtained this route
-            // (battle rewards / shop / prior emotion picks) 鈥?not the entire catalog.
+            // (battle rewards / shop / prior emotion picks) — not the entire catalog.
+            // Realization exclusives still require floor clear (post-reset isolation).
+            EnsureRealizationProgressLoaded();
             var list = RouteUnlockedPages
                 .Select(id => Singleton<RewardPassivesList>.Instance.GetPassiveInfo(id))
-                .Where(info => info != null && info.rewardtype == RewardType.Creature && !IsNoAbnormalityFallback(info.id))
+                .Where(CanAppearInNormalReceptionAbnoPool)
                 .ToList();
-            Debug.Log($"[RMRAbnormalityUnlockManager] Mid-battle abno pool size={list.Count} (route-unlocked only).");
+            Debug.Log($"[RMRAbnormalityUnlockManager] Mid-battle abno pool size={list.Count} (route-unlocked, exclusive gated).");
             return list;
         }
 
@@ -848,8 +883,9 @@ namespace RogueLike_Mod_Reborn
         }
 
         /// <summary>
-        /// After a BOSS clear: one realization-exclusive abnormality 3-pick and one E.G.O. 3-pick
+        /// After a BOSS clear: realization-exclusive abnormality 3-pick(s) and one E.G.O. 3-pick
         /// from floors the player has already completed in realization.
+        /// Grade4–6 (都市恶疾/梦魇/之星): two exclusive abno 3-picks; other grades: one.
         /// Atlas unlock only means "eligible for pools", NOT "already owned this run".
         /// </summary>
         private static void EnqueueBossRealizationTierRewards(ChapterGrade grade)
@@ -863,21 +899,31 @@ namespace RogueLike_Mod_Reborn
                 return;
             }
 
-            // 1) Liberation-exclusive abnormality page 鈥?always a single 3-choose-1.
-            List<RewardPassiveInfo> exclusiveAbno = RollExclusiveRealizationAbnormalityChoices(completedFloors, 3);
-            if (exclusiveAbno != null && exclusiveAbno.Count > 0)
+            // 1) Liberation-exclusive abnormality page(s) — 3-choose-1 each.
+            // Urban Plague / Nightmare / Star (G4–G6): two picks; otherwise one.
+            int exclusiveAbnoPicks = (grade == ChapterGrade.Grade4
+                || grade == ChapterGrade.Grade5
+                || grade == ChapterGrade.Grade6) ? 2 : 1;
+            int exclusiveAbnoQueued = 0;
+            for (int pick = 0; pick < exclusiveAbnoPicks; pick++)
             {
-                LogLikeMod.rewards_passive.Add(new RewardInfo { grade = grade, rewards = exclusiveAbno });
-                Debug.Log($"[RMRAbnormalityUnlockManager] BOSS exclusive abno 3-pick enqueued ({exclusiveAbno.Count} options) floors=[{string.Join(",", completedFloors)}]");
-            }
-            else
-            {
-                Debug.LogWarning($"[RMRAbnormalityUnlockManager] BOSS exclusive abno 3-pick empty for grade {grade} floors=[{string.Join(",", completedFloors)}]");
+                List<RewardPassiveInfo> exclusiveAbno = RollExclusiveRealizationAbnormalityChoices(completedFloors, 3);
+                if (exclusiveAbno != null && exclusiveAbno.Count > 0)
+                {
+                    LogLikeMod.rewards_passive.Add(new RewardInfo { grade = grade, rewards = exclusiveAbno });
+                    exclusiveAbnoQueued++;
+                    Debug.Log($"[RMRAbnormalityUnlockManager] BOSS exclusive abno 3-pick #{exclusiveAbnoQueued}/{exclusiveAbnoPicks} enqueued ({exclusiveAbno.Count} options) floors=[{string.Join(",", completedFloors)}]");
+                }
+                else
+                {
+                    Debug.LogWarning($"[RMRAbnormalityUnlockManager] BOSS exclusive abno 3-pick #{pick + 1}/{exclusiveAbnoPicks} empty for grade {grade} floors=[{string.Join(",", completedFloors)}]");
+                    break;
+                }
             }
 
-            // 2) Liberation E.G.O. page 鈥?always a single 3-choose-1 (independent ego queue).
+            // 2) Liberation E.G.O. page — always a single 3-choose-1 (independent ego queue).
             bool egoQueued = EnqueueRealizationEgoSelection(completedFloors);
-            Debug.Log($"[RMRAbnormalityUnlockManager] BOSS realization rewards grade={grade}: exclusiveAbno={exclusiveAbno?.Count ?? 0}, egoQueued={egoQueued}, floors=[{string.Join(",", completedFloors)}]");
+            Debug.Log($"[RMRAbnormalityUnlockManager] BOSS realization rewards grade={grade}: exclusiveAbnoPicks={exclusiveAbnoQueued}/{exclusiveAbnoPicks}, egoQueued={egoQueued}, floors=[{string.Join(",", completedFloors)}]");
         }
 
         private static HashSet<SephirahType> GetCompletedRealizationFloorsForBossTier(ChapterGrade grade)
@@ -925,7 +971,7 @@ namespace RogueLike_Mod_Reborn
                     continue;
                 if (!IsRealizationExclusive(info))
                     continue;
-                SephirahType floor = GetRealizationFloorForScript(info.script);
+                SephirahType floor = ResolveRealizationFloor(info);
                 if (floor == SephirahType.None || !floors.Contains(floor))
                     continue;
                 // Route ownership only 鈥?atlas unlock is pool eligibility, not run ownership.
@@ -1322,14 +1368,56 @@ namespace RogueLike_Mod_Reborn
         }
 
         /// <summary>
-        /// Returns true if this reward info is a final realization battle exclusive (Level 6).
+        /// True if this is a final-floor realization exclusive abno page.
+        /// Gates: GradeAll exclusive ID block, Unique Level≥5 non-fallback, or exclusive script root.
         /// </summary>
         public static bool IsRealizationExclusive(RewardPassiveInfo info)
         {
             if (info == null || info.rewardtype != RewardType.Creature)
                 return false;
-            string root = GetRootScript(info.script);
-            return GetRealizationFloorForScript(info.script) != SephirahType.None;
+            if (IsNoAbnormalityFallback(info.id))
+                return false;
+
+            // Hard ID range from CreatureInfo_PickTable GradeAll exclusive block.
+            if (info.passiveid >= RealizationExclusivePassiveIdMin
+                && info.passiveid <= RealizationExclusivePassiveIdMax)
+                return true;
+
+            // XML Level 5–6 Unique final forms (same block; belt-and-suspenders if IDs differ by package).
+            if (info.level >= 5
+                && info.passiverarity == Rarity.Unique
+                && ResolveRealizationFloor(info) != SephirahType.None)
+                return true;
+
+            return !string.IsNullOrEmpty(info.script)
+                && GetRealizationFloorForScript(info.script) != SephirahType.None;
+        }
+
+        /// <summary>
+        /// Resolve which floor's final realization gates this exclusive page (script and/or ID).
+        /// </summary>
+        public static SephirahType ResolveRealizationFloor(RewardPassiveInfo info)
+        {
+            if (info == null)
+                return SephirahType.None;
+            SephirahType byScript = GetRealizationFloorForScript(info.script);
+            if (byScript != SephirahType.None)
+                return byScript;
+            return GetRealizationFloorForExclusivePassiveId(info.passiveid);
+        }
+
+        /// <summary>
+        /// Single gate for ALL normal-reception abno generation paths
+        /// (post-battle 3-pick, shop, mystery abno enqueue, mid-battle owned pool, GetCurChapterCreature).
+        /// Exclusive pages require the matching floor realization clear; others always pass.
+        /// </summary>
+        public static bool CanAppearInNormalReceptionAbnoPool(RewardPassiveInfo info)
+        {
+            if (info == null || info.rewardtype != RewardType.Creature)
+                return false;
+            if (IsNoAbnormalityFallback(info.id))
+                return false;
+            return IsRealizationRewardAvailable(info);
         }
 
         /// <summary>
@@ -1337,24 +1425,39 @@ namespace RogueLike_Mod_Reborn
         /// </summary>
         public static bool IsFloorRealizationCompleted(SephirahType floor)
         {
-            return CompletedRealizations.Contains(floor);
+            EnsureRealizationProgressLoaded();
+            return floor != SephirahType.None && CompletedRealizations.Contains(floor);
         }
 
         public static void RefreshRealizationProgress()
         {
-            LoadRealizationProgress();
+            LoadRealizationProgress(force: true);
         }
 
+        /// <summary>
+        /// Exclusive pages enter the normal/shop/post-battle drop pool only after their floor is cleared.
+        /// Non-exclusive pages always pass.
+        /// </summary>
         public static bool IsRealizationRewardAvailable(RewardPassiveInfo info)
         {
+            if (info == null)
+                return false;
             if (!IsRealizationExclusive(info))
                 return true;
-            SephirahType floor = GetRealizationFloorForScript(info.script);
-            return floor != SephirahType.None && IsFloorRealizationCompleted(floor);
+            EnsureRealizationProgressLoaded();
+            SephirahType floor = ResolveRealizationFloor(info);
+            if (floor == SephirahType.None)
+            {
+                // Exclusive by ID/level but unknown floor map → keep locked.
+                return false;
+            }
+            return CompletedRealizations.Contains(floor);
         }
 
         public static SephirahType GetRealizationFloorForScript(string script)
         {
+            if (string.IsNullOrEmpty(script))
+                return SephirahType.None;
             foreach (var kvp in RealizationRewardScriptsByFloor)
             {
                 foreach (string configuredScript in kvp.Value)
@@ -1812,16 +1915,18 @@ namespace RogueLike_Mod_Reborn
         /// </summary>
         public static void CompleteFloorRealization(SephirahType floor)
         {
+            EnsureRealizationProgressLoaded();
             if (!CompletedRealizations.Add(floor))
                 return;
 
             SaveRealizationProgress();
+            _realizationProgressLoaded = true;
 
             foreach (RewardPassiveInfo info in GetAllCreatureRewardPages())
             {
                 if (info == null || !IsRealizationExclusive(info))
                     continue;
-                if (GetRealizationFloorForScript(info.script) != floor)
+                if (ResolveRealizationFloor(info) != floor)
                     continue;
                 LogueBookModels.RecordAtlasAbnormalityPage(info.id);
             }
@@ -1874,13 +1979,21 @@ namespace RogueLike_Mod_Reborn
 
         private static List<RewardPassiveInfo> GetRewardCandidates(ChapterGrade grade)
         {
-            return GetAllCreatureRewardPages()
+            EnsureRealizationProgressLoaded();
+            var candidates = GetAllCreatureRewardPages()
+                .Where(CanAppearInNormalReceptionAbnoPool)
+                // Final-floor exclusives never enter the normal 3-pick until that floor is cleared
+                // (also enforced inside CanAppearInNormalReceptionAbnoPool / GetTierForScript).
                 .Where(info => IsRewardTierAvailableForChapter(GetTierForScript(info.script), grade))
                 .Where(info => !RouteUnlockedPages.Exists(id => id == info.id))
-                .Where(info => !IsNoAbnormalityFallback(info.id))
                 .Where(info => LogueBookModels.EmotionCardList == null || !LogueBookModels.EmotionCardList.Any(x => x.id == info.id))
-                .Where(info => IsRealizationRewardAvailable(info))
                 .ToList();
+
+            // Diagnostics: never silently include exclusives when the floor is incomplete.
+            int lockedExclusiveSkipped = GetAllCreatureRewardPages().Count(info =>
+                info != null && IsRealizationExclusive(info) && !IsRealizationRewardAvailable(info));
+            Debug.Log($"[RMRAbnormalityUnlockManager] Normal abno pool grade={grade} candidates={candidates.Count} lockedExclusivesExcluded={lockedExclusiveSkipped} clears=[{string.Join(",", CompletedRealizations)}]");
+            return candidates;
         }
 
         private static IEnumerable<RewardPassiveInfo> GetPermanentStartingPages()
@@ -1908,11 +2021,10 @@ namespace RogueLike_Mod_Reborn
 
         public static List<RewardPassiveInfo> GetShopEligibleAbnormalityPages(ChapterGrade grade)
         {
-            int tier = GetTierForChapter(grade);
+            EnsureRealizationProgressLoaded();
             return GetAllCreatureRewardPages()
+                .Where(CanAppearInNormalReceptionAbnoPool)
                 .Where(info => IsRewardTierAvailableForChapter(GetTierForScript(info.script), grade))
-                .Where(info => !IsNoAbnormalityFallback(info.id))
-                .Where(info => IsRealizationRewardAvailable(info))
                 .Where(info => LogueBookModels.EmotionCardList == null || !LogueBookModels.EmotionCardList.Any(x => x.id == info.id))
                 .Where(info => !RouteUnlockedPages.Exists(id => id == info.id))
                 .ToList();
@@ -1985,6 +2097,11 @@ namespace RogueLike_Mod_Reborn
 
         public static int GetTierForScript(string script)
         {
+            // Locked realization exclusives are tier 0 so any tier-only gate also rejects them.
+            SephirahType exclusiveFloor = GetRealizationFloorForScript(script);
+            if (exclusiveFloor != SephirahType.None && !IsFloorRealizationCompleted(exclusiveFloor))
+                return 0;
+
             SephirahType floor = GetFloorForScript(script);
             if (floor == SephirahType.Malkuth || floor == SephirahType.Yesod || floor == SephirahType.Hod || floor == SephirahType.Netzach)
                 return 1;
@@ -2044,25 +2161,50 @@ namespace RogueLike_Mod_Reborn
             Singleton<LogueSaveManager>.Instance.SaveData(data, ProgressSaveName);
         }
 
-        private static void LoadRealizationProgress()
+        private static bool _realizationProgressLoaded;
+
+        private static void EnsureRealizationProgressLoaded()
         {
-            CompletedRealizations.Clear();
-            SaveData data = Singleton<LogueSaveManager>.Instance.LoadData(RealizationSaveName);
-            if (data == null)
+            if (!_realizationProgressLoaded)
+                LoadRealizationProgress(force: false);
+        }
+
+        private static void LoadRealizationProgress(bool force = true)
+        {
+            if (_realizationProgressLoaded && !force)
                 return;
-            foreach (SephirahType floor in Enum.GetValues(typeof(SephirahType)))
+            CompletedRealizations.Clear();
+            SaveData data = null;
+            try { data = Singleton<LogueSaveManager>.Instance.LoadData(RealizationSaveName); }
+            catch { data = null; }
+            if (data != null)
             {
-                if (data.GetData(floor.ToString()) != null && data.GetInt(floor.ToString()) > 0)
-                    CompletedRealizations.Add(floor);
+                foreach (SephirahType floor in Enum.GetValues(typeof(SephirahType)))
+                {
+                    if (floor == SephirahType.None)
+                        continue;
+                    try
+                    {
+                        if (data.GetData(floor.ToString()) != null && data.GetInt(floor.ToString()) > 0)
+                            CompletedRealizations.Add(floor);
+                    }
+                    catch { /* ignore bad enum keys */ }
+                }
             }
+            _realizationProgressLoaded = true;
         }
 
         private static void SaveRealizationProgress()
         {
             SaveData data = new SaveData(SaveDataType.Dictionary);
             foreach (SephirahType floor in Enum.GetValues(typeof(SephirahType)))
+            {
+                if (floor == SephirahType.None)
+                    continue;
                 data.AddData(floor.ToString(), CompletedRealizations.Contains(floor) ? 1 : 0);
+            }
             Singleton<LogueSaveManager>.Instance.SaveData(data, RealizationSaveName);
+            _realizationProgressLoaded = true;
         }
 
         private static void DeleteSaveFile(string saveName)
@@ -2083,10 +2225,29 @@ namespace RogueLike_Mod_Reborn
     {
         public PickUpModel_RMRNoAbnormality()
         {
-            // Unicode escapes so file encoding cannot corrupt Chinese strings.
-            this.Name = "\u65e0"; // 无
-            this.Desc = "\u5f53\u524d\u60c5\u611f\u7b49\u7ea7\u6ca1\u6709\u5df2\u89e3\u9501\u7684\u5f02\u60f3\u4f53\u4e66\u9875\u3002"; // 当前情感等级没有已解锁的异想体书页。
-            this.FlaverText = "\u8fd9\u4e00\u6b21\uff0c\u5149\u6ca1\u6709\u56de\u5e94\u3002"; // 这一次，光没有回应。
+            // Language-aware strings (fallback to EN if not Chinese).
+            string lang = "";
+            try { lang = TextDataModel.CurrentLanguage.ToString().ToLowerInvariant(); } catch { }
+            bool zh = lang.Contains("cn") || lang.Contains("ch") || lang.Contains("zh");
+            bool kr = lang.Contains("kr") || lang.Contains("ko");
+            if (zh)
+            {
+                this.Name = "\u65e0"; // 无
+                this.Desc = "\u5f53\u524d\u60c5\u611f\u7b49\u7ea7\u6ca1\u6709\u5df2\u89e3\u9501\u7684\u5f02\u60f3\u4f53\u4e66\u9875\u3002";
+                this.FlaverText = "\u8fd9\u4e00\u6b21\uff0c\u5149\u6ca1\u6709\u56de\u5e94\u3002";
+            }
+            else if (kr)
+            {
+                this.Name = "\uc5c6\uc74c"; // 없음
+                this.Desc = "\ud604\uc7ac \uac10\uc815 \ub4f1\uae09\uc5d0\uc11c \ud574\uae08\ub41c \ud658\uc0c1\uccb4 \ud398\uc774\uc9c0\uac00 \uc5c6\uc2b5\ub2c8\ub2e4.";
+                this.FlaverText = "\uc774\ubc88\uc5d0\ub294 \ube5b\uc774 \uc751\ub2f5\ud558\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4.";
+            }
+            else
+            {
+                this.Name = "None";
+                this.Desc = "No unlocked abnormality pages are available at this Emotion level.";
+                this.FlaverText = "This time, the Light does not answer.";
+            }
             this.ArtWork = "Stage_Rest";
         }
 

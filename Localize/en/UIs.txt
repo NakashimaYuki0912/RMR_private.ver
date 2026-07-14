@@ -138,6 +138,29 @@
   <text id="ui_RMR_Atlas_Title">Permanent Atlas</text>
   <text id="ui_RMR_Atlas_Progress">Acquisition Stage</text>
   <text id="ui_RMR_Atlas_Unlocked">Unlocked</text>
+  <text id="ui_RMR_Atlas_Locked">Locked</text>
+  <text id="ui_RMR_Atlas_LockedHint">Not unlocked yet.</text>
+  <text id="ui_RMR_Atlas_ShowUpgraded">Show upgraded</text>
+  <text id="ui_RMR_Atlas_EmptyFlat">No entries in this category (abnormality / E.G.O. unlock via play or realization).</text>
+  <text id="ui_RMR_Atlas_EmptySection">No entries in this stage. Try "All" or another category.</text>
+  <text id="ui_RMR_Atlas_Cat_RoleBook">Key Pages</text>
+  <text id="ui_RMR_Atlas_Cat_BattleCard">Combat Pages</text>
+  <text id="ui_RMR_Atlas_Cat_Abno">Abnormality Pages</text>
+  <text id="ui_RMR_Atlas_Cat_Ego">E.G.O. Pages</text>
+  <text id="ui_RMR_Atlas_Sec_All">All</text>
+  <text id="ui_RMR_Atlas_Sec_Rumor">Canard</text>
+  <text id="ui_RMR_Atlas_Sec_UrbanLegend">Urban Myth</text>
+  <text id="ui_RMR_Atlas_Sec_UrbanMyth">Urban Legend</text>
+  <text id="ui_RMR_Atlas_Sec_UrbanIllness">Urban Plague</text>
+  <text id="ui_RMR_Atlas_Sec_UrbanNightmare">Urban Nightmare</text>
+  <text id="ui_RMR_Atlas_Sec_UrbanStar">Star of the City</text>
+  <text id="ui_RMR_Atlas_Sec_Impurity">Impurity</text>
+  <text id="ui_RMR_Atlas_Res_Weak">Weak</text>
+  <text id="ui_RMR_Atlas_Res_Normal">Normal</text>
+  <text id="ui_RMR_Atlas_Res_Endure">Endured</text>
+  <text id="ui_RMR_Atlas_Res_Immune">Immune</text>
+  <text id="ui_RMR_Atlas_Res_Vulnerable">Fatal</text>
+  <text id="ui_RMR_Atlas_UpgradePreview">Upgrade preview</text>
 
 </localize>
 

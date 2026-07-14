@@ -296,5 +296,1036 @@
 자신의 손에 '일점 돌파+'를 추가</Desc>
   </BattleCardAbility>
 
+  <!-- RMR abilities: EN fill until full KR localization -->
+  
+  
+  <!-- RMR abilities pass2: EN fill -->
+  
+  
+
+  <!-- RMR abilities: KR localized from CN/EN combat terms -->
+
+  <!-- RMR abilities KR (from EN LoR terms) -->
+  <BattleCardAbility ID="RMR_1vulnbreakvulnpw">
+    <Desc>[합 승리] 부여 취약 1 그리고 흐트러짐 취약 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_1weakcrit">
+    <Desc>[치명타] 부여 취약 1 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_2bleedcrit">
+    <Desc>[치명타] 부여 출혈 2 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_2protpwnow">
+    <Desc>[합 승리] 얻음 보호 2 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_2weakcrit">
+    <Desc>[치명타] 부여 취약 2 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_3bleedcrit">
+    <Desc>[치명타] 부여 출혈 3 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_5breakdmgcrit">
+    <Desc>[치명타] 가함 5 흐트러짐 피해 대상</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_5shield">
+    <Desc>[사용시] 얻음 5 보호막 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Acupuncture">
+    <Desc>[전투 시작] 얻음 4 치명타 이번 막; 만약 자신 가짐 15+ 치명타, 얻음 1 참격 합 위력 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_AdaptDice">
+    <Desc>[적응]</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_AdaptDice_Riposte">
+    <Desc>[적응][합 승리] 감소 위력 대상의 다음 주사위 2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_AdaptDice_RiposteUpgrade">
+    <Desc>[적응][합 승리] 감소 위력 대상의 다음 주사위 3</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_AdaptPage">
+    <Desc>[스크롤 시] [적응]</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Add2PowerAllpw">
+    <Desc>[합 승리] 추가 위력 +2 이 책장의 모든 주사위</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Amputation">
+    <Desc>다음 상태에서만 사용 가능: '검 해금' 상태</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Amputationdie">
+    <Desc>[적중] 가함 피해 와 동일한 25% 대상의 최대 체력; 대상 잃음 25% 최대 체력 영구적으로</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Amputationfirstdie">
+    <Desc>[합 승리] 모두 파괴 대상의 주사위
+[합 패배] 파괴 이 책장의 모든 주사위</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Appetite">
+    <Desc>[적중] 회복 체력 와 동일한 대상의 출혈 (최대. 15)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_AssaultOrder">
+    <Desc>[사용시] 만약 대상 가짐 2 또는 이상 연기, all 공격 주사위 이 책장 얻음 위력 +1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_AssaultOrderUpgrade">
+    <Desc>[사용시] 만약 대상 가짐 2 또는 이상 연기, 이 책장의 모든 주사위 얻음 위력 +1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_AutomatedMovement">
+    <Desc>[사용시] 이 속도 주사위 가짐 [속도 +2]
+[사용시] 얻음 신속 2 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Avert">
+    <Desc>[합 시작] 만약 대상의 책장 처음에 다른 대상을 지정한 아군, 이 책장의 모든 주사위 얻음 위력 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_BackAttack">
+    <Desc>[사용시] 만약 대상 대상이 됨 다른 아군의 책장 의 비용 3 또는 이상, 이 책장의 모든 주사위 얻음 위력 +1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_BackstreetsDash">
+    <Desc>[합 시작] 감소 흐트러짐 피해 all 대상의 주사위 5</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_BackstreetsDashDie">
+    <Desc>[합 승리] 가함 추가 흐트러짐 피해 와 동일한 대상의 주사위 수치</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_BeyondShadow">
+    <Desc>[사용시] All 주사위 이 책장 얻음 위력 +2 (자신의 치명타)% 확률</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_BindingArmsUpgrade">
+    <Desc>[사용시] 감소 이 책장의 비용 1 (최대 3 회)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_BladeWhirl">
+    <Desc>[사용시] 만약 자신 가짐 인내, 책장을 1장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_BladeWhirlUpgrade">
+    <Desc>[사용시] 만약 자신 가짐 인내, 책장을 1장 뽑음 그리고 빛 1 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_BlazingStrike">
+    <Desc>다음 조건에서만 사용 가능: 감정 단계 3 그리고 이상
+[사용시] 부여 화상 대상 대상의 화상 (최대. 30)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_BlazingStrikeDie">
+    <Desc>이 주사위 가함 피해 없음 또는 흐트러짐 피해
+[적중] 부여 화상 10</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_BlazingStrikeDieUpgrade">
+    <Desc>이 주사위 가함 피해 없음 또는 흐트러짐 피해
+[적중] 부여 화상 20</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_BoundaryOfDeath">
+    <Desc>[사용시] 만약 체력 20% 또는 감소, 얻음 1 행운 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ButterflySlash">
+    <Desc>주사위 이 책장 가함 4 피해 감소
+[합 승리] 부여 화상 1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Chargeup">
+    <Desc>[사용시] 시작 시 매 막, 빛 1 회복 그리고 부여 마비 1 자신에게 이번 무대 동안</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ChargeupUpgrade">
+    <Desc>[사용시] 뽑음 1 책장; 시작 시 매 막, 빛 1 회복 그리고 부여 마비 1 자신에게 이번 무대 동안</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ChopItOff">
+    <Desc>주사위 이 책장 얻음 위력 와 동일한 대상의 마비 (최대. 3)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_CleanUp">
+    <Desc>[사용시] 빛 2 회복
+만약 대상 가짐 4+ 출혈, 책장을 1장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_CoolerRepressed">
+    <Desc>감소 위력 대상의 현재 방어 주사위 3
+[합 승리] 만약 대상의 주사위 방어형, 책장을 1장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_CrackOfDawnDie">
+    <Desc>이 주사위 가함 피해 없음; [적중] 부여 화상 9</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_CrackOfDawnDieUpgrade">
+    <Desc>이 주사위 가함 피해 없음; [적중] 부여 화상 11</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_CrueltyDie">
+    <Desc>[적중] 회복 체력 그리고 흐트러짐 저항 와 동일한 대상의 출혈 (최대. 30)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_CrueltyUpgradeDie">
+    <Desc>[적중] 회복 체력 그리고 흐트러짐 저항 와 동일한 2x 대상의 출혈 (최대. 40)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_CumulusWall">
+    <Desc>[전투 시작] 얻음 5 보호막 그리고 흐트러짐 보호막 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_CumulusWallDie">
+    <Desc>[합 승리] 만약 대상의 주사위 공격형이면, 양쪽 모두 재사용 자신의 그리고 대상의 주사위</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_CumulusWallUpgrade">
+    <Desc>[전투 시작] 얻음 5 보호막 그리고 흐트러짐 보호막 이번 막
+[사용시] 만약 대상 가짐 4+ 출혈, 얻음 5 보호막 그리고 흐트러짐 보호막 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_CutIn">
+    <Desc>[사용시] 마다 책장 대상 가짐 아직 사용하지 않은 이번 막, 증가 최소 수치 이 책장의 모든 주사위 +1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_DarkCloudUpgrade">
+    <Desc>[전투 시작] All 공격 주사위 자신 사용 이번 막 얻음 ‘이 주사위 가함 2 감소 흐트러짐 피해; [적중] 부여 출혈 1 다음 막’</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Deflect">
+    <Desc>[합 승리] 감소 위력 대상의 다음 주사위 1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_DesperateStruggle">
+    <Desc>[단결]
+[전투 시작] 동안 이번 막, 다른 모든 아군 사용 중인 단결 책장 가함 5 피해 자신 그리고 얻음 +2 합 위력 이번 막 (1회, 불가 중첩)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Detonate">
+    <Desc>이 주사위 가함 피해 없음; [적중] 부여 화상 와 동일한 굴림 수치</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Diversion">
+    <Desc>[전투 시작] 지정된 책장 강제 합 대상: 이 책장</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_DriedupUpgrade">
+    <Desc>[사용시] 얻음 힘 2 그리고 신속 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Eject">
+    <Desc>[합 시작] 감소 피해 그리고 흐트러짐 피해 all 대상의 주사위 2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_EjectUpgrade">
+    <Desc>[합 시작] 감소 피해 그리고 흐트러짐 피해 all 대상의 주사위 4</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ElectricShock">
+    <Desc>[사용 후] 만약 대상 가짐 마비, 제거 마비 대상 그리고 가함 흐트러짐 피해 와 동일한 2배 제거d amount</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ElectricShockUpgrade">
+    <Desc>[사용 후] 만약 대상 가짐 마비, 제거 마비 대상 그리고 얻음 충전 와 동일한 2배 제거d amount</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_EnGarde">
+    <Desc>[전투 시작] 얻음 1 합 위력 이번 막 그리고 다음 막
+[사용시] 부여 힘 1 대상 그리고 자신 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_EnGardeUpgrade">
+    <Desc>[전투 시작] 얻음 1 합 위력 이번 막 그리고 다음 막
+[사용시] 부여 힘 2 대상 그리고 자신 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_EndlessBattle">
+    <Desc>[단결]
+[합 시작] 만약 체력 25% 또는 감소, 주사위 이 책장 그리고 책장 합 중인 대상 영향받지 않음 위력 얻음 또는 손실</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Endurance1start">
+    <Desc>[전투 시작] 얻음 인내 1 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Endurance2start">
+    <Desc>[전투 시작] 얻음 인내 2 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_EndureUpgrade">
+    <Desc>[사용시] 얻음 보호 1 그리고 흐트러짐 보호 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Engagement">
+    <Desc>[전투 시작] 얻음 6 보호막 그리고 흐트러짐 보호막 이번 막
+[사용시] 추가 'En Garde' 자신의 손</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_EngagementUpgrade">
+    <Desc>[전투 시작] 얻음 8 보호막 그리고 흐트러짐 보호막 이번 막
+[사용시] 추가 'En Garde+' 자신의 손</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Execute">
+    <Desc>만약 Singleton, add 위력 와 동일한 (1 + number 책장 effect involving 'Singleton' deck / 2) (Rounded down)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ExecuteUpgrade">
+    <Desc>만약 Singleton, add 위력 와 동일한 (3 + number 책장 effect involving 'Singleton' deck / 2) (Rounded down)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ExhaleSmoke">
+    <Desc>[사용시] 얻음 연기 8</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ExhaleSmokeDie">
+    <Desc>[적중] 부여 연기 3; 만약 대상 가짐 5+ 연기, 부여 마비 3 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ExtremeEdge">
+    <Desc>[단결]
+[전투 시작] 동안 이번 막, 다른 모든 아군 사용 중인 단결 책장 얻음 1 Resilience 이번 막 (Cannot be 중첩)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FaintMemories">
+    <Desc>[사용시] 가함 7 흐트러짐 피해 자신; 이 책장의 모든 주사위 얻음 위력 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FaintMemoriesUpgrade">
+    <Desc>[사용시] 가함 9 흐트러짐 피해 자신; 이 책장의 모든 주사위 얻음 위력 +3</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Faith">
+    <Desc>[Zeal]
+[사용시] 만약 Singleton, 빛 1 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FaithDie">
+    <Desc>Type 이 주사위 changes same type as 자신의 highest stacks 위력-Up</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FascinatingFabric">
+    <Desc>오직 up 3 이 책장 can be held once
+[사용시] 얻음 보호 1 그리고 흐트러짐 보호 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FascinatingFabricUpgrade">
+    <Desc>오직 up 3 이 책장 can be held once
+[사용시] 얻음 보호 2 그리고 흐트러짐 보호 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Feast">
+    <Desc>[처치시] Exhaust 이 책장 그리고 increase 자신의 최대 체력 2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FeastUpgrade">
+    <Desc>[처치시] Exhaust 이 책장 그리고 increase 자신의 최대 체력 3</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FierceCharge">
+    <Desc>[사용시] 이 속도 주사위 가짐 [속도 +6]
+[적중] 부여 화상 5</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FierceChargeDie">
+    <Desc>이 주사위 가함 피해 없음
+[합 승리] Use 이 책장 a얻음 무작위 적</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FierceChargeUpgrade">
+    <Desc>[사용시] 이 속도 주사위 가짐 [속도 +6]
+[합 승리] 부여 화상 5
+[적중] 부여 화상 5</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FishOnslaughtUpgrade">
+    <Desc>[사용시] Discard 책장 lowest 비용 그리고 얻음 1 피해 최대 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FlankAttack">
+    <Desc>[전투 시작] 동안 이번 막, 모든 아군 사용 중인 단결 책장 얻음 위력 +1 모든 주사위 (Cannot be 중첩)
+[사용시] 부여 출혈 1 자신 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FlankAttackUpgrade">
+    <Desc>[단결]
+[전투 시작] 동안 이번 막, 모든 아군 사용 중인 단결 책장 얻음 위력 +1 모든 주사위 (Cannot be 중첩)
+[사용시] 부여 출혈 1 자신 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FlashingStrike">
+    <Desc>[단결]
+[사용시] 만약 Speed 6 또는 이상, 이 책장의 모든 주사위 얻음 위력 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FlashingStrikeUpgrade">
+    <Desc>[단결]
+[사용시] 만약 Speed 5 또는 이상, 이 책장의 모든 주사위 얻음 위력 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FlecheCounter">
+    <Desc>만약 대상 가짐 힘 또는 인내, add 위력 +1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FleetFootsteps">
+    <Desc>[사용시] 이 속도 주사위 가짐 [속도 +2]</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FleshFillet">
+    <Desc>[사용시] Spend 연기 2 증가 위력 이 책장의 모든 주사위 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FleshFilletDie">
+    <Desc>[적중] 부여 출혈 다음 막 와 동일한 stacks 연기 대상</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FlyingSword">
+    <Desc>[단결]
+[전투 시작] 동안 이번 막, 다른 모든 아군 사용 중인 단결 책장 얻음 신속 1 다음 막 (Cannot be 중첩)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FlyingSwordUpgrade">
+    <Desc>[단결]
+[전투 시작] 동안 이번 막, 다른 모든 아군 사용 중인 단결 책장 얻음 신속 1 다음 막 (Cannot be 중첩)
+[사용시] 얻음 신속 2 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ForTheFamily">
+    <Desc>[전투 시작] 부여 보호 1 two random 아군 이번 막 그리고 다음 막
+[사용시] All 아군 ‘Persistence’ 체력 3 회복 그리고 흐트러짐 저항</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ForTheFamilyUpgrade">
+    <Desc>[전투 시작] 부여 보호 1 two random 아군 이번 막 그리고 다음 막
+[사용시] All 아군 ‘Persistence’ 얻음 보호 1 다음 막, 체력 4 회복 그리고 흐트러짐 저항</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ForcefulGesture">
+    <Desc>[적중] 부여 1 random status ailment 다음 막 (취약, 무장 해제, 속박, 취약, 또는 흐트러짐 취약)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ForcefulGestureUpgrade">
+    <Desc>[적중] 부여 2 random status ailments 다음 막 (취약, 무장 해제, 속박, 취약, 또는 흐트러짐 취약)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FrontalDodge">
+    <Desc>[단결]
+[사용시] 회복 8 흐트러짐 저항</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FullStopToLife">
+    <Desc>[사용시] 부여 4 치명타 random other 아군 그리고 자신 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FullStopToLifeUpgrade1">
+    <Desc>[사용시] 부여 8 치명타 random other 아군 그리고 자신 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_FullStopToLifeUpgrade2">
+    <Desc>[사용시] 얻음 5 치명타 이번 막 그리고 8 치명타 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Gain2AhnOnKill">
+    <Desc>[처치시] 얻음 2 Ahn</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Gain2Smoke">
+    <Desc>[사용시] 얻음 연기 2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Gain3Smoke">
+    <Desc>[사용시] 얻음 연기 3</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Gain4Smoke">
+    <Desc>[사용시] 얻음 연기 4</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Gain5Smoke">
+    <Desc>[사용시] 얻음 연기 5</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_GainSmoke4Atk">
+    <Desc>[적중] 얻음 연기 4</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_GambleUpgrade">
+    <Desc>[사용시] Discard 책장 lowest 비용; 만약 버림ed 책장의 비용 not 0, 얻음 치명타 와 동일한 2x 비용</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_GatherIntelUpgrade">
+    <Desc>[사용시] 뽑음 all copies 책장 highest rarity deck</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Gigigi">
+    <Desc>[사용시] 빛 1 회복; 책장을 1장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_GoinFirst">
+    <Desc>[사용시] 만약 이 책장 자신의 first played 전투 책장 이번 막, 증가 최소 수치 이 책장의 모든 주사위 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_GuardianUpgrade">
+    <Desc>[사용시] 부여 인내 1 그리고 신속 모든 아군 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_GuidanceGears">
+    <Desc>[사용시] 얻음 연기 2. 빛 2 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_GuidanceGearsUpgrade">
+    <Desc>[사용시] 얻음 연기 3. 빛 2 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_GutHarvesting">
+    <Desc>[처치시] 얻음 4 Ahn
+[사용 후] The 책장 잃음 이 ability afterwards</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_GutHarvestingUpgrade">
+    <Desc>[처치시] 얻음 Ahn depending 대상의 Key 책장 rarity (4/7/10/15)
+[사용 후] The 책장 잃음 이 ability afterwards</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_HandleRequest">
+    <Desc>[사용시] When inflicting 화상 사용 중인 전투 책장s 이번 막, 부여 1 추가 stack</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_HandlingWorkUpgrade">
+    <Desc>[전투 시작] 만약 자신 가짐 any ‘Fatal’ 또는 ‘Weak’ 저항ances, set them ‘Normal’ 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_HastePower1">
+    <Desc>만약 자신 가짐 신속, add 위력 +1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_HastePower2">
+    <Desc>만약 자신 가짐 신속, add 위력 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Headshot">
+    <Desc>[치명타] 파괴 대상의 다음 주사위</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_HeadtoHead">
+    <Desc>[단결]
+[전투 시작] All 다른 아군 사용 중인 단결 책장 얻음 '[합 시작] Make 주사위 대상의 책장 가함 피해 감소 그리고 흐트러짐 피해 와 동일한 대상의 출혈' (Cannot be 중첩)
+[사용시] 부여 출혈 2 자신 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_HeadtoHeadUpgrade">
+    <Desc>[단결]
+[전투 시작] All 다른 아군 사용 중인 단결 책장 얻음 '[합 시작] Make 주사위 대상의 책장 가함 피해 감소 그리고 흐트러짐 피해 와 동일한 대상의 출혈' (Cannot be 중첩)
+[사용시] 부여 출혈 2 자신 다음 막
+[합 시작] 뽑음 1 책장</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_HeavyPeaks">
+    <Desc>[사용 후] 만약 자신 가짐 enough Emotion Points raise 감정 단계, 얻음 힘 3 그리고 인내 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_HeresMyChance">
+    <Desc>[단결]
+[사용시] 부여 출혈 3 자신 다음 막; 이 책장의 모든 주사위 얻음 위력 +1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_HiddenBlade">
+    <Desc>[사용시] Spend 연기 3 증가 위력 이 책장의 모든 주사위 +2 그리고 얻음 2 피해 최대 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_HiddenBladeUpgrade">
+    <Desc>[사용시] Spend 연기 2 증가 위력 이 책장의 모든 주사위 +2 그리고 얻음 2 피해 최대 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_HitAndRunBlockonEvade">
+    <Desc>[합 패배] 감소 incoming 피해 그리고 stagger 피해 natural 수치</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_IHATECQC">
+    <Desc>[합 패배] 얻음 보호 1 그리고 흐트러짐 보호 이번 막; 얻음 3 치명타 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_IHATECQCUpgrade">
+    <Desc>[합 패배] 얻음 보호 1 그리고 흐트러짐 보호 이번 막; 얻음 5 치명타 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_IndiscriminateShots">
+    <Desc>[전투 시작] 파괴 이 책장; 주사위 이 책장 are played 대상: random 적</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_IndiscriminateShotsDie1">
+    <Desc>[치명타] Last 주사위 얻음 위력 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_IndiscriminateShotsDie1Upgrade">
+    <Desc>[치명타] Last 주사위 얻음 위력 +4</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_IndiscriminateShotsDie2">
+    <Desc>[적중] 가함 피해 대상 와 동일한 굴림 수치</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_IngredientHunt">
+    <Desc>[사용시] 주사위 이 책장 얻음 위력 +1 만약 대상 가짐 출혈</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_InhaleSmoke">
+    <Desc>[사용시] 얻음 연기 4</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_InhaleSmokeUpgrade">
+    <Desc>[사용시] 얻음 연기 6</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_InkOver">
+    <Desc>While 이 손, 시작 시 이번 막, 감소 비용 이 책장 1 until used each 적 10+ 출혈
+[적중] 부여 출혈 1 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_InkOverDie">
+    <Desc>[​​ Hit] 만약 대상 가짐 4+ 출혈, 뽑음 책장 와 동일한 (대상의 출혈 / 4) (최대. 2)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_InkOverDieUpgrade">
+    <Desc>[​ Hit] 만약 대상 가짐 3+ 출혈, 뽑음 책장 와 동일한 (대상의 출혈 / 3) (최대. 3)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Juggling">
+    <Desc>While deck, 시작 시 매 막, add copy 이 책장 without 이 ability deck</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_KillMotherfuckerOfChoice">
+    <Desc>[치명타] 이 가함 50% 이상 피해 그리고 흐트러짐 피해</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_KillMotherfuckerOfChoiceUpgrade">
+    <Desc>[치명타] 이 가함 75% 이상 피해 그리고 흐트러짐 피해</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_LawOrder">
+    <Desc>[합 승리] 추가 Block 주사위 (Roll: 3-8) counter queue</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_LawOrderUpgrade">
+    <Desc>[합 승리] 추가 two Block 주사위 (Roll: 3-8) counter queue</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Leap">
+    <Desc>[사용시] 얻음 신속 1 다음 막; spend 충전 3 뽑음 3 책장</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_LeapUpgrade">
+    <Desc>[사용시] 얻음 신속 2 다음 막; spend 충전 3 뽑음 3 책장</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_LetShowBegin">
+    <Desc>[전투 시작] Boost Counter 주사위 위력 +2 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_LoSDraw2">
+    <Desc>[적중] 만약 대상 가짐 3+ 연기, 책장을 2장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_LossOfSensesDie">
+    <Desc>[적중] 만약 대상 가짐 6+ 연기, increase 비용 대상의 most expensive 책장 1 until used; 대상 잃음 연기 5</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_LossOfSensesUpgrade">
+    <Desc>[합 승리] 감소 위력 대상의 다음 주사위 2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_LowNight">
+    <Desc>[ Discard] 만약 자신의 체력 이상 50%, take 4 피해 그리고 얻음 힘 1 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_LowNightUpgrade">
+    <Desc>[ Discard] 만약 자신의 체력 이상 50%, take 4 피해 그리고 얻음 힘 1 이번 막
+Otherwise 만약 자신의 체력 below 50%, 얻음 4 보호막 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_MeatJamUpgrade">
+    <Desc>[사용시] 체력 30 회복 그리고 remove copy 이 책장 inventory</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Mendweapon">
+    <Desc>[전투 시작] 얻음 1 Pierce 위력-최대 이번 막
+[사용시] 빛 1 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Moulinet">
+    <Desc>[사용시] 만약 대상 가짐 취약, 이 책장의 모든 주사위 얻음 위력 +1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Multiblock">
+    <Desc>[전투 시작] 얻음 보호 3, 흐트러짐 보호 그리고 5 보호막 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_MultiblockUpgrade">
+    <Desc>[전투 시작] 얻음 보호 4, 흐트러짐 보호 그리고 10 보호막 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Multihit">
+    <Desc>[사용시] All 주사위 이 책장 얻음 ‘[적중] 재사용 이 주사위 33% 확률 (최대 1 time)’</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Multihitdie">
+    <Desc>[적중] 재사용 이 주사위 33% 확률 (최대 1 time)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_NonstopAssault">
+    <Desc>[사용시] 시작 시 다음 막, 뽑음 all other copies 'Nonstop Assault' deck</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_NonstopAssaultUpgrade">
+    <Desc>[사용시] 빛 1 회복; 시작 시 다음 막, 뽑음 all other copies 'Nonstop Assault' deck</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_NotAnotherStep">
+    <Desc>[합 시작] 만약 Speed 감소 than 대상’s, 얻음 10 치명타 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_NotAnotherStepUpgrade">
+    <Desc>[합 시작] 만약 Speed 감소 than 대상’s, 얻음 15 치명타 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_NowDie">
+    <Desc>[단결] [전투 시작] All 다른 아군 사용 중인 단결 Page 얻음 1 피해 최대 이번 막 every 출혈 3 they have (Cannot be 중첩)
+[사용시] 부여 출혈 5 자신 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Observe">
+    <Desc>[사용시] 시작 시 매 막, 얻음 힘 1 이번 무대 동안</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ObserveUpgrade">
+    <Desc>[사용시] 얻음 힘 2 다음 막
+시작 시 매 막, 얻음 힘 1 이번 무대 동안</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_OpportunitySpotted">
+    <Desc>[사용시] Boost 최대 수치 all 공격 주사위 이 책장 amount unique status ailments 대상 (최대. 3)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Outburst">
+    <Desc>[사용시] Discard 책장 lowest 비용 그리고 빛 3 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Overcharge">
+    <Desc>[사용시] 얻음 충전 5 그리고 seal 속도 주사위 자신 다음 막; 만약 자신 가짐 감소 than 충전 10, repeat 이 effect</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_OverchargeUpgrade1">
+    <Desc>[사용시] 얻음 충전 7 그리고 seal 속도 주사위 자신 다음 막; 만약 자신 가짐 감소 than 충전 10, repeat 이 effect</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_OverchargeUpgrade2">
+    <Desc>[사용시] 얻음 충전 11 그리고 become Immobilized 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_OvercomeCrisis">
+    <Desc>[사용시] 뽑음 1 책장; random other 아군 사용 중인 단결 책장 draws 1 책장</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_OvercomeCrisisUpgrade">
+    <Desc>[단결]
+[사용시] 뽑음 1 책장; random other 아군 사용 중인 단결 책장 draws 1 책장</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Overthrow">
+    <Desc>[전투 시작] 얻음 3 참격 합 위력 이번 막
+[사용시] 얻음 7 치명타 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_OverthrowDie">
+    <Desc>[치명타] 감소 비용 이 책장 1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_OverthrowUpgrade">
+    <Desc>[전투 시작] 얻음 3 참격 합 위력 이번 막
+[사용시] 얻음 5 치명타 이번 막 그리고 10 치명타 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_PreparedMindLulu">
+    <Desc>[전투 시작] When inflicting 화상 사용 중인 전투 책장s 이번 막, 부여 1 추가 stack</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_PreparedMindLuluUpgrade">
+    <Desc>[전투 시작] When inflicting 화상 사용 중인 전투 책장s 이번 막, 부여 1 추가 stack 그리고 얻음 인내 1 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_PrescriptDie">
+    <Desc>[합 승리] 만약 Singleton, 파괴 대상의 그리고 자신의 다음 주사위</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_PrescriptLoophole">
+    <Desc>[사용시] 추가 'Unlock-Ⅲ' 손</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_PrescriptOrder">
+    <Desc>[Zeal]
+[사용시] 만약 Singleton, 책장을 1장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_PrescriptOrderUpgrade">
+    <Desc>[Zeal]
+[사용시] 만약 Singleton, 책장을 1장 뽑음
+Otherwise 얻음 흐트러짐 보호막 이번 막 와 동일한 책장 손</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ProselyteBlade">
+    <Desc>[Zeal]
+[전투 시작] All 주사위 자신 사용 lose 4 위력 이번 막
+[사용시] 동안 이번 무대 동안, 시작 시 매 막, 얻음 1 random 위력-최대 (Slash, Pierce, Blunt, Defense)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ProselyteBladeUpgrade">
+    <Desc>[전투 시작] All 주사위 자신 사용 lose 2 위력 이번 막
+[사용시] 동안 이번 무대 동안, 시작 시 매 막, 얻음 1 random 위력-최대 (Slash, Pierce, Blunt, Defense)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_QuickAttack">
+    <Desc>[사용시] 얻음 신속 2 다음 막; 만약 Speed 이상 than 대상's, 이 책장의 모든 주사위 얻음 위력 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Recover2HPSRatk">
+    <Desc>[적중] 체력 2 회복 그리고 흐트러짐 저항</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_RecycleOnClashLose">
+    <Desc>[합 패배] 재사용 이 주사위 (최대 10 회)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_RedNotes">
+    <Desc>[전투 시작] 부여 힘 1 그리고 인내 무작위 아군 without 힘</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_RedNotesUpgrade">
+    <Desc>[전투 시작] 부여 힘 1 그리고 인내 two random 아군 without 힘</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Refine">
+    <Desc>[전투 시작] 얻음 2 Pierce 합 위력 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Relay">
+    <Desc>[ Discard] A random other 아군 draws 1 책장</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_RelayUpgrade">
+    <Desc>[ Discard] A random other 아군 draws 1 책장
+[사용시] 뽑음 1 책장</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_RepressedFlesh">
+    <Desc>[전투 시작] 가함 1 bonus 흐트러짐 피해 Blunt hits 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_RepressedFleshUpgrade">
+    <Desc>[전투 시작] 가함 2 bonus 흐트러짐 피해 Blunt hits 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ReturnFireUpgrade">
+    <Desc>[전투 시작] 얻음 8 치명타 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_RipSpace">
+    <Desc>[사용시] Spend all 충전; (충전 x 10)% 확률, 증가 min 그리고 최대 수치 이 책장의 모든 주사위 +8
+Otherwise 가함 20 피해 자신</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_RipSpaceDie">
+    <Desc>만약 충전 10 spent once, add 위력 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_RipSpaceDieUpgrade">
+    <Desc>만약 충전 10 spent once, add 위력 +4</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_RipSpaceUpgrade">
+    <Desc>[사용시] Spend all 충전; (충전 x 12)% 확률, 증가 min 그리고 최대 수치 이 책장의 모든 주사위 +8
+Otherwise 가함 20 피해 자신</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Ripple">
+    <Desc>[사용시] Spend 충전 2 증가 위력 이 책장의 모든 주사위 +2 (최대 2 회)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_RippleDie">
+    <Desc>[합 패배] Spend 충전 1 재사용 이 주사위</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_RulesBackstreets">
+    <Desc>[사용시] 만약 대상 가짐 4+ 출혈, 증가 최소 수치 이 책장의 모든 주사위 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Sakura">
+    <Desc>[사용시] Discard up 4 random 책장 손, each 책장 버림ed, 증가 최소 수치 이 책장의 모든 주사위 +1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SakuraUpgrade">
+    <Desc>[사용시] Discard up 4 random 책장 손, each 책장 버림ed, 증가 최소 수치 이 책장의 모든 주사위 +1; 만약 4 책장 버림ed, 만약 자신 가짐 any ‘Fatal’ 또는 ‘Weak’ 저항ances, set them ‘Endured’ 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ScatteringSlash">
+    <Desc>[전투 시작] 얻음 12 보호막 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ScatteringSlashUpgrade">
+    <Desc>[전투 시작] 얻음 16 보호막 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SearingBlow">
+    <Desc>이 책장 can be upgraded any number 회</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SearingSword">
+    <Desc>주사위 이 책장 가함 50% 피해 감소</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SenseQuarry">
+    <Desc>[Zeal]
+[사용시] 만약 Singleton, 이 책장의 모든 주사위 얻음 위력 +1 every unique status ailment 대상 가짐</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SetFireUpgradeDie">
+    <Desc>[적중] 부여 화상 5; 가함 3 피해 자신</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SharpSwipe">
+    <Desc>[전투 시작] All 공격 주사위 자신 사용 이번 막 얻음 ‘[적중] 부여 출혈 1 다음 막’</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SharpenedBlade">
+    <Desc>[전투 시작] When inflicting 출혈 사용 중인 전투 책장s 이번 막, 부여 1 추가 stack; 모든 주사위 자신 사용 가함 2 피해 감소 그리고 흐트러짐 피해 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SharpenedBladeUpgrade">
+    <Desc>[전투 시작] When inflicting 출혈 사용 중인 전투 책장s 이번 막, 부여 2 추가 stacks; 모든 주사위 자신 사용 가함 4 피해 감소 그리고 흐트러짐 피해 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SharpenedBladev2">
+    <Desc>[전투 시작] 얻음 2 피해 최대 이번 막; Slash 주사위 얻음 "[적중] 부여 출혈 다음 막 와 동일한 자신의 피해 Up" 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ShrineToMusic">
+    <Desc>[전투 시작] 부여 취약 1 그리고 무장 해제 무작위 적 without 취약</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ShrineToMusicUpgrade">
+    <Desc>[전투 시작] 부여 취약 1 그리고 무장 해제 two random 적 without 취약</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SilentMist">
+    <Desc>[사용시] 얻음 보호 3 그리고 흐트러짐 보호 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SingletonPower2">
+    <Desc>만약 Singleton, add 위력 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Skewer">
+    <Desc>[사용시] 만약 Singleton, 부여 취약 1 그리고 흐트러짐 취약 대상 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SkewerDie">
+    <Desc>[합 승리] 만약 Singleton, 파괴 대상의 다음 주사위</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SkitterAway">
+    <Desc>[사용시] 이 속도 주사위 가짐 [속도 +3]</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SkitterAwayUpgrade">
+    <Desc>[사용시] 이 속도 주사위 가짐 [속도 +5]</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SkyCut">
+    <Desc>이 주사위 가함 no 흐트러짐 피해; [적중] 부여 출혈 다음 막 와 동일한 ( roll - 최소 수치) (Min. 1)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Slay">
+    <Desc>[치명타] 얻음 힘 1 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SliceUpgrade">
+    <Desc>[사용시] Discard 책장 lowest 비용 그리고 얻음 1 Slash 위력-최대 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Smoke1Atk">
+    <Desc>[적중] 부여 연기 1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Smoke2Atk">
+    <Desc>[적중] 부여 연기 2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Smoke3Atk">
+    <Desc>[적중] 부여 연기 3</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Smoke4Atk">
+    <Desc>[적중] 부여 연기 4</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Smoke5Atk">
+    <Desc>[적중] 부여 연기 5</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Smoke6Atk">
+    <Desc>[적중] 부여 연기 6</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Smoke7Atk">
+    <Desc>[적중] 부여 연기 7</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Smoke8Atk">
+    <Desc>[적중] 부여 연기 8</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Smoke9Atk">
+    <Desc>[적중] 부여 연기 9</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SmokeBlowDie">
+    <Desc>[적중] 빛 1 회복; 부여 연기 3</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SmokePrickDie">
+    <Desc>[적중] 부여 연기 2; 얻음 연기 1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SmokeSmash">
+    <Desc>[사용시] 만약 자신 가짐 9+ 연기, 증가 위력 이 책장의 모든 주사위 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SmokeSmashUpgrade">
+    <Desc>[사용시] 만약 자신 가짐 8+ 연기, 증가 위력 이 책장의 모든 주사위 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SmokingPipe">
+    <Desc>[사용시] 얻음 연기 3; 빛 1 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SmokingPipeUpgrade">
+    <Desc>[사용시] 얻음 연기 4; 빛 1 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SpearSweepDie">
+    <Desc>[합 승리] 추가 Pierce 주사위 (Roll: 3-5) 주사위 queue</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SpearSweepDieUpgrade">
+    <Desc>[합 승리] 추가 Pierce 주사위 (Roll: 4-5) 주사위 queue</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SpearedSweep">
+    <Desc>[합 시작] 부여 무장 해제 2 대상 이번 막
+[사용 후] Purge 무장 해제 대상</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SpearedSweepUpgrade">
+    <Desc>[적중] 가함 1 피해 대상
+[합 시작] 부여 무장 해제 2 대상 이번 막
+[사용 후] Purge 무장 해제 대상</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Standoff">
+    <Desc>[합 시작] 얻음 5 보호막 그리고 흐트러짐 보호막 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_StandoffUpgrade">
+    <Desc>[합 시작] 얻음 8 보호막 그리고 흐트러짐 보호막 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Starter_CoordinatedStrikes">
+    <Desc>[사용시] 주사위 이 책장 얻음 위력 +1 each copy 이 책장 being used 대상: same 대상</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Starter_Evade">
+    <Desc>[사용시] 뽑음 1 책장 그리고 얻음 인내 1 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_StartinLightly">
+    <Desc>[사용시] 얻음 1 Blunt 위력-최대 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_StayClamUpgrade">
+    <Desc>[ Discard] 책장을 1장 뽑음 그리고 얻음 3 흐트러짐 보호막 이번 막
+[사용시] 뽑음 1 책장</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_StructuralAnalysis">
+    <Desc>[사용시] Types 공격 주사위 이 책장 change types 대상 weakest
+[적중] 만약 type 주사위 Pierce, 부여 마비 1 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_StruggleUpgrade">
+    <Desc>[사용시] 얻음 보호 2 이번 막 그리고 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_SunsetBlade">
+    <Desc>[합 시작] Boost 최소 수치 이 책장의 모든 주사위 +2 그리고 감소 outgoing 피해 3</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Tailoring">
+    <Desc>Costs 1 감소 만약 ‘Fascinating Fabric’ 손
+[사용시] 만약 ‘Fascinating Fabric’ not 손, 책장을 2장 뽑음 주사위 이 책장 가함 4 피해 감소 그리고 흐트러짐 피해</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_TailoringUpgrade">
+    <Desc>Costs 1 감소 만약 ‘Fascinating Fabric’ 손
+[처치시] Upgrade rarity dropped book 대상</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_TakeTheShot">
+    <Desc>[치명타] 빛 1 회복 그리고 책장을 1장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_TakeTheShotUpgrade">
+    <Desc>[전투 시작] 얻음 5 치명타 이번 막
+[치명타] 빛 1 회복 그리고 책장을 1장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_TargetSpotted">
+    <Desc>[전투 시작] 얻음 5 치명타 이번 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_TasteChain">
+    <Desc>[전투 시작] All 다른 아군 사용 중인 단결 책장 부여 출혈 1 자신 다음 막
+[사용시] 부여 출혈 1 자신 다음 막; 빛 1 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ToWherePrescript">
+    <Desc>[Zeal]
+[사용시] 만약 Singleton, 이 책장의 모든 주사위 얻음 위력 +1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_ToWherePrescriptUpgrade">
+    <Desc>[Zeal]
+[사용시] 만약 Singleton, 이 책장의 모든 주사위 얻음 위력 +2
+[적중] 부여 취약 1 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_TraceFumes">
+    <Desc>[사용시] 만약 대상 가짐 no 연기, 감소 비용 이 책장 1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Track">
+    <Desc>[사용시] 체력 4 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_TrackUpgrade">
+    <Desc>[전투 시작] All 공격 주사위 자신 사용 이번 막 얻음 ‘[적중] 체력 1 회복’
+[사용시] 체력 4 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_TrashDisposalDie">
+    <Desc>[적중] 만약 natural roll not Min, 재사용 이 주사위 (최대 6 회)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_UnavoidableGazeUpgrade">
+    <Desc>주사위 이 책장 얻음 위력 와 동일한 대상의 마비 (최대. 5)</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_UndertakePrescript">
+    <Desc>[Zeal]
+[사용시] 만약 not Singleton, 이 책장의 모든 주사위 lose 2 위력</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_UnforgettableMelody">
+    <Desc>[전투 시작] Allies 힘 책장을 1장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_UnforgettableMelodyUpgrade">
+    <Desc>[전투 시작] 얻음 힘 1 이번 막
+[사용시] Allies 힘 책장을 1장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_UpbeatPerformance">
+    <Desc>[합 승리] All 아군 얻음 1 Positive Emotion Point</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Vapour">
+    <Desc>[사용시] 얻음 연기 4 그리고 책장을 1장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Whet">
+    <Desc>[사용 후] All 주사위 다음 전투 책장 used 얻음 위력 +1</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_WildCard">
+    <Desc>[적중] All 아군 회복 5 흐트러짐 저항</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_WillBeTasty">
+    <Desc>[사용시] 만약 대상 Staggered, 체력 4 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_WillOfThePrescript">
+    <Desc>[사용시] 만약 Singleton, 뽑음 책장 와 동일한 number 책장 effect involving 'Singleton' deck
+[합 시작] Copy random 주사위 effects 책장 deck effect involving ‘Zeal’ 그리고 add them 주사위 이 책장</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_WrathOfTormentUpgrade">
+    <Desc>[사용시] 가함 9 피해 자신; 이 책장의 모든 주사위 얻음 위력 +3</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_YieldMyFlesh">
+    <Desc>[합 패배] 얻음 15 보호막 그리고 흐트러짐 보호막 이번 막; add 'To Claim 그 Bones' 자신의 손</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_YieldMyFleshUpgrade">
+    <Desc>[합 패배] 얻음 20 보호막 그리고 흐트러짐 보호막 이번 막; add 'To Claim 그 Bones+' 자신의 손</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_YouOnlyLiveOnce">
+    <Desc>[합 시작] 주사위 이 책장 그리고 대상의 책장 가함 50% 이상 피해 그리고 흐트러짐 피해</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_YoureHindranceUpgrade">
+    <Desc>[적중] 부여 무장 해제 1 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_YoureSoft">
+    <Desc>[단결]
+[전투 시작] All 다른 아군 사용 중인 단결 책장 얻음 출혈 1 보호 다음 막
+[사용시] 부여 출혈 2 자신 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_Zeal">
+    <Desc>[Zeal]</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_add5powerpl">
+    <Desc>[합 패배] 추가 위력 +5 다음 주사위</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_allydraw1atk">
+    <Desc>[적중] A random other 아군 draws 1 책장</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_allydraw1pw">
+    <Desc>[합 승리] A random other 아군 draws 1 책장</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_binding3crit">
+    <Desc>[치명타] 부여 속박 3 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_bleed1atkcard">
+    <Desc>[적중] 부여 출혈 1 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_bleed1twiceatk">
+    <Desc>[적중] 부여 출혈 1 2 회 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_bleed2atkcard">
+    <Desc>[적중] 부여 출혈 2 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_bleed2draw1atk">
+    <Desc>[적중] 부여 출혈 2 다음 막; 책장을 1장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_bleeding1atk2lessbreakdmg">
+    <Desc>이 주사위 가함 2 감소 흐트러짐 피해
+[적중] 부여 출혈 1 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_boostdiceminvalue2pl">
+    <Desc>[합 패배] Boost 최소 수치 이 책장의 모든 주사위 +2</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_break2atk">
+    <Desc>[적중] 가함 2 흐트러짐 피해 대상</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_break3atkcard">
+    <Desc>[적중] 가함 3 흐트러짐 피해</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_break5pw">
+    <Desc>[합 승리] 가함 5 흐트러짐 피해</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_breakvuln1atk">
+    <Desc>[적중] 부여 1 흐트러짐 취약 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_critchance12pw">
+    <Desc>[합 승리] 얻음 12 치명타 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_critchance2pw">
+    <Desc>[합 승리] 얻음 2 치명타 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_critchance5pw">
+    <Desc>[합 승리] 얻음 5 치명타 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_dmgupquickness1ally2atk">
+    <Desc>[적중] 부여 1 피해 최대 그리고 신속 two random 아군 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_draw3pw">
+    <Desc>[합 승리] 뽑음 3 책장</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_energy2draw1">
+    <Desc>[사용시] 빛 2 회복 그리고 책장을 1장 뽑음</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_nodamage">
+    <Desc>이 주사위 가함 피해 없음 또는 흐트러짐 피해</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_nodeflectdamage">
+    <Desc>[합 패배] Take no deflect 피해</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_paralysisbind1atk">
+    <Desc>[적중] 부여 마비 1 그리고 속박 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_recover1pl">
+    <Desc>[합 패배] 체력 1 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_recover5atk">
+    <Desc>[적중] 체력 5 회복</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_recover5breakpw">
+    <Desc>[합 승리] 회복 5 흐트러짐 저항</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_shield5atk">
+    <Desc>[적중] 얻음 5 보호막 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_shield5pw">
+    <Desc>[합 승리] 얻음 5 보호막 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_sweeperpage">
+    <Desc>[사용시] 얻음 'Persistence' 4 Scenes</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_sweeperpageUpgrade">
+    <Desc>[사용시] 얻음 'Persistence' 6 Scenes</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_whythefuckistherenobleeding1pw">
+    <Desc>[합 승리] 부여 출혈 1 다음 막</Desc>
+  </BattleCardAbility>
+  <BattleCardAbility ID="RMR_whythefuckistherenoendurance1atk">
+    <Desc>[적중] 얻음 인내 1 다음 막</Desc>
+  </BattleCardAbility>
 </BattleCardAbilityDescRoot>
 
