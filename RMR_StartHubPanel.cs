@@ -366,7 +366,7 @@ namespace RogueLike_Mod_Reborn
             TextMeshProUGUI desc = AddLabel(_root.transform,
                 T("ui_RMR_HubDesc",
                     "\u9009\u62e9\u8fd9\u6b21\u63a5\u5f85\u7684\u5f00\u59cb\u65b9\u5f0f\u3002\u8def\u7ebf\u5185\u5bb9\u5c5e\u4e8e\u672c\u6b21\u65c5\u7a0b\uff1b\u56fe\u9274\u4e0e\u89e3\u653e\u8bb0\u5f55\u5c06\u6c38\u4e45\u4fdd\u7559\u3002",
-                    "Choose how this reception begins. Route resources belong to this journey; Atlas and realization records persist.",
+                    "Choose how this reception begins. Route resources belong to this journey; Compendium and realization records persist.",
                     "\uc774\ubc88 \uc811\ub300\uc758 \uc2dc\uc791 \ubc29\uc2dd\uc744 \uc120\ud0dd\ud558\uc138\uc694."),
                 new Vector2(-480f, -82f), 17, new Vector2(650f, 110f), ColMuted, false);
             desc.alignment = TextAlignmentOptions.TopLeft;
@@ -440,8 +440,8 @@ namespace RogueLike_Mod_Reborn
                 "HOW TO PLAY", y, OnClickHelp, primary: false);
             y -= step;
             AddMenuButton(menuRoot.transform, "V",
-                T("ui_RMR_Hub_Atlas", "\u56fe\u9274", "Atlas", "\ub3c4\uac10"),
-                "PERMANENT ATLAS", y, OnClickAtlas, primary: false);
+                T("ui_RMR_Hub_Atlas", "\u56fe\u9274", "Compendium", "\ub3c4\uac10"),
+                "PERMANENT COMPENDIUM", y, OnClickAtlas, primary: false);
             y -= step;
             AddMenuButton(menuRoot.transform, "VI",
                 T("ui_RMR_Hub_Reset", "\u91cd\u7f6e\u6c38\u4e45\u8fdb\u5ea6", "Reset Permanent Progress", "\uc601\uad6c \uc9c4\ud589 \ucd08\uae30\ud654"),

@@ -65,7 +65,7 @@ namespace RogueLike_Mod_Reborn
                         "路线中的金币、库存和章节进度只属于当前旅程；图鉴与楼层解放记录则会永久保留，为之后的游玩提供更多选择。",
                     BodyEn =
                         "Every reception becomes a journey from Urban Myth to Impuritas Civitatis. Choose a route, gather resources, and shape a different team in every run.\n\n" +
-                        "Money, inventory, and chapter progress belong to the current run. Atlas discoveries and realization clears remain for future journeys."
+                        "Money, inventory, and chapter progress belong to the current run. Compendium discoveries and realization clears remain for future journeys."
                 },
                 new Page
                 {
@@ -120,7 +120,7 @@ namespace RogueLike_Mod_Reborn
                 {
                     NavKey = "ui_RMR_Help_Nav_Atlas",
                     NavZh = "永久图鉴",
-                    NavEn = "Permanent Atlas",
+                    NavEn = "Permanent Compendium",
                     BodyKey = "ui_RMR_Help_Body_Atlas",
                     ArtKeys = new[] { "随机事件背景2", "Shop_CardUpgrade_Icon" },
                     BodyZh =
@@ -129,7 +129,7 @@ namespace RogueLike_Mod_Reborn
                         "永久图鉴用于记录收藏、扩展后续内容池，并为楼层解放战提供编队资源。尚未解锁的项目会以未知状态显示。\n\n" +
                         "“重置永久进度”会清除图鉴与楼层解放记录，请谨慎使用。",
                     BodyEn =
-                        "Discoveries are recorded in the permanent Atlas, which is separate from current-run inventory. New runs still require fresh collection and building. Atlas unlocks provide loadout resources for realizations."
+                        "Discoveries are recorded in the permanent Compendium, which is separate from current-run inventory. New runs still require fresh collection and building. Compendium unlocks provide loadout resources for realizations."
                 },
                 new Page
                 {
@@ -145,7 +145,7 @@ namespace RogueLike_Mod_Reborn
                         "解放战临时编队不会覆盖正常路线配置。选择“正常游玩”后，本次路线期间会关闭解放入口；放弃路线并重新开始后可再次挑战。\n\n" +
                         "可以直接开始正常路线，也可以先解放部分楼层扩充永久资源。根据每次获得的内容调整策略，正是本模组的核心玩法。",
                     BodyEn =
-                        "Enter realizations from the start hub, choose a floor, and prepare a temporary team from permanent Atlas unlocks. First clears unlock exclusive rewards; replays do not repeat them. Temporary loadouts do not overwrite normal-run configurations."
+                        "Enter realizations from the start hub, choose a floor, and prepare a temporary team from permanent Compendium unlocks. First clears unlock exclusive rewards; replays do not repeat them. Temporary loadouts do not overwrite normal-run configurations."
                 }
             };
         }

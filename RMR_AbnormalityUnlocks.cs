@@ -622,6 +622,15 @@ namespace RogueLike_Mod_Reborn
         {
             if (info == null || IsNoAbnormalityFallback(info.id))
                 return false;
+
+            // Defense in depth: mid-battle pool is built with CanAppearInNormalReceptionAbnoPool,
+            // but re-check so exclusives never show at emo 1–5 after a progress reset mid-save.
+            // Realization battles intentionally use the permanent atlas (skip this gate).
+            if (!RMRRealizationManager.InRealizationBattle
+                && !RMRRealizationManager.IsRealizationPreparationActive
+                && !CanAppearInNormalReceptionAbnoPool(info))
+                return false;
+
             int requiredTier = GetRequiredAbnoTierForTeamEmotion(teamEmotionLevel);
             int pageTier = GetVanillaAbnoTier(info);
             if (pageTier <= 0)
@@ -1983,8 +1992,8 @@ namespace RogueLike_Mod_Reborn
             var candidates = GetAllCreatureRewardPages()
                 .Where(CanAppearInNormalReceptionAbnoPool)
                 // Final-floor exclusives never enter the normal 3-pick until that floor is cleared
-                // (also enforced inside CanAppearInNormalReceptionAbnoPool / GetTierForScript).
-                .Where(info => IsRewardTierAvailableForChapter(GetTierForScript(info.script), grade))
+                // (also enforced inside CanAppearInNormalReceptionAbnoPool / GetTierForRewardPage).
+                .Where(info => IsRewardTierAvailableForChapter(GetTierForRewardPage(info), grade))
                 .Where(info => !RouteUnlockedPages.Exists(id => id == info.id))
                 .Where(info => LogueBookModels.EmotionCardList == null || !LogueBookModels.EmotionCardList.Any(x => x.id == info.id))
                 .ToList();
@@ -2024,7 +2033,7 @@ namespace RogueLike_Mod_Reborn
             EnsureRealizationProgressLoaded();
             return GetAllCreatureRewardPages()
                 .Where(CanAppearInNormalReceptionAbnoPool)
-                .Where(info => IsRewardTierAvailableForChapter(GetTierForScript(info.script), grade))
+                .Where(info => IsRewardTierAvailableForChapter(GetTierForRewardPage(info), grade))
                 .Where(info => LogueBookModels.EmotionCardList == null || !LogueBookModels.EmotionCardList.Any(x => x.id == info.id))
                 .Where(info => !RouteUnlockedPages.Exists(id => id == info.id))
                 .ToList();
@@ -2098,6 +2107,7 @@ namespace RogueLike_Mod_Reborn
         public static int GetTierForScript(string script)
         {
             // Locked realization exclusives are tier 0 so any tier-only gate also rejects them.
+            EnsureRealizationProgressLoaded();
             SephirahType exclusiveFloor = GetRealizationFloorForScript(script);
             if (exclusiveFloor != SephirahType.None && !IsFloorRealizationCompleted(exclusiveFloor))
                 return 0;
@@ -2110,6 +2120,24 @@ namespace RogueLike_Mod_Reborn
             if (floor == SephirahType.Binah || floor == SephirahType.Hokma || floor == SephirahType.Keter)
                 return 3;
             return 0;
+        }
+
+        /// <summary>
+        /// Chapter-pool tier for a full reward row (script + exclusive ID). Prefer this over script-only
+        /// when gating shop/post-battle candidates so ID-range exclusives cannot slip through.
+        /// </summary>
+        public static int GetTierForRewardPage(RewardPassiveInfo info)
+        {
+            if (info == null)
+                return 0;
+            if (IsRealizationExclusive(info) && !IsRealizationRewardAvailable(info))
+                return 0;
+            int byScript = GetTierForScript(info.script);
+            if (byScript > 0)
+                return byScript;
+            // Exclusive with floor from ID map but weak script → use floor chapter tier.
+            SephirahType floor = ResolveRealizationFloor(info);
+            return floor != SephirahType.None ? GetTierForFloor(floor) : 0;
         }
 
         private static bool ScriptMatchesRoot(string scriptRoot, string floorRoot)
@@ -2126,8 +2154,32 @@ namespace RogueLike_Mod_Reborn
                 return false;
             if (string.Equals(script, configuredScript, StringComparison.OrdinalIgnoreCase))
                 return true;
-            return string.Equals(GetRootScript(script), configuredScript, StringComparison.OrdinalIgnoreCase)
-                   || script.StartsWith(configuredScript, StringComparison.OrdinalIgnoreCase);
+            if (string.Equals(GetRootScript(script), configuredScript, StringComparison.OrdinalIgnoreCase))
+                return true;
+            // Prefix match only when the remainder is empty, pure digits (freischutz3),
+            // or quietKid* letter suffixes (quietKidHammer / EyeShine / Guilty).
+            // Avoid treating arbitrary "wizardFoo" as the Chesed exclusive root.
+            if (!script.StartsWith(configuredScript, StringComparison.OrdinalIgnoreCase))
+                return false;
+            string rest = script.Substring(configuredScript.Length);
+            if (rest.Length == 0)
+                return true;
+            bool allDigits = true;
+            for (int i = 0; i < rest.Length; i++)
+            {
+                if (!char.IsDigit(rest[i]))
+                {
+                    allDigits = false;
+                    break;
+                }
+            }
+            if (allDigits)
+                return true;
+            if (string.Equals(configuredScript, "quietKid", StringComparison.OrdinalIgnoreCase)
+                && rest.Length > 0
+                && char.IsLetter(rest[0]))
+                return true;
+            return false;
         }
 
         private static string GetRootScript(string script)

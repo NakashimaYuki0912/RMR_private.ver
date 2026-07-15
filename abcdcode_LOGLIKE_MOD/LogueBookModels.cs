@@ -313,7 +313,9 @@ namespace abcdcode_LOGLIKE_MOD
                 if (!RMRAbnormalityUnlockManager.IsRealizationExclusive(info))
                     return false;
                 // Exclusive pages require the floor realization to be completed.
-                SephirahType floor = RMRAbnormalityUnlockManager.GetRealizationFloorForScript(info.script);
+                // Use ResolveRealizationFloor (script + exclusive ID block) — script-only
+                // left quietKid*/ID-only rows stuck as None and wiped valid atlas unlocks.
+                SephirahType floor = RMRAbnormalityUnlockManager.ResolveRealizationFloor(info);
                 return floor == SephirahType.None || !RMRAbnormalityUnlockManager.IsFloorRealizationCompleted(floor);
             });
             LogueBookModels.AtlasUnlockedEgoPages.RemoveWhere(id =>

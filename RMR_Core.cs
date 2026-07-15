@@ -2743,6 +2743,11 @@ namespace RogueLike_Mod_Reborn
                         continue;
                     if (!RMRAbnormalityUnlockManager.CanAppearInNormalReceptionAbnoPool(info))
                         continue;
+                    // GradeAll exclusive rows must still respect current-chapter floor tier
+                    // (e.g. Binah exclusives after clear do not flood Grade1–3 pools).
+                    if (!RMRAbnormalityUnlockManager.IsRewardTierAvailableForChapter(
+                            RMRAbnormalityUnlockManager.GetTierForRewardPage(info), grade))
+                        continue;
                     if (merged.Exists(x => x != null && x.id == info.id))
                         continue;
                     merged.Add(info);
