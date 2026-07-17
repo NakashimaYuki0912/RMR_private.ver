@@ -1,15 +1,17 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.CraftEquipChapter1
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Refactored LOGLIKE/RMR logic: CraftEffectModels
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_Refactored\CraftEffectModels.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using UI;
 using UnityEngine;
 
 
 namespace abcdcode_LOGLIKE_MOD
 {
+    #region --- CraftExclusiveCardChapter5 ---
+
+    /// <summary>CraftExclusiveCardChapter5</summary>
     public class CraftExclusiveCardChapter5 : CraftEffect
     {
         public override bool IsNormal()
@@ -39,6 +41,12 @@ namespace abcdcode_LOGLIKE_MOD
             CraftEffect.CraftExclusiveCardByChapter(ChapterGrade.Grade5);
         }
     }
+    #endregion
+
+    #region --- CraftExclusiveCardChapter6 ---
+
+
+    /// <summary>CraftExclusiveCardChapter6</summary>
 
     public class CraftExclusiveCardChapter6 : CraftEffect
     {
@@ -70,6 +78,12 @@ namespace abcdcode_LOGLIKE_MOD
             (UI.UIController.Instance.GetUIPanel(UIPanelType.BattleSetting) as UIBattleSettingPanel)._editPanel.BattleCardPanel.SetData();
         }
     }
+    #endregion
+
+    #region --- CraftExclusiveCardChapter7 ---
+
+
+    /// <summary>CraftExclusiveCardChapter7</summary>
 
     public class CraftExclusiveCardChapter7 : CraftEffect
     {
@@ -101,6 +115,12 @@ namespace abcdcode_LOGLIKE_MOD
             (UI.UIController.Instance.GetUIPanel(UIPanelType.BattleSetting) as UIBattleSettingPanel)._editPanel.BattleCardPanel.SetData();
         }
     }
+    #endregion
+
+    #region --- CraftEquipChapter1 ---
+
+
+    /// <summary>CraftEquipChapter1</summary>
 
     public class CraftEquipChapter1 : CraftEffect
     {
@@ -126,6 +146,12 @@ namespace abcdcode_LOGLIKE_MOD
             CraftEffect.CraftEquipByChapter(ChapterGrade.Grade1);
         }
     }
+    #endregion
+
+    #region --- CraftEquipChapter2 ---
+
+
+    /// <summary>CraftEquipChapter2</summary>
 
     public class CraftEquipChapter2 : CraftEffect
     {
@@ -151,6 +177,12 @@ namespace abcdcode_LOGLIKE_MOD
             CraftEffect.CraftEquipByChapter(ChapterGrade.Grade2);
         }
     }
+    #endregion
+
+    #region --- CraftEquipChapter3 ---
+
+
+    /// <summary>CraftEquipChapter3</summary>
 
     public class CraftEquipChapter3 : CraftEffect
     {
@@ -176,6 +208,12 @@ namespace abcdcode_LOGLIKE_MOD
             CraftEffect.CraftEquipByChapter(ChapterGrade.Grade3);
         }
     }
+    #endregion
+
+    #region --- CraftEquipChapter4 ---
+
+
+    /// <summary>CraftEquipChapter4</summary>
 
     public class CraftEquipChapter4 : CraftEffect
     {
@@ -201,6 +239,12 @@ namespace abcdcode_LOGLIKE_MOD
             CraftEffect.CraftEquipByChapter(ChapterGrade.Grade4);
         }
     }
+    #endregion
+
+    #region --- CraftEquipChapter5 ---
+
+
+    /// <summary>CraftEquipChapter5</summary>
 
     public class CraftEquipChapter5 : CraftEffect
     {
@@ -226,6 +270,12 @@ namespace abcdcode_LOGLIKE_MOD
             CraftEffect.CraftEquipByChapter(ChapterGrade.Grade5);
         }
     }
+    #endregion
+
+    #region --- CraftEquipChapter6 ---
+
+
+    /// <summary>CraftEquipChapter6</summary>
 
     public class CraftEquipChapter6 : CraftEffect
     {
@@ -251,6 +301,12 @@ namespace abcdcode_LOGLIKE_MOD
             CraftEffect.CraftEquipByChapter(ChapterGrade.Grade6);
         }
     }
+    #endregion
+
+    #region --- CraftEquipChapter7 ---
+
+
+    /// <summary>CraftEquipChapter7</summary>
 
     public class CraftEquipChapter7 : CraftEffect
     {
@@ -281,5 +337,7 @@ namespace abcdcode_LOGLIKE_MOD
             CraftEffect.CraftEquipByChapter(ChapterGrade.Grade7);
         }
     }
+    #endregion
+
 
 }

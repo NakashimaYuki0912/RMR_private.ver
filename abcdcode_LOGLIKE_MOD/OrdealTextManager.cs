@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.OrdealTextManager
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Ordeal event helper: OrdealTextManager
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\OrdealTextManager.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using Sound;
 using System.Collections.Generic;
 using TMPro;
@@ -12,6 +11,8 @@ using UnityEngine.UI;
 
  
 namespace abcdcode_LOGLIKE_MOD {
+
+/// <summary>OrdealTextManager</summary>
 
 public class OrdealTextManager : Singleton<OrdealTextManager>
 {
@@ -45,6 +46,8 @@ public class OrdealTextManager : Singleton<OrdealTextManager>
   }
 
   public delegate void OrdealEnd();
+
+  /// <summary>OrdealTextBehaviour</summary>
 
   public class OrdealTextBehaviour : MonoBehaviour
   {

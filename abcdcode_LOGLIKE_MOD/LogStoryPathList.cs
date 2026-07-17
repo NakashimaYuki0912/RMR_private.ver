@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.LogStoryPathList
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// LOGLIKE core UI/data: LogStoryPathList
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\LogStoryPathList.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using HarmonyLib;
 using LOR_XML;
 using Mod;
@@ -22,21 +21,33 @@ using WorkParser;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>LOGLIKE type: LogStoryPathList</summary>
+
     public class LogStoryPathList : Singleton<LogStoryPathList>
     {
         public List<LogStoryPathInfo> list;
 
         public LogStoryPathList() => this.list = new List<LogStoryPathInfo>();
+        #region --- Other helpers ---
+
 
         public void AddStoryPathInfo(List<LogStoryPathInfo> infolist)
         {
             this.list.AddRange(infolist);
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public LogStoryPathInfo GetPathInfo(LorId id)
         {
             return this.list.Find(x => x.Id == id);
         }
+        #endregion
+
+        #region --- Save / load ---
+
 
         public void LoadStoryFile(LorId id, StoryRoot.OnEndStoryFunc endFunc = null, bool OpenStory = true)
         {
@@ -82,6 +93,10 @@ namespace abcdcode_LOGLIKE_MOD
                 endFunc = DefaultStoryEnd;
             this.ActivateStoryScene(endFunc);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Prefer Localize/{lang}/file, then {lang}/file (cn lives here), then Localize/en, then en.
@@ -212,6 +227,10 @@ namespace abcdcode_LOGLIKE_MOD
             // either way, do a cool little transition that'd be cool
             SingletonBehavior<UIBgScreenChangeAnim>.Instance.StartBg(UIScreenChangeType.EnterBattleSetting);
         }
+        #endregion
+
+        #region --- Save / load ---
+
 
         public static bool LoadStoryFile(string storyPath, string effectPath, string modPath)
         {
@@ -262,5 +281,7 @@ namespace abcdcode_LOGLIKE_MOD
                 return false;
             }
         }
+        #endregion
+
     }
 }

@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.CreaturePickUpModel
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Abnormality creature pickup base: CreaturePickUpModel
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\CreaturePickUpModel.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using HarmonyLib;
 using LOR_XML;
 using RogueLike_Mod_Reborn;
@@ -19,10 +18,14 @@ using UnityEngine.UI;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>CreaturePickUpModel</summary>
+
     public class CreaturePickUpModel : PickUpModelBase
     {
         public List<LorId> ids;
         public int level;
+        #region --- Battle hooks ---
+
 
         public static List<EmotionCardXmlInfo> GetEmotionListById(List<LorId> ids)
         {
@@ -78,6 +81,10 @@ namespace abcdcode_LOGLIKE_MOD
                 Debug.LogError(ex);
             }
         }
+        #endregion
+
+        #region --- Save / load ---
+
 
         public static void LoadGetAbnomalityPanel(List<EmotionCardXmlInfo> cards, int level, string name)
         {
@@ -160,11 +167,17 @@ namespace abcdcode_LOGLIKE_MOD
             instance.GetType().GetMethod("SetDefault", AccessTools.all).Invoke(instance, (object[])null);
             fieldValue11.SetTrigger("Reveal");
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public virtual string GetCreatureName() => "";
 
         public virtual List<EmotionCardXmlInfo> GetCreatureList() => (List<EmotionCardXmlInfo>)null;
 
         public virtual Sprite GetSprite() => (Sprite)null;
+        #endregion
+
     }
 }

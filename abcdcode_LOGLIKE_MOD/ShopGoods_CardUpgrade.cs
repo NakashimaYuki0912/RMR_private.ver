@@ -1,4 +1,9 @@
-﻿using GameSave;
+// -----------------------------------------------------------------------------
+// Shop system component: ShopGoods_CardUpgrade
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\ShopGoods_CardUpgrade.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
+using GameSave;
 using LOR_DiceSystem;
 using RogueLike_Mod_Reborn;
 using System.Collections.Generic;
@@ -12,11 +17,14 @@ using UnityEngine.UI;
 
 namespace abcdcode_LOGLIKE_MOD
 {
+    /// <summary>Shop component: ShopGoods_CardUpgrade</summary>
     public class ShopGoods_CardUpgrade : ShopGoods
     {
         public UILogCustomSelectable customSelectable;
         public TextMeshProUGUI NameText;
         public TextMeshProUGUI IconText;
+        #region --- Battle hooks ---
+
 
         public static List<DiceCardItemModel> GetUpgradeableCards()
         {
@@ -56,6 +64,10 @@ namespace abcdcode_LOGLIKE_MOD
         {
             return GetUpgradeableCards().Count > 0;
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public void SetGoods(int price)
         {
@@ -87,17 +99,29 @@ namespace abcdcode_LOGLIKE_MOD
             if (this.Money != null)
                 this.Money.text = this.price.ToString();
         }
+        #endregion
+
+        #region --- Save / load ---
+
 
         public override void LoadFromSaveData(SaveData data)
         {
             base.LoadFromSaveData(data);
             this.SetPrice(this.price);
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public override bool CanPurchase()
         {
             return HasUpgradeableCards() && base.CanPurchase();
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public override bool CheckEnoughMoney()
         {
@@ -123,6 +147,10 @@ namespace abcdcode_LOGLIKE_MOD
                 return;
             MysteryModel_UpgradeCheckPopup.PopupUpgradeCheck(model.GetID(), my => this.ApplyUpgrade(mystery, my, model.GetID()));
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void ApplyUpgrade(MysteryModel_CardChoice mystery, MysteryModel_UpgradeCheckPopup popup, LorId cardid)
         {
@@ -159,11 +187,19 @@ namespace abcdcode_LOGLIKE_MOD
             Singleton<MysteryManager>.Instance.EndMystery(mystery);
             Singleton<MysteryManager>.Instance.EndMystery(popup);
         }
+        #endregion
+
+        #region --- Save / load ---
+
 
         public override SaveData GetSaveData()
         {
             return base.GetSaveData();
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public void OnPointerEnter()
         {
@@ -189,6 +225,8 @@ namespace abcdcode_LOGLIKE_MOD
         {
             SingletonBehavior<UIMainOverlayManager>.Instance.Close();
         }
+        #endregion
+
     }
 }
 

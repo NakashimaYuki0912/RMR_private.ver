@@ -1,4 +1,9 @@
-﻿using System;
+// -----------------------------------------------------------------------------
+// RogueLike Mod Reborn (RMR): RMR_GlobalEffects
+// Namespace/file: ruina-roguelike-reborn-main\RMR_GlobalEffects.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +20,8 @@ namespace RogueLike_Mod_Reborn
     #region STARTER ITEMS
     public class RMREffect_IronHeart : GlobalLogueEffectBase
     {
+        #region --- Effect types ---
+
         public override void OnStartBattleAfter()
         {
             if (LogLikeMod.curstagetype == abcdcode_LOGLIKE_MOD.StageType.Normal || LogLikeMod.curstagetype == abcdcode_LOGLIKE_MOD.StageType.Elite || LogLikeMod.curstagetype == abcdcode_LOGLIKE_MOD.StageType.Boss)
@@ -36,6 +43,8 @@ namespace RogueLike_Mod_Reborn
 
         public override string KeywordIconId => "RMR_IronHeart";
     }
+
+    /// <summary>RMR type: RMREffect_HunterCloak</summary>
 
     public class RMREffect_HunterCloak : GlobalLogueEffectBase
     {
@@ -62,6 +71,8 @@ namespace RogueLike_Mod_Reborn
         public override string KeywordIconId => "RMR_HunterCloak";
     }
 
+    /// <summary>RMR type: RMREffect_ViciousGlasses</summary>
+
     public class RMREffect_ViciousGlasses : GlobalLogueEffectBase
     {
         public override void OnRoundStart(StageController stage)
@@ -80,6 +91,8 @@ namespace RogueLike_Mod_Reborn
 
         public override string KeywordIconId => "RMR_ViciousGlasses";
     }
+
+    /// <summary>RMR type: RMREffect_LightsGuidance</summary>
 
     public class RMREffect_LightsGuidance : GlobalLogueEffectBase
     {
@@ -101,6 +114,8 @@ namespace RogueLike_Mod_Reborn
         public override string KeywordIconId => "RMR_LightGuidance";
     }
 
+    /// <summary>RMR type: RMREffect_RoadlessCamelot</summary>
+
     public class RMREffect_RoadlessCamelot : GlobalLogueEffectBase
     {
         public override void OnRoundStart(StageController stage)
@@ -109,6 +124,8 @@ namespace RogueLike_Mod_Reborn
             var list = BattleObjectManager.instance.GetAliveList(Faction.Player);
             RandomUtil.SelectOne<BattleUnitModel>(list).bufListDetail.AddBuf(new CamelotBuf());
         }
+
+        /// <summary>CamelotBuf</summary>
 
         public class CamelotBuf : BattleUnitBuf
         {
@@ -146,6 +163,8 @@ namespace RogueLike_Mod_Reborn
 
         public override string KeywordIconId => "RMR_RoadlessCamelot";
     }
+
+    /// <summary>RMR type: RMREffect_StrangeOrb</summary>
 
     public class RMREffect_StrangeOrb : GlobalLogueEffectBase
     {
@@ -186,6 +205,7 @@ namespace RogueLike_Mod_Reborn
         }
 
         public override string KeywordIconId => "RMR_StrangeOrb";
+        /// <summary>Passive ability: PassiveAbility_RMR_StrangeOrbPassive</summary>
         public class PassiveAbility_RMR_StrangeOrbPassive : PassiveAbilityBase
         {
             public override bool isTargetable => false;
@@ -355,6 +375,8 @@ namespace RogueLike_Mod_Reborn
                 }
             }
 
+            /// <summary>cardcostreductionorb</summary>
+
             public class cardcostreductionorb : BattleDiceCardBuf
             {
                 public override int GetCost(int oldCost)
@@ -373,6 +395,8 @@ namespace RogueLike_Mod_Reborn
     }
     #endregion
 
+    /// <summary>RMR type: RMREffect_CorrodedChains</summary>
+
     public class RMREffect_CorrodedChains : GlobalLogueEffectBase
     {
         public static Rarity ItemRarity = Rarity.Uncommon;
@@ -386,6 +410,7 @@ namespace RogueLike_Mod_Reborn
                 list[i].bufListDetail.AddBuf(new RMR_EffectBuf_CorrodedChains());
             }
         }
+        /// <summary>RMR type: RMR_EffectBuf_CorrodedChains</summary>
         public class RMR_EffectBuf_CorrodedChains : BattleUnitBuf
         {
             public override void OnSuccessAttack(BattleDiceBehavior behavior)
@@ -403,6 +428,8 @@ namespace RogueLike_Mod_Reborn
         }
 
     }
+
+    /// <summary>RMR type: RMREffect_BleedingSpleen</summary>
 
     public class RMREffect_BleedingSpleen : GlobalLogueEffectBase
     {
@@ -441,6 +468,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_HarvesterScythe</summary>
+
     public class RMREffect_HarvesterScythe : GlobalLogueEffectBase
     {
         public static Rarity ItemRarity = Rarity.Uncommon;
@@ -462,6 +491,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_Remote</summary>
+
     public class RMREffect_Remote : GlobalLogueEffectBase
     {
         public static Rarity ItemRarity = Rarity.Uncommon;
@@ -480,6 +511,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>RMR type: RMREffect_BigBrotherChains</summary>
 
     public class RMREffect_BigBrotherChains : GlobalLogueEffectBase
     {
@@ -521,6 +554,7 @@ namespace RogueLike_Mod_Reborn
     }
 
     // NEEDS LOCALIZATION, OBTAINMENT METHOD AND TESTING
+    /// <summary>RMR type: RMREffect_ZeroCounterplay</summary>
     public class RMREffect_ZeroCounterplay : GlobalLogueEffectBase
     {
         bool ZCActive = false;
@@ -557,8 +591,11 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_Crowbar</summary>
+
     public class RMREffect_Crowbar : GlobalLogueEffectBase
     {
+        /// <summary>CrowbarDamageBuf</summary>
         public class CrowbarDamageBuf : BattleUnitBuf
         {
             public override void BeforeRollDice(BattleDiceBehavior behavior)
@@ -594,6 +631,7 @@ namespace RogueLike_Mod_Reborn
 
 
     /*
+    /// <summary>RMR type: RMREffect_ScrapScavenge</summary>
     public class RMREffect_ScrapScavenge : GlobalLogueEffectBase
     {
         public static Rarity ItemRarity = Rarity.Rare;
@@ -606,6 +644,8 @@ namespace RogueLike_Mod_Reborn
         // not sure if there is a method for this as of the moment
 
     } */
+
+    /// <summary>RMR type: RMREffect_WelltunedWeapons</summary>
 
     public class RMREffect_WelltunedWeapons : GlobalLogueEffectBase
     {
@@ -632,6 +672,8 @@ namespace RogueLike_Mod_Reborn
             return stack;
         }
 
+        /// <summary>imtuningmyweaponslikeatuner</summary>
+
         public class imtuningmyweaponslikeatuner : BattleUnitBuf
         {
             public override void OnUseCard(BattlePlayingCardDataInUnitModel card)
@@ -655,6 +697,8 @@ namespace RogueLike_Mod_Reborn
                 }
             }
 
+            /// <summary>infinitelightyessirsirsir</summary>
+
             public class infinitelightyessirsirsir : BattleUnitBuf
             {
                 public override void Init(BattleUnitModel owner)
@@ -676,6 +720,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_GamblerEye</summary>
+
     public class RMREffect_GamblerEye : GlobalLogueEffectBase
     {
         public static Rarity ItemRarity = Rarity.Unique;
@@ -695,6 +741,8 @@ namespace RogueLike_Mod_Reborn
         {
             return stack;
         }
+
+        /// <summary>letsgogambling</summary>
 
         public class letsgogambling : BattleUnitBuf
         {
@@ -769,6 +817,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_OrdinaryClothes</summary>
+
     public class RMREffect_OrdinaryClothes : GlobalLogueEffectBase
     {
         //hidden passive because pm are terrible people
@@ -781,6 +831,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
 
+        /// <summary>Passive ability: PassiveAbility_RMR_clotheshiddenpassive</summary>
+
         public class PassiveAbility_RMR_clotheshiddenpassive : PassiveAbilityBase
         {
             public override bool DontChangeResistByBreak()
@@ -792,6 +844,8 @@ namespace RogueLike_Mod_Reborn
             {
                 owner?.bufListDetail.AddBufWithoutDuplication(new BattleUnitBuf_luxCouragebuf());
             }
+
+            /// <summary>BattleUnitBuf_luxCouragebuf</summary>
 
             public class BattleUnitBuf_luxCouragebuf : BattleUnitBuf
             {
@@ -815,6 +869,9 @@ namespace RogueLike_Mod_Reborn
 
         public override string KeywordIconId => "RMR_OrdinaryClothes";
     }
+
+
+    /// <summary>RMR type: RMREffect_Prescript</summary>
 
 
     public class RMREffect_Prescript : OnceEffect
@@ -846,6 +903,8 @@ namespace RogueLike_Mod_Reborn
                 }
             }
         }
+
+        /// <summary>BattleUnitBuf_RMRPrescriptbuf</summary>
 
         public class BattleUnitBuf_RMRPrescriptbuf : BattleUnitBuf
         {
@@ -909,12 +968,16 @@ namespace RogueLike_Mod_Reborn
         public override string KeywordIconId => "RMR_Prescript";
     }
 
+    /// <summary>RMR type: RMREffect_IronMountain</summary>
+
     public class RMREffect_IronMountain : GlobalLogueEffectBase
     {
         public static Rarity ItemRarity = Rarity.Uncommon;
         public override string KeywordId => "RMR_IronMountain";
 
         public override string KeywordIconId => "RMR_IronMountain";
+
+        /// <summary>InflictMPregOnClashWin</summary>
 
         public class InflictMPregOnClashWin : BattleUnitBuf
         {
@@ -933,12 +996,16 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_DragonFist</summary>
+
     public class RMREffect_DragonFist : GlobalLogueEffectBase
     {
         public override string KeywordId => "RMR_DragonFist";
         public override string KeywordIconId => "RMR_DragonFist";
 
         public static Rarity ItemRarity = Rarity.Uncommon;
+
+        /// <summary>InflictMPregOnHit</summary>
 
         public class InflictMPregOnHit : BattleUnitBuf
         {
@@ -956,6 +1023,9 @@ namespace RogueLike_Mod_Reborn
             foreach (var unit in BattleObjectManager.instance.GetAliveList(Faction.Player)) unit.bufListDetail.AddBuf(new InflictMPregOnHit());
         }
     }
+
+
+    /// <summary>RMR type: RMREffect_StasisBlaze</summary>
 
 
     public class RMREffect_StasisBlaze : GlobalLogueEffectBase
@@ -1011,6 +1081,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_StasisSpark</summary>
+
     public class RMREffect_StasisSpark : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1059,6 +1131,8 @@ namespace RogueLike_Mod_Reborn
 
         }
 
+        /// <summary>Sparkbuf</summary>
+
         public class Sparkbuf : BattleDiceCardBuf
         {
             public override void OnUseCard(BattleUnitModel owner)
@@ -1069,6 +1143,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>RMR type: RMREffect_StasisLight</summary>
 
     public class RMREffect_StasisLight : GlobalLogueEffectBase
     {
@@ -1118,6 +1194,8 @@ namespace RogueLike_Mod_Reborn
 
         }
 
+        /// <summary>Lightbuf</summary>
+
         public class Lightbuf : BattleDiceCardBuf
         {
             public override void OnUseCard(BattleUnitModel owner)
@@ -1134,6 +1212,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_Duplicator</summary>
+
     public class RMREffect_Duplicator : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1141,6 +1221,8 @@ namespace RogueLike_Mod_Reborn
         public override string KeywordIconId => "RMR_Duplicator";
 
         public static Rarity ItemRarity = Rarity.Rare;
+
+        /// <summary>Dupe</summary>
 
         public class Dupe : BattleUnitBuf
         {
@@ -1201,6 +1283,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_ZweiSwordstyle</summary>
+
     public class RMREffect_ZweiSwordstyle : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1208,6 +1292,8 @@ namespace RogueLike_Mod_Reborn
         public override string KeywordIconId => "RMR_ZweiSwordstyle";
 
         public static Rarity ItemRarity = Rarity.Uncommon;
+
+        /// <summary>ZweiBuf</summary>
 
         public class ZweiBuf : BattleUnitBuf
         {
@@ -1228,12 +1314,15 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_ZweiBlock</summary>
+
     public class RMREffect_ZweiBlock : GlobalLogueEffectBase
     {
         public override string KeywordId => "RMR_ZweiBlock";
         public override string KeywordIconId => "RMR_ZweiBlock";
 
         public static Rarity ItemRarity = Rarity.Uncommon;
+        /// <summary>ZweiBuf</summary>
         public class ZweiBuf : BattleUnitBuf
         {
             public override void OnWinParrying(BattleDiceBehavior behavior)
@@ -1256,6 +1345,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_RuinedDummy</summary>
+
     public class RMREffect_RuinedDummy : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1263,6 +1354,8 @@ namespace RogueLike_Mod_Reborn
         public override string KeywordIconId => "RMR_RuinedDummy";
 
         public static Rarity ItemRarity = Rarity.Rare;
+
+        /// <summary>ItemBuf</summary>
 
         public class ItemBuf : BattleUnitBuf
         {
@@ -1295,6 +1388,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_FlickerSwitch</summary>
+
     public class RMREffect_FlickerSwitch : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1302,6 +1397,8 @@ namespace RogueLike_Mod_Reborn
         public override string KeywordIconId => "RMR_FlickerSwitch";
 
         public static Rarity ItemRarity = Rarity.Unique;
+
+        /// <summary>ItemBuf</summary>
 
         public class ItemBuf : BattleUnitBuf
         {
@@ -1318,6 +1415,8 @@ namespace RogueLike_Mod_Reborn
                 }
             }
         }
+
+        /// <summary>costreduction</summary>
 
         public class costreduction : BattleDiceCardBuf
         {
@@ -1339,6 +1438,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_TCorpRestore</summary>
+
     public class RMREffect_TCorpRestore : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1346,6 +1447,8 @@ namespace RogueLike_Mod_Reborn
         public override string KeywordIconId => "RMR_TCorpRestore";
 
         public static Rarity ItemRarity = Rarity.Rare;
+
+        /// <summary>TCorpBuf</summary>
 
         public class TCorpBuf : BattleUnitBuf
         {
@@ -1370,6 +1473,8 @@ namespace RogueLike_Mod_Reborn
                 }
             }
         }
+
+        /// <summary>RestorationBuf</summary>
 
         public class RestorationBuf : BattleUnitBuf
         {
@@ -1421,6 +1526,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_Timepiece</summary>
+
     public class RMREffect_Timepiece : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1446,6 +1553,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_Jokercard</summary>
+
     public class RMREffect_Jokercard : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1461,6 +1570,9 @@ namespace RogueLike_Mod_Reborn
     }
 
 
+    /// <summary>RMR type: RMREffect_MoonstoneGyro</summary>
+
+
     public class RMREffect_MoonstoneGyro : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1468,6 +1580,8 @@ namespace RogueLike_Mod_Reborn
         public override string KeywordIconId => "RMR_MoonstoneGyro";
 
         public static Rarity ItemRarity = Rarity.Uncommon;
+
+        /// <summary>Passive ability: PassiveAbility_RMR_moonstonegyro</summary>
 
         public class PassiveAbility_RMR_moonstonegyro : PassiveAbilityBase
         {
@@ -1489,6 +1603,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_Duffelbag</summary>
+
     public class RMREffect_Duffelbag : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1504,6 +1620,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_AvalonStimpack</summary>
+
     public class RMREffect_AvalonStimpack : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1511,6 +1629,8 @@ namespace RogueLike_Mod_Reborn
         public override string KeywordIconId => "RMR_AvalonStimpack";
 
         public static Rarity ItemRarity = Rarity.Unique;
+
+        /// <summary>Passive ability: PassiveAbility_RMR_avalon</summary>
 
         public class PassiveAbility_RMR_avalon : PassiveAbilityBase
         {
@@ -1566,6 +1686,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_MourningVeil</summary>
+
     public class RMREffect_MourningVeil : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1590,12 +1712,17 @@ namespace RogueLike_Mod_Reborn
 
     }
 
+    /// <summary>RMR type: RMREffect_TrainingWheels</summary>
+
     public class RMREffect_TrainingWheels : GlobalLogueEffectBase
     {
         public override string KeywordId => "RMR_TrainingWheels";
         public override string KeywordIconId => "RMR_TrainingWheels";
 
         public static Rarity ItemRarity = Rarity.Common;
+
+
+        /// <summary>ItemBuf</summary>
 
 
         public class ItemBuf : BattleUnitBuf
@@ -1665,6 +1792,8 @@ namespace RogueLike_Mod_Reborn
 
     }
 
+    /// <summary>RMR type: RMREffect_BudgetToolkit</summary>
+
     public class RMREffect_BudgetToolkit : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1691,6 +1820,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_Satchel</summary>
+
     public class RMREffect_Satchel : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1711,6 +1842,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_SentinelBracers</summary>
+
     public class RMREffect_SentinelBracers : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1718,6 +1851,8 @@ namespace RogueLike_Mod_Reborn
         public override string KeywordIconId => "RMR_SentinelBracers";
 
         public static Rarity ItemRarity = Rarity.Common;
+
+        /// <summary>Passive ability: PassiveAbility_RMR_bracers</summary>
 
         public class PassiveAbility_RMR_bracers : PassiveAbilityBase
         {
@@ -1771,6 +1906,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_ConceptConverter</summary>
+
     public class RMREffect_ConceptConverter : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1786,6 +1923,9 @@ namespace RogueLike_Mod_Reborn
             LogueBookModels.AddMoney(2);
         }
     }
+
+
+    /// <summary>RMR type: RMREffect_ColorMixer</summary>
 
 
     public class RMREffect_ColorMixer : GlobalLogueEffectBase
@@ -1837,6 +1977,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
 
+        /// <summary>costreduction</summary>
+
         public class costreduction : BattleDiceCardBuf
         {
             public override void OnUseCard(BattleUnitModel owner)
@@ -1850,6 +1992,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>RMR type: RMREffect_WhiteCotton</summary>
 
     public class RMREffect_WhiteCotton : GlobalLogueEffectBase
     {
@@ -1898,6 +2042,8 @@ namespace RogueLike_Mod_Reborn
             foreach (var unit in BattleObjectManager.instance.GetAliveList()) unit.passiveDetail.AddPassive(new PassiveAbility_RMR_hehehehastagger());
         }
 
+        /// <summary>Passive ability: PassiveAbility_RMR_hehehehastagger</summary>
+
         public class PassiveAbility_RMR_hehehehastagger : PassiveAbilityBase
         {
             public bool active;
@@ -1923,6 +2069,9 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+
+    /// <summary>RMR type: RMREffect_ExposeWeakness</summary>
 
 
     public class RMREffect_ExposeWeakness : GlobalLogueEffectBase
@@ -1962,6 +2111,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
 
+        /// <summary>EnGardeBuf</summary>
+
         public class EnGardeBuf : BattleUnitBuf
         {
             public override string keywordId => "RMR_Engarde";
@@ -1991,6 +2142,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>RMR type: RMREffect_FindingWeakness</summary>
+
     public class RMREffect_FindingWeakness : GlobalLogueEffectBase
     {
         public static bool IsRandom = true;
@@ -1998,6 +2151,8 @@ namespace RogueLike_Mod_Reborn
         public override string KeywordIconId => "RMR_FindingWeakness";
 
         public static Rarity ItemRarity = Rarity.Common;
+
+        /// <summary>ItemBuf</summary>
 
         public class ItemBuf : BattleUnitBuf
         {
@@ -2122,6 +2277,8 @@ namespace RogueLike_Mod_Reborn
                 Debug.LogWarning("[RMR] RMREffect_ExtendedFunctionalityEffect.OnStartBattleAfter: " + ex.Message);
             }
         }
+        #endregion
+
     }
 }
 

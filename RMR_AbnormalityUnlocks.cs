@@ -1,4 +1,12 @@
-﻿using System;
+// =============================================================================
+// RMRAbnormalityUnlockManager - abnormality / E.G.O. progression for RMR.
+//
+// Isolation: realization exclusives (passive IDs 15370401-15370436 + script roots)
+// never enter the normal reception abno pool until that floor is realized.
+// Emotion tiers: vanilla EmotionLevel 1-2 -> I, 3-4 -> II, 5 -> III (team emotion gates).
+// Route unlocks are per-run; permanent tiers / realizations persist on disk.
+// =============================================================================
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -12,8 +20,13 @@ using UnityEngine;
 
 namespace RogueLike_Mod_Reborn
 {
+    /// <summary>
+    /// Unlocks, pools, emotion tiers, and boss rewards for abnormality / E.G.O. pages.
+    /// </summary>
     public static class RMRAbnormalityUnlockManager
     {
+        #region --- Constants, floor tables, exclusive passive IDs ---
+
         public const int AbnormalityBattleRewardCount = 3;
         public const int MysteryRewardCount = 1;
         public const float UrbanLegendNormalAbnormalityRewardChance = 0.5f;
@@ -172,6 +185,10 @@ namespace RogueLike_Mod_Reborn
             "Bloodytree", "Clock", "BlueStar"
         };
 
+        #endregion
+
+        #region --- Route / permanent progress (save-load) ---
+
         public static void StartNewRoute(ChapterGrade grade)
         {
             RouteUnlockedPages.Clear();
@@ -257,14 +274,18 @@ namespace RogueLike_Mod_Reborn
             }
         }
 
+        #endregion
+
+        #region --- Emotion tier mapping (vanilla EmotionLevel -> I/II/III) ---
+
         public static List<RewardPassiveInfo> GetUnlockedEmotionCardsForBattle()
         {
             // Realization: permanent atlas pool (normal + exclusive pages already recorded).
             if (RMRRealizationManager.InRealizationBattle
                 || RMRRealizationManager.IsRealizationPreparationActive)
             {
-                LogueBookModels.EnsureAtlasUnlocks();
-                return LogueBookModels.AtlasUnlockedAbnormalityPages
+                LogueBookModels.EnsureCompendiumUnlocks();
+                return LogueBookModels.CompendiumUnlockedAbnormalityPages
                     .Select(id => Singleton<RewardPassivesList>.Instance.GetPassiveInfo(id))
                     .Where(info => info != null && info.rewardtype == RewardType.Creature && !IsNoAbnormalityFallback(info.id))
                     .ToList();
@@ -673,6 +694,10 @@ namespace RogueLike_Mod_Reborn
             return eligible;
         }
 
+        #endregion
+
+        #region --- Battle clear / boss rewards (Red Mist, Black Silence, Ensemble) ---
+
         public static void EnqueueBattleClearRewards()
         {
             // Realization battles have their own reward path 鈥?skip normal Roguelike reward chains
@@ -802,15 +827,15 @@ namespace RogueLike_Mod_Reborn
                 changed |= LogueBookModels.cardlist.RemoveAll(card => card != null && redMistCards.Contains(card.GetID())) > 0;
             }
 
-            LogueBookModels.EnsureAtlasUnlocks();
-            changed |= LogueBookModels.AtlasUnlockedRoleBooks.Remove(redMistBookId);
+            LogueBookModels.EnsureCompendiumUnlocks();
+            changed |= LogueBookModels.CompendiumUnlockedRoleBooks.Remove(redMistBookId);
             foreach (LorId cardId in GetRedMistBattleCardLorIds())
-                changed |= LogueBookModels.AtlasUnlockedBattleCards.Remove(cardId);
+                changed |= LogueBookModels.CompendiumUnlockedBattleCards.Remove(cardId);
 
             if (!changed)
                 return;
 
-            LogueBookModels.SavePermanentAtlasUnlocks();
+            LogueBookModels.SavePermanentCompendiumUnlocks();
             Debug.Log("[RMRAbnormalityUnlockManager] Removed premature Red Mist core/battle pages; rewards require clearing the Red Mist challenge.");
         }
 
@@ -848,7 +873,7 @@ namespace RogueLike_Mod_Reborn
             RecordRedMistChallengeVictory();
             SuppressRedMistChallengeGenericRewards();
             LorId redMistBookId = new LorId(LogLikeMod.ModId, RedMistCorePageId);
-            bool corePageAdded = LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(redMistBookId);
+            bool corePageAdded = LogueBookModels.TryAddUniqueRoleBookToInventoryAndCompendium(redMistBookId);
             foreach (int pageId in RedMistBattlePageIds)
                 LogueBookModels.AddCard(new LorId(LogLikeMod.ModId, pageId), 1, false);
             RMRCore.UnlockBinahAfterRedMistVictory();
@@ -881,10 +906,10 @@ namespace RogueLike_Mod_Reborn
             RMRCore.RecordDistortedEnsembleStageClear();
             LorId blueBookId = RMRCore.GetBlueReverberationCorePageLorId();
             bool corePageAdded = RMRCore.PruneLegacyBlueReverberationCorePageUnlocks();
-            corePageAdded |= LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(blueBookId);
+            corePageAdded |= LogueBookModels.TryAddUniqueRoleBookToInventoryAndCompendium(blueBookId);
             foreach (int pageId in BlueReverberationBattlePageIds)
                 LogueBookModels.AddCard(new LorId(pageId), 1, false);
-            LogueBookModels.SavePermanentAtlasUnlocks();
+            LogueBookModels.SavePermanentCompendiumUnlocks();
 
             Debug.Log($"[RMRAbnormalityUnlockManager] Distorted Ensemble victory: core page {blueBookId} " +
                       $"{(corePageAdded ? "added" : "already owned")}; battle pages " +
@@ -946,6 +971,10 @@ namespace RogueLike_Mod_Reborn
         /// True if this run already owns the E.G.O. (picked earlier or already in inventory).
         /// Atlas unlock alone is NOT ownership 鈥?that only opens the reward/shop pool.
         /// </summary>
+        #endregion
+
+        #region --- E.G.O. unlocks & mid-battle ego choices ---
+
         public static bool IsEgoOwnedOnCurrentRoute(LorId id)
         {
             if (id == null || id == LorId.None)
@@ -1086,14 +1115,14 @@ namespace RogueLike_Mod_Reborn
             if (RewardingModel.rewardFlag == RewardingModel.RewardFlag.PassiveReward)
             {
                 UnlockPage(info.id);
-                LogueBookModels.RecordAtlasAbnormalityPage(info.id);
+                LogueBookModels.RecordCompendiumAbnormalityPage(info.id);
             }
             else if (RewardingModel.rewardFlag == RewardingModel.RewardFlag.EmtoionChoose && !LogueBookModels.selectedEmotion.Contains(info))
             {
                 LogueBookModels.selectedEmotion.Add(info);
                 // Persist into route pool so later battles this run can re-offer the page.
                 UnlockPage(info.id);
-                LogueBookModels.RecordAtlasAbnormalityPage(info.id);
+                LogueBookModels.RecordCompendiumAbnormalityPage(info.id);
             }
             return true;
         }
@@ -1300,6 +1329,10 @@ namespace RogueLike_Mod_Reborn
             return info == null ? null : LogLikeMod.GetRegisteredPickUpXml(info);
         }
 
+        #endregion
+
+        #region --- Permanent tier unlocks & no-abno fallback ---
+
         public static void RecordPermanentClear(ChapterGrade grade)
         {
             int tier = 0;
@@ -1341,7 +1374,7 @@ namespace RogueLike_Mod_Reborn
             if (info == null || info.rewardtype != RewardType.Creature)
                 return;
             UnlockPage(info.id);
-            LogueBookModels.RecordAtlasAbnormalityPage(info.id);
+            LogueBookModels.RecordCompendiumAbnormalityPage(info.id);
         }
 
         /// <summary>
@@ -1356,6 +1389,10 @@ namespace RogueLike_Mod_Reborn
         /// <summary>
         /// Returns the floor (SephirahType) that a script root belongs to, or Keter if unknown.
         /// </summary>
+        #endregion
+
+        #region --- Pool isolation: realization exclusives vs normal reception ---
+
         public static SephirahType GetFloorForScript(string script)
         {
             string root = GetRootScript(script);
@@ -1526,7 +1563,7 @@ namespace RogueLike_Mod_Reborn
                     continue;
                 foreach (LorId id in kvp.Value)
                 {
-                    if (IsEgoUnlockedForCurrentRoute(id) || LogueBookModels.IsAtlasEgoPageUnlocked(id))
+                    if (IsEgoUnlockedForCurrentRoute(id) || LogueBookModels.IsCompendiumEgoPageUnlocked(id))
                         continue;
                     DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(id, true);
                     if (card != null && !result.Any(x => x.id == card.id))
@@ -1546,7 +1583,7 @@ namespace RogueLike_Mod_Reborn
             bool usePermanentAtlas = RMRRealizationManager.InRealizationBattle
                 || RMRRealizationManager.IsRealizationPreparationActive;
             if (usePermanentAtlas)
-                LogueBookModels.EnsureAtlasUnlocks();
+                LogueBookModels.EnsureCompendiumUnlocks();
 
             foreach (var pair in RealizationEgoCardsByFloor)
             {
@@ -1558,7 +1595,7 @@ namespace RogueLike_Mod_Reborn
                     if (ego == null || !pair.Value.Contains(ego.CardId))
                         continue;
                     bool unlocked = usePermanentAtlas
-                        ? LogueBookModels.IsAtlasEgoPageUnlocked(ego.CardId)
+                        ? LogueBookModels.IsCompendiumEgoPageUnlocked(ego.CardId)
                         : RouteUnlockedEgoPages.Contains(ego.CardId);
                     if (!unlocked || selectedIds.Contains(ego.CardId))
                         continue;
@@ -1937,16 +1974,16 @@ namespace RogueLike_Mod_Reborn
                     continue;
                 if (ResolveRealizationFloor(info) != floor)
                     continue;
-                LogueBookModels.RecordAtlasAbnormalityPage(info.id);
+                LogueBookModels.RecordCompendiumAbnormalityPage(info.id);
             }
 
             if (RealizationEgoCardsByFloor.TryGetValue(floor, out LorId[] egos) && egos != null)
             {
                 foreach (LorId egoId in egos)
-                    LogueBookModels.RecordAtlasEgoPage(egoId);
+                    LogueBookModels.RecordCompendiumEgoPage(egoId);
             }
 
-            LogueBookModels.SavePermanentAtlasData();
+            LogueBookModels.SavePermanentCompendiumData();
             Debug.Log($"[RMRAbnormalityUnlockManager] Floor realization first clear recorded to atlas: {floor}");
         }
 
@@ -2021,7 +2058,7 @@ namespace RogueLike_Mod_Reborn
                 RewardPassiveInfo info = Singleton<RewardPassivesList>.Instance.GetPassiveInfo(id);
                 return info != null
                     && IsRealizationExclusive(info)
-                    && !LogueBookModels.IsAtlasAbnormalityPageUnlocked(id);
+                    && !LogueBookModels.IsCompendiumAbnormalityPageUnlocked(id);
             };
             RouteUnlockedPages.RemoveAll(shouldRemove);
             if (LogueBookModels.EmotionCardList != null)
@@ -2271,8 +2308,13 @@ namespace RogueLike_Mod_Reborn
             {
             }
         }
+
+        #endregion
     }
 
+    /// <summary>
+    /// Placeholder pickup when no unlocked abnormality is available at the current emotion tier.
+    /// </summary>
     public class PickUpModel_RMRNoAbnormality : CreaturePickUpModel
     {
         public PickUpModel_RMRNoAbnormality()

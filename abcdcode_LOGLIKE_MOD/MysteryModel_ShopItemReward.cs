@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.MysteryModel_ShopItemReward
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Mystery / event node model: MysteryModel_ShopItemReward
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\MysteryModel_ShopItemReward.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using GameSave;
 using System.Collections.Generic;
 using TMPro;
@@ -17,15 +16,23 @@ using UnityEngine.UI;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>Mystery node model: MysteryModel_ShopItemReward</summary>
+
     public class MysteryModel_ShopItemReward : MysteryBase
     {
         public MysteryModel_ShopItemReward.ChoiceResult result;
         public List<RewardPassiveInfo> rewards;
         public static Dictionary<int, Vector2[]> ChoiceShape;
+        #region --- Save / load ---
+
 
         public override void LoadFromSaveData(SaveData savedata)
         {
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static MysteryModel_ShopItemReward PopupShopReward(
           List<RewardPassiveInfo> rewards,
@@ -176,6 +183,10 @@ namespace abcdcode_LOGLIKE_MOD
             this.FrameObj.Add("RestGoods" + id.ToString(), rewardGood.gameObject);
             return rewardGood;
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public void OnClickGoods(MysteryModel_ShopItemReward.RewardGood goods)
         {
@@ -184,17 +195,27 @@ namespace abcdcode_LOGLIKE_MOD
             else
                 Singleton<MysteryManager>.Instance.EndMystery((MysteryBase)this);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void LeaveReward()
         {
             LogLikeMod.rewards.Clear();
             Singleton<MysteryManager>.Instance.EndMystery((MysteryBase)this);
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public Vector2 GetChoiceShape(int num, int id)
         {
             return MysteryModel_ShopItemReward.ChoiceShape[num][id];
         }
+
+        /// <summary>RewardGood</summary>
 
         public class RewardGood : MonoBehaviour
         {
@@ -256,6 +277,8 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        /// <summary>enum State</summary>
+
         public enum State
         {
             CardList,
@@ -265,5 +288,7 @@ namespace abcdcode_LOGLIKE_MOD
         public delegate void ChoiceResult(
           MysteryModel_ShopItemReward mystery,
           MysteryModel_ShopItemReward.RewardGood model);
+        #endregion
+
     }
 }

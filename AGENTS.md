@@ -16,6 +16,7 @@
 |:---:|---|---|
 | 1 | [docs/agent-handbook/00-INDEX.md](docs/agent-handbook/00-INDEX.md) | 手册地图 |
 | 2 | [docs/agent-handbook/01-localization-fonts.md](docs/agent-handbook/01-localization-fonts.md) | **防 口口口 / 糊字（血泪史）** |
+| 2b | [docs/localization/README.md](docs/localization/README.md) | **译者 / 本地化总入口**（术语表、文件地图、EN 指南） |
 | 3 | [docs/agent-handbook/05-forbidden-and-safe-patterns.md](docs/agent-handbook/05-forbidden-and-safe-patterns.md) | 禁止与安全写法 |
 | 4 | [docs/agent-handbook/03-architecture-map.md](docs/agent-handbook/03-architecture-map.md) | 改哪个文件 |
 | 5 | [docs/agent-handbook/04-known-bugs-and-fixes.md](docs/agent-handbook/04-known-bugs-and-fixes.md) | 勿重开已修洞 |
@@ -83,7 +84,9 @@ LoR-RMR 把《Library of Ruina》改成按章节推进的 Roguelike：普通战 
 
 1. **C# DLL** — `RogueLike Mod Reborn.dll`（Harmony、流程、UI、存档）
 2. **游戏数据** — `AddData/`、`SpecialStaticInfo/`
-3. **本地化** — `Localize/{cn,en,kr}/`（**kr ≠ 日文**）
+3. **本地化** — `Localize/{cn,en,kr}/`（**kr ≠ 日文**）  
+   - 译者文档：`docs/localization/`（[GLOSSARY](docs/localization/GLOSSARY.md) 英文化名 **Compendium**＝图鉴，禁止玩家文案写 Atlas）  
+   - UI 键对齐：`tools/localization/compare_ui_keys.ps1`；导出对照表：`export_ui_keys_csv.ps1`
 4. **资源** — `ArtWork/`、`AssetBundle/`、`AudioClip/`、`Spine/`、`StoryInfo/`
 
 | 功能域 | 关键文件 | 主要风险 |
@@ -95,7 +98,7 @@ LoR-RMR 把《Library of Ruina》改成按章节推进的 Roguelike：普通战 
 | 结算奖励 | `RewardingModel.cs`、`PickUpModel_*` | 队列死循环、误 EndBattle |
 | 商店 | `ShopBase.cs`、`ShopGoods_*` | 重叠、软锁、布局 |
 | 神秘事件 | `MysteryBase.cs`、`MysteryModel_*` | NRE、离开软锁 |
-| 图鉴 / 存档 | `LogAtlasPanel.cs`、`LogueBookModels.cs` | 永久 vs 路线混淆 |
+| 图鉴 / 存档 | `LogCompendiumPanel.cs`、`LogueBookModels.cs`（Compendium* API） | 永久 vs 路线混淆；磁盘键仍可能含 atlas |
 | Harmony | `abcdcode_Refactored/LogLikePatches.cs` | 补丁冲突 |
 | 字体 / 本地化 | `LogLikeMod.cs`、`ModdingUtils.cs` | 口口口、糊字 |
 

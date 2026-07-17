@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.ExtensionUtils
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Library of Ruina mod script: ExtensionUtils
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\ExtensionUtils.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using GameSave;
 using HarmonyLib;
 using LOR_DiceSystem;
@@ -22,17 +21,29 @@ using static UnityEngine.GraphicsBuffer;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>ExtensionUtils</summary>
+
     public static class ExtensionUtils
     {
+        #region --- Getters / setters / checks ---
+
         public static LorId GetOriginalId(this LorId id)
         {
             return UpgradeMetadata.UnpackPid(id.packageId, out UpgradeMetadata metadata) ? new LorId(metadata.actualPid, id.id) : id;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static bool CheckCanUpgrade(this DiceCardXmlInfo info)
         {
             return UpgradeMetadata.UnpackPid(info.workshopID, out UpgradeMetadata metadata) ? metadata.canStack : true;
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public static bool CheckUpgradeCard(this DiceCardXmlInfo info)
         {
@@ -87,6 +98,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return dict;
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public static void SetLayerAll(this GameObject obj, int layer)
         {
@@ -107,6 +122,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             obj.layer = LayerMask.NameToLayer(name);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static void LocalEachScalingAll(this GameObject obj, float x, float y, float z = 0.0f)
         {
@@ -128,6 +147,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             obj.transform.localScale = new Vector3(x, y, z);
         }
+        #endregion
+
+        #region --- Save / load ---
+
 
         public static SaveData GetSaveDataPassiveModel(this PassiveModel __instance)
         {
@@ -159,6 +182,10 @@ namespace abcdcode_LOGLIKE_MOD
             int givePassiveBookId = data.GetInt("givebookinstanceid");
             __instance.originData = new PassiveModel.PassiveModelSavedData(data3, receivepassivebookId, givePassiveBookId);
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public static void SetData(this SaveData save, string key, SaveData data)
         {
@@ -169,6 +196,10 @@ namespace abcdcode_LOGLIKE_MOD
             LogLikeMod.SetFieldValue(save, "_type", SaveDataType.Dictionary);
             fieldValue2[key] = data;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static void AddData(this SaveData data, string key, string value)
         {
@@ -179,6 +210,10 @@ namespace abcdcode_LOGLIKE_MOD
         {
             data.AddData(key, new SaveData(value));
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         public static void RefreshEquip(this UnitDataModel model)
         {
@@ -189,6 +224,10 @@ namespace abcdcode_LOGLIKE_MOD
         {
             LogueBookModels.EquipNewPage(model, LogueBookModels.CurPlayerEquipInfo(model.unitData));
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static void EquipNewPage(this UnitDataModel model, BookXmlInfo info)
         {
@@ -211,6 +250,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             Debug.Log(obj.GetType().Name + " -- IS OF ASSEMBLY PACK ID -- " + packageId);
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public static bool IsDead(this UnitDataModel model)
         {
@@ -222,6 +265,10 @@ namespace abcdcode_LOGLIKE_MOD
                 return false;
             }
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public static CardDropTableXmlRoot Convert(this abcdcode_LOGLIKE_MOD_Extension.CardDropTableXmlRoot info)
         {
@@ -243,6 +290,10 @@ namespace abcdcode_LOGLIKE_MOD
                 _validCardIdList = info._validCardIdList
             };
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Used for quickly adding combat pages to a drop pool.
@@ -272,6 +323,10 @@ namespace abcdcode_LOGLIKE_MOD
                 Debug.LogWarning("[RMR] MergeDropTables workshopDict update failed: " + ex.Message);
             }
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public static string GetLogArtWorkPath(this ModContentInfo info)
         {
@@ -292,6 +347,10 @@ namespace abcdcode_LOGLIKE_MOD
         {
             return Path.Combine(Path.Combine(info.dirInfo.FullName, "Assemblies"), "Roguedlls");
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static void Log(this object obj, string str)
         {
@@ -311,6 +370,10 @@ namespace abcdcode_LOGLIKE_MOD
             else
                 Debug.Log($"Log : {e.Message}{Environment.NewLine}{e.StackTrace}");
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public static Predicate<DiceMatch> NotFirstAttackDice()
         {
@@ -333,6 +396,10 @@ namespace abcdcode_LOGLIKE_MOD
                 objList.RemoveAt(Singleton<System.Random>.Instance.Next(0, objList.Count));
             return objList;
         }
+        #endregion
+
+        #region --- Save / load ---
+
 
         public static SaveData LogGetSaveData(this LorId id)
         {
@@ -350,6 +417,10 @@ namespace abcdcode_LOGLIKE_MOD
             int id = data.GetInt("_id");
             return new LorId(data.GetString("workshopId"), id);
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         /// <summary>
         /// Yes/No confirm dialog with custom text. Never touches UIAlarmPopup fields directly —
@@ -496,5 +567,7 @@ namespace abcdcode_LOGLIKE_MOD
             catch { }
         }
     
+        #endregion
+
     }
 }

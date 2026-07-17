@@ -1,4 +1,9 @@
-﻿using System;
+// -----------------------------------------------------------------------------
+// RogueLike Mod Reborn (RMR): RMR_BattleBufs
+// Namespace/file: ruina-roguelike-reborn-main\RMR_BattleBufs.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +15,8 @@ using LOR_DiceSystem;
 
 namespace RogueLike_Mod_Reborn
 {
+    #region --- RMRBufBase ---
+
     /// <summary>
     /// A BattleUnitBuf with some additional overrides that interact with RMR mechanics.
     /// </summary>
@@ -33,6 +40,11 @@ namespace RogueLike_Mod_Reborn
         {
         }
     }
+    #endregion
+
+    #region --- RoguelikeBufs ---
+
+    /// <summary>RoguelikeBufs</summary>
     public static class RoguelikeBufs
     {
         public static KeywordBuf CritChance;
@@ -48,6 +60,12 @@ namespace RogueLike_Mod_Reborn
         public static KeywordBuf RMRPersistence;
         public static KeywordBuf RMRLuck;
     }
+    #endregion
+
+    #region --- SweeperBuf ---
+
+
+    /// <summary>SweeperBuf</summary>
 
     public class SweeperBuf : BattleUnitBuf
     {
@@ -85,6 +103,12 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+    #endregion
+
+    #region --- BattleUnitBuf_RMR_Luck ---
+
+
+    /// <summary>BattleUnitBuf_RMR_Luck</summary>
 
     public class BattleUnitBuf_RMR_Luck : BattleUnitBuf
     {
@@ -130,6 +154,12 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+    #endregion
+
+    #region --- BattleUnitBuf_RMR_Smoke ---
+
+
+    /// <summary>BattleUnitBuf_RMR_Smoke</summary>
 
     public class BattleUnitBuf_RMR_Smoke : BattleUnitBuf
     {
@@ -369,6 +399,12 @@ namespace RogueLike_Mod_Reborn
             return false;
         }
     }
+    #endregion
+
+    #region --- BattleUnitBuf_RMR_BluntClashPower ---
+
+
+    /// <summary>BattleUnitBuf_RMR_BluntClashPower</summary>
 
     public class BattleUnitBuf_RMR_BluntClashPower : BattleUnitBuf
     {
@@ -436,6 +472,12 @@ namespace RogueLike_Mod_Reborn
         }
 
     }
+    #endregion
+
+    #region --- BattleUnitBuf_RMR_PierceClashPower ---
+
+
+    /// <summary>BattleUnitBuf_RMR_PierceClashPower</summary>
 
     public class BattleUnitBuf_RMR_PierceClashPower : BattleUnitBuf
     {
@@ -503,6 +545,11 @@ namespace RogueLike_Mod_Reborn
         }
 
     }
+    #endregion
+
+    #region --- BattleUnitBuf_RMR_SlashClashPower ---
+
+    /// <summary>BattleUnitBuf_RMR_SlashClashPower</summary>
     public class BattleUnitBuf_RMR_SlashClashPower : BattleUnitBuf
     {
         public override KeywordBuf bufType
@@ -569,6 +616,11 @@ namespace RogueLike_Mod_Reborn
         }
 
     }
+    #endregion
+
+    #region --- BattleUnitBuf_RMR_ClashPower ---
+
+    /// <summary>BattleUnitBuf_RMR_ClashPower</summary>
     public class BattleUnitBuf_RMR_ClashPower : BattleUnitBuf
     {
         public override KeywordBuf bufType
@@ -632,6 +684,11 @@ namespace RogueLike_Mod_Reborn
         }
         
     }
+    #endregion
+
+    #region --- BattleUnitBuf_RMR_BurnProtection ---
+
+    /// <summary>BattleUnitBuf_RMR_BurnProtection</summary>
     public class BattleUnitBuf_RMR_BurnProtection : BattleUnitBuf
     {
         public override KeywordBuf bufType
@@ -672,6 +729,12 @@ namespace RogueLike_Mod_Reborn
             this.Destroy();
         }
     }
+    #endregion
+
+    #region --- BattleUnitBuf_RMR_BleedProtection ---
+
+
+    /// <summary>BattleUnitBuf_RMR_BleedProtection</summary>
 
     public class BattleUnitBuf_RMR_BleedProtection : BattleUnitBuf
     {
@@ -713,6 +776,12 @@ namespace RogueLike_Mod_Reborn
             this.Destroy();
         }
     }
+    #endregion
+
+    #region --- BattleUnitBuf_RMR_Shield ---
+
+
+    /// <summary>BattleUnitBuf_RMR_Shield</summary>
 
     public class BattleUnitBuf_RMR_Shield : BattleUnitBuf
     {
@@ -751,6 +820,12 @@ namespace RogueLike_Mod_Reborn
             this.Destroy();
         }
     }
+    #endregion
+
+    #region --- BattleUnitBuf_RMR_StaggerShield ---
+
+
+    /// <summary>BattleUnitBuf_RMR_StaggerShield</summary>
 
     public class BattleUnitBuf_RMR_StaggerShield : BattleUnitBuf
     {
@@ -789,6 +864,12 @@ namespace RogueLike_Mod_Reborn
             this.Destroy();
         }
     }
+    #endregion
+
+    #region --- BattleUnitBuf_RMR_CritChance ---
+
+
+    /// <summary>BattleUnitBuf_RMR_CritChance</summary>
 
     public class BattleUnitBuf_RMR_CritChance : BattleUnitBuf
     {
@@ -869,6 +950,8 @@ namespace RogueLike_Mod_Reborn
             this.Destroy();
         }
 
+        /// <summary>CritVfx</summary>
+
         public class CritVfx : MonoBehaviour
         {
             SpriteRenderer renderer;
@@ -901,5 +984,7 @@ namespace RogueLike_Mod_Reborn
             public float deathtimer = 3f;
         }
     }
+    #endregion
+
 
 }

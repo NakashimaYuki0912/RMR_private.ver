@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.MysteryModel_CardChoice
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Mystery / event node model: MysteryModel_CardChoice
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\MysteryModel_CardChoice.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using GameSave;
 using System;
 using System.Collections.Generic;
@@ -16,6 +15,8 @@ using UnityEngine.UI;
 
 namespace abcdcode_LOGLIKE_MOD
 {
+
+    /// <summary>Mystery node model: MysteryModel_CardChoice</summary>
 
     public class MysteryModel_CardChoice : MysteryBase
     {
@@ -38,10 +39,16 @@ namespace abcdcode_LOGLIKE_MOD
         public int curindex;
         public List<DiceCardItemModel> cardlist;
         public MysteryModel_CardChoice.ChoiceResult resultdel;
+        #region --- Save / load ---
+
 
         public override void LoadFromSaveData(SaveData savedata)
         {
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public static MysteryModel_CardChoice PopupCardChoice(
           List<DiceCardItemModel> cardlist,
@@ -85,6 +92,10 @@ namespace abcdcode_LOGLIKE_MOD
             Singleton<MysteryManager>.Instance.AddInterrupt(mystery);
             return mystery;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void FrameInit()
         {
@@ -164,6 +175,10 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public void OnClickPrev()
         {
@@ -196,6 +211,10 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         public void OnClickCard(DiceCardItemModel card) => this.resultdel(this, card);
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         /// <summary>
         /// Upgrade popup shows one entry per card kind; stack numbers are misleading.
@@ -218,6 +237,8 @@ namespace abcdcode_LOGLIKE_MOD
             return false;
         }
 
+        /// <summary>enum ChoiceDescType</summary>
+
         public enum ChoiceDescType
         {
             ChooseDesc,
@@ -228,5 +249,7 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         public delegate void ChoiceResult(MysteryModel_CardChoice mystery, DiceCardItemModel model);
+        #endregion
+
     }
 }

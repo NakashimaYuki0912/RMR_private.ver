@@ -1,11 +1,11 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.PassiveAbility_250009Log
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
- 
+// -----------------------------------------------------------------------------
+// Passive ability script: PassiveAbility_250009Log
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\PassiveAbility_250009Log.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 namespace abcdcode_LOGLIKE_MOD {
+
+/// <summary>Passive ability: PassiveAbility_250009Log</summary>
 
 public class PassiveAbility_250009Log : PassiveAbilityBase
 {
@@ -19,6 +19,8 @@ public class PassiveAbility_250009Log : PassiveAbilityBase
     this._count = 0;
     this.owner.bufListDetail.AddBuf((BattleUnitBuf) new PassiveAbility_250009Log.BattleUnitBuf_addBullet());
   }
+
+  /// <summary>BattleUnitBuf_addBullet</summary>
 
   public class BattleUnitBuf_addBullet : BattleUnitBuf
   {

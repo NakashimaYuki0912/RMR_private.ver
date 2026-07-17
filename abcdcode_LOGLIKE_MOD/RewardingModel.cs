@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.RewardingModel
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Library of Ruina mod script: RewardingModel
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\RewardingModel.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using LOR_DiceSystem;
 using LOR_XML;
 using RogueLike_Mod_Reborn;
@@ -15,6 +14,8 @@ using UnityEngine;
 
 namespace abcdcode_LOGLIKE_MOD
 {
+
+    /// <summary>RewardingModel</summary>
 
     public class RewardingModel
     {
@@ -50,12 +51,18 @@ namespace abcdcode_LOGLIKE_MOD
             { "\uc544\ub974\uac08\ub9ac\uc544 \ub300\ub2e8\uc6d0", "\u843d\u5e55\u7ec8\u66f2" },
             { "\uc544\ub974\uac08\ub9ac\uc544", "\u963f\u5c14\u52a0\u5229\u4e9a" },
         };
+        #region --- Reward generation ---
+
 
         public static void ResetDropBookRewardNormalization()
         {
             NormalizedDropBookRewardIds.Clear();
             BossFallbackRewardCheckedThisBattle = false;
         }
+        #endregion
+
+        #region --- Book / card data ---
+
 
         public static string GetChapterText(int grade)
         {
@@ -183,6 +190,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return lines.Count == 0 ? string.Empty : string.Join(Environment.NewLine, lines);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static string SanitizeDisplayText(string text)
         {
@@ -258,6 +269,10 @@ namespace abcdcode_LOGLIKE_MOD
                 return string.Empty;
             return (id.packageId ?? string.Empty) + ":" + id.id;
         }
+        #endregion
+
+        #region --- Book / card data ---
+
 
         private static bool TryGetKnownBookName(BookXmlInfo book, out string name)
         {
@@ -268,11 +283,19 @@ namespace abcdcode_LOGLIKE_MOD
                 return true;
             return book.TextId > 0 && KnownBookNameOverrides.TryGetValue(book.TextId, out name);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         private static bool IsOriginPackage(string packageId)
         {
             return string.IsNullOrEmpty(packageId) || packageId == "@origin";
         }
+        #endregion
+
+        #region --- Book / card data ---
+
 
         private static List<LorId> GetOriginAwareIds(LorId id)
         {
@@ -470,6 +493,10 @@ namespace abcdcode_LOGLIKE_MOD
                 fallback += "+";
             return fallback;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         private static bool LooksLikeTofu(string text)
         {
@@ -485,6 +512,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return good == 0 && bad > 0;
         }
+        #endregion
+
+        #region --- Book / card data ---
+
 
         public static string GetLocalizedCardAbilityDesc(DiceCardXmlInfo card)
         {
@@ -695,6 +726,10 @@ namespace abcdcode_LOGLIKE_MOD
             PassiveDescCache[cacheKey] = result;
             return result;
         }
+        #endregion
+
+        #region --- Reward generation ---
+
 
         /// <summary>
         /// Prefer CJK / Latin display names over Hangul leftovers that render as tofu
@@ -719,6 +754,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return best;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         private static int ScoreDisplayName(string text)
         {
@@ -767,6 +806,10 @@ namespace abcdcode_LOGLIKE_MOD
                 return true;
             return ScoreDisplayName(text) < 0;
         }
+        #endregion
+
+        #region --- Reward generation ---
+
 
         public static RewardPassiveInfo FindRewardInfo(EmotionCardXmlInfo card)
         {
@@ -787,6 +830,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return null;
         }
+        #endregion
+
+        #region --- Book / card data ---
+
 
         public static string GetRaritytext(Rarity rarity)
         {
@@ -804,6 +851,10 @@ namespace abcdcode_LOGLIKE_MOD
                     return "Not Found";
             }
         }
+        #endregion
+
+        #region --- Reward generation ---
+
 
         public static void CreateEquipRewardXmlData(RewardPassiveInfo info)
         {
@@ -954,6 +1005,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return info;
         }
+        #endregion
+
+        #region --- Book / card data ---
+
 
         public static DiceCardXmlInfo GetCard(CardDropValueXmlInfo info)
         {
@@ -1070,6 +1125,10 @@ namespace abcdcode_LOGLIKE_MOD
             var rarityPool = byRarity[rarity];
             return rarityPool[UnityEngine.Random.Range(0, rarityPool.Count)];
         }
+        #endregion
+
+        #region --- Reward generation ---
+
 
         public static List<DiceCardXmlInfo> PickUpCards(CardDropValueXmlInfo info)
         {
@@ -1376,6 +1435,10 @@ namespace abcdcode_LOGLIKE_MOD
             BossFallbackRewardCheckedThisBattle = true;
             // Do not add fallback drop books for boss stages.
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static bool HasQueuedEgoSelections()
         {
@@ -1404,6 +1467,10 @@ namespace abcdcode_LOGLIKE_MOD
             SuppressSpuriousEndBattleWhileCombatLive = false;
             NonCombatNodeExitPending = false;
         }
+        #endregion
+
+        #region --- Reward generation ---
+
 
         public static void NoteMidBattleEgoPicked(LorId id)
         {
@@ -1415,6 +1482,10 @@ namespace abcdcode_LOGLIKE_MOD
             if (wasMidBattle)
                 SuppressSpuriousEndBattleWhileCombatLive = true;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static void ClearSuppressSpuriousEndBattle()
         {
@@ -1628,6 +1699,10 @@ namespace abcdcode_LOGLIKE_MOD
             Debug.Log($"[RMR] Mid-battle EGO selection opened at emotion {lv}, offers={offers.Count} ids=[{string.Join(",", choiceIds.Select(x => x.id.ToString()).ToArray())}] enemies={enemyAlive} players={playerAlive}");
             return true;
         }
+        #endregion
+
+        #region --- Reward generation ---
+
 
         public static bool HasQueuedMysteryRewards()
         {
@@ -1765,6 +1840,10 @@ namespace abcdcode_LOGLIKE_MOD
             RewardingModel.StartPickReward();
             return false;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// If next-stage options were cleared (shop leave / bad save) but the chapter still has
@@ -1824,6 +1903,10 @@ namespace abcdcode_LOGLIKE_MOD
                 Debug.LogWarning("[RMR] EnsureNextListIfNeeded failed: " + ex.Message);
             }
         }
+        #endregion
+
+        #region --- Book / card data ---
+
 
         public static List<EmotionCardXmlInfo> GetCurEmotion()
         {
@@ -1917,6 +2000,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return infos;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static bool EmotionChoice()
         {
@@ -1940,6 +2027,8 @@ namespace abcdcode_LOGLIKE_MOD
             return false;
         }
 
+        /// <summary>enum RewardFlag</summary>
+
         public enum RewardFlag
         {
             CardReward,
@@ -1949,6 +2038,10 @@ namespace abcdcode_LOGLIKE_MOD
             RewardInStage,
             EgoCardReward,
         }
+        #endregion
+
+        #region --- Reward generation ---
+
 
         private static string GetRewardPassiveKey(RewardPassiveInfo info)
         {
@@ -1957,6 +2050,10 @@ namespace abcdcode_LOGLIKE_MOD
             // Null-safe: matches FilterOwnedPagesForTeamEmotion key format.
             return (info.id.packageId ?? "") + ":" + info.id.id.ToString();
         }
+        #endregion
+
+        #region --- Book / card data ---
+
 
         private static string GetEmotionCardKey(EmotionCardXmlInfo info)
         {
@@ -1968,5 +2065,7 @@ namespace abcdcode_LOGLIKE_MOD
             string packageId = LogLikeMod.GetPickUpXmlWorkShopId_Passive(info) ?? string.Empty;
             return packageId + ":" + info.id.ToString() + ":" + script;
         }
+        #endregion
+
     }
 }

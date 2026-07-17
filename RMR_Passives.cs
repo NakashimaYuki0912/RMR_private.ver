@@ -1,4 +1,9 @@
-﻿using System;
+// -----------------------------------------------------------------------------
+// RogueLike Mod Reborn (RMR): RMR_Passives
+// Namespace/file: ruina-roguelike-reborn-main\RMR_Passives.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using abcdcode_LOGLIKE_MOD;
@@ -10,6 +15,8 @@ using static RogueLike_Mod_Reborn.RMREffect_Prescript;
 
 namespace RogueLike_Mod_Reborn
 {
+    #region --- RMRPassiveBase ---
+
     /// <summary>
     /// A PassiveAbilityBase with some additional overrides that interact with RMR mechanics.
     /// </summary>
@@ -34,6 +41,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+	/// <summary>Passive ability: PassiveAbility_RMR_Posthaste</summary>
+
 	public class PassiveAbility_RMR_Posthaste : PassiveAbilityBase
     {
         public override int SpeedDiceNumAdder()
@@ -45,6 +54,8 @@ namespace RogueLike_Mod_Reborn
             return base.SpeedDiceNumAdder();
         }
     }
+
+	/// <summary>Passive ability: PassiveAbility_RMR_LoneSpeed</summary>
 
 	public class PassiveAbility_RMR_LoneSpeed : PassiveAbilityBase
     {
@@ -74,6 +85,11 @@ namespace RogueLike_Mod_Reborn
             return base.SpeedDiceNumAdder();
         }
     }
+    #endregion
+
+    #region --- PassiveAbility_RMR_CopleyPassive ---
+
+    /// <summary>Passive ability: PassiveAbility_RMR_CopleyPassive</summary>
     public class PassiveAbility_RMR_CopleyPassive : PassiveAbilityBase
     {
         BattleUnitModel target;
@@ -119,6 +135,12 @@ namespace RogueLike_Mod_Reborn
             });
         }
     }
+    #endregion
+
+    #region --- PassiveAbility_RMR_CopleyShimmering ---
+
+
+    /// <summary>Passive ability: PassiveAbility_RMR_CopleyShimmering</summary>
 
     public class PassiveAbility_RMR_CopleyShimmering : PassiveAbilityBase
     {
@@ -307,6 +329,12 @@ namespace RogueLike_Mod_Reborn
 			owner.allyCardDetail.AddTempCard(new LorId(LogLikeMod.ModId, id))?.SetCostToZero();
 		}
 	}
+    #endregion
+
+    #region --- PassiveAbility_RMR_CopleyShimmering2 ---
+
+
+    /// <summary>Passive ability: PassiveAbility_RMR_CopleyShimmering2</summary>
 
     public class PassiveAbility_RMR_CopleyShimmering2 : PassiveAbilityBase
     {
@@ -501,6 +529,12 @@ namespace RogueLike_Mod_Reborn
 			owner.allyCardDetail.AddTempCard(new LorId(LogLikeMod.ModId, id))?.SetCostToZero();
 		}
 	}
+    #endregion
+
+    #region --- PassiveAbility_RMR_PrescriptPassive ---
+
+
+    /// <summary>Passive ability: PassiveAbility_RMR_PrescriptPassive</summary>
 
     public class PassiveAbility_RMR_PrescriptPassive : PassiveAbilityBase
     {
@@ -547,6 +581,12 @@ namespace RogueLike_Mod_Reborn
             });
         }
     }
+    #endregion
+
+    #region --- PassiveAbility_RMR_Injured ---
+
+
+    /// <summary>Passive ability: PassiveAbility_RMR_Injured</summary>
 
     public class PassiveAbility_RMR_Injured : PassiveAbilityBase
     {
@@ -555,4 +595,6 @@ namespace RogueLike_Mod_Reborn
             return hp / 2;
         }
     }
+    #endregion
+
 }

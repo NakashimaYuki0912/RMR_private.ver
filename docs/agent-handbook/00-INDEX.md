@@ -10,6 +10,7 @@
 |:---:|---|---|
 | 1 | 本文件 | 地图与禁区 |
 | 2 | [01-localization-fonts.md](./01-localization-fonts.md) | **防止 口口口 / 糊字**（历史高发） |
+| 2b | [../localization/README.md](../localization/README.md) | **人类译者入口**（术语表 / EN 指南 / 文件地图） |
 | 3 | [02-build-deploy-verify.md](./02-build-deploy-verify.md) | 改完怎么进游戏、怎么证明加载了新 DLL |
 | 4 | [03-architecture-map.md](./03-architecture-map.md) | 改哪几个文件、调用链在哪 |
 | 5 | [04-known-bugs-and-fixes.md](./04-known-bugs-and-fixes.md) | 2026-07 已修问题，避免重开洞 |

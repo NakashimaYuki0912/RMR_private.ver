@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+// RogueLike Mod Reborn (RMR): RMR_CombatCardHoverPreview
+// Namespace/file: ruina-roguelike-reborn-main\RMR_CombatCardHoverPreview.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System;
 using System.Reflection;
 using UI;
@@ -6,6 +11,8 @@ using UnityEngine.UI;
 
 namespace RogueLike_Mod_Reborn
 {
+    #region --- RMRCombatCardDetailLayer ---
+
     /// <summary>
     /// Vanilla combat-bookshelf hover (Assembly-CSharp):
     ///   UIInvenCardSlot.OnPointerEnter
@@ -213,6 +220,12 @@ namespace RogueLike_Mod_Reborn
             return fi != null ? fi.GetValue(list) as UIDetailCardSlot : null;
         }
     }
+    #endregion
+
+    #region --- RMRCombatCardHoverFollow ---
+
+
+    /// <summary>RMR type: RMRCombatCardHoverFollow</summary>
 
     public sealed class RMRCombatCardHoverFollow : MonoBehaviour
     {
@@ -221,4 +234,6 @@ namespace RogueLike_Mod_Reborn
             try { RMRCombatCardDetailLayer.Restore(); } catch { /* ignore */ }
         }
     }
+    #endregion
+
 }

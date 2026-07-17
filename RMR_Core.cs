@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+// RogueLike Mod Reborn (RMR): RMR_Core
+// Namespace/file: ruina-roguelike-reborn-main\RMR_Core.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,12 +36,22 @@ using BattleCardEnhancedView;
 
 namespace RogueLike_Mod_Reborn
 {
+    // =============================================================================
+    // RMRCore - mod entry (ModInitializer): package id, invitation books, launch gate,
+    // Grade6 special pages, Compendium role-book rules, satellite assets, keywords.
+    // Continue Run is a Start Hub action (not invitation recipe -855).
+    // See also: RMRStartHubPanel, LoguePlayDataSaver, RMRAbnormalityUnlockManager.
+    // =============================================================================
+
+    /// <summary>Main RMR bootstrap and cross-cutting helpers.</summary>
     public class RMRCore : ModInitializer
     {
+        #region --- Invitation books & package identity ---
+
         public static LorId[] booksToAddToInventory 
         {
             get {
-                // Do not put -855 (Continue) in the invitation book list �?continue is a hub
+                // Do not put -855 (Continue) in the invitation book list: continue is a hub
                 // menu action after RMR entry, not a free-standing invitation recipe icon.
                 var books = new List<LorId>()
                 {
@@ -64,6 +79,10 @@ namespace RogueLike_Mod_Reborn
 
         public const string BuildTimestamp = "2026-07-13Trest-abno-g4-g7+08:00";
 
+        #endregion
+
+        #region --- Post-invitation launch gate (Play / Continue / Realization) ---
+
         /// <summary>
         /// After invitation is sent: run the intent chosen on the invitation-time hub.
         /// Never re-opens mode select mid-run.
@@ -80,8 +99,8 @@ namespace RogueLike_Mod_Reborn
         public static bool IsPostInvitationLaunchConsumed => _postInvitationLaunchConsumed;
 
         /// <summary>
-        /// True only during realization <b>bootstrap</b> (hub choice �?floor pick / prepare).
-        /// Does NOT include live combat �?use for skipping intro story / SparklingMirror, not for CheckStage.
+        /// True only during realization bootstrap (hub choice through floor pick / prepare).
+        /// Does NOT include live combat - use for skipping intro story / SparklingMirror, not for CheckStage.
         /// </summary>
         public static bool IsRealizationBootstrapPending()
         {
@@ -206,6 +225,10 @@ namespace RogueLike_Mod_Reborn
                 Debug.LogError("[RMR] Start initial mystery failed: " + ex);
             }
         }
+
+        #endregion
+
+        #region --- Mod init / satellite assets / config ---
 
         public override void OnInitializeMod()
         {
@@ -730,6 +753,8 @@ namespace RogueLike_Mod_Reborn
                 KeywordUtils.RegisterKeywordBuf<BattleUnitBuf_RMR_Luck>();
         }
 
+        #endregion
+
         #region literally do not use this ever
         /*
         public static string GetPackageIdFromAssembly(Assembly ass)
@@ -744,6 +769,8 @@ namespace RogueLike_Mod_Reborn
         }
         */
         #endregion
+
+        #region --- Grade6 special core pages / Red Mist / archive reset ---
 
         private const string Grade6SpecialCorePagesGrantedSaveName = "RMR_Grade6SpecialCorePagesGranted";
         private const string BlackSilenceStageClearedSaveName = "RMR_BlackSilenceStageCleared";
@@ -782,11 +809,11 @@ namespace RogueLike_Mod_Reborn
         {
             bool changed = false;
             LorId legacyId = new LorId(LogLikeMod.ModId, BlueReverberationCorePageId);
-            if (LogueBookModels.AtlasUnlockedRoleBooks != null)
+            if (LogueBookModels.CompendiumUnlockedRoleBooks != null)
             {
-                if (LogueBookModels.AtlasUnlockedRoleBooks.Remove(legacyId))
+                if (LogueBookModels.CompendiumUnlockedRoleBooks.Remove(legacyId))
                 {
-                    LogueBookModels.AtlasUnlockedRoleBooks.Add(GetBlueReverberationCorePageLorId());
+                    LogueBookModels.CompendiumUnlockedRoleBooks.Add(GetBlueReverberationCorePageLorId());
                     changed = true;
                 }
             }
@@ -884,14 +911,14 @@ namespace RogueLike_Mod_Reborn
             return foundBlackSilence && foundBinah;
         }
 
-        private static bool HasRoleBookInBothAtlasAndBooklist(BookXmlInfo page)
+        private static bool HasRoleBookInBothCompendiumAndBooklist(BookXmlInfo page)
         {
             if (page == null)
                 return false;
 
-            LogueBookModels.EnsureAtlasUnlocks();
-            bool inAtlas = LogueBookModels.AtlasUnlockedRoleBooks != null
-                && LogueBookModels.AtlasUnlockedRoleBooks.Contains(page.id);
+            LogueBookModels.EnsureCompendiumUnlocks();
+            bool inAtlas = LogueBookModels.CompendiumUnlockedRoleBooks != null
+                && LogueBookModels.CompendiumUnlockedRoleBooks.Contains(page.id);
             bool inBooklist = LogueBookModels.booklist != null
                 && LogueBookModels.booklist.Any(book => book?.ClassInfo?.id == page.id);
             return inAtlas && inBooklist;
@@ -899,8 +926,8 @@ namespace RogueLike_Mod_Reborn
 
         /// <summary>
         /// Ensures a role book is in the current booklist (route inventory), even if it is already in the permanent atlas.
-        /// This is needed because TryAddUniqueRoleBookToInventoryAndAtlas skips adding to booklist when the id is
-        /// already in AtlasUnlockedRoleBooks �?but for Grade6 special core pages, we need them usable immediately.
+        /// This is needed because TryAddUniqueRoleBookToInventoryAndCompendium skips adding to booklist when the id is
+        /// already in CompendiumUnlockedRoleBooks �?but for Grade6 special core pages, we need them usable immediately.
         /// </summary>
         private static bool EnsureRoleBookInCurrentBooklist(LorId id)
         {
@@ -947,7 +974,7 @@ namespace RogueLike_Mod_Reborn
             if (grantedAny)
             {
                 SaveGrantedFlagInternal();
-                LogueBookModels.SavePermanentAtlasData();
+                LogueBookModels.SavePermanentCompendiumData();
             }
         }
 
@@ -958,12 +985,12 @@ namespace RogueLike_Mod_Reborn
                 Debug.LogError($"[RMR] EnsureBlackSilenceCorePageForUrbanStar: cannot resolve Black Silence �?{resolveReason}");
                 return false;
             }
-            bool bsInAtlasNow = LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(blackSilence.id);
+            bool bsInAtlasNow = LogueBookModels.TryAddUniqueRoleBookToInventoryAndCompendium(blackSilence.id);
             if (bsInAtlasNow)
                 Debug.Log($"[RMR] Grade6 special: granted Black Silence core page {blackSilence.id.packageId}:{blackSilence.id.id} (TextId={blackSilence.TextId}, InnerName={blackSilence.InnerName ?? "?"}).");
             bool bsInBooklist = EnsureRoleBookInCurrentBooklist(blackSilence.id);
 
-            if (HasRoleBookInBothAtlasAndBooklist(blackSilence))
+            if (HasRoleBookInBothCompendiumAndBooklist(blackSilence))
             {
                 Debug.Log("[RMR] Urban Star entry: Black Silence confirmed in atlas and current route. Binah remains gated by the Red Mist challenge.");
                 return bsInAtlasNow || bsInBooklist;
@@ -984,25 +1011,25 @@ namespace RogueLike_Mod_Reborn
             }
 
             bool changed = PruneLegacyBlueReverberationCorePageUnlocks();
-            changed |= LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(blueBookId);
+            changed |= LogueBookModels.TryAddUniqueRoleBookToInventoryAndCompendium(blueBookId);
             bool inBooklist = EnsureRoleBookInCurrentBooklist(blueBookId);
             if (LogueBookModels.cardlist == null)
                 LogueBookModels.cardlist = new List<DiceCardItemModel>();
             foreach (int pageId in BlueReverberationBattlePageIds)
             {
                 LorId cardId = new LorId(pageId);
-                bool alreadyUnlocked = LogueBookModels.AtlasUnlockedBattleCards != null
-                    && LogueBookModels.AtlasUnlockedBattleCards.Contains(cardId);
+                bool alreadyUnlocked = LogueBookModels.CompendiumUnlockedBattleCards != null
+                    && LogueBookModels.CompendiumUnlockedBattleCards.Contains(cardId);
                 LogueBookModels.AddCard(cardId, 1, false);
                 changed |= !alreadyUnlocked;
             }
 
-            LogueBookModels.EnsureAtlasUnlocks();
-            bool confirmedCore = LogueBookModels.AtlasUnlockedRoleBooks.Contains(blueBookId)
+            LogueBookModels.EnsureCompendiumUnlocks();
+            bool confirmedCore = LogueBookModels.CompendiumUnlockedRoleBooks.Contains(blueBookId)
                 && LogueBookModels.booklist != null
                 && LogueBookModels.booklist.Any(book => book?.ClassInfo?.id == blueBookId);
             bool confirmedCards = BlueReverberationBattlePageIds.All(pageId =>
-                LogueBookModels.AtlasUnlockedBattleCards.Contains(new LorId(pageId)));
+                LogueBookModels.CompendiumUnlockedBattleCards.Contains(new LorId(pageId)));
             if (confirmedCore && confirmedCards)
             {
                 Debug.Log($"[RMR] Urban Star entry: Blue Reverberation confirmed in atlas/current route; battle pages {string.Join(", ", BlueReverberationBattlePageIds.Select(x => x.ToString()).ToArray())} unlocked.");
@@ -1046,7 +1073,7 @@ namespace RogueLike_Mod_Reborn
                             && skin.IndexOf("Argalia", StringComparison.OrdinalIgnoreCase) >= 0)));
         }
 
-        public static bool ShouldRecordRoleBookInPermanentAtlas(BookXmlInfo page)
+        public static bool ShouldRecordRoleBookInPermanentCompendium(BookXmlInfo page)
         {
             return !IsBinahCorePage(page);
         }
@@ -1077,8 +1104,8 @@ namespace RogueLike_Mod_Reborn
 
             EnsureRoleBookInCurrentBooklist(binah.id);
             RMRAbnormalityUnlockManager.UnlockBinahForCurrentRoute();
-            if (LogueBookModels.AtlasUnlockedRoleBooks != null && LogueBookModels.AtlasUnlockedRoleBooks.Remove(binah.id))
-                LogueBookModels.SavePermanentAtlasUnlocks();
+            if (LogueBookModels.CompendiumUnlockedRoleBooks != null && LogueBookModels.CompendiumUnlockedRoleBooks.Remove(binah.id))
+                LogueBookModels.SavePermanentCompendiumUnlocks();
             Debug.Log($"[RMR] Red Mist challenge victory: Binah core page {binah.id} unlocked for the current route.");
         }
 
@@ -1095,15 +1122,15 @@ namespace RogueLike_Mod_Reborn
             if (IsBinahRedMistChallengeUnlocked())
             {
                 EnsureRoleBookInCurrentBooklist(binah.id);
-                if (LogueBookModels.AtlasUnlockedRoleBooks != null && LogueBookModels.AtlasUnlockedRoleBooks.Remove(binah.id))
-                    LogueBookModels.SavePermanentAtlasUnlocks();
+                if (LogueBookModels.CompendiumUnlockedRoleBooks != null && LogueBookModels.CompendiumUnlockedRoleBooks.Remove(binah.id))
+                    LogueBookModels.SavePermanentCompendiumUnlocks();
                 return;
             }
 
-            bool atlasChanged = LogueBookModels.AtlasUnlockedRoleBooks != null
-                && LogueBookModels.AtlasUnlockedRoleBooks.Remove(binah.id);
+            bool atlasChanged = LogueBookModels.CompendiumUnlockedRoleBooks != null
+                && LogueBookModels.CompendiumUnlockedRoleBooks.Remove(binah.id);
             if (atlasChanged)
-                LogueBookModels.SavePermanentAtlasUnlocks();
+                LogueBookModels.SavePermanentCompendiumUnlocks();
 
             if (LogLikeMod.curstageid == new LorId(LogLikeMod.ModId, RedMistChallengeStageId))
             {
@@ -1171,25 +1198,25 @@ namespace RogueLike_Mod_Reborn
                 ClearSimpleFlag(DistortedEnsembleStageClearedSaveName, "Cleared");
                 ClearSimpleFlag(Grade6SpecialCorePagesGrantedSaveName, "Granted");
 
-                LogueBookModels.EnsureAtlasUnlocks();
-                LogueBookModels.BeginPermanentAtlasReset();
+                LogueBookModels.EnsureCompendiumUnlocks();
+                LogueBookModels.BeginPermanentCompendiumReset();
                 try
                 {
-                    LogueBookModels.AtlasUnlockedRoleBooks.Clear();
-                    LogueBookModels.AtlasUnlockedBattleCards.Clear();
-                    LogueBookModels.AtlasUnlockedAbnormalityPages.Clear();
-                    LogueBookModels.AtlasUnlockedEgoPages.Clear();
-                    LogueBookModels.SavePermanentAtlasData();
+                    LogueBookModels.CompendiumUnlockedRoleBooks.Clear();
+                    LogueBookModels.CompendiumUnlockedBattleCards.Clear();
+                    LogueBookModels.CompendiumUnlockedAbnormalityPages.Clear();
+                    LogueBookModels.CompendiumUnlockedEgoPages.Clear();
+                    LogueBookModels.SavePermanentCompendiumData();
                 }
                 finally
                 {
-                    LogueBookModels.EndPermanentAtlasReset();
+                    LogueBookModels.EndPermanentCompendiumReset();
                 }
                 Debug.Log("[RMR] Reset all archive progress: permanent atlas, realization clears, and special clear flags were cleared.");
             }
             catch (Exception e)
             {
-                try { LogueBookModels.EndPermanentAtlasReset(); } catch { }
+                try { LogueBookModels.EndPermanentCompendiumReset(); } catch { }
                 Debug.LogError($"[RMR] ResetAllArchiveProgress failed: {e}");
             }
         }
@@ -1239,6 +1266,8 @@ namespace RogueLike_Mod_Reborn
                 Debug.LogError($"[RMR] Failed to clear flag {saveName}: {e.Message}");
             }
         }
+
+        #endregion
     }
 
     #region TECHNICAL INFRASTRUCTURE
@@ -1752,6 +1781,7 @@ namespace RogueLike_Mod_Reborn
     /// </summary>
     public static class UnitUtil
     {
+        /// <summary>enum UnitSpawnMethod</summary>
         public enum UnitSpawnMethod
         {
             Default,
@@ -2216,6 +2246,8 @@ namespace RogueLike_Mod_Reborn
             => model.AddScrollAbility(card, new T());
     }
 
+    /// <summary>ScrollAbilityManager</summary>
+
     public class ScrollAbilityManager : MonoBehaviour
     {
         private bool scrolled;
@@ -2267,6 +2299,8 @@ namespace RogueLike_Mod_Reborn
             _dict[card] = ability;
         }
     }
+
+    /// <summary>ScrollAbilityBase</summary>
 
     public class ScrollAbilityBase
     {
@@ -2359,11 +2393,15 @@ namespace RogueLike_Mod_Reborn
         public Dictionary<LorId, RogueMysteryXmlInfo> mysteryDict = new Dictionary<LorId, RogueMysteryXmlInfo>();
     }
 
+    /// <summary>RogueMysteryXmlRoot</summary>
+
     public class RogueMysteryXmlRoot
     {
         [XmlElement("Mystery")]
         public List<RogueMysteryXmlInfo> RogueMysteryList = new List<RogueMysteryXmlInfo>();
     }
+
+    /// <summary>RogueMysteryXmlInfo</summary>
 
     public class RogueMysteryXmlInfo
     {
@@ -2381,6 +2419,8 @@ namespace RogueLike_Mod_Reborn
         [XmlElement]
         public string Title = "";
     }
+
+    /// <summary>RogueMysteryXmlInfoFrame</summary>
 
     public class RogueMysteryXmlInfoFrame
     {
@@ -2418,6 +2458,8 @@ namespace RogueLike_Mod_Reborn
         [XmlElement("Choice")]
         public List<RogueMysteryXmlInfoFrameChoice> ChoiceList = new List<RogueMysteryXmlInfoFrameChoice>();
     }
+
+    /// <summary>RogueMysteryXmlInfoFrameChoice</summary>
 
     public class RogueMysteryXmlInfoFrameChoice
     {
@@ -2582,6 +2624,8 @@ namespace RogueLike_Mod_Reborn
         /// </summary>
         ONLY_PACKAGEID
     }
+
+    /// <summary>RoguelikeGamemodeBase</summary>
 
     public class RoguelikeGamemodeBase
     {
@@ -2869,6 +2913,8 @@ namespace RogueLike_Mod_Reborn
 
     }
 
+    /// <summary>RoguelikeGamemode_RMR_Default</summary>
+
     public class RoguelikeGamemode_RMR_Default : RoguelikeGamemodeBase
     {
         public override LorId StageStart => new LorId(LogLikeMod.ModId, -854);
@@ -2917,22 +2963,28 @@ namespace RogueLike_Mod_Reborn
         public override string GetContentScopePackageId => RMRCore.packageId;
     }
 
+    /// <summary>RoguelikeGamemode_RMR_Modded_DebugCh2</summary>
+
     public class RoguelikeGamemode_RMR_Modded_DebugCh2 : RoguelikeGamemode_RMR_Modded
     {
         public override LorId StageStart => new LorId(LogLikeMod.ModId, -2854);
     }
+    /// <summary>RoguelikeGamemode_RMR_Modded_DebugCh3</summary>
     public class RoguelikeGamemode_RMR_Modded_DebugCh3 : RoguelikeGamemode_RMR_Modded
     {
         public override LorId StageStart => new LorId(LogLikeMod.ModId, -3854);
     }
+    /// <summary>RoguelikeGamemode_RMR_Modded_DebugCh4</summary>
     public class RoguelikeGamemode_RMR_Modded_DebugCh4 : RoguelikeGamemode_RMR_Modded
     {
         public override LorId StageStart => new LorId(LogLikeMod.ModId, -4854);
     }
+    /// <summary>RoguelikeGamemode_RMR_Modded_DebugCh5</summary>
     public class RoguelikeGamemode_RMR_Modded_DebugCh5 : RoguelikeGamemode_RMR_Modded
     {
         public override LorId StageStart => new LorId(LogLikeMod.ModId, -5854);
     }
+    /// <summary>RoguelikeGamemode_RMR_Modded_DebugCh6</summary>
     public class RoguelikeGamemode_RMR_Modded_DebugCh6 : RoguelikeGamemode_RMR_Modded
     {
         public override LorId StageStart => new LorId(LogLikeMod.ModId, -6854);
@@ -2969,6 +3021,8 @@ namespace RogueLike_Mod_Reborn
             Singleton<StageController>.Instance.EndBattle();
         }
     }
+
+    /// <summary>RoguelikeGamemode_RMR_Modded</summary>
 
     public class RoguelikeGamemode_RMR_Modded : RoguelikeGamemodeBase
     {
@@ -3221,6 +3275,8 @@ namespace RogueLike_Mod_Reborn
         public List<LogueEffectImage_ItemCatalog> sprites = new List<LogueEffectImage_ItemCatalog>();
     }
 
+    /// <summary>UIPageSwitchButton</summary>
+
     public class UIPageSwitchButton : MonoBehaviour
     {
         public void Init(bool forward)
@@ -3283,6 +3339,8 @@ namespace RogueLike_Mod_Reborn
 
         public Image image;
     }
+
+    /// <summary>LOGLIKE type: LogueEffectImage_ItemCatalog</summary>
 
     public class LogueEffectImage_ItemCatalog : MonoBehaviour
     {
@@ -3512,6 +3570,8 @@ namespace RogueLike_Mod_Reborn
 
         public Image baseimage;
     }
+    
+    /// <summary>UIItemCatalogPanel</summary>
     
     public static class UIItemCatalogPanel
     {
@@ -3976,6 +4036,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>CardAddVfx</summary>
 
     public static class CardAddVfx
     {

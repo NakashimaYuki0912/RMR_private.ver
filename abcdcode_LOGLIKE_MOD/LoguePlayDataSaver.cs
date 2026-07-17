@@ -1,22 +1,35 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.LoguePlayDataSaver
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
+// -----------------------------------------------------------------------------
+// LoguePlayDataSaver — run snapshot I/O for Roguelike Mod Reborn (RMR).
+//
+// Disk key "Lastest" is a historical typo used by Continue Run. Do NOT rename it
+// or existing continue saves break. Version gate uses LoguePlayDataSaver.version.
+//
+// Related: LogueBookModels (party/inventory), LogLikeMod (chapter/money),
+//          RMRStartHubPanel (Continue button visibility via CheckPlayerData).
+// See also: docs/localization/CODE_TERMINOLOGY.md
+// -----------------------------------------------------------------------------
 
 using GameSave;
 using Mod;
 using RogueLike_Mod_Reborn;
 using System;
+using UnityEngine;
 
 
 namespace abcdcode_LOGLIKE_MOD
 {
-
+    /// <summary>
+    /// Save / load helpers for a single roguelike run.
+    /// Primary continue snapshot file name: <c>Lastest</c> (kept for compatibility).
+    /// </summary>
     public class LoguePlayDataSaver
     {
+        /// <summary>Save format version. Mismatch → CheckPlayerData returns false.</summary>
         public static string version = "4.8";
 
+        #region --- Debug / chapter bootstrap ---
+
+        /// <summary>Build a fresh chapter save and load it (debug / chapter jump).</summary>
         public static void LoadChDebugData(ChapterGrade grade)
         {
             SaveData data = new SaveData();
@@ -27,6 +40,11 @@ namespace abcdcode_LOGLIKE_MOD
             LoguePlayDataSaver.LoadPlayData(data);
         }
 
+        #endregion
+
+        #region --- Transient shop / mystery (not the continue snapshot) ---
+
+        /// <summary>Clear shop + mystery temporary files after the node is left.</summary>
         public static void RemoveFlashData()
         {
             LoguePlayDataSaver.RemoveShop();
@@ -71,11 +89,24 @@ namespace abcdcode_LOGLIKE_MOD
             return true;
         }
 
+        #endregion
+
+        #region --- Continue snapshot: Lastest (full run) ---
+
+        /// <summary>
+        /// Deletes the continue-run snapshot file named <c>Lastest</c>
+        /// (historical typo; do not rename on disk).
+        /// Call only when the run truly ends (party wipe or G7 boss complete).
+        /// </summary>
         public static void RemovePlayerData()
         {
             Singleton<LogueSaveManager>.Instance.RemoveData("Lastest");
         }
 
+        /// <summary>
+        /// Writes a full run snapshot to LogueSave/<c>Lastest</c> for Continue Run.
+        /// Includes book model, LogLikeMod, global effects, companion mod list, gamemode.
+        /// </summary>
         public static void SavePlayData()
         {
             SaveData data1 = new SaveData();
@@ -92,18 +123,49 @@ namespace abcdcode_LOGLIKE_MOD
             Singleton<LogueSaveManager>.Instance.SaveData(data1, "Lastest");
         }
 
+        /// <summary>
+        /// Lightweight mid-run update of <c>Lastest</c> (shop / menu / act transitions).
+        /// If no file exists yet (or version mismatches), falls back to a full <see cref="SavePlayData"/>.
+        /// </summary>
         public static void SavePlayData_Menu()
         {
             SaveData saveData = Singleton<LogueSaveManager>.Instance.LoadData("Lastest");
+            // No continue file yet (or version mismatch): write a full snapshot so shop/mystery
+            // still create a resumable run (ClearBattle used to wipe Lastest after every act).
             if (saveData == null || saveData.GetString("version") != LoguePlayDataSaver.version)
+            {
+                try
+                {
+                    if (RMRCore.CurrentGamemode != null)
+                    {
+                        SavePlayData();
+                        Debug.Log("[RMR] SavePlayData_Menu: created full Lastest (was missing/mismatched).");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning("[RMR] SavePlayData_Menu full-save fallback failed: " + ex.Message);
+                }
                 return;
+            }
             saveData.SetData("version", new SaveData(LoguePlayDataSaver.version));
             saveData.SetData("LogueBookModel", LogueBookModels.GetSaveData());
             saveData.SetData("GlobalEffect", Singleton<GlobalLogueEffectManager>.Instance.GetSaveData());
-            saveData.GetData("LogLikeMod").SetData("Money", new SaveData(PassiveAbility_MoneyCheck.GetMoney()));
+            try
+            {
+                SaveData logLike = saveData.GetData("LogLikeMod");
+                if (logLike != null)
+                    logLike.SetData("Money", new SaveData(PassiveAbility_MoneyCheck.GetMoney()));
+            }
+            catch { /* ignore money patch failures */ }
             Singleton<LogueSaveManager>.Instance.SaveData(saveData, "Lastest");
         }
 
+        #endregion
+
+        #region --- Load into live run state ---
+
+        /// <summary>Apply a SaveData blob into LogueBookModels + LogLikeMod + global effects.</summary>
         public static void LoadPlayData(SaveData data)
         {
             LogLikeMod.saveloading = true;
@@ -116,23 +178,65 @@ namespace abcdcode_LOGLIKE_MOD
             LogLikeMod.saveloading = false;
         }
 
+        /// <summary>Load the on-disk <c>Lastest</c> continue snapshot.</summary>
         public static void LoadPlayData()
         {
             LoguePlayDataSaver.LoadPlayData(Singleton<LogueSaveManager>.Instance.LoadData("Lastest"));
         }
 
+        #endregion
+
+        #region --- Continue eligibility (Start Hub) ---
+
+        /// <summary>
+        /// Returns true if Continue Run should be offered on the start hub.
+        /// Requires a valid <c>Lastest</c> file and matching save version.
+        /// Companion modlist is soft-checked (warn only) so optional mods do not hide Continue.
+        /// </summary>
         public static bool CheckPlayerData()
         {
-            SaveData saveData1 = Singleton<LogueSaveManager>.Instance.LoadData("Lastest");
-            if (saveData1 == null || saveData1.GetString("version") != LoguePlayDataSaver.version)
-                return false;
-            foreach (SaveData saveData2 in saveData1.GetData("modlist"))
+            try
             {
-                SaveData modinfo = saveData2;
-                if (LogLikeMod.GetLogMods().Find((Predicate<ModContentInfo>)(x => x.invInfo.workshopInfo.uniqueId == modinfo.GetStringSelf())) == null)
+                SaveData saveData1 = Singleton<LogueSaveManager>.Instance.LoadData("Lastest");
+                if (saveData1 == null)
                     return false;
+                if (saveData1.GetString("version") != LoguePlayDataSaver.version)
+                {
+                    Debug.LogWarning($"[RMR] CheckPlayerData: version mismatch (save={saveData1.GetString("version")}, need={LoguePlayDataSaver.version}).");
+                    return false;
+                }
+
+                // Soft modlist check: missing companion log-mods must not hide Continue.
+                // (Strict match used to hide Continue after enabling/disabling optional mods.)
+                SaveData modlist = null;
+                try { modlist = saveData1.GetData("modlist"); } catch { modlist = null; }
+                if (modlist != null)
+                {
+                    foreach (SaveData saveData2 in modlist)
+                    {
+                        if (saveData2 == null)
+                            continue;
+                        string id = null;
+                        try { id = saveData2.GetStringSelf(); } catch { id = null; }
+                        if (string.IsNullOrEmpty(id))
+                            continue;
+                        if (LogLikeMod.GetLogMods().Find(x =>
+                                x?.invInfo?.workshopInfo != null
+                                && x.invInfo.workshopInfo.uniqueId == id) == null)
+                        {
+                            Debug.LogWarning($"[RMR] CheckPlayerData: saved log-mod '{id}' not loaded; still offering Continue.");
+                        }
+                    }
+                }
+                return true;
             }
-            return true;
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] CheckPlayerData failed: " + ex.Message);
+                return false;
+            }
         }
+
+        #endregion
     }
 }

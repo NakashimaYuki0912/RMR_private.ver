@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.PickUpModel_ShopGood40Effect
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Post-battle or shop pickup model: PickUpModel_ShopGood40Effect
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\PickUpModel_ShopGood40Effect.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using LOR_DiceSystem;
 using UnityEngine;
 
@@ -33,6 +32,8 @@ namespace abcdcode_LOGLIKE_MOD
             Singleton<LogAssetBundleManager>.Instance.LoadEffect(model.view.transform, (Vector3)new Vector2(1f, 1f), (Vector3)new Vector2(0.0f, -5f), "loglike_immediately_craft");
             PickUpModel_ShopGood40Effect.curcard = (DiceCardXmlInfo)null;
         }
+
+        /// <summary>BattleDiceCardBuf_Shop40costZeroCard</summary>
 
         public class BattleDiceCardBuf_Shop40costZeroCard : BattleDiceCardBuf
         {

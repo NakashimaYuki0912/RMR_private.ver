@@ -1,14 +1,15 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.PassiveAbility_ShopPassive19
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Passive ability script: PassiveAbility_ShopPassive19
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\PassiveAbility_ShopPassive19.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using LOR_DiceSystem;
 using UnityEngine;
 
  
 namespace abcdcode_LOGLIKE_MOD {
+
+/// <summary>Passive ability: PassiveAbility_ShopPassive19</summary>
 
 public class PassiveAbility_ShopPassive19 : PassiveAbilityBase
 {
@@ -24,6 +25,8 @@ public class PassiveAbility_ShopPassive19 : PassiveAbilityBase
       IsHp = flag
     });
   }
+
+  /// <summary>BattleUnitBuf_Immune</summary>
 
   public class BattleUnitBuf_Immune : BattleUnitBuf
   {

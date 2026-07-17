@@ -1,13 +1,14 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.LogStoryPathInfo
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// LOGLIKE core UI/data: LogStoryPathInfo
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\LogStoryPathInfo.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System.Xml.Serialization;
 
  
 namespace abcdcode_LOGLIKE_MOD {
+
+/// <summary>LOGLIKE type: LogStoryPathInfo</summary>
 
 public class LogStoryPathInfo
 {

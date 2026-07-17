@@ -1,9 +1,11 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.LogueBookModels
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// =============================================================================
+// LogueBookModels - run inventory, party, stages, and permanent Compendium unlocks.
+//
+// Product term: Compendium (CN 图鉴 / KR 도감). C# names use Compendium*.
+// Disk filename RMR_AtlasPermanentUnlocks is intentional (save compatibility).
+// Some methods still contain "Atlas" in the identifier (e.g. SyncCurrentInventoryToPermanentAtlas).
+// See docs/localization/CODE_TERMINOLOGY.md
+// =============================================================================
 using GameSave;
 using HarmonyLib;
 using LOR_DiceSystem;
@@ -21,8 +23,13 @@ using static CharacterSound;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>
+    /// Static run state for key pages, combat pages, party units, and permanent Compendium unlock sets.
+    /// </summary>
     public class LogueBookModels
     {
+        #region --- Run state fields (party / inventory / stages) ---
+
         public static BookXmlInfo BaseXmlInfo;
         public static BookEquipEffect BaseEquipStat;
         public static Dictionary<int, int> EmotionSelectDic;
@@ -39,18 +46,19 @@ namespace abcdcode_LOGLIKE_MOD
         public static int shopUpgradeCardPrice;
         public static List<UnitBattleDataModel> playerBattleModel;
         public static int nextinstanceid;
-        public static HashSet<LorId> AtlasUnlockedRoleBooks;
-        public static HashSet<LorId> AtlasUnlockedBattleCards;
-        public static HashSet<LorId> AtlasUnlockedAbnormalityPages;
-        public static HashSet<LorId> AtlasUnlockedEgoPages;
-        private const string PermanentAtlasSaveName = "RMR_AtlasPermanentUnlocks";
+        public static HashSet<LorId> CompendiumUnlockedRoleBooks;
+        public static HashSet<LorId> CompendiumUnlockedBattleCards;
+        public static HashSet<LorId> CompendiumUnlockedAbnormalityPages;
+        public static HashSet<LorId> CompendiumUnlockedEgoPages;
+        // Compendium = CN 图鉴. Disk filename RMR_AtlasPermanentUnlocks kept for save compatibility.
+        private const string PermanentCompendiumSaveName = "RMR_AtlasPermanentUnlocks";
         /// <summary>
-        /// True after permanent atlas has been loaded from disk (or intentionally cleared by reset).
-        /// Prevents SavePermanentAtlasData from writing empty in-memory sets over a real save
-        /// when the hub atlas is opened before CreatePlayer/run init.
+        /// True after permanent Compendium has been loaded from disk (or intentionally cleared by reset).
+        /// Prevents SavePermanentCompendiumData from writing empty in-memory sets over a real save
+        /// when the hub Compendium is opened before CreatePlayer/run init.
         /// </summary>
-        private static bool PermanentAtlasHydrated;
-        /// <summary>When true, SavePermanentAtlasData skips disk-merge (used by full archive reset).</summary>
+        private static bool PermanentCompendiumHydrated;
+        /// <summary>When true, SavePermanentCompendiumData skips disk-merge (used by full archive reset).</summary>
         private static bool SuppressPermanentAtlasMergeOnSave;
         public static Dictionary<UnitDataModel, LorId> Grade6SpecialBuiltInDeckSource = new Dictionary<UnitDataModel, LorId>();
 
@@ -105,38 +113,42 @@ namespace abcdcode_LOGLIKE_MOD
             return data;
         }
 
-        public static void EnsureAtlasUnlocks()
+        #endregion
+
+        #region --- Permanent Compendium unlocks (disk: RMR_AtlasPermanentUnlocks) ---
+
+        public static void EnsureCompendiumUnlocks()
         {
-            if (LogueBookModels.AtlasUnlockedRoleBooks == null)
-                LogueBookModels.AtlasUnlockedRoleBooks = new HashSet<LorId>();
-            if (LogueBookModels.AtlasUnlockedBattleCards == null)
-                LogueBookModels.AtlasUnlockedBattleCards = new HashSet<LorId>();
-            if (LogueBookModels.AtlasUnlockedAbnormalityPages == null)
-                LogueBookModels.AtlasUnlockedAbnormalityPages = new HashSet<LorId>();
-            if (LogueBookModels.AtlasUnlockedEgoPages == null)
-                LogueBookModels.AtlasUnlockedEgoPages = new HashSet<LorId>();
+            if (LogueBookModels.CompendiumUnlockedRoleBooks == null)
+                LogueBookModels.CompendiumUnlockedRoleBooks = new HashSet<LorId>();
+            if (LogueBookModels.CompendiumUnlockedBattleCards == null)
+                LogueBookModels.CompendiumUnlockedBattleCards = new HashSet<LorId>();
+            if (LogueBookModels.CompendiumUnlockedAbnormalityPages == null)
+                LogueBookModels.CompendiumUnlockedAbnormalityPages = new HashSet<LorId>();
+            if (LogueBookModels.CompendiumUnlockedEgoPages == null)
+                LogueBookModels.CompendiumUnlockedEgoPages = new HashSet<LorId>();
         }
 
-        public static void RecordAtlasRoleBook(LorId id)
+        public static void RecordCompendiumRoleBook(LorId id)
         {
             if (id == LorId.None)
                 return;
             BookXmlInfo bookXml = Singleton<BookXmlList>.Instance.GetData(id);
-            if (!RMRCore.ShouldRecordRoleBookInPermanentAtlas(bookXml))
+            if (!RMRCore.ShouldRecordRoleBookInPermanentCompendium(bookXml))
                 return;
-            LogueBookModels.EnsureAtlasUnlocks();
-            LogueBookModels.AtlasUnlockedRoleBooks.Add(id);
+            LogueBookModels.EnsureCompendiumUnlocks();
+            LogueBookModels.CompendiumUnlockedRoleBooks.Add(id);
         }
 
-        public static void RecordAtlasBattleCard(LorId id)
+        public static void RecordCompendiumBattleCard(LorId id)
         {
             if (id == LorId.None)
                 return;
-            LogueBookModels.EnsureAtlasUnlocks();
-            LogueBookModels.AtlasUnlockedBattleCards.Add(id);
+            LogueBookModels.EnsureCompendiumUnlocks();
+            LogueBookModels.CompendiumUnlockedBattleCards.Add(id);
         }
 
-        public static void RecordAtlasAbnormalityPage(LorId id)
+        public static void RecordCompendiumAbnormalityPage(LorId id)
         {
             if (id == LorId.None)
                 return;
@@ -147,84 +159,84 @@ namespace abcdcode_LOGLIKE_MOD
             // so realization battles can offer abnormality selection from unlocked history.
             if (info == null || info.rewardtype != RewardType.Creature)
                 return;
-            LogueBookModels.EnsureAtlasUnlocks();
-            LogueBookModels.AtlasUnlockedAbnormalityPages.Add(id);
+            LogueBookModels.EnsureCompendiumUnlocks();
+            LogueBookModels.CompendiumUnlockedAbnormalityPages.Add(id);
         }
 
-        public static void RecordAtlasEgoPage(LorId id)
+        public static void RecordCompendiumEgoPage(LorId id)
         {
             if (id == LorId.None || !RMRAbnormalityUnlockManager.IsRealizationEgoCard(id))
                 return;
-            LogueBookModels.EnsureAtlasUnlocks();
-            LogueBookModels.AtlasUnlockedEgoPages.Add(id);
+            LogueBookModels.EnsureCompendiumUnlocks();
+            LogueBookModels.CompendiumUnlockedEgoPages.Add(id);
         }
 
-        public static bool IsAtlasRoleBookUnlocked(LorId id)
+        public static bool IsCompendiumRoleBookUnlocked(LorId id)
         {
-            LogueBookModels.EnsureAtlasUnlocks();
-            return LogueBookModels.AtlasUnlockedRoleBooks.Contains(id);
+            LogueBookModels.EnsureCompendiumUnlocks();
+            return LogueBookModels.CompendiumUnlockedRoleBooks.Contains(id);
         }
 
-        public static bool IsAtlasBattleCardUnlocked(LorId id)
+        public static bool IsCompendiumBattleCardUnlocked(LorId id)
         {
-            LogueBookModels.EnsureAtlasUnlocks();
-            return LogueBookModels.AtlasUnlockedBattleCards.Contains(id);
+            LogueBookModels.EnsureCompendiumUnlocks();
+            return LogueBookModels.CompendiumUnlockedBattleCards.Contains(id);
         }
 
-        public static bool IsAtlasAbnormalityPageUnlocked(LorId id)
+        public static bool IsCompendiumAbnormalityPageUnlocked(LorId id)
         {
-            LogueBookModels.EnsureAtlasUnlocks();
-            return LogueBookModels.AtlasUnlockedAbnormalityPages.Contains(id);
+            LogueBookModels.EnsureCompendiumUnlocks();
+            return LogueBookModels.CompendiumUnlockedAbnormalityPages.Contains(id);
         }
 
-        public static bool IsAtlasEgoPageUnlocked(LorId id)
+        public static bool IsCompendiumEgoPageUnlocked(LorId id)
         {
-            LogueBookModels.EnsureAtlasUnlocks();
-            return LogueBookModels.AtlasUnlockedEgoPages.Contains(id);
+            LogueBookModels.EnsureCompendiumUnlocks();
+            return LogueBookModels.CompendiumUnlockedEgoPages.Contains(id);
         }
 
         public static void SyncCurrentInventoryToPermanentAtlas()
         {
-            LogueBookModels.EnsureAtlasUnlocks();
+            LogueBookModels.EnsureCompendiumUnlocks();
             if (LogueBookModels.cardlist != null)
             {
                 foreach (DiceCardItemModel card in LogueBookModels.cardlist)
-                    LogueBookModels.AtlasUnlockedBattleCards.Add(card.GetID());
+                    LogueBookModels.CompendiumUnlockedBattleCards.Add(card.GetID());
             }
             if (LogueBookModels.booklist != null)
             {
                 foreach (BookModel book in LogueBookModels.booklist)
                 {
-                    if (book?.ClassInfo != null && RMRCore.ShouldRecordRoleBookInPermanentAtlas(book.ClassInfo))
-                        LogueBookModels.AtlasUnlockedRoleBooks.Add(book.ClassInfo.id);
+                    if (book?.ClassInfo != null && RMRCore.ShouldRecordRoleBookInPermanentCompendium(book.ClassInfo))
+                        LogueBookModels.CompendiumUnlockedRoleBooks.Add(book.ClassInfo.id);
                 }
             }
             LogueBookModels.SyncPlayerLoadoutToPermanentAtlas();
             // Route-unlocked abnormality pages (normal + exclusive already picked) → permanent atlas
             foreach (LorId pageId in RMRAbnormalityUnlockManager.GetRouteUnlockedPageIds())
-                LogueBookModels.RecordAtlasAbnormalityPage(pageId);
+                LogueBookModels.RecordCompendiumAbnormalityPage(pageId);
             if (LogueBookModels.EmotionCardList != null)
             {
                 foreach (RewardPassiveInfo info in LogueBookModels.EmotionCardList)
                 {
                     if (info != null)
-                        LogueBookModels.RecordAtlasAbnormalityPage(info.id);
+                        LogueBookModels.RecordCompendiumAbnormalityPage(info.id);
                 }
             }
             PruneInvalidPermanentRoleBookAtlasUnlocks();
-            PruneInvalidPermanentAbnormalityAtlasUnlocks();
+            PruneInvalidPermanentAbnormalityCompendiumUnlocks();
         }
 
         private static bool SyncPlayerLoadoutToPermanentAtlas()
         {
             bool changed = false;
-            LogueBookModels.EnsureAtlasUnlocks();
+            LogueBookModels.EnsureCompendiumUnlocks();
             IEnumerable<UnitBattleDataModel> models = LogueBookModels.playerBattleModel ?? Enumerable.Empty<UnitBattleDataModel>();
             foreach (UnitBattleDataModel model in models)
             {
                 BookModel book = model?.unitData?.bookItem;
-                if (book?.ClassInfo != null && RMRCore.ShouldRecordRoleBookInPermanentAtlas(book.ClassInfo))
-                    changed |= LogueBookModels.AtlasUnlockedRoleBooks.Add(book.ClassInfo.id);
+                if (book?.ClassInfo != null && RMRCore.ShouldRecordRoleBookInPermanentCompendium(book.ClassInfo))
+                    changed |= LogueBookModels.CompendiumUnlockedRoleBooks.Add(book.ClassInfo.id);
 
                 List<DiceCardXmlInfo> deck = book?.GetCardListFromCurrentDeck();
                 if (deck == null)
@@ -232,7 +244,7 @@ namespace abcdcode_LOGLIKE_MOD
                 foreach (DiceCardXmlInfo card in deck)
                 {
                     if (card != null && card.id != LorId.None)
-                        changed |= LogueBookModels.AtlasUnlockedBattleCards.Add(card.id);
+                        changed |= LogueBookModels.CompendiumUnlockedBattleCards.Add(card.id);
                 }
             }
             return changed;
@@ -240,17 +252,17 @@ namespace abcdcode_LOGLIKE_MOD
 
         private static void PruneInvalidPermanentRoleBookAtlasUnlocks()
         {
-            LogueBookModels.EnsureAtlasUnlocks();
-            LogueBookModels.AtlasUnlockedRoleBooks.RemoveWhere(id =>
+            LogueBookModels.EnsureCompendiumUnlocks();
+            LogueBookModels.CompendiumUnlockedRoleBooks.RemoveWhere(id =>
             {
                 BookXmlInfo bookXml = RewardingModel.GetBookDataOriginAware(id);
-                return !RMRCore.ShouldRecordRoleBookInPermanentAtlas(bookXml);
+                return !RMRCore.ShouldRecordRoleBookInPermanentCompendium(bookXml);
             });
         }
 
         public static void PruneCorePageExclusiveBattleCardsFromInventoryAndAtlas()
         {
-            LogueBookModels.EnsureAtlasUnlocks();
+            LogueBookModels.EnsureCompendiumUnlocks();
             HashSet<LorId> exclusiveCards = LogueBookModels.GetCorePageExclusiveBattleCardIds();
             exclusiveCards.RemoveWhere(IsRedMistRewardBattleCard);
             exclusiveCards.RemoveWhere(IsBlueReverberationRewardBattleCard);
@@ -258,7 +270,7 @@ namespace abcdcode_LOGLIKE_MOD
                 return;
             if (LogueBookModels.cardlist != null)
                 LogueBookModels.cardlist.RemoveAll(card => exclusiveCards.Contains(card.GetID()));
-            LogueBookModels.AtlasUnlockedBattleCards.RemoveWhere(id => exclusiveCards.Contains(id));
+            LogueBookModels.CompendiumUnlockedBattleCards.RemoveWhere(id => exclusiveCards.Contains(id));
         }
 
         private static HashSet<LorId> GetCorePageExclusiveBattleCardIds()
@@ -267,8 +279,8 @@ namespace abcdcode_LOGLIKE_MOD
             List<LorId> roleBookIds = new List<LorId>();
             if (LogueBookModels.booklist != null)
                 roleBookIds.AddRange(LogueBookModels.booklist.Where(book => book?.ClassInfo != null).Select(book => book.ClassInfo.id));
-            if (LogueBookModels.AtlasUnlockedRoleBooks != null)
-                roleBookIds.AddRange(LogueBookModels.AtlasUnlockedRoleBooks);
+            if (LogueBookModels.CompendiumUnlockedRoleBooks != null)
+                roleBookIds.AddRange(LogueBookModels.CompendiumUnlockedRoleBooks);
             foreach (LorId roleBookId in roleBookIds)
             {
                 BookXmlInfo book = RewardingModel.GetBookDataOriginAware(roleBookId);
@@ -299,10 +311,10 @@ namespace abcdcode_LOGLIKE_MOD
                     || id.id == 705011);
         }
 
-        public static void PruneInvalidPermanentAbnormalityAtlasUnlocks()
+        public static void PruneInvalidPermanentAbnormalityCompendiumUnlocks()
         {
-            LogueBookModels.EnsureAtlasUnlocks();
-            LogueBookModels.AtlasUnlockedAbnormalityPages.RemoveWhere(id =>
+            LogueBookModels.EnsureCompendiumUnlocks();
+            LogueBookModels.CompendiumUnlockedAbnormalityPages.RemoveWhere(id =>
             {
                 if (RMRAbnormalityUnlockManager.IsNoAbnormalityFallback(id))
                     return true;
@@ -318,7 +330,7 @@ namespace abcdcode_LOGLIKE_MOD
                 SephirahType floor = RMRAbnormalityUnlockManager.ResolveRealizationFloor(info);
                 return floor == SephirahType.None || !RMRAbnormalityUnlockManager.IsFloorRealizationCompleted(floor);
             });
-            LogueBookModels.AtlasUnlockedEgoPages.RemoveWhere(id =>
+            LogueBookModels.CompendiumUnlockedEgoPages.RemoveWhere(id =>
             {
                 SephirahType floor = SephirahType.None;
                 foreach (var kvp in RMRAbnormalityUnlockManager.RealizationEgoCardsByFloor)
@@ -333,34 +345,34 @@ namespace abcdcode_LOGLIKE_MOD
             });
         }
 
-        public static void SavePermanentAtlasUnlocks()
+        public static void SavePermanentCompendiumUnlocks()
         {
             LogueBookModels.SyncCurrentInventoryToPermanentAtlas();
-            LogueBookModels.SavePermanentAtlasData();
+            LogueBookModels.SavePermanentCompendiumData();
             LoguePlayDataSaver.SavePlayData_Menu();
         }
 
-        public static void SavePermanentAtlasData()
+        public static void SavePermanentCompendiumData()
         {
             try
             {
-                LogueBookModels.EnsureAtlasUnlocks();
+                LogueBookModels.EnsureCompendiumUnlocks();
                 // Never overwrite disk with an unhydrated/empty session (hub open before CreatePlayer).
-                if (!SuppressPermanentAtlasMergeOnSave && !PermanentAtlasHydrated)
-                    LogueBookModels.LoadPermanentAtlasData();
+                if (!SuppressPermanentAtlasMergeOnSave && !PermanentCompendiumHydrated)
+                    LogueBookModels.LoadPermanentCompendiumData();
                 else if (!SuppressPermanentAtlasMergeOnSave)
                 {
                     // Even when hydrated, re-merge disk so concurrent/other-session unlocks are not lost.
-                    // LoadAtlasUnlocks only adds; it does not remove intentional progress.
+                    // LoadCompendiumUnlockSet only adds; it does not remove intentional progress.
                     try
                     {
-                        SaveData disk = Singleton<LogueSaveManager>.Instance.LoadData(PermanentAtlasSaveName);
+                        SaveData disk = Singleton<LogueSaveManager>.Instance.LoadData(PermanentCompendiumSaveName);
                         if (disk != null)
                         {
-                            LogueBookModels.LoadAtlasUnlocks(disk.GetData("atlasRoleBookUnlocks"), LogueBookModels.AtlasUnlockedRoleBooks);
-                            LogueBookModels.LoadAtlasUnlocks(disk.GetData("atlasBattleCardUnlocks"), LogueBookModels.AtlasUnlockedBattleCards);
-                            LogueBookModels.LoadAtlasUnlocks(disk.GetData("atlasAbnormalityPageUnlocks"), LogueBookModels.AtlasUnlockedAbnormalityPages);
-                            LogueBookModels.LoadAtlasUnlocks(disk.GetData("atlasEgoPageUnlocks"), LogueBookModels.AtlasUnlockedEgoPages);
+                            LogueBookModels.LoadCompendiumUnlockSet(disk.GetData("atlasRoleBookUnlocks"), LogueBookModels.CompendiumUnlockedRoleBooks);
+                            LogueBookModels.LoadCompendiumUnlockSet(disk.GetData("atlasBattleCardUnlocks"), LogueBookModels.CompendiumUnlockedBattleCards);
+                            LogueBookModels.LoadCompendiumUnlockSet(disk.GetData("atlasAbnormalityPageUnlocks"), LogueBookModels.CompendiumUnlockedAbnormalityPages);
+                            LogueBookModels.LoadCompendiumUnlockSet(disk.GetData("atlasEgoPageUnlocks"), LogueBookModels.CompendiumUnlockedEgoPages);
                         }
                     }
                     catch (Exception mergeEx)
@@ -370,15 +382,15 @@ namespace abcdcode_LOGLIKE_MOD
                 }
 
                 LogueBookModels.PruneInvalidPermanentRoleBookAtlasUnlocks();
-                LogueBookModels.PruneInvalidPermanentAbnormalityAtlasUnlocks();
+                LogueBookModels.PruneInvalidPermanentAbnormalityCompendiumUnlocks();
                 SaveData data = new SaveData();
-                data.AddData("atlasRoleBookUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedRoleBooks));
-                data.AddData("atlasBattleCardUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedBattleCards));
-                data.AddData("atlasAbnormalityPageUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedAbnormalityPages));
-                data.AddData("atlasEgoPageUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedEgoPages));
-                Singleton<LogueSaveManager>.Instance.SaveData(data, PermanentAtlasSaveName);
-                PermanentAtlasHydrated = true;
-                Debug.Log($"[RMR Atlas] Saved permanent atlas. RoleBooks={AtlasUnlockedRoleBooks.Count}, BattleCards={AtlasUnlockedBattleCards.Count}, Abno={AtlasUnlockedAbnormalityPages.Count}, Ego={AtlasUnlockedEgoPages.Count}.");
+                data.AddData("atlasRoleBookUnlocks", LogueBookModels.SaveCompendiumUnlockSet(LogueBookModels.CompendiumUnlockedRoleBooks));
+                data.AddData("atlasBattleCardUnlocks", LogueBookModels.SaveCompendiumUnlockSet(LogueBookModels.CompendiumUnlockedBattleCards));
+                data.AddData("atlasAbnormalityPageUnlocks", LogueBookModels.SaveCompendiumUnlockSet(LogueBookModels.CompendiumUnlockedAbnormalityPages));
+                data.AddData("atlasEgoPageUnlocks", LogueBookModels.SaveCompendiumUnlockSet(LogueBookModels.CompendiumUnlockedEgoPages));
+                Singleton<LogueSaveManager>.Instance.SaveData(data, PermanentCompendiumSaveName);
+                PermanentCompendiumHydrated = true;
+                Debug.Log($"[RMR Atlas] Saved permanent atlas. RoleBooks={CompendiumUnlockedRoleBooks.Count}, BattleCards={CompendiumUnlockedBattleCards.Count}, Abno={CompendiumUnlockedAbnormalityPages.Count}, Ego={CompendiumUnlockedEgoPages.Count}.");
             }
             catch (Exception e)
             {
@@ -386,58 +398,58 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
-        public static void LoadPermanentAtlasData()
+        public static void LoadPermanentCompendiumData()
         {
             try
             {
-                LogueBookModels.EnsureAtlasUnlocks();
-                SaveData data = Singleton<LogueSaveManager>.Instance.LoadData(PermanentAtlasSaveName);
+                LogueBookModels.EnsureCompendiumUnlocks();
+                SaveData data = Singleton<LogueSaveManager>.Instance.LoadData(PermanentCompendiumSaveName);
                 if (data == null)
                 {
-                    PermanentAtlasHydrated = true;
+                    PermanentCompendiumHydrated = true;
                     Debug.Log("[RMR Atlas] No permanent atlas save on disk yet.");
                     return;
                 }
 
-                int beforeRoles = AtlasUnlockedRoleBooks.Count;
-                int beforeCards = AtlasUnlockedBattleCards.Count;
-                LogueBookModels.LoadAtlasUnlocks(data.GetData("atlasRoleBookUnlocks"), LogueBookModels.AtlasUnlockedRoleBooks);
-                LogueBookModels.LoadAtlasUnlocks(data.GetData("atlasBattleCardUnlocks"), LogueBookModels.AtlasUnlockedBattleCards);
-                LogueBookModels.LoadAtlasUnlocks(data.GetData("atlasAbnormalityPageUnlocks"), LogueBookModels.AtlasUnlockedAbnormalityPages);
-                LogueBookModels.LoadAtlasUnlocks(data.GetData("atlasEgoPageUnlocks"), LogueBookModels.AtlasUnlockedEgoPages);
+                int beforeRoles = CompendiumUnlockedRoleBooks.Count;
+                int beforeCards = CompendiumUnlockedBattleCards.Count;
+                LogueBookModels.LoadCompendiumUnlockSet(data.GetData("atlasRoleBookUnlocks"), LogueBookModels.CompendiumUnlockedRoleBooks);
+                LogueBookModels.LoadCompendiumUnlockSet(data.GetData("atlasBattleCardUnlocks"), LogueBookModels.CompendiumUnlockedBattleCards);
+                LogueBookModels.LoadCompendiumUnlockSet(data.GetData("atlasAbnormalityPageUnlocks"), LogueBookModels.CompendiumUnlockedAbnormalityPages);
+                LogueBookModels.LoadCompendiumUnlockSet(data.GetData("atlasEgoPageUnlocks"), LogueBookModels.CompendiumUnlockedEgoPages);
                 LogueBookModels.PruneCorePageExclusiveBattleCardsFromInventoryAndAtlas();
-                LogueBookModels.PruneInvalidPermanentAbnormalityAtlasUnlocks();
-                PermanentAtlasHydrated = true;
-                Debug.Log($"[RMR Atlas] Loaded permanent atlas. RoleBooks={AtlasUnlockedRoleBooks.Count} (was {beforeRoles}), BattleCards={AtlasUnlockedBattleCards.Count} (was {beforeCards}), Abno={AtlasUnlockedAbnormalityPages.Count}, Ego={AtlasUnlockedEgoPages.Count}.");
+                LogueBookModels.PruneInvalidPermanentAbnormalityCompendiumUnlocks();
+                PermanentCompendiumHydrated = true;
+                Debug.Log($"[RMR Atlas] Loaded permanent atlas. RoleBooks={CompendiumUnlockedRoleBooks.Count} (was {beforeRoles}), BattleCards={CompendiumUnlockedBattleCards.Count} (was {beforeCards}), Abno={CompendiumUnlockedAbnormalityPages.Count}, Ego={CompendiumUnlockedEgoPages.Count}.");
             }
             catch (Exception e)
             {
-                PermanentAtlasHydrated = true; // avoid infinite re-load loops; save will not wipe if merge runs
+                PermanentCompendiumHydrated = true; // avoid infinite re-load loops; save will not wipe if merge runs
                 Debug.LogWarning("[RMR Atlas] Failed to load permanent atlas data: " + e);
             }
         }
 
-        public static void LoadPermanentAtlasUnlocks()
+        public static void LoadPermanentCompendiumUnlocks()
         {
-            LogueBookModels.LoadPermanentAtlasData();
+            LogueBookModels.LoadPermanentCompendiumData();
         }
 
         /// <summary>
         /// Call before intentionally wiping permanent atlas (reset archive).
-        /// Prevents SavePermanentAtlasData from re-merging disk contents back in.
+        /// Prevents SavePermanentCompendiumData from re-merging disk contents back in.
         /// </summary>
-        public static void BeginPermanentAtlasReset()
+        public static void BeginPermanentCompendiumReset()
         {
             SuppressPermanentAtlasMergeOnSave = true;
-            PermanentAtlasHydrated = true;
+            PermanentCompendiumHydrated = true;
         }
 
-        public static void EndPermanentAtlasReset()
+        public static void EndPermanentCompendiumReset()
         {
             SuppressPermanentAtlasMergeOnSave = false;
         }
 
-        private static SaveData SaveAtlasUnlocks(HashSet<LorId> ids)
+        private static SaveData SaveCompendiumUnlockSet(HashSet<LorId> ids)
         {
             SaveData data = new SaveData();
             if (ids == null)
@@ -447,13 +459,17 @@ namespace abcdcode_LOGLIKE_MOD
             return data;
         }
 
-        private static void LoadAtlasUnlocks(SaveData data, HashSet<LorId> target)
+        private static void LoadCompendiumUnlockSet(SaveData data, HashSet<LorId> target)
         {
             if (data == null || target == null)
                 return;
             foreach (SaveData savedId in data)
                 target.Add(RMRCore.NormalizeLegacyBlueReverberationCorePageId(ExtensionUtils.LogLoadFromSaveData(savedId)));
         }
+
+        #endregion
+
+        #region --- Unit / book serialization helpers ---
 
         public static void LoadFromSaveData_UnitBattleDataModel(SaveData data, UnitBattleDataModel model)
         {
@@ -620,6 +636,10 @@ namespace abcdcode_LOGLIKE_MOD
             return data1;
         }
 
+        #endregion
+
+        #region --- Full run save / load / chapter bootstrap ---
+
         public static SaveData CreateChSaveData(ChapterGrade grade)
         {
             LogueBookModels.CreatePlayer();
@@ -713,7 +733,7 @@ namespace abcdcode_LOGLIKE_MOD
                         bookModel.instanceId = LogueBookModels.nextinstanceid++;
                         bookModel.TryGainUniquePassive();
                         LogueBookModels.booklist.Add(bookModel);
-                        LogueBookModels.RecordAtlasRoleBook(bookModel.ClassInfo.id);
+                        LogueBookModels.RecordCompendiumRoleBook(bookModel.ClassInfo.id);
                     }
                 }
             }
@@ -724,10 +744,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             data1.AddData("booklist", data14);
             data1.AddData("RMRAbnormalityUnlocks", RMRAbnormalityUnlockManager.SaveRouteUnlocks());
-            data1.AddData("atlasRoleBookUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedRoleBooks));
-            data1.AddData("atlasBattleCardUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedBattleCards));
-            data1.AddData("atlasAbnormalityPageUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedAbnormalityPages));
-            data1.AddData("atlasEgoPageUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedEgoPages));
+            data1.AddData("atlasRoleBookUnlocks", LogueBookModels.SaveCompendiumUnlockSet(LogueBookModels.CompendiumUnlockedRoleBooks));
+            data1.AddData("atlasBattleCardUnlocks", LogueBookModels.SaveCompendiumUnlockSet(LogueBookModels.CompendiumUnlockedBattleCards));
+            data1.AddData("atlasAbnormalityPageUnlocks", LogueBookModels.SaveCompendiumUnlockSet(LogueBookModels.CompendiumUnlockedAbnormalityPages));
+            data1.AddData("atlasEgoPageUnlocks", LogueBookModels.SaveCompendiumUnlockSet(LogueBookModels.CompendiumUnlockedEgoPages));
             data1.AddData("SubPlayerNum", new SaveData(LogueBookModels.playerModel.Count - 1));
             data1.AddData("nextinstanceid", LogueBookModels.nextinstanceid);
             return data1;
@@ -737,7 +757,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             "".Log("LogueInven Save Start : " + DateTime.Now.ToString());
             LogueBookModels.SyncCurrentInventoryToPermanentAtlas();
-            LogueBookModels.SavePermanentAtlasData();
+            LogueBookModels.SavePermanentCompendiumData();
             SaveData data1 = new SaveData();
             SaveData data2 = new SaveData();
             foreach (KeyValuePair<int, int> keyValuePair in LogueBookModels.EmotionSelectDic)
@@ -812,10 +832,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             data1.AddData("booklist", data15);
             data1.AddData("RMRAbnormalityUnlocks", RMRAbnormalityUnlockManager.SaveRouteUnlocks());
-            data1.AddData("atlasRoleBookUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedRoleBooks));
-            data1.AddData("atlasBattleCardUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedBattleCards));
-            data1.AddData("atlasAbnormalityPageUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedAbnormalityPages));
-            data1.AddData("atlasEgoPageUnlocks", LogueBookModels.SaveAtlasUnlocks(LogueBookModels.AtlasUnlockedEgoPages));
+            data1.AddData("atlasRoleBookUnlocks", LogueBookModels.SaveCompendiumUnlockSet(LogueBookModels.CompendiumUnlockedRoleBooks));
+            data1.AddData("atlasBattleCardUnlocks", LogueBookModels.SaveCompendiumUnlockSet(LogueBookModels.CompendiumUnlockedBattleCards));
+            data1.AddData("atlasAbnormalityPageUnlocks", LogueBookModels.SaveCompendiumUnlockSet(LogueBookModels.CompendiumUnlockedAbnormalityPages));
+            data1.AddData("atlasEgoPageUnlocks", LogueBookModels.SaveCompendiumUnlockSet(LogueBookModels.CompendiumUnlockedEgoPages));
             data1.AddData("SubPlayerNum", new SaveData(LogueBookModels.playerModel.Count - 1));
             data1.AddData("nextinstanceid", LogueBookModels.nextinstanceid);
             "".Log("LogueInven Save End : " + DateTime.Now.ToString());
@@ -942,15 +962,15 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 BookModel model = LogueBookModels.LoadFromSaveData_BookModel(data3);
                 LogueBookModels.booklist.Add(model);
-                LogueBookModels.RecordAtlasRoleBook(model.ClassInfo.id);
+                LogueBookModels.RecordCompendiumRoleBook(model.ClassInfo.id);
             }
-            LogueBookModels.LoadAtlasUnlocks(save.GetData("atlasRoleBookUnlocks"), LogueBookModels.AtlasUnlockedRoleBooks);
-            LogueBookModels.LoadAtlasUnlocks(save.GetData("atlasBattleCardUnlocks"), LogueBookModels.AtlasUnlockedBattleCards);
-            LogueBookModels.LoadAtlasUnlocks(save.GetData("atlasAbnormalityPageUnlocks"), LogueBookModels.AtlasUnlockedAbnormalityPages);
-            LogueBookModels.LoadAtlasUnlocks(save.GetData("atlasEgoPageUnlocks"), LogueBookModels.AtlasUnlockedEgoPages);
+            LogueBookModels.LoadCompendiumUnlockSet(save.GetData("atlasRoleBookUnlocks"), LogueBookModels.CompendiumUnlockedRoleBooks);
+            LogueBookModels.LoadCompendiumUnlockSet(save.GetData("atlasBattleCardUnlocks"), LogueBookModels.CompendiumUnlockedBattleCards);
+            LogueBookModels.LoadCompendiumUnlockSet(save.GetData("atlasAbnormalityPageUnlocks"), LogueBookModels.CompendiumUnlockedAbnormalityPages);
+            LogueBookModels.LoadCompendiumUnlockSet(save.GetData("atlasEgoPageUnlocks"), LogueBookModels.CompendiumUnlockedEgoPages);
             LogueBookModels.SyncCurrentInventoryToPermanentAtlas();
             PruneCorePageExclusiveBattleCardsFromInventoryAndAtlas();
-            PruneInvalidPermanentAbnormalityAtlasUnlocks();
+            PruneInvalidPermanentAbnormalityCompendiumUnlocks();
             RMRAbnormalityUnlockManager.LoadRouteUnlocks(save.GetData("RMRAbnormalityUnlocks"));
             LogueBookModels.nextinstanceid = save.GetInt("nextinstanceid");
         }
@@ -1050,6 +1070,10 @@ namespace abcdcode_LOGLIKE_MOD
             abnormalityCard.abilityDesc = pickUp.Desc;
             abnormalityCard.flavorText = pickUp.FlaverText;
         }
+
+        #endregion
+
+        #region --- Inventory & reward helpers ---
 
         public static bool CheckIsCanAdd(RewardPassiveInfo passive)
         {
@@ -1216,10 +1240,10 @@ namespace abcdcode_LOGLIKE_MOD
             bookModel.instanceId = LogueBookModels.nextinstanceid++;
             bookModel.TryGainUniquePassive();
             LogueBookModels.booklist.Add(bookModel);
-            LogueBookModels.RecordAtlasRoleBook(id);
+            LogueBookModels.RecordCompendiumRoleBook(id);
         }
 
-        public static bool TryAddUniqueRoleBookToInventoryAndAtlas(LorId id)
+        public static bool TryAddUniqueRoleBookToInventoryAndCompendium(LorId id)
         {
             id = RMRCore.NormalizeLegacyBlueReverberationCorePageId(id);
             if (id == LorId.None)
@@ -1240,11 +1264,11 @@ namespace abcdcode_LOGLIKE_MOD
                 added = true;
             }
 
-            LogueBookModels.EnsureAtlasUnlocks();
-            bool recordsPermanently = RMRCore.ShouldRecordRoleBookInPermanentAtlas(bookXml);
-            if (recordsPermanently && !LogueBookModels.AtlasUnlockedRoleBooks.Contains(id))
+            LogueBookModels.EnsureCompendiumUnlocks();
+            bool recordsPermanently = RMRCore.ShouldRecordRoleBookInPermanentCompendium(bookXml);
+            if (recordsPermanently && !LogueBookModels.CompendiumUnlockedRoleBooks.Contains(id))
             {
-                LogueBookModels.AtlasUnlockedRoleBooks.Add(id);
+                LogueBookModels.CompendiumUnlockedRoleBooks.Add(id);
                 added = true;
             }
             return added;
@@ -1750,7 +1774,7 @@ namespace abcdcode_LOGLIKE_MOD
             DiceCardXmlInfo cardItem = ItemXmlDataList.instance.GetCardItem(cardId) ?? ItemXmlDataList.instance.GetCardItem(cardId, true);
             if (cardItem == null || cardItem.optionList.Contains(CardOption.NoInventory) || cardItem.optionList.Contains(CardOption.Basic))
                 return;
-            LogueBookModels.RecordAtlasBattleCard(cardId);
+            LogueBookModels.RecordCompendiumBattleCard(cardId);
             DiceCardItemModel diceCardItemModel = LogueBookModels.cardlist.Find(x => x.GetID() == cardId);
             if (diceCardItemModel != null)
             {
@@ -1905,12 +1929,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.cardlist = new List<DiceCardItemModel>();
             LogueBookModels.booklist = new List<BookModel>();
             // Fresh run session: clear in-memory atlas then rehydrate from permanent disk save.
-            LogueBookModels.AtlasUnlockedRoleBooks = new HashSet<LorId>();
-            LogueBookModels.AtlasUnlockedBattleCards = new HashSet<LorId>();
-            LogueBookModels.AtlasUnlockedAbnormalityPages = new HashSet<LorId>();
-            LogueBookModels.AtlasUnlockedEgoPages = new HashSet<LorId>();
-            PermanentAtlasHydrated = false;
-            LogueBookModels.LoadPermanentAtlasData();
+            LogueBookModels.CompendiumUnlockedRoleBooks = new HashSet<LorId>();
+            LogueBookModels.CompendiumUnlockedBattleCards = new HashSet<LorId>();
+            LogueBookModels.CompendiumUnlockedAbnormalityPages = new HashSet<LorId>();
+            LogueBookModels.CompendiumUnlockedEgoPages = new HashSet<LorId>();
+            PermanentCompendiumHydrated = false;
+            LogueBookModels.LoadPermanentCompendiumData();
             LogueBookModels.Grade6SpecialBuiltInDeckSource = new Dictionary<UnitDataModel, LorId>();
             LogueBookModels.BinahUpgradedDegradedCardIds = new HashSet<int>();
             LogueBookModels.playerModel = new List<UnitDataModel>();
@@ -2738,6 +2762,8 @@ namespace abcdcode_LOGLIKE_MOD
             return playerBattleModel.IndexOf(model);
         }
 
+        /// <summary>StatAdderManager</summary>
+
         public class StatAdderManager
         {
             public static int GetHp(List<LogStatAdder> adder)
@@ -2814,12 +2840,19 @@ namespace abcdcode_LOGLIKE_MOD
 
         }
 
+        /// <summary>enum StageFlag</summary>
+
         public enum StageFlag
         {
             None,
             OnlyNormal,
         }
 
+        #endregion
+
+        #region --- Stage limit struct ---
+
+        /// <summary>Per-chapter caps for node types on the roguelike map.</summary>
         public struct StageLimits
         {
             public int Normal;
@@ -2831,5 +2864,7 @@ namespace abcdcode_LOGLIKE_MOD
             public int Creature;
             public ChapterGrade Chapter;
         }
+
+        #endregion
     }
 }

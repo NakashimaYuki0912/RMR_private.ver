@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.PickUpModel_ShopGoodMook10
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Post-battle or shop pickup model: PickUpModel_ShopGoodMook10
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\PickUpModel_ShopGoodMook10.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using UnityEngine;
 
 
@@ -29,6 +28,8 @@ namespace abcdcode_LOGLIKE_MOD
             Singleton<GlobalLogueEffectManager>.Instance.AddEffects((GlobalLogueEffectBase)new PickUpModel_ShopGoodMook10.Mook10Effect());
         }
 
+        /// <summary>Mook10Effect</summary>
+
         public class Mook10Effect : GlobalLogueEffectBase
         {
             public override string GetEffectName()
@@ -50,6 +51,8 @@ namespace abcdcode_LOGLIKE_MOD
                     return;
                 behavior.AddAbility((DiceCardAbilityBase)new PickUpModel_ShopGoodMook10.Mook10Effect.Mook10Ability());
             }
+
+            /// <summary>Mook10Ability</summary>
 
             public class Mook10Ability : DiceCardAbilityBase
             {

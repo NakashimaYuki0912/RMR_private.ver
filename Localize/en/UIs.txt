@@ -1,9 +1,16 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <!--
+    RMR UI strings (en)
+    Encoding: UTF-8 (no BOM preferred). Do not save as ANSI/GBK.
+    See docs/localization/ for translator guide and glossary.
+    Key ids are shared across cn/en/kr — only the text content differs.
+  -->
 
   <text id="BattleEnd_CardReward">Select Combat Page Reward</text>
   <text id="BattleEnd_PassiveReward">Select Passive Reward</text>
-	 <text id="BattleEnd_EgoReward">Select an E.G.O. page</text>
+  <text id="BattleEnd_EgoReward">Select an E.G.O. page</text>
   <text id="BattleEnd_NextStage">Select Next Reception</text>
   <text id="ui_LogueLikeFloor">Library</text>
   <text id="ui_selectskip">Skip Reward</text>
@@ -25,7 +32,6 @@
   <text id="ui_ShopShow">Return</text>
   <text id="ui_EmotionPositionChange">Change Position</text>
   <text id="ui_Money">Ahn</text>
-
   <text id="ui_RestLeave">Leave Resting Room</text>
   <text id="ui_RestHide">Hide</text>
   <text id="ui_RestShow">Return</text>
@@ -41,8 +47,8 @@
   <text id="ui_RMR_Hub_Play">Normal Play</text>
   <text id="ui_RMR_Hub_Realization">Challenge Realization</text>
   <text id="ui_RMR_Hub_Help">How to Play</text>
-    <text id="ui_RMR_Hub_Atlas">Compendium</text>
-<text id="ui_RMR_Hub_Reset">Reset Permanent Progress</text>
+  <text id="ui_RMR_Hub_Atlas">Compendium</text>
+  <text id="ui_RMR_Hub_Reset">Reset Permanent Progress</text>
   <text id="ui_RMR_Hub_ResetConfirm">Reset all permanent progress?&#10;This clears the compendium, realization clears, and special first-clear records.&#10;Current-route temporary pages will not be written back.</text>
   <text id="ui_RMR_Hub_ResetYes">Confirm Reset</text>
   <text id="ui_RMR_Hub_ResetNo">Cancel</text>
@@ -60,14 +66,12 @@
   <text id="ui_RMR_Help_Nav_Realization">Realization &amp; Tips</text>
   <text id="ui_RMR_Help_Nav_AbnoEgo">Abnormality / E.G.O.</text>
   <text id="ui_RMR_Help_Body_AbnoEgo">Normal-run abnormality pages are also saved to the permanent compendium for realization picks. Abnormality and E.G.O. tabs are flat lists without urban-chapter sections.</text>
-
   <text id="Equip_Slash">Slash Damage Resistance</text>
   <text id="Equip_Penetrate">Pierce Damage Resistance</text>
   <text id="Equip_Hit">Blunt Damage Resistance</text>
   <text id="Equip_Light">Starting Light</text>
   <text id="Equip_SpeedArea">Speed Range</text>
   <text id="Equip_Passive">Passive</text>
-
   <text id="Stage_Normal">Normal Battle</text>
   <text id="Stage_Elite">Elite Battle</text>
   <text id="Stage_Boss">Boss Battle</text>
@@ -75,7 +79,6 @@
   <text id="Stage_Mystery">Random Event</text>
   <text id="Stage_Shop">Shop</text>
   <text id="Stage_Rest">Resting Room</text>
-
   <text id="Stage_Normal_Desc">Host an ordinary guest.</text>
   <text id="Stage_Elite_Desc">Host a strong guest. Gain 1 passive after battle.</text>
   <text id="Stage_Boss_Desc">Host a powerful guest. After this reception, continue to the next chapter.</text>
@@ -83,43 +86,34 @@
   <text id="Stage_Mystery_Desc">Something is about to happen...</text>
   <text id="Stage_Shop_Desc">Spend your savings on useful items.</text>
   <text id="Stage_Rest_Desc">A resting space to recover. Restore librarians' HP or upgrade combat pages.</text>
-
   <text id="Mystery_RequireCondition">[Locked] </text>
-
   <text id="LogueLike_PlayerName">Player</text>
-
   <text id="Shop_EquipPrevious">[Passive (Cost: {0})] </text>
   <text id="Shop_CardUpgrade_Name">Card Upgrade</text>
   <text id="Shop_CardUpgrade_Desc">Card Upgrade</text>
-
   <text id="CardChoicePopUp_ChooseDesc">Select Combat Page</text>
   <text id="CardChoicePopUp_RemoveDesc">Select Combat Page to remove</text>
   <text id="CardChoicePopUp_TransformDesc">Select Combat Page to change</text>
   <text id="CardChoicePopUp_RewardDesc">Select Combat Page to obtain</text>
   <text id="CardChoicePopUp_UpgradeDesc">Select Combat Page to upgrade</text>
-
   <text id="CardCheckPopUp_InvenDesc">Owned Combat Pages</text>
   <text id="CardCheckPopUp_RewardDesc">Acquired Combat Pages</text>
   <text id="CardCheckPopUp_Close">Return</text>
   <text id="CardCheckPopUp_UpgradeOk">Confirm</text>
   <text id="CardCheckPopUp_UpgradeNo">Cancel</text>
   <text id="CardCheckPopUp_CannotUpgrade">No upgradeable combat pages.</text>
-
   <text id="ui_Inventory">Items</text>
   <text id="ui_CreatureTab">Abnormality</text>
   <text id="ui_CraftTab">Craft</text>
   <text id="ui_CraftCost">Cost</text>
   <text id="ui_AtlasTab">Compendium</text>
-
   <text id="ui_ExceptionWithLog">Mods that conflict with the RogueLike mod have been detected.</text>
-
   <text id="ui_RMR_ItemCatalog">Item Catalog</text>
   <text id="ui_RMR_ItemObtainCount">You've obtained this item {0} time(s).</text>
   <text id="ui_RMR_ItemNotObtained_Name">???</text>
   <text id="ui_RMR_ItemNotObtained_Desc">You have yet to find this item.</text>
   <text id="ui_RMR_ItemNotObtained_Credenza">No information available.</text>
   <text id="ui_RMR_ItemNoEntry_Credenza">[No entry for now.]</text>
-
   <text id="ui_RMR_StartNewRun">New Run</text>
   <text id="ui_RMR_StartNewRunDesc">Start playing the RMR mod.</text>
   <text id="ui_RMR_ContinueRun">Continue Run</text>
@@ -163,4 +157,3 @@
   <text id="ui_RMR_Atlas_UpgradePreview">Upgrade preview</text>
 
 </localize>
-

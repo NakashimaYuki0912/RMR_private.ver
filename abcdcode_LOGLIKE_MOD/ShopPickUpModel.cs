@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.ShopPickUpModel
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Shop system component: ShopPickUpModel
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\ShopPickUpModel.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using RogueLike_Mod_Reborn;
 using System;
 using System.Collections.Generic;
@@ -11,6 +10,8 @@ using System.Collections.Generic;
 
 namespace abcdcode_LOGLIKE_MOD
 {
+
+    /// <summary>Shop component: ShopPickUpModel</summary>
 
     public class ShopPickUpModel : PickUpModelBase
     {
@@ -45,6 +46,8 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
         }
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Adds a key page to the player's inventory.
@@ -110,6 +113,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         /// <summary>
         /// Whether the item is consumable or permanent.
@@ -128,6 +135,10 @@ namespace abcdcode_LOGLIKE_MOD
         /// Whether the item can show up in a shop or not.
         /// </summary>
         public virtual bool IsCanAddShop() => true;
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         /// <summary>
         /// Runs upon being bought in a shop.
@@ -139,5 +150,7 @@ namespace abcdcode_LOGLIKE_MOD
         /// Is <b>NOT</b> ran upon being bought in a shop.
         /// </summary>
         public override void OnPickUp() => base.OnPickUp();
+        #endregion
+
     }
 }

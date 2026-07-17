@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.MysteryBase
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Library of Ruina mod script: MysteryBase
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\MysteryBase.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using GameSave;
 using HarmonyLib;
 using LOR_XML;
@@ -19,6 +18,8 @@ using UnityEngine.UI;
 using RogueLike_Mod_Reborn;
 namespace abcdcode_LOGLIKE_MOD
 {
+
+    /// <summary>MysteryBase</summary>
 
     public class MysteryBase
     {
@@ -41,6 +42,8 @@ namespace abcdcode_LOGLIKE_MOD
         public MysteryXmlInfo xmlinfo;
         public MysteryFrameInfo curFrame;
         public RogueMysteryXmlInfo loc;
+        #region --- Save / load ---
+
 
         public virtual void LoadFromSaveData(SaveData savedata)
         {
@@ -56,6 +59,10 @@ namespace abcdcode_LOGLIKE_MOD
             data.AddData("Frame", this.curFrame.FrameID);
             return data;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static void RemoveStageList(Predicate<LogueStageInfo> predicate, ChapterGrade grade)
         {
@@ -74,6 +81,10 @@ namespace abcdcode_LOGLIKE_MOD
             LogLikeMod.SetNextStage(stageid, stagetype, NextStageSetType.Custom);
             LogLikeMod.nextlist.Clear();
         }
+        #endregion
+
+        #region --- Save / load ---
+
 
         public static void LoadGetAbnomalityPanel(List<EmotionCardXmlInfo> cards, int level)
         {
@@ -155,6 +166,10 @@ namespace abcdcode_LOGLIKE_MOD
             instance.GetType().GetMethod("SetDefault", AccessTools.all).Invoke(instance, (object[])null);
             fieldValue11.SetTrigger("Reveal");
         }
+        #endregion
+
+        #region --- Mystery lifecycle ---
+
 
         public virtual void Init()
         {
@@ -164,6 +179,10 @@ namespace abcdcode_LOGLIKE_MOD
             this.SwapFrame(0);
             LoguePlayDataSaver.LoadMystery(this);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static MysteryBase FindMystery(string script)
         {
@@ -325,6 +344,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             this.FrameObj.Add("Dia", textTmp.gameObject);
         }
+        #endregion
+
+        #region --- Choices / results ---
+
 
         public void OnClickChoiceCheckAlpha(GameObject btn, int i)
         {
@@ -332,6 +355,10 @@ namespace abcdcode_LOGLIKE_MOD
                 return;
             this.OnClickChoice(i);
         }
+        #endregion
+
+        #region --- Mystery lifecycle ---
+
 
         public void ShowDetailCard(int choiceid, LorId cardid)
         {
@@ -343,11 +370,19 @@ namespace abcdcode_LOGLIKE_MOD
             instance.transform.localPosition = new Vector3(140f, (float)(choiceid * 90 - 120));
             instance.transform.localScale = new Vector3(0.2f, 0.2f);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void HideDetailCard()
         {
             LogLikeMod.UILogBattleDiceCardUI.Instance.gameObject.SetActive(false);
         }
+        #endregion
+
+        #region --- Choices / results ---
+
 
         public virtual void OnEnterChoice(int choiceid)
         {
@@ -382,6 +417,10 @@ namespace abcdcode_LOGLIKE_MOD
             else
                 this.SwapFrame(next);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public virtual string GetCurFrameTitle()
         {
@@ -416,8 +455,16 @@ namespace abcdcode_LOGLIKE_MOD
             catch (Exception e) { Debug.Log("Failed to localize frame dialog: " + e); }
             return curFrameDia.ReplaceColorShorthands();
         }
+        #endregion
+
+        #region --- Mystery lifecycle ---
+
 
         public virtual void EndMystery() => this.RemoveCurFrame();
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void RemoveCurFrame()
         {
@@ -457,6 +504,10 @@ namespace abcdcode_LOGLIKE_MOD
             var tmpro = this.FrameObj["Dia"].GetComponent<TextMeshProUGUI>();
             tmpro.text = string.Format(tmpro.text, parameters);
         }
+        #endregion
+
+        #region --- Mystery lifecycle ---
+
 
         public void ShowOverlayOverButton(BattleUnitBuf buf, int button)
         {
@@ -483,6 +534,8 @@ namespace abcdcode_LOGLIKE_MOD
                 SingletonBehavior<UIMainOverlayManager>.Instance.Close();
         }
 
+        /// <summary>TextUpDownButton</summary>
+
         public class TextUpDownButton : Selectable
         {
             public MysteryBase.TextUpDownButton.DownEvent down;
@@ -506,6 +559,8 @@ namespace abcdcode_LOGLIKE_MOD
 
             public delegate void DownEvent();
         }
+
+        /// <summary>TextUpDown</summary>
 
         public class TextUpDown : MonoBehaviour
         {
@@ -554,10 +609,14 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        /// <summary>MysteryAbnormalInfo</summary>
+
         public class MysteryAbnormalInfo
         {
             public List<EmotionCardXmlInfo> abnormal;
             public int level;
         }
+        #endregion
+
     }
 }

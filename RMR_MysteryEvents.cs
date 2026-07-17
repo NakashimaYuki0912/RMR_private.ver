@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+// RogueLike Mod Reborn (RMR): RMR_MysteryEvents
+// Namespace/file: ruina-roguelike-reborn-main\RMR_MysteryEvents.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +13,9 @@ using UnityEngine;
 
 namespace RogueLike_Mod_Reborn
 {
+    #region --- MysteryModel_RMR_AbnoRewardBase ---
+
+    /// <summary>Mystery node model: MysteryModel_RMR_AbnoRewardBase</summary>
     public abstract class MysteryModel_RMR_AbnoRewardBase : MysteryBase
     {
         public override void OnClickChoice(int choiceid)
@@ -17,18 +25,42 @@ namespace RogueLike_Mod_Reborn
             RewardingModel.StartPickReward();
         }
     }
+    #endregion
+
+    #region --- MysteryModel_RMR_AbnoBlackForest ---
+
+
+    /// <summary>Mystery node model: MysteryModel_RMR_AbnoBlackForest</summary>
 
     public class MysteryModel_RMR_AbnoBlackForest : MysteryModel_RMR_AbnoRewardBase
     {
     }
+    #endregion
+
+    #region --- MysteryModel_RMR_AbnoWell ---
+
+
+    /// <summary>Mystery node model: MysteryModel_RMR_AbnoWell</summary>
 
     public class MysteryModel_RMR_AbnoWell : MysteryModel_RMR_AbnoRewardBase
     {
     }
+    #endregion
+
+    #region --- MysteryModel_RMR_AbnoHandsOfLight ---
+
+
+    /// <summary>Mystery node model: MysteryModel_RMR_AbnoHandsOfLight</summary>
 
     public class MysteryModel_RMR_AbnoHandsOfLight : MysteryModel_RMR_AbnoRewardBase
     {
     }
+    #endregion
+
+    #region --- MysteryModel_RMR_ChStartNew ---
+
+
+    /// <summary>Mystery node model: MysteryModel_RMR_ChStartNew</summary>
 
     public class MysteryModel_RMR_ChStartNew : MysteryBase
     {
@@ -121,6 +153,13 @@ namespace RogueLike_Mod_Reborn
             this.CloseOverlayOverButton();
         }
     }
+    #endregion
+
+    #region --- MysteryModel_RMR_CopleyIndex1 ---
+
+
+
+    /// <summary>Mystery node model: MysteryModel_RMR_CopleyIndex1</summary>
 
 
     public class MysteryModel_RMR_CopleyIndex1 : MysteryBase
@@ -171,6 +210,12 @@ namespace RogueLike_Mod_Reborn
             this.CloseOverlayOverButton();
         }
     }
+    #endregion
+
+    #region --- PassiveAbility_RMR_FraudIndexEvent ---
+
+
+    /// <summary>Passive ability: PassiveAbility_RMR_FraudIndexEvent</summary>
 
     public class PassiveAbility_RMR_FraudIndexEvent : PassiveAbilityBase
     {
@@ -180,6 +225,12 @@ namespace RogueLike_Mod_Reborn
             Singleton<MysteryManager>.Instance.StartMystery(new LorId(LogLikeMod.ModId, 10003));
         }
     }
+    #endregion
+
+    #region --- PassiveAbility_RMR_RealIndexEvent ---
+
+
+    /// <summary>Passive ability: PassiveAbility_RMR_RealIndexEvent</summary>
 
     public class PassiveAbility_RMR_RealIndexEvent : PassiveAbilityBase
     {
@@ -189,6 +240,12 @@ namespace RogueLike_Mod_Reborn
             Singleton<MysteryManager>.Instance.StartMystery(new LorId(LogLikeMod.ModId, 110003));
         }
     }
+    #endregion
+
+    #region --- MysteryModel_RMR_CopleyIndex2 ---
+
+
+    /// <summary>Mystery node model: MysteryModel_RMR_CopleyIndex2</summary>
 
     public class MysteryModel_RMR_CopleyIndex2 : MysteryBase
     {
@@ -243,6 +300,13 @@ namespace RogueLike_Mod_Reborn
             return count;
         }
     }
+    #endregion
+
+    #region --- MysteryModel_RMR_LiuTraining ---
+
+
+
+    /// <summary>Mystery node model: MysteryModel_RMR_LiuTraining</summary>
 
 
     public class MysteryModel_RMR_LiuTraining : MysteryBase
@@ -306,4 +370,6 @@ namespace RogueLike_Mod_Reborn
         }
 
     }
+    #endregion
+
 }

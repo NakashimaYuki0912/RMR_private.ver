@@ -1,4 +1,10 @@
-﻿using BattleCharacterProfile;
+// =============================================================================
+// LogLikePatches / LogLikeRoutines - Harmony patches & UI coroutines for LOGLIKE.
+// Covers: emotion UI, prepare/battle hooks, save interactions, inv panel glue.
+// Related: RMR_Core.cs (RMR_Patches), LogLikeMod.cs (static state).
+// Do not rename disk save keys (Lastest, RMR_AtlasPermanentUnlocks, etc.).
+// =============================================================================
+using BattleCharacterProfile;
 using HarmonyLib;
 using LOR_DiceSystem;
 using LOR_XML;
@@ -22,6 +28,7 @@ using RogueLike_Mod_Reborn;
 
 namespace abcdcode_LOGLIKE_MOD
 {
+    /// <summary>UI coroutines and helpers used by Harmony patches (emotion UI fade, etc.).</summary>
     public static class LogLikeRoutines
     {
         public static IEnumerator DisableRoutine(LevelUpUI self)
@@ -195,7 +202,7 @@ namespace abcdcode_LOGLIKE_MOD
             __instance.SetBUttonState((UIBattleSettingEditTap)3);
         }
 
-        public static void OnClickAtlasTab(UIBattleSettingEditPanel __instance)
+        public static void OnClickCompendiumTab(UIBattleSettingEditPanel __instance)
         {
             // Atlas is no longer a prepare tab; ignore prepare-panel clicks.
             UISoundManager.instance.PlayEffectSound(UISoundType.Ui_Click);
@@ -352,6 +359,8 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+
+    /// <summary>LOGLIKE type: LogLikeHooks</summary>
 
     public class LogLikeHooks
     {
@@ -1697,7 +1706,7 @@ namespace abcdcode_LOGLIKE_MOD
                 else if (pickId != null && pickId != LorId.None)
                     LogueBookModels.AddCard(pickId);
                 RMRAbnormalityUnlockManager.UnlockEgoForCurrentRoute(pickId);
-                LogueBookModels.RecordAtlasEgoPage(pickId);
+                LogueBookModels.RecordCompendiumEgoPage(pickId);
                 try { RewardingModel.NoteMidBattleEgoPicked(pickId); } catch { }
 
                 // Mid-battle: do NOT call vanilla OnPickEgoCard.
@@ -1967,8 +1976,8 @@ namespace abcdcode_LOGLIKE_MOD
                     LogLikeMod.CreatureBtn.gameObject.SetActive(false);
                 if (LogLikeMod.CraftBtn != null)
                     LogLikeMod.CraftBtn.gameObject.SetActive(true);
-                if (LogLikeMod.AtlasBtn != null)
-                    LogLikeMod.AtlasBtn.gameObject.SetActive(false);
+                if (LogLikeMod.CompendiumBtn != null)
+                    LogLikeMod.CompendiumBtn.gameObject.SetActive(false);
                 LogLikeRoutines.ApplyRealizationButtonText(LogLikeMod.RealizationBtn);
                 // Realization entry is only on the start hub — keep prepare-panel button hidden.
                 if (LogLikeMod.RealizationBtn != null)
@@ -1976,7 +1985,7 @@ namespace abcdcode_LOGLIKE_MOD
                 Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(false);
                 Singleton<LogCreatureTabPanel>.Instance.SetActive(false);
                 Singleton<LogCraftPanel>.Instance.SetActive(false);
-                try { Singleton<LogAtlasPanel>.Instance.SetActive(false); } catch { }
+                try { Singleton<LogCompendiumPanel>.Instance.SetActive(false); } catch { }
                 Image image = (Image)typeof(UIBattleSettingEditPanel).GetField("img_BlockBackGroundBg", AccessTools.all).GetValue(self);
                 self.SetBUttonState(state);
                 // Dimmer stays behind inventory content; postfix RaiseUiPanelCanvas lifts key/combat lists.
@@ -1998,8 +2007,8 @@ namespace abcdcode_LOGLIKE_MOD
                     LogLikeMod.CreatureBtn.gameObject.SetActive(false);
                 if (LogLikeMod.CraftBtn != null)
                     LogLikeMod.CraftBtn.gameObject.SetActive(false);
-                if (LogLikeMod.AtlasBtn != null)
-                    LogLikeMod.AtlasBtn.gameObject.SetActive(false);
+                if (LogLikeMod.CompendiumBtn != null)
+                    LogLikeMod.CompendiumBtn.gameObject.SetActive(false);
                 if (LogLikeMod.RealizationBtn != null)
                     LogLikeMod.RealizationBtn.gameObject.SetActive(false);
                 orig(self, state);
@@ -2827,7 +2836,10 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         /// <summary>
-        /// Ancient prefix which just made abcdcode's TextDataModel actually import stuff and override vanilla if necessary.
+        /// Routes selected string ids through RMR/LogLike localization
+        /// (<c>Localize/{lang}/</c> via abcdcode_LOGLIKE_MOD_Extension.TextDataModel).
+        /// Translators: add/edit text under Localize — see docs/localization/.
+        /// Explicit prefixes always apply; other keys only while an RMR run/realization is active.
         /// </summary>
         [HarmonyPrefix, HarmonyPatch(typeof(TextDataModel), nameof(TextDataModel.GetText))]
         public static bool TextDataModel_GetText(string id, ref string __result, params object[] args)
@@ -2842,6 +2854,7 @@ namespace abcdcode_LOGLIKE_MOD
             return false;
         }
 
+        /// <summary>Whether RMR may replace vanilla TextDataModel.GetText for this id.</summary>
         private static bool ShouldOverrideVanillaTextWithRmrText(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -2855,6 +2868,10 @@ namespace abcdcode_LOGLIKE_MOD
                 || RMRRealizationManager.InRealizationBattle;
         }
 
+        /// <summary>
+        /// Keys that always come from RMR Localize (hub, help, compendium, mysteries, …).
+        /// Prefix list is the contract with Localize files — keep in sync when adding new id families.
+        /// </summary>
         private static bool IsExplicitRmrTextKey(string id)
         {
             if (id == "ui_ExceptionWithLog")
@@ -2973,7 +2990,7 @@ namespace abcdcode_LOGLIKE_MOD
             if (!LogLikeRoutines.IsRoguelikeBattleSettingContext())
             {
                 Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(false);
-                Singleton<LogAtlasPanel>.Instance.SetActive(false);
+                Singleton<LogCompendiumPanel>.Instance.SetActive(false);
                 return true;
             }
             Button fieldValue1 = LogLikeMod.GetFieldValue<Button>(__instance, "button_EquipPage");
@@ -3000,11 +3017,11 @@ namespace abcdcode_LOGLIKE_MOD
                     if (LogLikeMod.InvenBtnFrame != null) LogLikeMod.InvenBtnFrame.enabled = true;
                     if (LogLikeMod.CreatureBtnFrame != null) LogLikeMod.CreatureBtnFrame.enabled = false;
                     if (LogLikeMod.CraftBtnFrame != null) LogLikeMod.CraftBtnFrame.enabled = false;
-                    if (LogLikeMod.AtlasBtnFrame != null) LogLikeMod.AtlasBtnFrame.enabled = false;
+                    if (LogLikeMod.CompendiumBtnFrame != null) LogLikeMod.CompendiumBtnFrame.enabled = false;
                     Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(true);
                     Singleton<LogCreatureTabPanel>.Instance.SetActive(false);
                     Singleton<LogCraftPanel>.Instance.SetActive(false);
-                    try { Singleton<LogAtlasPanel>.Instance.SetActive(false); } catch { }
+                    try { Singleton<LogCompendiumPanel>.Instance.SetActive(false); } catch { }
                     return false;
                 case (UIBattleSettingEditTap)3:
                     fieldValue7.localPosition = (Vector3)new Vector2(0.0f, 0.0f);
@@ -3021,11 +3038,11 @@ namespace abcdcode_LOGLIKE_MOD
                     if (LogLikeMod.InvenBtnFrame != null) LogLikeMod.InvenBtnFrame.enabled = false;
                     if (LogLikeMod.CreatureBtnFrame != null) LogLikeMod.CreatureBtnFrame.enabled = true;
                     if (LogLikeMod.CraftBtnFrame != null) LogLikeMod.CraftBtnFrame.enabled = false;
-                    if (LogLikeMod.AtlasBtnFrame != null) LogLikeMod.AtlasBtnFrame.enabled = false;
+                    if (LogLikeMod.CompendiumBtnFrame != null) LogLikeMod.CompendiumBtnFrame.enabled = false;
                     Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(false);
                     Singleton<LogCreatureTabPanel>.Instance.SetActive(true);
                     Singleton<LogCraftPanel>.Instance.SetActive(false);
-                    try { Singleton<LogAtlasPanel>.Instance.SetActive(false); } catch { }
+                    try { Singleton<LogCompendiumPanel>.Instance.SetActive(false); } catch { }
                     return false;
                 case (UIBattleSettingEditTap)4:
                     fieldValue7.localPosition = (Vector3)new Vector2(0.0f, 0.0f);
@@ -3042,11 +3059,11 @@ namespace abcdcode_LOGLIKE_MOD
                     if (LogLikeMod.InvenBtnFrame != null) LogLikeMod.InvenBtnFrame.enabled = false;
                     if (LogLikeMod.CreatureBtnFrame != null) LogLikeMod.CreatureBtnFrame.enabled = false;
                     if (LogLikeMod.CraftBtnFrame != null) LogLikeMod.CraftBtnFrame.enabled = true;
-                    if (LogLikeMod.AtlasBtnFrame != null) LogLikeMod.AtlasBtnFrame.enabled = false;
+                    if (LogLikeMod.CompendiumBtnFrame != null) LogLikeMod.CompendiumBtnFrame.enabled = false;
                     Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(false);
                     Singleton<LogCreatureTabPanel>.Instance.SetActive(false);
                     Singleton<LogCraftPanel>.Instance.SetActive(true);
-                    try { Singleton<LogAtlasPanel>.Instance.SetActive(false); } catch { }
+                    try { Singleton<LogCompendiumPanel>.Instance.SetActive(false); } catch { }
                     return false;
                 case (UIBattleSettingEditTap)5:
                     // Atlas moved to RMR start hub — never open from prepare tabs.
@@ -3064,11 +3081,11 @@ namespace abcdcode_LOGLIKE_MOD
                     if (LogLikeMod.InvenBtnFrame != null) LogLikeMod.InvenBtnFrame.enabled = false;
                     if (LogLikeMod.CreatureBtnFrame != null) LogLikeMod.CreatureBtnFrame.enabled = false;
                     if (LogLikeMod.CraftBtnFrame != null) LogLikeMod.CraftBtnFrame.enabled = false;
-                    if (LogLikeMod.AtlasBtnFrame != null) LogLikeMod.AtlasBtnFrame.enabled = false;
+                    if (LogLikeMod.CompendiumBtnFrame != null) LogLikeMod.CompendiumBtnFrame.enabled = false;
                     Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(false);
                     Singleton<LogCreatureTabPanel>.Instance.SetActive(false);
                     Singleton<LogCraftPanel>.Instance.SetActive(false);
-                    try { Singleton<LogAtlasPanel>.Instance.SetActive(false); } catch { }
+                    try { Singleton<LogCompendiumPanel>.Instance.SetActive(false); } catch { }
                     return false;
                 default:
                     // EquipPage / BattleCard (vanilla handles open). Hide RMR overlays first so they
@@ -3076,11 +3093,11 @@ namespace abcdcode_LOGLIKE_MOD
                     Singleton<GlobalLogueInventoryPanel>.Instance.SetActive(false);
                     Singleton<LogCreatureTabPanel>.Instance.SetActive(false);
                     Singleton<LogCraftPanel>.Instance.SetActive(false);
-                    try { Singleton<LogAtlasPanel>.Instance.SetActive(false); } catch { }
+                    try { Singleton<LogCompendiumPanel>.Instance.SetActive(false); } catch { }
                     if (LogLikeMod.InvenBtnFrame != null) LogLikeMod.InvenBtnFrame.enabled = false;
                     if (LogLikeMod.CreatureBtnFrame != null) LogLikeMod.CreatureBtnFrame.enabled = false;
                     if (LogLikeMod.CraftBtnFrame != null) LogLikeMod.CraftBtnFrame.enabled = false;
-                    if (LogLikeMod.AtlasBtnFrame != null) LogLikeMod.AtlasBtnFrame.enabled = false;
+                    if (LogLikeMod.CompendiumBtnFrame != null) LogLikeMod.CompendiumBtnFrame.enabled = false;
                     try { CollapseGlobalEffectDrawerIfExpanded(); } catch { }
                     return true;
             }
@@ -5436,11 +5453,36 @@ namespace abcdcode_LOGLIKE_MOD
             LoguePlayDataSaver.SavePlayData();
             LoguePlayDataSaver.RemoveFlashData();
             StageModel stageModel = __instance.GetStageModel();
-            // Only wipe continue-save when no waves remain. Do NOT use GetFrontAvailableFloor here:
-            // floor can be null spuriously / after floor-list quirks, which used to delete Lastest
-            // after every act and made "continue" re-run the same dead end.
-            if (stageModel.GetFrontAvailableWave() == null)
+            // Do NOT wipe Lastest merely because this reception's waves are done.
+            // RMR is multi-node: after each fight you still continue the journey (shop/mystery/next).
+            // Wiping here made Continue vanish after every act; SavePlayData_Menu could not recreate
+            // Lastest (it only updates an existing file). Only clear continue when the *run* ends.
+            bool wavesEmpty = false;
+            try { wavesEmpty = stageModel == null || stageModel.GetFrontAvailableWave() == null; } catch { wavesEmpty = true; }
+            if (!wavesEmpty)
+                return;
+
+            bool partyWiped = false;
+            try
+            {
+                partyWiped = BattleObjectManager.instance == null
+                    || BattleObjectManager.instance.GetAliveListWithAvailable(Faction.Player).Count == 0;
+            }
+            catch { /* ignore */ }
+
+            bool impurityRunComplete = LogLikeMod.curstagetype == StageType.Boss
+                && LogLikeMod.curchaptergrade >= ChapterGrade.Grade7
+                && (LogLikeMod.nextlist == null || LogLikeMod.nextlist.Count == 0);
+
+            if (partyWiped || impurityRunComplete)
+            {
                 LoguePlayDataSaver.RemovePlayerData();
+                Debug.Log($"[RMR] ClearBattle: wiped Lastest continue save (partyWiped={partyWiped}, impurityRunComplete={impurityRunComplete}).");
+            }
+            else
+            {
+                Debug.Log($"[RMR] ClearBattle: kept Lastest continue save (reception waves empty, journey continues). grade={LogLikeMod.curchaptergrade} type={LogLikeMod.curstagetype} nextlist={LogLikeMod.nextlist?.Count ?? 0}");
+            }
         }
 
         /// <summary>

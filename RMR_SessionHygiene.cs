@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+// RogueLike Mod Reborn (RMR): RMR_SessionHygiene
+// Namespace/file: ruina-roguelike-reborn-main\RMR_SessionHygiene.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -7,6 +12,8 @@ using UnityEngine;
 
 namespace RogueLike_Mod_Reborn
 {
+    #region --- RMRSessionHygiene ---
+
     /// <summary>
     /// Mitigates the classic LoR "gets laggier the longer you play, restart fixes it" pattern
     /// for RMR-amplified leaks (Spine motion cache, orphan UI animations, log sets, GC pressure).
@@ -241,6 +248,10 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+    #endregion
+
+    #region --- RMRSessionHygieneHost ---
+
 
     /// <summary>DontDestroyOnLoad ticker — cheap interval checks only.</summary>
     public sealed class RMRSessionHygieneHost : MonoBehaviour
@@ -258,4 +269,6 @@ namespace RogueLike_Mod_Reborn
             try { RMRSessionHygiene.PruneSpineMotions(); } catch { /* ignore */ }
         }
     }
+    #endregion
+
 }

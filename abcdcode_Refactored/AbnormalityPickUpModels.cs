@@ -1,3 +1,9 @@
+// =============================================================================
+// AbnormalityPickUpModels - one PickUpModel_* class per abnormality script.
+// Grants emotion pages (RewardPassiveInfo) when the player picks the creature card.
+// Isolation of realization exclusives is enforced in RMRAbnormalityUnlockManager,
+// not here. Each class is wrapped in region blocks named PickUpModel_*.
+// =============================================================================
 using Battle.CameraFilter;
 using Sound;
 using System;
@@ -9,6 +15,9 @@ using Battle.CreatureEffect;
 
 namespace abcdcode_LOGLIKE_MOD
 {
+    #region --- PickUpModel_Alriune ---
+
+    /// <summary>Pickup model: PickUpModel_Alriune</summary>
     public class PickUpModel_Alriune : PickUpModelBase
     {
         public PickUpModel_Alriune()
@@ -41,6 +50,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Alriune0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Alriune0</summary>
 
     public class PickUpModel_Alriune0 : CreaturePickUpModel
     {
@@ -64,6 +79,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_Alriune"];
     }
+    #endregion
+
+    #region --- PickUpModel_Alriune1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Alriune1</summary>
 
     public class PickUpModel_Alriune1 : CreaturePickUpModel
     {
@@ -82,6 +103,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370341), (EmotionCardAbilityBase)new PickUpModel_Alriune1.LogEmotionCardAbility_Alriune1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Alriune1</summary>
 
         public class LogEmotionCardAbility_Alriune1 : EmotionCardAbilityBase
         {
@@ -127,6 +150,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Alriune2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Alriune2</summary>
 
     public class PickUpModel_Alriune2 : CreaturePickUpModel
     {
@@ -146,6 +175,8 @@ namespace abcdcode_LOGLIKE_MOD
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370342), (EmotionCardAbilityBase)new PickUpModel_Alriune2.LogEmotionCardAbility_Alriune2(), model);
         }
 
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Alriune2</summary>
+
         public class LogEmotionCardAbility_Alriune2 : EmotionCardAbilityBase
         {
             public override void OnTakeDamageByAttack(BattleDiceBehavior atkDice, int dmg)
@@ -160,6 +191,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Alriune3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Alriune3</summary>
 
     public class PickUpModel_Alriune3 : CreaturePickUpModel
     {
@@ -179,6 +216,8 @@ namespace abcdcode_LOGLIKE_MOD
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370343), (EmotionCardAbilityBase)new PickUpModel_Alriune3.LogEmotionCardAbility_Alriune3(), model);
         }
 
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Alriune3</summary>
+
         public class LogEmotionCardAbility_Alriune3 : EmotionCardAbilityBase
         {
             public override void OnRoundStart()
@@ -189,6 +228,8 @@ namespace abcdcode_LOGLIKE_MOD
                     return;
                 aliveList[UnityEngine.Random.Range(0, aliveList.Count)].bufListDetail.AddBuf((BattleUnitBuf)new EmotionCardAbility_alriune3.BattleUnitBuf_Emotion_Alriune(this._owner));
             }
+
+            /// <summary>BattleUnitBuf_Emotion_Alriune</summary>
 
             public class BattleUnitBuf_Emotion_Alriune : BattleUnitBuf
             {
@@ -275,6 +316,8 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
 
+            /// <summary>BattleUnitBuf_Emotion_Alriune2</summary>
+
             public class BattleUnitBuf_Emotion_Alriune2 : BattleUnitBuf
             {
                 public bool added = true;
@@ -320,6 +363,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Angry ---
+
+
+    /// <summary>Pickup model: PickUpModel_Angry</summary>
 
     public class PickUpModel_Angry : PickUpModelBase
     {
@@ -353,6 +402,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Angry0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Angry0</summary>
 
     public class PickUpModel_Angry0 : CreaturePickUpModel
     {
@@ -376,6 +431,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_Angry"];
     }
+    #endregion
+
+    #region --- PickUpModel_Angry1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Angry1</summary>
 
     public class PickUpModel_Angry1 : CreaturePickUpModel
     {
@@ -395,6 +456,8 @@ namespace abcdcode_LOGLIKE_MOD
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370351), (EmotionCardAbilityBase)new PickUpModel_Angry1.LogEmotionCardAbility_Angry1(), model);
         }
 
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Angry1</summary>
+
         public class LogEmotionCardAbility_Angry1 : EmotionCardAbilityBase
         {
             public override void OnWaveStart()
@@ -410,6 +473,8 @@ namespace abcdcode_LOGLIKE_MOD
                 base.OnSelectEmotion();
                 this._owner.bufListDetail.AddBuf((BattleUnitBuf)new PickUpModel_Angry1.LogEmotionCardAbility_Angry1.BattleUnitBuf_Emotion_Wrath_Berserk());
             }
+
+            /// <summary>BattleUnitBuf_Emotion_Wrath_Berserk</summary>
 
             public class BattleUnitBuf_Emotion_Wrath_Berserk : BattleUnitBuf
             {
@@ -474,6 +539,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Angry2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Angry2</summary>
 
     public class PickUpModel_Angry2 : CreaturePickUpModel
     {
@@ -492,6 +563,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370352), (EmotionCardAbilityBase)new PickUpModel_Angry2.LogEmotionCardAbility_Angry2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Angry2</summary>
 
         public class LogEmotionCardAbility_Angry2 : EmotionCardAbilityBase
         {
@@ -557,6 +630,8 @@ namespace abcdcode_LOGLIKE_MOD
                 return BattleObjectManager.instance.GetAliveList(Faction.Enemy).Find((Predicate<BattleUnitModel>)(x => x.bufListDetail.GetActivatedBufList().Find((Predicate<BattleUnitBuf>)(y => y is PickUpModel_Angry2.LogEmotionCardAbility_Angry2.BattleUnitBuf_Emotion_Wrath_Friend)) != null));
             }
 
+            /// <summary>BattleUnitBuf_Emotion_Wrath_Friend</summary>
+
             public class BattleUnitBuf_Emotion_Wrath_Friend : BattleUnitBuf
             {
                 public override string keywordId => "Angry_Friend";
@@ -567,6 +642,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Angry3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Angry3</summary>
 
     public class PickUpModel_Angry3 : CreaturePickUpModel
     {
@@ -585,6 +666,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370353), (EmotionCardAbilityBase)new PickUpModel_Angry3.LogEmotionCardAbility_Angry3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Angry3</summary>
 
         public class LogEmotionCardAbility_Angry3 : EmotionCardAbilityBase
         {
@@ -629,6 +712,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_BigBadWolf ---
+
+
+    /// <summary>Pickup model: PickUpModel_BigBadWolf</summary>
 
     public class PickUpModel_BigBadWolf : PickUpModelBase
     {
@@ -662,6 +751,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_BigBadWolf0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_BigBadWolf0</summary>
 
     public class PickUpModel_BigBadWolf0 : CreaturePickUpModel
     {
@@ -688,6 +783,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_BigBadWolf"];
     }
+    #endregion
+
+    #region --- PickUpModel_BigBadWolf1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_BigBadWolf1</summary>
 
     public class PickUpModel_BigBadWolf1 : CreaturePickUpModel
     {
@@ -706,6 +807,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370161), (EmotionCardAbilityBase)new PickUpModel_BigBadWolf1.LogEmotionCardAbility_BigBadWolf1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_BigBadWolf1</summary>
 
         public class LogEmotionCardAbility_BigBadWolf1 : EmotionCardAbilityBase
         {
@@ -761,6 +864,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_BigBadWolf2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_BigBadWolf2</summary>
 
     public class PickUpModel_BigBadWolf2 : CreaturePickUpModel
     {
@@ -779,6 +888,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370162), (EmotionCardAbilityBase)new PickUpModel_BigBadWolf2.LogEmotionCardAbility_BigBadWolf2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_BigBadWolf2</summary>
 
         public class LogEmotionCardAbility_BigBadWolf2 : EmotionCardAbilityBase
         {
@@ -843,6 +954,8 @@ namespace abcdcode_LOGLIKE_MOD
                 return false;
             }
 
+            /// <summary>BattleUnitBuf_Emotion_Wolf_Claw</summary>
+
             public class BattleUnitBuf_Emotion_Wolf_Claw : BattleUnitBuf
             {
                 public const int _strMin = 2;
@@ -881,6 +994,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_BigBadWolf3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_BigBadWolf3</summary>
 
     public class PickUpModel_BigBadWolf3 : CreaturePickUpModel
     {
@@ -899,6 +1018,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370163), (EmotionCardAbilityBase)new PickUpModel_BigBadWolf3.LogEmotionCardAbility_BigBadWolf3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_BigBadWolf3</summary>
 
         public class LogEmotionCardAbility_BigBadWolf3 : EmotionCardAbilityBase
         {
@@ -958,6 +1079,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Bigbird ---
+
+
+    /// <summary>Pickup model: PickUpModel_Bigbird</summary>
 
     public class PickUpModel_Bigbird : PickUpModelBase
     {
@@ -991,6 +1118,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Bigbird0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Bigbird0</summary>
 
     public class PickUpModel_Bigbird0 : CreaturePickUpModel
     {
@@ -1014,6 +1147,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_Bigbird"];
     }
+    #endregion
+
+    #region --- PickUpModel_Bigbird1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Bigbird1</summary>
 
     public class PickUpModel_Bigbird1 : CreaturePickUpModel
     {
@@ -1032,6 +1171,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370081), (EmotionCardAbilityBase)new PickUpModel_Bigbird1.LogEmotionCardAbility_Bigbird1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Bigbird1</summary>
 
         public class LogEmotionCardAbility_Bigbird1 : EmotionCardAbilityBase
         {
@@ -1080,6 +1221,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Bigbird2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Bigbird2</summary>
 
     public class PickUpModel_Bigbird2 : CreaturePickUpModel
     {
@@ -1099,6 +1246,8 @@ namespace abcdcode_LOGLIKE_MOD
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370082), (EmotionCardAbilityBase)new PickUpModel_Bigbird2.LogEmotionCardAbility_Bigbird2(), model);
         }
 
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Bigbird2</summary>
+
         public class LogEmotionCardAbility_Bigbird2 : EmotionCardAbilityBase
         {
             public override bool CanForcelyAggro() => true;
@@ -1111,6 +1260,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Bigbird3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Bigbird3</summary>
 
     public class PickUpModel_Bigbird3 : CreaturePickUpModel
     {
@@ -1129,6 +1284,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370083), (EmotionCardAbilityBase)new PickUpModel_Bigbird3.LogEmotionCardAbility_Bigbird3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Bigbird3</summary>
 
         public class LogEmotionCardAbility_Bigbird3 : EmotionCardAbilityBase
         {
@@ -1178,6 +1335,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_BloodBath ---
+
+
+    /// <summary>Pickup model: PickUpModel_BloodBath</summary>
 
     public class PickUpModel_BloodBath : PickUpModelBase
     {
@@ -1211,6 +1374,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_BloodBath0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_BloodBath0</summary>
 
     public class PickUpModel_BloodBath0 : CreaturePickUpModel
     {
@@ -1237,6 +1406,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_BloodBath"];
     }
+    #endregion
+
+    #region --- PickUpModel_BloodBath1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_BloodBath1</summary>
 
     public class PickUpModel_BloodBath1 : CreaturePickUpModel
     {
@@ -1255,6 +1430,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370001), (EmotionCardAbilityBase)new PickUpModel_BloodBath1.LogEmotionCardAbility_bloodbath1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_bloodbath1</summary>
 
         public class LogEmotionCardAbility_bloodbath1 : EmotionCardAbilityBase
         {
@@ -1304,6 +1481,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_BloodBath2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_BloodBath2</summary>
 
     public class PickUpModel_BloodBath2 : CreaturePickUpModel
     {
@@ -1322,6 +1505,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370002), (EmotionCardAbilityBase)new PickUpModel_BloodBath2.LogEmotionCardAbility_bloodbath2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_bloodbath2</summary>
 
         public class LogEmotionCardAbility_bloodbath2 : EmotionCardAbilityBase
         {
@@ -1351,6 +1536,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_BloodBath3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_BloodBath3</summary>
 
     public class PickUpModel_BloodBath3 : CreaturePickUpModel
     {
@@ -1369,6 +1560,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370003), (EmotionCardAbilityBase)new PickUpModel_BloodBath3.LogEmotionCardAbility_bloodbath3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_bloodbath3</summary>
 
         public class LogEmotionCardAbility_bloodbath3 : EmotionCardAbilityBase
         {
@@ -1425,6 +1618,8 @@ namespace abcdcode_LOGLIKE_MOD
                 this._stack = 0;
             }
 
+            /// <summary>BloodBath_HandDebuf</summary>
+
             public class BloodBath_HandDebuf : BattleUnitBuf
             {
                 public override string keywordIconId => "BloodBath_Hand";
@@ -1437,6 +1632,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Bloodytree ---
+
+
+    /// <summary>Pickup model: PickUpModel_Bloodytree</summary>
 
     public class PickUpModel_Bloodytree : PickUpModelBase
     {
@@ -1470,6 +1671,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Bloodytree0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Bloodytree0</summary>
 
     public class PickUpModel_Bloodytree0 : CreaturePickUpModel
     {
@@ -1496,6 +1703,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_Bloodytree"];
     }
+    #endregion
+
+    #region --- PickUpModel_Bloodytree1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Bloodytree1</summary>
 
     public class PickUpModel_Bloodytree1 : CreaturePickUpModel
     {
@@ -1515,6 +1728,8 @@ namespace abcdcode_LOGLIKE_MOD
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370091), (EmotionCardAbilityBase)new PickUpModel_Bloodytree1.LogEmotionCardAbility_Bloodytree1(), model);
         }
 
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Bloodytree1</summary>
+
         public class LogEmotionCardAbility_Bloodytree1 : EmotionCardAbilityBase
         {
             public override void OnGiveDeflect(BattleDiceBehavior behavior)
@@ -1527,6 +1742,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Bloodytree2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Bloodytree2</summary>
 
     public class PickUpModel_Bloodytree2 : CreaturePickUpModel
     {
@@ -1545,6 +1766,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370092), (EmotionCardAbilityBase)new PickUpModel_Bloodytree2.LogEmotionCardAbility_Bloodytree2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Bloodytree2</summary>
 
         public class LogEmotionCardAbility_Bloodytree2 : EmotionCardAbilityBase
         {
@@ -1600,6 +1823,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Bloodytree3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Bloodytree3</summary>
 
     public class PickUpModel_Bloodytree3 : CreaturePickUpModel
     {
@@ -1618,6 +1847,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370093), (EmotionCardAbilityBase)new PickUpModel_Bloodytree3.LogEmotionCardAbility_Bloodytree3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Bloodytree3</summary>
 
         public class LogEmotionCardAbility_Bloodytree3 : EmotionCardAbilityBase
         {
@@ -1653,6 +1884,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_BlueStar ---
+
+
+    /// <summary>Pickup model: PickUpModel_BlueStar</summary>
 
     public class PickUpModel_BlueStar : PickUpModelBase
     {
@@ -1686,6 +1923,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_BlueStar0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_BlueStar0</summary>
 
     public class PickUpModel_BlueStar0 : CreaturePickUpModel
     {
@@ -1709,6 +1952,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_BlueStar"];
     }
+    #endregion
+
+    #region --- PickUpModel_BlueStar1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_BlueStar1</summary>
 
     public class PickUpModel_BlueStar1 : CreaturePickUpModel
     {
@@ -1728,6 +1977,8 @@ namespace abcdcode_LOGLIKE_MOD
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370291), (EmotionCardAbilityBase)new PickUpModel_BlueStar1.LogEmotionCardAbility_BlueStar1(), model);
         }
 
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_BlueStar1</summary>
+
         public class LogEmotionCardAbility_BlueStar1 : EmotionCardAbilityBase
         {
             public const int _id = 1100018;
@@ -1745,6 +1996,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_BlueStar2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_BlueStar2</summary>
 
     public class PickUpModel_BlueStar2 : CreaturePickUpModel
     {
@@ -1763,6 +2020,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370292), (EmotionCardAbilityBase)new PickUpModel_BlueStar2.LogEmotionCardAbility_BlueStar2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_BlueStar2</summary>
 
         public class LogEmotionCardAbility_BlueStar2 : EmotionCardAbilityBase
         {
@@ -1794,6 +2053,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_BlueStar3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_BlueStar3</summary>
 
     public class PickUpModel_BlueStar3 : CreaturePickUpModel
     {
@@ -1812,6 +2077,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370293), (EmotionCardAbilityBase)new PickUpModel_BlueStar3.LogEmotionCardAbility_BlueStar3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_BlueStar3</summary>
 
         public class LogEmotionCardAbility_BlueStar3 : EmotionCardAbilityBase
         {
@@ -1877,6 +2144,8 @@ namespace abcdcode_LOGLIKE_MOD
                 this._owner.bufListDetail.AddBuf((BattleUnitBuf)new PickUpModel_BlueStar3.LogEmotionCardAbility_BlueStar3.BattleUnitBuf_Emotion_BlueStar_SoundBuf_Cool());
             }
 
+            /// <summary>BattleUnitBuf_Emotion_BlueStar_SoundBuf</summary>
+
             public class BattleUnitBuf_Emotion_BlueStar_SoundBuf : BattleUnitBuf
             {
                 public const int _bDmgMin = 2;
@@ -1910,6 +2179,8 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
 
+            /// <summary>BattleUnitBuf_Emotion_BlueStar_SoundBuf_Cool</summary>
+
             public class BattleUnitBuf_Emotion_BlueStar_SoundBuf_Cool : BattleUnitBuf
             {
                 public const int _coolTimeMax = 3;
@@ -1934,6 +2205,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Butterfly ---
+
+
+    /// <summary>Pickup model: PickUpModel_Butterfly</summary>
 
     public class PickUpModel_Butterfly : PickUpModelBase
     {
@@ -1967,6 +2244,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Butterfly0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Butterfly0</summary>
 
     public class PickUpModel_Butterfly0 : CreaturePickUpModel
     {
@@ -1993,6 +2276,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_Butterfly"];
     }
+    #endregion
+
+    #region --- PickUpModel_Butterfly1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Butterfly1</summary>
 
     public class PickUpModel_Butterfly1 : CreaturePickUpModel
     {
@@ -2011,6 +2300,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370321), (EmotionCardAbilityBase)new PickUpModel_Butterfly1.LogEmotionCardAbility_Butterfly1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Butterfly1</summary>
 
         public class LogEmotionCardAbility_Butterfly1 : EmotionCardAbilityBase
         {
@@ -2061,6 +2352,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Butterfly2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Butterfly2</summary>
 
     public class PickUpModel_Butterfly2 : CreaturePickUpModel
     {
@@ -2080,6 +2377,8 @@ namespace abcdcode_LOGLIKE_MOD
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370322), (EmotionCardAbilityBase)new PickUpModel_Butterfly2.LogEmotionCardAbility_Butterfly2(), model);
         }
 
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Butterfly2</summary>
+
         public class LogEmotionCardAbility_Butterfly2 : EmotionCardAbilityBase
         {
             public const int _strMin = 1;
@@ -2097,6 +2396,8 @@ namespace abcdcode_LOGLIKE_MOD
                 SingletonBehavior<DiceEffectManager>.Instance.CreateNewFXCreatureEffect("2_Y/FX_IllusionCard_2_Y_Fly", 1f, this._owner.view, this._owner.view, 2f);
                 this._owner.bufListDetail.AddKeywordBufThisRoundByEtc(KeywordBuf.Strength, this.Str, this._owner);
             }
+
+            /// <summary>BattleUnitBuf_Emotion_Butterfly_DmgByDebuf</summary>
 
             public class BattleUnitBuf_Emotion_Butterfly_DmgByDebuf : BattleUnitBuf
             {
@@ -2137,6 +2438,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Butterfly3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Butterfly3</summary>
 
     public class PickUpModel_Butterfly3 : CreaturePickUpModel
     {
@@ -2155,6 +2462,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370323), (EmotionCardAbilityBase)new PickUpModel_Butterfly3.LogEmotionCardAbility_Butterfly3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Butterfly3</summary>
 
         public class LogEmotionCardAbility_Butterfly3 : EmotionCardAbilityBase
         {
@@ -2200,6 +2509,8 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
 
+            /// <summary>BattleUnitBuf_Butterfly_Emotion_Seal</summary>
+
             public class BattleUnitBuf_Butterfly_Emotion_Seal : BattleUnitBuf
             {
                 public int addedThisTurn;
@@ -2240,6 +2551,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ChildofGalaxy ---
+
+
+    /// <summary>Pickup model: PickUpModel_ChildofGalaxy</summary>
 
     public class PickUpModel_ChildofGalaxy : PickUpModelBase
     {
@@ -2273,6 +2590,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ChildofGalaxy0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ChildofGalaxy0</summary>
 
     public class PickUpModel_ChildofGalaxy0 : CreaturePickUpModel
     {
@@ -2299,6 +2622,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_ChildofGalaxy"];
     }
+    #endregion
+
+    #region --- PickUpModel_ChildofGalaxy1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ChildofGalaxy1</summary>
 
     public class PickUpModel_ChildofGalaxy1 : CreaturePickUpModel
     {
@@ -2317,6 +2646,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370141), (EmotionCardAbilityBase)new PickUpModel_ChildofGalaxy1.LogEmotionCardAbility_ChildofGalaxy1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_ChildofGalaxy1</summary>
 
         public class LogEmotionCardAbility_ChildofGalaxy1 : EmotionCardAbilityBase
         {
@@ -2406,12 +2737,20 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
 
+            /// <summary>GalaxyChildPebbleBuf</summary>
+
             public class GalaxyChildPebbleBuf : BattleDiceCardBuf
             {
                 public override string keywordIconId => "GalaxyBoy_Stone";
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ChildofGalaxy2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ChildofGalaxy2</summary>
 
     public class PickUpModel_ChildofGalaxy2 : CreaturePickUpModel
     {
@@ -2430,6 +2769,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370142), (EmotionCardAbilityBase)new PickUpModel_ChildofGalaxy2.LogEmotionCardAbility_ChildofGalaxy2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_ChildofGalaxy2</summary>
 
         public class LogEmotionCardAbility_ChildofGalaxy2 : EmotionCardAbilityBase
         {
@@ -2487,6 +2828,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ChildofGalaxy3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ChildofGalaxy3</summary>
 
     public class PickUpModel_ChildofGalaxy3 : CreaturePickUpModel
     {
@@ -2506,6 +2853,8 @@ namespace abcdcode_LOGLIKE_MOD
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370143), (EmotionCardAbilityBase)new PickUpModel_ChildofGalaxy3.LogEmotionCardAbility_ChildofGalaxy3(), model);
         }
 
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_ChildofGalaxy3</summary>
+
         public class LogEmotionCardAbility_ChildofGalaxy3 : EmotionCardAbilityBase
         {
             public int _roundCount;
@@ -2523,6 +2872,8 @@ namespace abcdcode_LOGLIKE_MOD
             }
 
             public override void OnSelectEmotion() => this._owner.view.unitBottomStatUI.SetBufs();
+
+            /// <summary>BattleUnitBuf_galaxyChild_Friend</summary>
 
             public class BattleUnitBuf_galaxyChild_Friend : BattleUnitBuf
             {
@@ -2544,6 +2895,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Clock ---
+
+
+    /// <summary>Pickup model: PickUpModel_Clock</summary>
 
     public class PickUpModel_Clock : PickUpModelBase
     {
@@ -2577,6 +2934,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Clock0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Clock0</summary>
 
     public class PickUpModel_Clock0 : CreaturePickUpModel
     {
@@ -2600,6 +2963,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_Clock"];
     }
+    #endregion
+
+    #region --- PickUpModel_Clock1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Clock1</summary>
 
     public class PickUpModel_Clock1 : CreaturePickUpModel
     {
@@ -2618,6 +2987,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370191), (EmotionCardAbilityBase)new PickUpModel_Clock1.LogEmotionCardAbility_Clock1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Clock1</summary>
 
         public class LogEmotionCardAbility_Clock1 : EmotionCardAbilityBase
         {
@@ -2719,6 +3090,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Clock2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Clock2</summary>
 
     public class PickUpModel_Clock2 : CreaturePickUpModel
     {
@@ -2737,6 +3114,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370192), (EmotionCardAbilityBase)new PickUpModel_Clock2.LogEmotionCardAbility_Clock2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Clock2</summary>
 
         public class LogEmotionCardAbility_Clock2 : EmotionCardAbilityBase
         {
@@ -2758,6 +3137,8 @@ namespace abcdcode_LOGLIKE_MOD
                     return;
                 this._owner.bufListDetail.AddBuf((BattleUnitBuf)new PickUpModel_Clock2.LogEmotionCardAbility_Clock2.BattleUnitBuf_Emotion_Silence_Bell());
             }
+
+            /// <summary>BattleUnitBuf_Emotion_Silence_Bell</summary>
 
             public class BattleUnitBuf_Emotion_Silence_Bell : BattleUnitBuf
             {
@@ -2846,6 +3227,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Clock3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Clock3</summary>
 
     public class PickUpModel_Clock3 : CreaturePickUpModel
     {
@@ -2864,6 +3251,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370193), (EmotionCardAbilityBase)new PickUpModel_Clock3.LogEmotionCardAbility_Clock3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Clock3</summary>
 
         public class LogEmotionCardAbility_Clock3 : EmotionCardAbilityBase
         {
@@ -2895,6 +3284,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_FairyCarnival ---
+
+
+    /// <summary>Pickup model: PickUpModel_FairyCarnival</summary>
 
     public class PickUpModel_FairyCarnival : PickUpModelBase
     {
@@ -2928,6 +3323,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_FairyCarnival0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_FairyCarnival0</summary>
 
     public class PickUpModel_FairyCarnival0 : CreaturePickUpModel
     {
@@ -2954,6 +3355,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_FairyCarnival"];
     }
+    #endregion
+
+    #region --- PickUpModel_FairyCarnival1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_FairyCarnival1</summary>
 
     public class PickUpModel_FairyCarnival1 : CreaturePickUpModel
     {
@@ -2972,6 +3379,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370211), (EmotionCardAbilityBase)new PickUpModel_FairyCarnival1.LogEmotionCardAbility_FairyCarnival1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_FairyCarnival1</summary>
 
         public class LogEmotionCardAbility_FairyCarnival1 : EmotionCardAbilityBase
         {
@@ -3075,6 +3484,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_FairyCarnival2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_FairyCarnival2</summary>
 
     public class PickUpModel_FairyCarnival2 : CreaturePickUpModel
     {
@@ -3093,6 +3508,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370212), (EmotionCardAbilityBase)new PickUpModel_FairyCarnival2.LogEmotionCardAbility_FairyCarnival2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_FairyCarnival2</summary>
 
         public class LogEmotionCardAbility_FairyCarnival2 : EmotionCardAbilityBase
         {
@@ -3118,6 +3535,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_FairyCarnival3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_FairyCarnival3</summary>
 
     public class PickUpModel_FairyCarnival3 : CreaturePickUpModel
     {
@@ -3136,6 +3559,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370213), (EmotionCardAbilityBase)new PickUpModel_FairyCarnival3.LogEmotionCardAbility_FairyCarnival3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_FairyCarnival3</summary>
 
         public class LogEmotionCardAbility_FairyCarnival3 : EmotionCardAbilityBase
         {
@@ -3167,6 +3592,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ForsakenMurderer ---
+
+
+    /// <summary>Pickup model: PickUpModel_ForsakenMurderer</summary>
 
     public class PickUpModel_ForsakenMurderer : PickUpModelBase
     {
@@ -3200,6 +3631,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ForsakenMurderer0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ForsakenMurderer0</summary>
 
     public class PickUpModel_ForsakenMurderer0 : CreaturePickUpModel
     {
@@ -3226,6 +3663,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_ForsakenMurderer"];
     }
+    #endregion
+
+    #region --- PickUpModel_ForsakenMurderer1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ForsakenMurderer1</summary>
 
     public class PickUpModel_ForsakenMurderer1 : CreaturePickUpModel
     {
@@ -3245,6 +3688,8 @@ namespace abcdcode_LOGLIKE_MOD
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370021), (EmotionCardAbilityBase)new PickUpModel_ForsakenMurderer1.LogEmotionCardAbility_ForsakenMurderer1(), model);
         }
 
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_ForsakenMurderer1</summary>
+
         public class LogEmotionCardAbility_ForsakenMurderer1 : EmotionCardAbilityBase
         {
             public override void OnSucceedAttack(BattleDiceBehavior behavior)
@@ -3261,6 +3706,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ForsakenMurderer2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ForsakenMurderer2</summary>
 
     public class PickUpModel_ForsakenMurderer2 : CreaturePickUpModel
     {
@@ -3279,6 +3730,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370022), (EmotionCardAbilityBase)new PickUpModel_ForsakenMurderer2.LogEmotionCardAbility_ForsakenMurderer2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_ForsakenMurderer2</summary>
 
         public class LogEmotionCardAbility_ForsakenMurderer2 : EmotionCardAbilityBase
         {
@@ -3305,6 +3758,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ForsakenMurderer3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ForsakenMurderer3</summary>
 
     public class PickUpModel_ForsakenMurderer3 : CreaturePickUpModel
     {
@@ -3323,6 +3782,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370023), (EmotionCardAbilityBase)new PickUpModel_ForsakenMurderer3.LogEmotionCardAbility_ForsakenMurderer3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_ForsakenMurderer3</summary>
 
         public class LogEmotionCardAbility_ForsakenMurderer3 : EmotionCardAbilityBase
         {
@@ -3349,6 +3810,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Greed ---
+
+
+    /// <summary>Pickup model: PickUpModel_Greed</summary>
 
     public class PickUpModel_Greed : PickUpModelBase
     {
@@ -3382,6 +3849,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Greed0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Greed0</summary>
 
     public class PickUpModel_Greed0 : CreaturePickUpModel
     {
@@ -3405,6 +3878,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_Greed"];
     }
+    #endregion
+
+    #region --- PickUpModel_Greed1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Greed1</summary>
 
     public class PickUpModel_Greed1 : CreaturePickUpModel
     {
@@ -3423,6 +3902,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370251), (EmotionCardAbilityBase)new PickUpModel_Greed1.LogEmotionCardAbility_Greed1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Greed1</summary>
 
         public class LogEmotionCardAbility_Greed1 : EmotionCardAbilityBase
         {
@@ -3447,6 +3928,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Greed2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Greed2</summary>
 
     public class PickUpModel_Greed2 : CreaturePickUpModel
     {
@@ -3465,6 +3952,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370252), (EmotionCardAbilityBase)new PickUpModel_Greed2.LogEmotionCardAbility_Greed2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Greed2</summary>
 
         public class LogEmotionCardAbility_Greed2 : EmotionCardAbilityBase
         {
@@ -3522,6 +4011,12 @@ namespace abcdcode_LOGLIKE_MOD
             public int GetStack(int cnt) => Mathf.Min(3, cnt);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Greed3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Greed3</summary>
 
     public class PickUpModel_Greed3 : CreaturePickUpModel
     {
@@ -3540,6 +4035,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370253), (EmotionCardAbilityBase)new PickUpModel_Greed3.LogEmotionCardAbility_Greed3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Greed3</summary>
 
         public class LogEmotionCardAbility_Greed3 : EmotionCardAbilityBase
         {
@@ -3608,6 +4105,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_HappyTeddyBear ---
+
+
+    /// <summary>Pickup model: PickUpModel_HappyTeddyBear</summary>
 
     public class PickUpModel_HappyTeddyBear : PickUpModelBase
     {
@@ -3641,6 +4144,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_HappyTeddyBear0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_HappyTeddyBear0</summary>
 
     public class PickUpModel_HappyTeddyBear0 : CreaturePickUpModel
     {
@@ -3667,6 +4176,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_HappyTeddyBear"];
     }
+    #endregion
+
+    #region --- PickUpModel_HappyTeddyBear1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_HappyTeddyBear1</summary>
 
     public class PickUpModel_HappyTeddyBear1 : CreaturePickUpModel
     {
@@ -3685,6 +4200,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370111), (EmotionCardAbilityBase)new PickUpModel_HappyTeddyBear1.LogEmotionCardAbility_HappyTeddyBear1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_HappyTeddyBear1</summary>
 
         public class LogEmotionCardAbility_HappyTeddyBear1 : EmotionCardAbilityBase
         {
@@ -3729,6 +4246,8 @@ namespace abcdcode_LOGLIKE_MOD
                 this._owner.view.unitBottomStatUI.SetBufs();
             }
 
+            /// <summary>BattleUnitBuf_teddy_hug</summary>
+
             public class BattleUnitBuf_teddy_hug : BattleUnitBuf
             {
                 public override string keywordId => "Teddy_Head";
@@ -3745,6 +4264,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_HappyTeddyBear2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_HappyTeddyBear2</summary>
 
     public class PickUpModel_HappyTeddyBear2 : CreaturePickUpModel
     {
@@ -3763,6 +4288,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370112), (EmotionCardAbilityBase)new PickUpModel_HappyTeddyBear2.LogEmotionCardAbility_HappyTeddyBear2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_HappyTeddyBear2</summary>
 
         public class LogEmotionCardAbility_HappyTeddyBear2 : EmotionCardAbilityBase
         {
@@ -3800,6 +4327,8 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
 
+            /// <summary>TeddyCardBuf</summary>
+
             public class TeddyCardBuf : BattleDiceCardBuf
             {
                 public override DiceCardBufType bufType => DiceCardBufType.Teddy;
@@ -3817,6 +4346,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_HappyTeddyBear3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_HappyTeddyBear3</summary>
 
     public class PickUpModel_HappyTeddyBear3 : CreaturePickUpModel
     {
@@ -3835,6 +4370,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370113), (EmotionCardAbilityBase)new PickUpModel_HappyTeddyBear3.LogEmotionCardAbility_HappyTeddyBear3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_HappyTeddyBear3</summary>
 
         public class LogEmotionCardAbility_HappyTeddyBear3 : EmotionCardAbilityBase
         {
@@ -3867,6 +4404,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_HeartofAspiration ---
+
+
+    /// <summary>Pickup model: PickUpModel_HeartofAspiration</summary>
 
     public class PickUpModel_HeartofAspiration : PickUpModelBase
     {
@@ -3900,6 +4443,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_HeartofAspiration0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_HeartofAspiration0</summary>
 
     public class PickUpModel_HeartofAspiration0 : CreaturePickUpModel
     {
@@ -3926,6 +4475,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_HeartofAspiration"];
     }
+    #endregion
+
+    #region --- PickUpModel_HeartofAspiration1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_HeartofAspiration1</summary>
 
     public class PickUpModel_HeartofAspiration1 : CreaturePickUpModel
     {
@@ -3950,6 +4505,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370101), (EmotionCardAbilityBase)new PickUpModel_HeartofAspiration1.LogEmotionCardAbility_HeartofAspiration1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_HeartofAspiration1</summary>
 
         public class LogEmotionCardAbility_HeartofAspiration1 : EmotionCardAbilityBase
         {
@@ -3994,6 +4551,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_HeartofAspiration2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_HeartofAspiration2</summary>
 
     public class PickUpModel_HeartofAspiration2 : CreaturePickUpModel
     {
@@ -4012,6 +4575,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370102), (EmotionCardAbilityBase)new PickUpModel_HeartofAspiration2.LogEmotionCardAbility_HeartofAspiration2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_HeartofAspiration2</summary>
 
         public class LogEmotionCardAbility_HeartofAspiration2 : EmotionCardAbilityBase
         {
@@ -4038,6 +4603,8 @@ namespace abcdcode_LOGLIKE_MOD
                 return speedDiceAdder;
             }
 
+            /// <summary>BattleUnitBuf_Emotion_Heart_Eager</summary>
+
             public class BattleUnitBuf_Emotion_Heart_Eager : BattleUnitBuf
             {
                 public override string keywordId => "HeartofAspiration_Heart";
@@ -4054,6 +4621,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_HeartofAspiration3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_HeartofAspiration3</summary>
 
     public class PickUpModel_HeartofAspiration3 : CreaturePickUpModel
     {
@@ -4072,6 +4645,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370103), (EmotionCardAbilityBase)new PickUpModel_HeartofAspiration3.LogEmotionCardAbility_HeartofAspiration3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_HeartofAspiration3</summary>
 
         public class LogEmotionCardAbility_HeartofAspiration3 : EmotionCardAbilityBase
         {
@@ -4134,6 +4709,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_House ---
+
+
+    /// <summary>Pickup model: PickUpModel_House</summary>
 
     public class PickUpModel_House : PickUpModelBase
     {
@@ -4167,6 +4748,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_House0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_House0</summary>
 
     public class PickUpModel_House0 : CreaturePickUpModel
     {
@@ -4190,6 +4777,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_House"];
     }
+    #endregion
+
+    #region --- PickUpModel_House1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_House1</summary>
 
     public class PickUpModel_House1 : CreaturePickUpModel
     {
@@ -4208,6 +4801,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370271), (EmotionCardAbilityBase)new PickUpModel_House1.LogEmotionCardAbility_House1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_House1</summary>
 
         public class LogEmotionCardAbility_House1 : EmotionCardAbilityBase
         {
@@ -4272,6 +4867,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_House2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_House2</summary>
 
     public class PickUpModel_House2 : CreaturePickUpModel
     {
@@ -4290,6 +4891,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370272), (EmotionCardAbilityBase)new PickUpModel_House2.LogEmotionCardAbility_House2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_House2</summary>
 
         public class LogEmotionCardAbility_House2 : EmotionCardAbilityBase
         {
@@ -4398,6 +5001,8 @@ namespace abcdcode_LOGLIKE_MOD
 
             public void StackAdd() => ++this.stack;
 
+            /// <summary>BattleUnitBuf_Emotion_WayBackHome_Target</summary>
+
             public class BattleUnitBuf_Emotion_WayBackHome_Target : BattleUnitBuf
             {
                 public GameObject aura;
@@ -4443,6 +5048,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_House3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_House3</summary>
 
     public class PickUpModel_House3 : CreaturePickUpModel
     {
@@ -4461,6 +5072,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370273), (EmotionCardAbilityBase)new PickUpModel_House3.LogEmotionCardAbility_House3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_House3</summary>
 
         public class LogEmotionCardAbility_House3 : EmotionCardAbilityBase
         {
@@ -4498,10 +5111,14 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
 
+            /// <summary>BattleUnitBuf_Emotion_WayBackHome_Protected</summary>
+
             public class BattleUnitBuf_Emotion_WayBackHome_Protected : BattleUnitBuf
             {
                 public override string keywordId => "WayBackHome_Emotion_Protected";
             }
+
+            /// <summary>BattleUnitBuf_Emotion_WayBackHome_Protect</summary>
 
             public class BattleUnitBuf_Emotion_WayBackHome_Protect : BattleUnitBuf
             {
@@ -4540,6 +5157,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_KnightOfDespair ---
+
+
+    /// <summary>Pickup model: PickUpModel_KnightOfDespair</summary>
 
     public class PickUpModel_KnightOfDespair : PickUpModelBase
     {
@@ -4573,6 +5196,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_KnightOfDespair0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_KnightOfDespair0</summary>
 
     public class PickUpModel_KnightOfDespair0 : CreaturePickUpModel
     {
@@ -4599,6 +5228,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_KnightOfDespair"];
     }
+    #endregion
+
+    #region --- PickUpModel_KnightOfDespair1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_KnightOfDespair1</summary>
 
     public class PickUpModel_KnightOfDespair1 : CreaturePickUpModel
     {
@@ -4617,6 +5252,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370151), (EmotionCardAbilityBase)new PickUpModel_KnightOfDespair1.LogEmotionCardAbility_KnightOfDespair1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_KnightOfDespair1</summary>
 
         public class LogEmotionCardAbility_KnightOfDespair1 : EmotionCardAbilityBase
         {
@@ -4732,6 +5369,8 @@ namespace abcdcode_LOGLIKE_MOD
                 dmgInfo.dmg += breakdmg;
             }
 
+            /// <summary>BattleUnitBuf_resists</summary>
+
             public class BattleUnitBuf_resists : BattleUnitBuf
             {
                 public BehaviourDetail hpTarget = BehaviourDetail.None;
@@ -4756,11 +5395,15 @@ namespace abcdcode_LOGLIKE_MOD
                 public override void OnRoundEnd() => this.Destroy();
             }
 
+            /// <summary>DmgInfo</summary>
+
             public class DmgInfo
             {
                 public BehaviourDetail type;
                 public int dmg;
             }
+
+            /// <summary>BattleUnitBuf_Gaho</summary>
 
             public class BattleUnitBuf_Gaho : BattleUnitBuf
             {
@@ -4768,6 +5411,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_KnightOfDespair2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_KnightOfDespair2</summary>
 
     public class PickUpModel_KnightOfDespair2 : CreaturePickUpModel
     {
@@ -4786,6 +5435,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370152), (EmotionCardAbilityBase)new PickUpModel_KnightOfDespair2.LogEmotionCardAbility_KnightOfDespair2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_KnightOfDespair2</summary>
 
         public class LogEmotionCardAbility_KnightOfDespair2 : EmotionCardAbilityBase
         {
@@ -4859,6 +5510,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_KnightOfDespair3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_KnightOfDespair3</summary>
 
     public class PickUpModel_KnightOfDespair3 : CreaturePickUpModel
     {
@@ -4877,6 +5534,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370153), (EmotionCardAbilityBase)new PickUpModel_KnightOfDespair3.LogEmotionCardAbility_KnightOfDespair3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_KnightOfDespair3</summary>
 
         public class LogEmotionCardAbility_KnightOfDespair3 : EmotionCardAbilityBase
         {
@@ -4911,6 +5570,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Laetitia ---
+
+
+    /// <summary>Pickup model: PickUpModel_Laetitia</summary>
 
     public class PickUpModel_Laetitia : PickUpModelBase
     {
@@ -4944,6 +5609,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Laetitia0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Laetitia0</summary>
 
     public class PickUpModel_Laetitia0 : CreaturePickUpModel
     {
@@ -4967,6 +5638,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_Laetitia"];
     }
+    #endregion
+
+    #region --- PickUpModel_Laetitia1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Laetitia1</summary>
 
     public class PickUpModel_Laetitia1 : CreaturePickUpModel
     {
@@ -4985,6 +5662,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370331), (EmotionCardAbilityBase)new PickUpModel_Laetitia1.LogEmotionCardAbility_Laetitia1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Laetitia1</summary>
 
         public class LogEmotionCardAbility_Laetitia1 : EmotionCardAbilityBase
         {
@@ -5014,6 +5693,8 @@ namespace abcdcode_LOGLIKE_MOD
                     return;
                 this._target = (BattleUnitModel)null;
             }
+
+            /// <summary>BattleUnitBuf_Emotion_Latitia_Gift</summary>
 
             public class BattleUnitBuf_Emotion_Latitia_Gift : BattleUnitBuf
             {
@@ -5047,6 +5728,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Laetitia2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Laetitia2</summary>
 
     public class PickUpModel_Laetitia2 : CreaturePickUpModel
     {
@@ -5065,6 +5752,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370332), (EmotionCardAbilityBase)new PickUpModel_Laetitia2.LogEmotionCardAbility_Laetitia2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Laetitia2</summary>
 
         public class LogEmotionCardAbility_Laetitia2 : EmotionCardAbilityBase
         {
@@ -5097,6 +5786,8 @@ namespace abcdcode_LOGLIKE_MOD
                 });
                 battleDiceCardBuf.Destroy();
             }
+
+            /// <summary>BattleDiceCardBuf_Emotion_Heart</summary>
 
             public class BattleDiceCardBuf_Emotion_Heart : BattleDiceCardBuf
             {
@@ -5138,6 +5829,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Laetitia3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Laetitia3</summary>
 
     public class PickUpModel_Laetitia3 : CreaturePickUpModel
     {
@@ -5156,6 +5853,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370333), (EmotionCardAbilityBase)new PickUpModel_Laetitia3.LogEmotionCardAbility_Laetitia3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Laetitia3</summary>
 
         public class LogEmotionCardAbility_Laetitia3 : EmotionCardAbilityBase
         {
@@ -5185,6 +5884,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_LittleHelper ---
+
+
+    /// <summary>Pickup model: PickUpModel_LittleHelper</summary>
 
     public class PickUpModel_LittleHelper : PickUpModelBase
     {
@@ -5218,6 +5923,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_LittleHelper0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_LittleHelper0</summary>
 
     public class PickUpModel_LittleHelper0 : CreaturePickUpModel
     {
@@ -5244,6 +5955,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_LittleHelper"];
     }
+    #endregion
+
+    #region --- PickUpModel_LittleHelper1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_LittleHelper1</summary>
 
     public class PickUpModel_LittleHelper1 : CreaturePickUpModel
     {
@@ -5262,6 +5979,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370121), (EmotionCardAbilityBase)new PickUpModel_LittleHelper1.LogEmotionCardAbility_LittleHelper1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_LittleHelper1</summary>
 
         public class LogEmotionCardAbility_LittleHelper1 : EmotionCardAbilityBase
         {
@@ -5300,6 +6019,8 @@ namespace abcdcode_LOGLIKE_MOD
                 this._aura = (GameObject)null;
             }
 
+            /// <summary>BattleUnitBuf_Emotion_Helper_Charge</summary>
+
             public class BattleUnitBuf_Emotion_Helper_Charge : BattleUnitBuf
             {
                 public override void Init(BattleUnitModel owner)
@@ -5327,6 +6048,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_LittleHelper2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_LittleHelper2</summary>
 
     public class PickUpModel_LittleHelper2 : CreaturePickUpModel
     {
@@ -5345,6 +6072,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370122), (EmotionCardAbilityBase)new PickUpModel_LittleHelper2.LogEmotionCardAbility_LittleHelper2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_LittleHelper2</summary>
 
         public class LogEmotionCardAbility_LittleHelper2 : EmotionCardAbilityBase
         {
@@ -5389,6 +6118,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_LittleHelper3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_LittleHelper3</summary>
 
     public class PickUpModel_LittleHelper3 : CreaturePickUpModel
     {
@@ -5407,6 +6142,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370123), (EmotionCardAbilityBase)new PickUpModel_LittleHelper3.LogEmotionCardAbility_LittleHelper3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_LittleHelper3</summary>
 
         public class LogEmotionCardAbility_LittleHelper3 : EmotionCardAbilityBase
         {
@@ -5441,6 +6178,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_LongBird ---
+
+
+    /// <summary>Pickup model: PickUpModel_LongBird</summary>
 
     public class PickUpModel_LongBird : PickUpModelBase
     {
@@ -5474,6 +6217,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_LongBird0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_LongBird0</summary>
 
     public class PickUpModel_LongBird0 : CreaturePickUpModel
     {
@@ -5497,6 +6246,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_LongBird"];
     }
+    #endregion
+
+    #region --- PickUpModel_LongBird1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_LongBird1</summary>
 
     public class PickUpModel_LongBird1 : CreaturePickUpModel
     {
@@ -5515,6 +6270,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370281), (EmotionCardAbilityBase)new PickUpModel_LongBird1.LogEmotionCardAbility_LongBird1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_LongBird1</summary>
 
         public class LogEmotionCardAbility_LongBird1 : EmotionCardAbilityBase
         {
@@ -5544,6 +6301,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_LongBird2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_LongBird2</summary>
 
     public class PickUpModel_LongBird2 : CreaturePickUpModel
     {
@@ -5562,6 +6325,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370282), (EmotionCardAbilityBase)new PickUpModel_LongBird2.LogEmotionCardAbility_LongBird2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_LongBird2</summary>
 
         public class LogEmotionCardAbility_LongBird2 : EmotionCardAbilityBase
         {
@@ -5582,6 +6347,8 @@ namespace abcdcode_LOGLIKE_MOD
                     }
                 }
             }
+
+            /// <summary>BattleUnitBuf_LongBird_Emotion_Sin</summary>
 
             public class BattleUnitBuf_LongBird_Emotion_Sin : BattleUnitBuf
             {
@@ -5637,6 +6404,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_LongBird3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_LongBird3</summary>
 
     public class PickUpModel_LongBird3 : CreaturePickUpModel
     {
@@ -5655,6 +6428,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370283), (EmotionCardAbilityBase)new PickUpModel_LongBird3.LogEmotionCardAbility_LongBird3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_LongBird3</summary>
 
         public class LogEmotionCardAbility_LongBird3 : EmotionCardAbilityBase
         {
@@ -5724,6 +6499,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_LumberJack ---
+
+
+    /// <summary>Pickup model: PickUpModel_LumberJack</summary>
 
     public class PickUpModel_LumberJack : PickUpModelBase
     {
@@ -5757,6 +6538,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_LumberJack0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_LumberJack0</summary>
 
     public class PickUpModel_LumberJack0 : CreaturePickUpModel
     {
@@ -5783,6 +6570,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_LumberJack"];
     }
+    #endregion
+
+    #region --- PickUpModel_LumberJack1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_LumberJack1</summary>
 
     public class PickUpModel_LumberJack1 : CreaturePickUpModel
     {
@@ -5802,6 +6595,8 @@ namespace abcdcode_LOGLIKE_MOD
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370171), (EmotionCardAbilityBase)new PickUpModel_LumberJack1.LogEmotionCardAbility_LumberJack1(), model);
         }
 
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_LumberJack1</summary>
+
         public class LogEmotionCardAbility_LumberJack1 : EmotionCardAbilityBase
         {
             public const int _stack = 3;
@@ -5820,6 +6615,8 @@ namespace abcdcode_LOGLIKE_MOD
                 base.OnRoundEnd();
                 this.pp = this._owner.PlayPoint;
             }
+
+            /// <summary>BattleUnitBuf_Lumberjack_emotion</summary>
 
             public class BattleUnitBuf_Lumberjack_emotion : BattleUnitBuf
             {
@@ -5886,6 +6683,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_LumberJack2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_LumberJack2</summary>
 
     public class PickUpModel_LumberJack2 : CreaturePickUpModel
     {
@@ -5904,6 +6707,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370172), (EmotionCardAbilityBase)new PickUpModel_LumberJack2.LogEmotionCardAbility_LumberJack2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_LumberJack2</summary>
 
         public class LogEmotionCardAbility_LumberJack2 : EmotionCardAbilityBase
         {
@@ -5990,6 +6795,8 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
 
+            /// <summary>BattleDiceCardBuf_Lumberjack_Emotion</summary>
+
             public class BattleDiceCardBuf_Lumberjack_Emotion : BattleDiceCardBuf
             {
                 public override void OnUseCard(BattleUnitModel owner)
@@ -6001,6 +6808,8 @@ namespace abcdcode_LOGLIKE_MOD
                 public override int GetCost(int oldCost) => oldCost - 1;
             }
 
+            /// <summary>BattleDiceCardBuf_Lumberjack_Emotion_Killed</summary>
+
             public class BattleDiceCardBuf_Lumberjack_Emotion_Killed :
               PickUpModel_LumberJack2.LogEmotionCardAbility_LumberJack2.BattleDiceCardBuf_Lumberjack_Emotion
             {
@@ -6008,6 +6817,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_LumberJack3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_LumberJack3</summary>
 
     public class PickUpModel_LumberJack3 : CreaturePickUpModel
     {
@@ -6026,6 +6841,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370173), (EmotionCardAbilityBase)new PickUpModel_LumberJack3.LogEmotionCardAbility_LumberJack3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_LumberJack3</summary>
 
         public class LogEmotionCardAbility_LumberJack3 : EmotionCardAbilityBase
         {
@@ -6070,6 +6887,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Mountain ---
+
+
+    /// <summary>Pickup model: PickUpModel_Mountain</summary>
 
     public class PickUpModel_Mountain : PickUpModelBase
     {
@@ -6103,6 +6926,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Mountain0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Mountain0</summary>
 
     public class PickUpModel_Mountain0 : CreaturePickUpModel
     {
@@ -6126,6 +6955,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_Mountain"];
     }
+    #endregion
+
+    #region --- PickUpModel_Mountain1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Mountain1</summary>
 
     public class PickUpModel_Mountain1 : CreaturePickUpModel
     {
@@ -6144,6 +6979,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370261), (EmotionCardAbilityBase)new PickUpModel_Mountain1.LogEmotionCardAbility_Mountain1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Mountain1</summary>
 
         public class LogEmotionCardAbility_Mountain1 : EmotionCardAbilityBase
         {
@@ -6217,6 +7054,8 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
 
+            /// <summary>BattleUnitBuf_Emotion_DanggoCreature_Healed</summary>
+
             public class BattleUnitBuf_Emotion_DanggoCreature_Healed : BattleUnitBuf
             {
                 public override string keywordId => "DangoCreature_Emotion_Healed";
@@ -6249,6 +7088,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Mountain2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Mountain2</summary>
 
     public class PickUpModel_Mountain2 : CreaturePickUpModel
     {
@@ -6267,6 +7112,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370262), (EmotionCardAbilityBase)new PickUpModel_Mountain2.LogEmotionCardAbility_Mountain2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Mountain2</summary>
 
         public class LogEmotionCardAbility_Mountain2 : EmotionCardAbilityBase
         {
@@ -6312,6 +7159,12 @@ namespace abcdcode_LOGLIKE_MOD
             public bool CheckHP() => (double)this._owner.hp <= (double)this._owner.MaxHp * 0.5;
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Mountain3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Mountain3</summary>
 
     public class PickUpModel_Mountain3 : CreaturePickUpModel
     {
@@ -6330,6 +7183,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370263), (EmotionCardAbilityBase)new PickUpModel_Mountain3.LogEmotionCardAbility_Mountain3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Mountain3</summary>
 
         public class LogEmotionCardAbility_Mountain3 : EmotionCardAbilityBase
         {
@@ -6447,6 +7302,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Nosferatu ---
+
+
+    /// <summary>Pickup model: PickUpModel_Nosferatu</summary>
 
     public class PickUpModel_Nosferatu : PickUpModelBase
     {
@@ -6480,6 +7341,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Nosferatu0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Nosferatu0</summary>
 
     public class PickUpModel_Nosferatu0 : CreaturePickUpModel
     {
@@ -6506,6 +7373,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_Nosferatu"];
     }
+    #endregion
+
+    #region --- PickUpModel_Nosferatu1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Nosferatu1</summary>
 
     public class PickUpModel_Nosferatu1 : CreaturePickUpModel
     {
@@ -6524,6 +7397,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370361), (EmotionCardAbilityBase)new PickUpModel_Nosferatu1.LogEmotionCardAbility_Nosferatu1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Nosferatu1</summary>
 
         public class LogEmotionCardAbility_Nosferatu1 : EmotionCardAbilityBase
         {
@@ -6556,6 +7431,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Nosferatu2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Nosferatu2</summary>
 
     public class PickUpModel_Nosferatu2 : CreaturePickUpModel
     {
@@ -6574,6 +7455,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370362), (EmotionCardAbilityBase)new PickUpModel_Nosferatu2.LogEmotionCardAbility_Nosferatu2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Nosferatu2</summary>
 
         public class LogEmotionCardAbility_Nosferatu2 : EmotionCardAbilityBase
         {
@@ -6602,6 +7485,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Nosferatu3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Nosferatu3</summary>
 
     public class PickUpModel_Nosferatu3 : CreaturePickUpModel
     {
@@ -6620,6 +7509,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370363), (EmotionCardAbilityBase)new PickUpModel_Nosferatu3.LogEmotionCardAbility_Nosferatu3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Nosferatu3</summary>
 
         public class LogEmotionCardAbility_Nosferatu3 : EmotionCardAbilityBase
         {
@@ -6656,6 +7547,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Ozma ---
+
+
+    /// <summary>Pickup model: PickUpModel_Ozma</summary>
 
     public class PickUpModel_Ozma : PickUpModelBase
     {
@@ -6689,6 +7586,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Ozma0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Ozma0</summary>
 
     public class PickUpModel_Ozma0 : CreaturePickUpModel
     {
@@ -6712,6 +7615,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_Ozma"];
     }
+    #endregion
+
+    #region --- PickUpModel_Ozma1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Ozma1</summary>
 
     public class PickUpModel_Ozma1 : CreaturePickUpModel
     {
@@ -6730,6 +7639,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370371), (EmotionCardAbilityBase)new PickUpModel_Ozma1.LogEmotionCardAbility_Ozma1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Ozma1</summary>
 
         public class LogEmotionCardAbility_Ozma1 : EmotionCardAbilityBase
         {
@@ -6765,6 +7676,12 @@ namespace abcdcode_LOGLIKE_MOD
             public override int GetCardCostAdder(BattleDiceCardModel card) => 1;
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Ozma2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Ozma2</summary>
 
     public class PickUpModel_Ozma2 : CreaturePickUpModel
     {
@@ -6784,6 +7701,8 @@ namespace abcdcode_LOGLIKE_MOD
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370372), (EmotionCardAbilityBase)new PickUpModel_Ozma2.LogEmotionCardAbility_Ozma2(), model);
         }
 
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Ozma2</summary>
+
         public class LogEmotionCardAbility_Ozma2 : EmotionCardAbilityBase
         {
             public const int _id = 1100014;
@@ -6797,6 +7716,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Ozma3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Ozma3</summary>
 
     public class PickUpModel_Ozma3 : CreaturePickUpModel
     {
@@ -6815,6 +7740,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370373), (EmotionCardAbilityBase)new PickUpModel_Ozma3.LogEmotionCardAbility_Ozma3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Ozma3</summary>
 
         public class LogEmotionCardAbility_Ozma3 : EmotionCardAbilityBase
         {
@@ -6860,6 +7787,8 @@ namespace abcdcode_LOGLIKE_MOD
                 return true;
             }
 
+            /// <summary>BattleUnitBuf_ozmaReviveCheck</summary>
+
             public class BattleUnitBuf_ozmaReviveCheck : BattleUnitBuf
             {
                 public override string keywordId => "Ozma_revive";
@@ -6870,6 +7799,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Pinocchio ---
+
+
+    /// <summary>Pickup model: PickUpModel_Pinocchio</summary>
 
     public class PickUpModel_Pinocchio : PickUpModelBase
     {
@@ -6903,6 +7838,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Pinocchio0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Pinocchio0</summary>
 
     public class PickUpModel_Pinocchio0 : CreaturePickUpModel
     {
@@ -6929,6 +7870,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_Pinocchio"];
     }
+    #endregion
+
+    #region --- PickUpModel_Pinocchio1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Pinocchio1</summary>
 
     public class PickUpModel_Pinocchio1 : CreaturePickUpModel
     {
@@ -6947,6 +7894,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370201), (EmotionCardAbilityBase)new PickUpModel_Pinocchio1.LogEmotionCardAbility_Pinocchio1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Pinocchio1</summary>
 
         public class LogEmotionCardAbility_Pinocchio1 : EmotionCardAbilityBase
         {
@@ -6970,6 +7919,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Pinocchio2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Pinocchio2</summary>
 
     public class PickUpModel_Pinocchio2 : CreaturePickUpModel
     {
@@ -6989,6 +7944,8 @@ namespace abcdcode_LOGLIKE_MOD
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370202), (EmotionCardAbilityBase)new PickUpModel_Pinocchio2.LogEmotionCardAbility_Pinocchio2(), model);
         }
 
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Pinocchio2</summary>
+
         public class LogEmotionCardAbility_Pinocchio2 : EmotionCardAbilityBase
         {
             public override void OnSelectEmotion()
@@ -7007,6 +7964,8 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
 
+            /// <summary>RandomCostBuf</summary>
+
             public class RandomCostBuf : BattleDiceCardBuf
             {
                 public int _cost;
@@ -7019,6 +7978,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Pinocchio3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Pinocchio3</summary>
 
     public class PickUpModel_Pinocchio3 : CreaturePickUpModel
     {
@@ -7037,6 +8002,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370203), (EmotionCardAbilityBase)new PickUpModel_Pinocchio3.LogEmotionCardAbility_Pinocchio3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Pinocchio3</summary>
 
         public class LogEmotionCardAbility_Pinocchio3 : EmotionCardAbilityBase
         {
@@ -7060,6 +8027,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Porccubus ---
+
+
+    /// <summary>Pickup model: PickUpModel_Porccubus</summary>
 
     public class PickUpModel_Porccubus : PickUpModelBase
     {
@@ -7093,6 +8066,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Porccubus0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Porccubus0</summary>
 
     public class PickUpModel_Porccubus0 : CreaturePickUpModel
     {
@@ -7119,6 +8098,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_Porccubus"];
     }
+    #endregion
+
+    #region --- PickUpModel_Porccubus1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Porccubus1</summary>
 
     public class PickUpModel_Porccubus1 : CreaturePickUpModel
     {
@@ -7137,6 +8122,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370241), (EmotionCardAbilityBase)new PickUpModel_Porccubus1.LogEmotionCardAbility_Porccubus1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Porccubus1</summary>
 
         public class LogEmotionCardAbility_Porccubus1 : EmotionCardAbilityBase
         {
@@ -7205,6 +8192,8 @@ namespace abcdcode_LOGLIKE_MOD
                 new GameObject().AddComponent<SpriteFilter_Porccubus_Special>().Init("EmotionCardFilter/Porccubus_Filter", false, 1f);
             }
 
+            /// <summary>BattleUnitBuf_Emotion_Porccubus_Happy</summary>
+
             public class BattleUnitBuf_Emotion_Porccubus_Happy : BattleUnitBuf
             {
                 public const int _fullStack = 3;
@@ -7230,6 +8219,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Porccubus2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Porccubus2</summary>
 
     public class PickUpModel_Porccubus2 : CreaturePickUpModel
     {
@@ -7248,6 +8243,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370242), (EmotionCardAbilityBase)new PickUpModel_Porccubus2.LogEmotionCardAbility_Porccubus2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Porccubus2</summary>
 
         public class LogEmotionCardAbility_Porccubus2 : EmotionCardAbilityBase
         {
@@ -7280,6 +8277,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Porccubus3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Porccubus3</summary>
 
     public class PickUpModel_Porccubus3 : CreaturePickUpModel
     {
@@ -7298,6 +8301,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370243), (EmotionCardAbilityBase)new PickUpModel_Porccubus3.LogEmotionCardAbility_Porccubus3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Porccubus3</summary>
 
         public class LogEmotionCardAbility_Porccubus3 : EmotionCardAbilityBase
         {
@@ -7323,6 +8328,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_QueenBee ---
+
+
+    /// <summary>Pickup model: PickUpModel_QueenBee</summary>
 
     public class PickUpModel_QueenBee : PickUpModelBase
     {
@@ -7356,6 +8367,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_QueenBee0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_QueenBee0</summary>
 
     public class PickUpModel_QueenBee0 : CreaturePickUpModel
     {
@@ -7379,6 +8396,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_QueenBee"];
     }
+    #endregion
+
+    #region --- PickUpModel_QueenBee1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_QueenBee1</summary>
 
     public class PickUpModel_QueenBee1 : CreaturePickUpModel
     {
@@ -7397,6 +8420,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370311), (EmotionCardAbilityBase)new PickUpModel_QueenBee1.LogEmotionCardAbility_QueenBee1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_QueenBee1</summary>
 
         public class LogEmotionCardAbility_QueenBee1 : EmotionCardAbilityBase
         {
@@ -7422,6 +8447,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_QueenBee2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_QueenBee2</summary>
 
     public class PickUpModel_QueenBee2 : CreaturePickUpModel
     {
@@ -7440,6 +8471,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370312), (EmotionCardAbilityBase)new PickUpModel_QueenBee2.LogEmotionCardAbility_QueenBee2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_QueenBee2</summary>
 
         public class LogEmotionCardAbility_QueenBee2 : EmotionCardAbilityBase
         {
@@ -7486,6 +8519,8 @@ namespace abcdcode_LOGLIKE_MOD
                 this.dmgData.Clear();
             }
 
+            /// <summary>BattleUnitBuf_queenbee_punish</summary>
+
             public class BattleUnitBuf_queenbee_punish : BattleUnitBuf
             {
                 public Battle.CreatureEffect.CreatureEffect _aura;
@@ -7525,6 +8560,8 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
 
+            /// <summary>BattleUnitBuf_queenbee_attacker</summary>
+
             public class BattleUnitBuf_queenbee_attacker : BattleUnitBuf
             {
                 public const int _dmgMin = 2;
@@ -7562,6 +8599,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_QueenBee3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_QueenBee3</summary>
 
     public class PickUpModel_QueenBee3 : CreaturePickUpModel
     {
@@ -7580,6 +8623,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370313), (EmotionCardAbilityBase)new PickUpModel_QueenBee3.LogEmotionCardAbility_QueenBee3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_QueenBee3</summary>
 
         public class LogEmotionCardAbility_QueenBee3 : EmotionCardAbilityBase
         {
@@ -7612,6 +8657,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_QueenOfHatred ---
+
+
+    /// <summary>Pickup model: PickUpModel_QueenOfHatred</summary>
 
     public class PickUpModel_QueenOfHatred : PickUpModelBase
     {
@@ -7645,6 +8696,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_QueenOfHatred0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_QueenOfHatred0</summary>
 
     public class PickUpModel_QueenOfHatred0 : CreaturePickUpModel
     {
@@ -7671,6 +8728,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_QueenOfHatred"];
     }
+    #endregion
+
+    #region --- PickUpModel_QueenOfHatred1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_QueenOfHatred1</summary>
 
     public class PickUpModel_QueenOfHatred1 : CreaturePickUpModel
     {
@@ -7689,6 +8752,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370051), (EmotionCardAbilityBase)new PickUpModel_QueenOfHatred1.LogEmotionCardAbility_QueenOfHatred1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_QueenOfHatred1</summary>
 
         public class LogEmotionCardAbility_QueenOfHatred1 : EmotionCardAbilityBase
         {
@@ -7743,6 +8808,12 @@ namespace abcdcode_LOGLIKE_MOD
             public override void OnPrintEffect(BattleDiceBehavior behavior) => base.OnPrintEffect(behavior);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_QueenOfHatred2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_QueenOfHatred2</summary>
 
     public class PickUpModel_QueenOfHatred2 : CreaturePickUpModel
     {
@@ -7761,6 +8832,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370052), (EmotionCardAbilityBase)new PickUpModel_QueenOfHatred2.LogEmotionCardAbility_QueenOfHatred2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_QueenOfHatred2</summary>
 
         public class LogEmotionCardAbility_QueenOfHatred2 : EmotionCardAbilityBase
         {
@@ -7814,6 +8887,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_QueenOfHatred3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_QueenOfHatred3</summary>
 
     public class PickUpModel_QueenOfHatred3 : CreaturePickUpModel
     {
@@ -7832,6 +8911,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370053), (EmotionCardAbilityBase)new PickUpModel_QueenOfHatred3.LogEmotionCardAbility_QueenOfHatred3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_QueenOfHatred3</summary>
 
         public class LogEmotionCardAbility_QueenOfHatred3 : EmotionCardAbilityBase
         {
@@ -7888,6 +8969,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Redhood ---
+
+
+    /// <summary>Pickup model: PickUpModel_Redhood</summary>
 
     public class PickUpModel_Redhood : PickUpModelBase
     {
@@ -7921,6 +9008,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Redhood0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Redhood0</summary>
 
     public class PickUpModel_Redhood0 : CreaturePickUpModel
     {
@@ -7944,6 +9037,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_Redhood"];
     }
+    #endregion
+
+    #region --- PickUpModel_Redhood1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Redhood1</summary>
 
     public class PickUpModel_Redhood1 : CreaturePickUpModel
     {
@@ -7962,6 +9061,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370061), (EmotionCardAbilityBase)new PickUpModel_Redhood1.LogEmotionCardAbility_Redhood1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Redhood1</summary>
 
         public class LogEmotionCardAbility_Redhood1 : EmotionCardAbilityBase
         {
@@ -7996,6 +9097,8 @@ namespace abcdcode_LOGLIKE_MOD
                 });
             }
 
+            /// <summary>BattleUnitBuf_redhood_prey</summary>
+
             public class BattleUnitBuf_redhood_prey : BattleUnitBuf
             {
                 public override string keywordId => "RedHood_Hunt";
@@ -8010,6 +9113,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Redhood2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Redhood2</summary>
 
     public class PickUpModel_Redhood2 : CreaturePickUpModel
     {
@@ -8028,6 +9137,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370062), (EmotionCardAbilityBase)new PickUpModel_Redhood2.LogEmotionCardAbility_Redhood2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Redhood2</summary>
 
         public class LogEmotionCardAbility_Redhood2 : EmotionCardAbilityBase
         {
@@ -8052,6 +9163,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_Redhood3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_Redhood3</summary>
 
     public class PickUpModel_Redhood3 : CreaturePickUpModel
     {
@@ -8070,6 +9187,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370063), (EmotionCardAbilityBase)new PickUpModel_Redhood3.LogEmotionCardAbility_Redhood3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_Redhood3</summary>
 
         public class LogEmotionCardAbility_Redhood3 : EmotionCardAbilityBase
         {
@@ -8118,6 +9237,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_RedShoes ---
+
+
+    /// <summary>Pickup model: PickUpModel_RedShoes</summary>
 
     public class PickUpModel_RedShoes : PickUpModelBase
     {
@@ -8151,6 +9276,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_RedShoes0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_RedShoes0</summary>
 
     public class PickUpModel_RedShoes0 : CreaturePickUpModel
     {
@@ -8174,6 +9305,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_RedShoes"];
     }
+    #endregion
+
+    #region --- PickUpModel_RedShoes1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_RedShoes1</summary>
 
     public class PickUpModel_RedShoes1 : CreaturePickUpModel
     {
@@ -8192,6 +9329,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370131), (EmotionCardAbilityBase)new PickUpModel_RedShoes1.LogEmotionCardAbility_RedShoes1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_RedShoes1</summary>
 
         public class LogEmotionCardAbility_RedShoes1 : EmotionCardAbilityBase
         {
@@ -8237,6 +9376,8 @@ namespace abcdcode_LOGLIKE_MOD
                 effectFaceAttacher.AttachTarget(target);
                 return effectFaceAttacher;
             }
+
+            /// <summary>BattleUnitBuf_redshoes</summary>
 
             public class BattleUnitBuf_redshoes : BattleUnitBuf
             {
@@ -8327,6 +9468,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_RedShoes2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_RedShoes2</summary>
 
     public class PickUpModel_RedShoes2 : CreaturePickUpModel
     {
@@ -8352,6 +9499,8 @@ namespace abcdcode_LOGLIKE_MOD
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370132), (EmotionCardAbilityBase)new PickUpModel_RedShoes2.LogEmotionCardAbility_RedShoes2(), model);
         }
 
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_RedShoes2</summary>
+
         public class LogEmotionCardAbility_RedShoes2 : EmotionCardAbilityBase
         {
             public override void OnSelectEmotionOnce()
@@ -8375,6 +9524,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_RedShoes3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_RedShoes3</summary>
 
     public class PickUpModel_RedShoes3 : CreaturePickUpModel
     {
@@ -8393,6 +9548,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370133), (EmotionCardAbilityBase)new PickUpModel_RedShoes3.LogEmotionCardAbility_RedShoes3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_RedShoes3</summary>
 
         public class LogEmotionCardAbility_RedShoes3 : EmotionCardAbilityBase
         {
@@ -8441,6 +9598,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ScareCrow ---
+
+
+    /// <summary>Pickup model: PickUpModel_ScareCrow</summary>
 
     public class PickUpModel_ScareCrow : PickUpModelBase
     {
@@ -8474,6 +9637,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ScareCrow0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ScareCrow0</summary>
 
     public class PickUpModel_ScareCrow0 : CreaturePickUpModel
     {
@@ -8500,6 +9669,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_ScareCrow"];
     }
+    #endregion
+
+    #region --- PickUpModel_ScareCrow1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ScareCrow1</summary>
 
     public class PickUpModel_ScareCrow1 : CreaturePickUpModel
     {
@@ -8518,6 +9693,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370071), (EmotionCardAbilityBase)new PickUpModel_ScareCrow1.LogEmotionCardAbility_ScareCrow1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_ScareCrow1</summary>
 
         public class LogEmotionCardAbility_ScareCrow1 : EmotionCardAbilityBase
         {
@@ -8571,6 +9748,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ScareCrow2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ScareCrow2</summary>
 
     public class PickUpModel_ScareCrow2 : CreaturePickUpModel
     {
@@ -8589,6 +9772,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370072), (EmotionCardAbilityBase)new PickUpModel_ScareCrow2.LogEmotionCardAbility_ScareCrow2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_ScareCrow2</summary>
 
         public class LogEmotionCardAbility_ScareCrow2 : EmotionCardAbilityBase
         {
@@ -8623,6 +9808,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ScareCrow3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ScareCrow3</summary>
 
     public class PickUpModel_ScareCrow3 : CreaturePickUpModel
     {
@@ -8641,6 +9832,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370073), (EmotionCardAbilityBase)new PickUpModel_ScareCrow3.LogEmotionCardAbility_ScareCrow3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_ScareCrow3</summary>
 
         public class LogEmotionCardAbility_ScareCrow3 : EmotionCardAbilityBase
         {
@@ -8673,6 +9866,8 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
 
+            /// <summary>BattleDiceCardBuf_scarecrowCreated</summary>
+
             public class BattleDiceCardBuf_scarecrowCreated : BattleDiceCardBuf
             {
                 public override void OnUseCard(BattleUnitModel owner)
@@ -8682,6 +9877,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ScorchedGirl ---
+
+
+    /// <summary>Pickup model: PickUpModel_ScorchedGirl</summary>
 
     public class PickUpModel_ScorchedGirl : PickUpModelBase
     {
@@ -8715,6 +9916,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ScorchedGirl0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ScorchedGirl0</summary>
 
     public class PickUpModel_ScorchedGirl0 : CreaturePickUpModel
     {
@@ -8741,6 +9948,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_ScorchedGirl"];
     }
+    #endregion
+
+    #region --- PickUpModel_ScorchedGirl1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ScorchedGirl1</summary>
 
     public class PickUpModel_ScorchedGirl1 : CreaturePickUpModel
     {
@@ -8759,6 +9972,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370011), (EmotionCardAbilityBase)new PickUpModel_ScorchedGirl1.LogEmotionCardAbility_ScorchedGirl1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_ScorchedGirl1</summary>
 
         public class LogEmotionCardAbility_ScorchedGirl1 : EmotionCardAbilityBase
         {
@@ -8791,6 +10006,8 @@ namespace abcdcode_LOGLIKE_MOD
                 this.trigger = true;
             }
 
+            /// <summary>BattleUnitBuf_Emotion_BurningGirl_Burn</summary>
+
             public class BattleUnitBuf_Emotion_BurningGirl_Burn : BattleUnitBuf
             {
                 public const int _burnMin = 1;
@@ -8816,6 +10033,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ScorchedGirl2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ScorchedGirl2</summary>
 
     public class PickUpModel_ScorchedGirl2 : CreaturePickUpModel
     {
@@ -8834,6 +10057,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370012), (EmotionCardAbilityBase)new PickUpModel_ScorchedGirl2.LogEmotionCardAbility_ScorchedGirl2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_ScorchedGirl2</summary>
 
         public class LogEmotionCardAbility_ScorchedGirl2 : EmotionCardAbilityBase
         {
@@ -8881,6 +10106,12 @@ namespace abcdcode_LOGLIKE_MOD
             public override void OnSelectEmotion() => SoundEffectPlayer.PlaySound("Creature/MatchGirl_Cry");
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ScorchedGirl3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ScorchedGirl3</summary>
 
     public class PickUpModel_ScorchedGirl3 : CreaturePickUpModel
     {
@@ -8899,6 +10130,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370013), (EmotionCardAbilityBase)new PickUpModel_ScorchedGirl3.LogEmotionCardAbility_ScorchedGirl3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_ScorchedGirl3</summary>
 
         public class LogEmotionCardAbility_ScorchedGirl3 : EmotionCardAbilityBase
         {
@@ -8929,6 +10162,8 @@ namespace abcdcode_LOGLIKE_MOD
                     }
                 }
             }
+
+            /// <summary>BattleUnitBuf_burningGirl_Ember_New</summary>
 
             public class BattleUnitBuf_burningGirl_Ember_New : BattleUnitBuf
             {
@@ -9028,12 +10263,20 @@ namespace abcdcode_LOGLIKE_MOD
                 public List<LorId> TargetIDs() => this._targetIDs;
             }
 
+            /// <summary>BattleDiceCardBuf_Emotion_BurningGirl</summary>
+
             public class BattleDiceCardBuf_Emotion_BurningGirl : BattleDiceCardBuf
             {
                 public override string keywordIconId => "Burning_Match";
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ShyLookToday ---
+
+
+    /// <summary>Pickup model: PickUpModel_ShyLookToday</summary>
 
     public class PickUpModel_ShyLookToday : PickUpModelBase
     {
@@ -9067,6 +10310,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ShyLookToday0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ShyLookToday0</summary>
 
     public class PickUpModel_ShyLookToday0 : CreaturePickUpModel
     {
@@ -9093,6 +10342,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_ShyLookToday"];
     }
+    #endregion
+
+    #region --- PickUpModel_ShyLookToday1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ShyLookToday1</summary>
 
     public class PickUpModel_ShyLookToday1 : CreaturePickUpModel
     {
@@ -9111,6 +10366,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370031), (EmotionCardAbilityBase)new PickUpModel_ShyLookToday1.LogEmotionCardAbility_ShyLookToday1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_ShyLookToday1</summary>
 
         public class LogEmotionCardAbility_ShyLookToday1 : EmotionCardAbilityBase
         {
@@ -9199,6 +10456,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ShyLookToday2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ShyLookToday2</summary>
 
     public class PickUpModel_ShyLookToday2 : CreaturePickUpModel
     {
@@ -9217,6 +10480,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370032), (EmotionCardAbilityBase)new PickUpModel_ShyLookToday2.LogEmotionCardAbility_ShyLookToday2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_ShyLookToday2</summary>
 
         public class LogEmotionCardAbility_ShyLookToday2 : EmotionCardAbilityBase
         {
@@ -9247,6 +10512,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_ShyLookToday3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_ShyLookToday3</summary>
 
     public class PickUpModel_ShyLookToday3 : CreaturePickUpModel
     {
@@ -9265,6 +10536,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370033), (EmotionCardAbilityBase)new PickUpModel_ShyLookToday3.LogEmotionCardAbility_ShyLookToday3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_ShyLookToday3</summary>
 
         public class LogEmotionCardAbility_ShyLookToday3 : EmotionCardAbilityBase
         {
@@ -9329,6 +10602,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_SingingMachine ---
+
+
+    /// <summary>Pickup model: PickUpModel_SingingMachine</summary>
 
     public class PickUpModel_SingingMachine : PickUpModelBase
     {
@@ -9362,6 +10641,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_SingingMachine0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_SingingMachine0</summary>
 
     public class PickUpModel_SingingMachine0 : CreaturePickUpModel
     {
@@ -9388,6 +10673,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_SingingMachine"];
     }
+    #endregion
+
+    #region --- PickUpModel_SingingMachine1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_SingingMachine1</summary>
 
     public class PickUpModel_SingingMachine1 : CreaturePickUpModel
     {
@@ -9406,6 +10697,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370221), (EmotionCardAbilityBase)new PickUpModel_SingingMachine1.LogEmotionCardAbility_SingingMachine1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_SingingMachine1</summary>
 
         public class LogEmotionCardAbility_SingingMachine1 : EmotionCardAbilityBase
         {
@@ -9453,6 +10746,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_SingingMachine2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_SingingMachine2</summary>
 
     public class PickUpModel_SingingMachine2 : CreaturePickUpModel
     {
@@ -9472,6 +10771,8 @@ namespace abcdcode_LOGLIKE_MOD
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370222), (EmotionCardAbilityBase)new PickUpModel_SingingMachine2.LogEmotionCardAbility_SingingMachine2(), model);
         }
 
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_SingingMachine2</summary>
+
         public class LogEmotionCardAbility_SingingMachine2 : EmotionCardAbilityBase
         {
             public override void OnRoundStart()
@@ -9487,6 +10788,8 @@ namespace abcdcode_LOGLIKE_MOD
                 else
                     ++singingMachineRhythm.stack;
             }
+
+            /// <summary>BattleUnitBuf_Emotion_SingingMachine_Rhythm</summary>
 
             public class BattleUnitBuf_Emotion_SingingMachine_Rhythm : BattleUnitBuf
             {
@@ -9607,6 +10910,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_SingingMachine3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_SingingMachine3</summary>
 
     public class PickUpModel_SingingMachine3 : CreaturePickUpModel
     {
@@ -9625,6 +10934,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370223), (EmotionCardAbilityBase)new PickUpModel_SingingMachine3.LogEmotionCardAbility_SingingMachine3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_SingingMachine3</summary>
 
         public class LogEmotionCardAbility_SingingMachine3 : EmotionCardAbilityBase
         {
@@ -9662,6 +10973,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_SmallBird ---
+
+
+    /// <summary>Pickup model: PickUpModel_SmallBird</summary>
 
     public class PickUpModel_SmallBird : PickUpModelBase
     {
@@ -9695,6 +11012,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_SmallBird0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_SmallBird0</summary>
 
     public class PickUpModel_SmallBird0 : CreaturePickUpModel
     {
@@ -9721,6 +11044,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_SmallBird"];
     }
+    #endregion
+
+    #region --- PickUpModel_SmallBird1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_SmallBird1</summary>
 
     public class PickUpModel_SmallBird1 : CreaturePickUpModel
     {
@@ -9739,6 +11068,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370181), (EmotionCardAbilityBase)new PickUpModel_SmallBird1.LogEmotionCardAbility_SmallBird1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_SmallBird1</summary>
 
         public class LogEmotionCardAbility_SmallBird1 : EmotionCardAbilityBase
         {
@@ -9770,6 +11101,8 @@ namespace abcdcode_LOGLIKE_MOD
                     this._owner.bufListDetail.AddBuf((BattleUnitBuf)new PickUpModel_SmallBird1.LogEmotionCardAbility_SmallBird1.BattleUnitBuf_Emotion_SmallBird_Punish());
                 this.dmged = false;
             }
+
+            /// <summary>BattleUnitBuf_Emotion_SmallBird_Punish</summary>
 
             public class BattleUnitBuf_Emotion_SmallBird_Punish : BattleUnitBuf
             {
@@ -9837,6 +11170,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_SmallBird2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_SmallBird2</summary>
 
     public class PickUpModel_SmallBird2 : CreaturePickUpModel
     {
@@ -9855,6 +11194,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370182), (EmotionCardAbilityBase)new PickUpModel_SmallBird2.LogEmotionCardAbility_SmallBird2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_SmallBird2</summary>
 
         public class LogEmotionCardAbility_SmallBird2 : EmotionCardAbilityBase
         {
@@ -9876,6 +11217,8 @@ namespace abcdcode_LOGLIKE_MOD
                     return;
                 this._owner.bufListDetail.AddBuf((BattleUnitBuf)new PickUpModel_SmallBird2.LogEmotionCardAbility_SmallBird2.BattleUnitBuf_Emotion_SmallBird_Buri());
             }
+
+            /// <summary>BattleUnitBuf_Emotion_SmallBird_Buri</summary>
 
             public class BattleUnitBuf_Emotion_SmallBird_Buri : BattleUnitBuf
             {
@@ -9939,6 +11282,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_SmallBird3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_SmallBird3</summary>
 
     public class PickUpModel_SmallBird3 : CreaturePickUpModel
     {
@@ -9957,6 +11306,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370183), (EmotionCardAbilityBase)new PickUpModel_SmallBird3.LogEmotionCardAbility_SmallBird3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_SmallBird3</summary>
 
         public class LogEmotionCardAbility_SmallBird3 : EmotionCardAbilityBase
         {
@@ -9996,6 +11347,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_SpiderBud ---
+
+
+    /// <summary>Pickup model: PickUpModel_SpiderBud</summary>
 
     public class PickUpModel_SpiderBud : PickUpModelBase
     {
@@ -10029,6 +11386,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_SpiderBud0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_SpiderBud0</summary>
 
     public class PickUpModel_SpiderBud0 : CreaturePickUpModel
     {
@@ -10055,6 +11418,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_SpiderBud"];
     }
+    #endregion
+
+    #region --- PickUpModel_SpiderBud1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_SpiderBud1</summary>
 
     public class PickUpModel_SpiderBud1 : CreaturePickUpModel
     {
@@ -10073,6 +11442,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370231), (EmotionCardAbilityBase)new PickUpModel_SpiderBud1.LogEmotionCardAbility_SpiderBud1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_SpiderBud1</summary>
 
         public class LogEmotionCardAbility_SpiderBud1 : EmotionCardAbilityBase
         {
@@ -10095,6 +11466,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_SpiderBud2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_SpiderBud2</summary>
 
     public class PickUpModel_SpiderBud2 : CreaturePickUpModel
     {
@@ -10113,6 +11490,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370232), (EmotionCardAbilityBase)new PickUpModel_SpiderBud2.LogEmotionCardAbility_SpiderBud2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_SpiderBud2</summary>
 
         public class LogEmotionCardAbility_SpiderBud2 : EmotionCardAbilityBase
         {
@@ -10159,6 +11538,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_SpiderBud3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_SpiderBud3</summary>
 
     public class PickUpModel_SpiderBud3 : CreaturePickUpModel
     {
@@ -10177,6 +11562,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370233), (EmotionCardAbilityBase)new PickUpModel_SpiderBud3.LogEmotionCardAbility_SpiderBud3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_SpiderBud3</summary>
 
         public class LogEmotionCardAbility_SpiderBud3 : EmotionCardAbilityBase
         {
@@ -10220,6 +11607,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_TheSnowQueen ---
+
+
+    /// <summary>Pickup model: PickUpModel_TheSnowQueen</summary>
 
     public class PickUpModel_TheSnowQueen : PickUpModelBase
     {
@@ -10253,6 +11646,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_TheSnowQueen0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_TheSnowQueen0</summary>
 
     public class PickUpModel_TheSnowQueen0 : CreaturePickUpModel
     {
@@ -10279,6 +11678,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_TheSnowQueen"];
     }
+    #endregion
+
+    #region --- PickUpModel_TheSnowQueen1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_TheSnowQueen1</summary>
 
     public class PickUpModel_TheSnowQueen1 : CreaturePickUpModel
     {
@@ -10297,6 +11702,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370301), (EmotionCardAbilityBase)new PickUpModel_TheSnowQueen1.LogEmotionCardAbility_TheSnowQueen1(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_TheSnowQueen1</summary>
 
         public class LogEmotionCardAbility_TheSnowQueen1 : EmotionCardAbilityBase
         {
@@ -10345,6 +11752,8 @@ namespace abcdcode_LOGLIKE_MOD
                 });
             }
 
+            /// <summary>BattleUnitBuf_Emotion_Snowqueen_Aura</summary>
+
             public class BattleUnitBuf_Emotion_Snowqueen_Aura : BattleUnitBuf
             {
                 public GameObject aura;
@@ -10390,6 +11799,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_TheSnowQueen2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_TheSnowQueen2</summary>
 
     public class PickUpModel_TheSnowQueen2 : CreaturePickUpModel
     {
@@ -10408,6 +11823,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370302), (EmotionCardAbilityBase)new PickUpModel_TheSnowQueen2.LogEmotionCardAbility_TheSnowQueen2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_TheSnowQueen2</summary>
 
         public class LogEmotionCardAbility_TheSnowQueen2 : EmotionCardAbilityBase
         {
@@ -10447,6 +11864,8 @@ namespace abcdcode_LOGLIKE_MOD
                 this.cnt = 0;
             }
 
+            /// <summary>BattleUnitBuf_Emotion_SnowQueen_Shard</summary>
+
             public class BattleUnitBuf_Emotion_SnowQueen_Shard : BattleUnitBuf
             {
                 public const int _stackMax = 3;
@@ -10473,6 +11892,8 @@ namespace abcdcode_LOGLIKE_MOD
                     this.Destroy();
                 }
             }
+
+            /// <summary>BattleUnitBuf_Emotion_SnowQueen_Stun2</summary>
 
             public class BattleUnitBuf_Emotion_SnowQueen_Stun2 : BattleUnitBuf
             {
@@ -10516,6 +11937,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_TheSnowQueen3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_TheSnowQueen3</summary>
 
     public class PickUpModel_TheSnowQueen3 : CreaturePickUpModel
     {
@@ -10534,6 +11961,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370303), (EmotionCardAbilityBase)new PickUpModel_TheSnowQueen3.LogEmotionCardAbility_TheSnowQueen3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_TheSnowQueen3</summary>
 
         public class LogEmotionCardAbility_TheSnowQueen3 : EmotionCardAbilityBase
         {
@@ -10571,6 +12000,8 @@ namespace abcdcode_LOGLIKE_MOD
                         alive.bufListDetail.AddBuf((BattleUnitBuf)new PickUpModel_TheSnowQueen3.LogEmotionCardAbility_TheSnowQueen3.BattleUnitBuf_Emotion_SnowQueen_Stun(this._owner));
                 }
             }
+
+            /// <summary>BattleUnitBuf_Emotion_SnowQueen_Stun</summary>
 
             public class BattleUnitBuf_Emotion_SnowQueen_Stun : BattleUnitBuf
             {
@@ -10621,6 +12052,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_UniverseZogak ---
+
+
+    /// <summary>Pickup model: PickUpModel_UniverseZogak</summary>
 
     public class PickUpModel_UniverseZogak : PickUpModelBase
     {
@@ -10654,6 +12091,12 @@ namespace abcdcode_LOGLIKE_MOD
             LogueBookModels.EmotionCardList.AddRange((IEnumerable<RewardPassiveInfo>)collection);
         }
     }
+    #endregion
+
+    #region --- PickUpModel_UniverseZogak0 ---
+
+
+    /// <summary>Pickup model: PickUpModel_UniverseZogak0</summary>
 
     public class PickUpModel_UniverseZogak0 : CreaturePickUpModel
     {
@@ -10680,6 +12123,12 @@ namespace abcdcode_LOGLIKE_MOD
 
         public override Sprite GetSprite() => LogLikeMod.ArtWorks["Creature_UniverseZogak"];
     }
+    #endregion
+
+    #region --- PickUpModel_UniverseZogak1 ---
+
+
+    /// <summary>Pickup model: PickUpModel_UniverseZogak1</summary>
 
     public class PickUpModel_UniverseZogak1 : CreaturePickUpModel
     {
@@ -10698,6 +12147,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370041), (EmotionCardAbilityBase)new PickUpModel_UniverseZogak1.LogEmotionCardAbility_UniverseZogak1(), model, true);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_UniverseZogak1</summary>
 
         public class LogEmotionCardAbility_UniverseZogak1 : EmotionCardAbilityBase
         {
@@ -10749,6 +12200,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_UniverseZogak2 ---
+
+
+    /// <summary>Pickup model: PickUpModel_UniverseZogak2</summary>
 
     public class PickUpModel_UniverseZogak2 : CreaturePickUpModel
     {
@@ -10767,6 +12224,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370042), (EmotionCardAbilityBase)new PickUpModel_UniverseZogak2.LogEmotionCardAbility_UniverseZogak2(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_UniverseZogak2</summary>
 
         public class LogEmotionCardAbility_UniverseZogak2 : EmotionCardAbilityBase
         {
@@ -10823,6 +12282,8 @@ namespace abcdcode_LOGLIKE_MOD
                 this._hitEffect = (Battle.CreatureEffect.CreatureEffect)null;
             }
 
+            /// <summary>UniverseBuf</summary>
+
             public class UniverseBuf : BattleUnitBuf
             {
                 public override KeywordBuf bufType => KeywordBuf.UniverseCardBuf;
@@ -10837,6 +12298,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
+    #region --- PickUpModel_UniverseZogak3 ---
+
+
+    /// <summary>Pickup model: PickUpModel_UniverseZogak3</summary>
 
     public class PickUpModel_UniverseZogak3 : CreaturePickUpModel
     {
@@ -10855,6 +12322,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnPickUp(model);
             CreaturePickUpModel.ApplyEmotionCard(new LorId(LogLikeMod.ModId, 15370043), (EmotionCardAbilityBase)new PickUpModel_UniverseZogak3.LogEmotionCardAbility_UniverseZogak3(), model);
         }
+
+        /// <summary>LOGLIKE type: LogEmotionCardAbility_UniverseZogak3</summary>
 
         public class LogEmotionCardAbility_UniverseZogak3 : EmotionCardAbilityBase
         {
@@ -10918,4 +12387,6 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
     }
+    #endregion
+
 }

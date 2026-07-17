@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.GlobalLogueEffectBase
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Global run effect / inventory: GlobalLogueEffectBase
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\GlobalLogueEffectBase.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using GameSave;
 using LOR_DiceSystem;
 using RogueLike_Mod_Reborn;
@@ -31,6 +30,8 @@ namespace abcdcode_LOGLIKE_MOD
         /// Override this with the filename of the effect's icon. Defaults to <see cref="KeywordId"/> if not provided.
         /// </value>
         public virtual string KeywordIconId { get; }
+        #region --- Save / load ---
+
 
         /// <summary>
         /// Used for storing persistent information to save file.<br></br>
@@ -46,6 +47,10 @@ namespace abcdcode_LOGLIKE_MOD
             saveData.AddData("TypeName", new SaveData(this.GetType().Name));
             return saveData;
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         public static GlobalLogueEffectBase CreateGlobalEffectBySave(SaveData save)
         {
@@ -64,6 +69,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return (GlobalLogueEffectBase)null;
         }
+        #endregion
+
+        #region --- Save / load ---
+
 
         /// <summary>
         /// Used for loading persistent information from save file.<br></br>
@@ -72,6 +81,10 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void LoadFromSaveData(SaveData save)
         {
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Runs immediately when the effect is added to the player's inventory.
@@ -79,17 +92,29 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void AddedNew()
         {
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         /// <summary>
         /// Determines whether or not the item can stack.<br></br>
         /// <b>Does not prevent multiple copies of an item from being given.</b>
         /// </summary>
         public virtual bool CanDupliacte() => false;
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Removes the effect from the inventory.
         /// </summary>
         public virtual void Destroy() => Singleton<GlobalLogueEffectManager>.Instance.RemoveEffect(this);
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         /// <summary>
         /// Runs when the item is destroyed.
@@ -105,12 +130,20 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void OnAddSubPlayer(UnitDataModel model)
         {
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Assigns a multiplier for crafting cost.
         /// </summary>
         /// <param name="effect">The CraftEffect to multiply the cost of.</param>
         public virtual float CraftCostMultiple(CraftEffect effect) => 1f;
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         /// <summary>
         /// Runs whenever a combat page is added to the inventory.
@@ -118,6 +151,10 @@ namespace abcdcode_LOGLIKE_MOD
         /// <param name="baseid">The ID of the combat page.</param>
 
         public virtual LorId InvenAddCardChange(LorId baseid) => baseid;
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Runs right before a mid-Act reward is about to be triggered.<br></br>
@@ -134,6 +171,10 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void RewardClearStageInterrupt()
         {
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         /// <summary>
         /// Intercepts combat page generation in shops.
@@ -150,11 +191,19 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void ChangeCardReward(ref List<DiceCardXmlInfo> cardlist)
         {
         }
+        #endregion
+
+        #region --- Other helpers ---
+
         
         /// <summary>
         /// Adds an increment to the passive attribution capacity to all librarians.
         /// </summary>
         public virtual int ChangeSuccCostValue() => 0;
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         /// <summary>
         /// Changes the final roll of a die.<br></br>
@@ -165,6 +214,10 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void ChangeDiceResult(BattleDiceBehavior behavior, ref int diceResult)
         {
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Changes the list of action/RestPickUp choices when entering a resting room.
@@ -174,6 +227,10 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void ChangeRestChoice(MysteryBase currest, ref List<RewardPassiveInfo> choices)
         {
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         /// <summary>
         /// Runs at the start of the round.<br></br>
@@ -183,6 +240,10 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void OnRoundStart(StageController stage)
         {
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Adds a multiplier to damage about to be dealt.<br></br>
@@ -201,6 +262,10 @@ namespace abcdcode_LOGLIKE_MOD
         {
             return 1f;
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         /// <summary>
         /// Runs whenever an unit kills another unit.
@@ -253,6 +318,10 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void ChangeShopCardList(ShopBase shop, ref CardDropValueXmlInfo list)
         {
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         /// <summary>
         /// Runs after combat pages have been generated in a shop.
@@ -261,6 +330,10 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void OnShopCardListCreate(ShopBase shop)
         {
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         /// <summary>
         /// Runs when a combat page reward has been chosen by the player.
@@ -278,6 +351,10 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void OnSkipCardRewardChoose(List<DiceCardXmlInfo> cardlist)
         {
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         /// <summary>
         /// Determines if an item can be bought from a shop, regardless of price.<br></br>
@@ -287,6 +364,10 @@ namespace abcdcode_LOGLIKE_MOD
         /// <param name="goods">The item whose purchasability is going to be determined.</param>
         /// <returns>Whether or not the item can be bought. (true for yes, false for no)</returns>
         public virtual bool CanShopPurchase(ShopBase shop, ShopGoods goods) => true;
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         /// <summary>
         /// Runs whenever the player enters a shop.
@@ -328,6 +409,10 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void OnStartBattleAfter()
         {
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         /// <summary>
         /// Runs whenever a librarian's <see cref="BattleUnitModel"/> is created for battle.<br></br>
@@ -344,6 +429,10 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void OnCreateLibrarians()
         {
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         /// <summary>
         /// Runs when you click on the item. With your cursor.
@@ -351,6 +440,10 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void OnClick()
         {
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         /// <summary>
         /// Used to get the item's sprite.<br></br>
@@ -455,6 +548,10 @@ namespace abcdcode_LOGLIKE_MOD
         /// Defaults to -1, meaning no stack number is shown.
         /// </summary>
         public virtual int GetStack() => -1;
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         /// <summary>
         /// [RMR] Runs whenever <see cref="BattleUnitBuf_RMR_CritChance"/> crits successfully.
@@ -472,5 +569,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
 
         }
+        #endregion
+
     }
 }

@@ -1,14 +1,15 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.PassiveAbility_Mystery3_1_1
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Passive ability script: PassiveAbility_Mystery3_1_1
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery3_1_1.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 
  
 namespace abcdcode_LOGLIKE_MOD {
+
+/// <summary>Passive ability: PassiveAbility_Mystery3_1_1</summary>
 
 public class PassiveAbility_Mystery3_1_1 : PassiveAbilityBase
 {
@@ -19,6 +20,8 @@ public class PassiveAbility_Mystery3_1_1 : PassiveAbilityBase
     base.OnWaveStart();
     this.owner.bufListDetail.AddBuf((BattleUnitBuf) new PassiveAbility_Mystery3_1_1.TargetingBuf1());
   }
+
+  /// <summary>TargetingBuf1</summary>
 
   public class TargetingBuf1 : BattleUnitBuf
   {

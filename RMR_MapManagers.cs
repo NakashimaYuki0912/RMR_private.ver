@@ -1,4 +1,9 @@
-﻿using System;
+// -----------------------------------------------------------------------------
+// RogueLike Mod Reborn (RMR): RMR_MapManagers
+// Namespace/file: ruina-roguelike-reborn-main\RMR_MapManagers.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using Sound;
 using UnityEngine;
@@ -8,6 +13,9 @@ using abcdcode_LOGLIKE_MOD;
 
 namespace RogueLike_Mod_Reborn
 {
+    #region --- EnemyTeamStageManager_AutoStartMysteryStage ---
+
+    /// <summary>EnemyTeamStageManager_AutoStartMysteryStage</summary>
     public class EnemyTeamStageManager_AutoStartMysteryStage : EnemyTeamStageManager
     {
         public override void OnWaveStart()
@@ -16,6 +24,12 @@ namespace RogueLike_Mod_Reborn
             Singleton<MysteryManager>.Instance.StartMystery(LogLikeMod.curstageid);
         }
     }
+    #endregion
+
+    #region --- CryingChildrenLogKys ---
+
+
+    /// <summary>CryingChildrenLogKys</summary>
 
     public class CryingChildrenLogKys : MapManager
     {
@@ -351,6 +365,10 @@ namespace RogueLike_Mod_Reborn
 
         public SoundEffectPlayer _loopWhisperSound;
     }
+    #endregion
+
+    #region --- SparklingMirrorMapManager ---
+
 
     /// <summary>
     /// Start-stage custom map. Pull camera back slightly so units are not oversized / hard to click
@@ -383,6 +401,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+    #endregion
+
 
 }
 

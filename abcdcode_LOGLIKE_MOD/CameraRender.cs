@@ -1,13 +1,15 @@
-// Decompiled with JetBrains decompiler — performance-tuned for long sessions.
-// Original: forced Camera.Render every ~3 frames while RMR stage + spine skin.
-// Tuned: cache Camera, longer skip when inactive, avoid GetCharacterName every frame.
-
+// -----------------------------------------------------------------------------
+// Library of Ruina mod script: CameraRender
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\CameraRender.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System;
 using UI;
 using UnityEngine;
 
 namespace abcdcode_LOGLIKE_MOD
 {
+    /// <summary>CameraRender</summary>
     public class CameraRender : MonoBehaviour
     {
         public bool Actived;

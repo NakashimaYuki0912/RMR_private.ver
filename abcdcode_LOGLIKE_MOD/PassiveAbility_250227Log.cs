@@ -1,15 +1,16 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.PassiveAbility_250227Log
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Passive ability script: PassiveAbility_250227Log
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\PassiveAbility_250227Log.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 
 
 namespace abcdcode_LOGLIKE_MOD
 {
+
+    /// <summary>Passive ability: PassiveAbility_250227Log</summary>
 
     public class PassiveAbility_250227Log : PassiveAbilityBase
     {
@@ -22,6 +23,8 @@ namespace abcdcode_LOGLIKE_MOD
         public int _areaCoolTime = 1;
         public bool _teleportReady;
         public int _dmgReduction;
+        #region --- Battle hooks ---
+
 
         public override int SpeedDiceNumAdder() => this._patternCount <= 3 ? 2 : 3;
 
@@ -134,6 +137,10 @@ namespace abcdcode_LOGLIKE_MOD
             this.AddNewCard(609010);
             this.AddNewCard(609011);
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         public void UpdateStance()
         {
@@ -179,12 +186,20 @@ namespace abcdcode_LOGLIKE_MOD
                     break;
             }
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public int AddNewCard(int id)
         {
             BattleDiceCardModel battleDiceCardModel = this.owner.allyCardDetail.AddTempCard(new LorId(LogLikeMod.ModId, id));
             return battleDiceCardModel != null ? battleDiceCardModel.GetOriginCost() : 1;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public override bool BeforeTakeDamage(BattleUnitModel attacker, int dmg)
         {
@@ -196,6 +211,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return base.BeforeTakeDamage(attacker, dmg);
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public override int GetDamageReductionAll()
         {
@@ -214,5 +233,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             bool teleportReady = this._teleportReady;
         }
+        #endregion
+
     }
 }

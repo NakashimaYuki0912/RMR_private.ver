@@ -1,9 +1,9 @@
-// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.LogLikeMod
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// =============================================================================
+// LogLikeMod - central static hub for the roguelike run (chapter, money, UI,
+// localization/fonts, pickups, stages). RMR builds on top of this assembly.
+// Method groups are region-tagged (save, battle, UI, shop, inventory, ...).
+// Disk keys: Lastest (continue), chapter saves via LogueSaveManager.
+// =============================================================================
 using BattleCharacterProfile;
 using GameSave;
 using HarmonyLib;
@@ -33,6 +33,8 @@ using CommonModApi;
 
 namespace abcdcode_LOGLIKE_MOD
 {
+
+    /// <summary>LOGLIKE type: LogLikeMod</summary>
 
     public class LogLikeMod : ModInitializer
     {
@@ -145,8 +147,8 @@ namespace abcdcode_LOGLIKE_MOD
         public static Image CraftBtnFrame;
         public static Button CreatureBtn;
         public static Image CreatureBtnFrame;
-        public static Button AtlasBtn;
-        public static Image AtlasBtnFrame;
+        public static Button CompendiumBtn;
+        public static Image CompendiumBtnFrame;
         public static Button RealizationBtn;
         public static Image RealizationBtnFrame;
         public static Button InvenBtn;
@@ -172,6 +174,8 @@ namespace abcdcode_LOGLIKE_MOD
         public static LogLikeMod.CacheDic<(string, string), Sprite> ModdedArtWorks;
         public static bool itemCatalogActive;
         public static LogLikeHooks logLikeHooks;
+        #region --- Save / load / continue ---
+
 
         public static SaveData CreateChSaveData(ChapterGrade grade)
         {
@@ -204,6 +208,10 @@ namespace abcdcode_LOGLIKE_MOD
             LogLikeMod.SetNextStage(LogLikeMod.curstageid, LogLikeMod.curstagetype, NextStageSetType.BySave);
             PassiveAbility_MoneyCheck.SetMoney(data.GetInt("Money"));
         }
+        #endregion
+
+        #region --- Battle / stage / wave ---
+
 
         /// <summary>
         /// Sets the next act's reception.
@@ -344,6 +352,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return false;
         }
+        #endregion
+
+        #region --- UI panels & overlays ---
+
 
         public static GameObject GetLogUIObj(int index)
         {
@@ -384,6 +396,10 @@ namespace abcdcode_LOGLIKE_MOD
         {
             return (T)obj.GetType().GetField(name, AccessTools.all | BindingFlags.FlattenHierarchy).GetValue(obj);
         }
+        #endregion
+
+        #region --- Harmony / hooks / utils ---
+
 
         /// <summary>
         /// Shorthand for setting private fields.
@@ -456,6 +472,10 @@ namespace abcdcode_LOGLIKE_MOD
                 LogLikeMod._DefFont_TMP = value;
             }
         }
+        #endregion
+
+        #region --- Localization & fonts ---
+
 
         /// <summary>
         /// Resolve CJK-capable font, patch LocalizedFontSetter language slots, optionally repair live TMP.
@@ -1028,6 +1048,10 @@ namespace abcdcode_LOGLIKE_MOD
             get => LogLikeMod._DefFontColor;
             set => LogLikeMod._DefFontColor = value;
         }
+        #endregion
+
+        #region --- Harmony / hooks / utils ---
+
 
         /// <summary>
         /// Checks for mod incompatibilities.
@@ -1119,6 +1143,10 @@ namespace abcdcode_LOGLIKE_MOD
       AtlasAsset.CreateRuntimeInstance(atlasText, materials, true)
             }, true, scale);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static Material CreateMaterialForSkel(string imagepath, string name)
         {
@@ -1132,6 +1160,10 @@ namespace abcdcode_LOGLIKE_MOD
                 mainTexture = (Texture)tex
             };
         }
+        #endregion
+
+        #region --- Battle / stage / wave ---
+
 
         public static string GetPickUpXmlWorkShopId_Stage(EmotionCardXmlInfo info)
         {
@@ -1144,11 +1176,19 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return null;
         }
+        #endregion
+
+        #region --- Shop / mystery / map ---
+
 
         public static string GetPickUpXmlWorkShopId_Passive(EmotionCardXmlInfo info)
         {
             return LogLikeMod.PickUpXml_Dummy_Passive == null ? null : LogLikeMod.PickUpXml_Dummy_Passive.ToList().Find(x => x.Value.Find(y => y == info) != null).Key;
         }
+        #endregion
+
+        #region --- Inventory / cards / books ---
+
 
         public static EmotionCardXmlInfo GetRegisteredPickUpXml(LogueStageInfo info)
         {
@@ -1228,6 +1268,10 @@ namespace abcdcode_LOGLIKE_MOD
             if (info.rewardtype == RewardType.EquipPage)
                 RewardingModel.CreateEquipRewardXmlData(info);
         }
+        #endregion
+
+        #region --- Save / load / continue ---
+
 
         public static void LoadSpineAssets()
         {
@@ -1580,6 +1624,10 @@ namespace abcdcode_LOGLIKE_MOD
                 UpsertBookTextByMod(modid, bookDescRoot.bookDescList);
             }
         }
+        #endregion
+
+        #region --- Localization & fonts ---
+
 
         /// <summary>
         /// AddBookTextByMod only AddRange — reloads would duplicate. Replace-by-bookID per package.
@@ -1626,6 +1674,10 @@ namespace abcdcode_LOGLIKE_MOD
                 catch { /* ignore */ }
             }
         }
+        #endregion
+
+        #region --- Save / load / continue ---
+
 
         public static void LoadCardDesc(string path, string modid)
         {
@@ -1735,6 +1787,10 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
         }
+        #endregion
+
+        #region --- Localization & fonts ---
+
 
         /// <summary>Read localize/XML text as UTF-8 (files are UTF-8; system default GBK corrupts Chinese).</summary>
         public static string ReadLocalizeTextFile(string path)
@@ -1778,6 +1834,10 @@ namespace abcdcode_LOGLIKE_MOD
 
             return Score(gbk) > Score(utf8) ? gbk : utf8;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         private static int CountCjkChars(string s)
         {
@@ -1791,6 +1851,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return n;
         }
+        #endregion
+
+        #region --- Localization & fonts ---
+
 
         /// <summary>
         /// Force-reload Opening PV lyrics for the active language from BaseMod/Localize.
@@ -1863,6 +1927,10 @@ namespace abcdcode_LOGLIKE_MOD
                 _reloadingOpeningLyrics = false;
             }
         }
+        #endregion
+
+        #region --- UI panels & overlays ---
+
 
         private static OpeningLyricsRoot ParseOpeningLyricsFallback(string xml)
         {
@@ -1901,6 +1969,10 @@ namespace abcdcode_LOGLIKE_MOD
 
         private static bool _reloadingOpeningLyrics;
         private static bool _reloadingLibrariansNames;
+        #endregion
+
+        #region --- Localization & fonts ---
+
 
         /// <summary>Reload NormalLibrariansNamePreset so unit names match game language (not KR hangul tofu).</summary>
         public static void ReloadLibrariansNamesForLanguage(string language, string reason)
@@ -1935,6 +2007,10 @@ namespace abcdcode_LOGLIKE_MOD
                 _reloadingLibrariansNames = false;
             }
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         private static string TruncateSample(string s)
         {
@@ -1943,6 +2019,10 @@ namespace abcdcode_LOGLIKE_MOD
             s = s.Replace("\n", " ").Replace("\r", "");
             return s.Length <= 24 ? s : s.Substring(0, 24) + "…";
         }
+        #endregion
+
+        #region --- Localization & fonts ---
+
 
         /// <summary>Apply DefFont to opening PV subtitle TMP (language font list may miss cn).</summary>
         public static void ApplyOpeningSubtitleFont(Opening.GameOpeningController controller)
@@ -1991,6 +2071,10 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
         }
+        #endregion
+
+        #region --- Harmony / hooks / utils ---
+
 
         /// <summary>
         /// Runtime config/data files only. Skips .bak / .pre_* backup names that historically
@@ -2009,6 +2093,10 @@ namespace abcdcode_LOGLIKE_MOD
                 return false;
             return true;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>Enumerate *.xml under a directory, excluding backup-style names.</summary>
         public static FileInfo[] EnumerateXmlFiles(string directoryPath)
@@ -2042,6 +2130,10 @@ namespace abcdcode_LOGLIKE_MOD
                 return Array.Empty<FileInfo>();
             }
         }
+        #endregion
+
+        #region --- Localization & fonts ---
+
 
         /// <summary>Enumerate localize text roots (xml/txt) excluding backups.</summary>
         public static FileInfo[] EnumerateLocalizeTextFiles(string directoryPath)
@@ -2802,6 +2894,10 @@ namespace abcdcode_LOGLIKE_MOD
             // the passive LorId carries a mod package (IsWorkshop → fields, not PassiveDescXmlList).
             StampOriginPassiveXmlInfoFromDescDictionary();
         }
+        #endregion
+
+        #region --- Inventory / cards / books ---
+
 
         /// <summary>
         /// For every PassiveXmlInfo whose id is workshop-packaged but has a matching origin
@@ -2891,6 +2987,10 @@ namespace abcdcode_LOGLIKE_MOD
                 Debug.LogWarning("[RMR Localize] StampOriginPassiveXmlInfoFromDescDictionary failed: " + ex.Message);
             }
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         private static bool LooksLikeHangulHeavy(string text)
         {
@@ -2920,6 +3020,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return total > 0 && tofu * 2 >= total;
         }
+        #endregion
+
+        #region --- Localization & fonts ---
+
 
         private static bool IsPoorPassiveXmlText(string text)
         {
@@ -3070,6 +3174,10 @@ namespace abcdcode_LOGLIKE_MOD
                 Debug.LogWarning("[RMR Localize Health] " + ex.Message);
             }
         }
+        #endregion
+
+        #region --- Save / load / continue ---
+
 
         public static MysteryXmlRoot LoadMysteryInfos(string str, string modid)
         {
@@ -3270,6 +3378,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             LogStoryPathList.Instance.AddStoryPathInfo(infolist);
         }
+        #endregion
+
+        #region --- Inventory / cards / books ---
+
 
         public static EmotionEgoXmlInfo AddEmotionEgoForReward(DiceCardXmlInfo info)
         {
@@ -3290,6 +3402,10 @@ namespace abcdcode_LOGLIKE_MOD
             LogLikeMod.RewardCardDic_Dummy[pkgKey].Add(emotionEgoXmlInfo);
             return emotionEgoXmlInfo;
         }
+        #endregion
+
+        #region --- Harmony / hooks / utils ---
+
 
         public static List<Assembly> GetAssemList()
         {
@@ -3316,6 +3432,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return assemList;
         }
+        #endregion
+
+        #region --- Battle / stage / wave ---
+
 
         public static void SetStagePhase(StageController __instance, StageController.StagePhase phase)
         {
@@ -3467,6 +3587,10 @@ namespace abcdcode_LOGLIKE_MOD
                 LogLikeMod.nextlist = LogueBookModels.GetNextList(LogLikeMod.curchaptergrade, LogLikeMod.curstagetype == StageType.Start);
             }
         }
+        #endregion
+
+        #region --- Save / load / continue ---
+
 
         public static void LoadPassives()
         {
@@ -3863,6 +3987,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return stageClassInfoList;
         }
+        #endregion
+
+        #region --- Battle / stage / wave ---
+
 
         private static void RestoreVanillaEnemyIdsForImpurityStage(StageClassInfo stageClassInfo)
         {
@@ -3895,6 +4023,10 @@ namespace abcdcode_LOGLIKE_MOD
                 return "(none)";
             return string.Join(", ", wave.enemyUnitIdList.Select(id => id?.ToString() ?? "NULL").ToArray());
         }
+        #endregion
+
+        #region --- Shop / mystery / map ---
+
 
         private static void RestoreVanillaLorIdsInObject(object target)
         {
@@ -3927,6 +4059,10 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
         }
+        #endregion
+
+        #region --- Harmony / hooks / utils ---
+
 
         private static void TrySetLorIdXmlPackageId(object item, string packageId)
         {
@@ -3948,6 +4084,10 @@ namespace abcdcode_LOGLIKE_MOD
                     pidProperty.SetValue(item, packageId, null);
             }
         }
+        #endregion
+
+        #region --- Save / load / continue ---
+
 
         public static void LoadEnemyUnitInfos()
         {
@@ -4013,6 +4153,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return enemyUnitClassInfoList;
         }
+        #endregion
+
+        #region --- UI panels & overlays ---
+
 
         public static bool CheckIsEquipReward(RewardPassiveInfo x)
         {
@@ -4063,6 +4207,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             LogLikeMod.CreatedShopEquipPages = true;
         }
+        #endregion
+
+        #region --- Save / load / continue ---
+
 
         public static void LoadEquipPages()
         {
@@ -4137,6 +4285,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return bookXmlInfoList;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public override void OnInitializeMod()
         {
@@ -4406,6 +4558,10 @@ namespace abcdcode_LOGLIKE_MOD
                 Singleton<ModContentManager>.Instance.AddErrorLog($"LogLikeMod Init error : {ex.Message}{Environment.NewLine}{ex.StackTrace}");
             }
         }
+        #endregion
+
+        #region --- Inventory / cards / books ---
+
 
         public static PickUpModelBase FindPickUp(string script)
         {
@@ -4429,6 +4585,8 @@ namespace abcdcode_LOGLIKE_MOD
                 return vanillaEmotion;
             return (PickUpModelBase)null;
         }
+
+        /// <summary>PreLoader</summary>
 
         public class PreLoader : MonoBehaviour
         {
@@ -4557,6 +4715,8 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        /// <summary>UIActiveChecker</summary>
+
         public class UIActiveChecker : MonoBehaviour
         {
             public void Update()
@@ -4575,11 +4735,15 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        /// <summary>LoadList</summary>
+
         public class LoadList
         {
             [XmlElement("Dll")]
             public List<string> ReadDll;
         }
+
+        /// <summary>ModLoader</summary>
 
         public class ModLoader
         {
@@ -4756,6 +4920,8 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        /// <summary>CacheDic</summary>
+
         public class CacheDic<Tkey, TValue>
         {
             public LogLikeMod.CacheDic<Tkey, TValue>.getdele del;
@@ -4798,6 +4964,8 @@ namespace abcdcode_LOGLIKE_MOD
 
             public delegate TValue getdele(Tkey key);
         }
+
+        /// <summary>LOGLIKE type: LogUIBookSlot</summary>
 
         public class LogUIBookSlot : MonoBehaviour
         {
@@ -5028,6 +5196,8 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
         }
+
+        /// <summary>LOGLIKE type: LogUISettingInvenEquipPageSlot</summary>
 
         public class LogUISettingInvenEquipPageSlot : UIOriginEquipPageSlot
         {
@@ -5408,6 +5578,8 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        /// <summary>LOGLIKE type: LogBattleEmotionRewardSlotUI</summary>
+
         public class LogBattleEmotionRewardSlotUI : MonoBehaviour
         {
             public BattleEmotionRewardInfoUI panel;
@@ -5443,6 +5615,8 @@ namespace abcdcode_LOGLIKE_MOD
                 return emotionRewardSlotUi2;
             }
         }
+
+        /// <summary>LOGLIKE type: LogBattleCharacterProfileUI</summary>
 
         public class LogBattleCharacterProfileUI : MonoBehaviour
         {
@@ -5521,6 +5695,8 @@ namespace abcdcode_LOGLIKE_MOD
                 return characterProfileUi2;
             }
         }
+
+        /// <summary>UILogBattleDiceCardUI</summary>
 
         public class UILogBattleDiceCardUI : MonoBehaviour
         {
@@ -6278,6 +6454,8 @@ namespace abcdcode_LOGLIKE_MOD
 
         }
 
+        /// <summary>LOGLIKE type: LogLikeBattleDiceCardPreviewUI</summary>
+
         public class LogLikeBattleDiceCardPreviewUI : MonoBehaviour
         {
             public static LogLikeBattleDiceCardPreviewUI GetOrCreateUI(UILogBattleDiceCardUI mainUI, bool createIfNull)
@@ -6894,6 +7072,8 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        /// <summary>UILogDetailCardSlot</summary>
+
         public class UILogDetailCardSlot : MonoBehaviour
         {
             public static LogLikeMod.UILogDetailCardSlot Instance;
@@ -7195,6 +7375,8 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        /// <summary>UILogCardSlot</summary>
+
         public class UILogCardSlot : MonoBehaviour
         {
             public static LogLikeMod.UILogCardSlot Original;
@@ -7485,6 +7667,8 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        /// <summary>BattleMoneyUI</summary>
+
         public class BattleMoneyUI
         {
             public static Dictionary<string, GameObject> obj_dic;
@@ -7532,5 +7716,7 @@ namespace abcdcode_LOGLIKE_MOD
                 LogLikeMod.BattleMoneyUI.obj_dic["Money"].GetComponent<TextMeshProUGUI>().text = PassiveAbility_MoneyCheck.GetMoney().ToString();
             }
         }
+        #endregion
+
     }
 }

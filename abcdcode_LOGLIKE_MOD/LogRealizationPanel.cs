@@ -1,4 +1,9 @@
-﻿using System;
+// -----------------------------------------------------------------------------
+// LOGLIKE core UI/data: LogRealizationPanel
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\LogRealizationPanel.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using LOR_DiceSystem;
 using RogueLike_Mod_Reborn;
@@ -31,6 +36,8 @@ namespace abcdcode_LOGLIKE_MOD
         {
             Instance = this;
         }
+        #region --- UI lifecycle ---
+
 
         public void Show(UIBattleSettingEditPanel parentPanel)
         {
@@ -92,6 +99,10 @@ namespace abcdcode_LOGLIKE_MOD
         {
             ForceDestroyUi();
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void ForceDestroyUi()
         {
@@ -118,6 +129,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             catch { }
         }
+        #endregion
+
+        #region --- UI lifecycle ---
+
 
         public static void ForceCloseStatic()
         {
@@ -145,6 +160,10 @@ namespace abcdcode_LOGLIKE_MOD
             _rootObject = null;
             _isVisible = false;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public bool TryHandleBack()
         {
@@ -212,6 +231,10 @@ namespace abcdcode_LOGLIKE_MOD
         private static readonly Color ColProgressTrack = new Color(0.14f, 0.11f, 0.07f, 1f);
         private static readonly Color ColProgressFill = new Color(0.82f, 0.62f, 0.28f, 1f);
         private static readonly Color ColPerf = new Color(0.55f, 0.42f, 0.22f, 0.55f);
+        #endregion
+
+        #region --- UI lifecycle ---
+
 
         private void BuildPanel(Transform parentRoot)
         {
@@ -375,6 +398,10 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         private static string GetPanelTextStatic(string key, string zh, string en, string jp, string kr)
         {
@@ -487,6 +514,10 @@ namespace abcdcode_LOGLIKE_MOD
             tmp.text = text ?? "";
             return tmp;
         }
+        #endregion
+
+        #region --- UI lifecycle ---
+
 
         private static Image CreateLoRButtonShell(Transform parent, string name, Vector2 pos, Vector2 size,
             Color faceColor, Color edgeColor, out Button button, out GameObject btnGo)
@@ -548,6 +579,10 @@ namespace abcdcode_LOGLIKE_MOD
 
             return faceImg;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         private static Color GetSephirahAccent(SephirahType floor)
         {
@@ -577,6 +612,10 @@ namespace abcdcode_LOGLIKE_MOD
                 default: return ColGold;
             }
         }
+        #endregion
+
+        #region --- UI lifecycle ---
+
 
         private void CreateCloseButton(Transform parent, Vector2 pos)
         {
@@ -680,5 +719,7 @@ namespace abcdcode_LOGLIKE_MOD
                 RMRRealizationManager.StartRealizationBattle(capturedFloor);
             });
         }
+        #endregion
+
     }
 }

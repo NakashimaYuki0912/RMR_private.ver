@@ -1,3 +1,9 @@
+// =============================================================================
+// RMRStartHubPanel - invitation-time mode select (Play / Continue / Realization /
+// Help / Compendium / Reset / Exit). Shown AFTER clicking RMR on invitation,
+// BEFORE ConfirmSendInvitation. Continue uses LoguePlayDataSaver.CheckPlayerData.
+// EN product name for archive UI: Compendium (localize keys may still say Atlas).
+// =============================================================================
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,6 +34,8 @@ namespace RogueLike_Mod_Reborn
     /// </summary>
     public class RMRStartHubPanel : MonoBehaviour
     {
+        #region --- Launch intent & singleton ---
+
         public static RMRStartHubPanel Instance { get; private set; }
 
         /// <summary>
@@ -68,6 +76,10 @@ namespace RogueLike_Mod_Reborn
         /// Open hub as a dedicated full-screen page (not nested under the right invitation column).
         /// Still keeps a reference to the invitation panel so ConfirmSendInvitation works.
         /// </summary>
+        #endregion
+
+        #region --- Show / hide / back stack ---
+
         public static void ShowOnInvitation(UIInvitationRightMainPanel invitation)
         {
             if (invitation == null)
@@ -185,8 +197,8 @@ namespace RogueLike_Mod_Reborn
             catch { }
             try
             {
-                var atlas = Singleton<LogAtlasPanel>.Instance;
-                if (atlas != null && atlas.IsVisible)
+                var compendium = Singleton<LogCompendiumPanel>.Instance;
+                if (compendium != null && compendium.IsVisible)
                     yield break;
             }
             catch { }
@@ -217,9 +229,9 @@ namespace RogueLike_Mod_Reborn
             try { RMRHelpHandbookPanel.Instance?.Hide(); } catch { }
             try
             {
-                var atlas = Singleton<LogAtlasPanel>.Instance;
-                if (atlas != null && atlas.IsVisible)
-                    atlas.CloseFromHub();
+                var compendium = Singleton<LogCompendiumPanel>.Instance;
+                if (compendium != null && compendium.IsVisible)
+                    compendium.CloseFromHub();
             }
             catch { }
             if (_root != null)
@@ -246,8 +258,8 @@ namespace RogueLike_Mod_Reborn
             catch { }
             try
             {
-                var atlas = Singleton<LogAtlasPanel>.Instance;
-                if (atlas != null && atlas.TryHandleBack())
+                var compendium = Singleton<LogCompendiumPanel>.Instance;
+                if (compendium != null && compendium.TryHandleBack())
                     return true;
             }
             catch { }
@@ -261,6 +273,16 @@ namespace RogueLike_Mod_Reborn
             Hide();
             return true;
         }
+
+        /// <summary>
+        /// Localization lookup for hub chrome.
+        /// Prefer keys in <c>Localize/{cn|en|kr}/UIs.txt</c> (see docs/localization/).
+        /// Fallbacks (zh/en/kr args) only apply when the key is missing — keep them short and glossary-aligned
+        /// (EN: "Compendium" not "Atlas"). Translators should edit Localize files, not these defaults.
+        /// </summary>
+        #endregion
+
+        #region --- Localization helper ---
 
         private static string T(string key, string zh, string en = null, string kr = null)
         {
@@ -278,6 +300,10 @@ namespace RogueLike_Mod_Reborn
                 return kr;
             return zh;
         }
+
+        #endregion
+
+        #region --- UI build (page chrome + menu rows) ---
 
         // Hub A: full-screen invitation page with a left identity block and right action index.
         private static readonly Color ColPageBlack = new Color(0f, 0f, 0f, 1f);
@@ -415,7 +441,8 @@ namespace RogueLike_Mod_Reborn
 
             // Continue lives here (after RMR entry → mode select), not as a lone invitation icon.
             bool hasSave = false;
-            try { hasSave = LoguePlayDataSaver.CheckPlayerData(); } catch { hasSave = false; }
+            try { hasSave = LoguePlayDataSaver.CheckPlayerData(); } catch (Exception ex) { hasSave = false; Debug.LogWarning("[RMRStartHubPanel] CheckPlayerData: " + ex.Message); }
+            Debug.Log($"[RMRStartHubPanel] Continue button available={hasSave} (Lastest under LogueSave).");
 
             // The recovered A prototype uses seven 67px invitation rows with a 9px gap.
             float step = 76f;
@@ -441,7 +468,7 @@ namespace RogueLike_Mod_Reborn
             y -= step;
             AddMenuButton(menuRoot.transform, "V",
                 T("ui_RMR_Hub_Atlas", "\u56fe\u9274", "Compendium", "\ub3c4\uac10"),
-                "PERMANENT COMPENDIUM", y, OnClickAtlas, primary: false);
+                "PERMANENT COMPENDIUM", y, OnClickCompendium, primary: false);
             y -= step;
             AddMenuButton(menuRoot.transform, "VI",
                 T("ui_RMR_Hub_Reset", "\u91cd\u7f6e\u6c38\u4e45\u8fdb\u5ea6", "Reset Permanent Progress", "\uc601\uad6c \uc9c4\ud589 \ucd08\uae30\ud654"),
@@ -604,7 +631,7 @@ namespace RogueLike_Mod_Reborn
             rt.sizeDelta = box;
             rt.anchoredPosition = pos;
             // Noto CJKsc SDF has no real bold face — FontStyles.Bold is synthetic and turns CN mushy/blurry.
-            // Prefer size weight over pseudo-bold; material must match the Noto atlas.
+            // Prefer size weight over pseudo-bold; material must match the Noto compendium.
             TMP_FontAsset font = LogLikeMod.DefFont_TMP;
             LogLikeMod.ApplyTmpFontPreservingSharpMaterial(tmp, font);
             tmp.fontSize = bold ? size + 2 : size;
@@ -708,6 +735,10 @@ namespace RogueLike_Mod_Reborn
                 catch (Exception ex) { Debug.LogError("[RMRStartHubPanel] " + ex); }
             });
         }
+
+        #endregion
+
+        #region --- Menu actions (Play / Continue / Realization / Compendium / ...) ---
 
         private bool EnsureInvitationReady()
         {
@@ -872,42 +903,42 @@ namespace RogueLike_Mod_Reborn
             RMRHelpHandbookPanel.ShowOrCreate(parent);
         }
 
-        private void OnClickAtlas()
+        private void OnClickCompendium()
         {
-            // Soft-hide hub menu; atlas “返回” restores it (same pattern as realization floor pick).
-            Debug.Log("[RMRStartHubPanel] Atlas button clicked.");
+            // Soft-hide hub menu; Compendium “返回” restores it (same pattern as realization floor pick).
+            Debug.Log("[RMRStartHubPanel] Compendium button clicked.");
             try
             {
                 if (_root != null)
                     _root.SetActive(false);
 
-                LogAtlasPanel atlas = null;
-                try { atlas = Singleton<LogAtlasPanel>.Instance; } catch { atlas = null; }
-                if (atlas == null)
+                LogCompendiumPanel compendium = null;
+                try { compendium = Singleton<LogCompendiumPanel>.Instance; } catch { compendium = null; }
+                if (compendium == null)
                 {
                     // Singleton may not auto-create outside battle UI — construct explicitly.
                     try
                     {
-                        atlas = (LogAtlasPanel)Activator.CreateInstance(typeof(LogAtlasPanel), true);
+                        compendium = (LogCompendiumPanel)Activator.CreateInstance(typeof(LogCompendiumPanel), true);
                         // Reflect-set Instance if needed
-                        var prop = typeof(Singleton<LogAtlasPanel>).GetProperty("Instance",
+                        var prop = typeof(Singleton<LogCompendiumPanel>).GetProperty("Instance",
                             System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.FlattenHierarchy);
                         // Some Singleton variants use a private field `_instance`
-                        var field = typeof(Singleton<LogAtlasPanel>).GetField("_instance",
+                        var field = typeof(Singleton<LogCompendiumPanel>).GetField("_instance",
                             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.FlattenHierarchy)
-                            ?? typeof(Singleton<LogAtlasPanel>).GetField("instance",
+                            ?? typeof(Singleton<LogCompendiumPanel>).GetField("instance",
                             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.FlattenHierarchy);
                         if (field != null)
-                            field.SetValue(null, atlas);
+                            field.SetValue(null, compendium);
                     }
                     catch (Exception createEx)
                     {
-                        Debug.LogError("[RMRStartHubPanel] Create LogAtlasPanel failed: " + createEx);
+                        Debug.LogError("[RMRStartHubPanel] Create LogCompendiumPanel failed: " + createEx);
                         throw;
                     }
                 }
 
-                atlas.ShowFromHub(() =>
+                compendium.ShowFromHub(() =>
                 {
                     try
                     {
@@ -935,6 +966,10 @@ namespace RogueLike_Mod_Reborn
         {
             ShowExitConfirm();
         }
+
+        #endregion
+
+        #region --- Confirm dialogs (reset progress / exit) ---
 
         private void ShowResetProgressConfirm()
         {
@@ -1087,7 +1122,11 @@ namespace RogueLike_Mod_Reborn
                 action();
             });
         }
+
+        #endregion
     }
+
+    #region --- Nested UI helpers (button graphic / hover) ---
 
     /// <summary>
     /// Split-tone invitation ticket button face (left/right fill). Used as Button targetGraphic.
@@ -1128,6 +1167,8 @@ namespace RogueLike_Mod_Reborn
             SetVerticesDirty();
         }
     }
+
+    /// <summary>RMR type: RMRHubButtonHover</summary>
 
     internal sealed class RMRHubButtonHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
@@ -1190,4 +1231,6 @@ namespace RogueLike_Mod_Reborn
                 graphic.SetSplitColors(idleLeft, idleRight);
         }
     }
+
+    #endregion
 }

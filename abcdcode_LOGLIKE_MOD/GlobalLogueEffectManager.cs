@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.GlobalLogueEffectManager
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Global run effect / inventory: GlobalLogueEffectManager
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\GlobalLogueEffectManager.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using GameSave;
 using HarmonyLib;
 using LOR_DiceSystem;
@@ -22,6 +21,8 @@ using RogueLike_Mod_Reborn;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>GlobalLogueEffectManager</summary>
+
     public class GlobalLogueEffectManager : Singleton<GlobalLogueEffectManager>, Savable
     {
         public Button Next;
@@ -36,6 +37,8 @@ namespace abcdcode_LOGLIKE_MOD
         public bool First;
         public ShopRewardType curGlobalType;
         public bool isLoadingSave;
+        #region --- Save / load ---
+
 
         public void LoadFromSaveData(SaveData save)
         {
@@ -51,6 +54,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             this.isLoadingSave = false;
         }
+        #endregion
+
+        #region --- Effect registry ---
+
 
         public SaveData GetSaveData()
         {
@@ -117,6 +124,10 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public float CraftCostMultiple(CraftEffect cffect)
         {
@@ -135,6 +146,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return num;
         }
+        #endregion
+
+        #region --- Effect registry ---
+
 
         public LorId InvenAddCardChange(LorId baseid)
         {
@@ -152,6 +167,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return baseid;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void RewardInStageInterrupt()
         {
@@ -255,12 +274,20 @@ namespace abcdcode_LOGLIKE_MOD
             foreach (GlobalLogueEffectBase effect in this.GetEffectList())
                 effect.ChangeRestChoice(currest, ref choices);
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public void OnRoundStart(StageController stage)
         {
             foreach (GlobalLogueEffectBase effect in this.GetEffectList())
                 effect.OnRoundStart(stage);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public float DmgFactor(BattleUnitModel model, int dmg, DamageType type = DamageType.ETC, KeywordBuf keyword = KeywordBuf.None)
         {
@@ -269,6 +296,10 @@ namespace abcdcode_LOGLIKE_MOD
                 num *= effect.DmgFactor(model, dmg, type, keyword);
             return num;
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public void OnKillUnit(BattleUnitModel killer, BattleUnitModel target)
         {
@@ -287,6 +318,10 @@ namespace abcdcode_LOGLIKE_MOD
             foreach (GlobalLogueEffectBase effect in this.GetEffectList())
                 effect.OnStartBattle(card);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void BeforeRollDice(BattleDiceBehavior behavior)
         {
@@ -299,6 +334,10 @@ namespace abcdcode_LOGLIKE_MOD
             foreach (GlobalLogueEffectBase effect in this.GetEffectList())
                 effect.OnUseCard(cardmodel);
         }
+        #endregion
+
+        #region --- Effect registry ---
+
 
         public void ChangeShopCardList(ShopBase shop, ref CardDropValueXmlInfo list)
         {
@@ -311,6 +350,10 @@ namespace abcdcode_LOGLIKE_MOD
             foreach (GlobalLogueEffectBase effect in this.GetEffectList())
                 effect.OnShopCardListCreate(shop);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void OnPickCardReward(List<DiceCardXmlInfo> cardlist, DiceCardXmlInfo pick)
         {
@@ -345,6 +388,10 @@ namespace abcdcode_LOGLIKE_MOD
             foreach (GlobalLogueEffectBase effect in this.GetEffectList())
                 effect.OnEnterShop(shop);
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public void OnStartBattle()
         {
@@ -363,6 +410,10 @@ namespace abcdcode_LOGLIKE_MOD
             foreach (GlobalLogueEffectBase effect in this.GetEffectList())
                 effect.OnEndBattle();
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void OnCreateLibrarian(BattleUnitModel model)
         {
@@ -375,6 +426,10 @@ namespace abcdcode_LOGLIKE_MOD
             foreach (GlobalLogueEffectBase effect in this.GetEffectList())
                 effect.OnCreateLibrarians();
         }
+        #endregion
+
+        #region --- Effect registry ---
+
 
         public void ClearList()
         {
@@ -435,6 +490,10 @@ namespace abcdcode_LOGLIKE_MOD
                 this.effects = new List<GlobalLogueEffectBase>();
             return new List<GlobalLogueEffectBase>(this.effects);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void OnClickNext()
         {
@@ -501,12 +560,18 @@ namespace abcdcode_LOGLIKE_MOD
             foreach (GlobalLogueEffectBase effect in this.effects)
                 effect.OnCrit(critter, target);
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public void AfterClearBossWave()
         {
             foreach (GlobalLogueEffectBase effect in this.effects)
                 effect.AfterClearBossWave();
         }
+
+        /// <summary>LOGLIKE type: LogueEffectOnOff</summary>
 
         public class LogueEffectOnOff : MonoBehaviour
         {
@@ -583,6 +648,8 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
         }
+
+        /// <summary>LOGLIKE type: LogueEffectImage</summary>
 
         public class LogueEffectImage : MonoBehaviour
         {
@@ -675,5 +742,7 @@ namespace abcdcode_LOGLIKE_MOD
 
 
         }
+        #endregion
+
     }
 }

@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.ShopBase
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Shop system component: ShopBase
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\ShopBase.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using GameSave;
 using LOR_DiceSystem;
 using RogueLike_Mod_Reborn;
@@ -20,10 +19,14 @@ using UnityEngine.UI;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>Shop component: ShopBase</summary>
+
     public class ShopBase
     {
         public const int UpgradeCardBasePrice = 10;
         public const int UpgradeCardPriceStep = 2;
+
+        /// <summary>Shop component: ShopSection</summary>
 
         public enum ShopSection
         {
@@ -132,6 +135,8 @@ namespace abcdcode_LOGLIKE_MOD
             };
             ShopBase.CardShape.Add(10, vector2Array8);
         }
+        #region --- Save / load ---
+
 
         public virtual SaveData GetSaveData()
         {
@@ -192,6 +197,10 @@ namespace abcdcode_LOGLIKE_MOD
                     this.Shop_CardUpgradeCreating(new Vector2(0.0f, 0.0f), upgradeData.GetInt("index"), upgradeData.GetInt("price")).LoadFromSaveData(upgradeData);
             }
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static List<RewardPassiveInfo> GetPassiveInList(
           List<RewardPassiveInfo> passiveinfos,
@@ -326,6 +335,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return new ShopBase();
         }
+        #endregion
+
+        #region --- Shop lifecycle ---
+
 
         public virtual void Init()
         {
@@ -334,6 +347,10 @@ namespace abcdcode_LOGLIKE_MOD
             LoguePlayDataSaver.SaveShop(this);
             Singleton<GlobalLogueEffectManager>.Instance.OnEnterShop(this);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public virtual void RemoveShop()
         {
@@ -557,6 +574,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return (int)((double)num + (double)num * (double)LogLikeMod.curchaptergrade / 5.0);
         }
+        #endregion
+
+        #region --- Goods / buy / sell ---
+
 
         public virtual int ShopGoodCount()
         {
@@ -580,6 +601,10 @@ namespace abcdcode_LOGLIKE_MOD
                     return 5;
             }
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public virtual void CreateShop()
         {
@@ -678,6 +703,10 @@ namespace abcdcode_LOGLIKE_MOD
             textTmp2.text = text;
             button2.transform.SetAsLastSibling();
         }
+        #endregion
+
+        #region --- Shop lifecycle ---
+
 
         public virtual void HideShop()
         {
@@ -702,6 +731,10 @@ namespace abcdcode_LOGLIKE_MOD
             gameObject1.SetActive(false);
             gameObject2.SetActive(false);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public virtual void LeaveShop()
         {
@@ -837,6 +870,10 @@ namespace abcdcode_LOGLIKE_MOD
             int price = LogueBookModels.shopUpgradeCardPrice > 0 ? LogueBookModels.shopUpgradeCardPrice : UpgradeCardBasePrice;
             this.Shop_CardUpgradeCreating(this.GetSupplementalShopShape(ShopSection.CardUpgrade, 0), 0, price);
         }
+        #endregion
+
+        #region --- Goods / buy / sell ---
+
 
         public virtual void OnCardUpgradePurchased(ShopGoods_CardUpgrade goods)
         {
@@ -846,5 +883,7 @@ namespace abcdcode_LOGLIKE_MOD
             goods.SetPrice(LogueBookModels.shopUpgradeCardPrice);
             this.MoneyChecking();
         }
+        #endregion
+
     }
 }

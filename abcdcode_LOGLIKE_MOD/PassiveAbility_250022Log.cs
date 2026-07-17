@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.PassiveAbility_250022Log
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Passive ability script: PassiveAbility_250022Log
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\PassiveAbility_250022Log.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using LOR_DiceSystem;
 using LOR_XML;
 using System;
@@ -12,6 +11,8 @@ using UnityEngine;
 
  
 namespace abcdcode_LOGLIKE_MOD {
+
+/// <summary>Passive ability: PassiveAbility_250022Log</summary>
 
 public class PassiveAbility_250022Log : PassiveAbilityBase
 {
@@ -205,6 +206,8 @@ public class PassiveAbility_250022Log : PassiveAbilityBase
     this.owner.Book.SetResistHP(detail, AtkResist.Normal);
     this.owner.Book.SetResistBP(detail, AtkResist.Normal);
   }
+
+  /// <summary>BattleDiceCardBuf_temporary</summary>
 
   public class BattleDiceCardBuf_temporary : BattleDiceCardBuf
   {

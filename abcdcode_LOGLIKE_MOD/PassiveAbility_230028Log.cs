@@ -1,15 +1,16 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.PassiveAbility_230028Log
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Passive ability script: PassiveAbility_230028Log
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\PassiveAbility_230028Log.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using Sound;
 using System.Collections.Generic;
 using UnityEngine;
 
  
 namespace abcdcode_LOGLIKE_MOD {
+
+/// <summary>Passive ability: PassiveAbility_230028Log</summary>
 
 public class PassiveAbility_230028Log : PassiveAbilityBase
 {
@@ -114,6 +115,8 @@ public class PassiveAbility_230028Log : PassiveAbilityBase
     }
   }
 
+  /// <summary>PhilipBuf1</summary>
+
   public class PhilipBuf1 : BattleUnitBuf
   {
     public override string keywordId => "Philip_Attack";
@@ -127,6 +130,8 @@ public class PassiveAbility_230028Log : PassiveAbilityBase
 
     public override void OnRoundEnd() => this.Destroy();
   }
+
+  /// <summary>PhilipBuf2</summary>
 
   public class PhilipBuf2 : BattleUnitBuf
   {
@@ -144,12 +149,16 @@ public class PassiveAbility_230028Log : PassiveAbilityBase
     public override void OnRoundEnd() => this.Destroy();
   }
 
+  /// <summary>PhilipBuf3</summary>
+
   public class PhilipBuf3 : BattleUnitBuf
   {
     public override string keywordId => "Philip_Strong";
 
     public override void OnRoundEnd() => this.Destroy();
   }
+
+  /// <summary>PhilipBuf4</summary>
 
   public class PhilipBuf4 : BattleUnitBuf
   {

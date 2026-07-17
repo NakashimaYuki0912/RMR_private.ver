@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.MysteryModel_UpgradeCheckPopup
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Mystery / event node model: MysteryModel_UpgradeCheckPopup
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\MysteryModel_UpgradeCheckPopup.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using GameSave;
 using TMPro;
 using UnityEngine;
@@ -17,6 +16,8 @@ using RogueLike_Mod_Reborn;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>Mystery node model: MysteryModel_UpgradeCheckPopup</summary>
+
     public class MysteryModel_UpgradeCheckPopup : MysteryBase
     {
         public LorId cardid;
@@ -26,10 +27,16 @@ namespace abcdcode_LOGLIKE_MOD
         public UpgradeMetadata metadata;
         /// <summary>True when upgrading a degraded Binah page into its full vanilla counterpart.</summary>
         public bool binahSpecialUpgrade;
+        #region --- Save / load ---
+
 
         public override void LoadFromSaveData(SaveData savedata)
         {
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static MysteryModel_UpgradeCheckPopup PopupUpgradeCheck(
           LorId cardid,
@@ -156,6 +163,10 @@ namespace abcdcode_LOGLIKE_MOD
             UISoundManager.instance.PlayEffectSound(UISoundType.Ui_Cancel);
             Singleton<MysteryManager>.Instance.EndMystery(this);
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public void OnClickOk()
         {
@@ -226,5 +237,7 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         public delegate void CheckResult(MysteryModel_UpgradeCheckPopup mystery);
+        #endregion
+
     }
 }

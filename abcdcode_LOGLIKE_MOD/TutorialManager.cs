@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.TutorialManager
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Tutorial helper: TutorialManager
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\TutorialManager.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using GameSave;
 using System;
 using System.Collections.Generic;
@@ -15,17 +14,25 @@ using UnityEngine;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>TutorialManager</summary>
+
     public class TutorialManager : Singleton<TutorialManager>
     {
         public bool Inited;
         public UIManualContentPanel Panel;
         public Dictionary<string, bool> IsSeeTutoDic;
         public Dictionary<string, TutorialManager.TutoInfo> TutorialDic;
+        #region --- Getters / setters / checks ---
+
 
         public bool IsSeeTuto(string contentname)
         {
             return this.IsSeeTutoDic.ContainsKey(contentname) && this.IsSeeTutoDic[contentname];
         }
+        #endregion
+
+        #region --- Save / load ---
+
 
         public void LoadTuto(string contentname)
         {
@@ -39,6 +46,10 @@ namespace abcdcode_LOGLIKE_MOD
             foreach (KeyValuePair<string, SaveData> keyValuePair in saveData.GetDictionarySelf())
                 this.IsSeeTutoDic[keyValuePair.Key] = keyValuePair.Value.GetIntSelf() == 1;
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         public SaveData CreateSaveData()
         {
@@ -49,6 +60,10 @@ namespace abcdcode_LOGLIKE_MOD
                 saveData.AddData(keyValuePair.Key, new SaveData(keyValuePair.Value ? 1 : 0));
             return saveData;
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public TutorialManager.TutoInfo FindLogTuto(string contentname)
         {
@@ -59,11 +74,19 @@ namespace abcdcode_LOGLIKE_MOD
         {
             return this.TutorialDic.Values.ToList<TutorialManager.TutoInfo>().Find((Predicate<TutorialManager.TutoInfo>)(x => x.Tutopage == page));
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public void ConnectTuto(string prev, string next)
         {
             this.FindLogTuto(prev).Tutopage.nextid = this.FindLogTuto(next).Tutopage.currentid;
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         public void CreateTuto(string contentname, string ArtWorkName)
         {
@@ -98,6 +121,10 @@ namespace abcdcode_LOGLIKE_MOD
                 Tutopage = manualScreenPage
             });
         }
+        #endregion
+
+        #region --- Lifecycle / init ---
+
 
         public void Init(UIManualContentPanel __instance)
         {
@@ -117,11 +144,15 @@ namespace abcdcode_LOGLIKE_MOD
             this.Inited = true;
         }
 
+        /// <summary>TutoInfo</summary>
+
         public class TutoInfo
         {
             public UIManualScreenPage Tutopage;
             public string ArtWork;
             public string name;
         }
+        #endregion
+
     }
 }

@@ -1,4 +1,9 @@
-﻿using UnityEditor;
+// -----------------------------------------------------------------------------
+// Screenshot / snapshot utility: SnapshotCamera
+// Namespace/file: ruina-roguelike-reborn-main\SnapshotCamera.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
+using UnityEditor;
 using UnityEngine;
 using System;
 using System.Collections.Generic;

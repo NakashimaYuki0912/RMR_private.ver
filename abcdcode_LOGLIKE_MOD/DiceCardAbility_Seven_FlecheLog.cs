@@ -1,11 +1,11 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.DiceCardAbility_Seven_FlecheLog
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
- 
+// -----------------------------------------------------------------------------
+// Combat dice/card ability script: DiceCardAbility_Seven_FlecheLog
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\DiceCardAbility_Seven_FlecheLog.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 namespace abcdcode_LOGLIKE_MOD {
+
+/// <summary>Dice ability: DiceCardAbility_Seven_FlecheLog</summary>
 
 public class DiceCardAbility_Seven_FlecheLog : DiceCardAbilityBase
 {

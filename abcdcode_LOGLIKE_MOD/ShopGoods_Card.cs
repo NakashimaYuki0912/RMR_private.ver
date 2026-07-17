@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.ShopGoods_Card
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Shop system component: ShopGoods_Card
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\ShopGoods_Card.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using GameSave;
 using LOR_DiceSystem;
 using RogueLike_Mod_Reborn;
@@ -17,10 +16,14 @@ using UnityEngine.UI;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>Shop component: ShopGoods_Card</summary>
+
     public class ShopGoods_Card : ShopGoods
     {
         public LogLikeMod.UILogCardSlot CardSlot;
         public bool IsEgoPage;
+        #region --- Other helpers ---
+
 
         public static int CalcPrice(DiceCardXmlInfo cardinfo)
         {
@@ -72,6 +75,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return Mathf.RoundToInt((float)(1.0 + 1.8 * (double)num2 * (double)num1 * (double)Random.Range(0.8f, 1.2f)));
         }
+        #endregion
+
+        #region --- Save / load ---
+
 
         public override SaveData GetSaveData()
         {
@@ -92,6 +99,10 @@ namespace abcdcode_LOGLIKE_MOD
                 this.CardSlot.txt_cardNumbers.gameObject.SetActive(false);
             }
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public void SetGoods(DiceCardXmlInfo cardinfo, int goods_count = 2, int price = -1)
         {
@@ -121,6 +132,10 @@ namespace abcdcode_LOGLIKE_MOD
             this.price = int.Parse(textTmp.text);
             this.Money = textTmp;
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public void OnPointerEnter(BaseEventData e)
         {
@@ -150,6 +165,10 @@ namespace abcdcode_LOGLIKE_MOD
             preview.transform.SetAsLastSibling();
             preview.ApplyShopPreviewFonts();
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public override void Purchase()
         {
@@ -161,6 +180,10 @@ namespace abcdcode_LOGLIKE_MOD
             LogLikeMod.UILogBattleDiceCardUI.Instance.gameObject.SetActive(false);
             SingletonBehavior<BattleSoundManager>.Instance.PlaySound(EffectSoundType.CARD_APPLY, this.transform.position);
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public virtual void OnClickCard()
         {
@@ -172,6 +195,8 @@ namespace abcdcode_LOGLIKE_MOD
                 return;
             this.parent.MoneyChecking();
         }
+
+        /// <summary>CardPerchaseEffect</summary>
 
         public class CardPerchaseEffect : MonoBehaviour
         {
@@ -187,5 +212,7 @@ namespace abcdcode_LOGLIKE_MOD
                 Object.Destroy(this.gameObject);
             }
         }
+        #endregion
+
     }
 }

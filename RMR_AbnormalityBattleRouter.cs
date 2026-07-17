@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+// RogueLike Mod Reborn (RMR): RMR_AbnormalityBattleRouter
+// Namespace/file: ruina-roguelike-reborn-main\RMR_AbnormalityBattleRouter.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System.Collections.Generic;
 using System.Linq;
 using abcdcode_LOGLIKE_MOD;
@@ -5,6 +10,7 @@ using UnityEngine;
 
 namespace RogueLike_Mod_Reborn
 {
+    /// <summary>RMR type: RMRAbnormalityBattleRouter</summary>
     public static class RMRAbnormalityBattleRouter
     {
         private static readonly int[] RegularAbnormalityStageIds =
@@ -20,6 +26,8 @@ namespace RogueLike_Mod_Reborn
             209001, 209002, 209003,
             210001, 210002, 210003, 210004
         };
+        #region --- Getters / setters / checks ---
+
 
         public static IReadOnlyList<int> GetCandidateStageIds(ChapterGrade grade)
         {
@@ -28,6 +36,10 @@ namespace RogueLike_Mod_Reborn
                 .Where(id => GetRequiredLibrarianCount(id) <= maxLibrarians)
                 .ToList();
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static StageClassInfo PickStageForChapter(ChapterGrade grade)
         {
@@ -54,6 +66,10 @@ namespace RogueLike_Mod_Reborn
             Debug.Log($"[RMR AbnoRoute] picked={picked?.id}, type={picked?.stageType}, waves={picked?.waveList?.Count}");
             return picked;
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         private static int GetMaxLibrariansForChapter(ChapterGrade grade)
         {
@@ -104,5 +120,7 @@ namespace RogueLike_Mod_Reborn
             }
             return null;
         }
+        #endregion
+
     }
 }

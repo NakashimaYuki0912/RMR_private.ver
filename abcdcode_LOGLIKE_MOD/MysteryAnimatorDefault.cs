@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.MysteryAnimatorDefault
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Library of Ruina mod script: MysteryAnimatorDefault
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\MysteryAnimatorDefault.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -13,6 +12,8 @@ using UnityEngine.UI;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>MysteryAnimatorDefault</summary>
+
     public class MysteryAnimatorDefault
     {
         public bool started = false;
@@ -20,6 +21,8 @@ namespace abcdcode_LOGLIKE_MOD
         public MysteryAnimOrderData curanimorder;
         public Queue<MysteryAnimOrderData> animorders;
         public MysteryBase curMystery;
+        #region --- Lifecycle / init ---
+
 
         public virtual void Init(MysteryBase mystery)
         {
@@ -44,6 +47,10 @@ namespace abcdcode_LOGLIKE_MOD
       "Desc"
     }));
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void ChangeAlpha(GameObject obj, float alpha)
         {
@@ -63,6 +70,10 @@ namespace abcdcode_LOGLIKE_MOD
             this.curanimorder = this.animorders.Dequeue();
             this.curanimremaintime = this.curanimorder.time;
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         public virtual void Update()
         {
@@ -119,5 +130,7 @@ namespace abcdcode_LOGLIKE_MOD
                 this.curanimremaintime -= Time.deltaTime;
             }
         }
+        #endregion
+
     }
 }

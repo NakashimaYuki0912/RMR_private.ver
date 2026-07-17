@@ -312,7 +312,7 @@
     <Compile Include="abcdcode_LOGLIKE_MOD\LogCardUpgradeManager.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\LogCraftPanel.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\LogCreatureTabPanel.cs" />
-    <Compile Include="abcdcode_LOGLIKE_MOD\LogAtlasPanel.cs" />
+    <Compile Include="abcdcode_LOGLIKE_MOD\LogCompendiumPanel.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\LogRealizationPanel.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\LogDiceCardSelfAbility.cs" />
     <Compile Include="abcdcode_LOGLIKE_MOD\LogLikeMod.cs" />

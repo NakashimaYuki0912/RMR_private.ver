@@ -9,6 +9,9 @@
 
 改任何 UI 文本、TMP 字体、Localize 文件前 **必须** 读完本页。
 
+**给人类译者（改文案、不改字体）**：见 [docs/localization/](../localization/README.md)  
+（术语表、文件地图、English translator guide）。玩家向英文 **图鉴 = Compendium**，不要写 Atlas。
+
 ---
 
 ## 1. 三种不同故障（不要混诊）

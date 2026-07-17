@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.MysteryModel_ChStart
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Mystery / event node model: MysteryModel_ChStart
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\MysteryModel_ChStart.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +15,14 @@ using UnityEngine;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>Mystery node model: MysteryModel_ChStart</summary>
+
     public class MysteryModel_ChStart : MysteryBase
     {
         public Dictionary<int, MysteryModel_ChStart.StartBoostData> choices;
         public List<MysteryModel_ChStart.StartBoostData> datas;
+        #region --- Battle hooks ---
+
 
         public override void OnEnterChoice(int choiceid)
         {
@@ -34,6 +37,10 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnExitChoice(choiceid);
             SingletonBehavior<UIBattleOverlayManager>.Instance.DisableOverlay();
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public override void EndMystery()
         {
@@ -186,6 +193,10 @@ namespace abcdcode_LOGLIKE_MOD
                 return;
             this.ListInit();
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public override void OnClickChoice(int choiceid)
         {
@@ -221,6 +232,8 @@ namespace abcdcode_LOGLIKE_MOD
             base.OnClickChoice(choiceid);
         }
 
+        /// <summary>StartBoostData</summary>
+
         public class StartBoostData
         {
             public int id;
@@ -234,6 +247,8 @@ namespace abcdcode_LOGLIKE_MOD
 
             public delegate void Effect();
         }
+
+        /// <summary>Event3Effect</summary>
 
         public class Event3Effect : GlobalLogueEffectBase
         {
@@ -257,5 +272,7 @@ namespace abcdcode_LOGLIKE_MOD
 
             public override string KeywordIconId => "Reward_StartBoost_3";
         }
+        #endregion
+
     }
 }

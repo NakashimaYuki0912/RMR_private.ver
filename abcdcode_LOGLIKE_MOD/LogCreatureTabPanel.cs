@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.LogCreatureTabPanel
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// LOGLIKE core UI/data: LogCreatureTabPanel
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\LogCreatureTabPanel.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using HarmonyLib;
 using System;
 using System.Collections;
@@ -19,6 +18,8 @@ using UnityEngine.UI;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>LOGLIKE type: LogCreatureTabPanel</summary>
+
     public class LogCreatureTabPanel : Singleton<LogCreatureTabPanel>
     {
         public bool IsPreload;
@@ -26,6 +27,8 @@ namespace abcdcode_LOGLIKE_MOD
         public GameObject root;
 
         public LogCreatureTabPanel() => this.IsPreload = false;
+        #region --- Getters / setters / checks ---
+
 
         public static GameObject GetLogUIObj(int index)
         {
@@ -44,6 +47,10 @@ namespace abcdcode_LOGLIKE_MOD
             gameObject2.GetComponent<CanvasGroup>().interactable = true;
             return gameObject2;
         }
+        #endregion
+
+        #region --- Save / load ---
+
 
         public IEnumerator PreloadImages()
         {
@@ -123,6 +130,10 @@ namespace abcdcode_LOGLIKE_MOD
             this.IsPreload = true;
             this.Log("End CreatureTab Preload");
         }
+        #endregion
+
+        #region --- Lifecycle / init ---
+
 
         public void Init()
         {
@@ -137,6 +148,10 @@ namespace abcdcode_LOGLIKE_MOD
             this.root.transform.localScale = new Vector3(1.2f, 1f, 1f);
             this.root.SetActive(true);
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public void SetActive(bool value)
         {
@@ -153,6 +168,10 @@ namespace abcdcode_LOGLIKE_MOD
                 creaturePickUpByIndex.Add(Singleton<RewardPassivesList>.Instance.GetPassiveInfo(id));
             return creaturePickUpByIndex;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void ChangeCreature(CreaturePickUpModel model)
         {
@@ -173,6 +192,8 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
         }
+
+        /// <summary>LOGLIKE type: LogueImage_CreatureTab</summary>
 
         public class LogueImage_CreatureTab : MonoBehaviour
         {
@@ -250,5 +271,7 @@ namespace abcdcode_LOGLIKE_MOD
             {
             }
         }
+        #endregion
+
     }
 }

@@ -1,14 +1,15 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.PassiveAbility_Mystery4_3_1
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Passive ability script: PassiveAbility_Mystery4_3_1
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\PassiveAbility_Mystery4_3_1.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 
  
 namespace abcdcode_LOGLIKE_MOD {
+
+/// <summary>Passive ability: PassiveAbility_Mystery4_3_1</summary>
 
 public class PassiveAbility_Mystery4_3_1 : PassiveAbilityBase
 {
@@ -60,6 +61,8 @@ public class PassiveAbility_Mystery4_3_1 : PassiveAbilityBase
     attackerCard.owner.cardSlotDetail.keepCard.AddBehaviours(attackerCard.card, behaviourList);
     attackerCard.cardBehaviorQueue.Clear();
   }
+
+  /// <summary>EndParryingAbility</summary>
 
   public class EndParryingAbility : DiceCardAbilityBase
   {

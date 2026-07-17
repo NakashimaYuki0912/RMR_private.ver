@@ -1,77 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <localize xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-	 <text id="BattleEnd_CardReward">选择战斗书页奖励</text>
-	 <text id="BattleEnd_PassiveReward">选择被动能力奖励</text>
-	 <text id="BattleEnd_EgoReward">选择 E.G.O. 战斗书页</text>
-	 <text id="BattleEnd_NextStage">请选择下一场接待</text>
-	 <text id="ui_LogueLikeFloor">图书馆</text>
-	 <text id="ui_selectskip">跳过奖励</text>
-	 <text id="ui_stageremain">剩余接待: </text>
-	 <text id="ui_RMR_InventoryEmpty">当前层限制：没有可显示的战斗书页（更高章节或 E.G.O. 已过滤）。</text>
-	 <text id="ui_RMR_BookInventoryEmpty">当前层限制：没有可显示的核心书页（更高章节已过滤）。</text>
-	 <text id="ui_RMR_Floor_Malkuth">历史</text>
-	 <text id="ui_RMR_Floor_Yesod">科技</text>
-	 <text id="ui_RMR_Floor_Hod">文学</text>
-	 <text id="ui_RMR_Floor_Netzach">艺术</text>
-	 <text id="ui_RMR_Floor_Tiphereth">自然</text>
-	 <text id="ui_RMR_Floor_Gebura">语言</text>
-	 <text id="ui_RMR_Floor_Chesed">社会</text>
-	 <text id="ui_RMR_Floor_Binah">哲学</text>
-	 <text id="ui_RMR_Floor_Hokma">宗教</text>
-	 <text id="ui_RMR_Floor_Keter">总类</text>
-	 <text id="ui_ShopLeave">离开商店</text>
-	 <text id="ui_ShopHide">隐藏</text>
-	 <text id="ui_ShopShow">返回</text>
-	 <text id="ui_EmotionPositionChange">改变位置</text>
-	 <text id="ui_Money">眼</text>
+  <!--
+    RMR UI strings (cn)
+    Encoding: UTF-8 (no BOM preferred). Do not save as ANSI/GBK.
+    See docs/localization/ for translator guide and glossary.
+    Key ids are shared across cn/en/kr — only the text content differs.
+  -->
 
-	 <text id="ui_RestLeave">离开休息室</text>
-	 <text id="ui_RestHide">隐藏</text>
-	 <text id="ui_RestShow">返回</text>
-	 <text id="ui_Realization">解放战</text>
-	 <text id="ui_RMR_RealizationTitle">解放战</text>
-	 <text id="ui_RMR_RealizationDesc">选择楼层后编队，直接挑战原版最终解放战（安吉拉/罗兰多阶段），不含前置异想体镇压。首胜永久解锁该层异想体与 E.G.O.；已通关可再战不发奖。</text>
-	 <text id="ui_RMR_RealizationChallenge">挑战</text>
-	 <text id="ui_RMR_RealizationCleared">已完成</text>
-	 <text id="ui_RMR_RealizationReplay">已完成 · 可再战</text>
-	 <text id="ui_RMR_RealizationClose">关闭</text>
-	 <text id="ui_RMR_HubTitle">Roguelike 开局</text>
-	 <text id="ui_RMR_HubDesc">可先挑战解放战以永久解锁奖励，或直接开始正常游玩。</text>
-	 <text id="ui_RMR_Hub_Play">正常游玩</text>
-	 <text id="ui_RMR_Hub_Realization">挑战解放战</text>
-	 <text id="ui_RMR_Hub_Help">玩法介绍</text>
-	   <text id="ui_RMR_Hub_Atlas">图鉴</text>
-<text id="ui_RMR_Hub_Reset">重置永久进度</text>
-	 <text id="ui_RMR_Hub_ResetConfirm">确认重置所有永久进度？&#10;将清空图鉴、解放战记录与特殊 Boss 首通记录。&#10;当前路线临时内容不会写回图鉴。</text>
-	 <text id="ui_RMR_Hub_ResetYes">确认重置</text>
-	 <text id="ui_RMR_Hub_ResetNo">取消</text>
-	 <text id="ui_RMR_Hub_ResetDone">永久进度已重置。</text>
-	 <text id="ui_RMR_Hub_Exit">退出</text>
-	 <text id="ui_RMR_Hub_ExitConfirm">是否返回图书馆？不会保留本次开局状态。</text>
-	 <text id="ui_RMR_Hub_ExitYes">确认退出</text>
-	 <text id="ui_RMR_Hub_ExitNo">取消</text>
-	 <text id="ui_RMR_HubFooter">Library of Ruina · Roguelike Mod Reborn</text>
-	 <text id="ui_RMR_ContinueFailed">无法继续 Roguelike 旅程。存档可能缺失或已过期。</text>
-	 <text id="ui_RMR_ContinueLoadFailed">继续失败：存档未能完整加载。请尝试新开局，或完全重启游戏后再进入。</text>
-	 <text id="ui_RMR_Help_Close">关闭</text>
-	 <text id="ui_RMR_Help_Nav_Overview">玩法概览</text>
-	 <text id="ui_RMR_Help_Nav_Route">路线与章节</text>
-	 <text id="ui_RMR_Help_Nav_Rewards">战斗与构筑</text>
-	 <text id="ui_RMR_Help_Nav_Shop">补给与事件</text>
-	 <text id="ui_RMR_Help_Nav_Atlas">永久图鉴</text>
-	 <text id="ui_RMR_Help_Nav_Realization">解放战与提示</text>
-	 <text id="ui_RMR_Help_Nav_AbnoEgo">异想体 / E.G.O.</text>
-	 <text id="ui_RMR_Help_Body_AbnoEgo">正常游玩获得的异想体书页也会写入永久图鉴，供解放战选页使用。图鉴中异想体与 E.G.O. 不按都市章节分段，直接展示。</text>
-
-
+  <text id="BattleEnd_CardReward">选择战斗书页奖励</text>
+  <text id="BattleEnd_PassiveReward">选择被动能力奖励</text>
+  <text id="BattleEnd_EgoReward">选择 E.G.O. 战斗书页</text>
+  <text id="BattleEnd_NextStage">请选择下一场接待</text>
+  <text id="ui_LogueLikeFloor">图书馆</text>
+  <text id="ui_selectskip">跳过奖励</text>
+  <text id="ui_stageremain">剩余接待: </text>
+  <text id="ui_RMR_InventoryEmpty">当前层限制：没有可显示的战斗书页（更高章节或 E.G.O. 已过滤）。</text>
+  <text id="ui_RMR_BookInventoryEmpty">当前层限制：没有可显示的核心书页（更高章节已过滤）。</text>
+  <text id="ui_RMR_Floor_Malkuth">历史</text>
+  <text id="ui_RMR_Floor_Yesod">科技</text>
+  <text id="ui_RMR_Floor_Hod">文学</text>
+  <text id="ui_RMR_Floor_Netzach">艺术</text>
+  <text id="ui_RMR_Floor_Tiphereth">自然</text>
+  <text id="ui_RMR_Floor_Gebura">语言</text>
+  <text id="ui_RMR_Floor_Chesed">社会</text>
+  <text id="ui_RMR_Floor_Binah">哲学</text>
+  <text id="ui_RMR_Floor_Hokma">宗教</text>
+  <text id="ui_RMR_Floor_Keter">总类</text>
+  <text id="ui_ShopLeave">离开商店</text>
+  <text id="ui_ShopHide">隐藏</text>
+  <text id="ui_ShopShow">返回</text>
+  <text id="ui_EmotionPositionChange">改变位置</text>
+  <text id="ui_Money">眼</text>
+  <text id="ui_RestLeave">离开休息室</text>
+  <text id="ui_RestHide">隐藏</text>
+  <text id="ui_RestShow">返回</text>
+  <text id="ui_Realization">解放战</text>
+  <text id="ui_RMR_RealizationTitle">解放战</text>
+  <text id="ui_RMR_RealizationDesc">选择楼层后编队，直接挑战原版最终解放战（安吉拉/罗兰多阶段），不含前置异想体镇压。首胜永久解锁该层异想体与 E.G.O.；已通关可再战不发奖。</text>
+  <text id="ui_RMR_RealizationChallenge">挑战</text>
+  <text id="ui_RMR_RealizationCleared">已完成</text>
+  <text id="ui_RMR_RealizationReplay">已完成 · 可再战</text>
+  <text id="ui_RMR_RealizationClose">关闭</text>
+  <text id="ui_RMR_HubTitle">Roguelike 开局</text>
+  <text id="ui_RMR_HubDesc">可先挑战解放战以永久解锁奖励，或直接开始正常游玩。</text>
+  <text id="ui_RMR_Hub_Play">正常游玩</text>
+  <text id="ui_RMR_Hub_Realization">挑战解放战</text>
+  <text id="ui_RMR_Hub_Help">玩法介绍</text>
+  <text id="ui_RMR_Hub_Atlas">图鉴</text>
+  <text id="ui_RMR_Hub_Reset">重置永久进度</text>
+  <text id="ui_RMR_Hub_ResetConfirm">确认重置所有永久进度？&#10;将清空图鉴、解放战记录与特殊 Boss 首通记录。&#10;当前路线临时内容不会写回图鉴。</text>
+  <text id="ui_RMR_Hub_ResetYes">确认重置</text>
+  <text id="ui_RMR_Hub_ResetNo">取消</text>
+  <text id="ui_RMR_Hub_ResetDone">永久进度已重置。</text>
+  <text id="ui_RMR_Hub_Exit">退出</text>
+  <text id="ui_RMR_Hub_ExitConfirm">是否返回图书馆？不会保留本次开局状态。</text>
+  <text id="ui_RMR_Hub_ExitYes">确认退出</text>
+  <text id="ui_RMR_Hub_ExitNo">取消</text>
+  <text id="ui_RMR_HubFooter">Library of Ruina · Roguelike Mod Reborn</text>
+  <text id="ui_RMR_ContinueFailed">无法继续 Roguelike 旅程。存档可能缺失或已过期。</text>
+  <text id="ui_RMR_ContinueLoadFailed">继续失败：存档未能完整加载。请尝试新开局，或完全重启游戏后再进入。</text>
+  <text id="ui_RMR_Help_Close">关闭</text>
+  <text id="ui_RMR_Help_Nav_Overview">玩法概览</text>
+  <text id="ui_RMR_Help_Nav_Route">路线与章节</text>
+  <text id="ui_RMR_Help_Nav_Rewards">战斗与构筑</text>
+  <text id="ui_RMR_Help_Nav_Shop">补给与事件</text>
+  <text id="ui_RMR_Help_Nav_Atlas">永久图鉴</text>
+  <text id="ui_RMR_Help_Nav_Realization">解放战与提示</text>
+  <text id="ui_RMR_Help_Nav_AbnoEgo">异想体 / E.G.O.</text>
+  <text id="ui_RMR_Help_Body_AbnoEgo">正常游玩获得的异想体书页也会写入永久图鉴，供解放战选页使用。图鉴中异想体与 E.G.O. 不按都市章节分段，直接展示。</text>
   <text id="Equip_Slash">斩击伤害抗性</text>
   <text id="Equip_Penetrate">突刺伤害抗性</text>
   <text id="Equip_Hit">打击伤害抗性</text>
   <text id="Equip_Light">初始光芒</text>
   <text id="Equip_SpeedArea">速度范围</text>
   <text id="Equip_Passive">被动能力</text>
-
   <text id="Stage_Normal">普通战斗</text>
   <text id="Stage_Elite">精英战斗</text>
   <text id="Stage_Boss">Boss战斗</text>
@@ -79,7 +82,6 @@
   <text id="Stage_Mystery">随机事件</text>
   <text id="Stage_Shop">商店</text>
   <text id="Stage_Rest">休息室</text>
-
   <text id="Stage_Normal_Desc">接待一位普通来宾</text>
   <text id="Stage_Elite_Desc">接待一位强力来宾。战斗后获得1个被动能力。</text>
   <text id="Stage_Boss_Desc">接待一位超强的来宾。接待后继续下一章。</text>
@@ -87,50 +89,40 @@
   <text id="Stage_Mystery_Desc">有什么事情发生了......</text>
   <text id="Stage_Shop_Desc">用你的积蓄购买有用的物品。</text>
   <text id="Stage_Rest_Desc">可以让你恢复精力的休息空间。您可以恢复司书的生命值或升级战斗书页。</text>
-
   <text id="Mystery_RequireCondition">[已锁定] </text>
-
   <text id="LogueLike_PlayerName">玩家</text>
-
   <text id="Shop_EquipPrevious">[被动能力 (费用: {0})] </text>
   <text id="Shop_CardUpgrade_Name">卡牌升级</text>
   <text id="Shop_CardUpgrade_Desc">卡牌升级</text>
-
   <text id="CardChoicePopUp_ChooseDesc">选择战斗书页</text>
   <text id="CardChoicePopUp_RemoveDesc">选择要移除的战斗书页</text>
   <text id="CardChoicePopUp_TransformDesc">选择要更改的战斗书页</text>
   <text id="CardChoicePopUp_RewardDesc">选择要获得的战斗书页</text>
   <text id="CardChoicePopUp_UpgradeDesc">选择要升级的战斗书页</text>
-
   <text id="CardCheckPopUp_InvenDesc">拥有的战斗书页</text>
   <text id="CardCheckPopUp_RewardDesc">获取战斗书页</text>
   <text id="CardCheckPopUp_Close">返回</text>
   <text id="CardCheckPopUp_UpgradeOk">确认</text>
   <text id="CardCheckPopUp_UpgradeNo">取消</text>
   <text id="CardCheckPopUp_CannotUpgrade">暂无可升级的战斗书页。</text>
-
   <text id="ui_Inventory">商品</text>
   <text id="ui_CreatureTab">异想体</text>
   <text id="ui_CraftTab">技能</text>
   <text id="ui_CraftCost">费用</text>
-
   <text id="ui_ExceptionWithLog">已检测到与RogueLike模组冲突的模组。</text>
-  
-	 <text id="ui_RMR_ItemCatalog">商品目录</text>
-	 <text id="ui_AtlasTab">图鉴</text>
+  <text id="ui_RMR_ItemCatalog">商品目录</text>
+  <text id="ui_AtlasTab">图鉴</text>
   <text id="ui_RMR_ItemObtainCount">您已获得该物品{0}次。</text>
   <text id="ui_RMR_ItemNotObtained_Name">???</text>
   <text id="ui_RMR_ItemNotObtained_Desc">您尚未找到该物品。</text>
   <text id="ui_RMR_ItemNotObtained_Credenza">暂无可用信息。</text>
   <text id="ui_RMR_ItemNoEntry_Credenza">[当前无法进入]</text>
-
   <text id="ui_RMR_StartNewRun">新路线</text>
   <text id="ui_RMR_StartNewRunDesc">开始游玩RMR模组</text>
   <text id="ui_RMR_ContinueRun">继续旅程</text>
   <text id="ui_RMR_ContinueRunDesc">在玩法选择中继续之前的 Roguelike 路线（有存档时显示）。</text>
   <text id="ui_RMR_Hub_Continue">继续旅程</text>
   <text id="ui_RMR_ConfirmStartNewRun">您确定要开始新的路线吗？保存的存档将被覆盖。</text>
-
   <text id="ui_RMR_Help_Body_Overview">欢迎来到 Roguelike Mod Reborn。在这里，每次接待都是一段从都市传闻逐步走向杂质的独立旅程。&#10;&#10;开始正常游玩后，你会获得初始资源，并在不同类型的路线节点之间作出选择。每次战斗、补给与事件都会改变当前队伍，逐渐形成这一局独有的构筑。&#10;&#10;击败章节 Boss 可以进入更危险的都市阶段。最终击败杂质章节 Boss，即可完成本次旅程。&#10;&#10;路线中的金币、库存和章节进度只属于当前旅程；图鉴与楼层解放记录会永久保留，为之后的游玩提供更多选择。</text>
   <text id="ui_RMR_Help_Body_Route">每次完成当前节点后，你都可以从若干候选节点中选择下一站。不同路线会带来不同的战斗强度、奖励与风险。&#10;&#10;【普通战】稳定获取书页、被动和金币。&#10;&#10;【精英战】敌人更强，但奖励通常也更好。&#10;&#10;【Boss 战】击败章节 Boss 后进入下一章节，开放更高等级的敌人、奖励与商品。&#10;&#10;【异想体战】挑战异想体并获得对应书页。第一、第二章不会生成异想体战斗节点，相关位置由休息节点替代。&#10;&#10;【商店、休息与神秘事件】提供购买、恢复或特殊选择。击败杂质章节 Boss 后，本次旅程正式结束。</text>
   <text id="ui_RMR_Help_Body_Rewards">战斗仍遵循《废墟图书馆》的基本规则。配置核心书页、战斗书页与被动能力，并通过拼点、光芒和情感等级赢得接待。&#10;&#10;胜利后可能获得核心书页、战斗书页、被动、异想体书页、E.G.O.、金币或特殊奖励，这些内容会进入当前路线库存。&#10;&#10;战斗书页按照“种类”记录。升级后，强化版本会替换原版本；重复升级会逐渐提高费用。&#10;&#10;队伍情感等级 1–2 对应 I 阶异想体书页，3–4 对应 II 阶，5 对应 III 阶。异想体书页与中途 E.G.O.选择只会从当前路线已经拥有的内容中产生。</text>

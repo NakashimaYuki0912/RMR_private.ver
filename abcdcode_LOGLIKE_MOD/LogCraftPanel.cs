@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.LogCraftPanel
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// LOGLIKE core UI/data: LogCraftPanel
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\LogCraftPanel.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -18,10 +17,14 @@ using UnityEngine.UI;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>LOGLIKE type: LogCraftPanel</summary>
+
     public class LogCraftPanel : Singleton<LogCraftPanel>
     {
         public GameObject root;
         public List<LogCraftPanel.LogueEffectImage_Craft> sprites;
+        #region --- Getters / setters / checks ---
+
 
         public static GameObject GetLogUIObj(int index)
         {
@@ -40,6 +43,10 @@ namespace abcdcode_LOGLIKE_MOD
             gameObject2.GetComponent<CanvasGroup>().interactable = true;
             return gameObject2;
         }
+        #endregion
+
+        #region --- Lifecycle / init ---
+
 
         public void Init()
         {
@@ -55,6 +62,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             this.root.SetActive(true);
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public void SetActive(bool value)
         {
@@ -66,6 +77,10 @@ namespace abcdcode_LOGLIKE_MOD
             else if (this.root != null)
                 this.root.SetActive(false);
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         public void UpdateSprites()
         {
@@ -97,6 +112,8 @@ namespace abcdcode_LOGLIKE_MOD
                     break;
             }
         }
+
+        /// <summary>LOGLIKE type: LogueEffectImage_Craft</summary>
 
         public class LogueEffectImage_Craft : MonoBehaviour
         {
@@ -220,5 +237,7 @@ namespace abcdcode_LOGLIKE_MOD
                 });
             }
         }
+        #endregion
+
     }
 }

@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.PassiveAbility_240008Log
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Passive ability script: PassiveAbility_240008Log
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\PassiveAbility_240008Log.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using LOR_DiceSystem;
 using System;
 using System.Collections.Generic;
@@ -13,6 +12,8 @@ using UnityEngine;
 
 namespace abcdcode_LOGLIKE_MOD
 {
+
+    /// <summary>Passive ability: PassiveAbility_240008Log</summary>
 
     public class PassiveAbility_240008Log : PassiveAbilityBase
     {
@@ -31,6 +32,8 @@ namespace abcdcode_LOGLIKE_MOD
         public bool HasNoah => this._noahUnit == null;
 
         public PassiveAbility_240008.BossState State => this._state;
+        #region --- Battle hooks ---
+
 
         public override void OnWaveStart()
         {
@@ -150,6 +153,10 @@ namespace abcdcode_LOGLIKE_MOD
                 this.owner.view.ChangeSkin("EmaNoah");
             }
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public void SetMapFilter(bool union)
         {
@@ -171,6 +178,10 @@ namespace abcdcode_LOGLIKE_MOD
                 Debug.LogException(ex);
             }
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public override bool OnBreakGageZero()
         {
@@ -179,6 +190,10 @@ namespace abcdcode_LOGLIKE_MOD
             this._readyGetOff = true;
             return true;
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public void GetOffNoah()
         {
@@ -196,8 +211,14 @@ namespace abcdcode_LOGLIKE_MOD
             foreach (BattleUnitModel battleUnitModel in (IEnumerable<BattleUnitModel>)BattleObjectManager.instance.GetList())
                 SingletonBehavior<UICharacterRenderer>.Instance.SetCharacter(battleUnitModel.UnitData.unitData, num++);
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public override void OnDieOtherUnit(BattleUnitModel unit) => base.OnDieOtherUnit(unit);
+
+        /// <summary>enum BossState</summary>
 
         public enum BossState
         {
@@ -205,5 +226,7 @@ namespace abcdcode_LOGLIKE_MOD
             NoahDead,
             EmaOnly,
         }
+        #endregion
+
     }
 }

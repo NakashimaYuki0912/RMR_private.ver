@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.MysteryModel_Mystery_ChX_4
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Mystery / event node model: MysteryModel_Mystery_ChX_4
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\MysteryModel_Mystery_ChX_4.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -12,6 +11,8 @@ using UnityEngine.UI;
 
 namespace abcdcode_LOGLIKE_MOD
 {
+
+    /// <summary>Mystery node model: MysteryModel_Mystery_ChX_4</summary>
 
     public class MysteryModel_Mystery_ChX_4 : MysteryBase
     {

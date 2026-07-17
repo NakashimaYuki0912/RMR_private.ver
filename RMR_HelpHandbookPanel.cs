@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+// RogueLike Mod Reborn (RMR): RMR_HelpHandbookPanel
+// Namespace/file: ruina-roguelike-reborn-main\RMR_HelpHandbookPanel.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using abcdcode_LOGLIKE_MOD;
@@ -46,6 +51,8 @@ namespace RogueLike_Mod_Reborn
         }
 
         private static readonly Page[] Pages = BuildPlayerPages();
+        #region --- UI build / show ---
+
 
         private static Page[] BuildPlayerPages()
         {
@@ -187,7 +194,16 @@ namespace RogueLike_Mod_Reborn
             _navFrames.Clear();
             try { RMRRealizationLaunchHost.DestroyOverlayIfEmpty(); } catch { }
         }
+        #endregion
 
+        #region --- Other helpers ---
+
+
+        /// <summary>
+        /// Help handbook strings: load from <c>Localize/*/UIs.txt</c> by <paramref name="key"/>.
+        /// Fallback zh/en only when the key is absent. See docs/localization/GLOSSARY.md for EN terms
+        /// (Compendium, Realization, Abnormality page, …).
+        /// </summary>
         private static string T(string key, string zh, string en = null)
         {
             try
@@ -212,6 +228,10 @@ namespace RogueLike_Mod_Reborn
             catch { }
             return transform;
         }
+        #endregion
+
+        #region --- UI build / show ---
+
 
         private void Build(Transform preferredParent)
         {
@@ -404,6 +424,10 @@ namespace RogueLike_Mod_Reborn
                 Hide();
             });
         }
+        #endregion
+
+        #region --- Content / pages ---
+
 
         private void ApplyBodyText(string text)
         {
@@ -424,6 +448,10 @@ namespace RogueLike_Mod_Reborn
             if (_bodyScroll != null)
                 _bodyScroll.verticalNormalizedPosition = 1f;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         private static GameObject MakeSolid(Transform parent, string name, Vector2 pos, Vector2 size, Color color)
         {
@@ -540,5 +568,7 @@ namespace RogueLike_Mod_Reborn
                     _navFrames[i].color = on ? ColNavOn : ColNavIdle;
             }
         }
+        #endregion
+
     }
 }

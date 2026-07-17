@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+// RogueLike Mod Reborn (RMR): RMR_PrepareRestrictions
+// Namespace/file: ruina-roguelike-reborn-main\RMR_PrepareRestrictions.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +26,8 @@ namespace RogueLike_Mod_Reborn
         public const int ChapterUrbanNightmare = 5;
         public const int ChapterUrbanStar = 6;
         public const int ChapterImpurity = 7;
+        #region --- Other helpers ---
+
 
         public static bool IsEgoCombatPage(DiceCardXmlInfo card)
         {
@@ -38,6 +45,10 @@ namespace RogueLike_Mod_Reborn
                 || card.optionList.Contains(CardOption.EgoPersonal)
                 || card.optionList.Contains(CardOption.EgoChange);
         }
+        #endregion
+
+        #region --- Restriction rules ---
+
 
         public static bool IsAllowedInCombatDeckInventory(DiceCardXmlInfo card)
         {
@@ -49,6 +60,10 @@ namespace RogueLike_Mod_Reborn
                 return false;
             return true;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// 解放战出战层书页章节上限：
@@ -121,6 +136,10 @@ namespace RogueLike_Mod_Reborn
                 ch = 1;
             return ch;
         }
+        #endregion
+
+        #region --- Restriction rules ---
+
 
         public static bool IsBookAllowedInCurrentPrepare(BookXmlInfo book)
         {
@@ -175,6 +194,10 @@ namespace RogueLike_Mod_Reborn
             }
             return result;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Remove illegal EGO pages already stuffed into decks (atlas/EGO reward path mistakes).
@@ -450,6 +473,10 @@ namespace RogueLike_Mod_Reborn
                 Debug.LogWarning("[RMR] ForceHandUiToBattleCards: " + ex.Message);
             }
         }
+        #endregion
+
+        #region --- Restriction rules ---
+
 
         /// <summary>
         /// True when hand UI is allowed to open (card-select phase only).
@@ -469,6 +496,10 @@ namespace RogueLike_Mod_Reborn
                 return false;
             }
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Hide the hand root during battle intro (before space / RoundStart) so a single combat
@@ -603,5 +634,7 @@ namespace RogueLike_Mod_Reborn
         {
             // Silent: no modal / alarm when equip (core) or combat page lists are empty after floor filters.
         }
+        #endregion
+
     }
 }

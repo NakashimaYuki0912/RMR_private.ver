@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.RestGood
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Library of Ruina mod script: RestGood
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\RestGood.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using UI;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,6 +12,8 @@ using UnityEngine.UI;
 
 namespace abcdcode_LOGLIKE_MOD
 {
+
+    /// <summary>RestGood</summary>
 
     public class RestGood : MonoBehaviour
     {

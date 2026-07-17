@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.MysteryModel_CardCheck
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Mystery / event node model: MysteryModel_CardCheck
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\MysteryModel_CardCheck.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using GameSave;
 using System;
 using System.Collections.Generic;
@@ -16,6 +15,8 @@ using UnityEngine.UI;
 
 namespace abcdcode_LOGLIKE_MOD
 {
+
+    /// <summary>Mystery node model: MysteryModel_CardCheck</summary>
 
     public class MysteryModel_CardCheck : MysteryBase
     {
@@ -38,10 +39,16 @@ namespace abcdcode_LOGLIKE_MOD
         public int curindex;
         public List<DiceCardItemModel> cardlist;
         public MysteryModel_CardCheck.CheckResult resultdel;
+        #region --- Save / load ---
+
 
         public override void LoadFromSaveData(SaveData savedata)
         {
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public static MysteryModel_CardCheck PopupCardCheck(
           List<LorId> cardidlist,
@@ -97,6 +104,10 @@ namespace abcdcode_LOGLIKE_MOD
             Singleton<MysteryManager>.Instance.AddInterrupt(mystery);
             return mystery;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void FrameInit()
         {
@@ -180,6 +191,10 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public void OnClickPrev()
         {
@@ -210,8 +225,16 @@ namespace abcdcode_LOGLIKE_MOD
                 return;
             LogLikeMod.UILogBattleDiceCardUI.Instance.gameObject.SetActive(false);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void DefaultResult() => Singleton<MysteryManager>.Instance.EndMystery((MysteryBase)this);
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         public void OnClickClose()
         {
@@ -220,10 +243,16 @@ namespace abcdcode_LOGLIKE_MOD
             else
                 this.resultdel(this);
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public void OnClickCard(DiceCardItemModel card)
         {
         }
+
+        /// <summary>enum CheckDescType</summary>
 
         public enum CheckDescType
         {
@@ -232,5 +261,7 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         public delegate void CheckResult(MysteryModel_CardCheck mystery);
+        #endregion
+
     }
 }

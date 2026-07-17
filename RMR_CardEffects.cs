@@ -1,4 +1,9 @@
-﻿using System;
+// =============================================================================
+// RMR_CardEffects - DiceCardSelfAbility / dice ability scripts for RMR pages.
+// Base: RMRCardSelfAbilityBase. Organized by urban grade regions where present.
+// Gameplay scripts only; pool isolation lives in RMRAbnormalityUnlockManager.
+// =============================================================================
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +25,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Starter_Evade</summary>
+
     public class DiceCardSelfAbility_RMR_Starter_Evade : DiceCardSelfAbilityBase
     {
         public override void OnUseCard()
@@ -34,6 +41,7 @@ namespace RogueLike_Mod_Reborn
         "DrawCard_Keyword", "Endurance_Keyword"
         };
     }
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Starter_CoordinatedStrikes</summary>
     public class DiceCardSelfAbility_RMR_Starter_CoordinatedStrikes : DiceCardSelfAbilityBase
     {
         public override void OnUseCard()
@@ -55,6 +63,8 @@ namespace RogueLike_Mod_Reborn
         // public static string Desc = "[On Use] Dice on this page gain +1 Power for each copy of this page being used against the same target";
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Gain2AhnOnKill</summary>
+
     public class DiceCardSelfAbility_RMR_Gain2AhnOnKill : DiceCardSelfAbilityBase
     {
         public override void OnEndBattle()
@@ -68,8 +78,11 @@ namespace RogueLike_Mod_Reborn
         // public static string Desc = "[On Kill] Gain 2 Ahn";
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ShivThrow</summary>
+
     public class DiceCardSelfAbility_RMR_ShivThrow : DiceCardSelfAbilityBase
     {
+        /// <summary>ScrollAbility_RMR_Shiv</summary>
         public class ScrollAbility_RMR_Shiv : ScrollAbilityBase
         {
             public override void OnScrollDown(BattleUnitModel unit, BattleDiceCardModel self)
@@ -133,6 +146,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
 
+        /// <summary>killshivsagaga</summary>
+
         public class killshivsagaga : BattleUnitBuf
         {
             public override void OnEndBattle(BattlePlayingCardDataInUnitModel curCard)
@@ -145,10 +160,13 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_Shivhidden</summary>
+
     public class DiceCardAbility_RMR_Shivhidden : DiceCardAbilityBase
     {
         
     }
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Remote</summary>
     public class DiceCardSelfAbility_RMR_Remote : DiceCardSelfAbilityBase
     {
         public override void OnUseInstance(BattleUnitModel unit, BattleDiceCardModel self, BattleUnitModel targetUnit)
@@ -185,6 +203,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_TrackUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_TrackUpgrade : DiceCardSelfAbilityBase
     {
         public override void OnUseCard()
@@ -199,6 +219,7 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddBuf(new BattleUnitBuf_rmrtrackbuf());
         }
         public override string[] Keywords => new string[] { "Recover_Keyword" };
+        /// <summary>BattleUnitBuf_rmrtrackbuf</summary>
         public class BattleUnitBuf_rmrtrackbuf : BattleUnitBuf
         {
             public override void BeforeRollDice(BattleDiceBehavior behavior)
@@ -218,6 +239,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Chargeup</summary>
+
     public class DiceCardSelfAbility_RMR_Chargeup : DiceCardSelfAbilityBase
     {
         public override void OnUseCard()
@@ -226,6 +249,7 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddBuf(new BattleUnitBuf_rmrchargeupbuf());
         }
         public override string[] Keywords => new string[] { "Paralysis_Keyword", "Energy_Keyword" };
+        /// <summary>BattleUnitBuf_rmrchargeupbuf</summary>
         public class BattleUnitBuf_rmrchargeupbuf : BattleUnitBuf
         {
             public override void OnRoundStart()
@@ -236,6 +260,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ChargeupUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_ChargeupUpgrade : DiceCardSelfAbilityBase
     {
@@ -248,6 +274,7 @@ namespace RogueLike_Mod_Reborn
             owner.allyCardDetail.DrawCards(1);
         }
         public override string[] Keywords => new string[] { "DrawCard_Keyword","Paralysis_Keyword","Energy_Keyword" };
+        /// <summary>BattleUnitBuf_rmrchargeupbuf</summary>
         public class BattleUnitBuf_rmrchargeupbuf : BattleUnitBuf
         {
 
@@ -260,6 +287,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_BackstreetsDash</summary>
+
     public class DiceCardSelfAbility_RMR_BackstreetsDash : DiceCardSelfAbilityBase
     {
         public override void OnStartParrying()
@@ -271,6 +300,8 @@ namespace RogueLike_Mod_Reborn
             });
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SkitterAway</summary>
 
     public class DiceCardSelfAbility_RMR_SkitterAway : DiceCardSelfAbilityBase
     {
@@ -287,6 +318,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SkitterAwayUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_SkitterAwayUpgrade : DiceCardSelfAbilityBase
     {
         public override void OnApplyCard()
@@ -302,6 +335,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_EndureUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_EndureUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Protection_Keyword", "BreakProtection_Keyword" };
@@ -313,6 +348,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_DriedupUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_DriedupUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Strength_Keyword", "Quickness_Keyword" };
@@ -323,6 +360,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufByCard(KeywordBuf.Quickness, 2, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ChopItOff</summary>
 
     public class DiceCardSelfAbility_RMR_ChopItOff : DiceCardSelfAbilityBase
     {
@@ -342,6 +381,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_GoinFirst</summary>
+
     public class DiceCardSelfAbility_RMR_GoinFirst : DiceCardSelfAbilityBase
     {
         public override void OnUseCard()
@@ -357,6 +398,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_StruggleUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_StruggleUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Protection_Keyword" };
@@ -367,6 +410,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufByCard(KeywordBuf.Protection, 2, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_YouOnlyLiveOnce</summary>
 
     public class DiceCardSelfAbility_RMR_YouOnlyLiveOnce : DiceCardSelfAbilityBase
     {
@@ -386,6 +431,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_GutHarvesting</summary>
+
     public class DiceCardSelfAbility_RMR_GutHarvesting : DiceCardSelfAbilityBase
     {
 
@@ -399,6 +446,8 @@ namespace RogueLike_Mod_Reborn
             this.card.card.XmlData.Script = "";
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_GutHarvestingUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_GutHarvestingUpgrade : DiceCardSelfAbilityBase
     {
@@ -435,6 +484,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_break3atkcard</summary>
+
     public class DiceCardSelfAbility_RMR_break3atkcard : DiceCardSelfAbilityBase
     {
         public override void OnSucceedAttack()
@@ -462,6 +513,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Appetite</summary>
+
     public class DiceCardSelfAbility_RMR_Appetite : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Bleeding_Keyword", "Recover_Keyword" };
@@ -476,6 +529,8 @@ namespace RogueLike_Mod_Reborn
             owner.RecoverHP(stack);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_QuickAttack</summary>
 
     public class DiceCardSelfAbility_RMR_QuickAttack : DiceCardSelfAbilityBase
     {
@@ -495,6 +550,9 @@ namespace RogueLike_Mod_Reborn
     }
     
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_bleed2atkcard</summary>
+    
+
     public class DiceCardSelfAbility_RMR_bleed2atkcard : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Bleeding_Keyword" };
@@ -505,6 +563,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_PreparedMindLulu</summary>
+
     public class DiceCardSelfAbility_RMR_PreparedMindLulu : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Burn_Keyword" };
@@ -513,6 +573,8 @@ namespace RogueLike_Mod_Reborn
             base.OnUseCard();
             owner.bufListDetail.AddBuf(new BattleUnitBuf_burnPlus());
         }
+
+        /// <summary>BattleUnitBuf_burnPlus</summary>
 
         public class BattleUnitBuf_burnPlus : BattleUnitBuf
         {
@@ -532,6 +594,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_PreparedMindLuluUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_PreparedMindLuluUpgrade : DiceCardSelfAbilityBase
     {
         public override void OnUseCard()
@@ -540,6 +604,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddBuf(new BattleUnitBuf_rmrpreparedmindbuf());
         }
         public override string[] Keywords => new string[] { "Burn_Keyword","Endurance_Keyword", };
+
+        /// <summary>BattleUnitBuf_rmrpreparedmindbuf</summary>
 
         public class BattleUnitBuf_rmrpreparedmindbuf : BattleUnitBuf
         {
@@ -561,6 +627,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Endurance1start</summary>
+
     public class DiceCardSelfAbility_RMR_Endurance1start : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Endurance_Keyword" };
@@ -571,6 +639,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Endurance2start</summary>
+
     public class DiceCardSelfAbility_RMR_Endurance2start : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Endurance_Keyword" };
@@ -580,6 +650,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(KeywordBuf.Endurance, 2, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Multiblock</summary>
 
     public class DiceCardSelfAbility_RMR_Multiblock : DiceCardSelfAbilityBase
     {
@@ -593,6 +665,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_MultiblockUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_MultiblockUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Protection_Keyword", "BreakProtection_Keyword", "RMR_Shield_Keyword" };
@@ -604,6 +678,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(RoguelikeBufs.RMRShield, 10, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FleetFootsteps</summary>
 
     public class DiceCardSelfAbility_RMR_FleetFootsteps : DiceCardSelfAbilityBase
     {
@@ -619,6 +695,8 @@ namespace RogueLike_Mod_Reborn
             RMRUtilityExtensions.AddSpeedImmediately(owner, owner.cardOrder, -2);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Deflect</summary>
 
     public class DiceCardSelfAbility_RMR_Deflect : DiceCardSelfAbilityBase
     {
@@ -640,6 +718,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_IngredientHunt</summary>
+
     public class DiceCardSelfAbility_RMR_IngredientHunt : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Bleeding_Keyword" };
@@ -656,6 +736,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Multihit</summary>
+
     public class DiceCardSelfAbility_RMR_Multihit : DiceCardSelfAbilityBase
     {
         public override void OnUseCard()
@@ -664,6 +746,8 @@ namespace RogueLike_Mod_Reborn
             card.ForeachQueue(DiceMatch.AllDice, behavior => behavior.AddAbility(new DiceCardAbility_RMR_Multhitdie()));
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_Multhitdie</summary>
 
     public class DiceCardAbility_RMR_Multhitdie : DiceCardAbilityBase
     {
@@ -684,8 +768,11 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_NonstopAssault</summary>
+
     public class DiceCardSelfAbility_RMR_NonstopAssault : DiceCardSelfAbilityBase
     {
+        /// <summary>BattleUnitBuf_rmrnonstopbuf</summary>
         public class BattleUnitBuf_rmrnonstopbuf : BattleUnitBuf
         {
             public BattleDiceCardModel card;
@@ -712,8 +799,11 @@ namespace RogueLike_Mod_Reborn
 
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_NonstopAssaultUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_NonstopAssaultUpgrade : DiceCardSelfAbilityBase
     {
+        /// <summary>BattleUnitBuf_rmrnonstopbuf</summary>
         public class BattleUnitBuf_rmrnonstopbuf : BattleUnitBuf
         {
             public BattleDiceCardModel card;
@@ -777,6 +867,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_LawOrderUpgrade</summary>
+
     public class DiceCardAbility_RMR_LawOrderUpgrade : DiceCardAbilityBase
     {
         public override void OnWinParrying()
@@ -811,6 +903,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Diversion</summary>
+
     public class DiceCardSelfAbility_RMR_Diversion : DiceCardSelfAbilityBase
     {
         public override void OnStartBattle()
@@ -832,6 +926,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SharpSwipe</summary>
+
     public class DiceCardSelfAbility_RMR_SharpSwipe : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Bleeding_Keyword" };
@@ -840,6 +936,8 @@ namespace RogueLike_Mod_Reborn
             base.OnStartBattle();
             owner.bufListDetail.AddBuf(new agagagagbleeeeed());
         }
+
+        /// <summary>agagagagbleeeeed</summary>
 
         public class agagagagbleeeeed : BattleUnitBuf
         {
@@ -856,6 +954,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Standoff</summary>
+
     public class DiceCardSelfAbility_RMR_Standoff : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Shield_Keyword", "RMR_StaggerShield_Keyword" };
@@ -867,6 +967,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_StandoffUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_StandoffUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Shield_Keyword", "RMR_StaggerShield_Keyword" };
@@ -877,6 +979,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(RoguelikeBufs.RMRStaggerShield, 8, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Avert</summary>
 
     public class DiceCardSelfAbility_RMR_Avert : DiceCardSelfAbilityBase
     {
@@ -893,6 +997,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_StartinLightly</summary>
+
     public class DiceCardSelfAbility_RMR_StartinLightly : DiceCardSelfAbilityBase
     {
         public override void OnUseCard()
@@ -901,6 +1007,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(KeywordBuf.HitPowerUp, 1, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_GuardianUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_GuardianUpgrade : DiceCardSelfAbilityBase
     {
@@ -916,6 +1024,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_GambleUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_GambleUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_CriticalStrike_Keyword" };
@@ -929,6 +1039,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_BackAttack</summary>
 
     public class DiceCardSelfAbility_RMR_BackAttack : DiceCardSelfAbilityBase
     {
@@ -948,6 +1060,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SliceUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_SliceUpgrade : DiceCardSelfAbilityBase
     {
         public override void OnUseCard()
@@ -957,6 +1071,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(KeywordBuf.SlashPowerUp, 1, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_StayClamUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_StayClamUpgrade : DiceCardSelfAbilityBase
     {
@@ -975,6 +1091,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FishOnslaughtUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_FishOnslaughtUpgrade : DiceCardSelfAbilityBase
     {
         public override void OnUseCard()
@@ -985,6 +1103,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_recover5breakpw</summary>
+
     public class DiceCardAbility_RMR_recover5breakpw : DiceCardAbilityBase
     {
         public override void OnWinParrying()
@@ -994,10 +1114,14 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SearingBlow</summary>
+
     public class DiceCardSelfAbility_RMR_SearingBlow : DiceCardSelfAbilityBase
     {
         // empty for description
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Outburst</summary>
 
     public class DiceCardSelfAbility_RMR_Outburst : DiceCardSelfAbilityBase
     {
@@ -1009,6 +1133,8 @@ namespace RogueLike_Mod_Reborn
             owner.cardSlotDetail.RecoverPlayPointByCard(3);
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_allydraw1pw</summary>
 
     public class DiceCardAbility_RMR_allydraw1pw : DiceCardAbilityBase
     {
@@ -1024,6 +1150,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_break2atk</summary>
+
     public class DiceCardSelfAbility_RMR_break2atk : DiceCardSelfAbilityBase
     {
         public override void OnSucceedAttack()
@@ -1032,6 +1160,8 @@ namespace RogueLike_Mod_Reborn
             card.target.breakDetail.TakeBreakDamage(2, DamageType.Card_Ability, owner);
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_paralysisbind1atk</summary>
 
     public class DiceCardAbility_RMR_paralysisbind1atk : DiceCardAbilityBase
     {
@@ -1043,6 +1173,8 @@ namespace RogueLike_Mod_Reborn
             target.bufListDetail.AddKeywordBufByCard(KeywordBuf.Binding, 1, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_CutIn</summary>
 
     public class DiceCardSelfAbility_RMR_CutIn : DiceCardSelfAbilityBase
     {
@@ -1059,6 +1191,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
     
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_MeatJamUpgrade</summary>
+    
     public class DiceCardSelfAbility_RMR_MeatJamUpgrade : DiceCardSelfAbilityBase
     {
         public override void OnUseInstance(BattleUnitModel unit, BattleDiceCardModel self, BattleUnitModel targetUnit)
@@ -1072,6 +1206,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_5shield</summary>
+
     public class DiceCardSelfAbility_RMR_5shield : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Shield_Keyword" };
@@ -1081,6 +1217,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(RoguelikeBufs.RMRShield, 5, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_BladeWhirl</summary>
 
     public class DiceCardSelfAbility_RMR_BladeWhirl : DiceCardSelfAbilityBase
     {
@@ -1094,6 +1232,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_BladeWhirlUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_BladeWhirlUpgrade : DiceCardSelfAbilityBase
     {
@@ -1109,6 +1249,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_HandlingWorkUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_HandlingWorkUpgrade : DiceCardSelfAbilityBase
     {
         public override void OnStartBattle()
@@ -1116,6 +1258,8 @@ namespace RogueLike_Mod_Reborn
             base.OnStartBattle();
             owner.bufListDetail.AddBuf(new googoogaagaaresistances());
         }
+
+        /// <summary>googoogaagaaresistances</summary>
 
         public class googoogaagaaresistances : BattleUnitBuf
         {
@@ -1167,6 +1311,7 @@ namespace RogueLike_Mod_Reborn
             owner.cardSlotDetail.RecoverPlayPointByCard(1);
             owner.bufListDetail.AddKeywordBufByCard(KeywordBuf.Bleeding, 1, owner);
         }
+        /// <summary>BattleUnitBuf_luxunitybuf</summary>
         public class BattleUnitBuf_luxunitybuf : BattleUnitBuf
         {
             public override void OnUseCard(BattlePlayingCardDataInUnitModel card)
@@ -1201,6 +1346,7 @@ namespace RogueLike_Mod_Reborn
                 }
             }
         }
+        /// <summary>BattleUnitBuf_luxunitybuf</summary>
         public class BattleUnitBuf_luxunitybuf : BattleUnitBuf
         {
             public override void OnUseCard(BattlePlayingCardDataInUnitModel card)
@@ -1222,6 +1368,8 @@ namespace RogueLike_Mod_Reborn
         } */
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_LowNight</summary>
+
     public class DiceCardSelfAbility_RMR_LowNight : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Strength_Keyword" };
@@ -1235,6 +1383,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_LowNightUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_LowNightUpgrade : DiceCardSelfAbilityBase
     {
@@ -1254,6 +1404,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_RulesBackstreets</summary>
+
     public class DiceCardSelfAbility_RMR_RulesBackstreets : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Bleeding_Keyword" };
@@ -1270,6 +1422,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_bleed2draw1atk</summary>
+
     public class DiceCardAbility_RMR_bleed2draw1atk : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "Bleeding_Keyword", "DrawCard_Keyword" };
@@ -1281,6 +1435,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_HandleRequest</summary>
+
     public class DiceCardSelfAbility_RMR_HandleRequest : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Burn_Keyword" };
@@ -1289,6 +1445,8 @@ namespace RogueLike_Mod_Reborn
             base.OnUseCard();
             owner.bufListDetail.AddBuf(new BattleUnitBuf_burnPlus());
         }
+
+        /// <summary>BattleUnitBuf_burnPlus</summary>
 
         public class BattleUnitBuf_burnPlus : BattleUnitBuf
         {
@@ -1309,6 +1467,8 @@ namespace RogueLike_Mod_Reborn
 
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_nodeflectdamage</summary>
+
     public class DiceCardAbility_RMR_nodeflectdamage : DiceCardAbilityBase
     {
         public override void BeforeRollDice()
@@ -1324,6 +1484,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_boostdiceminvalue2pl</summary>
+
     public class DiceCardAbility_RMR_boostdiceminvalue2pl : DiceCardAbilityBase
     {
         public override void OnLoseParrying()
@@ -1335,6 +1497,8 @@ namespace RogueLike_Mod_Reborn
             });
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_PrescriptOrder</summary>
 
     public class DiceCardSelfAbility_RMR_PrescriptOrder : DiceCardSelfAbility_RMR_Zeal
     {
@@ -1349,6 +1513,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_PrescriptOrderUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_PrescriptOrderUpgrade : DiceCardSelfAbility_RMR_Zeal
     {
@@ -1368,6 +1534,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_TargetSpotted</summary>
+
     public class DiceCardSelfAbility_RMR_TargetSpotted : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_CriticalStrike_Keyword" };
@@ -1377,6 +1545,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(RoguelikeBufs.CritChance, 5, owner);
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_binding3crit</summary>
 
     public class DiceCardAbility_RMR_binding3crit : DiceCardAbilityBase
     {
@@ -1390,6 +1560,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_UnavoidableGazeUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_UnavoidableGazeUpgrade : DiceCardSelfAbilityBase
     {
@@ -1408,6 +1580,8 @@ namespace RogueLike_Mod_Reborn
             });
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_YoureSoft</summary>
 
     public class DiceCardSelfAbility_RMR_YoureSoft : DiceCardSelfAbilityBase
     {
@@ -1430,6 +1604,7 @@ namespace RogueLike_Mod_Reborn
                 }
             }
         }
+        /// <summary>BattleUnitBuf_luxunitybuf</summary>
         public class BattleUnitBuf_luxunitybuf : BattleUnitBuf
         {
             public override void OnUseCard(BattlePlayingCardDataInUnitModel card)
@@ -1451,6 +1626,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Relay</summary>
+
     public class DiceCardSelfAbility_RMR_Relay : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "DrawCard_Keyword" };
@@ -1460,6 +1637,8 @@ namespace RogueLike_Mod_Reborn
             RandomUtil.SelectOne<BattleUnitModel>(BattleObjectManager.instance.GetAliveList(unit.faction).FindAll((BattleUnitModel x) => x != unit)).allyCardDetail.DrawCards(1);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_RelayUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_RelayUpgrade : DiceCardSelfAbilityBase
     {
@@ -1477,6 +1656,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_DarkCloudUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_DarkCloudUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Bleeding_Keyword" };
@@ -1485,6 +1666,8 @@ namespace RogueLike_Mod_Reborn
             base.OnStartBattle();
             owner.bufListDetail.AddBuf(new guggugubleeeeedd());
         }
+
+        /// <summary>guggugubleeeeedd</summary>
 
         public class guggugubleeeeedd : BattleUnitBuf
         {
@@ -1505,6 +1688,8 @@ namespace RogueLike_Mod_Reborn
 
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_bleeding1atk2lessbreakdmg</summary>
+
     public class DiceCardAbility_RMR_bleeding1atk2lessbreakdmg : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "Bleeding_Keyword" };
@@ -1522,6 +1707,8 @@ namespace RogueLike_Mod_Reborn
             });
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_UpbeatPerformance</summary>
 
     public class DiceCardSelfAbility_RMR_UpbeatPerformance : DiceCardSelfAbilityBase
     {
@@ -1547,6 +1734,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ReturnFireUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_ReturnFireUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_CriticalStrike_Keyword" };
@@ -1556,6 +1745,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(RoguelikeBufs.CritChance, 8, owner);
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_1weakcrit</summary>
 
     public class DiceCardAbility_RMR_1weakcrit : DiceCardAbilityBase
     {
@@ -1570,6 +1761,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_2weakcrit</summary>
+
     public class DiceCardAbility_RMR_2weakcrit : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "Weak_Keyword" };
@@ -1583,6 +1776,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FrontalDodge</summary>
+
     public class DiceCardSelfAbility_RMR_FrontalDodge : DiceCardSelfAbilityBase
     {
         public override void OnUseCard()
@@ -1592,6 +1787,8 @@ namespace RogueLike_Mod_Reborn
         }
         public override bool IsUniteCard => true;
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FlankAttack</summary>
 
     public class DiceCardSelfAbility_RMR_FlankAttack : DiceCardSelfAbilityBase
     {
@@ -1612,6 +1809,7 @@ namespace RogueLike_Mod_Reborn
                 }
             }
         }
+        /// <summary>BattleUnitBuf_luxunitybuf</summary>
         public class BattleUnitBuf_luxunitybuf : BattleUnitBuf
         {
             public override void OnUseCard(BattlePlayingCardDataInUnitModel card)
@@ -1636,6 +1834,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FlankAttackUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_FlankAttackUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Bleeding_Keyword" };
@@ -1658,6 +1858,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_RedNotes</summary>
+
     public class DiceCardSelfAbility_RMR_RedNotes : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Strength_Keyword", "Endurance_Keyword" };
@@ -1673,6 +1875,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_RedNotesUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_RedNotesUpgrade : DiceCardSelfAbilityBase
     {
@@ -1693,6 +1897,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_WillBeTasty</summary>
+
     public class DiceCardSelfAbility_RMR_WillBeTasty : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Recover_Keyword"};
@@ -1706,6 +1912,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_IHATECQC</summary>
+
     public class DiceCardSelfAbility_RMR_IHATECQC : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Protection_Keyword", "BreakProtection_Keyword", "RMR_CriticalStrike_Keyword" };
@@ -1718,6 +1926,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_IHATECQCUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_IHATECQCUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Protection_Keyword", "BreakProtection_Keyword", "RMR_CriticalStrike_Keyword" };
@@ -1729,6 +1939,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufByCard(RoguelikeBufs.CritChance, 5, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_TakeTheShot</summary>
 
     public class DiceCardSelfAbility_RMR_TakeTheShot : DiceCardSelfAbilityBase
     {
@@ -1743,6 +1955,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_TakeTheShotUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_TakeTheShotUpgrade : DiceCardSelfAbilityBase
     {
@@ -1763,6 +1977,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_5breakdmgcrit</summary>
+
     public class DiceCardAbility_RMR_5breakdmgcrit : DiceCardAbilityBase
     {
         public override void OnSucceedAttack(BattleUnitModel target)
@@ -1774,6 +1990,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_OpportunitySpotted</summary>
 
     public class DiceCardSelfAbility_RMR_OpportunitySpotted : DiceCardSelfAbilityBase
     {
@@ -1799,6 +2017,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_YoureHindranceUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_YoureHindranceUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Disarm_Keyword" };
@@ -1808,6 +2028,8 @@ namespace RogueLike_Mod_Reborn
             card.target.bufListDetail.AddKeywordBufByCard(KeywordBuf.Disarm, 1, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_CleanUp</summary>
 
     public class DiceCardSelfAbility_RMR_CleanUp : DiceCardSelfAbilityBase
     {
@@ -1824,6 +2046,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_CumulusWall</summary>
+
     public class DiceCardSelfAbility_RMR_CumulusWall : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Shield_Keyword", "RMR_StaggerShield_Keyword" };
@@ -1834,6 +2058,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(RoguelikeBufs.RMRStaggerShield, 5, owner);
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_CumulusWallDie</summary>
 
     public class DiceCardAbility_RMR_CumulusWallDie : DiceCardAbilityBase
     {
@@ -1847,6 +2073,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_CumulusWallUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_CumulusWallUpgrade : DiceCardSelfAbilityBase
     {
@@ -1869,6 +2097,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ShrineToMusic</summary>
+
     public class DiceCardSelfAbility_RMR_ShrineToMusic : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Weak_Keyword", "Disarm_Keyword" };
@@ -1884,6 +2114,7 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ShrineToMusicUpgrade</summary>
     public class DiceCardSelfAbility_RMR_ShrineToMusicUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Weak_Keyword", "Disarm_Keyword" };
@@ -1903,6 +2134,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Headshot</summary>
+
     public class DiceCardSelfAbility_RMR_Headshot : DiceCardSelfAbilityBase
     {
         public override void OnSucceedAttack()
@@ -1914,6 +2147,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_dmgupquickness1ally2atk</summary>
 
     public class DiceCardAbility_RMR_dmgupquickness1ally2atk : DiceCardAbilityBase
     {
@@ -1928,6 +2163,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SpearedSweep</summary>
 
     public class DiceCardSelfAbility_RMR_SpearedSweep : DiceCardSelfAbilityBase
     {
@@ -1944,6 +2181,8 @@ namespace RogueLike_Mod_Reborn
             card.target.bufListDetail.RemoveBufAll(KeywordBuf.Disarm);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SpearedSweepUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_SpearedSweepUpgrade : DiceCardSelfAbilityBase
     {
@@ -1965,6 +2204,8 @@ namespace RogueLike_Mod_Reborn
             card.target.bufListDetail.RemoveBufAll(KeywordBuf.Disarm);
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_SpearSweepDie</summary>
 
     public class DiceCardAbility_RMR_SpearSweepDie : DiceCardAbilityBase
     {
@@ -1988,6 +2229,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_SpearSweepDieUpgrade</summary>
+
     public class DiceCardAbility_RMR_SpearSweepDieUpgrade : DiceCardAbilityBase
     {
         public override void OnWinParrying()
@@ -2010,6 +2253,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FullStopToLife</summary>
+
     public class DiceCardSelfAbility_RMR_FullStopToLife : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_CriticalStrike_Keyword" };
@@ -2024,6 +2269,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufByCard(RoguelikeBufs.CritChance, 4, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FullStopToLifeUpgrade1</summary>
 
     public class DiceCardSelfAbility_RMR_FullStopToLifeUpgrade1 : DiceCardSelfAbilityBase
     {
@@ -2040,6 +2287,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FullStopToLifeUpgrade2</summary>
+
     public class DiceCardSelfAbility_RMR_FullStopToLifeUpgrade2 : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_CriticalStrike_Keyword" };
@@ -2050,6 +2299,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufByCard(RoguelikeBufs.CritChance, 8, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ElectricShock</summary>
 
     public class DiceCardSelfAbility_RMR_ElectricShock : DiceCardSelfAbilityBase
     {
@@ -2067,6 +2318,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ElectricShockUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_ElectricShockUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Paralysis_Keyword" };
@@ -2083,6 +2336,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_HeresMyChance</summary>
+
     public class DiceCardSelfAbility_RMR_HeresMyChance : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Bleeding_Keyword" };
@@ -2098,6 +2353,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Whet</summary>
+
     public class DiceCardSelfAbility_RMR_Whet : DiceCardSelfAbilityBase
     {
         public override void OnEndBattle()
@@ -2105,6 +2362,8 @@ namespace RogueLike_Mod_Reborn
             base.OnEndBattle();
             owner.bufListDetail.AddBuf(new googoogaagaapower());
         }
+
+        /// <summary>googoogaagaapower</summary>
 
         public class googoogaagaapower : BattleUnitBuf
         {
@@ -2119,6 +2378,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_Detonate</summary>
 
     public class DiceCardAbility_RMR_Detonate : DiceCardAbilityBase
     {
@@ -2138,6 +2399,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_SkyCut</summary>
+
     public class DiceCardAbility_RMR_SkyCut : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "Bleeding_Keyword" };
@@ -2156,6 +2419,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_add5powerpl</summary>
+
     public class DiceCardAbility_RMR_add5powerpl : DiceCardAbilityBase
     {
         public override void OnLoseParrying()
@@ -2168,6 +2433,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SearingSword</summary>
+
     public class DiceCardSelfAbility_RMR_SearingSword : DiceCardSelfAbilityBase
     {
         public override void BeforeGiveDamage(BattleDiceBehavior behavior)
@@ -2179,6 +2446,8 @@ namespace RogueLike_Mod_Reborn
             });
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_HeadtoHead</summary>
 
     public class DiceCardSelfAbility_RMR_HeadtoHead : DiceCardSelfAbilityBase
     {
@@ -2200,6 +2469,7 @@ namespace RogueLike_Mod_Reborn
                 }
             }
         }
+        /// <summary>BattleUnitBuf_luxunitybuf</summary>
         public class BattleUnitBuf_luxunitybuf : BattleUnitBuf
         {
             public override void OnStartParrying(BattlePlayingCardDataInUnitModel card)
@@ -2226,6 +2496,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_HeadtoHeadUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_HeadtoHeadUpgrade : DiceCardSelfAbilityBase
     {
@@ -2256,6 +2528,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SunsetBlade</summary>
+
     public class DiceCardSelfAbility_RMR_SunsetBlade : DiceCardSelfAbilityBase
     {
         public override void OnStartParrying()
@@ -2268,6 +2542,8 @@ namespace RogueLike_Mod_Reborn
             });
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_StructuralAnalysis</summary>
 
     public class DiceCardSelfAbility_RMR_StructuralAnalysis : DiceCardSelfAbilityBase
     {
@@ -2328,6 +2604,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Feast</summary>
+
     public class DiceCardSelfAbility_RMR_Feast : DiceCardSelfAbilityBase
     {
         public override void OnEndBattle()
@@ -2349,6 +2627,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
 
+        /// <summary>maxhphehehehe</summary>
+
         public class maxhphehehehe : BattleUnitBuf
         {
             public override StatBonus GetStatBonus()
@@ -2360,6 +2640,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FeastUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_FeastUpgrade : DiceCardSelfAbilityBase
     {
@@ -2382,6 +2664,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
 
+        /// <summary>maxhphehehehe</summary>
+
         public class maxhphehehehe : BattleUnitBuf
         {
             public override StatBonus GetStatBonus()
@@ -2393,6 +2677,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Eject</summary>
 
     public class DiceCardSelfAbility_RMR_Eject : DiceCardSelfAbilityBase
     {
@@ -2407,6 +2693,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_EjectUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_EjectUpgrade : DiceCardSelfAbilityBase
     {
         public override void OnStartParrying()
@@ -2419,6 +2707,8 @@ namespace RogueLike_Mod_Reborn
             });
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_NotAnotherStep</summary>
 
     public class DiceCardSelfAbility_RMR_NotAnotherStep : DiceCardSelfAbilityBase
     {
@@ -2433,6 +2723,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_NotAnotherStepUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_NotAnotherStepUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_CriticalStrike_Keyword" };
@@ -2446,6 +2738,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SharpenedBladev2</summary>
+
     public class DiceCardSelfAbility_RMR_SharpenedBladev2 : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Bleeding_Keyword" };
@@ -2455,6 +2749,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(KeywordBuf.DmgUp, 2, owner);
             owner.bufListDetail.AddBuf(new hehehehebleeeedILVOVEVEBLEEEED());
         }
+
+        /// <summary>hehehehebleeeedILVOVEVEBLEEEED</summary>
 
         public class hehehehebleeeedILVOVEVEBLEEEED : BattleUnitBuf
         {
@@ -2476,6 +2772,8 @@ namespace RogueLike_Mod_Reborn
                 this.Destroy();
             }
 
+            /// <summary>heheheedmgbleed</summary>
+
             public class heheheedmgbleed : DiceCardAbilityBase
             {
                 public override void OnSucceedAttack(BattleUnitModel target)
@@ -2487,6 +2785,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SharpenedBlade</summary>
+
     public class DiceCardSelfAbility_RMR_SharpenedBlade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Bleeding_Keyword" };
@@ -2495,6 +2795,8 @@ namespace RogueLike_Mod_Reborn
             base.OnStartBattle();
             owner.bufListDetail.AddBuf(new hehehehebleeeedILVOVEVEBLEEEED());
         }
+
+        /// <summary>hehehehebleeeedILVOVEVEBLEEEED</summary>
 
         public class hehehehebleeeedILVOVEVEBLEEEED : BattleUnitBuf
         {
@@ -2524,6 +2826,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SharpenedBladeUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_SharpenedBladeUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Bleeding_Keyword" };
@@ -2532,6 +2836,8 @@ namespace RogueLike_Mod_Reborn
             base.OnStartBattle();
             owner.bufListDetail.AddBuf(new hehehehebleeeedILVOVEVEBLEEEED());
         }
+
+        /// <summary>hehehehebleeeedILVOVEVEBLEEEED</summary>
 
         public class hehehehebleeeedILVOVEVEBLEEEED : BattleUnitBuf
         {
@@ -2561,6 +2867,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SilentMist</summary>
+
     public class DiceCardSelfAbility_RMR_SilentMist : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Protection_Keyword", "BreakProtection_Keyword" };
@@ -2572,6 +2880,8 @@ namespace RogueLike_Mod_Reborn
             
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ButterflySlash</summary>
 
     public class DiceCardSelfAbility_RMR_ButterflySlash : DiceCardSelfAbilityBase
     {
@@ -2596,6 +2906,8 @@ namespace RogueLike_Mod_Reborn
             card.target.bufListDetail.AddKeywordBufByCard(KeywordBuf.Burn, 1, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_IndiscriminateShots</summary>
 
     public class DiceCardSelfAbility_RMR_IndiscriminateShots : DiceCardSelfAbilityBase
     {
@@ -2643,6 +2955,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_IndiscriminateShotsDie1</summary>
+
     public class DiceCardAbility_RMR_IndiscriminateShotsDie1 : DiceCardAbilityBase
     {
         public override void OnSucceedAttack()
@@ -2653,6 +2967,8 @@ namespace RogueLike_Mod_Reborn
                 owner.bufListDetail.AddBuf(new gagagapowerrINFINTIPOWEREWRR());
             }
         }
+
+        /// <summary>gagagapowerrINFINTIPOWEREWRR</summary>
 
         public class gagagapowerrINFINTIPOWEREWRR : BattleUnitBuf
         {
@@ -2676,6 +2992,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_IndiscriminateShotsDie1Upgrade</summary>
+
     public class DiceCardAbility_RMR_IndiscriminateShotsDie1Upgrade : DiceCardAbilityBase
     {
         public override void OnSucceedAttack()
@@ -2686,6 +3004,8 @@ namespace RogueLike_Mod_Reborn
                 owner.bufListDetail.AddBuf(new gagagapowerrINFINTIPOWEREWRR());
             }
         }
+
+        /// <summary>gagagapowerrINFINTIPOWEREWRR</summary>
 
         public class gagagapowerrINFINTIPOWEREWRR : BattleUnitBuf
         {
@@ -2710,6 +3030,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_IndiscriminateShotsDie2</summary>
+
     public class DiceCardAbility_RMR_IndiscriminateShotsDie2 : DiceCardAbilityBase
     {
         public override void OnSucceedAttack(BattleUnitModel target)
@@ -2718,6 +3040,8 @@ namespace RogueLike_Mod_Reborn
             target.TakeDamage(behavior.DiceResultValue, DamageType.Card_Ability, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_BeyondShadow</summary>
 
     public class DiceCardSelfAbility_RMR_BeyondShadow : DiceCardSelfAbilityBase
     {
@@ -2735,6 +3059,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_2bleedcrit</summary>
+
     public class DiceCardAbility_RMR_2bleedcrit : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "Bleeding_Keyword" };
@@ -2747,6 +3073,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_3bleedcrit</summary>
 
     public class DiceCardAbility_RMR_3bleedcrit : DiceCardAbilityBase
     {
@@ -2761,6 +3089,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ScatteringSlash</summary>
+
     public class DiceCardSelfAbility_RMR_ScatteringSlash : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Shield_Keyword" };
@@ -2771,6 +3101,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ScatteringSlashUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_ScatteringSlashUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Shield_Keyword" };
@@ -2780,6 +3112,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(RoguelikeBufs.RMRShield, 16, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_UnforgettableMelody</summary>
 
     public class DiceCardSelfAbility_RMR_UnforgettableMelody : DiceCardSelfAbilityBase
     {
@@ -2796,6 +3130,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_UnforgettableMelodyUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_UnforgettableMelodyUpgrade : DiceCardSelfAbilityBase
     {
@@ -2814,6 +3150,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FaintMemories</summary>
+
     public class DiceCardSelfAbility_RMR_FaintMemories : DiceCardSelfAbilityBase
     {
         public override void OnUseCard()
@@ -2827,6 +3165,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FaintMemoriesUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_FaintMemoriesUpgrade : DiceCardSelfAbilityBase
     {
         public override void OnUseCard()
@@ -2839,6 +3179,8 @@ namespace RogueLike_Mod_Reborn
             });
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_KillMotherfuckerOfChoice</summary>
 
     public class DiceCardAbility_RMR_KillMotherfuckerOfChoice : DiceCardAbilityBase
     {
@@ -2856,6 +3198,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_KillMotherfuckerOfChoiceUpgrade</summary>
+
     public class DiceCardAbility_RMR_KillMotherfuckerOfChoiceUpgrade : DiceCardAbilityBase
     {
         public override void BeforeGiveDamage()
@@ -2872,6 +3216,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_BindingArmsUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_BindingArmsUpgrade : DiceCardSelfAbilityBase
     {
         public override void OnUseCard()
@@ -2884,6 +3230,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
 
+        /// <summary>CostDownSelfBuf</summary>
+
         public class CostDownSelfBuf : BattleDiceCardBuf
         {
             public override int GetCost(int oldCost)
@@ -2892,6 +3240,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_HeavyPeaks</summary>
 
     public class DiceCardSelfAbility_RMR_HeavyPeaks : DiceCardSelfAbilityBase
     {
@@ -2907,6 +3257,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_nodamage</summary>
+
     public class DiceCardAbility_RMR_nodamage : DiceCardAbilityBase
     {
         public override void BeforeGiveDamage()
@@ -2920,9 +3272,12 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Tailoring</summary>
+
     public class DiceCardSelfAbility_RMR_Tailoring : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "DrawCard_Keyword" };
+        /// <summary>BattleDiceCardBuf_costDownCard</summary>
         public class BattleDiceCardBuf_costDownCard : BattleDiceCardBuf
         {
             public override void OnRoundEnd()
@@ -2960,8 +3315,11 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_TailoringUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_TailoringUpgrade : DiceCardSelfAbilityBase
     {
+        /// <summary>BattleDiceCardBuf_costDownCard</summary>
         public class BattleDiceCardBuf_costDownCard : BattleDiceCardBuf
         {
             public override void OnRoundEnd()
@@ -3003,6 +3361,9 @@ namespace RogueLike_Mod_Reborn
     }
 
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FascinatingFabric</summary>
+
+
     public class DiceCardSelfAbility_RMR_FascinatingFabric : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Protection_Keyword", "BreakProtection_Keyword" };
@@ -3021,6 +3382,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(KeywordBuf.BreakProtection, 1, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FascinatingFabricUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_FascinatingFabricUpgrade : DiceCardSelfAbilityBase
     {
@@ -3041,6 +3404,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_CrackOfDawnDie</summary>
+
     public class DiceCardAbility_RMR_CrackOfDawnDie : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "Burn_Keyword" };
@@ -3059,6 +3424,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_CrackOfDawnDieUpgrade</summary>
+
     public class DiceCardAbility_RMR_CrackOfDawnDieUpgrade : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "Burn_Keyword" };
@@ -3076,6 +3443,8 @@ namespace RogueLike_Mod_Reborn
             target.bufListDetail.AddKeywordBufByCard(KeywordBuf.Burn, 11, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_NowDie</summary>
 
     public class DiceCardSelfAbility_RMR_NowDie : DiceCardSelfAbilityBase
     {
@@ -3097,6 +3466,7 @@ namespace RogueLike_Mod_Reborn
                 }
             }
         }
+        /// <summary>BattleUnitBuf_luxunitybuf</summary>
         public class BattleUnitBuf_luxunitybuf : BattleUnitBuf
         {
             public override void OnUseCard(BattlePlayingCardDataInUnitModel card)
@@ -3118,6 +3488,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Mendweapon</summary>
+
     public class DiceCardSelfAbility_RMR_Mendweapon : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Energy_Keyword" };
@@ -3132,6 +3504,7 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(KeywordBuf.PenetratePowerUp, 1, owner);
         }
     }
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Refine</summary>
     public class DiceCardSelfAbility_RMR_Refine : DiceCardSelfAbilityBase
     {
         public override void OnStartBattle()
@@ -3140,6 +3513,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(RoguelikeBufs.PierceClashPower, 2, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Sakura</summary>
 
     public class DiceCardSelfAbility_RMR_Sakura : DiceCardSelfAbilityBase
     {
@@ -3160,6 +3535,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SakuraUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_SakuraUpgrade : DiceCardSelfAbilityBase
     {
@@ -3183,6 +3560,9 @@ namespace RogueLike_Mod_Reborn
                 }
             }
         }
+     
+
+        /// <summary>googoogaagaaresistances</summary>
      
 
         public class googoogaagaaresistances : BattleUnitBuf
@@ -3212,6 +3592,8 @@ namespace RogueLike_Mod_Reborn
     
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_InkOver</summary>
+
     public class DiceCardSelfAbility_RMR_InkOver : DiceCardSelfAbilityBase
     {
         public override void OnRoundStart_inHand(BattleUnitModel unit, BattleDiceCardModel self)
@@ -3225,6 +3607,8 @@ namespace RogueLike_Mod_Reborn
                 }
             }
         }
+
+        /// <summary>costreduction</summary>
 
         public class costreduction : BattleDiceCardBuf
         {
@@ -3246,6 +3630,7 @@ namespace RogueLike_Mod_Reborn
             behavior.card?.target.bufListDetail.AddKeywordBufByCard(KeywordBuf.Bleeding, 1, owner);
         }
     }
+    /// <summary>Dice ability: DiceCardAbility_RMR_InkOverDie</summary>
     public class DiceCardAbility_RMR_InkOverDie : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "Bleeding_Keyword", "DrawCard_Keyword" };
@@ -3263,6 +3648,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_InkOverDieUpgrade</summary>
 
     public class DiceCardAbility_RMR_InkOverDieUpgrade : DiceCardAbilityBase
     {
@@ -3282,6 +3669,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_energy2draw1</summary>
+
     public class DiceCardSelfAbility_RMR_energy2draw1 : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Energy_Keyword", "DrawCard_Keyword" };
@@ -3293,6 +3682,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Observe</summary>
+
     public class DiceCardSelfAbility_RMR_Observe : DiceCardSelfAbilityBase
     {
         public override void OnUseCard()
@@ -3301,6 +3692,7 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddBuf(new BattleUnitBuf_rmrobservebuf());
         }
         public override string[] Keywords => new string[] { "Strength_Keyword" };
+        /// <summary>BattleUnitBuf_rmrobservebuf</summary>
         public class BattleUnitBuf_rmrobservebuf : BattleUnitBuf
         {
             public override void OnRoundStart()
@@ -3311,6 +3703,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ObserveUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_ObserveUpgrade : DiceCardSelfAbilityBase
     {
         public override void OnUseCard()
@@ -3320,6 +3714,7 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddBuf(new BattleUnitBuf_rmrobservebuf());
         }
         public override string[] Keywords => new string[] { "Strength_Keyword" };
+        /// <summary>BattleUnitBuf_rmrobservebuf</summary>
         public class BattleUnitBuf_rmrobservebuf : BattleUnitBuf
         {
             public override void OnRoundStart()
@@ -3329,6 +3724,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_WrathOfTormentUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_WrathOfTormentUpgrade : DiceCardSelfAbilityBase
     {
@@ -3342,6 +3739,8 @@ namespace RogueLike_Mod_Reborn
             });
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_bleed1atkcard</summary>
 
     public class DiceCardSelfAbility_RMR_bleed1atkcard : DiceCardSelfAbilityBase
     {
@@ -3374,6 +3773,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_EngagementUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_EngagementUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Shield_Keyword", "RMR_StaggerShield_Keyword" };
@@ -3389,6 +3790,8 @@ namespace RogueLike_Mod_Reborn
             this.owner.allyCardDetail.AddNewCard(Singleton<LogCardUpgradeManager>.Instance.GetUpgradeCard(new LorId(LogLikeMod.ModId, 511005)).id);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_EnGarde</summary>
 
     public class DiceCardSelfAbility_RMR_EnGarde : DiceCardSelfAbilityBase
     {
@@ -3408,6 +3811,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_EnGardeUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_EnGardeUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_ClashPower_Keyword", "Strength_Keyword" };
@@ -3426,6 +3831,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_OvercomeCrisis</summary>
+
     public class DiceCardSelfAbility_RMR_OvercomeCrisis : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "DrawCard_Keyword" };
@@ -3440,6 +3847,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_OvercomeCrisisUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_OvercomeCrisisUpgrade : DiceCardSelfAbilityBase
     {
@@ -3457,6 +3866,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SmokingPipe</summary>
+
     public class DiceCardSelfAbility_RMR_SmokingPipe : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Smoke_Keyword", "Energy_Keyword" };
@@ -3467,6 +3878,8 @@ namespace RogueLike_Mod_Reborn
             owner.cardSlotDetail.RecoverPlayPointByCard(1);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SmokingPipeUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_SmokingPipeUpgrade : DiceCardSelfAbilityBase
     {
@@ -3479,6 +3892,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Juggling</summary>
+
     public class DiceCardSelfAbility_RMR_Juggling : DiceCardSelfAbilityBase
     {
         public override void OnEnterCardPhase(BattleUnitModel unit, BattleDiceCardModel self)
@@ -3489,6 +3904,8 @@ namespace RogueLike_Mod_Reborn
             unit.allyCardDetail.AddNewCardToDeck(card.id);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Faith</summary>
 
     public class DiceCardSelfAbility_RMR_Faith : DiceCardSelfAbility_RMR_Zeal
     {
@@ -3504,6 +3921,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_FaithDie</summary>
 
     public class DiceCardAbility_RMR_FaithDie : DiceCardAbilityBase
     {
@@ -3543,6 +3962,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Leap</summary>
+
     public class DiceCardSelfAbility_RMR_Leap : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Quickness_Keyword", "WarpCharge", "DrawCard_Keyword" };
@@ -3557,6 +3978,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_LeapUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_LeapUpgrade : DiceCardSelfAbilityBase
     {
@@ -3577,6 +4000,7 @@ namespace RogueLike_Mod_Reborn
     // reference this whenever you want to make an adapt ability, it has to have the same prefix too ie:
     // DiceCardSelfAbility_RMR_AdaptPage_cardabilityexample : DiceCardSelfAbility_RMR_AdaptPage
     // DiceCardAbility_RMR_AdaptDice_diceabilityexample : DiceCardAbility_RMR_AdaptDice
+    /// <summary>ScrollAbility_RMR_AdaptScroll</summary>
     public class ScrollAbility_RMR_AdaptScroll : ScrollAbilityBase
     {
         public override void OnScrollUp(BattleUnitModel unit, BattleDiceCardModel self)
@@ -3695,12 +4119,16 @@ namespace RogueLike_Mod_Reborn
             }
         }
 
+        /// <summary>DiceWithIndex</summary>
+
         public class DiceWithIndex
         {
             public DiceBehaviour dice { get; set; }
             public int index { get; set; }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_AdaptPage</summary>
 
     public class DiceCardSelfAbility_RMR_AdaptPage : DiceCardSelfAbilityBase
     {
@@ -3721,6 +4149,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_AdaptDice</summary>
+
     public class DiceCardAbility_RMR_AdaptDice : DiceCardAbilityBase
     {
         public override string[] Keywords
@@ -3735,6 +4165,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_AdaptDice_Riposte</summary>
+
     public class DiceCardAbility_RMR_AdaptDice_Riposte : DiceCardAbility_RMR_AdaptDice
     {
         public override void OnWinParrying()
@@ -3744,6 +4176,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_AdaptDice_RiposteUpgrade</summary>
+
     public class DiceCardAbility_RMR_AdaptDice_RiposteUpgrade : DiceCardAbility_RMR_AdaptDice
     {
         public override void OnWinParrying()
@@ -3752,6 +4186,8 @@ namespace RogueLike_Mod_Reborn
             card.target?.currentDiceAction?.AddDiceAdder(DiceMatch.NextDice, -3);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_DesperateStruggle</summary>
 
     public class DiceCardSelfAbility_RMR_DesperateStruggle : DiceCardSelfAbilityBase
     {
@@ -3769,6 +4205,7 @@ namespace RogueLike_Mod_Reborn
                 }
             }
         }
+        /// <summary>BattleUnitBuf_luxunitybuf</summary>
         public class BattleUnitBuf_luxunitybuf : BattleUnitBuf
         {
             bool trigger;
@@ -3793,6 +4230,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_HiddenBlade</summary>
+
     public class DiceCardSelfAbility_RMR_HiddenBlade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Smoke_Keyword" };
@@ -3810,6 +4249,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_HiddenBladeUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_HiddenBladeUpgrade : DiceCardSelfAbilityBase
     {
@@ -3830,6 +4271,9 @@ namespace RogueLike_Mod_Reborn
     }
 
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FlyingSword</summary>
+
+
     public class DiceCardSelfAbility_RMR_FlyingSword : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Quickness_Keyword" };
@@ -3846,6 +4290,7 @@ namespace RogueLike_Mod_Reborn
                 }
             }
         }
+        /// <summary>BattleUnitBuf_luxunitybuf</summary>
         public class BattleUnitBuf_luxunitybuf : BattleUnitBuf
         {
             public override void OnUseCard(BattlePlayingCardDataInUnitModel card)
@@ -3866,6 +4311,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FlyingSwordUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_FlyingSwordUpgrade : DiceCardSelfAbilityBase
     {
@@ -3889,6 +4336,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_HastePower1</summary>
+
     public class DiceCardAbility_RMR_HastePower1 : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "Quickness_Keyword" };
@@ -3904,6 +4353,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_HastePower2</summary>
 
     public class DiceCardAbility_RMR_HastePower2 : DiceCardAbilityBase
     {
@@ -3921,6 +4372,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Gigigi</summary>
+
     public class DiceCardSelfAbility_RMR_Gigigi : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Energy_Keyword", "DrawCard_Keyword" };
@@ -3932,6 +4385,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_InhaleSmoke</summary>
+
     public class DiceCardSelfAbility_RMR_InhaleSmoke : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Smoke_Keyword" };
@@ -3942,6 +4397,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_InhaleSmokeUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_InhaleSmokeUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Smoke_Keyword" };
@@ -3951,6 +4408,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(RoguelikeBufs.RMRSmoke, 6, owner);
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_WildCard</summary>
 
     public class DiceCardAbility_RMR_WildCard : DiceCardAbilityBase
     {
@@ -3963,6 +4422,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_allydraw1atk</summary>
 
     public class DiceCardAbility_RMR_allydraw1atk : DiceCardAbilityBase
     {
@@ -3979,6 +4440,9 @@ namespace RogueLike_Mod_Reborn
     }
 
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Acupuncture</summary>
+
+
     public class DiceCardSelfAbility_RMR_Acupuncture : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_CriticalStrike_Keyword", "RMR_SlashClashPower_Keyword" };
@@ -3993,6 +4457,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ProselyteBlade</summary>
+
     public class DiceCardSelfAbility_RMR_ProselyteBlade : DiceCardSelfAbility_RMR_Zeal
     {
         public override void OnStartBattle()
@@ -4001,6 +4467,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddBuf(new gagaproselytebuf());
             owner.bufListDetail.AddBuf(new losepowerusmoothbrain());
         }
+
+        /// <summary>gagaproselytebuf</summary>
 
         public class gagaproselytebuf : BattleUnitBuf
         {
@@ -4011,6 +4479,8 @@ namespace RogueLike_Mod_Reborn
                 _owner.bufListDetail.AddKeywordBufThisRoundByCard(RandomUtil.SelectOne<KeywordBuf>(list), 1, _owner);
             }
         }
+
+        /// <summary>losepowerusmoothbrain</summary>
 
         public class losepowerusmoothbrain : BattleUnitBuf
         {
@@ -4030,6 +4500,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ProselyteBladeUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_ProselyteBladeUpgrade : DiceCardSelfAbilityBase
     {
         public override void OnStartBattle()
@@ -4038,6 +4510,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddBuf(new gagaproselytebuf());
             owner.bufListDetail.AddBuf(new losepowerusmoothbrain());
         }
+
+        /// <summary>gagaproselytebuf</summary>
 
         public class gagaproselytebuf : BattleUnitBuf
         {
@@ -4048,6 +4522,8 @@ namespace RogueLike_Mod_Reborn
                 _owner.bufListDetail.AddKeywordBufThisRoundByCard(RandomUtil.SelectOne<KeywordBuf>(list), 1, _owner);
             }
         }
+
+        /// <summary>losepowerusmoothbrain</summary>
 
         public class losepowerusmoothbrain : BattleUnitBuf
         {
@@ -4067,6 +4543,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_SingletonPower2</summary>
+
     public class DiceCardAbility_RMR_SingletonPower2 : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "OnlyOne_Keyword" };
@@ -4082,6 +4560,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SenseQuarry</summary>
 
     public class DiceCardSelfAbility_RMR_SenseQuarry : DiceCardSelfAbility_RMR_Zeal
     {
@@ -4111,6 +4591,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_FlecheCounter</summary>
+
     public class DiceCardAbility_RMR_FlecheCounter : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "Strength_Keyword", "Endurance_Keyword" };
@@ -4126,6 +4608,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FierceCharge</summary>
 
     public class DiceCardSelfAbility_RMR_FierceCharge : DiceCardSelfAbilityBase
     {
@@ -4149,6 +4633,8 @@ namespace RogueLike_Mod_Reborn
         }
 
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FierceChargeUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_FierceChargeUpgrade : DiceCardSelfAbilityBase
     {
@@ -4185,6 +4671,8 @@ namespace RogueLike_Mod_Reborn
 
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_FierceChargeDie</summary>
+
     public class DiceCardAbility_RMR_FierceChargeDie : DiceCardAbilityBase
     {
         public override void BeforeGiveDamage()
@@ -4209,6 +4697,10 @@ namespace RogueLike_Mod_Reborn
 
 
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ExtremeEdge</summary>
+
+
+
     public class DiceCardSelfAbility_RMR_ExtremeEdge : DiceCardSelfAbilityBase
     {
         public override bool IsUniteCard => true;
@@ -4224,6 +4716,7 @@ namespace RogueLike_Mod_Reborn
                 }
             }
         }
+        /// <summary>BattleUnitBuf_luxunitybuf</summary>
         public class BattleUnitBuf_luxunitybuf : BattleUnitBuf
         {
             public override void OnUseCard(BattlePlayingCardDataInUnitModel card)
@@ -4245,6 +4738,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_YieldMyFlesh</summary>
+
     public class DiceCardAbility_RMR_YieldMyFlesh : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "onlypage_kim", "RMR_Shield_Keyword", "RMR_StaggerShield_Keyword" };
@@ -4257,6 +4752,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_YieldMyFleshUpgrade</summary>
+
     public class DiceCardAbility_RMR_YieldMyFleshUpgrade : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "onlypage_kim", "RMR_Shield_Keyword", "RMR_StaggerShield_Keyword" };
@@ -4268,6 +4765,8 @@ namespace RogueLike_Mod_Reborn
             this.owner.allyCardDetail.AddNewCard(Singleton<LogCardUpgradeManager>.Instance.GetUpgradeCard(new LorId(LogLikeMod.ModId, 512006)).id);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ToWherePrescript</summary>
 
     public class DiceCardSelfAbility_RMR_ToWherePrescript : DiceCardSelfAbility_RMR_Zeal
     {
@@ -4285,6 +4784,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ToWherePrescriptUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_ToWherePrescriptUpgrade : DiceCardSelfAbility_RMR_Zeal
     {
@@ -4309,6 +4810,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_PrescriptDie</summary>
+
     public class DiceCardAbility_RMR_PrescriptDie : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "OnlyOne_Keyword"};
@@ -4322,6 +4825,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Zeal</summary>
 
     public class DiceCardSelfAbility_RMR_Zeal : RMRCardSelfAbilityBase
     {
@@ -4348,6 +4853,8 @@ namespace RogueLike_Mod_Reborn
         */
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_Execute</summary>
+
     public class DiceCardAbility_RMR_Execute : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "OnlyOne_Keyword" };
@@ -4371,6 +4878,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_ExecuteUpgrade</summary>
 
     public class DiceCardAbility_RMR_ExecuteUpgrade : DiceCardAbilityBase
     {
@@ -4396,6 +4905,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FleshFillet</summary>
+
     public class DiceCardSelfAbility_RMR_FleshFillet : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Smoke_Keyword" };
@@ -4413,6 +4924,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_FleshFilletDie</summary>
+
     public class DiceCardAbility_RMR_FleshFilletDie : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Smoke_Keyword", "Bleeding_Keyword" };
@@ -4422,6 +4935,8 @@ namespace RogueLike_Mod_Reborn
             target.bufListDetail.AddKeywordBufByCard(KeywordBuf.Bleeding, target.bufListDetail.GetKewordBufStack(RoguelikeBufs.RMRSmoke), owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Slay</summary>
 
     public class DiceCardSelfAbility_RMR_Slay : DiceCardSelfAbilityBase
     {
@@ -4436,6 +4951,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_sweeperpage</summary>
+
     public class DiceCardSelfAbility_RMR_sweeperpage : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Persistence_Keyword" };
@@ -4446,6 +4963,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_sweeperpageUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_sweeperpageUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Persistence_Keyword" };
@@ -4455,6 +4974,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(RoguelikeBufs.RMRPersistence, 6, owner);
         }
     }
+
+    /// <summary>AI card priority: DiceCardPriority_RMR_sweeper</summary>
 
     public class DiceCardPriority_RMR_sweeper : DiceCardPriorityBase
     {
@@ -4467,6 +4988,8 @@ namespace RogueLike_Mod_Reborn
             return 2;
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_RipSpace</summary>
 
     public class DiceCardSelfAbility_RMR_RipSpace : DiceCardSelfAbilityBase
     {
@@ -4500,6 +5023,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_RipSpaceUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_RipSpaceUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "onlypage_warp_Keyword", "WarpCharge" };
@@ -4531,6 +5056,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_RipSpaceDie</summary>
 
     public class DiceCardAbility_RMR_RipSpaceDie : DiceCardAbilityBase
     {
@@ -4586,6 +5113,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_RipSpaceDieUpgrade</summary>
+
     public class DiceCardAbility_RMR_RipSpaceDieUpgrade : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[1] { "WarpCharge" };
@@ -4640,6 +5169,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_EndlessBattle</summary>
+
     public class DiceCardSelfAbility_RMR_EndlessBattle : DiceCardSelfAbilityBase
     {
         public override bool IsUniteCard => true;
@@ -4655,6 +5186,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_LetShowBegin</summary>
+
     public class DiceCardSelfAbility_RMR_LetShowBegin : DiceCardSelfAbilityBase
     {
         public override void OnStartBattle()
@@ -4662,6 +5195,8 @@ namespace RogueLike_Mod_Reborn
             base.OnStartBattle();
             owner.bufListDetail.AddBuf(new showbuf());
         }
+
+        /// <summary>showbuf</summary>
 
         public class showbuf : BattleUnitBuf  
         {
@@ -4684,6 +5219,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_TraceFumes</summary>
+
     public class DiceCardSelfAbility_RMR_TraceFumes : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Smoke_Keyword" };
@@ -4696,6 +5233,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
 
+        /// <summary>reducecost</summary>
+
         public class reducecost : BattleDiceCardBuf
         {
             public override int GetCost(int oldCost)
@@ -4704,6 +5243,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_UndertakePrescript</summary>
 
     public class DiceCardSelfAbility_RMR_UndertakePrescript : DiceCardSelfAbility_RMR_Zeal
     {
@@ -4722,6 +5263,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FlashingStrike</summary>
+
     public class DiceCardSelfAbility_RMR_FlashingStrike : DiceCardSelfAbilityBase
     {
         public override bool IsUniteCard => true;
@@ -4739,6 +5282,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_FlashingStrikeUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_FlashingStrikeUpgrade : DiceCardSelfAbilityBase
     {
         public override bool IsUniteCard => true;
@@ -4755,6 +5300,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ForTheFamily</summary>
 
     public class DiceCardSelfAbility_RMR_ForTheFamily : DiceCardSelfAbilityBase
     {
@@ -4782,6 +5329,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ForTheFamilyUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_ForTheFamilyUpgrade : DiceCardSelfAbilityBase
     {
@@ -4811,6 +5360,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_TrashDisposalDie</summary>
+
     public class DiceCardAbility_RMR_TrashDisposalDie : DiceCardAbilityBase
     {
         int count;
@@ -4830,6 +5381,9 @@ namespace RogueLike_Mod_Reborn
     }
 
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_BoundaryOfDeath</summary>
+
+
     public class DiceCardSelfAbility_RMR_BoundaryOfDeath : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "onlypage_yujin_Keyword", "RMR_Luck_Keyword" };
@@ -4842,6 +5396,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_BlazingStrike</summary>
 
     public class DiceCardSelfAbility_RMR_BlazingStrike : DiceCardSelfAbilityBase
     {
@@ -4866,6 +5422,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_BlazingStrikeDie</summary>
+
     public class DiceCardAbility_RMR_BlazingStrikeDie : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "Burn_Keyword" };
@@ -4884,6 +5442,8 @@ namespace RogueLike_Mod_Reborn
             target.bufListDetail.AddKeywordBufByCard(KeywordBuf.Burn, 10, owner);
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_BlazingStrikeDieUpgrade</summary>
 
     public class DiceCardAbility_RMR_BlazingStrikeDieUpgrade : DiceCardAbilityBase
     {
@@ -4904,6 +5464,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_ForcefulGesture</summary>
+
     public class DiceCardAbility_RMR_ForcefulGesture : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "Weak_Keyword", "Disarm_Keyword", "Binding_Keyword", "Vulnerable_Keyword", "Vulnerable_break"};
@@ -4914,6 +5476,8 @@ namespace RogueLike_Mod_Reborn
             target.bufListDetail.AddKeywordBufByCard(RandomUtil.SelectOne<KeywordBuf>(list), 1, owner);
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_ForcefulGestureUpgrade</summary>
 
     public class DiceCardAbility_RMR_ForcefulGestureUpgrade : DiceCardAbilityBase
     {
@@ -4928,6 +5492,8 @@ namespace RogueLike_Mod_Reborn
             target.bufListDetail.AddKeywordBufByCard(RandomUtil.SelectOne<KeywordBuf>(list), 1, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Ripple</summary>
 
     public class DiceCardSelfAbility_RMR_Ripple : DiceCardSelfAbilityBase
     {
@@ -4949,6 +5515,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_RippleDie</summary>
+
     public class DiceCardAbility_RMR_RippleDie : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "WarpCharge"};
@@ -4962,6 +5530,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Overthrow</summary>
 
     public class DiceCardSelfAbility_RMR_Overthrow : DiceCardSelfAbilityBase
     {
@@ -4978,6 +5548,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufByCard(RoguelikeBufs.CritChance, 7, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_OverthrowUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_OverthrowUpgrade : DiceCardSelfAbilityBase
     {
@@ -4996,6 +5568,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_OverthrowDie</summary>
+
     public class DiceCardAbility_RMR_OverthrowDie : DiceCardAbilityBase
     {
         public override void OnSucceedAttack()
@@ -5006,6 +5580,7 @@ namespace RogueLike_Mod_Reborn
                 card.card.AddBuf(new costreduction());
             }
         }
+        /// <summary>costreduction</summary>
         public class costreduction : BattleDiceCardBuf
         {
             public override int GetCost(int oldCost)
@@ -5014,6 +5589,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_WillOfThePrescript</summary>
 
     public class DiceCardSelfAbility_RMR_WillOfThePrescript : DiceCardSelfAbilityBase
     {
@@ -5074,6 +5651,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Moulinet</summary>
+
     public class DiceCardSelfAbility_RMR_Moulinet : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "Vulnerable_Keyword" };
@@ -5089,6 +5668,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Overcharge</summary>
 
     public class DiceCardSelfAbility_RMR_Overcharge : DiceCardSelfAbilityBase
     {
@@ -5106,6 +5687,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_OverchargeUpgrade1</summary>
+
     public class DiceCardSelfAbility_RMR_OverchargeUpgrade1 : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "WarpCharge" };
@@ -5122,6 +5705,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_OverchargeUpgrade2</summary>
+
     public class DiceCardSelfAbility_RMR_OverchargeUpgrade2 : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "WarpCharge" };
@@ -5132,6 +5717,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufByCard(KeywordBuf.Stun, 1, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_LossOfSensesUpgrade</summary>
 
     public class DiceCardSelfAbility_RMR_LossOfSensesUpgrade : DiceCardSelfAbilityBase
     {
@@ -5147,6 +5734,8 @@ namespace RogueLike_Mod_Reborn
             card.target?.currentDiceAction?.AddDiceAdder(DiceMatch.NextDice, -2);
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_LossOfSensesDie</summary>
 
     public class DiceCardAbility_RMR_LossOfSensesDie : DiceCardAbilityBase
     {
@@ -5181,6 +5770,8 @@ namespace RogueLike_Mod_Reborn
 
         }
 
+        /// <summary>guhhuhhuhbuhhuh</summary>
+
         public class guhhuhhuhbuhhuh : BattleDiceCardBuf
         {
             public override void OnUseCard(BattleUnitModel owner)
@@ -5195,6 +5786,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_LoSDraw2</summary>
+
     public class DiceCardAbility_RMR_LoSDraw2 : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Smoke_Keyword", "DrawCard_Keyword" };
@@ -5208,6 +5801,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_AutomatedMovement</summary>
 
     public class DiceCardSelfAbility_RMR_AutomatedMovement : DiceCardSelfAbilityBase
     {
@@ -5232,6 +5827,8 @@ namespace RogueLike_Mod_Reborn
 
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_RepressedFlesh</summary>
+
     public class DiceCardSelfAbility_RMR_RepressedFlesh : DiceCardSelfAbilityBase
     {
         public override void OnStartBattle()
@@ -5239,6 +5836,7 @@ namespace RogueLike_Mod_Reborn
             base.OnStartBattle();
             owner.bufListDetail.AddBuf(new bluntingiambluntingoooh());
         }
+        /// <summary>bluntingiambluntingoooh</summary>
         public class bluntingiambluntingoooh : BattleUnitBuf
         {
             public override void OnSuccessAttack(BattleDiceBehavior behavior)
@@ -5252,6 +5850,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_RepressedFleshUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_RepressedFleshUpgrade : DiceCardSelfAbilityBase
     {
         public override void OnStartBattle()
@@ -5259,6 +5859,7 @@ namespace RogueLike_Mod_Reborn
             base.OnStartBattle();
             owner.bufListDetail.AddBuf(new bluntingiambluntingoooh());
         }
+        /// <summary>bluntingiambluntingoooh</summary>
         public class bluntingiambluntingoooh : BattleUnitBuf
         {
             public override void OnSuccessAttack(BattleDiceBehavior behavior)
@@ -5271,6 +5872,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_CoolerRepressed</summary>
 
     public class DiceCardAbility_RMR_CoolerRepressed : DiceCardAbilityBase
     {
@@ -5310,6 +5913,8 @@ namespace RogueLike_Mod_Reborn
 
     // while I am not handling sotc yet, I have to adjust the SotC smoke pages
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Gain2Smoke</summary>
+
     public class DiceCardSelfAbility_RMR_Gain2Smoke : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Smoke_Keyword" };
@@ -5319,6 +5924,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(RoguelikeBufs.RMRSmoke, 2, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Gain3Smoke</summary>
 
     public class DiceCardSelfAbility_RMR_Gain3Smoke : DiceCardSelfAbilityBase
     {
@@ -5330,6 +5937,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Gain4Smoke</summary>
+
     public class DiceCardSelfAbility_RMR_Gain4Smoke : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Smoke_Keyword" };
@@ -5340,6 +5949,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Gain5Smoke</summary>
+
     public class DiceCardSelfAbility_RMR_Gain5Smoke : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Smoke_Keyword" };
@@ -5349,6 +5960,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(RoguelikeBufs.RMRSmoke, 5, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_GuidanceGears</summary>
 
     public class DiceCardSelfAbility_RMR_GuidanceGears : DiceCardSelfAbilityBase
     {
@@ -5361,6 +5974,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_GuidanceGearsUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_GuidanceGearsUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Smoke_Keyword", "Energy_Keyword" };
@@ -5372,6 +5987,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_SmokeBlowDie</summary>
+
     public class DiceCardAbility_RMR_SmokeBlowDie : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Smoke_Keyword", "Energy_Keyword" };
@@ -5382,6 +5999,8 @@ namespace RogueLike_Mod_Reborn
             owner.cardSlotDetail.RecoverPlayPointByCard(1);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SmokeSmash</summary>
 
     public class DiceCardSelfAbility_RMR_SmokeSmash : DiceCardSelfAbilityBase
     {
@@ -5399,6 +6018,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_SmokeSmashUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_SmokeSmashUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Smoke_Keyword" };
@@ -5414,6 +6035,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_AssaultOrder</summary>
 
     public class DiceCardSelfAbility_RMR_AssaultOrder : DiceCardSelfAbilityBase
     {
@@ -5431,6 +6054,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_AssaultOrderUpgrade</summary>
+
     public class DiceCardSelfAbility_RMR_AssaultOrderUpgrade : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Smoke_Keyword" };
@@ -5447,6 +6072,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_SmokePrickDie</summary>
+
     public class DiceCardAbility_RMR_SmokePrickDie : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "RMR_Smoke_Keyword" };
@@ -5457,6 +6084,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(RoguelikeBufs.RMRSmoke, 1, owner);
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Vapour</summary>
 
     public class DiceCardSelfAbility_RMR_Vapour : DiceCardSelfAbilityBase
     {
@@ -5469,6 +6098,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_ExhaleSmoke</summary>
+
     public class DiceCardSelfAbility_RMR_ExhaleSmoke : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "onlypage_cor", "RMR_Smoke_Keyword" };
@@ -5478,6 +6109,8 @@ namespace RogueLike_Mod_Reborn
             owner.bufListDetail.AddKeywordBufThisRoundByCard(RoguelikeBufs.RMRSmoke, 8, owner);
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_ExhaleSmokeDie</summary>
 
     public class DiceCardAbility_RMR_ExhaleSmokeDie : DiceCardAbilityBase
     {
@@ -5523,8 +6156,12 @@ namespace RogueLike_Mod_Reborn
     }
 
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_costdownLogEdit</summary>
+
+
     public class DiceCardSelfAbility_costdownLogEdit : DiceCardSelfAbilityBase
     {
+        /// <summary>BattleDiceCardBuf_costDownCard</summary>
         public class BattleDiceCardBuf_costDownCard : BattleDiceCardBuf
         {
             private int _count;
@@ -5564,6 +6201,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Skewer</summary>
+
     public class DiceCardSelfAbility_RMR_Skewer : DiceCardSelfAbilityBase
     {
         public override string[] Keywords => new string[] { "OnlyOne_Keyword","Vulnerable_Keyword", "Vulnerable_break" };
@@ -5579,6 +6218,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_SkewerDie</summary>
+
     public class DiceCardAbility_RMR_SkewerDie : DiceCardAbilityBase
     {
         public override string[] Keywords => new string[] { "OnlyOne_Keyword" };
@@ -5591,6 +6232,8 @@ namespace RogueLike_Mod_Reborn
             }
         }
     }
+
+    /// <summary>Card self-ability: DiceCardSelfAbility_RMR_Amputation</summary>
 
     public class DiceCardSelfAbility_RMR_Amputation : DiceCardSelfAbilityBase
     {
@@ -5607,6 +6250,8 @@ namespace RogueLike_Mod_Reborn
 
     }
 
+    /// <summary>Dice ability: DiceCardAbility_RMR_Amputationfirstdie</summary>
+
     public class DiceCardAbility_RMR_Amputationfirstdie : DiceCardAbilityBase
     {
         public override void OnWinParrying()
@@ -5621,6 +6266,8 @@ namespace RogueLike_Mod_Reborn
             base.card.DestroyDice(DiceMatch.AllDice);
         }
     }
+
+    /// <summary>Dice ability: DiceCardAbility_RMR_Amputationdie</summary>
 
     public class DiceCardAbility_RMR_Amputationdie : DiceCardAbilityBase
     {
@@ -5641,6 +6288,8 @@ namespace RogueLike_Mod_Reborn
                 });
             }
         }
+
+        /// <summary>amputationbuf</summary>
 
         public class amputationbuf : BattleUnitBuf
         {

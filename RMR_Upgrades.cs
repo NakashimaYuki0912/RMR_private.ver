@@ -1,4 +1,9 @@
-﻿using System;
+// -----------------------------------------------------------------------------
+// RogueLike Mod Reborn (RMR): RMR_Upgrades
+// Namespace/file: ruina-roguelike-reborn-main\RMR_Upgrades.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using abcdcode_LOGLIKE_MOD;
@@ -19,6 +24,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Chargeup</summary>
+
     public class UpgradeModel_RMR_Chargeup : UpgradeBase
     {
         public override void Init()
@@ -31,6 +38,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_BackstreetsDash</summary>
+
     public class UpgradeModel_RMR_BackstreetsDash : UpgradeBase
     {
         public override void Init()
@@ -42,6 +51,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 101005);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_SkitterAway</summary>
 
     public class UpgradeModel_RMR_SkitterAway : UpgradeBase
     {
@@ -56,6 +67,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Endure</summary>
+
     public class UpgradeModel_RMR_Endure : UpgradeBase
     {
         public override void Init()
@@ -69,6 +82,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_BlowItUp</summary>
+
     public class UpgradeModel_RMR_BlowItUp : UpgradeBase
     {
         public override void Init()
@@ -80,6 +95,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 103001);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_YoureTooSlow</summary>
 
     public class UpgradeModel_RMR_YoureTooSlow : UpgradeBase
     {
@@ -93,6 +110,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Driedup</summary>
+
     public class UpgradeModel_RMR_Driedup : UpgradeBase
     {
         public override void Init()
@@ -104,6 +123,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 103005);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_FendThisOff</summary>
 
     public class UpgradeModel_RMR_FendThisOff : UpgradeBase
     {
@@ -117,6 +138,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_TimeForTest</summary>
+
     public class UpgradeModel_RMR_TimeForTest : UpgradeBase
     {
         public override void Init()
@@ -129,6 +152,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_ChopItOff</summary>
+
     public class UpgradeModel_RMR_ChopItOff : UpgradeBase
     {
         public override void Init()
@@ -139,6 +164,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 103006);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_GoinFirst</summary>
 
     public class UpgradeModel_RMR_GoinFirst : UpgradeBase
     {
@@ -151,6 +178,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 104002);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Struggle</summary>
 
     public class UpgradeModel_RMR_Struggle : UpgradeBase
     {
@@ -165,6 +194,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_YouOnlyLiveOnce</summary>
+
     public class UpgradeModel_RMR_YouOnlyLiveOnce : UpgradeBase
     {
         public override void Init()
@@ -175,6 +206,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 103002);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_GutHarvesting</summary>
 
     public class UpgradeModel_RMR_GutHarvesting : UpgradeBase
     {
@@ -191,6 +224,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Rampage</summary>
+
     public class UpgradeModel_RMR_Rampage : UpgradeBase
     {
         public override void Init()
@@ -205,6 +240,9 @@ namespace RogueLike_Mod_Reborn
     }
 
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Wallop</summary>
+
+
     public class UpgradeModel_RMR_Wallop : UpgradeBase
     {
         public override void Init()
@@ -217,6 +255,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 100003);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Thrust</summary>
 
     public class UpgradeModel_RMR_Thrust : UpgradeBase
     {
@@ -246,6 +286,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Appetite</summary>
+
     public class UpgradeModel_RMR_Appetite : UpgradeBase
     {
         public override void Init()
@@ -258,6 +300,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_TrimIngredients</summary>
+
     public class UpgradeModel_RMR_TrimIngredients : UpgradeBase
     {
         public override void Init()
@@ -269,6 +313,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 201002);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_PreparedMindLulu</summary>
 
     public class UpgradeModel_RMR_PreparedMindLulu : UpgradeBase
     {
@@ -283,6 +329,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Cruelty</summary>
+
     public class UpgradeModel_RMR_Cruelty : UpgradeBase
     {
         public override void Init()
@@ -295,6 +343,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 201006);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_PreparedMindMars</summary>
 
     public class UpgradeModel_RMR_PreparedMindMars : UpgradeBase
     {
@@ -310,6 +360,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_KeepItFresh</summary>
+
     public class UpgradeModel_RMR_KeepItFresh : UpgradeBase
     {
         public override void Init()
@@ -322,6 +374,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Multiblock</summary>
+
     public class UpgradeModel_RMR_Multiblock : UpgradeBase
     {
         public override void Init()
@@ -332,6 +386,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 200002);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_FleetFootsteps</summary>
 
     public class UpgradeModel_RMR_FleetFootsteps : UpgradeBase
     {
@@ -346,6 +402,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Deflect</summary>
+
     public class UpgradeModel_RMR_Deflect : UpgradeBase
     {
         public override void Init()
@@ -358,6 +416,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 202001);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_IngredientHunt</summary>
 
     public class UpgradeModel_RMR_IngredientHunt : UpgradeBase
     {
@@ -372,6 +432,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_CookAnything</summary>
+
     public class UpgradeModel_RMR_CookAnything : UpgradeBase
     {
         public override void Init()
@@ -384,6 +446,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 201003);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_SetFire</summary>
 
     public class UpgradeModel_RMR_SetFire : UpgradeBase
     {
@@ -399,6 +463,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Multihit</summary>
+
     public class UpgradeModel_RMR_Multihit : UpgradeBase
     {
         public override void Init()
@@ -410,6 +476,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 200003);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_StrongStrike</summary>
 
     public class UpgradeModel_RMR_StrongStrike : UpgradeBase
     {
@@ -423,6 +491,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 200005);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_NonstopAssault</summary>
 
     public class UpgradeModel_RMR_NonstopAssault : UpgradeBase
     {
@@ -455,6 +525,9 @@ namespace RogueLike_Mod_Reborn
     } 
 
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_LawOrder</summary>
+
+
     public class UpgradeModel_RMR_LawOrder : UpgradeBase
     {
         public override void Init()
@@ -467,6 +540,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Diversion</summary>
+
     public class UpgradeModel_RMR_Diversion : UpgradeBase
     {
         public override void Init()
@@ -478,6 +553,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 300001);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_SharpSwipe</summary>
 
     public class UpgradeModel_RMR_SharpSwipe : UpgradeBase
     {
@@ -492,6 +569,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Standoff</summary>
+
     public class UpgradeModel_RMR_Standoff : UpgradeBase
     {
         public override void Init()
@@ -505,6 +584,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Avert</summary>
+
     public class UpgradeModel_RMR_Avert : UpgradeBase
     {
         public override void Init()
@@ -517,6 +598,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_ArtOfSteps</summary>
+
     public class UpgradeModel_RMR_ArtOfSteps : UpgradeBase
     {
         public override void Init()
@@ -528,6 +611,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 302006);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_StartinLightly</summary>
 
     public class UpgradeModel_RMR_StartinLightly : UpgradeBase
     {
@@ -542,6 +627,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Guardian</summary>
+
     public class UpgradeModel_RMR_Guardian : UpgradeBase
     {
         public override void Init()
@@ -554,6 +641,7 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 301007);
         } 
     }
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Gamble</summary>
     public class UpgradeModel_RMR_Gamble : UpgradeBase
     {
         public override void Init()
@@ -566,6 +654,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 302003);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_BackAttack</summary>
 
     public class UpgradeModel_RMR_BackAttack : UpgradeBase
     {
@@ -580,6 +670,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Slice</summary>
+
     public class UpgradeModel_RMR_Slice : UpgradeBase
     {
         public override void Init()
@@ -591,6 +683,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 302007);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_SilentNight</summary>
 
     public class UpgradeModel_RMR_SilentNight : UpgradeBase
     {
@@ -604,6 +698,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_StayClam</summary>
+
     public class UpgradeModel_RMR_StayClam : UpgradeBase
     {
         public override void Init()
@@ -614,6 +710,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 302005);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Fence</summary>
 
     public class UpgradeModel_RMR_Fence : UpgradeBase
     {
@@ -672,6 +770,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_FishOnslaught</summary>
+
     public class UpgradeModel_RMR_FishOnslaught : UpgradeBase
     {
         public override void Init()
@@ -686,6 +786,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_DestructiveImpact</summary>
+
     public class UpgradeModel_RMR_DestructiveImpact : UpgradeBase
     {
         public override void Init()
@@ -697,6 +799,8 @@ namespace RogueLike_Mod_Reborn
         }
 
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_SearingBlow</summary>
 
     public class UpgradeModel_RMR_SearingBlow : UpgradeBase
     {
@@ -732,6 +836,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Outburst</summary>
+
     public class UpgradeModel_RMR_Outburst : UpgradeBase
     {
         public override void Init()
@@ -745,6 +851,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Crush</summary>
+
     public class UpgradeModel_RMR_Crush : UpgradeBase
     {
         public override void Init()
@@ -757,6 +865,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 303008);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_EndYou</summary>
 
     public class UpgradeModel_RMR_EndYou : UpgradeBase
     {
@@ -772,6 +882,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_CutIn</summary>
+
     public class UpgradeModel_RMR_CutIn : UpgradeBase
     {
         public override void Init()
@@ -785,6 +897,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_YourShield</summary>
+
     public class UpgradeModel_RMR_YourShield : UpgradeBase
     {
         public override void Init()
@@ -797,6 +911,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 301004);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_BladeWhirl</summary>
 
     public class UpgradeModel_RMR_BladeWhirl : UpgradeBase
     {
@@ -812,6 +928,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_HandlingWork</summary>
+
     public class UpgradeModel_RMR_HandlingWork : UpgradeBase
     {
         public override void Init()
@@ -824,6 +942,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 301001);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Retaliate</summary>
 
     public class UpgradeModel_RMR_Retaliate : UpgradeBase
     {
@@ -840,7 +960,9 @@ namespace RogueLike_Mod_Reborn
 
     #endregion
 
-    # region Urban Plague
+    #region Urban Plague
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_TasteChain</summary>
 
     public class UpgradeModel_RMR_TasteChain : UpgradeBase
     {
@@ -854,6 +976,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_LowNight</summary>
+
     public class UpgradeModel_RMR_LowNight : UpgradeBase
     {
         public override void Init()
@@ -865,6 +989,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 411101);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_RulesBackstreets</summary>
 
     public class UpgradeModel_RMR_RulesBackstreets : UpgradeBase
     {
@@ -878,6 +1004,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_HandleRequest</summary>
+
     public class UpgradeModel_RMR_HandleRequest : UpgradeBase
     {
         public override void Init()
@@ -890,6 +1018,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 403006);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_HighspeedStabbing</summary>
 
     public class UpgradeModel_RMR_HighspeedStabbing : UpgradeBase
     {
@@ -905,6 +1035,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_CleanUp</summary>
+
     public class UpgradeModel_RMR_CleanUp : UpgradeBase
     {
         public override void Init()
@@ -916,6 +1048,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 406008);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_PrescriptOrder</summary>
 
     public class UpgradeModel_RMR_PrescriptOrder : UpgradeBase
     {
@@ -929,6 +1063,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 401005);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_BizarreAttack</summary>
 
     public class UpgradeModel_RMR_BizarreAttack : UpgradeBase
     {
@@ -956,6 +1092,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_BizarreAttack2</summary>
+
     public class UpgradeModel_RMR_BizarreAttack2 : UpgradeBase
     {
         public override void Init()
@@ -969,6 +1107,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_BizarreAttack3</summary>
+
     public class UpgradeModel_RMR_BizarreAttack3 : UpgradeBase
     {
         public override void Init()
@@ -980,6 +1120,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 401006);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_TargetSpotted</summary>
 
     public class UpgradeModel_RMR_TargetSpotted : UpgradeBase
     {
@@ -994,6 +1136,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_UnavoidableGaze</summary>
+
     public class UpgradeModel_RMR_UnavoidableGaze : UpgradeBase
     {
         public override void Init()
@@ -1006,6 +1150,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 404008);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_YoureSoft</summary>
 
     public class UpgradeModel_RMR_YoureSoft : UpgradeBase
     {
@@ -1020,6 +1166,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Relay</summary>
+
     public class UpgradeModel_RMR_Relay : UpgradeBase
     {
         public override void Init()
@@ -1032,6 +1180,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 411102);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_DarkCloud</summary>
 
     public class UpgradeModel_RMR_DarkCloud : UpgradeBase
     {
@@ -1046,6 +1196,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_UpbeatPerformance</summary>
+
     public class UpgradeModel_RMR_UpbeatPerformance : UpgradeBase
     {
         public override void Init()
@@ -1057,6 +1209,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 407005);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_ReturnFire</summary>
 
     public class UpgradeModel_RMR_ReturnFire : UpgradeBase
     {
@@ -1071,6 +1225,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_FrontalDodge</summary>
+
     public class UpgradeModel_RMR_FrontalDodge : UpgradeBase
     {
         public override void Init()
@@ -1083,6 +1239,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_FlankAttack</summary>
+
     public class UpgradeModel_RMR_FlankAttack : UpgradeBase
     {
         public override void Init()
@@ -1094,6 +1252,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 409004);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_RedNotes</summary>
 
     public class UpgradeModel_RMR_RedNotes : UpgradeBase
     {
@@ -1108,6 +1268,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_WillBeTasty</summary>
+
     public class UpgradeModel_RMR_WillBeTasty : UpgradeBase
     {
         public override void Init()
@@ -1120,6 +1282,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 401004);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_IHateCQC</summary>
 
     public class UpgradeModel_RMR_IHateCQC : UpgradeBase
     {
@@ -1135,6 +1299,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_TakeTheShot</summary>
+
     public class UpgradeModel_RMR_TakeTheShot : UpgradeBase
     {
         public override void Init()
@@ -1149,6 +1315,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_OpportunitySpotted</summary>
+
     public class UpgradeModel_RMR_OpportunitySpotted : UpgradeBase
     {
         public override void Init()
@@ -1162,6 +1330,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_YoureHindrance</summary>
+
     public class UpgradeModel_RMR_YoureHindrance : UpgradeBase
     {
         public override void Init()
@@ -1174,6 +1344,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 404004);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_CumulusWall</summary>
 
     public class UpgradeModel_RMR_CumulusWall : UpgradeBase
     {
@@ -1189,6 +1361,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_ShrineToMusic</summary>
+
     public class UpgradeModel_RMR_ShrineToMusic : UpgradeBase
     {
         public override void Init()
@@ -1203,6 +1377,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_FlashOfSunup</summary>
+
     public class UpgradeModel_RMR_FlashOfSunup : UpgradeBase
     {
         public override void Init()
@@ -1216,6 +1392,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Headshot</summary>
+
     public class UpgradeModel_RMR_Headshot : UpgradeBase
     {
         public override void Init()
@@ -1226,6 +1404,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 402007);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_SpearedSweep</summary>
 
     public class UpgradeModel_RMR_SpearedSweep : UpgradeBase
     {
@@ -1241,6 +1421,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_FullStopToLife</summary>
+
     public class UpgradeModel_RMR_FullStopToLife : UpgradeBase
     {
         public override void Init()
@@ -1253,6 +1435,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 402009);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_FullStopToLife2</summary>
 
     public class UpgradeModel_RMR_FullStopToLife2 : UpgradeBase
     {
@@ -1269,6 +1453,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_ElectricShock</summary>
+
     public class UpgradeModel_RMR_ElectricShock : UpgradeBase
     {
         public override void Init()
@@ -1281,6 +1467,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 404006);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_ElectricShock2</summary>
 
     public class UpgradeModel_RMR_ElectricShock2 : UpgradeBase
     {
@@ -1296,6 +1484,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_HeresMyChance</summary>
+
     public class UpgradeModel_RMR_HeresMyChance : UpgradeBase
     {
         public override void Init()
@@ -1306,6 +1496,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 409005);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Whet</summary>
 
     public class UpgradeModel_RMR_Whet : UpgradeBase
     {
@@ -1319,6 +1511,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_StabAndDetonate</summary>
+
     public class UpgradeModel_RMR_StabAndDetonate : UpgradeBase
     {
         public override void Init()
@@ -1330,6 +1524,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 410002);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_FlipTheTable</summary>
 
     public class UpgradeModel_RMR_FlipTheTable : UpgradeBase
     {
@@ -1344,6 +1540,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_ShuffleHands</summary>
+
     public class UpgradeModel_RMR_ShuffleHands : UpgradeBase
     {
         public override void Init()
@@ -1356,6 +1554,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_SkyClearingCut</summary>
+
     public class UpgradeModel_RMR_SkyClearingCut : UpgradeBase
     {
         public override void Init()
@@ -1367,6 +1567,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 406004);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_HeadToHead</summary>
 
     public class UpgradeModel_RMR_HeadToHead : UpgradeBase
     {
@@ -1381,6 +1583,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_SunsetBlade</summary>
+
     public class UpgradeModel_RMR_SunsetBlade : UpgradeBase
     {
         public override void Init()
@@ -1393,6 +1597,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 403005);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_StructuralAnalysis</summary>
 
     public class UpgradeModel_RMR_StructuralAnalysis : UpgradeBase
     {
@@ -1407,6 +1613,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Feast</summary>
+
     public class UpgradeModel_RMR_Feast : UpgradeBase
     {
         public override void Init()
@@ -1419,6 +1627,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 401002);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Eject</summary>
 
     public class UpgradeModel_RMR_Eject : UpgradeBase
     {
@@ -1434,6 +1644,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_NotAnotherStep</summary>
+
     public class UpgradeModel_RMR_NotAnotherStep : UpgradeBase
     {
         public override void Init()
@@ -1448,6 +1660,7 @@ namespace RogueLike_Mod_Reborn
         }
     }
     /*
+    /// <summary>Card upgrade model: UpgradeModel_RMR_SharpenedBlade</summary>
     public class UpgradeModel_RMR_SharpenedBlade : UpgradeBase
     {
         public override void Init()
@@ -1464,6 +1677,7 @@ namespace RogueLike_Mod_Reborn
         }
     }
     */
+    /// <summary>Card upgrade model: UpgradeModel_RMR_SharpenedBlade</summary>
     public class UpgradeModel_RMR_SharpenedBlade : UpgradeBase
     {
         public override void Init()
@@ -1475,6 +1689,9 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 406002);
         }
     }
+
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_SilentMist</summary>
 
 
     public class UpgradeModel_RMR_SilentMist : UpgradeBase
@@ -1491,6 +1708,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_WillMakeFineSilk</summary>
+
     public class UpgradeModel_RMR_WillMakeFineSilk : UpgradeBase
     {
         public override void Init()
@@ -1505,6 +1724,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_ButterflySlash</summary>
+
     public class UpgradeModel_RMR_ButterflySlash : UpgradeBase
     {
         public override void Init()
@@ -1517,6 +1738,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 403003);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_IndiscriminateShots</summary>
 
     public class UpgradeModel_RMR_IndiscriminateShots : UpgradeBase
     {
@@ -1561,6 +1784,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_BeyondTheShadow</summary>
+
     public class UpgradeModel_RMR_BeyondTheShadow : UpgradeBase
     {
         public override void Init()
@@ -1576,6 +1801,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Zzzzzap</summary>
+
     public class UpgradeModel_RMR_Zzzzzap : UpgradeBase
     {
         public override void Init()
@@ -1589,6 +1816,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_ScatteringSlash</summary>
+
     public class UpgradeModel_RMR_ScatteringSlash : UpgradeBase
     {
         public override void Init()
@@ -1601,6 +1830,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 406005);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_UnforgettableMelody</summary>
 
     public class UpgradeModel_RMR_UnforgettableMelody : UpgradeBase
     {
@@ -1616,6 +1847,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_FaintMemories</summary>
+
     public class UpgradeModel_RMR_FaintMemories : UpgradeBase
     {
         public override void Init()
@@ -1629,6 +1862,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_GoingForBullseye</summary>
+
     public class UpgradeModel_RMR_GoingForBullseye : UpgradeBase
     {
         public override void Init()
@@ -1640,6 +1875,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 402001);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_BindingArms</summary>
 
     public class UpgradeModel_RMR_BindingArms : UpgradeBase
     {
@@ -1653,6 +1890,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_HeavyPeaks</summary>
+
     public class UpgradeModel_RMR_HeavyPeaks : UpgradeBase
     {
         public override void Init()
@@ -1664,6 +1903,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 407001);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Tailoring</summary>
 
     public class UpgradeModel_RMR_Tailoring : UpgradeBase
     {
@@ -1678,6 +1919,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 401001);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Tailoring2</summary>
 
     public class UpgradeModel_RMR_Tailoring2 : UpgradeBase
     {
@@ -1695,6 +1938,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_FascinatingFabric</summary>
+
     public class UpgradeModel_RMR_FascinatingFabric : UpgradeBase
     {
         public override void Init()
@@ -1707,6 +1952,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 401007);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Transpierce</summary>
 
     public class UpgradeModel_RMR_Transpierce : UpgradeBase
     {
@@ -1722,6 +1969,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Collision</summary>
+
     public class UpgradeModel_RMR_Collision : UpgradeBase
     {
         public override void Init()
@@ -1734,6 +1983,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 408003);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_CrackOfDawn</summary>
 
     public class UpgradeModel_RMR_CrackOfDawn : UpgradeBase
     {
@@ -1748,6 +1999,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_NowDie</summary>
+
     public class UpgradeModel_RMR_NowDie : UpgradeBase
     {
         public override void Init()
@@ -1760,6 +2013,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 409007);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Refine</summary>
 
     public class UpgradeModel_RMR_Refine : UpgradeBase
     {
@@ -1776,6 +2031,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Sakura</summary>
+
     public class UpgradeModel_RMR_Sakura : UpgradeBase
     {
         public override void Init()
@@ -1789,6 +2046,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 411105);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_InkOver</summary>
 
     public class UpgradeModel_RMR_InkOver : UpgradeBase
     {
@@ -1804,6 +2063,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Observe</summary>
+
     public class UpgradeModel_RMR_Observe : UpgradeBase
     {
         public override void Init()
@@ -1817,6 +2078,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 404001);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_WrathOfTorment</summary>
 
     public class UpgradeModel_RMR_WrathOfTorment : UpgradeBase
     {
@@ -1846,6 +2109,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Engagement</summary>
+
     public class UpgradeModel_RMR_Engagement : UpgradeBase
     {
         public override void Init()
@@ -1857,6 +2122,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 511001);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_EnGarde</summary>
 
     public class UpgradeModel_RMR_EnGarde : UpgradeBase
     {
@@ -1870,6 +2137,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_OvercomeCrisis</summary>
+
     public class UpgradeModel_RMR_OvercomeCrisis : UpgradeBase
     {
         public override void Init()
@@ -1881,6 +2150,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 501007);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_EnergyCycle</summary>
 
     public class UpgradeModel_RMR_EnergyCycle : UpgradeBase
     {
@@ -1895,6 +2166,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_SmokingPipe</summary>
+
     public class UpgradeModel_RMR_SmokingPipe : UpgradeBase
     {
         public override void Init()
@@ -1906,6 +2179,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 507006);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_PuppetBlockade</summary>
 
     public class UpgradeModel_RMR_PuppetBlockade : UpgradeBase
     {
@@ -1919,6 +2194,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Juggling</summary>
+
     public class UpgradeModel_RMR_Juggling : UpgradeBase
     {
         public override void Init()
@@ -1929,6 +2206,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 503003);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Faith</summary>
 
     public class UpgradeModel_RMR_Faith : UpgradeBase
     {
@@ -1941,6 +2220,10 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 505005);
         }
     }
+
+
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Leap</summary>
 
 
 
@@ -1957,6 +2240,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Riposte</summary>
+
     public class UpgradeModel_RMR_Riposte : UpgradeBase
     {
         public override void Init()
@@ -1969,6 +2254,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 511002);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_DesperateStruggle</summary>
 
     public class UpgradeModel_RMR_DesperateStruggle : UpgradeBase
     {
@@ -1984,6 +2271,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_ExtractFuel</summary>
+
     public class UpgradeModel_RMR_ExtractFuel : UpgradeBase
     {
         public override void Init()
@@ -1996,6 +2285,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_NightBackstreets</summary>
+
     public class UpgradeModel_RMR_NightBackstreets : UpgradeBase
     {
         public override void Init()
@@ -2007,6 +2298,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 504006);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_HiddenBlade</summary>
 
     public class UpgradeModel_RMR_HiddenBlade : UpgradeBase
     {
@@ -2021,6 +2314,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_FlyingSword</summary>
+
     public class UpgradeModel_RMR_FlyingSword : UpgradeBase
     {
         public override void Init()
@@ -2034,6 +2329,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Gigigig</summary>
+
     public class UpgradeModel_RMR_Gigigig : UpgradeBase
     {
         public override void Init()
@@ -2046,6 +2343,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_InhaleSmoke</summary>
+
     public class UpgradeModel_RMR_InhaleSmoke : UpgradeBase
     {
         public override void Init()
@@ -2057,6 +2356,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 507003);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_CircusKnives</summary>
 
     public class UpgradeModel_RMR_CircusKnives : UpgradeBase
     {
@@ -2071,6 +2372,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_WildCard</summary>
+
     public class UpgradeModel_RMR_WildCard : UpgradeBase
     {
         public override void Init()
@@ -2082,6 +2385,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 503004);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Acupuncture</summary>
 
     public class UpgradeModel_RMR_Acupuncture : UpgradeBase
     {
@@ -2096,6 +2401,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_ProselyteBlade</summary>
+
     public class UpgradeModel_RMR_ProselyteBlade : UpgradeBase
     {
         public override void Init()
@@ -2106,6 +2413,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 505007);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Rewind</summary>
 
     public class UpgradeModel_RMR_Rewind : UpgradeBase
     {
@@ -2122,6 +2431,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_SenseQuarry</summary>
+
     public class UpgradeModel_RMR_SenseQuarry : UpgradeBase
     {
         public override void Init()
@@ -2137,6 +2448,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Fleche</summary>
+
     public class UpgradeModel_RMR_Fleche : UpgradeBase
     {
         public override void Init()
@@ -2149,6 +2462,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_FierceCharge</summary>
+
     public class UpgradeModel_RMR_FierceCharge : UpgradeBase
     {
         public override void Init()
@@ -2159,6 +2474,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 508011);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_ExtremeEdge</summary>
 
     public class UpgradeModel_RMR_ExtremeEdge : UpgradeBase
     {
@@ -2172,6 +2489,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_YieldFlesh</summary>
+
     public class UpgradeModel_RMR_YieldFlesh : UpgradeBase
     {
         public override void Init()
@@ -2183,6 +2502,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_PrescriptPoints</summary>
+
     public class UpgradeModel_RMR_PrescriptPoints : UpgradeBase
     {
         public override void Init()
@@ -2193,6 +2514,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 505001);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_DimensionalRift1</summary>
 
     public class UpgradeModel_RMR_DimensionalRift1 : UpgradeBase
     {
@@ -2252,6 +2575,8 @@ namespace RogueLike_Mod_Reborn
             return this.upxmlinfo;
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_DimensionalRift2</summary>
 
     public class UpgradeModel_RMR_DimensionalRift2 : UpgradeBase
     {
@@ -2314,6 +2639,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_DimensionalRift3</summary>
+
     public class UpgradeModel_RMR_DimensionalRift3 : UpgradeBase
     {
         public override void Init()
@@ -2372,6 +2699,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Execute</summary>
+
     public class UpgradeModel_RMR_Execute : UpgradeBase
     {
         public override void Init()
@@ -2383,6 +2712,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 505003);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_FleshFillet</summary>
 
     public class UpgradeModel_RMR_FleshFillet : UpgradeBase
     {
@@ -2397,6 +2728,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Slay</summary>
+
     public class UpgradeModel_RMR_Slay : UpgradeBase
     {
         public override void Init()
@@ -2408,6 +2741,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 512005);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_sweeperpage</summary>
 
     public class UpgradeModel_RMR_sweeperpage : UpgradeBase
     {
@@ -2422,6 +2757,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_RipSpace</summary>
+
     public class UpgradeModel_RMR_RipSpace : UpgradeBase
     {
         public override void Init()
@@ -2435,6 +2772,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_EndlessBattle</summary>
+
     public class UpgradeModel_RMR_EndlessBattle : UpgradeBase
     {
         public override void Init()
@@ -2446,6 +2785,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 501005);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Manikin</summary>
 
     public class UpgradeModel_RMR_Manikin : UpgradeBase
     {
@@ -2460,6 +2801,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Creak</summary>
+
     public class UpgradeModel_RMR_Creak : UpgradeBase
     {
         public override void Init()
@@ -2472,6 +2815,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 502006);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_LetShowBegin</summary>
 
     public class UpgradeModel_RMR_LetShowBegin : UpgradeBase
     {
@@ -2486,6 +2831,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_TraceFumes</summary>
+
     public class UpgradeModel_RMR_TraceFumes : UpgradeBase
     {
         public override void Init()
@@ -2498,6 +2845,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 507004);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_SweepBackstreets</summary>
 
     public class UpgradeModel_RMR_SweepBackstreets : UpgradeBase
     {
@@ -2513,6 +2862,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_UndertakePrescript</summary>
+
     public class UpgradeModel_RMR_UndertakePrescript : UpgradeBase
     {
         public override void Init()
@@ -2523,6 +2874,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 505002);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_FlashingStrike</summary>
 
     public class UpgradeModel_RMR_FlashingStrike : UpgradeBase
     {
@@ -2538,6 +2891,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_ForFamily</summary>
+
     public class UpgradeModel_RMR_ForFamily : UpgradeBase
     {
         public override void Init()
@@ -2550,6 +2905,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 504004);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_TrashDisposal</summary>
 
     public class UpgradeModel_RMR_TrashDisposal : UpgradeBase
     {
@@ -2566,6 +2923,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_BoundaryOfDeath</summary>
+
     public class UpgradeModel_RMR_BoundaryOfDeath : UpgradeBase
     {
         public override void Init()
@@ -2577,6 +2936,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_BlazingStrike</summary>
+
     public class UpgradeModel_RMR_BlazingStrike : UpgradeBase
     {
         public override void Init()
@@ -2587,6 +2948,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 508010);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_ClaimBones</summary>
 
     public class UpgradeModel_RMR_ClaimBones : UpgradeBase
     {
@@ -2600,6 +2963,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_DeepDrag</summary>
+
     public class UpgradeModel_RMR_DeepDrag : UpgradeBase
     {
         public override void Init()
@@ -2611,6 +2976,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 507001);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_ForcefulGesture</summary>
 
     public class UpgradeModel_RMR_ForcefulGesture : UpgradeBase
     {
@@ -2624,6 +2991,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Ripple</summary>
+
     public class UpgradeModel_RMR_Ripple : UpgradeBase
     {
         public override void Init()
@@ -2636,6 +3005,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Overthrow</summary>
+
     public class UpgradeModel_RMR_Overthrow : UpgradeBase
     {
         public override void Init()
@@ -2646,6 +3017,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 512004);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_WillofthePrescript</summary>
 
     public class UpgradeModel_RMR_WillofthePrescript : UpgradeBase
     {
@@ -2660,6 +3033,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Moulinet</summary>
+
     public class UpgradeModel_RMR_Moulinet : UpgradeBase
     {
         public override void Init()
@@ -2672,6 +3047,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 511004);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_SharpNails</summary>
 
     public class UpgradeModel_RMR_SharpNails : UpgradeBase
     {
@@ -2686,6 +3063,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Overcharge1</summary>
+
     public class UpgradeModel_RMR_Overcharge1 : UpgradeBase
     {
         public override void Init()
@@ -2697,6 +3076,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 506004);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_Overcharge2</summary>
 
     public class UpgradeModel_RMR_Overcharge2 : UpgradeBase
     {
@@ -2714,6 +3095,8 @@ namespace RogueLike_Mod_Reborn
         }
     }
 
+    /// <summary>Card upgrade model: UpgradeModel_RMR_LossOfSenses</summary>
+
     public class UpgradeModel_RMR_LossOfSenses : UpgradeBase
     {
         public override void Init()
@@ -2725,6 +3108,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 507007);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_AutoMovement</summary>
 
     public class UpgradeModel_RMR_AutoMovement : UpgradeBase
     {
@@ -2739,6 +3124,8 @@ namespace RogueLike_Mod_Reborn
             this.baseid = new LorId(LogLikeMod.ModId, 502001);
         }
     }
+
+    /// <summary>Card upgrade model: UpgradeModel_RMR_RepressedFlesh</summary>
 
     public class UpgradeModel_RMR_RepressedFlesh : UpgradeBase
     {

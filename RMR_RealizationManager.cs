@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+// RogueLike Mod Reborn (RMR): RMR_RealizationManager
+// Namespace/file: ruina-roguelike-reborn-main\RMR_RealizationManager.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +14,7 @@ using UnityEngine;
 
 namespace RogueLike_Mod_Reborn
 {
+    /// <summary>RMR type: RMRRealizationManager</summary>
     public static class RMRRealizationManager
     {
         /// <summary>
@@ -75,6 +81,8 @@ namespace RogueLike_Mod_Reborn
         /// </summary>
         private static int _startBattleHookDepth;
         private static bool _abortCurrentStartBattleAfterPrepare;
+        #region --- Battle bootstrap ---
+
 
         public static void EnterStartBattleHook()
         {
@@ -106,6 +114,10 @@ namespace RogueLike_Mod_Reborn
             if (_startBattleHookDepth > 0)
                 _abortCurrentStartBattleAfterPrepare = true;
         }
+        #endregion
+
+        #region --- State & floors ---
+
 
         /// <summary>
         /// Clears the realization battle flag. Called from StageController_EndBattle
@@ -117,11 +129,19 @@ namespace RogueLike_Mod_Reborn
             InRealizationBattle = false;
             RealizationCombatLive = false;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static void ConsumeForceReturnAsDefeat()
         {
             ForceReturnAsDefeatPending = false;
         }
+        #endregion
+
+        #region --- State & floors ---
+
 
         /// <summary>
         /// Called from StageController_StartBattle when the pending realization stage
@@ -137,6 +157,10 @@ namespace RogueLike_Mod_Reborn
                 Debug.Log($"[RMRRealizationManager] Activated realization battle: {CurrentRealizationFloor}");
             }
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>Call on first round start while in realization combat.</summary>
         public static void MarkRealizationCombatLive()
@@ -151,6 +175,10 @@ namespace RogueLike_Mod_Reborn
             // Every round: ensure multiphase boss passives + log immortal/phase state.
             EnsureRealizationMultiPhaseBossState();
         }
+        #endregion
+
+        #region --- Battle bootstrap ---
+
 
         /// <summary>
         /// True when EndBattle should run full realization cleanup + hub return.
@@ -192,11 +220,19 @@ namespace RogueLike_Mod_Reborn
         /// Engine still needs -853 to init LogueBookModels; we never run its dummy combat.
         /// </summary>
         public static bool RealizationReceptionActive { get; private set; }
+        #endregion
+
+        #region --- State & floors ---
+
 
         public static void ClearPendingRealizationFloor()
         {
             PendingRealizationFloor = null;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Full wipe when opening a fresh invitation hub (no leftover intent/floor/gate).
@@ -215,6 +251,10 @@ namespace RogueLike_Mod_Reborn
             BeginHubSession();
             Debug.Log("[RMRRealizationManager] PrepareNewHubSession — launch state reset.");
         }
+        #endregion
+
+        #region --- State & floors ---
+
 
         /// <summary>
         /// Clear intent mirrors only. Keeps <see cref="PendingRealizationFloor"/> when invite is in flight.
@@ -238,6 +278,10 @@ namespace RogueLike_Mod_Reborn
                 RealizationReceptionActive = false;
             Debug.Log($"[RMRRealizationManager] LaunchIntent set to {intent}, realizationReception={RealizationReceptionActive}");
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// While true, <see cref="LogLikeMod.CheckStage"/> must return false (no full roguelike hooks).
@@ -251,6 +295,10 @@ namespace RogueLike_Mod_Reborn
                 return true;
             return false;
         }
+        #endregion
+
+        #region --- State & floors ---
+
 
         /// <summary>
         /// Pre-combat window only: hub chose Realization, waiting floor / prepare, not yet live combat.
@@ -277,6 +325,10 @@ namespace RogueLike_Mod_Reborn
                 return true;
             return false;
         }
+        #endregion
+
+        #region --- Battle bootstrap ---
+
 
         /// <summary>
         /// Only block dummy 854 while the floor panel is up. Do NOT block on RealizationReceptionActive
@@ -288,6 +340,10 @@ namespace RogueLike_Mod_Reborn
                 return false;
             return AwaitingRealizationFloorPick;
         }
+        #endregion
+
+        #region --- State & floors ---
+
 
         /// <summary>Enter floor-pick mode on the -853 shell (no dummy combat, no mystery).</summary>
         public static void EnterRealizationFloorPickMode()
@@ -328,6 +384,10 @@ namespace RogueLike_Mod_Reborn
                 Debug.LogWarning("[RMRRealizationManager] Recover floor panel failed: " + ex.Message);
             }
         }
+        #endregion
+
+        #region --- Battle bootstrap ---
+
 
         /// <summary>
         /// MonoMod blocks direct OpenBattlePrepare calls (MethodAccessException).
@@ -370,6 +430,10 @@ namespace RogueLike_Mod_Reborn
                 _inOpenBattlePrepare = false;
             }
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// True if the active stage looks like the RMR -853 bootstrap shell (闪光 / dummy).
@@ -438,6 +502,10 @@ namespace RogueLike_Mod_Reborn
                 return false;
             }
         }
+        #endregion
+
+        #region --- State & floors ---
+
 
         /// <summary>
         /// Invitation send aborted (compat mods / missing panel) — drop launch intent so hub stays clean.
@@ -452,6 +520,10 @@ namespace RogueLike_Mod_Reborn
             RealizationReceptionActive = false;
             Debug.Log("[RMRRealizationManager] RollbackLaunchIntentKeepHub — intent cleared, hub session kept.");
         }
+        #endregion
+
+        #region --- Battle bootstrap ---
+
 
         /// <summary>
         /// Realization start failed. Prefer soft recover to floor pick; only GameOver on hard exit.
@@ -501,6 +573,10 @@ namespace RogueLike_Mod_Reborn
         /// Prefer <see cref="CanEnterRealizationFromHub"/> in new code.
         /// </summary>
         public static bool InitialRelicEntryAvailable => CanEnterRealizationFromHub();
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static bool CanEnterRealizationFromHub()
         {
@@ -512,6 +588,10 @@ namespace RogueLike_Mod_Reborn
             HubSessionActive = true;
             NormalPlayStarted = false;
         }
+        #endregion
+
+        #region --- Battle bootstrap ---
+
 
         public static void StartNormalPlayFromHub()
         {
@@ -521,6 +601,10 @@ namespace RogueLike_Mod_Reborn
             PendingRealizationFloor = null;
             AwaitingRealizationFloorPick = false;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Realization finished or cancelled: return to library main. One challenge per invitation
@@ -548,7 +632,7 @@ namespace RogueLike_Mod_Reborn
                 StartNormalPlayFromHub();
         }
 
-        private static bool AtlasOnlyLoadoutActive;
+        private static bool CompendiumOnlyLoadoutActive;
         private static List<BookModel> RouteBookSnapshot;
         private static List<DiceCardItemModel> RouteCardSnapshot;
         private static List<UnitDataModel> RoutePlayerModelSnapshot;
@@ -635,6 +719,10 @@ namespace RogueLike_Mod_Reborn
             catch { }
             return null;
         }
+        #endregion
+
+        #region --- Battle bootstrap ---
+
 
         /// <summary>
         /// Product flow: pick floor → team prepare → one vanilla Floor Realization stage.
@@ -677,7 +765,7 @@ namespace RogueLike_Mod_Reborn
             }
             catch { }
 
-            if (!ApplyAtlasOnlyLoadout())
+            if (!ApplyCompendiumOnlyLoadout())
             {
                 FailRealizationStart("Atlas-only loadout failed (no core pages?).", restoreLoadout: false, forceExitToLibrary: false);
                 return;
@@ -739,6 +827,10 @@ namespace RogueLike_Mod_Reborn
                 try { RMRCore.ForceDismissStoryArchivesAndReturnMain(); } catch { }
             }
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         private static System.Collections.IEnumerator CoDismissStoryArchivesDelayed()
         {
@@ -748,6 +840,10 @@ namespace RogueLike_Mod_Reborn
             yield return new WaitForSeconds(0.35f);
             try { RMRCore.ForceDismissStoryArchivesAndReturnMain(); } catch { }
         }
+        #endregion
+
+        #region --- UI / floor pick ---
+
 
         /// <summary>
         /// Clear next-stage / reward selection state and hide LevelUpUI so realization entry
@@ -777,6 +873,10 @@ namespace RogueLike_Mod_Reborn
                 Debug.LogWarning("[RMRRealizationManager] SuppressRoguelikeSelectionUi: " + ex.Message);
             }
         }
+        #endregion
+
+        #region --- State & floors ---
+
 
         /// <summary>
         /// Leave floor-pick mode on -853 shell (close panel / back) → library.
@@ -816,6 +916,10 @@ namespace RogueLike_Mod_Reborn
                 Debug.LogWarning("[RMRRealizationManager] CancelFloorPick GameOver failed: " + ex.Message);
             }
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Back out of battle prepare without starting the fight; restore route → library.
@@ -859,6 +963,10 @@ namespace RogueLike_Mod_Reborn
                 Debug.LogWarning("[RMRRealizationManager] Cancel GameOver failed: " + ex.Message);
             }
         }
+        #endregion
+
+        #region --- Battle bootstrap ---
+
 
         private static bool TryStartVanillaRealizationStage(
             SephirahType floor,
@@ -981,6 +1089,10 @@ namespace RogueLike_Mod_Reborn
             { 9020511, "205010" }, // Yesod Angela
             // Hod/Gebura/Binah/etc. use ManagerScript + multi-unit phase; guarded via IsStageFinishable / IsImmortal.
         };
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// True while Angela/Roland multi-phase is still mid-fight (immortal boss not on final phase).
@@ -1121,6 +1233,10 @@ namespace RogueLike_Mod_Reborn
                 return false;
             return IsUnitInMultiphaseTransition(unit);
         }
+        #endregion
+
+        #region --- State & floors ---
+
 
         /// <summary>
         /// Called when combat goes live / each round: ensure multiphase passives exist and log state.
@@ -1192,6 +1308,10 @@ namespace RogueLike_Mod_Reborn
                 Debug.LogWarning("[RMRRealizationManager] EnsureRealizationMultiPhaseBossState: " + ex.Message);
             }
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         private static bool TryInjectMultiphasePassive(BattleUnitModel unit, string passiveScriptId)
         {
@@ -1326,6 +1446,10 @@ namespace RogueLike_Mod_Reborn
             foreach (StageWaveModel wave in stageModel.waveList)
                 ForceStageWaveModelAvailableUnits(wave, count);
         }
+        #endregion
+
+        #region --- Battle bootstrap ---
+
 
         private static void ForceWaveAvailableUnits(StageWaveInfo wave, int count)
         {
@@ -1414,6 +1538,10 @@ namespace RogueLike_Mod_Reborn
 
             Debug.Log($"[RMRRealizationManager] Realization battle ended. Victory={victory}. Returning to library.");
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// After vanilla EndBattle: hub is invitation-time only. No re-open here.
@@ -1430,43 +1558,47 @@ namespace RogueLike_Mod_Reborn
             try { RMRCore.ForceDismissStoryArchivesAndReturnMain(); } catch { }
             Debug.Log("[RMRRealizationManager] ReturnToMainAfterRealization — library main via vanilla flow.");
         }
+        #endregion
 
-        private static void EnsureDefaultRealizationAtlasUnlocks()
+        #region --- Save / progress ---
+
+
+        private static void EnsureDefaultRealizationCompendiumUnlocks()
         {
-            LogueBookModels.EnsureAtlasUnlocks();
+            LogueBookModels.EnsureCompendiumUnlocks();
             bool changed = false;
 
             for (int id = -854; id >= -858; id--)
             {
                 LorId bookId = new LorId(LogLikeMod.ModId, id);
                 if (Singleton<BookXmlList>.Instance.GetData(bookId) != null)
-                    changed |= LogueBookModels.AtlasUnlockedRoleBooks.Add(bookId);
+                    changed |= LogueBookModels.CompendiumUnlockedRoleBooks.Add(bookId);
             }
 
             for (int id = -10; id >= -14; id--)
             {
                 LorId cardId = new LorId(LogLikeMod.ModId, id);
                 if (ItemXmlDataList.instance.GetCardItem(cardId, true) != null)
-                    changed |= LogueBookModels.AtlasUnlockedBattleCards.Add(cardId);
+                    changed |= LogueBookModels.CompendiumUnlockedBattleCards.Add(cardId);
             }
 
             if (changed)
                 // Save only the fallback atlas entries; the broader save path would
                 // also sync the current route inventory into the permanent atlas.
-                LogueBookModels.SavePermanentAtlasData();
+                LogueBookModels.SavePermanentCompendiumData();
         }
 
 
-        private static bool ApplyAtlasOnlyLoadout()
+        private static bool ApplyCompendiumOnlyLoadout()
         {
-            if (AtlasOnlyLoadoutActive)
+            if (CompendiumOnlyLoadoutActive)
                 return true;
-            LogueBookModels.EnsureAtlasUnlocks();
-            if (LogueBookModels.AtlasUnlockedRoleBooks == null)
-                LogueBookModels.AtlasUnlockedRoleBooks = new HashSet<LorId>();
-            if (LogueBookModels.AtlasUnlockedBattleCards == null)
-                LogueBookModels.AtlasUnlockedBattleCards = new HashSet<LorId>();
-            EnsureDefaultRealizationAtlasUnlocks();
+            LogueBookModels.EnsureCompendiumUnlocks();
+            if (LogueBookModels.CompendiumUnlockedRoleBooks == null)
+                LogueBookModels.CompendiumUnlockedRoleBooks = new HashSet<LorId>();
+            if (LogueBookModels.CompendiumUnlockedBattleCards == null)
+                LogueBookModels.CompendiumUnlockedBattleCards = new HashSet<LorId>();
+            EnsureDefaultRealizationCompendiumUnlocks();
 
             // --- Save full route state ---
             RouteBookSnapshot = LogueBookModels.booklist == null ? new List<BookModel>() : new List<BookModel>(LogueBookModels.booklist);
@@ -1508,7 +1640,7 @@ namespace RogueLike_Mod_Reborn
 
             // --- Build atlas-only book/card lists ---
             List<BookModel> atlasBooks = new List<BookModel>();
-            foreach (LorId id in LogueBookModels.AtlasUnlockedRoleBooks)
+            foreach (LorId id in LogueBookModels.CompendiumUnlockedRoleBooks)
             {
                 BookXmlInfo book = Singleton<BookXmlList>.Instance.GetData(id);
                 if (book == null)
@@ -1525,7 +1657,7 @@ namespace RogueLike_Mod_Reborn
             }
 
             List<DiceCardItemModel> atlasCards = new List<DiceCardItemModel>();
-            foreach (LorId id in LogueBookModels.AtlasUnlockedBattleCards)
+            foreach (LorId id in LogueBookModels.CompendiumUnlockedBattleCards)
             {
                 DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(id, true);
                 if (card == null || card.optionList.Contains(CardOption.NoInventory))
@@ -1634,14 +1766,14 @@ namespace RogueLike_Mod_Reborn
                 }
             }
 
-            AtlasOnlyLoadoutActive = true;
+            CompendiumOnlyLoadoutActive = true;
             Debug.Log($"[RMRRealizationManager] Applied atlas-only loadout: books={atlasBooks.Count}, cards={atlasCards.Count}, librarians={teamList.Count}");
             return true;
         }
 
         private static void RestoreRouteLoadout()
         {
-            if (!AtlasOnlyLoadoutActive)
+            if (!CompendiumOnlyLoadoutActive)
                 return;
 
             // --- Restore book/card lists ---
@@ -1696,8 +1828,10 @@ namespace RogueLike_Mod_Reborn
                 }
             }
 
-            AtlasOnlyLoadoutActive = false;
+            CompendiumOnlyLoadoutActive = false;
             Debug.Log("[RMRRealizationManager] Restored route loadout from snapshot.");
         }
+        #endregion
+
     }
 }

@@ -1,4 +1,9 @@
-﻿using System;
+// -----------------------------------------------------------------------------
+// Post-battle or shop pickup model: PickUpModel_RMRVanillaEmotion
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\PickUpModel_RMRVanillaEmotion.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -8,6 +13,7 @@ using UnityEngine;
 
 namespace abcdcode_LOGLIKE_MOD
 {
+    /// <summary>Pickup model: PickUpModel_RMRVanillaEmotion</summary>
     public class PickUpModel_RMRVanillaEmotion : PickUpModelBase
     {
         private readonly string _script;
@@ -17,21 +23,35 @@ namespace abcdcode_LOGLIKE_MOD
             _script = script ?? string.Empty;
             LoadText();
         }
+        #region --- Getters / setters / checks ---
+
 
         public static bool HasVanillaAbility(string script)
         {
             return FindAbilityType(script) != null;
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         public static PickUpModel_RMRVanillaEmotion TryCreate(string script)
         {
             return HasVanillaAbility(script) ? new PickUpModel_RMRVanillaEmotion(script) : null;
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public override bool IsCanPickUp(UnitDataModel target)
         {
             return target != null && !CheckDead(target);
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public override void OnPickUp()
         {
@@ -43,6 +63,10 @@ namespace abcdcode_LOGLIKE_MOD
         {
             ApplyTo(model);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         private void ApplyTo(BattleUnitModel model)
         {
@@ -58,6 +82,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             CreaturePickUpModel.ApplyEmotionCard(card, ability, model);
         }
+        #endregion
+
+        #region --- Save / load ---
+
 
         private void LoadText()
         {
@@ -84,6 +112,10 @@ namespace abcdcode_LOGLIKE_MOD
             FlaverText = string.Empty;
             TryFillFromModTextTable();
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         /// <summary>
         /// CreaturePickUp_Table.xml has full CN name/desc/flavor for reward scripts (UniverseZogak2 etc.).
@@ -113,6 +145,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             catch { /* table missing is fine */ }
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Vanilla AbnormalityCards.xml is keyed by EmotionCard.Name (e.g. SnowWhite_Vine),
@@ -165,6 +201,10 @@ namespace abcdcode_LOGLIKE_MOD
 
             return byScript;
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public static bool IsMissingDesc(AbnormalityCard desc)
         {
@@ -238,6 +278,10 @@ namespace abcdcode_LOGLIKE_MOD
             catch { /* ignore */ }
             return true;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Inject resolved name/desc into the AbnormalityCard slot used by the pick UI.
@@ -342,12 +386,20 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         private static EmotionCardAbilityBase CreateAbility(string script)
         {
             Type type = FindAbilityType(script);
             return type == null ? null : Activator.CreateInstance(type) as EmotionCardAbilityBase;
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         private static Type FindAbilityType(string script)
         {
@@ -369,5 +421,7 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return null;
         }
+        #endregion
+
     }
 }

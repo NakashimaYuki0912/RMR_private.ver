@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.EnemyTeamStageManager_TheCryingLog
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Enemy stage manager: EnemyTeamStageManager_TheCryingLog
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\EnemyTeamStageManager_TheCryingLog.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using LOR_DiceSystem;
 using RogueLike_Mod_Reborn;
 using System;
@@ -13,6 +12,8 @@ using UI;
 
 namespace abcdcode_LOGLIKE_MOD
 {
+
+    /// <summary>EnemyTeamStageManager_TheCryingLog</summary>
 
     public class EnemyTeamStageManager_TheCryingLog : EnemyTeamStageManager
     {
@@ -25,6 +26,8 @@ namespace abcdcode_LOGLIKE_MOD
         public EnemyTeamStageManager_TheCrying.Phase currentPhase => this._currentPhase;
 
         public int Stack => this._stack;
+        #region --- Battle hooks ---
+
 
         public override void OnWaveStart()
         {
@@ -38,8 +41,16 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         public override void OnRoundEndTheLast() => this.CheckPhase();
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public override bool IsStageFinishable() => this._finished;
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public override void OnRoundStart()
         {
@@ -68,6 +79,10 @@ namespace abcdcode_LOGLIKE_MOD
                 alive.breakDetail.RecoverBreak(10);
             }
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         public override bool HideEnemyTarget()
         {
@@ -79,6 +94,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return false;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public override bool BlockEnemyAggroChange()
         {
@@ -90,6 +109,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return false;
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         public override bool IsHideDiceAbilityInfo()
         {
@@ -101,6 +124,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return false;
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public override void OnAllEnemyEquipCard()
         {
@@ -127,6 +154,10 @@ namespace abcdcode_LOGLIKE_MOD
             cardDataInUnitModel1.card.XmlData.DiceBehaviourList[0].Script = "cryingChildPenaltyLog";
             cardDataInUnitModel1.ResetCardQueue();
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public void SetAllWeak()
         {
@@ -167,6 +198,10 @@ namespace abcdcode_LOGLIKE_MOD
                 SingletonBehavior<UICharacterRenderer>.Instance.SetCharacter(battleUnitModel.UnitData.unitData, num++, true);
             BattleObjectManager.instance.InitUI();
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public void UnregisterAllUnit()
         {
@@ -177,6 +212,10 @@ namespace abcdcode_LOGLIKE_MOD
                 battleUnitModel.isRegister = false;
             }
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         public void CreateTheOneUnit()
         {
@@ -247,6 +286,10 @@ namespace abcdcode_LOGLIKE_MOD
                 battleUnitModel.passiveDetail.DestroyPassive(passive2);
             }
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public BattleUnitModel AddNewChild(int id, int index, bool addAngelBuf)
         {
@@ -322,10 +365,16 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         public bool Phase2_hpLimit() => false;
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public override void OnStageClear()
         {
         }
+
+        /// <summary>enum Phase</summary>
 
         public enum Phase
         {
@@ -344,5 +393,7 @@ namespace abcdcode_LOGLIKE_MOD
             manager._recover = obj._recover;
             return manager;
         }
+        #endregion
+
     }
 }

@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.PickUpModelBase
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Library of Ruina mod script: PickUpModelBase
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\PickUpModelBase.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using abcdcode_LOGLIKE_MOD_Extension;
 using RogueLike_Mod_Reborn;
 using System;
@@ -12,6 +11,8 @@ using System.Collections.Generic;
 
 namespace abcdcode_LOGLIKE_MOD
 {
+
+    /// <summary>PickUpModelBase</summary>
 
     public class PickUpModelBase
     {
@@ -67,6 +68,8 @@ namespace abcdcode_LOGLIKE_MOD
                 return Rarity.Common;
             }
         }
+        #region --- Getters / setters / checks ---
+
 
         /// <summary>
         /// Displays the credenza entry within the Item Catalog.
@@ -87,6 +90,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return info == null ? TextDataModel.GetText("ui_RMR_ItemNoEntry_Credenza") : info.CatalogDesc;
         }
+        #endregion
+
+        #region --- Save / load ---
+
 
         /// <summary>
         /// Manipulates the stage which this PickUp sends to upon being chosen.
@@ -94,6 +101,10 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void LoadFromSaveData(LogueStageInfo stage)
         {
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         /// <summary>
         /// Instantly creates a passive attribution keypage and gives it to an unit.
@@ -118,6 +129,10 @@ namespace abcdcode_LOGLIKE_MOD
             model.UnitData.unitData.bookItem.TryGainUniquePassive();
             LogueBookModels.playersperpassives[model.UnitData.unitData].RemoveAll(x => x == id);
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         /// <summary>
         /// Determines the list of units to be given as a choice for the pickup.<br></br>
@@ -151,6 +166,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return true;
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         /// <summary>
         /// Executes upon being picked up or added via ShopPickUpModel.AddPassiveReward().
@@ -167,11 +186,17 @@ namespace abcdcode_LOGLIKE_MOD
         public virtual void OnPickUp(BattleUnitModel model)
         {
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
 
         public static bool CheckDead(UnitDataModel model)
         {
             return BattleObjectManager.instance.GetAliveList().Find(x => x.UnitData.unitData == model) == null;
         }
+        #endregion
+
     }
 }

@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+// RogueLike Mod Reborn (RMR): RMR_RealizationLaunchHost
+// Namespace/file: ruina-roguelike-reborn-main\RMR_RealizationLaunchHost.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System.Collections;
 using abcdcode_LOGLIKE_MOD;
 using UI;
@@ -14,6 +19,8 @@ namespace RogueLike_Mod_Reborn
     {
         private static RMRRealizationLaunchHost _running;
         private static GameObject _overlayRoot;
+        #region --- UI show / hide / build ---
+
 
         /// <summary>
         /// High sorting-order Screen Space Overlay used only for RMR exclusive UIs
@@ -49,6 +56,10 @@ namespace RogueLike_Mod_Reborn
             }
             return _overlayRoot.transform;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static void DestroyOverlayIfEmpty()
         {
@@ -63,12 +74,12 @@ namespace RogueLike_Mod_Reborn
                     return;
                 if (RMRHelpHandbookPanel.Instance != null && RMRHelpHandbookPanel.Instance.IsVisible)
                     return;
-                // Atlas from hub: hub may be soft-hidden (IsVisible still true usually), but
+                // Compendium from hub: hub may be soft-hidden (IsVisible still true usually), but
                 // always keep overlay while atlas host is live.
                 try
                 {
-                    var atlas = Singleton<LogAtlasPanel>.Instance;
-                    if (atlas != null && atlas.IsVisible)
+                    var compendium = Singleton<LogCompendiumPanel>.Instance;
+                    if (compendium != null && compendium.IsVisible)
                         return;
                 }
                 catch { /* atlas type / singleton optional at early boot */ }
@@ -91,6 +102,10 @@ namespace RogueLike_Mod_Reborn
             }
             catch { _overlayRoot = null; }
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public static void EnsureFloorPanelVisible()
         {
@@ -114,6 +129,10 @@ namespace RogueLike_Mod_Reborn
             _running = host.AddComponent<RMRRealizationLaunchHost>();
             _running.Begin();
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         /// <summary>
         /// Open floor pick immediately on dedicated overlay (invitation hub path).
@@ -168,12 +187,20 @@ namespace RogueLike_Mod_Reborn
             try { childCount = panel != null ? panel.transform.childCount : -1; } catch { }
             Debug.Log($"[RMR] Dedicated realization floor UI opened (overlay, not vanilla prepare). panelChildren={childCount} overlay={( _overlayRoot != null ? _overlayRoot.name : "null")}");
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void Begin()
         {
             DontDestroyOnLoad(gameObject);
             StartCoroutine(OpenWhenReady());
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         private IEnumerator OpenWhenReady()
         {
@@ -228,6 +255,10 @@ namespace RogueLike_Mod_Reborn
 
             Cleanup();
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         private void Cleanup()
         {
@@ -235,5 +266,7 @@ namespace RogueLike_Mod_Reborn
                 _running = null;
             Destroy(gameObject);
         }
+        #endregion
+
     }
 }

@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.MysteryModel_MemberShip
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Mystery / event node model: MysteryModel_MemberShip
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\MysteryModel_MemberShip.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -12,9 +11,13 @@ using UnityEngine;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>Mystery node model: MysteryModel_MemberShip</summary>
+
     public class MysteryModel_MemberShip : MysteryBase
     {
         public MysteryModel_MemberShip.curWorkShop curshop;
+        #region --- Other helpers ---
+
 
         public override void SwapFrame(int id)
         {
@@ -23,6 +26,10 @@ namespace abcdcode_LOGLIKE_MOD
                 return;
             this.FrameObj["Dia"].GetComponent<TextMeshProUGUI>().text = abcdcode_LOGLIKE_MOD_Extension.TextDataModel.GetText("MemberShipFrame1Dia" + this.curshop.ToString());
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public override void OnClickChoice(int choiceid)
         {
@@ -57,6 +64,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             base.OnClickChoice(choiceid);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void AddWorkShop_Logic()
         {
@@ -97,6 +108,8 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        /// <summary>enum curWorkShop</summary>
+
         public enum curWorkShop
         {
             Logic,
@@ -105,10 +118,15 @@ namespace abcdcode_LOGLIKE_MOD
             Mook,
         }
 
+        /// <summary>LOGLIKE type: LogicRangeAdder</summary>
+
         public class LogicRangeAdder : LogStatAdder
         {
             public override EquipRangeType GetRangeType(EquipRangeType cur) => EquipRangeType.Hybrid;
         }
+
+       
+        /// <summary>LOGLIKE type: LogicRangeGlobalEffect</summary>
 
        
         public class LogicRangeGlobalEffect : GlobalLogueEffectBase
@@ -124,5 +142,7 @@ namespace abcdcode_LOGLIKE_MOD
 
             public override string KeywordIconId => "GlobalEffect_MemberShipLogic";
         }
+        #endregion
+
     }
 }

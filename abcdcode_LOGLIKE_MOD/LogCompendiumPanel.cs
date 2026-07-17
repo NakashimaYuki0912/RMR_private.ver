@@ -1,4 +1,9 @@
-﻿using HarmonyLib;
+// -----------------------------------------------------------------------------
+// LOGLIKE core UI/data: LogCompendiumPanel
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\LogCompendiumPanel.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
+using HarmonyLib;
 using LOR_DiceSystem;
 using LOR_XML;
 using RogueLike_Mod_Reborn;
@@ -16,7 +21,18 @@ using UnityEngine.UI;
 
 namespace abcdcode_LOGLIKE_MOD
 {
-    public enum AtlasCategory
+    // =========================================================================
+    // Compendium UI (CN 图鉴 / EN Compendium / KR 도감)
+    // C# types: Compendium* / LogCompendiumPanel (formerly LogAtlasPanel).
+    // Localize key IDs may still use _Atlas (ui_RMR_Atlas_Title, ui_RMR_Hub_Atlas);
+    // EN display text is "Compendium". Disk save: RMR_AtlasPermanentUnlocks.
+    // Docs: docs/localization/GLOSSARY.md, CODE_TERMINOLOGY.md
+    // =========================================================================
+
+    #region --- Types: category / section / entry ---
+
+    /// <summary>Compendium category tabs (key pages / combat / abnormality / E.G.O.).</summary>
+    public enum CompendiumCategory
     {
         RoleBook,
         BattleCard,
@@ -24,7 +40,8 @@ namespace abcdcode_LOGLIKE_MOD
         EgoPage
     }
 
-    public enum AtlasSection
+    /// <summary>Urban-stage filters for key/combat pages (abno/EGO use flat lists).</summary>
+    public enum CompendiumSection
     {
         All = 0,
         Rumor,
@@ -36,23 +53,32 @@ namespace abcdcode_LOGLIKE_MOD
         Impurity
     }
 
-    public sealed class AtlasEntry
+    /// <summary>One row in the Compendium grid (artwork + unlock state + metadata).</summary>
+    public sealed class CompendiumEntry
     {
         public LorId Id;
         public string Title;
         public string Description;
         public Sprite Artwork;
         public bool Unlocked;
-        public AtlasCategory Category;
-        public AtlasSection Section;
+        public CompendiumCategory Category;
+        public CompendiumSection Section;
         public SephirahType Floor;
     }
 
-    public class LogAtlasPanel : Singleton<LogAtlasPanel>
+    #endregion
+
+    /// <summary>
+    /// Permanent Compendium UI (图鉴 / 도감). Formerly LogAtlasPanel.
+    /// Localize key ids may still end with _Atlas; EN display uses Compendium. See docs/localization/CODE_TERMINOLOGY.md.
+    /// </summary>
+    public class LogCompendiumPanel : Singleton<LogCompendiumPanel>
     {
+        #region --- Localization helpers & grid constants ---
+
         public const string LockedTitle = "?";
 
-        private static string AtlasUi(string zh, string en, string kr)
+        private static string CompendiumUi(string zh, string en, string kr)
         {
             string lang = "";
             try { lang = TextDataModel.CurrentLanguage.ToString().ToLowerInvariant(); } catch { }
@@ -61,36 +87,40 @@ namespace abcdcode_LOGLIKE_MOD
             return zh;
         }
 
-        private static string AtlasUpgradeToggleLabelText()
+        private static string CompendiumUpgradeToggleLabelText()
         {
             return LocalizedUi("ui_RMR_Atlas_ShowUpgraded",
-                AtlasUi("显示升级版", "Show upgraded", "강화판 표시"));
+                CompendiumUi("显示升级版", "Show upgraded", "강화판 표시"));
         }
 
-        private static readonly AtlasSection[] Sections =
+        private static readonly CompendiumSection[] Sections =
         {
-            AtlasSection.All,
-            AtlasSection.Rumor,
-            AtlasSection.UrbanLegend,
-            AtlasSection.UrbanMyth,
-            AtlasSection.UrbanIllness,
-            AtlasSection.UrbanNightmare,
-            AtlasSection.UrbanStar,
-            AtlasSection.Impurity
+            CompendiumSection.All,
+            CompendiumSection.Rumor,
+            CompendiumSection.UrbanLegend,
+            CompendiumSection.UrbanMyth,
+            CompendiumSection.UrbanIllness,
+            CompendiumSection.UrbanNightmare,
+            CompendiumSection.UrbanStar,
+            CompendiumSection.Impurity
         };
 
-        private static readonly AtlasCategory[] Categories =
+        private static readonly CompendiumCategory[] Categories =
         {
-            AtlasCategory.RoleBook,
-            AtlasCategory.BattleCard,
-            AtlasCategory.AbnormalityPage,
-            AtlasCategory.EgoPage
+            CompendiumCategory.RoleBook,
+            CompendiumCategory.BattleCard,
+            CompendiumCategory.AbnormalityPage,
+            CompendiumCategory.EgoPage
         };
 
         // Selected A-A archive wall: left categories, center 4x5 cards, right detail.
         private const int CenterCols = 4;
         private const int CenterRows = 5;
         private const int CenterPageSize = CenterCols * CenterRows;
+
+        #endregion
+
+        #region --- UI fields (chrome, grid, detail, hub) ---
 
         public GameObject root;
         /// <summary>Full-screen shell under RMR overlay (parent of <see cref="root"/> content).</summary>
@@ -110,8 +140,8 @@ namespace abcdcode_LOGLIKE_MOD
         private Button pagePrevBtn;
         private Button pageNextBtn;
         private int currentPage;
-        private AtlasSection currentSection = AtlasSection.All;
-        private AtlasCategory currentCategory = AtlasCategory.RoleBook;
+        private CompendiumSection currentSection = CompendiumSection.All;
+        private CompendiumCategory currentCategory = CompendiumCategory.RoleBook;
         private TextMeshProUGUI _emptyHint;
         private bool showUpgradedBattleCards;
 
@@ -121,12 +151,12 @@ namespace abcdcode_LOGLIKE_MOD
         private TextMeshProUGUI detailTitle;
         private TextMeshProUGUI detailDescription;
         private TextMeshProUGUI detailMeta;
-        private AtlasEntry currentDetailEntry;
+        private CompendiumEntry currentDetailEntry;
         private bool _openedFromHub;
         private GameObject _hubCloseBtn;
         private Action _onHubClose;
 
-        /// <summary>True while atlas UI is shown (hub or legacy).</summary>
+        /// <summary>True while Compendium UI is shown (hub or legacy).</summary>
         public bool IsVisible =>
             (root != null && root.activeInHierarchy)
             || (_hostRoot != null && _hostRoot.activeInHierarchy);
@@ -143,6 +173,10 @@ namespace abcdcode_LOGLIKE_MOD
         private static readonly Color ColTileLocked = new Color(0.078f, 0.071f, 0.063f, 0.92f);
         private static readonly Color ColBgVoid = new Color(0.020f, 0.016f, 0.012f, 1f);
         private static readonly Color ColBgGlow = new Color(0.102f, 0.082f, 0.055f, 0.55f);
+
+        #endregion
+
+        #region --- Lifecycle: Init / ShowFromHub / Close ---
 
         public static GameObject GetLogUIObj(int index)
         {
@@ -183,7 +217,7 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         /// <summary>
-        /// Open atlas from RMR start hub (invitation). Not from battle prepare tabs.
+        /// Open Compendium from RMR start hub (invitation). Not from battle prepare tabs.
         /// Always builds on RMR overlay — never depends on UIBattleSettingPanel.
         /// </summary>
         public void ShowFromHub(Action onClose = null)
@@ -193,20 +227,20 @@ namespace abcdcode_LOGLIKE_MOD
             try { LogLikeMod.InvalidateTmpFontCache(); } catch { }
             try
             {
-                // Hub can open before CreatePlayer; always rehydrate permanent atlas from disk first.
-                LogueBookModels.EnsureAtlasUnlocks();
-                LogueBookModels.LoadPermanentAtlasData();
+                // Hub can open before CreatePlayer; always rehydrate permanent Compendium from disk first.
+                LogueBookModels.EnsureCompendiumUnlocks();
+                LogueBookModels.LoadPermanentCompendiumData();
                 LogueBookModels.SyncCurrentInventoryToPermanentAtlas();
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[RMR Atlas] EnsureAtlasUnlocks/LoadPermanent: " + ex.Message);
+                Debug.LogWarning("[RMR Atlas] EnsureCompendiumUnlocks/LoadPermanent: " + ex.Message);
             }
 
             try
             {
                 // Full rebuild every open — stale BattleSetting clones / half-built hosts break hub.
-                DestroyAtlasUiTree();
+                DestroyCompendiumUiTree();
                 currentPage = 0;
 
                 root = CreateOverlayCanvasRoot();
@@ -252,22 +286,22 @@ namespace abcdcode_LOGLIKE_MOD
                     int total = 0;
                     try { total = BuildEntries(false).Count; } catch { }
                     Debug.Log($"[RMR Atlas] Opened from start hub. entries≈{total} tiles={tiles.Count} "
-                        + $"RoleBooks={LogueBookModels.AtlasUnlockedRoleBooks?.Count ?? 0} "
-                        + $"BattleCards={LogueBookModels.AtlasUnlockedBattleCards?.Count ?? 0} "
-                        + $"Abno={LogueBookModels.AtlasUnlockedAbnormalityPages?.Count ?? 0} "
-                        + $"Ego={LogueBookModels.AtlasUnlockedEgoPages?.Count ?? 0} "
+                        + $"RoleBooks={LogueBookModels.CompendiumUnlockedRoleBooks?.Count ?? 0} "
+                        + $"BattleCards={LogueBookModels.CompendiumUnlockedBattleCards?.Count ?? 0} "
+                        + $"Abno={LogueBookModels.CompendiumUnlockedAbnormalityPages?.Count ?? 0} "
+                        + $"Ego={LogueBookModels.CompendiumUnlockedEgoPages?.Count ?? 0} "
                         + $"host={(_hostRoot != null ? _hostRoot.name : "null")} root={(root != null ? root.name : "null")}");
                 }
                 catch (Exception tileEx)
                 {
                     Debug.LogWarning("[RMR Atlas] UpdateTiles failed (UI still shown): " + tileEx);
-                    try { ShowEmptyHint(AtlasUi("图鉴数据加载失败，请查看日志。", "Failed to load atlas data. Check the log.", "도감 데이터를 불러오지 못했습니다. 로그를 확인하세요.")); } catch { }
+                    try { ShowEmptyHint(CompendiumUi("图鉴数据加载失败，请查看日志。", "Failed to load atlas data. Check the log.", "도감 데이터를 불러오지 못했습니다. 로그를 확인하세요.")); } catch { }
                 }
             }
             catch (Exception ex)
             {
                 Debug.LogError("[RMR Atlas] ShowFromHub failed: " + ex);
-                try { DestroyAtlasUiTree(); } catch { }
+                try { DestroyCompendiumUiTree(); } catch { }
                 _openedFromHub = false;
                 Action cb = _onHubClose;
                 _onHubClose = null;
@@ -288,6 +322,10 @@ namespace abcdcode_LOGLIKE_MOD
             _onHubClose = null;
             try { cb?.Invoke(); } catch { }
         }
+
+        #endregion
+
+        #region --- UI construction: chrome, nav, cards, page controls ---
 
         private void BuildArchiveWallChrome()
         {
@@ -319,7 +357,7 @@ namespace abcdcode_LOGLIKE_MOD
             CreateDetailPanel();
         }
 
-        private void DestroyAtlasUiTree()
+        private void DestroyCompendiumUiTree()
         {
             try
             {
@@ -447,7 +485,7 @@ namespace abcdcode_LOGLIKE_MOD
             BuildBg2Atmosphere(host.transform);
 
             // Content host centered — child UI uses absolute offsets around origin.
-            var content = new GameObject("AtlasContent", typeof(RectTransform));
+            var content = new GameObject("CompendiumContent", typeof(RectTransform));
             content.transform.SetParent(host.transform, false);
             var crt = content.GetComponent<RectTransform>();
             crt.anchorMin = crt.anchorMax = new Vector2(0.5f, 0.5f);
@@ -548,7 +586,7 @@ namespace abcdcode_LOGLIKE_MOD
 
         private static Image CreatePanelImage(Transform parent, Vector2 pos, Vector2 size, Color color, bool goldEdge)
         {
-            Image img = CreateSolidImage(parent, "AtlasPanel", pos, size, color, true);
+            Image img = CreateSolidImage(parent, "CompendiumPanel", pos, size, color, true);
             if (goldEdge)
             {
                 Image edge = CreateSolidImage(img.transform, "GoldEdge", Vector2.zero,
@@ -568,7 +606,7 @@ namespace abcdcode_LOGLIKE_MOD
 
         private static TextMeshProUGUI CreateLabel(Transform parent, Vector2 pos, int size, Color color, TextAlignmentOptions align)
         {
-            var go = new GameObject("AtlasLabel", typeof(RectTransform));
+            var go = new GameObject("CompendiumLabel", typeof(RectTransform));
             go.transform.SetParent(parent, false);
             var tmp = go.AddComponent<TextMeshProUGUI>();
             var rt = go.GetComponent<RectTransform>();
@@ -613,7 +651,7 @@ namespace abcdcode_LOGLIKE_MOD
                     CloseFromHub();
                 });
                 TextMeshProUGUI backLabel = CreateLabel(_hubCloseBtn.transform, Vector2.zero, 20, ColCream, TextAlignmentOptions.Center);
-                backLabel.text = AtlasUi("\u8fd4\u56de", "Back", "\ub3cc\uc544\uac00\uae30"); // 返回 / Back / 돌아가기
+                backLabel.text = CompendiumUi("\u8fd4\u56de", "Back", "\ub3cc\uc544\uac00\uae30"); // 返回 / Back / 돌아가기
                 backLabel.raycastTarget = false;
                 try
                 {
@@ -639,7 +677,7 @@ namespace abcdcode_LOGLIKE_MOD
             // Scheme A left rails: solid bar + gold accent strip when selected.
             for (int i = 0; i < Categories.Length; i++)
             {
-                AtlasCategory category = Categories[i];
+                CompendiumCategory category = Categories[i];
                 Image image = CreateSolidImage(root.transform, "CatRail",
                     new Vector2(-580f, 270f - i * 50f), new Vector2(200f, 42f), ColNavIdle, true);
                 categoryFrames.Add(image);
@@ -682,7 +720,7 @@ namespace abcdcode_LOGLIKE_MOD
 
             for (int i = 0; i < Sections.Length; i++)
             {
-                AtlasSection section = Sections[i];
+                CompendiumSection section = Sections[i];
                 Image image = CreateSolidImage(root.transform, "SecRail",
                     new Vector2(-580f, 18f - i * 34f), new Vector2(200f, 28f), ColNavIdle, true);
                 sectionFrames.Add(image);
@@ -847,7 +885,11 @@ namespace abcdcode_LOGLIKE_MOD
         /// <summary>
         /// Populates the detail panel with information for the given atlas entry.
         /// </summary>
-        public void ShowDetail(AtlasEntry entry)
+        #endregion
+
+        #region --- Detail panel (right side) ---
+
+        public void ShowDetail(CompendiumEntry entry)
         {
             currentDetailEntry = entry;
             if (entry == null || detailPanelRoot == null || detailTitle == null || detailArtwork == null || detailDescription == null)
@@ -862,8 +904,8 @@ namespace abcdcode_LOGLIKE_MOD
                         detailMeta.text = GetCategoryName(entry.Category);
                     detailArtwork.sprite = LogLikeMod.ArtWorks.ContainsKey("ItemNotFoundIcon") ? LogLikeMod.ArtWorks["ItemNotFoundIcon"] : null;
                     detailArtwork.enabled = detailArtwork.sprite != null;
-                    ApplyArtworkLayout(detailArtwork, AtlasCategory.RoleBook, true);
-                    detailDescription.text = AtlasUi("\u5c1a\u672a\u89e3\u9501\u3002", "Not unlocked yet.", "\uc544\uc9c1 \ud574\uae08\ub418\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4.");
+                    ApplyArtworkLayout(detailArtwork, CompendiumCategory.RoleBook, true);
+                    detailDescription.text = CompendiumUi("\u5c1a\u672a\u89e3\u9501\u3002", "Not unlocked yet.", "\uc544\uc9c1 \ud574\uae08\ub418\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4.");
                     return;
                 }
 
@@ -902,12 +944,12 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
-        private static string BuildDetailMetaLine(AtlasEntry entry)
+        private static string BuildDetailMetaLine(CompendiumEntry entry)
         {
             if (entry == null)
                 return "";
             string cat = GetCategoryName(entry.Category);
-            if (entry.Category == AtlasCategory.AbnormalityPage || entry.Category == AtlasCategory.EgoPage)
+            if (entry.Category == CompendiumCategory.AbnormalityPage || entry.Category == CompendiumCategory.EgoPage)
             {
                 string floor = RMRRealizationManager.FloorDisplayNames != null
                     && RMRRealizationManager.FloorDisplayNames.TryGetValue(entry.Floor, out string fn)
@@ -920,20 +962,20 @@ namespace abcdcode_LOGLIKE_MOD
         /// <summary>
         /// Builds enriched detail text for the detail panel, based on category.
         /// </summary>
-        private static string BuildDetailExtraInfo(AtlasEntry entry)
+        private static string BuildDetailExtraInfo(CompendiumEntry entry)
         {
             if (entry == null || !entry.Unlocked)
                 return null;
 
             switch (entry.Category)
             {
-                case AtlasCategory.RoleBook:
+                case CompendiumCategory.RoleBook:
                     return BuildRoleBookDetail(entry.Id);
-                case AtlasCategory.BattleCard:
+                case CompendiumCategory.BattleCard:
                     return BuildBattleCardDetail(entry.Id, entry.Title);
-                case AtlasCategory.AbnormalityPage:
+                case CompendiumCategory.AbnormalityPage:
                     return BuildAbnormalityPageDetail(entry.Id);
-                case AtlasCategory.EgoPage:
+                case CompendiumCategory.EgoPage:
                     return BuildEgoPageDetail(entry.Id);
                 default:
                     return null;
@@ -953,19 +995,19 @@ namespace abcdcode_LOGLIKE_MOD
                     displayName = book.CharacterSkin[0];
                 if (string.IsNullOrEmpty(displayName))
                     displayName = id.ToString();
-                lines.Add(AtlasUi("名称: ", "Name: ", "이름: ") + displayName);
+                lines.Add(CompendiumUi("名称: ", "Name: ", "이름: ") + displayName);
                 lines.Add("HP: " + book.EquipEffect.Hp.ToString());
-                lines.Add(AtlasUi("速度: ", "Speed: ", "속도: ") + book.EquipEffect.SpeedMin.ToString() + "-" + book.EquipEffect.Speed.ToString());
-                lines.Add(AtlasUi("速度骰子: ", "Speed Dice: ", "속도 주사위: ") + book.EquipEffect.SpeedDiceNum.ToString());
-                lines.Add(AtlasUi("耐性: 斩", "Resist: Slash ", "내성: 참격 ") + ResToText(book.EquipEffect.SResist)
-                    + AtlasUi(" 突", " Pierce ", " 관통 ") + ResToText(book.EquipEffect.PResist)
-                    + AtlasUi(" 打", " Blunt ", " 타격 ") + ResToText(book.EquipEffect.HResist));
-                lines.Add(AtlasUi("混乱耐性: 斩", "Stagger Resist: Slash ", "흐트러짐 내성: 참격 ") + ResToText(book.EquipEffect.SBResist)
-                    + AtlasUi(" 突", " Pierce ", " 관통 ") + ResToText(book.EquipEffect.PBResist)
-                    + AtlasUi(" 打", " Blunt ", " 타격 ") + ResToText(book.EquipEffect.HBResist));
+                lines.Add(CompendiumUi("速度: ", "Speed: ", "속도: ") + book.EquipEffect.SpeedMin.ToString() + "-" + book.EquipEffect.Speed.ToString());
+                lines.Add(CompendiumUi("速度骰子: ", "Speed Dice: ", "속도 주사위: ") + book.EquipEffect.SpeedDiceNum.ToString());
+                lines.Add(CompendiumUi("耐性: 斩", "Resist: Slash ", "내성: 참격 ") + ResToText(book.EquipEffect.SResist)
+                    + CompendiumUi(" 突", " Pierce ", " 관통 ") + ResToText(book.EquipEffect.PResist)
+                    + CompendiumUi(" 打", " Blunt ", " 타격 ") + ResToText(book.EquipEffect.HResist));
+                lines.Add(CompendiumUi("混乱耐性: 斩", "Stagger Resist: Slash ", "흐트러짐 내성: 참격 ") + ResToText(book.EquipEffect.SBResist)
+                    + CompendiumUi(" 突", " Pierce ", " 관통 ") + ResToText(book.EquipEffect.PBResist)
+                    + CompendiumUi(" 打", " Blunt ", " 타격 ") + ResToText(book.EquipEffect.HBResist));
                 if (book.EquipEffect.PassiveList != null && book.EquipEffect.PassiveList.Count > 0)
                 {
-                    lines.Add(AtlasUi("被动:", "Passives:", "패시브:"));
+                    lines.Add(CompendiumUi("被动:", "Passives:", "패시브:"));
                     foreach (LorId pid in book.EquipEffect.PassiveList)
                     {
                         string pName = RewardingModel.GetPassiveName(pid);
@@ -1030,7 +1072,7 @@ namespace abcdcode_LOGLIKE_MOD
                 string ability = desc != null ? desc.abilityDesc : (info.script ?? "");
                 string flavor = desc != null ? desc.flavorText : "";
                 SephirahType floor = RMRAbnormalityUnlockManager.GetFloorForScript(info.script);
-                bool atlasUnlocked = LogueBookModels.IsAtlasAbnormalityPageUnlocked(id);
+                bool unlockedInCompendium = LogueBookModels.IsCompendiumAbnormalityPageUnlocked(id);
 
                 lines.Add(name);
                 if (!string.IsNullOrEmpty(ability))
@@ -1038,7 +1080,7 @@ namespace abcdcode_LOGLIKE_MOD
                 if (!string.IsNullOrEmpty(flavor))
                     lines.Add(flavor);
                 lines.Add("\u697c\u5c42: " + (RMRRealizationManager.FloorDisplayNames.TryGetValue(floor, out string floorName) ? floorName : floor.ToString()));
-                lines.Add(atlasUnlocked ? "\u56fe\u9274: \u5df2\u89e3\u9501" : "\u56fe\u9274: \u672a\u89e3\u9501");
+                lines.Add(unlockedInCompendium ? "\u56fe\u9274: \u5df2\u89e3\u9501" : "\u56fe\u9274: \u672a\u89e3\u9501");
                 return string.Join("\n", lines.ToArray());
             }
             catch
@@ -1052,7 +1094,7 @@ namespace abcdcode_LOGLIKE_MOD
             // E.G.O. combat pages — battle-card style detail, labeled as EGO.
             string body = BuildBattleCardDetail(id, "");
             if (string.IsNullOrEmpty(body))
-                return GetCategoryName(AtlasCategory.EgoPage);
+                return GetCategoryName(CompendiumCategory.EgoPage);
             return "E.G.O.\n" + body;
         }
 
@@ -1061,15 +1103,15 @@ namespace abcdcode_LOGLIKE_MOD
             switch (res)
             {
                 case AtkResist.Weak:
-                    return LocalizedUi("ui_RMR_Atlas_Res_Weak", AtlasUi("耐性", "Weak", "취약"));
+                    return LocalizedUi("ui_RMR_Atlas_Res_Weak", CompendiumUi("耐性", "Weak", "취약"));
                 case AtkResist.Normal:
-                    return LocalizedUi("ui_RMR_Atlas_Res_Normal", AtlasUi("一般", "Normal", "보통"));
+                    return LocalizedUi("ui_RMR_Atlas_Res_Normal", CompendiumUi("一般", "Normal", "보통"));
                 case AtkResist.Endure:
-                    return LocalizedUi("ui_RMR_Atlas_Res_Endure", AtlasUi("耐受", "Endured", "내성"));
+                    return LocalizedUi("ui_RMR_Atlas_Res_Endure", CompendiumUi("耐受", "Endured", "내성"));
                 case AtkResist.Immune:
-                    return LocalizedUi("ui_RMR_Atlas_Res_Immune", AtlasUi("免疫", "Immune", "면역"));
+                    return LocalizedUi("ui_RMR_Atlas_Res_Immune", CompendiumUi("免疫", "Immune", "면역"));
                 case AtkResist.Vulnerable:
-                    return LocalizedUi("ui_RMR_Atlas_Res_Vulnerable", AtlasUi("脆弱", "Fatal", "치명"));
+                    return LocalizedUi("ui_RMR_Atlas_Res_Vulnerable", CompendiumUi("脆弱", "Fatal", "치명"));
                 default:
                     return res.ToString();
             }
@@ -1079,6 +1121,10 @@ namespace abcdcode_LOGLIKE_MOD
         /// Gets the card artwork sprite for a battle card or E.G.O. card.
         /// Vanilla cards use AssetBundleManagerRemake; mod cards use CustomizingCardArtworkLoader.
         /// </summary>
+        #endregion
+
+        #region --- Artwork helpers ---
+
         public static Sprite GetCardArtwork(DiceCardXmlInfo card)
         {
             if (card == null)
@@ -1143,6 +1189,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
+        #endregion
+
+        #region --- Navigation, filters, tile refresh ---
+
         public void SetActive(bool value)
         {
             if (value)
@@ -1151,12 +1201,12 @@ namespace abcdcode_LOGLIKE_MOD
                 // Keep method for legacy callers; still builds panel if forced.
                 _openedFromHub = false;
                 Init();
-                LogueBookModels.EnsureAtlasUnlocks();
-                LogueBookModels.LoadPermanentAtlasData();
+                LogueBookModels.EnsureCompendiumUnlocks();
+                LogueBookModels.LoadPermanentCompendiumData();
                 LogueBookModels.SyncCurrentInventoryToPermanentAtlas();
                 UpdateTiles();
                 EnsureHubCloseButton();
-                Debug.Log($"[RMR Atlas] Opened. Unlocked: RoleBooks={LogueBookModels.AtlasUnlockedRoleBooks?.Count ?? 0}, BattleCards={LogueBookModels.AtlasUnlockedBattleCards?.Count ?? 0}, AbnoPages={LogueBookModels.AtlasUnlockedAbnormalityPages?.Count ?? 0}, EgoPages={LogueBookModels.AtlasUnlockedEgoPages?.Count ?? 0}. Total entries built={BuildEntries().Count}.");
+                Debug.Log($"[RMR Atlas] Opened. Unlocked: RoleBooks={LogueBookModels.CompendiumUnlockedRoleBooks?.Count ?? 0}, BattleCards={LogueBookModels.CompendiumUnlockedBattleCards?.Count ?? 0}, AbnoPages={LogueBookModels.CompendiumUnlockedAbnormalityPages?.Count ?? 0}, EgoPages={LogueBookModels.CompendiumUnlockedEgoPages?.Count ?? 0}. Total entries built={BuildEntries().Count}.");
             }
             else if (root != null)
             {
@@ -1193,19 +1243,19 @@ namespace abcdcode_LOGLIKE_MOD
             SetBattleCardUpgradeToggleVisible(false);
         }
 
-        private void SelectSection(AtlasSection section)
+        private void SelectSection(CompendiumSection section)
         {
             currentSection = section;
             currentPage = 0;
             UpdateTiles();
         }
 
-        private void SelectCategory(AtlasCategory category)
+        private void SelectCategory(CompendiumCategory category)
         {
             currentCategory = category;
             // Abnormality and E.G.O. pages are permanent flat collections, not urban-progress lists.
-            if (category == AtlasCategory.AbnormalityPage || category == AtlasCategory.EgoPage)
-                currentSection = AtlasSection.All;
+            if (category == CompendiumCategory.AbnormalityPage || category == CompendiumCategory.EgoPage)
+                currentSection = CompendiumSection.All;
             currentPage = 0;
             UpdateTiles();
         }
@@ -1235,11 +1285,11 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
 
-            SetBattleCardUpgradeToggleVisible(currentCategory == AtlasCategory.BattleCard);
+            SetBattleCardUpgradeToggleVisible(currentCategory == CompendiumCategory.BattleCard);
 
             // Urban-chapter filter only for role/battle; abno/EGO use flat list (sections hide).
-            bool flatCategory = currentCategory == AtlasCategory.AbnormalityPage
-                || currentCategory == AtlasCategory.EgoPage;
+            bool flatCategory = currentCategory == CompendiumCategory.AbnormalityPage
+                || currentCategory == CompendiumCategory.EgoPage;
             if (sectionHeader != null)
                 sectionHeader.gameObject.SetActive(!flatCategory);
             for (int i = 0; i < sectionLabels.Count; i++)
@@ -1274,14 +1324,14 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
 
-            List<AtlasEntry> entries;
+            List<CompendiumEntry> entries;
             try
             {
                 entries = BuildEntries(showUpgradedBattleCards)
                     .Where(x => x != null && x.Category == currentCategory)
-                    .Where(x => flatCategory || currentSection == AtlasSection.All || x.Section == currentSection)
+                    .Where(x => flatCategory || currentSection == CompendiumSection.All || x.Section == currentSection)
                     .OrderByDescending(x => x.Unlocked)
-                    .ThenBy(x => (x.Category == AtlasCategory.EgoPage || x.Category == AtlasCategory.AbnormalityPage)
+                    .ThenBy(x => (x.Category == CompendiumCategory.EgoPage || x.Category == CompendiumCategory.AbnormalityPage)
                         ? (int)x.Floor : 0)
                     .ThenBy(x => x.Title ?? "")
                     .ToList();
@@ -1289,7 +1339,7 @@ namespace abcdcode_LOGLIKE_MOD
             catch (Exception ex)
             {
                 Debug.LogError("[RMR Atlas] BuildEntries filter failed: " + ex);
-                entries = new List<AtlasEntry>();
+                entries = new List<CompendiumEntry>();
             }
 
             Debug.Log($"[RMR Atlas] UpdateTiles cat={currentCategory} sec={currentSection} count={entries.Count}");
@@ -1304,12 +1354,12 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 ShowEmptyHint(flatCategory
                     ? LocalizedUi("ui_RMR_Atlas_EmptyFlat",
-                        AtlasUi(
+                        CompendiumUi(
                             "本分类暂无条目（异想体/EGO 需游玩或解放战后解锁）。",
                             "No entries in this category (abnormality / E.G.O. unlock via play or realization).",
                             "이 분류에 항목이 없습니다(환상체/E.G.O.는 플레이 또는 개방전 후 해금)."))
                     : LocalizedUi("ui_RMR_Atlas_EmptySection",
-                        AtlasUi(
+                        CompendiumUi(
                             "本节暂无条目，请点左侧「全部」或切换分类。",
                             "No entries in this stage. Try \"All\" or another category.",
                             "이 단계에 항목이 없습니다. 왼쪽 \"전체\" 또는 다른 분류를 선택하세요.")));
@@ -1348,9 +1398,13 @@ namespace abcdcode_LOGLIKE_MOD
                 pageNextBtn.interactable = currentPage < totalPages - 1;
         }
 
-        public static List<AtlasEntry> BuildEntries(bool showUpgradedBattleCards = false)
+        #endregion
+
+        #region --- Entry builders (role / battle / abno / ego) ---
+
+        public static List<CompendiumEntry> BuildEntries(bool showUpgradedBattleCards = false)
         {
-            List<AtlasEntry> entries = new List<AtlasEntry>();
+            List<CompendiumEntry> entries = new List<CompendiumEntry>();
             try { entries.AddRange(BuildRoleBookEntries()); }
             catch (Exception ex) { Debug.LogWarning("[RMR Atlas] BuildRoleBookEntries: " + ex.Message); }
             try { entries.AddRange(BuildBattleCardEntries(showUpgradedBattleCards)); }
@@ -1406,10 +1460,10 @@ namespace abcdcode_LOGLIKE_MOD
             // Atlas unlocks that might not be in GetList
             try
             {
-                LogueBookModels.EnsureAtlasUnlocks();
-                if (LogueBookModels.AtlasUnlockedRoleBooks != null)
+                LogueBookModels.EnsureCompendiumUnlocks();
+                if (LogueBookModels.CompendiumUnlockedRoleBooks != null)
                 {
-                    foreach (LorId id in LogueBookModels.AtlasUnlockedRoleBooks)
+                    foreach (LorId id in LogueBookModels.CompendiumUnlockedRoleBooks)
                     {
                         if (id == null || id == LorId.None) continue;
                         BookXmlInfo b = Singleton<BookXmlList>.Instance?.GetData(id);
@@ -1455,7 +1509,7 @@ namespace abcdcode_LOGLIKE_MOD
                 || title.IndexOf("Assistant Librarian", StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
-        private static IEnumerable<AtlasEntry> BuildRoleBookEntries()
+        private static IEnumerable<CompendiumEntry> BuildRoleBookEntries()
         {
             foreach (BookXmlInfo info in EnumerateAllBooks())
             {
@@ -1481,14 +1535,14 @@ namespace abcdcode_LOGLIKE_MOD
                 if (IsRmrInternalRoleBookTitle(title))
                     continue;
 
-                yield return new AtlasEntry
+                yield return new CompendiumEntry
                 {
                     Id = info.id,
                     Title = title,
                     Description = title,
                     Artwork = GetBookArtwork(info),
                     Unlocked = IsRoleBookUnlocked(info.id),
-                    Category = AtlasCategory.RoleBook,
+                    Category = CompendiumCategory.RoleBook,
                     Section = SectionFromChapter(GetIntMember(info, "Chapter", 1)),
                     Floor = SephirahType.None
                 };
@@ -1552,10 +1606,10 @@ namespace abcdcode_LOGLIKE_MOD
 
             try
             {
-                LogueBookModels.EnsureAtlasUnlocks();
-                if (LogueBookModels.AtlasUnlockedBattleCards != null)
+                LogueBookModels.EnsureCompendiumUnlocks();
+                if (LogueBookModels.CompendiumUnlockedBattleCards != null)
                 {
-                    foreach (LorId id in LogueBookModels.AtlasUnlockedBattleCards)
+                    foreach (LorId id in LogueBookModels.CompendiumUnlockedBattleCards)
                     {
                         if (id == null) continue;
                         DiceCardXmlInfo c = ItemXmlDataList.instance?.GetCardItem(id, true);
@@ -1568,7 +1622,7 @@ namespace abcdcode_LOGLIKE_MOD
             return result;
         }
 
-        private static IEnumerable<AtlasEntry> BuildBattleCardEntries(bool showUpgraded)
+        private static IEnumerable<CompendiumEntry> BuildBattleCardEntries(bool showUpgraded)
         {
             foreach (DiceCardXmlInfo info in EnumerateAllCards())
             {
@@ -1603,14 +1657,14 @@ namespace abcdcode_LOGLIKE_MOD
                 if (string.IsNullOrEmpty(title) || RewardingModel.IsPoorDisplayNamePublic(title))
                     title = GetDisplayName(info, info.id);
 
-                yield return new AtlasEntry
+                yield return new CompendiumEntry
                 {
                     Id = info.id,
                     Title = title,
                     Description = BuildBattleCardDescription(displayInfo, info.id, showUpgraded),
                     Artwork = GetCardArtwork(displayInfo),
                     Unlocked = IsBattleCardUnlocked(info.id),
-                    Category = AtlasCategory.BattleCard,
+                    Category = CompendiumCategory.BattleCard,
                     Section = SectionFromChapter(GetIntMember(info, "Chapter", 1)),
                     Floor = SephirahType.None
                 };
@@ -1625,7 +1679,7 @@ namespace abcdcode_LOGLIKE_MOD
             if (upgradeToggleFrame != null)
                 upgradeToggleFrame.color = showUpgradedBattleCards ? UIColorManager.Manager.GetUIColor(UIColor.Highlighted) : UIColorManager.Manager.GetUIColor(UIColor.Default);
             if (upgradeToggleLabel != null)
-                upgradeToggleLabel.text = (showUpgradedBattleCards ? "[x] " : "[ ] ") + AtlasUpgradeToggleLabelText();
+                upgradeToggleLabel.text = (showUpgradedBattleCards ? "[x] " : "[ ] ") + CompendiumUpgradeToggleLabelText();
         }
 
         private static DiceCardXmlInfo GetDisplayCardInfo(DiceCardXmlInfo info, bool showUpgraded)
@@ -1649,10 +1703,10 @@ namespace abcdcode_LOGLIKE_MOD
                 return "";
             List<string> lines = new List<string>();
             if (showUpgraded)
-                lines.Add(LocalizedUi("ui_RMR_Atlas_UpgradePreview", AtlasUi("升级预览", "Upgrade preview", "강화 미리보기")));
+                lines.Add(LocalizedUi("ui_RMR_Atlas_UpgradePreview", CompendiumUi("升级预览", "Upgrade preview", "강화 미리보기")));
             if (displayInfo.Spec != null)
-                lines.Add(AtlasUi("费用: ", "Cost: ", "비용: ") + displayInfo.Spec.Cost.ToString());
-            lines.Add(AtlasUi("章节: ", "Chapter: ", "장: ") + displayInfo.Chapter.ToString());
+                lines.Add(CompendiumUi("费用: ", "Cost: ", "비용: ") + displayInfo.Spec.Cost.ToString());
+            lines.Add(CompendiumUi("章节: ", "Chapter: ", "장: ") + displayInfo.Chapter.ToString());
 
             // Localized page ability (never dump raw Script class names — they tofu / English-only).
             try
@@ -1672,7 +1726,7 @@ namespace abcdcode_LOGLIKE_MOD
 
             if (displayInfo.DiceBehaviourList != null && displayInfo.DiceBehaviourList.Count > 0)
             {
-                lines.Add(AtlasUi("骰子:", "Dice:", "주사위:"));
+                lines.Add(CompendiumUi("骰子:", "Dice:", "주사위:"));
                 for (int i = 0; i < displayInfo.DiceBehaviourList.Count; i++)
                 {
                     DiceBehaviour dice = displayInfo.DiceBehaviourList[i];
@@ -1689,21 +1743,21 @@ namespace abcdcode_LOGLIKE_MOD
             switch (detail)
             {
                 case BehaviourDetail.Slash:
-                    return AtlasUi("斩击", "Slash", "참격");
+                    return CompendiumUi("斩击", "Slash", "참격");
                 case BehaviourDetail.Penetrate:
-                    return AtlasUi("突刺", "Pierce", "관통");
+                    return CompendiumUi("突刺", "Pierce", "관통");
                 case BehaviourDetail.Hit:
-                    return AtlasUi("打击", "Blunt", "타격");
+                    return CompendiumUi("打击", "Blunt", "타격");
                 case BehaviourDetail.Guard:
-                    return AtlasUi("防御", "Block", "방어");
+                    return CompendiumUi("防御", "Block", "방어");
                 case BehaviourDetail.Evasion:
-                    return AtlasUi("闪避", "Evade", "회피");
+                    return CompendiumUi("闪避", "Evade", "회피");
                 default:
                     return detail.ToString();
             }
         }
 
-        private static IEnumerable<AtlasEntry> BuildAbnormalityEntries()
+        private static IEnumerable<CompendiumEntry> BuildAbnormalityEntries()
         {
             HashSet<string> seenAbnormalities = new HashSet<string>();
             var root = Singleton<RewardPassivesList>.Instance;
@@ -1725,14 +1779,14 @@ namespace abcdcode_LOGLIKE_MOD
                     if (!seenAbnormalities.Add(key))
                         continue;
                     AbnormalityCard desc = GetAbnormalityCardDesc(card, info);
-                    yield return new AtlasEntry
+                    yield return new CompendiumEntry
                     {
                         Id = info.id,
                         Title = desc == null || string.IsNullOrEmpty(desc.cardName) ? info.script : desc.cardName,
                         Description = desc == null ? info.script : desc.abilityDesc,
                         Artwork = info.Artwork,
                         Unlocked = IsAbnormalityUnlocked(info),
-                        Category = AtlasCategory.AbnormalityPage,
+                        Category = CompendiumCategory.AbnormalityPage,
                         Section = SectionFromTier(RMRAbnormalityUnlockManager.GetTierForScript(info.script)),
                         Floor = GetFloorFromScript(info.script)
                     };
@@ -1740,7 +1794,7 @@ namespace abcdcode_LOGLIKE_MOD
             }
         }
 
-        private static IEnumerable<AtlasEntry> BuildEgoEntries()
+        private static IEnumerable<CompendiumEntry> BuildEgoEntries()
         {
             HashSet<LorId> yielded = new HashSet<LorId>();
 
@@ -1755,14 +1809,14 @@ namespace abcdcode_LOGLIKE_MOD
                         if (card == null || !yielded.Add(ego.CardId))
                             continue;
                         SephirahType floor = GetSephirah(ego);
-                        yield return new AtlasEntry
+                        yield return new CompendiumEntry
                         {
                             Id = ego.CardId,
                             Title = GetDisplayName(card, ego.CardId),
                             Description = floor.ToString(),
                             Artwork = GetCardArtwork(card),
-                            Unlocked = LogueBookModels.IsAtlasEgoPageUnlocked(ego.CardId),
-                            Category = AtlasCategory.EgoPage,
+                            Unlocked = LogueBookModels.IsCompendiumEgoPageUnlocked(ego.CardId),
+                            Category = CompendiumCategory.EgoPage,
                             Section = SectionFromTier(TierFromFloor(floor)),
                             Floor = floor
                         };
@@ -1781,14 +1835,14 @@ namespace abcdcode_LOGLIKE_MOD
                     DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(egoId, true);
                     if (card == null)
                         continue;
-                    yield return new AtlasEntry
+                    yield return new CompendiumEntry
                     {
                         Id = egoId,
                         Title = GetDisplayName(card, egoId),
                         Description = floor.ToString(),
                         Artwork = GetCardArtwork(card),
-                        Unlocked = LogueBookModels.IsAtlasEgoPageUnlocked(egoId),
-                        Category = AtlasCategory.EgoPage,
+                        Unlocked = LogueBookModels.IsCompendiumEgoPageUnlocked(egoId),
+                        Category = CompendiumCategory.EgoPage,
                         Section = SectionFromTier(RMRAbnormalityUnlockManager.GetTierForFloor(floor)),
                         Floor = floor
                     };
@@ -1835,7 +1889,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             try
             {
-                if (LogueBookModels.IsAtlasRoleBookUnlocked(id))
+                if (LogueBookModels.IsCompendiumRoleBookUnlocked(id))
                     return true;
             }
             catch { /* ignore */ }
@@ -1854,7 +1908,7 @@ namespace abcdcode_LOGLIKE_MOD
         {
             try
             {
-                if (LogueBookModels.IsAtlasBattleCardUnlocked(id))
+                if (LogueBookModels.IsCompendiumBattleCardUnlocked(id))
                     return true;
             }
             catch { /* ignore */ }
@@ -1879,7 +1933,7 @@ namespace abcdcode_LOGLIKE_MOD
 
         private static bool IsAbnormalityUnlocked(RewardPassiveInfo info)
         {
-            return LogueBookModels.IsAtlasAbnormalityPageUnlocked(info.id)
+            return LogueBookModels.IsCompendiumAbnormalityPageUnlocked(info.id)
                 || LogueBookModels.selectedEmotion != null && LogueBookModels.selectedEmotion.Exists(x => x.id == info.id)
                 || RMRAbnormalityUnlockManager.GetUnlockedEmotionCardsForBattle().Exists(x => x.id == info.id);
         }
@@ -1903,11 +1957,11 @@ namespace abcdcode_LOGLIKE_MOD
             catch { return null; }
         }
 
-        private static void ApplyArtworkLayout(Image target, AtlasCategory category, bool detail)
+        private static void ApplyArtworkLayout(Image target, CompendiumCategory category, bool detail)
         {
             if (target == null)
                 return;
-            bool portrait = category == AtlasCategory.BattleCard || category == AtlasCategory.EgoPage;
+            bool portrait = category == CompendiumCategory.BattleCard || category == CompendiumCategory.EgoPage;
             target.preserveAspect = true;
             target.rectTransform.sizeDelta = portrait
                 ? (detail ? new Vector2(150f, 214f) : new Vector2(50f, 70f))
@@ -1953,30 +2007,30 @@ namespace abcdcode_LOGLIKE_MOD
             return id.ToString();
         }
 
-        private static AtlasSection SectionFromChapter(int chapter)
+        private static CompendiumSection SectionFromChapter(int chapter)
         {
             if (chapter <= 1)
-                return AtlasSection.Rumor;
+                return CompendiumSection.Rumor;
             if (chapter == 2)
-                return AtlasSection.UrbanLegend;
+                return CompendiumSection.UrbanLegend;
             if (chapter == 3)
-                return AtlasSection.UrbanMyth;
+                return CompendiumSection.UrbanMyth;
             if (chapter == 4)
-                return AtlasSection.UrbanIllness;
+                return CompendiumSection.UrbanIllness;
             if (chapter == 5)
-                return AtlasSection.UrbanNightmare;
+                return CompendiumSection.UrbanNightmare;
             if (chapter == 6)
-                return AtlasSection.UrbanStar;
-            return AtlasSection.Impurity;
+                return CompendiumSection.UrbanStar;
+            return CompendiumSection.Impurity;
         }
 
-        private static AtlasSection SectionFromTier(int tier)
+        private static CompendiumSection SectionFromTier(int tier)
         {
             if (tier == 1)
-                return AtlasSection.Rumor;
+                return CompendiumSection.Rumor;
             if (tier == 2)
-                return AtlasSection.UrbanIllness;
-            return AtlasSection.UrbanStar;
+                return CompendiumSection.UrbanIllness;
+            return CompendiumSection.UrbanStar;
         }
 
         // GetSectionName — include 全部
@@ -2008,45 +2062,45 @@ namespace abcdcode_LOGLIKE_MOD
             return 3;
         }
 
-        private static string GetSectionName(AtlasSection section)
+        private static string GetSectionName(CompendiumSection section)
         {
             switch (section)
             {
-                case AtlasSection.All:
-                    return LocalizedUi("ui_RMR_Atlas_Sec_All", AtlasUi("全部", "All", "전체"));
-                case AtlasSection.Rumor:
-                    return LocalizedUi("ui_RMR_Atlas_Sec_Rumor", AtlasUi("传闻", "Canard", "소문"));
-                case AtlasSection.UrbanLegend:
+                case CompendiumSection.All:
+                    return LocalizedUi("ui_RMR_Atlas_Sec_All", CompendiumUi("全部", "All", "전체"));
+                case CompendiumSection.Rumor:
+                    return LocalizedUi("ui_RMR_Atlas_Sec_Rumor", CompendiumUi("传闻", "Canard", "소문"));
+                case CompendiumSection.UrbanLegend:
                     // Enum name is historical; CN 都市怪谈 == EN Urban Myth / KR 도시괴담
-                    return LocalizedUi("ui_RMR_Atlas_Sec_UrbanLegend", AtlasUi("都市怪谈", "Urban Myth", "도시괴담"));
-                case AtlasSection.UrbanMyth:
+                    return LocalizedUi("ui_RMR_Atlas_Sec_UrbanLegend", CompendiumUi("都市怪谈", "Urban Myth", "도시괴담"));
+                case CompendiumSection.UrbanMyth:
                     // CN 都市传说 == EN Urban Legend / KR 도시전설
-                    return LocalizedUi("ui_RMR_Atlas_Sec_UrbanMyth", AtlasUi("都市传说", "Urban Legend", "도시전설"));
-                case AtlasSection.UrbanIllness:
-                    return LocalizedUi("ui_RMR_Atlas_Sec_UrbanIllness", AtlasUi("都市恶疾", "Urban Plague", "도시질병"));
-                case AtlasSection.UrbanNightmare:
-                    return LocalizedUi("ui_RMR_Atlas_Sec_UrbanNightmare", AtlasUi("都市梦魇", "Urban Nightmare", "도시악몽"));
-                case AtlasSection.UrbanStar:
-                    return LocalizedUi("ui_RMR_Atlas_Sec_UrbanStar", AtlasUi("都市之星", "Star of the City", "도시의 별"));
+                    return LocalizedUi("ui_RMR_Atlas_Sec_UrbanMyth", CompendiumUi("都市传说", "Urban Legend", "도시전설"));
+                case CompendiumSection.UrbanIllness:
+                    return LocalizedUi("ui_RMR_Atlas_Sec_UrbanIllness", CompendiumUi("都市恶疾", "Urban Plague", "도시질병"));
+                case CompendiumSection.UrbanNightmare:
+                    return LocalizedUi("ui_RMR_Atlas_Sec_UrbanNightmare", CompendiumUi("都市梦魇", "Urban Nightmare", "도시악몽"));
+                case CompendiumSection.UrbanStar:
+                    return LocalizedUi("ui_RMR_Atlas_Sec_UrbanStar", CompendiumUi("都市之星", "Star of the City", "도시의 별"));
                 default:
-                    return LocalizedUi("ui_RMR_Atlas_Sec_Impurity", AtlasUi("杂质", "Impurity", "불순물"));
+                    return LocalizedUi("ui_RMR_Atlas_Sec_Impurity", CompendiumUi("杂质", "Impurity", "불순물"));
             }
         }
 
-        private static string GetCategoryName(AtlasCategory category)
+        private static string GetCategoryName(CompendiumCategory category)
         {
             switch (category)
             {
-                case AtlasCategory.RoleBook:
-                    return LocalizedUi("ui_RMR_Atlas_Cat_RoleBook", AtlasUi("角色书页", "Key Pages", "핵심 책장"));
-                case AtlasCategory.BattleCard:
-                    return LocalizedUi("ui_RMR_Atlas_Cat_BattleCard", AtlasUi("战斗书页", "Combat Pages", "전투 책장"));
-                case AtlasCategory.AbnormalityPage:
-                    return LocalizedUi("ui_RMR_Atlas_Cat_Abno", AtlasUi("异想体书页", "Abnormality Pages", "환상체 책장"));
-                case AtlasCategory.EgoPage:
-                    return LocalizedUi("ui_RMR_Atlas_Cat_Ego", AtlasUi("EGO战斗书页", "E.G.O. Pages", "E.G.O. 전투 책장"));
+                case CompendiumCategory.RoleBook:
+                    return LocalizedUi("ui_RMR_Atlas_Cat_RoleBook", CompendiumUi("角色书页", "Key Pages", "핵심 책장"));
+                case CompendiumCategory.BattleCard:
+                    return LocalizedUi("ui_RMR_Atlas_Cat_BattleCard", CompendiumUi("战斗书页", "Combat Pages", "전투 책장"));
+                case CompendiumCategory.AbnormalityPage:
+                    return LocalizedUi("ui_RMR_Atlas_Cat_Abno", CompendiumUi("异想体书页", "Abnormality Pages", "환상체 책장"));
+                case CompendiumCategory.EgoPage:
+                    return LocalizedUi("ui_RMR_Atlas_Cat_Ego", CompendiumUi("EGO战斗书页", "E.G.O. Pages", "E.G.O. 전투 책장"));
                 default:
-                    return LocalizedUi("ui_RMR_Atlas_Cat_Ego", AtlasUi("EGO战斗书页", "E.G.O. Pages", "E.G.O. 전투 책장"));
+                    return LocalizedUi("ui_RMR_Atlas_Cat_Ego", CompendiumUi("EGO战斗书页", "E.G.O. Pages", "E.G.O. 전투 책장"));
             }
         }
 
@@ -2062,19 +2116,24 @@ namespace abcdcode_LOGLIKE_MOD
             return fallback;
         }
 
+        #endregion
+
+        #region --- Nested tile cell (LogAtlasTile) ---
+
         /// <summary>
-        /// A-A archive-wall card: centered artwork with title and collection metadata.
+        /// Archive-wall card cell: centered artwork with title and collection metadata.
+        /// Type name keeps "Atlas" for older references; product term is Compendium.
         /// </summary>
         public class LogAtlasTile : MonoBehaviour
         {
-            private AtlasEntry entry;
+            private CompendiumEntry entry;
             private Image image;
             private Image artwork;
             private TextMeshProUGUI title;
             private TextMeshProUGUI subtitle;
             private UILogCustomSelectable selectable;
 
-            public void Init(AtlasEntry value)
+            public void Init(CompendiumEntry value)
             {
                 entry = value;
                 if (entry == null)
@@ -2138,7 +2197,7 @@ namespace abcdcode_LOGLIKE_MOD
                         ? LogLikeMod.ArtWorks["ItemNotFoundIcon"] : null;
                     title.text = LockedTitle;
                     title.color = ColMuted;
-                    subtitle.text = LocalizedUi("ui_RMR_Atlas_Locked", AtlasUi("未解锁", "Locked", "미해금"));
+                    subtitle.text = LocalizedUi("ui_RMR_Atlas_Locked", CompendiumUi("未解锁", "Locked", "미해금"));
                     subtitle.color = new Color(0.45f, 0.40f, 0.32f, 1f);
                 }
                 // Always show art node; use solid tint if no sprite (avoid white default square).
@@ -2191,16 +2250,16 @@ namespace abcdcode_LOGLIKE_MOD
                 return s.Substring(0, max) + "\u2026";
             }
 
-            private static string BuildSubtitle(AtlasEntry e)
+            private static string BuildSubtitle(CompendiumEntry e)
             {
                 if (e == null)
                     return "";
                 switch (e.Category)
                 {
-                    case AtlasCategory.BattleCard:
-                    case AtlasCategory.EgoPage:
+                    case CompendiumCategory.BattleCard:
+                    case CompendiumCategory.EgoPage:
                         return GetCategoryName(e.Category);
-                    case AtlasCategory.AbnormalityPage:
+                    case CompendiumCategory.AbnormalityPage:
                         if (RMRRealizationManager.FloorDisplayNames != null
                             && RMRRealizationManager.FloorDisplayNames.TryGetValue(e.Floor, out string fn))
                             return fn;
@@ -2217,13 +2276,13 @@ namespace abcdcode_LOGLIKE_MOD
                 string name = entry.Unlocked ? entry.Title : LockedTitle;
                 string desc = entry.Unlocked
                     ? (string.IsNullOrEmpty(entry.Description) ? GetCategoryName(entry.Category) : entry.Description)
-                    : LocalizedUi("ui_RMR_Atlas_LockedHint", AtlasUi("尚未解锁。", "Not unlocked yet.", "아직 해금되지 않았습니다."));
+                    : LocalizedUi("ui_RMR_Atlas_LockedHint", CompendiumUi("尚未解锁。", "Not unlocked yet.", "아직 해금되지 않았습니다."));
                 try
                 {
                     SingletonBehavior<UIMainOverlayManager>.Instance.SetTooltip(name, desc, transform as RectTransform, Rarity.Special, UIToolTipPanelType.OnlyContent);
                 }
                 catch { }
-                try { Singleton<LogAtlasPanel>.Instance.ShowDetail(entry); } catch { }
+                try { Singleton<LogCompendiumPanel>.Instance.ShowDetail(entry); } catch { }
             }
 
             private void OnExit()
@@ -2231,5 +2290,7 @@ namespace abcdcode_LOGLIKE_MOD
                 try { SingletonBehavior<UIMainOverlayManager>.Instance.Close(); } catch { }
             }
         }
+
+        #endregion
     }
 }

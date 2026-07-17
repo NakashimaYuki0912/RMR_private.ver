@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.LogCardUpgradeManager
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// LOGLIKE core UI/data: LogCardUpgradeManager
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\LogCardUpgradeManager.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using LOR_DiceSystem;
 using RogueLike_Mod_Reborn;
 using System;
@@ -16,11 +15,15 @@ using UnityEngine;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>LOGLIKE type: LogCardUpgradeManager</summary>
+
     public class LogCardUpgradeManager : Singleton<LogCardUpgradeManager>
     {
         public List<System.Type> UpgradeInfoCache;
         public static string UpgradeKeyword = "<LogUpgrade>";
         public Dictionary<LorId, Dictionary<int, UpgradeBase>> UpgradeInfoDic = new Dictionary<LorId, Dictionary<int, UpgradeBase>>();
+        #region --- Getters / setters / checks ---
+
 
         public void SetInfoCache()
         {
@@ -34,6 +37,10 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public DiceCardXmlInfo GetUpgradeCard(LorId cardid)
         {
@@ -47,6 +54,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return GetUpgradeCard(cardid, 0, 1);
         }
+        #endregion
+
+        #region --- Save / load ---
+
 
         public void ReLoadCurAllUpgradeCard()
         {
@@ -137,6 +148,10 @@ namespace abcdcode_LOGLIKE_MOD
 
             return dictionary;
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public DiceCardXmlInfo GetUpgradeCard(LorId cardid, int index = 0, int count = 1)
         {
@@ -151,6 +166,10 @@ namespace abcdcode_LOGLIKE_MOD
             ItemXmlDataList.instance.LogAddModCard(upgradeInfo1);
             return upgradeInfo1;
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public UpgradeBase FindUpgradeInfo(LorId cardid, int index = 0, int count = 1)
         {
@@ -211,5 +230,7 @@ namespace abcdcode_LOGLIKE_MOD
                 this.UpgradeInfoDic[upgradeInfo.baseid][upgradeInfo.index] = upgradeInfo;
             return upgradeInfo;
         }
+        #endregion
+
     }
 }

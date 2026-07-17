@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.UpgradeBase
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Card/key page upgrade: UpgradeBase
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\UpgradeBase.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using LOR_DiceSystem;
 using System.Collections.Generic;
 using LOR_Localize;
@@ -12,6 +11,8 @@ using System;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>UpgradeBase</summary>
+
     public class UpgradeBase
     {
         public UpgradeBase.UpgradeInfo upgradeinfo;
@@ -19,10 +20,16 @@ namespace abcdcode_LOGLIKE_MOD
         public DiceCardXmlInfo upxmlinfo;
         public LorId baseid;
         public int index;
+        #region --- Lifecycle / init ---
+
 
         public virtual void Init()
         {
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         public DiceCardXmlInfo CreateUpBase(int index = 0, int count = 1)
         {
@@ -32,6 +39,10 @@ namespace abcdcode_LOGLIKE_MOD
             upBase.Spec = this.baseinfo.Spec.Copy();
             return upBase;
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public virtual DiceCardXmlInfo GetUpgradeInfo(int index, int count)
         {
@@ -95,16 +106,26 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         public virtual bool CanRepeatUpgrade() => false;
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public virtual bool DoesCostReductionStack() => false;
 
         public virtual bool DoesAddedDiceStack() => false;
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void EditUpInfo(int index = 0, int count = 1)
         {
             this.upxmlinfo.workshopID = $"{this.CanRepeatUpgrade().ToString()}:{index.ToString()}:{count.ToString()}{LogCardUpgradeManager.UpgradeKeyword}{this.baseinfo.workshopID}";
             this.upxmlinfo.workshopName = $"{this.baseinfo.workshopName}+{(count > 1 ? count.ToString() : "")}";
         }
+
+        /// <summary>UpgradeInfo</summary>
 
         public class UpgradeInfo
         {
@@ -262,6 +283,8 @@ namespace abcdcode_LOGLIKE_MOD
                 this.AddDice(min, max, detail, script, mdetail, btype, "", "");
             }
 
+            /// <summary>DiceChangeData</summary>
+
             public class DiceChangeData
             {
                 public BehaviourDetail detail;
@@ -269,5 +292,7 @@ namespace abcdcode_LOGLIKE_MOD
                 public MotionDetail motion;
             }
         }
+        #endregion
+
     }
 }

@@ -1,4 +1,9 @@
-﻿using System;
+// =============================================================================
+// RMR_PickUps - shop & stage pickup models unique to RMR.
+// Regions: SHOP PICK UPS / STAGE PICK UPS. Each type grants a global effect or
+// inventory reward when selected in shop or after battle.
+// =============================================================================
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using abcdcode_LOGLIKE_MOD;
@@ -6,7 +11,7 @@ using GameSave;
 
 namespace RogueLike_Mod_Reborn
 {
-    #region -- SHOP PICK UPS --
+    #region --- Shop pickups ---
     [HideFromItemCatalog]
     public class PickUpModel_RMR_BigBrothersChains : ShopPickUpModel
     {
@@ -144,6 +149,9 @@ namespace RogueLike_Mod_Reborn
         public override string KeywordId => "RMR_CorrodedChains";
 
     }
+
+
+    /// <summary>Pickup model: PickUpModel_RMR_Polyhedra</summary>
 
 
     public class PickUpModel_RMR_Polyhedra : ShopPickUpModel
@@ -797,7 +805,7 @@ namespace RogueLike_Mod_Reborn
 
     #endregion
 
-    #region -- STAGE PICK UPS --
+    #region --- Stage pickups ---
     [HideFromItemCatalog]
     public class PickUpModel_RMR_CopleyConsequences : PickUpModelBase
     {

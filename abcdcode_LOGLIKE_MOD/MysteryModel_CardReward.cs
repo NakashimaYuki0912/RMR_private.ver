@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.MysteryModel_CardReward
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Mystery / event node model: MysteryModel_CardReward
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\MysteryModel_CardReward.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using GameSave;
 using LOR_DiceSystem;
 using RogueLike_Mod_Reborn;
@@ -19,6 +18,8 @@ using UnityEngine.UI;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>Mystery node model: MysteryModel_CardReward</summary>
+
     public class MysteryModel_CardReward : MysteryBase
     {
         public MysteryModel_CardReward.ChoiceResult result;
@@ -26,6 +27,8 @@ namespace abcdcode_LOGLIKE_MOD
         public LorId curRewardid;
         public MysteryModel_CardReward.State curState = MysteryModel_CardReward.State.CardList;
         public static Dictionary<int, Vector2[]> ChoiceShape;
+        #region --- Save / load ---
+
 
         public override void LoadFromSaveData(SaveData savedata)
         {
@@ -37,6 +40,10 @@ namespace abcdcode_LOGLIKE_MOD
         {
             return MysteryModel_CardReward.PopupCardReward(new MysteryModel_CardReward.ChoiceResult(MysteryModel_CardReward.AutoSave));
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public static MysteryModel_CardReward PopupCardReward(MysteryModel_CardReward.ChoiceResult result = null)
         {
@@ -147,6 +154,10 @@ namespace abcdcode_LOGLIKE_MOD
             };
             MysteryModel_CardReward.ChoiceShape.Add(10, vector2Array10);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public override void SwapFrame(int id)
         {
@@ -230,12 +241,20 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         private void HandleEmptyCardChoices()
         {
             Debug.Log($"[RMR CardReward] Drop book produced no card choices: {this.curRewardid.packageId}:{this.curRewardid.id}");
             this.CompleteRewardFlow();
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         private void CompleteRewardFlow()
         {
@@ -245,6 +264,10 @@ namespace abcdcode_LOGLIKE_MOD
             this.curState = MysteryModel_CardReward.State.CardList;
             this.SwapFrame(0);
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public void OnClickDropCard(LorId id)
         {
@@ -284,6 +307,10 @@ namespace abcdcode_LOGLIKE_MOD
                 return;
             this.result(card);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public void SkipReward()
         {
@@ -297,8 +324,14 @@ namespace abcdcode_LOGLIKE_MOD
             LogLikeMod.rewards.Clear();
             Singleton<MysteryManager>.Instance.EndMystery((MysteryBase)this);
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public Vector2 GetChoiceShape(int num, int id) => MysteryModel_CardReward.ChoiceShape[num][id];
+
+        /// <summary>enum State</summary>
 
         public enum State
         {
@@ -307,5 +340,7 @@ namespace abcdcode_LOGLIKE_MOD
         }
 
         public delegate void ChoiceResult(DiceCardXmlInfo card);
+        #endregion
+
     }
 }

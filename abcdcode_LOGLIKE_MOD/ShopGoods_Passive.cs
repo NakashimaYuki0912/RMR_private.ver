@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.ShopGoods_Passive
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Shop system component: ShopGoods_Passive
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\ShopGoods_Passive.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using GameSave;
 using LOR_DiceSystem;
 using LOR_XML;
@@ -20,12 +19,16 @@ using UnityEngine.UI;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>Shop component: ShopGoods_Passive</summary>
+
     public class ShopGoods_Passive : ShopGoods
     {
         public ShopPickUpModel GoodScript;
         public RewardPassiveInfo GoodInfo;
         public Sprite GoodSprite;
         public UILogCustomSelectable customSelectable;
+        #region --- Save / load ---
+
  
         public override SaveData GetSaveData()
         {
@@ -40,6 +43,10 @@ namespace abcdcode_LOGLIKE_MOD
             base.LoadFromSaveData(data);
             this.Money.text = this.price.ToString();
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public override bool CanPurchase()
         {
@@ -82,6 +89,10 @@ namespace abcdcode_LOGLIKE_MOD
                     return 12;
             }
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         private static int GetRarityPriceBonus(Rarity rarity)
         {
@@ -99,6 +110,10 @@ namespace abcdcode_LOGLIKE_MOD
                     return 0;
             }
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public int CalcPrice(RewardPassiveInfo cardinfo)
         {
@@ -149,6 +164,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             return num1;
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public void SetGoods(RewardPassiveInfo goodinfo)
         {
@@ -185,6 +204,10 @@ namespace abcdcode_LOGLIKE_MOD
             this.price = int.Parse(textTmp.text);
             this.Money = textTmp;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public override void Purchase()
         {
@@ -197,13 +220,17 @@ namespace abcdcode_LOGLIKE_MOD
             else if (this.GoodInfo != null)
             {
                 if (this.GoodInfo.rewardtype == RewardType.EquipPage)
-                    LogueBookModels.TryAddUniqueRoleBookToInventoryAndAtlas(this.GoodInfo.id);
+                    LogueBookModels.TryAddUniqueRoleBookToInventoryAndCompendium(this.GoodInfo.id);
                 else if (this.GoodInfo.rewardtype == RewardType.Creature)
                     RMRAbnormalityUnlockManager.UnlockShopAbnormalityPage(this.GoodInfo);
             }
             this.gameObject.SetActive(false);
             SingletonBehavior<UIMainOverlayManager>.Instance.Close();
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public virtual void OnClickGoods()
         {
@@ -220,6 +247,10 @@ namespace abcdcode_LOGLIKE_MOD
         {
             this.ShowDesc();
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         public void ShowDesc()
         {
@@ -252,6 +283,10 @@ namespace abcdcode_LOGLIKE_MOD
 
             NudgeShopTooltip(instance);
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         private static void NudgeShopTooltip(UIMainOverlayManager instance)
         {
@@ -268,6 +303,10 @@ namespace abcdcode_LOGLIKE_MOD
             }
             catch { }
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         private void ShowRewardInfoDesc()
         {
@@ -358,11 +397,17 @@ namespace abcdcode_LOGLIKE_MOD
             instance.SetTooltip(name, desc, this.gameObject.transform as RectTransform, this.GoodInfo.passiverarity, UIToolTipPanelType.OnlyContent);
             NudgeShopTooltip(instance);
         }
+        #endregion
+
+        #region --- Battle hooks ---
+
 
         public void OnPointerExit()
         {
             SingletonBehavior<UIMainOverlayManager>.Instance.Close();
         }
+
+        #endregion
 
     }
 }

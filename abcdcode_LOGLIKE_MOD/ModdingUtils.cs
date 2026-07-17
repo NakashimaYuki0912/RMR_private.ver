@@ -1,9 +1,8 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: abcdcode_LOGLIKE_MOD.ModdingUtils
-// Assembly: abcdcode_LOGLIKE_MOD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 4BD775C4-C5BF-4699-81F7-FB98B2E922E2
-// Assembly location: C:\Users\Usuário\Desktop\Projects\LoR Modding\spaghetti\RogueLike Mod Reborn\dependencies\abcdcode_LOGLIKE_MOD.dll
-
+// -----------------------------------------------------------------------------
+// Library of Ruina mod script: ModdingUtils
+// Namespace/file: ruina-roguelike-reborn-main\abcdcode_LOGLIKE_MOD\ModdingUtils.cs
+// English comments/regions for maintainability. Do not rename disk save keys.
+// -----------------------------------------------------------------------------
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -19,6 +18,8 @@ using UnityEngine.UI;
 namespace abcdcode_LOGLIKE_MOD
 {
 
+    /// <summary>ModdingUtils</summary>
+
     public class ModdingUtils
     {
         public static List<V> FindAll_DicValueAsKey<K, V>(Dictionary<K, V> dic, Predicate<K> predicate)
@@ -29,6 +30,8 @@ namespace abcdcode_LOGLIKE_MOD
                 allDicValueAsKey.Add(dic[key]);
             return allDicValueAsKey;
         }
+        #region --- Other helpers ---
+
 
         public static Texture2D MixTexture(Texture2D bottom, Texture2D top, int startx, int starty)
         {
@@ -75,6 +78,10 @@ namespace abcdcode_LOGLIKE_MOD
         {
             return ModdingUtils.GetFieldValue<T>(ModdingUtils.GetField(info, instance), instance);
         }
+        #endregion
+
+        #region --- Getters / setters / checks ---
+
 
         public static FieldInfo GetField(string name, object instance)
         {
@@ -86,6 +93,10 @@ namespace abcdcode_LOGLIKE_MOD
             List<KeyValuePair<TKey, TValue>> list = dic.ToList<KeyValuePair<TKey, TValue>>();
             return list[UnityEngine.Random.Range(0, list.Count)].Key;
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         public static InputField CreateInputField(
           Transform parent,
@@ -104,6 +115,10 @@ namespace abcdcode_LOGLIKE_MOD
             inputField.textComponent = text;
             return inputField;
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static Button AddButton(Image target)
         {
@@ -111,6 +126,10 @@ namespace abcdcode_LOGLIKE_MOD
             button.targetGraphic = (Graphic)target;
             return button;
         }
+        #endregion
+
+        #region --- UI show / hide / build ---
+
 
         public static Image CreateImage(
           Transform parent,
@@ -320,11 +339,17 @@ namespace abcdcode_LOGLIKE_MOD
         {
             return ModdingUtils.CreateButton(parent, Imagepath, new Vector2(1f, 1f), new Vector2(0.0f, 0.0f));
         }
+        #endregion
+
+        #region --- Other helpers ---
+
 
         public static void SpriteTrace(string path, Sprite sprite)
         {
             string contents = sprite.name + Environment.NewLine + sprite.rect.ToString() + Environment.NewLine + sprite.border.ToString() + Environment.NewLine + sprite.pivot.ToString() + Environment.NewLine;
             File.WriteAllText(path, contents);
         }
+        #endregion
+
     }
 }
