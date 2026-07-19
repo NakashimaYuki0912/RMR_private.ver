@@ -4484,10 +4484,22 @@ namespace abcdcode_LOGLIKE_MOD
                 __result = name;
         }
 
+        [HarmonyPrefix, HarmonyPatch(typeof(LocalizedTextLoader), nameof(LocalizedTextLoader.LoadOthers))]
+        public static void LocalizedTextLoader_LoadOthers_Prefix(
+          out LogLikeMod.BattleLocalizePreservationState __state)
+        {
+            __state = LogLikeMod.CaptureBattleLocalizeBeforeVanillaReload();
+        }
+
         [HarmonyPostfix, HarmonyPatch(typeof(LocalizedTextLoader), nameof(LocalizedTextLoader.LoadOthers))]
-        public static void LocalizedTextLoader_LoadOthers(string language)
+        public static void LocalizedTextLoader_LoadOthers(
+          string language,
+          LogLikeMod.BattleLocalizePreservationState __state)
         {
             LogLikeMod.LoadTextData(language);
+            // Vanilla LoadOthers rebuilds both collections before this postfix runs. Restore the
+            // pre-call Workshop entries before the second language refresh takes its own snapshot.
+            LogLikeMod.RestoreBattleLocalizeAfterVanillaReload(__state, "LoadOthers");
             // Equip reward desc was registered before book/localize load — re-stamp CN names.
             try { RewardingModel.RefreshAllEquipRewardXmlData(); }
             catch (Exception ex) { Debug.LogWarning("[RMR Localize] equip reward refresh after LoadOthers failed: " + ex.Message); }

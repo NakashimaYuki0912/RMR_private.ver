@@ -77,7 +77,7 @@ namespace RogueLike_Mod_Reborn
         public const string packageId = "abcdcodecalmmagma.LogueLikeReborn";
         public static CustomMapHandler RMRMapHandler;
 
-        public const string BuildTimestamp = "2026-07-19Tpreserve-third-party-battle-localize+08:00";
+        public const string BuildTimestamp = "2026-07-19Tpreload-localize-title-return-guard+08:00";
 
         #endregion
 
@@ -238,7 +238,8 @@ namespace RogueLike_Mod_Reborn
             Debug.Log($"[RMR] RogueLike Mod Reborn initializing. Build: {BuildTimestamp}. DLL version check: this log confirms the NEW DLL is loaded.");
 
             MakeDirectoriesAndLoadConfig();
-            Harmony.CreateAndPatchAll(typeof(RMR_Patches), packageId);
+            Harmony harmony = Harmony.CreateAndPatchAll(typeof(RMR_Patches), packageId);
+            RMR_CompatibilityPatches.Install(harmony);
             try { RMRSessionHygiene.EnsureHost(); } catch (Exception hyEx) { Debug.LogWarning("[RMR] SessionHygiene host: " + hyEx.Message); }
 
             RegisterAllKeyword();

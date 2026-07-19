@@ -2706,6 +2706,35 @@ namespace abcdcode_LOGLIKE_MOD
 
         private static bool RefreshingVanillaBattleLocalize;
 
+        public sealed class BattleLocalizePreservationState
+        {
+            internal Dictionary<string, BattleCardAbilityDesc> AbilityDescriptions;
+            internal List<BattleDialogCharacter> WorkshopDialogs;
+        }
+
+        public static BattleLocalizePreservationState CaptureBattleLocalizeBeforeVanillaReload()
+        {
+            BattleLocalizePreservationState state = new BattleLocalizePreservationState
+            {
+                AbilityDescriptions = SnapshotBattleCardAbilityDescriptions(),
+                WorkshopDialogs = SnapshotWorkshopBattleDialogs()
+            };
+            Debug.Log($"[RMR Localize] Captured pre-LoadOthers entries abilityDescriptions={state.AbilityDescriptions?.Count ?? 0}, battleDialogs={state.WorkshopDialogs?.Count ?? 0}.");
+            return state;
+        }
+
+        public static void RestoreBattleLocalizeAfterVanillaReload(
+            BattleLocalizePreservationState state,
+            string reason)
+        {
+            if (state == null)
+                return;
+
+            int abilityDescriptions = RestoreMissingBattleCardAbilityDescriptions(state.AbilityDescriptions);
+            int battleDialogs = RestoreMissingWorkshopBattleDialogs(state.WorkshopDialogs);
+            Debug.Log($"[RMR Localize] Restored pre-LoadOthers entries reason={reason}, abilityDescriptions={abilityDescriptions}, battleDialogs={battleDialogs}.");
+        }
+
         private static Dictionary<string, BattleCardAbilityDesc> SnapshotBattleCardAbilityDescriptions()
         {
             try
@@ -2761,6 +2790,83 @@ namespace abcdcode_LOGLIKE_MOD
             catch (Exception e)
             {
                 Debug.LogWarning("[RMR Localize] Could not restore battle ability descriptions: " + e.Message);
+                return 0;
+            }
+        }
+
+        private static List<BattleDialogCharacter> SnapshotWorkshopBattleDialogs()
+        {
+            try
+            {
+                BattleDialogXmlList list = Singleton<BattleDialogXmlList>.Instance;
+                if (list == null)
+                    return null;
+
+                Dictionary<string, BattleDialogRoot> dictionary =
+                    GetFieldValue<Dictionary<string, BattleDialogRoot>>(list, "_dictionary");
+                if (dictionary == null
+                    || !dictionary.TryGetValue("Workshop", out BattleDialogRoot root)
+                    || root == null
+                    || root.characterList == null)
+                    return null;
+
+                return new List<BattleDialogCharacter>(root.characterList.Where(entry => entry != null));
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("[RMR Localize] Could not snapshot workshop battle dialogs: " + e.Message);
+                return null;
+            }
+        }
+
+        private static int RestoreMissingWorkshopBattleDialogs(List<BattleDialogCharacter> preserved)
+        {
+            try
+            {
+                if (preserved == null || preserved.Count == 0)
+                    return 0;
+
+                BattleDialogXmlList list = Singleton<BattleDialogXmlList>.Instance;
+                if (list == null)
+                    return 0;
+
+                Dictionary<string, BattleDialogRoot> dictionary =
+                    GetFieldValue<Dictionary<string, BattleDialogRoot>>(list, "_dictionary");
+                if (dictionary == null)
+                    return 0;
+
+                if (!dictionary.TryGetValue("Workshop", out BattleDialogRoot root) || root == null)
+                {
+                    root = new BattleDialogRoot
+                    {
+                        groupName = "Workshop",
+                        characterList = new List<BattleDialogCharacter>()
+                    };
+                    dictionary["Workshop"] = root;
+                }
+                if (root.characterList == null)
+                    root.characterList = new List<BattleDialogCharacter>();
+
+                int restored = 0;
+                foreach (BattleDialogCharacter entry in preserved)
+                {
+                    if (entry == null || string.IsNullOrEmpty(entry.workshopId))
+                        continue;
+                    bool exists = root.characterList.Any(current =>
+                        current != null
+                        && string.Equals(current.workshopId, entry.workshopId, StringComparison.Ordinal)
+                        && current.bookId == entry.bookId);
+                    if (exists)
+                        continue;
+
+                    root.characterList.Add(entry);
+                    restored++;
+                }
+                return restored;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("[RMR Localize] Could not restore workshop battle dialogs: " + e.Message);
                 return 0;
             }
         }
