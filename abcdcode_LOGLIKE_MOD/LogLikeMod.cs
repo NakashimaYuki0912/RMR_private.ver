@@ -2706,6 +2706,65 @@ namespace abcdcode_LOGLIKE_MOD
 
         private static bool RefreshingVanillaBattleLocalize;
 
+        private static Dictionary<string, BattleCardAbilityDesc> SnapshotBattleCardAbilityDescriptions()
+        {
+            try
+            {
+                BattleCardAbilityDescXmlList list = Singleton<BattleCardAbilityDescXmlList>.Instance;
+                if (list == null)
+                    return null;
+
+                Dictionary<string, BattleCardAbilityDesc> current =
+                    GetFieldValue<Dictionary<string, BattleCardAbilityDesc>>(list, "_dictionary");
+                if (current == null)
+                    return null;
+
+                return new Dictionary<string, BattleCardAbilityDesc>(current);
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("[RMR Localize] Could not snapshot battle ability descriptions: " + e.Message);
+                return null;
+            }
+        }
+
+        private static int RestoreMissingBattleCardAbilityDescriptions(
+            Dictionary<string, BattleCardAbilityDesc> preserved)
+        {
+            try
+            {
+                if (preserved == null || preserved.Count == 0)
+                    return 0;
+
+                BattleCardAbilityDescXmlList list = Singleton<BattleCardAbilityDescXmlList>.Instance;
+                if (list == null)
+                    return 0;
+
+                Dictionary<string, BattleCardAbilityDesc> current =
+                    GetFieldValue<Dictionary<string, BattleCardAbilityDesc>>(list, "_dictionary");
+                if (current == null)
+                    return 0;
+
+                int restored = 0;
+                foreach (KeyValuePair<string, BattleCardAbilityDesc> entry in preserved)
+                {
+                    if (string.IsNullOrEmpty(entry.Key) || entry.Value == null)
+                        continue;
+                    if (current.ContainsKey(entry.Key))
+                        continue;
+
+                    current.Add(entry.Key, entry.Value);
+                    restored++;
+                }
+                return restored;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("[RMR Localize] Could not restore battle ability descriptions: " + e.Message);
+                return 0;
+            }
+        }
+
         /// <summary>
         /// Shop combat-page hover / keyword tooltips read BattleCardAbilityDescXmlList and
         /// BattleEffectTextsXmlList. If those stayed on EN while UI is CN, descriptions mix
@@ -2729,7 +2788,20 @@ namespace abcdcode_LOGLIKE_MOD
                     return;
                 }
 
-                loader.LoadBattleCardAbilityDescriptions(language);
+                // The vanilla loader replaces the entire dictionary. Preserve descriptions
+                // registered by other Workshop mods, then restore only keys vanilla did not load.
+                Dictionary<string, BattleCardAbilityDesc> preservedAbilityDescriptions =
+                    SnapshotBattleCardAbilityDescriptions();
+                int restoredAbilityDescriptions = 0;
+                try
+                {
+                    loader.LoadBattleCardAbilityDescriptions(language);
+                }
+                finally
+                {
+                    restoredAbilityDescriptions = RestoreMissingBattleCardAbilityDescriptions(
+                        preservedAbilityDescriptions);
+                }
                 loader.LoadBattleCardDescriptions(language);
                 loader.LoadBattleEffectTexts(language);
 
@@ -2741,7 +2813,7 @@ namespace abcdcode_LOGLIKE_MOD
                     Debug.LogWarning("[RMR Localize] satellite battle texts after battle reload: " + satEx.Message);
                 }
 
-                Debug.Log($"[RMR Localize] Refreshed vanilla battle localize language={language}, reason={reason}.");
+                Debug.Log($"[RMR Localize] Refreshed vanilla battle localize language={language}, reason={reason}, restoredAbilityDescriptions={restoredAbilityDescriptions}.");
             }
             catch (Exception e)
             {
