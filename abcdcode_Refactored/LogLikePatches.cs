@@ -1101,13 +1101,7 @@ namespace abcdcode_LOGLIKE_MOD
             // Realization battles skip the normal Roguelike reward initialization
             if (RMRRealizationManager.InRealizationBattle)
             {
-                // The vanilla realization stage is not an RMR package stage, but it still uses
-                // RMR's projected loadout. Reset stale floor EGO state before vanilla creates
-                // battle units, then force the hand back to normal combat pages afterwards.
-                ResetBattleEgoSelectionState(self);
                 orig(self);
-                try { RMRPrepareRestrictions.ClearFloorEgoFromHandsAtBattleStart(); } catch { }
-                try { RMRPrepareRestrictions.HideHandUiUntilCombat(); } catch { }
                 return;
             }
 
@@ -2100,9 +2094,7 @@ namespace abcdcode_LOGLIKE_MOD
             // or floor-selected EGO exists (after mid-battle EGO picks).
             // Default hand is ALWAYS battle pages when selecting a unit (isClicked): force toggle
             // off so flooded EGO / sticky toggle cannot trap the player on unplayable EGO-only hand.
-            bool useRmrSafeHandPath = LogLikeMod.CheckStage(true)
-                || RMRRealizationManager.InRealizationBattle;
-            if (!useRmrSafeHandPath)
+            if (!LogLikeMod.CheckStage(true))
             {
                 orig(self, unitModel, isClicked);
                 return;
@@ -4492,22 +4484,10 @@ namespace abcdcode_LOGLIKE_MOD
                 __result = name;
         }
 
-        [HarmonyPrefix, HarmonyPatch(typeof(LocalizedTextLoader), nameof(LocalizedTextLoader.LoadOthers))]
-        public static void LocalizedTextLoader_LoadOthers_Prefix(
-          out LogLikeMod.BattleLocalizePreservationState __state)
-        {
-            __state = LogLikeMod.CaptureBattleLocalizeBeforeVanillaReload();
-        }
-
         [HarmonyPostfix, HarmonyPatch(typeof(LocalizedTextLoader), nameof(LocalizedTextLoader.LoadOthers))]
-        public static void LocalizedTextLoader_LoadOthers(
-          string language,
-          LogLikeMod.BattleLocalizePreservationState __state)
+        public static void LocalizedTextLoader_LoadOthers(string language)
         {
             LogLikeMod.LoadTextData(language);
-            // Vanilla LoadOthers rebuilds both collections before this postfix runs. Restore the
-            // pre-call Workshop entries before the second language refresh takes its own snapshot.
-            LogLikeMod.RestoreBattleLocalizeAfterVanillaReload(__state, "LoadOthers");
             // Equip reward desc was registered before book/localize load — re-stamp CN names.
             try { RewardingModel.RefreshAllEquipRewardXmlData(); }
             catch (Exception ex) { Debug.LogWarning("[RMR Localize] equip reward refresh after LoadOthers failed: " + ex.Message); }

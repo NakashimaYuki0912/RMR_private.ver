@@ -2694,13 +2694,6 @@ namespace abcdcode_LOGLIKE_MOD
             List<RewardPassiveInfo> rewards = new List<RewardPassiveInfo>();
             if (list != null) rewards.AddRange(list);
 
-            // Last-mile isolation: even a stale save, event-injected queue, or future
-            // caller cannot present a realization-exclusive abnormality page early.
-            int isolationRemoved = rewards.RemoveAll(x =>
-                !RMRAbnormalityUnlockManager.CanAppearInRegularRewardSelection(x));
-            if (isolationRemoved > 0)
-                Debug.Log($"[GetPassiveRewards] Removed {isolationRemoved} reward(s) blocked by realization isolation.");
-
             // Filter out already-obtained rewards
             int totalBefore = rewards.Count;
             int removed = rewards.RemoveAll(x => HasObtainedReward(x));

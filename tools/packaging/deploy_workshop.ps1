@@ -137,13 +137,13 @@ Write-Host "  moved $moved backup-style files to $quarantine"
 # --- StageModInfo hygiene (fan work / forked items) ---
 # RMR must keep InvitationFile.* Exist="false". Exist="true" + empty Data stubs
 # makes LoR open a broken vanilla invitation instead of the DLL hub.
-# Local testing uses deploy_local.ps1 and StageModInfo.local.xml under the game's Mods folder.
-# This Workshop tree always uses the public Workshop title.
-Write-Host "Fixing StageModInfo (DLL-only invitation, Workshop title)..." -ForegroundColor Cyan
+# LOCAL deploy uses StageModInfo.local.xml so the mod list shows "[本地]..."
+# Workshop upload uses StageModInfo.fanwork.xml ("...[Workshop]") via prepare_workshop_upload.ps1.
+Write-Host "Fixing StageModInfo (DLL-only invitation, LOCAL title)..." -ForegroundColor Cyan
 $stageLocal = Join-Path $scriptDir "StageModInfo.local.xml"
 $stageFanwork = Join-Path $scriptDir "StageModInfo.fanwork.xml"
 $stageTarget = Join-Path $workshopRoot "StageModInfo.xml"
-$stageTemplate = if (Test-Path $stageFanwork) { $stageFanwork } else { $stageLocal }
+$stageTemplate = if (Test-Path $stageLocal) { $stageLocal } else { $stageFanwork }
 if (Test-Path $stageTemplate) {
     Copy-Item $stageTemplate $stageTarget -Force
     # Stamp build time into Description so local vs older deploys are easier to tell apart.
@@ -162,7 +162,7 @@ if (Test-Path $stageTemplate) {
             $utf8 = New-Object System.Text.UTF8Encoding $false
             [IO.File]::WriteAllText($stageTarget, $xml, $utf8)
         }
-        Write-Host "  StageModInfo from: $(Split-Path $stageTemplate -Leaf) (Workshop listing title)" -ForegroundColor Green
+        Write-Host "  StageModInfo from: $(Split-Path $stageTemplate -Leaf) (local listing title)" -ForegroundColor Green
     }
     catch {
         Write-Host "  WARNING: could not stamp StageModInfo description: $($_.Exception.Message)" -ForegroundColor Yellow

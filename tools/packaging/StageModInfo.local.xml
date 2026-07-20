@@ -3,9 +3,9 @@
   <Version>1.1</Version>
   <Workshop>
     <ID>abcdcodecalmmagma.LogueLikeReborn</ID>
-    <!-- Shown in LoR's local Mods list after deploy_local.ps1. -->
-    <Title>[LOCAL TEST] RMR REBORN fan work</Title>
-    <Description>[LOCAL TEST] 本机 Mods\RMR_REBORN_LOCAL 部署版本，不是 Steam Workshop 云端包。可与 Workshop 项同时显示，但测试时只能启用其中一个，避免重复加载。启动见接待界面右上角图标。</Description>
+    <!-- Shown in LoR mod list when you run deploy_workshop.ps1 (local override of workshop folder). -->
+    <Title>[本地] RMR REBORN fan work</Title>
+    <Description>[LOCAL DEPLOY] 本机 deploy_workshop 写入的版本，不是 Steam 云端订阅包。若 Steam 重新下载 Workshop，此标题会被云端包覆盖。启动见接待界面右上角图标。</Description>
     <Tag />
     <PreviewImage />
   </Workshop>

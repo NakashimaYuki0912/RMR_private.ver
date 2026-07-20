@@ -1717,13 +1717,6 @@ namespace abcdcode_LOGLIKE_MOD
             List<EmotionEgoXmlInfo> result = new List<EmotionEgoXmlInfo>();
             foreach (LorId id in ids)
             {
-                // Recheck at presentation time so stale/legacy queues cannot bypass
-                // the matching floor realization prerequisite.
-                if (!RMRAbnormalityUnlockManager.CanAppearInRegularEgoRewardPool(id))
-                {
-                    Debug.LogWarning($"[GetQueuedEgoRewards] blocked EGO id={id}: matching floor realization is incomplete.");
-                    continue;
-                }
                 // Atlas unlock = pool eligibility only. Skip only if this run already owns the EGO.
                 if (RMRAbnormalityUnlockManager.IsEgoOwnedOnCurrentRoute(id))
                     continue;

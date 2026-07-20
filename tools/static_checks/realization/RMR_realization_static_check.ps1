@@ -126,12 +126,10 @@ if ($patches -match "RealizationBtn" -and $patches -match "OnClickRealization") 
 $realPanel = Get-Content "$repoRoot\abcdcode_LOGLIKE_MOD\LogRealizationPanel.cs" -Raw
 if ($realPanel) {
     Write-Host "  [OK] LogRealizationPanel.cs exists" -ForegroundColor Green
-    if ($realPanel -match "RMRAbnormalityUnlockManager\.RefreshRealizationProgress\(\)" -and
-        $realPanel -match "IsFloorRealizationCompleted\(floors\[i\]\)" -and
-        $realPanel -match "ui_RMR_RealizationReplay") {
-        Write-Host "  [OK] LogRealizationPanel refreshes completion progress and marks cleared floors as replayable" -ForegroundColor Green
+    if ($realPanel -match "RefreshRealizationProgress\(\)" -and $realPanel -match "RealizationCleared") {
+        Write-Host "  [OK] LogRealizationPanel refreshes completion progress before showing cleared markers" -ForegroundColor Green
     } else {
-        Write-Host "  [FAIL] LogRealizationPanel missing completion refresh, floor-completion lookup, or replay marker" -ForegroundColor Red
+        Write-Host "  [FAIL] LogRealizationPanel missing completion refresh or cleared marker" -ForegroundColor Red
         $allFound = $false
     }
 }

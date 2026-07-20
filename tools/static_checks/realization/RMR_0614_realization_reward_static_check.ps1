@@ -17,24 +17,16 @@ function AssertContains($name, $text, $needle) {
 function AssertNotContains($name, $text, $needle) {
     if ($text -like "*$needle*") { throw "$name should not contain: $needle" }
 }
-function AssertMirrorStartChoiceIds($name, $relativePath) {
-    [xml]$xml = Get-Content -LiteralPath (Join-Path $root $relativePath) -Raw -Encoding UTF8
-    $choices = @($xml.SelectNodes('/RogueMysteryXmlRoot/Mystery[@ID="-100"]/Frame[@ID="0"]/Choice') | ForEach-Object {
-        [int]$_.GetAttribute('ID')
-    })
-    $actual = $choices -join ','
-    if ($actual -ne '0,1,2,3,4,5') {
-        throw "$name has unexpected mirror start choices: $actual"
-    }
-}
 
 $unlock = ReadText 'RMR_AbnormalityUnlocks.cs'
 $shop = ReadText 'abcdcode_LOGLIKE_MOD\ShopBase.cs'
 $rewarding = ReadText 'abcdcode_LOGLIKE_MOD\RewardingModel.cs'
 $realization = ReadText 'RMR_RealizationManager.cs'
-AssertMirrorStartChoiceIds 'CN mirror start choices' 'Localize\cn\MysteryEvents\RMR_chstart.xml'
-AssertMirrorStartChoiceIds 'EN mirror start choices' 'Localize\en\MysteryEvents\RMR_chstart.xml'
-AssertMirrorStartChoiceIds 'KR mirror start choices' 'Localize\kr\MysteryEvents\RMR_chstart.xml'
+$cnStart = ReadText 'Localize\cn\MysteryEvents\RMR_chstart.xml'
+$enStart = ReadText 'Localize\en\MysteryEvents\RMR_chstart.xml'
+
+AssertContains 'CN start choice' $cnStart '<Choice ID="6">'
+AssertContains 'EN start choice' $enStart '<Choice ID="6">'
 AssertContains 'Unlock manager Yesod music' $unlock 'SingingMachine1'
 AssertContains 'Unlock manager Yesod coffin' $unlock 'Butterfly3'
 AssertContains 'Unlock manager Yesod black flame/freischutz' $unlock 'freischutz3'
@@ -59,10 +51,10 @@ AssertContains 'ShopBase EGO section' $shop 'EgoPage'
 AssertContains 'ShopBase EGO creator' $shop 'CreateShop_EgoPages'
 AssertContains 'ShopBase abnormality helper' $shop 'GetShopEligibleAbnormalityPages'
 AssertContains 'Realization manager ends mystery' $realization 'Singleton<MysteryManager>.Instance.EndMystery'
-AssertContains 'Realization manager compendium-only loadout start' $realization 'ApplyCompendiumOnlyLoadout'
+AssertContains 'Realization manager atlas loadout start' $realization 'ApplyAtlasOnlyLoadout'
 AssertContains 'Realization manager atlas loadout restore' $realization 'RestoreRouteLoadout'
-AssertContains 'Realization manager compendium books' $realization 'CompendiumUnlockedRoleBooks'
-AssertContains 'Realization manager compendium cards' $realization 'CompendiumUnlockedBattleCards'
+AssertContains 'Realization manager atlas books' $realization 'AtlasUnlockedRoleBooks'
+AssertContains 'Realization manager atlas cards' $realization 'AtlasUnlockedBattleCards'
 
 Write-Host 'RMR 0614 realization reward static check passed.'
 

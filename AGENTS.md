@@ -158,7 +158,7 @@ LoR-RMR 把《Library of Ruina》改成按章节推进的 Roguelike：普通战 
 ### 3.4 解放战奖励与 EmotionLevel
 
 - 专属奖励仅首胜后进入商店 / 结算候选；仍去重、未拥有、升级过滤。
-- E.G.O. ID 段以原版 `EmotionEgo.txt` / `CardInfo_ego.txt` 为准（910001–910005 历史层、910006–910010 总类层、910011–910050 其余楼层）。
+- E.G.O. ID 段见历史表（910001–910005 历史层 … 910086–910090 总类层）。
 - 科技层终局三选一（**EmotionLevel 3**，队伍情感 **5**）：音乐/旋律、棺柩、黑炎  
   (`SingingMachine1` / `Butterfly3` / `freischutz3`)。
 - **中段情感选书**（非解放奖励池）规则：
@@ -230,13 +230,11 @@ LoR-RMR 把《Library of Ruina》改成按章节推进的 Roguelike：普通战 
 ```powershell
 cd "D:\VS_program\ruina-roguelike-reborn-main\ruina-roguelike-reborn-main"
 # 游戏必须退出
-powershell -ExecutionPolicy Bypass -File .\tools\packaging\deploy_local.ps1 -Configuration Release
+powershell -ExecutionPolicy Bypass -File .\tools\packaging\deploy_workshop.ps1 -Configuration Release
 powershell -ExecutionPolicy Bypass -File .\tools\packaging\pack_mod.ps1   # 可选 zip
 ```
 
-- 日常本地测试目标：`E:\Steam\steamapps\common\Library Of Ruina\LibraryOfRuina_Data\Mods\RMR_REBORN_LOCAL\Assemblies\dlls\`；列表标识为 `[LOCAL TEST] RMR REBORN fan work`。
-- Workshop 暂存目标：`E:\Steam\...\3743867841\Assemblies\dlls\`（作者物品；上游原作为 3503523710）；仅上传前用 `deploy_workshop.ps1`，Steam 可覆盖/清理。
-- 本地与 Workshop RMR 共用内部 package ID；可以同时显示，但测试时只能启用其中一个。
+- 部署目标：`E:\Steam\...\3743867841\Assemblies\dlls\`（作者物品；上游原作为 3503523710）
 - 日志：`%USERPROFILE%\AppData\LocalLow\Project Moon\LibraryOfRuina\Player.log`
 - 搜索：`[RMR] RogueLike Mod Reborn initializing. Build:`
 - 静态脚本：`tools/static_checks/{realization,rewards,shop_atlas,events_abnormality,runtime_release}/`

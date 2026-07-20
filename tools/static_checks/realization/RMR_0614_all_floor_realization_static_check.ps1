@@ -49,7 +49,7 @@ $egoIdsByFloor = @{
     Chesed = 910036..910040
     Binah = 910041..910045
     Hokma = 910046..910050
-    Keter = 910006..910010
+    Keter = 910086..910090
 }
 foreach ($floor in $egoIdsByFloor.Keys) {
     foreach ($id in $egoIdsByFloor[$floor]) {
@@ -60,14 +60,13 @@ foreach ($floor in $egoIdsByFloor.Keys) {
 AssertContains 'realization script prefix matching' $unlock 'script.StartsWith(configuredScript, StringComparison.OrdinalIgnoreCase)'
 AssertContains 'initial entry flag declaration' $realization 'InitialRelicEntryAvailable'
 AssertContains 'initial entry setter' $realization 'SetInitialRelicEntryAvailable'
-AssertContains 'realization invitation opens hub session' $core 'RMRRealizationManager.BeginHubSession();'
-AssertContains 'normal invitation closes hub entry before first relic mystery' $core 'RMRRealizationManager.StartNormalPlayFromHub();'
-AssertContains 'hub gate requires unstarted normal play' $realization 'return HubSessionActive && !NormalPlayStarted;'
-AssertContains 'normal play state is closed in manager' $realization 'NormalPlayStarted = true;'
+AssertContains 'initial entry set before first relic mystery' $core 'RMRRealizationManager.SetInitialRelicEntryAvailable(true)'
+AssertContains 'initial choice gate' $mystery 'RMRRealizationManager.InitialRelicEntryAvailable'
+AssertContains 'normal relic choice consumes entry' $mystery 'RMRRealizationManager.SetInitialRelicEntryAvailable(false)'
 
 $chStartClass = [regex]::Match($mystery, 'public class MysteryModel_RMR_ChStartNew[\s\S]*?public override void OnEnterChoice')
 if (-not $chStartClass.Success) { throw 'ChStart class block not found' }
-if ($chStartClass.Value -like '*SetInitialRelicEntryAvailable*') { throw 'ChStart must not mutate realization entry after the hub has closed it' }
+AssertContains 'ChStart class consumes entry' $chStartClass.Value 'RMRRealizationManager.SetInitialRelicEntryAvailable(false)'
 $abnoBaseClass = [regex]::Match($mystery, 'public abstract class MysteryModel_RMR_AbnoRewardBase[\s\S]*?public class MysteryModel_RMR_AbnoBlackForest')
 if (-not $abnoBaseClass.Success) { throw 'Abno reward base block not found' }
 if ($abnoBaseClass.Value -like '*SetInitialRelicEntryAvailable(false)*') { throw 'Abno reward base must not consume realization entry' }

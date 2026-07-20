@@ -1824,7 +1824,7 @@ namespace abcdcode_LOGLIKE_MOD
                 }
             }
 
-            // 2. Configured realization EGO cards — always included regardless of RewardCardDic_Dummy
+            // 2. Realization EGO cards (910001-910090) — always included regardless of RewardCardDic_Dummy
             foreach (var kvp in RMRAbnormalityUnlockManager.RealizationEgoCardsByFloor)
             {
                 SephirahType floor = kvp.Key;
