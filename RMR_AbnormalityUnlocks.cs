@@ -161,7 +161,7 @@ namespace RogueLike_Mod_Reborn
             { SephirahType.Chesed, new[] { new LorId(910036), new LorId(910037), new LorId(910038), new LorId(910039), new LorId(910040) } },
             { SephirahType.Binah, new[] { new LorId(910041), new LorId(910042), new LorId(910043), new LorId(910044), new LorId(910045) } },
             { SephirahType.Hokma, new[] { new LorId(910046), new LorId(910047), new LorId(910048), new LorId(910049), new LorId(910050) } },
-            { SephirahType.Keter, new[] { new LorId(910086), new LorId(910087), new LorId(910088), new LorId(910089), new LorId(910090) } },
+            { SephirahType.Keter, new[] { new LorId(910006), new LorId(910007), new LorId(910008), new LorId(910009), new LorId(910010) } },
         };
         private static readonly string[] SimpleRoots =
         {
@@ -1009,6 +1009,10 @@ namespace RogueLike_Mod_Reborn
                     continue;
                 if (!IsRealizationExclusive(info))
                     continue;
+                // Do not trust only the caller-provided floor set: every candidate must
+                // independently pass the persisted realization-completion gate.
+                if (!IsRealizationRewardAvailable(info))
+                    continue;
                 SephirahType floor = ResolveRealizationFloor(info);
                 if (floor == SephirahType.None || !floors.Contains(floor))
                     continue;
@@ -1047,6 +1051,9 @@ namespace RogueLike_Mod_Reborn
                 foreach (LorId id in egoIds)
                 {
                     if (id == null || id == LorId.None)
+                        continue;
+                    // Defense in depth for stale/legacy queues and future callers.
+                    if (!CanAppearInRegularEgoRewardPool(id))
                         continue;
                     if (IsEgoOwnedOnCurrentRoute(id))
                         continue;
@@ -1467,6 +1474,19 @@ namespace RogueLike_Mod_Reborn
         }
 
         /// <summary>
+        /// Final presentation-layer guard for ordinary passive reward queues.
+        /// Non-creature rewards are unchanged; abnormality pages must pass the
+        /// same realization-completion gate used while building their pool.
+        /// </summary>
+        public static bool CanAppearInRegularRewardSelection(RewardPassiveInfo info)
+        {
+            if (info == null)
+                return false;
+            return info.rewardtype != RewardType.Creature
+                || CanAppearInNormalReceptionAbnoPool(info);
+        }
+
+        /// <summary>
         /// Returns true if the player has completed the realization battle for the given floor.
         /// </summary>
         public static bool IsFloorRealizationCompleted(SephirahType floor)
@@ -1528,29 +1548,41 @@ namespace RogueLike_Mod_Reborn
             return SephirahType.None;
         }
 
-        public static bool IsRealizationEgoCard(LorId id)
+        public static SephirahType ResolveRealizationEgoFloor(LorId id)
         {
             if (id == null || id == LorId.None)
-                return false;
+                return SephirahType.None;
             foreach (var kvp in RealizationEgoCardsByFloor)
             {
                 if (kvp.Value == null)
                     continue;
-                // Compare by numeric id — packageId may be empty vs null across sources.
                 if (kvp.Value.Any(x => x != null && x.id == id.id))
-                    return true;
+                    return kvp.Key;
             }
-            return false;
+            return SephirahType.None;
+        }
+
+        /// <summary>
+        /// Realization E.G.O. cards enter ordinary reward queues only after the
+        /// matching floor realization is completed. Non-realization E.G.O. IDs pass.
+        /// </summary>
+        public static bool CanAppearInRegularEgoRewardPool(LorId id)
+        {
+            if (id == null || id == LorId.None)
+                return false;
+            SephirahType floor = ResolveRealizationEgoFloor(id);
+            return floor == SephirahType.None || IsFloorRealizationCompleted(floor);
+        }
+
+        public static bool IsRealizationEgoCard(LorId id)
+        {
+            return ResolveRealizationEgoFloor(id) != SephirahType.None;
         }
 
         public static bool IsRealizationEgoCardUnlocked(LorId id)
         {
-            foreach (var kvp in RealizationEgoCardsByFloor)
-            {
-                if (kvp.Value.Any(x => x == id))
-                    return IsFloorRealizationCompleted(kvp.Key);
-            }
-            return false;
+            SephirahType floor = ResolveRealizationEgoFloor(id);
+            return floor != SephirahType.None && IsFloorRealizationCompleted(floor);
         }
 
         public static List<DiceCardXmlInfo> GetUnlockedRealizationEgoCardsForRewards(ChapterGrade grade)

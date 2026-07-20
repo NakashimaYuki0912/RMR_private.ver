@@ -49,7 +49,7 @@ $egoIdsByFloor = @{
     Chesed = 910036..910040
     Binah = 910041..910045
     Hokma = 910046..910050
-    Keter = 910086..910090
+    Keter = 910006..910010
 }
 foreach ($floor in $egoIdsByFloor.Keys) {
     foreach ($id in $egoIdsByFloor[$floor]) {

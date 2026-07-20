@@ -158,7 +158,7 @@ LoR-RMR 把《Library of Ruina》改成按章节推进的 Roguelike：普通战 
 ### 3.4 解放战奖励与 EmotionLevel
 
 - 专属奖励仅首胜后进入商店 / 结算候选；仍去重、未拥有、升级过滤。
-- E.G.O. ID 段见历史表（910001–910005 历史层 … 910086–910090 总类层）。
+- E.G.O. ID 段以原版 `EmotionEgo.txt` / `CardInfo_ego.txt` 为准（910001–910005 历史层、910006–910010 总类层、910011–910050 其余楼层）。
 - 科技层终局三选一（**EmotionLevel 3**，队伍情感 **5**）：音乐/旋律、棺柩、黑炎  
   (`SingingMachine1` / `Butterfly3` / `freischutz3`)。
 - **中段情感选书**（非解放奖励池）规则：
