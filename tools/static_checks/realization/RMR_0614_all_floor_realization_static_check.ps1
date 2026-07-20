@@ -60,13 +60,14 @@ foreach ($floor in $egoIdsByFloor.Keys) {
 AssertContains 'realization script prefix matching' $unlock 'script.StartsWith(configuredScript, StringComparison.OrdinalIgnoreCase)'
 AssertContains 'initial entry flag declaration' $realization 'InitialRelicEntryAvailable'
 AssertContains 'initial entry setter' $realization 'SetInitialRelicEntryAvailable'
-AssertContains 'initial entry set before first relic mystery' $core 'RMRRealizationManager.SetInitialRelicEntryAvailable(true)'
-AssertContains 'initial choice gate' $mystery 'RMRRealizationManager.InitialRelicEntryAvailable'
-AssertContains 'normal relic choice consumes entry' $mystery 'RMRRealizationManager.SetInitialRelicEntryAvailable(false)'
+AssertContains 'realization invitation opens hub session' $core 'RMRRealizationManager.BeginHubSession();'
+AssertContains 'normal invitation closes hub entry before first relic mystery' $core 'RMRRealizationManager.StartNormalPlayFromHub();'
+AssertContains 'hub gate requires unstarted normal play' $realization 'return HubSessionActive && !NormalPlayStarted;'
+AssertContains 'normal play state is closed in manager' $realization 'NormalPlayStarted = true;'
 
 $chStartClass = [regex]::Match($mystery, 'public class MysteryModel_RMR_ChStartNew[\s\S]*?public override void OnEnterChoice')
 if (-not $chStartClass.Success) { throw 'ChStart class block not found' }
-AssertContains 'ChStart class consumes entry' $chStartClass.Value 'RMRRealizationManager.SetInitialRelicEntryAvailable(false)'
+if ($chStartClass.Value -like '*SetInitialRelicEntryAvailable*') { throw 'ChStart must not mutate realization entry after the hub has closed it' }
 $abnoBaseClass = [regex]::Match($mystery, 'public abstract class MysteryModel_RMR_AbnoRewardBase[\s\S]*?public class MysteryModel_RMR_AbnoBlackForest')
 if (-not $abnoBaseClass.Success) { throw 'Abno reward base block not found' }
 if ($abnoBaseClass.Value -like '*SetInitialRelicEntryAvailable(false)*') { throw 'Abno reward base must not consume realization entry' }
