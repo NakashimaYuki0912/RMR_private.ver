@@ -7,16 +7,17 @@
 | MSBuild | `D:\VisualStudio\MSBuild\Current\Bin\MSBuild.exe` |
 | 项目文件 | `RogueLike Mod Reborn.csproj`（.NET Framework 4.8） |
 | 输出 DLL | `bin\Release\RogueLike Mod Reborn.dll` |
-| 一键部署 | `tools\packaging\deploy_workshop.ps1` |
+| 本地测试部署 | `tools\packaging\deploy_local.ps1` |
+| Workshop 暂存部署 | `tools\packaging\deploy_workshop.ps1` |
 | 打 zip | `tools\packaging\pack_mod.ps1` |
 | Steam | `E:\Steam\steam.exe` |
 | 游戏日志 | `%USERPROFILE%\AppData\LocalLow\Project Moon\LibraryOfRuina\Player.log` |
 
-`dotnet msbuild` 在部分环境可用；本仓库推荐 `deploy_workshop.ps1`（内含 MSBuild 候选路径）。
+`dotnet msbuild` 在部分环境可用；日常测试使用 `deploy_local.ps1`（内含 MSBuild 候选路径）。
 
 ---
 
-## 2. 标准部署（日常开发）
+## 2. 标准部署（日常开发 / 本地测试）
 
 ```powershell
 cd "D:\VS_program\ruina-roguelike-reborn-main\ruina-roguelike-reborn-main"
@@ -24,25 +25,31 @@ cd "D:\VS_program\ruina-roguelike-reborn-main\ruina-roguelike-reborn-main"
 # 游戏必须完全退出
 Get-Process LibraryOfRuina -ErrorAction SilentlyContinue
 
-powershell -ExecutionPolicy Bypass -File .\tools\packaging\deploy_workshop.ps1 -Configuration Release
+powershell -ExecutionPolicy Bypass -File .\tools\packaging\deploy_local.ps1 -Configuration Release
 ```
 
 脚本会：
 
 1. Release 构建  
-2. 备份旧 Workshop DLL 到 `Assemblies\_codex_backups\deploy_*`  
+2. 部署到游戏本地 Mods 目录，不会被 Steam 退订或同步清理
 3. 复制 DLL + 同步 `AddData` / `Localize` / `SpecialStaticInfo` / `StoryInfo` / `ArtWork`  
 4. 打印 SHA256 与从 DLL 字符串扫出的 `Build:` 戳  
 
 **目标路径：**
 
 ```text
-E:\Steam\steamapps\workshop\content\1256670\3743867841\Assemblies\dlls\RogueLike Mod Reborn.dll
+E:\Steam\steamapps\common\Library Of Ruina\LibraryOfRuina_Data\Mods\RMR_REBORN_LOCAL\Assemblies\dlls\RogueLike Mod Reborn.dll
 ```
+
+游戏模组列表显示：`[LOCAL TEST] RMR REBORN fan work`。若 Workshop 版也已订阅，两项能同时显示，但二者内部 package ID 相同，**测试时只能启用一个**。
+
+### Workshop 暂存（上传前才使用）
+
+`deploy_workshop.ps1` 仍写入作者 Workshop 项 `3743867841`，仅用于准备上传内容；Steam 可以重下载或退订清理该目录，不能将其当作可靠的本地测试目录。
 
 ### 映射表
 
-| 源码 / 构建 | Workshop 运行位置 |
+| 源码 / 构建 | 本地测试运行位置 |
 |---|---|
 | `bin\Release\RogueLike Mod Reborn.dll` | `...\Assemblies\dlls\RogueLike Mod Reborn.dll` |
 | `AddData\**` | `...\Assemblies\dlls\AddData\**` |

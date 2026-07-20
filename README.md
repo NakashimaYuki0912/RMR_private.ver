@@ -29,18 +29,24 @@
 原作者只读对照:
   D:\VS_program\ruina-roguelike-reborn-main\original-codes\
 
-游戏实际加载的 Workshop 目录:
+本地测试目录（不受 Steam 订阅/同步影响）:
+  E:\Steam\steamapps\common\Library Of Ruina\LibraryOfRuina_Data\Mods\RMR_REBORN_LOCAL\
+    Assemblies\dlls\RogueLike Mod Reborn.dll   ← 日常测试目标
+
+Workshop 发布暂存目录:
   E:\Steam\steamapps\workshop\content\1256670\3743867841\
-    Assemblies\dlls\RogueLike Mod Reborn.dll   ← 部署目标
+    Assemblies\dlls\RogueLike Mod Reborn.dll
 ```
 
-### 一键构建部署
+### 一键构建部署（本地测试）
 
 ```powershell
 cd "D:\VS_program\ruina-roguelike-reborn-main\ruina-roguelike-reborn-main"
 # 先完全退出 Library of Ruina
-powershell -ExecutionPolicy Bypass -File .\tools\packaging\deploy_workshop.ps1 -Configuration Release
+powershell -ExecutionPolicy Bypass -File .\tools\packaging\deploy_local.ps1 -Configuration Release
 ```
+
+模组列表会显示 **`[LOCAL TEST] RMR REBORN fan work`**。若同时订阅 Workshop 版，两项可同时显示，但测试时只能启用其中一个；二者共用内部 package ID，不能并行加载。
 
 启动游戏后，在日志中确认：
 

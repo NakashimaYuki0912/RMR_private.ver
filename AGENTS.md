@@ -230,11 +230,13 @@ LoR-RMR 把《Library of Ruina》改成按章节推进的 Roguelike：普通战 
 ```powershell
 cd "D:\VS_program\ruina-roguelike-reborn-main\ruina-roguelike-reborn-main"
 # 游戏必须退出
-powershell -ExecutionPolicy Bypass -File .\tools\packaging\deploy_workshop.ps1 -Configuration Release
+powershell -ExecutionPolicy Bypass -File .\tools\packaging\deploy_local.ps1 -Configuration Release
 powershell -ExecutionPolicy Bypass -File .\tools\packaging\pack_mod.ps1   # 可选 zip
 ```
 
-- 部署目标：`E:\Steam\...\3743867841\Assemblies\dlls\`（作者物品；上游原作为 3503523710）
+- 日常本地测试目标：`E:\Steam\steamapps\common\Library Of Ruina\LibraryOfRuina_Data\Mods\RMR_REBORN_LOCAL\Assemblies\dlls\`；列表标识为 `[LOCAL TEST] RMR REBORN fan work`。
+- Workshop 暂存目标：`E:\Steam\...\3743867841\Assemblies\dlls\`（作者物品；上游原作为 3503523710）；仅上传前用 `deploy_workshop.ps1`，Steam 可覆盖/清理。
+- 本地与 Workshop RMR 共用内部 package ID；可以同时显示，但测试时只能启用其中一个。
 - 日志：`%USERPROFILE%\AppData\LocalLow\Project Moon\LibraryOfRuina\Player.log`
 - 搜索：`[RMR] RogueLike Mod Reborn initializing. Build:`
 - 静态脚本：`tools/static_checks/{realization,rewards,shop_atlas,events_abnormality,runtime_release}/`
