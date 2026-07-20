@@ -1660,7 +1660,7 @@ namespace RogueLike_Mod_Reborn
             foreach (LorId id in LogueBookModels.CompendiumUnlockedBattleCards)
             {
                 DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(id, true);
-                if (card == null || card.optionList.Contains(CardOption.NoInventory))
+                if (card == null || !RMRPrepareRestrictions.IsAllowedInCombatDeckInventory(card))
                     continue;
                 atlasCards.Add(new DiceCardItemModel(card) { num = LogueBookModels.UNLOCKED_CARD_COUNT });
             }
@@ -1750,8 +1750,9 @@ namespace RogueLike_Mod_Reborn
                                 var cardXml = atlasCards[cardIdx].ClassInfo;
                                 if (cardXml != null && LogueBookModels.CanAddCardToCurrentDeck(cardXml.id, unit.bookItem))
                                 {
-                                    unit.AddCardFromInventory(cardXml.id);
-                                    needed--;
+                                    CardEquipState equipState = unit.AddCardFromInventory(cardXml.id);
+                                    if (equipState == CardEquipState.Equippable)
+                                        needed--;
                                 }
                                 cardIdx++;
                                 if (cardIdx >= atlasCards.Count) cardIdx = 0;

@@ -1101,7 +1101,13 @@ namespace abcdcode_LOGLIKE_MOD
             // Realization battles skip the normal Roguelike reward initialization
             if (RMRRealizationManager.InRealizationBattle)
             {
+                // The vanilla realization stage is not an RMR package stage, but it still uses
+                // RMR's projected loadout. Reset stale floor EGO state before vanilla creates
+                // battle units, then force the hand back to normal combat pages afterwards.
+                ResetBattleEgoSelectionState(self);
                 orig(self);
+                try { RMRPrepareRestrictions.ClearFloorEgoFromHandsAtBattleStart(); } catch { }
+                try { RMRPrepareRestrictions.HideHandUiUntilCombat(); } catch { }
                 return;
             }
 
@@ -2094,7 +2100,9 @@ namespace abcdcode_LOGLIKE_MOD
             // or floor-selected EGO exists (after mid-battle EGO picks).
             // Default hand is ALWAYS battle pages when selecting a unit (isClicked): force toggle
             // off so flooded EGO / sticky toggle cannot trap the player on unplayable EGO-only hand.
-            if (!LogLikeMod.CheckStage(true))
+            bool useRmrSafeHandPath = LogLikeMod.CheckStage(true)
+                || RMRRealizationManager.InRealizationBattle;
+            if (!useRmrSafeHandPath)
             {
                 orig(self, unitModel, isClicked);
                 return;
