@@ -171,6 +171,9 @@ namespace RogueLike_Mod_Reborn
             {
                 RealizationCombatLive = true;
                 Debug.Log($"[RMRRealizationManager] Realization combat is live: {CurrentRealizationFloor}");
+                // Vanilla Floor Realization pre-loads floor EGO; make sure the very first
+                // card-select round shows normal battle pages (EGO stays on the toggle).
+                try { RMRPrepareRestrictions.ForceHandUiToBattleCards(); } catch { }
             }
             // Every round: ensure multiphase boss passives + log immortal/phase state.
             EnsureRealizationMultiPhaseBossState();
@@ -239,6 +242,23 @@ namespace RogueLike_Mod_Reborn
         /// </summary>
         public static void PrepareNewHubSession()
         {
+            // Defensive: a defeat that bypassed the EndBattle hook (vanilla GameOver path)
+            // can leave realization combat flags and the atlas-only loadout stuck ON.
+            // A fresh hub session must never start with stale realization state.
+            if (InRealizationBattle || RealizationCombatLive || PendingRealizationBattle)
+            {
+                Debug.LogWarning("[RMRRealizationManager] PrepareNewHubSession found stale realization combat state — force-clearing.");
+                InRealizationBattle = false;
+                RealizationCombatLive = false;
+                PendingRealizationBattle = false;
+            }
+            if (CompendiumOnlyLoadoutActive)
+            {
+                Debug.LogWarning("[RMRRealizationManager] PrepareNewHubSession found stale atlas-only loadout — restoring route snapshot.");
+                try { RestoreRouteLoadout(); }
+                catch (Exception ex) { Debug.LogWarning("[RMRRealizationManager] Stale loadout restore failed: " + ex.Message); }
+            }
+
             PendingLaunchIntent = RMRLaunchIntent.None;
             RMRStartHubPanel.SyncLaunchIntentMirror(RMRLaunchIntent.None);
             PendingRealizationFloor = null;
@@ -1660,7 +1680,9 @@ namespace RogueLike_Mod_Reborn
             foreach (LorId id in LogueBookModels.CompendiumUnlockedBattleCards)
             {
                 DiceCardXmlInfo card = ItemXmlDataList.instance.GetCardItem(id, true);
-                if (card == null || card.optionList.Contains(CardOption.NoInventory))
+                // EGO combat pages must never enter the realization deck inventory —
+                // they are unusable as normal combat pages and block deck slots.
+                if (card == null || !RMRPrepareRestrictions.IsAllowedInCombatDeckInventory(card))
                     continue;
                 atlasCards.Add(new DiceCardItemModel(card) { num = LogueBookModels.UNLOCKED_CARD_COUNT });
             }
@@ -1765,6 +1787,12 @@ namespace RogueLike_Mod_Reborn
                     }
                 }
             }
+
+            // Safety net: route snapshot / EquipNewPage may still leave EGO pages inside
+            // current decks (e.g. atlas-recorded EGO ids). Move them back to inventory so
+            // the realization battle never starts with unusable EGO combat cards equipped.
+            try { RMRPrepareRestrictions.StripEgoPagesFromPlayerDecks(); }
+            catch (Exception ex) { Debug.LogWarning("[RMRRealizationManager] StripEgoPagesFromPlayerDecks: " + ex.Message); }
 
             CompendiumOnlyLoadoutActive = true;
             Debug.Log($"[RMRRealizationManager] Applied atlas-only loadout: books={atlasBooks.Count}, cards={atlasCards.Count}, librarians={teamList.Count}");

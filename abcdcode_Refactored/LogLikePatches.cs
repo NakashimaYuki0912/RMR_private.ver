@@ -1102,6 +1102,12 @@ namespace abcdcode_LOGLIKE_MOD
             if (RMRRealizationManager.InRealizationBattle)
             {
                 orig(self);
+                // Vanilla Floor Realization grants floor EGO into personalEgo and can leave the
+                // hand UI stuck in EGO state — the roguelike post-orig cleanup below never runs
+                // on this early-return path. Force the hand back to normal battle cards so the
+                // player sees combat pages by default (EGO stays reachable via the toggle).
+                try { RMRPrepareRestrictions.ForceHandUiToBattleCards(); } catch { }
+                try { RMRPrepareRestrictions.HideHandUiUntilCombat(); } catch { }
                 return;
             }
 
@@ -2094,7 +2100,10 @@ namespace abcdcode_LOGLIKE_MOD
             // or floor-selected EGO exists (after mid-battle EGO picks).
             // Default hand is ALWAYS battle pages when selecting a unit (isClicked): force toggle
             // off so flooded EGO / sticky toggle cannot trap the player on unplayable EGO-only hand.
-            if (!LogLikeMod.CheckStage(true))
+            // NOTE: realization battles suppress CheckStage, but vanilla Floor Realization floods
+            // personalEgo with floor EGO — the safe path MUST also run there or the hand
+            // defaults to EGO pages instead of normal combat pages.
+            if (!LogLikeMod.CheckStage(true) && !RMRRealizationManager.InRealizationBattle)
             {
                 orig(self, unitModel, isClicked);
                 return;
@@ -5370,6 +5379,18 @@ namespace abcdcode_LOGLIKE_MOD
         [HarmonyPrefix, HarmonyPatch(typeof(StageController), nameof(StageController.GameOver))]
         public static void StageController_GameOver(ref bool iswin, ref bool isbackbutton)
         {
+            // Realization defeat goes through vanilla GameOver, NOT EndBattle, so the
+            // EndBattle-hook cleanup (flags + route loadout restore) never ran. Stale
+            // InRealizationBattle/CompendiumOnlyLoadoutActive then corrupts the next
+            // realization AND normal play (CheckStage suppressed -> instant defeat).
+            if (RMRRealizationManager.RealizationCombatLive || RMRRealizationManager.InRealizationBattle)
+            {
+                Debug.Log("[RMRRealizationManager] GameOver during live realization — running realization end cleanup (win=" + iswin + ").");
+                try { RMRRealizationManager.OnRealizationBattleEnded(iswin); }
+                catch (Exception ex) { Debug.LogWarning("[RMRRealizationManager] GameOver realization cleanup failed: " + ex.Message); }
+                RMRRealizationManager.ClearRealizationFlag();
+            }
+
             if (!RMRRealizationManager.ForceReturnAsDefeatPending)
                 return;
             iswin = false;
