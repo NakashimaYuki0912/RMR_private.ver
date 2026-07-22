@@ -222,6 +222,136 @@ namespace RogueLike_Mod_Reborn
     }
     #endregion
 
+    #region --- RMREquipPagePreviewLayer ---
+
+    /// <summary>
+    /// Key-page (equip page) hover preview:
+    ///   LogUISettingInvenEquipPageSlot.OnPointerEnter
+    ///     → UISettingEquipPageInvenPanel.ShowPreviewPanel(slot)
+    ///         → _equipPagePreviewPanel.SetData(book) + reveal fade
+    ///
+    /// RMR raises EquipLeftPanel's Canvas to inventoryOrder+1 (≥141) in
+    /// RepairPrepareInventoryDrawOrder, which paints over the vanilla preview panel
+    /// (it has no own Canvas, so it inherits the lower edit-panel order 12).
+    /// Fix mirrors RMRCombatCardDetailLayer: SetAsLastSibling + temporary Canvas
+    /// boost on the preview root only, restored when the preview hides.
+    /// </summary>
+    public static class RMREquipPagePreviewLayer
+    {
+        /// <summary>Same layer band as combat detailSlot boost (above raised panels ≥141).</summary>
+        private const int PreviewSortBoost = 250;
+
+        private static Canvas _previewCanvas;
+        private static bool _addedCanvas;
+        private static bool _addedRaycaster;
+        private static bool _hadCanvas;
+        private static bool _prevOverride;
+        private static int _prevOrder;
+        private static bool _prevEnabled;
+
+        /// <summary>Call after vanilla ShowPreviewPanel has activated/positioned the preview.</summary>
+        public static void ElevatePreviewPanel(UISettingEquipPageInvenPanel panel)
+        {
+            if (panel == null)
+                return;
+
+            UIEquipPagePreviewPanel preview = GetPreviewPanel(panel);
+            if (preview == null || preview.gameObject == null || !preview.gameObject.activeInHierarchy)
+                return;
+
+            // 1) Prefab-style: last among siblings under its original parent (no reparent).
+            try { preview.transform.SetAsLastSibling(); }
+            catch { /* ignore */ }
+
+            // 2) Temporary Canvas boost only on the preview root — do not touch scale.
+            try
+            {
+                Canvas c = preview.GetComponent<Canvas>();
+                if (c == null)
+                {
+                    c = preview.gameObject.AddComponent<Canvas>();
+                    _addedCanvas = true;
+                    _hadCanvas = false;
+                    _prevOverride = false;
+                    _prevOrder = 0;
+                    _prevEnabled = true;
+                }
+                else if (_previewCanvas != c)
+                {
+                    _hadCanvas = true;
+                    _addedCanvas = false;
+                    _prevOverride = c.overrideSorting;
+                    _prevOrder = c.sortingOrder;
+                    _prevEnabled = c.enabled;
+                }
+
+                _previewCanvas = c;
+                c.enabled = true;
+                c.overrideSorting = true;
+                if (c.sortingOrder < PreviewSortBoost)
+                    c.sortingOrder = PreviewSortBoost;
+
+                if (preview.GetComponent<GraphicRaycaster>() == null)
+                {
+                    preview.gameObject.AddComponent<GraphicRaycaster>();
+                    _addedRaycaster = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR] equip preview SetAsLastSibling/Canvas boost failed: " + ex.Message);
+            }
+        }
+
+        public static void Restore()
+        {
+            try
+            {
+                if (_previewCanvas != null)
+                {
+                    if (_addedCanvas)
+                    {
+                        if (_addedRaycaster)
+                        {
+                            GraphicRaycaster gr = _previewCanvas.GetComponent<GraphicRaycaster>();
+                            if (gr != null)
+                                UnityEngine.Object.Destroy(gr);
+                        }
+                        UnityEngine.Object.Destroy(_previewCanvas);
+                    }
+                    else if (_hadCanvas)
+                    {
+                        _previewCanvas.overrideSorting = _prevOverride;
+                        _previewCanvas.sortingOrder = _prevOrder;
+                        _previewCanvas.enabled = _prevEnabled;
+                        if (_addedRaycaster)
+                        {
+                            GraphicRaycaster gr = _previewCanvas.GetComponent<GraphicRaycaster>();
+                            if (gr != null)
+                                UnityEngine.Object.Destroy(gr);
+                        }
+                    }
+                }
+            }
+            catch { /* ignore */ }
+            finally
+            {
+                _previewCanvas = null;
+                _addedCanvas = false;
+                _addedRaycaster = false;
+                _hadCanvas = false;
+            }
+        }
+
+        private static UIEquipPagePreviewPanel GetPreviewPanel(UISettingEquipPageInvenPanel panel)
+        {
+            FieldInfo fi = typeof(UISettingEquipPageInvenPanel).GetField("_equipPagePreviewPanel",
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            return fi != null ? fi.GetValue(panel) as UIEquipPagePreviewPanel : null;
+        }
+    }
+    #endregion
+
     #region --- RMRCombatCardHoverFollow ---
 
 

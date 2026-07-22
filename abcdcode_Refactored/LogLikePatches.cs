@@ -3130,6 +3130,11 @@ namespace abcdcode_LOGLIKE_MOD
             {
                 try { RMRCombatCardDetailLayer.Restore(); } catch { /* ignore */ }
             }
+            // Leaving key-page inventory → clear equip preview canvas boost.
+            if (state != UIBattleSettingEditTap.EquipPage)
+            {
+                try { RMREquipPagePreviewLayer.Restore(); } catch { /* ignore */ }
+            }
             if (state != UIBattleSettingEditTap.EquipPage && state != UIBattleSettingEditTap.BattleCard)
                 return;
             try
@@ -3172,6 +3177,33 @@ namespace abcdcode_LOGLIKE_MOD
             UIInvenCardListScroll __instance)
         {
             try { RMRCombatCardDetailLayer.Restore(); }
+            catch { /* ignore */ }
+        }
+
+        /// <summary>
+        /// Key-page hover preview: same regression family as combat detailSlot.
+        /// RMR raises EquipLeftPanel canvas (inventoryOrder+1), which buries the vanilla
+        /// UIEquipPagePreviewPanel (it inherits edit-panel order 12). After vanilla shows
+        /// the preview, put it last among siblings + temporary Canvas boost; restore on hide.
+        /// </summary>
+        [HarmonyPostfix, HarmonyPatch(typeof(UISettingEquipPageInvenPanel), nameof(UISettingEquipPageInvenPanel.ShowPreviewPanel))]
+        public static void UISettingEquipPageInvenPanel_ShowPreviewPanel_ElevatePreview(
+            UISettingEquipPageInvenPanel __instance)
+        {
+            if (__instance == null || !LogLikeRoutines.IsRoguelikeBattleSettingContext())
+                return;
+            try { RMREquipPagePreviewLayer.ElevatePreviewPanel(__instance); }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[RMR UI] equip preview bring-to-front failed: " + ex.Message);
+            }
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(UISettingEquipPageInvenPanel), nameof(UISettingEquipPageInvenPanel.HidePreviewPanel))]
+        public static void UISettingEquipPageInvenPanel_HidePreviewPanel_RestorePreview(
+            UISettingEquipPageInvenPanel __instance)
+        {
+            try { RMREquipPagePreviewLayer.Restore(); }
             catch { /* ignore */ }
         }
 
